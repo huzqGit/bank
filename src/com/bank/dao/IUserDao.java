@@ -8,6 +8,6 @@ public interface IUserDao {
 	//根据用户名称 查询用户信息
 	public User findUserByUsername(String username) throws Exception;
 
-	public void verifyUser(User user);
+	public boolean verifyUser(User user);
 
 }

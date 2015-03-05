@@ -19,8 +19,10 @@
 
 	<!-- 配置数据源 -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
-		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
-		<property name="url" value="jdbc:oracle:thin:@localhost:1521:orcl"></property>
+<!-- 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property> -->
+<!-- 		<property name="url" value="jdbc:oracle:thin:@localhost:1521:orcl"></property> -->
+		<property name="driverClassName" value="com.ibm.db2.jcc.DB2Driver"></property>
+		<property name="url" value="jdbc:db2://127.0.0.1:50000/bank"></property>
 		<property name="username" value="bank"></property>
 		<property name="password" value="bank"></property>
 	</bean>

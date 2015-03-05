@@ -27,4 +27,8 @@ parameterType：指定输入参数类型，包括username,birthday,sex,address,d
   values(#{username},#{birthday},#{sex},#{address})
 </insert>
 
+<select id="verifyUser" parameterType="com.bank.beans.User" 
+resultType="com.bank.beans.User">
+   SELECT * FROM BANK_USER WHERE username = #{username} and password = #{password}
+</select>
 </mapper>

@@ -13,9 +13,9 @@ public class UserServiceImpl implements IUserService {
 	@Resource
 	private IUserDao userDao;
 	@Override
-	public void verifyUser(User user) {
-		userDao.verifyUser(user);
-		
+	public boolean verifyUser(User user) {
+		boolean flag = userDao.verifyUser(user);
+		return flag;
 	}
 
 }

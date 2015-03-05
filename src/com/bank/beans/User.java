@@ -5,6 +5,7 @@ import java.util.Date;
 import com.common.bean.BaseEntity;
 
 public class User extends BaseEntity<Integer> {
+	private String userId;// 用户姓名
 	private String username;// 用户姓名
 	private String password;// 地址
 	private String sex;// 性别
@@ -52,6 +53,12 @@ public class User extends BaseEntity<Integer> {
 	public int hashCodeIfIdNull() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	
 	

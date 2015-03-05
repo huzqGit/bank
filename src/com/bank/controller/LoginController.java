@@ -45,12 +45,12 @@ public class LoginController {
     	} else {
     		mav.setViewName("login");
     	}
-        return mav;
+    	return mav;
     }
 
 	private boolean verifyUser(User user) {
-		userService.verifyUser(user);
-		return true;
+		boolean flag = userService.verifyUser(user);
+		return flag;
 		
 	}
 
