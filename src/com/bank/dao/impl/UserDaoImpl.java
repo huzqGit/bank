@@ -36,7 +36,7 @@ public class UserDaoImpl extends BaseDaoImpl implements IUserDao {
 	@Override
 	public boolean verifyUser(User user) {
 		User user2 = getSqlSession().selectOne("verifyUser", user);
-		if (!user2.getUserId().isEmpty()){
+		if (user2 != null && !user2.getUserId().isEmpty()){
 			return true;
 		} else {
 			return false;
