@@ -13,7 +13,7 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 
 /**
  * BaseDao实现类   对增删改查操作进行封装
- * @author huzq
+ * @author huzq 
  *
  */
 public class BaseDaoImpl extends SqlSessionDaoSupport implements IBaseDao
