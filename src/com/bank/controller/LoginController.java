@@ -26,7 +26,7 @@ public class LoginController {
     //@RequestMapping(value = "/login")
     public ModelAndView login(String username,String password) {
     	//指定要返回的页面为succ.jsp
-        ModelAndView mav = new ModelAndView("success");  
+        ModelAndView mav = new ModelAndView("login/success");  
         //将参数返回给页面  
         mav.addObject("username", username);  
         mav.addObject("password", password);  
@@ -39,11 +39,11 @@ public class LoginController {
     	ModelAndView mav = new ModelAndView();
     	if (flag) {
     		//指定要返回的页面为succ.jsp
-    		mav.setViewName("success");
+    		mav.setViewName("login/success");
     		//将参数返回给页面  
     		mav.addObject("user", user);
     	} else {
-    		mav.setViewName("login");
+    		mav.setViewName("login/login");
     	}
     	return mav;
     }

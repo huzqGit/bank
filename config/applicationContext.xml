@@ -13,8 +13,6 @@
 		http://www.springframework.org/schema/tx 
 		http://www.springframework.org/schema/tx/spring-tx-3.1.xsd ">
 		
-	<!-- 激活在bean中定义的各种注解，@Transactional注解除外，它需要tx:annotation-driven激活 -->
-<!-- 	<context:annotation-config></context:annotation-config> --><!-- 放在此处无法激活注解 -->
 	<context:component-scan base-package="com"/>
 
 	<!-- 配置数据源 -->
