@@ -1,6 +1,7 @@
 package com.bank.controller;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bank.Constants;
 import com.bank.beans.User;
 import com.bank.service.IUserService;
 
@@ -34,8 +36,9 @@ public class LoginController {
     }
     
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ModelAndView login(@ModelAttribute("user") User user) {
+    public ModelAndView login(@ModelAttribute("user") User user, HttpServletRequest res) {
     	boolean flag = verifyUser(user);
+    	res.getSession().setAttribute(Constants.SESSION_AUTH_USER, user);
     	ModelAndView mav = new ModelAndView();
     	if (flag) {
     		//指定要返回的页面为succ.jsp

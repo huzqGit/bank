@@ -28,7 +28,7 @@ public class LoginFilter implements Filter {
 			User user = (User) session.getAttribute(Constants.SESSION_AUTH_USER);
 			if (user == null) {
 				if (uri.endsWith(".jsp") || uri.endsWith(".do")) {
-					if(!(uri.matches(".*login\\.jsp"))) {
+					if(!(uri.matches(".*login\\.jsp||.*login\\.do"))) {
 						response.sendRedirect(contextPath + "/jsp/login/login.jsp");
 						return;
 					}
