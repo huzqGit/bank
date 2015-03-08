@@ -17,5 +17,20 @@ public class UserServiceImpl implements IUserService {
 		boolean flag = userDao.verifyUser(user);
 		return flag;
 	}
+	@Override
+	public User loadUser(String userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public User saveUser(User user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public boolean deleteUser(String userId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }
