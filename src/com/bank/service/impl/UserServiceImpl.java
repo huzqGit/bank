@@ -1,5 +1,7 @@
 package com.bank.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -19,18 +21,30 @@ public class UserServiceImpl implements IUserService {
 	}
 	@Override
 	public User loadUser(String userId) {
-		// TODO Auto-generated method stub
-		return null;
+		User user = userDao.getUserById(userId);
+		return user;
 	}
 	@Override
-	public User saveUser(User user) {
-		// TODO Auto-generated method stub
-		return null;
+	public String saveUser(User user) {
+		String userId = userDao.insertUser(user);
+		return userId;
+	}
+	@Override
+	public void updateUser(User user) {
+		userDao.updateUser(user);
+		
 	}
 	@Override
 	public boolean deleteUser(String userId) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean flag = userDao.deleteUser(userId);
+		return flag;
 	}
+	@Override
+	public List<User> loadAllUsers(String key, int pageIndex, int pageSize,
+			String sortField, String sortOrder) {
+		List<User> users = userDao.loadAllUsers(key, pageIndex, pageSize, sortField, sortOrder);
+		return users;
+	}
+	
 
 }

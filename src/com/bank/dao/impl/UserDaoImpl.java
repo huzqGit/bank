@@ -1,5 +1,8 @@
 package com.bank.dao.impl;
 
+import java.util.List;
+import java.util.UUID;
+
 import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
@@ -43,5 +46,39 @@ public class UserDaoImpl extends BaseDaoImpl implements IUserDao {
 		}
 		
 	}
+
+	@Override
+	public User getUserById(String userId) {
+		User user = getSqlSession().selectOne("getUserById", userId);
+		return user;
+	}
+
+	public String insertUser(User user) {
+		String userId = (user.getUserId() == null || user.getUserId().toString().equals(""))? UUID.randomUUID().toString() : user.getUserId();
+		user.setUserId(userId);
+		getSqlSession().insert("insertUser", user);
+		return userId;
+	}
+	
+	@Override
+	public void updateUser(User user) {
+		getSqlSession().update("updateUser", user);
+		
+	}
+
+	public boolean deleteUser(String userId) {
+		int flag = getSqlSession().delete("deleteUser", userId);
+		return false;
+	}
+
+	@Override
+	public List<User> loadAllUsers(String key, int pageIndex, int pageSize,
+			String sortField, String sortOrder) {
+		int start = pageIndex * pageSize, end = start + pageSize;
+		List<User> users = getSqlSession().selectList("loadAllUsers", new Object[]{key, start, end, sortOrder});
+		return users;
+	}
+
+
 
 }

@@ -6,7 +6,6 @@ import java.util.Date;
 
 import flexjson.JSONDeserializer;
 import flexjson.JSONSerializer;
-import flexjson.transformer.DateTransformer;
 
 public class JSON {
     public static String Encode(Object obj) {
@@ -16,8 +15,8 @@ public class JSON {
             return obj.toString();
         }
         JSONSerializer serializer = new JSONSerializer();
-        serializer.transform(new DateTransformer("yyyy-MM-dd'T'HH:mm:ss"), Date.class);
-        serializer.transform(new DateTransformer("yyyy-MM-dd'T'HH:mm:ss"), Timestamp.class);
+        serializer.transform(new MDateTransformer("yyyy-MM-dd'T'HH:mm:ss"), Date.class);
+        serializer.transform(new MDateTransformer("yyyy-MM-dd'T'HH:mm:ss"), Timestamp.class);
         return serializer.deepSerialize(obj);
     }
 
@@ -25,7 +24,7 @@ public class JSON {
         if (json == null || json.equals(""))
             return "";
         JSONDeserializer deserializer = new JSONDeserializer();
-        deserializer.use(String.class, new DateTransformer("yyyy-MM-dd'T'HH:mm:ss"));
+        deserializer.use(String.class, new MDateTransformer("yyyy-MM-dd'T'HH:mm:ss"));
         Object obj = deserializer.deserialize(json);
         if (obj != null && obj.getClass() == String.class) {
             return Decode(obj.toString());

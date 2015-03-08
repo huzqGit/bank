@@ -8,7 +8,7 @@
     <script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
 </head>
 <body>
-    <h1>Form 表单</h1>      
+    <h1>Form 表单</h1>
        
 
     <div id="form1" >

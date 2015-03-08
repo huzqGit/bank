@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 名称空间有特殊的用途 -->
+<mapper namespace="organ">
+
+<insert id="insertOrgan" parameterType="com.bank.beans.Organ">
+  insert into T_ORGAN(organ_id, organ_name, organ_pid, organ_short) 
+  values(#{organId}, #{organName}, #{organPid}, #{organShort})
+</insert>
+
+<update id="updateOrgan" parameterType="com.bank.beans.Organ">
+	update T_ORGAN set organ_name = #{organName}, organ_pid = #{organPid}, organ_short = #{organShort} where organ_id = #{organId}
+</update>
+
+<insert id="deleteOrgan" parameterType="string">
+  delete T_ORGAN where organ_id = #{organId}
+</insert>
+
+<select id="findOrganById" parameterType="string"
+resultType="com.bank.beans.Organ">
+   SELECT * FROM T_ORGAN WHERE organid = #{organId}
+</select>
+
+<resultMap id="organUserList" type="java.util.HashMap">
+    <result column="ID" property="ID" jdbcType="VARCHAR" />
+    <result column="TEXT" property="TEXT" jdbcType="VARCHAR" />
+    <result column="PID" property="PID" jdbcType="VARCHAR" />
+</resultMap>
+<select id="findOrganById" resultMap="organUserList">
+SELECT ID, TEXT, PID FROM
+   (SELECT organ_id, organ_name, organ_pid FROM T_ORGAN
+   union 
+   SELECT userid, username, organ_id FROM T_USER)
+</select>
+</mapper>

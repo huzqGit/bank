@@ -14,6 +14,7 @@
           
     <!-- 激活在bean中定义的各种注解，@Transactional注解除外，它需要tx:annotation-driven激活 -->       	
 	<context:annotation-config/>
+	<mvc:annotation-driven />  
 	<!-- 控制器类名必须使用*Controller命名规则，如HomeController访问路径为/home/*，Controller前的所有字符转为小写字母 -->
 	<bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping" />
 	
@@ -52,5 +53,5 @@
     <bean class="com.bank.controller.LoginController"/>  
 	<bean class="com.bank.controller.SuccessController"/>
 	<bean class="com.bank.controller.HelloController"/>
-<!--      <bean class="com.bank.controller.UserController"/> -->
+    <bean class="com.bank.controller.UserController"/>
 </beans>

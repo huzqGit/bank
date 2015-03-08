@@ -13,7 +13,10 @@
                 
 </style> 
 </head>
-
+<%
+String userId = request.getParameter("userId");
+request.setAttribute("userId", userId);
+%>
 <body>
 <!-- 工具栏信息 -->
 <div id="toolbar1" class="mini-toolbar" style="width:90%; padding: 0px; border-width: 0px; margin:0 auto">
@@ -41,10 +44,19 @@
 <table cellspacing='1' cellpadding='2' border='0' class='mini-grid-table'  style="width:100%;table-layout:fixed;">
 	<tr >
 		<td style='width:120px;padding-left:10px'>
+		<label>*用户名：</label>
+		</td>
+		<td style='width:50%;padding:10px;' colspan="3">
+		<input name=userId class='mini-textbox' vtype='maxLength:40' style='width:100%;color: red;' emptyText='' required='true' allowInput='true' />
+		</td>
+	</tr>
+	<tr>
+	<tr >
+		<td style='width:120px;padding-left:10px'>
 		<label>*姓名：</label>
 		</td>
 		<td style='width:50%;padding:10px;'>
-		<input name='eventName' class='mini-textbox' vtype='maxLength:40' style='width:100%;color: red;' emptyText='' required='true' allowInput='true' />
+		<input name=username class='mini-textbox' vtype='maxLength:40' style='width:100%;color: red;' emptyText='' required='true' allowInput='true' />
 		</td>
 		<td style='width:120px;padding-left:10px'>
 		<label>密码：</label>
@@ -58,7 +70,7 @@
 		<label>性别：</label>
 		</td>
 		<td style='width:120px;padding:10px'>
-			<input name="gender" class="mini-radiobuttonlist" data="[{id: 1, text: '男'}, {id: 2, text: '女'}]"/>
+			<input name="sex" class="mini-radiobuttonlist" data="[{id: 1, text: '男'}, {id: 2, text: '女'}]"/>
 		</td>
 		<td style='width:120px;padding-left:10px'>
 		<label>*生日：</label>
@@ -69,11 +81,11 @@
 	</tr>
 	<tr>
 		<td style='width:120px;padding-left:10px'>
-		<label>备注：</label>
+		<label>地址：</label>
 		</td>
 		
 		<td style='width:120px;padding:10px' colspan='3'>
-			<input name='remark' class='mini-textarea' style='width:100%;height: 40px;' emptyText='' allowInput='true' enabled='true'/>
+			<input name='address' class='mini-textarea' style='width:100%;height: 40px;' emptyText='' allowInput='true' enabled='true'/>
 		</td>
 	</tr>
 </table>
@@ -85,7 +97,6 @@ mini.parse();
 
 var form = new mini.Form("#form1");
 $(document).ready(function(){
-	alert(123);
 	$.ajax({
 	    url: "${pageContext.request.contextPath}/user/loadUser.do?userId=${userId}",
 	    type: "post",
@@ -102,7 +113,6 @@ function submitForm() {
     var formData = form.getData();      //获取表单多个控件的数据
     //formData.dutyId = ${dutyId};
     var json = mini.encode(formData);   //序列化成JSON
-    alert("提交的编辑数据：" + json);
     
     $.ajax({
         url: "${pageContext.request.contextPath}/user/saveUser.do",

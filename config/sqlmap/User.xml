@@ -23,12 +23,25 @@ parameterType：指定输入参数类型，包括username,birthday,sex,address,d
 
  -->
 <insert id="insertUser" parameterType="com.bank.beans.User">
-  insert into BANK_USER(username,birthday,sex,address) 
-  values(#{username},#{birthday},#{sex},#{address})
+  insert into BANK_USER(userid, username, password, birthday,sex,address) 
+  values(#{userId}, #{username}, #{password}, #{birthday}, #{sex}, #{address})
+</insert>
+
+<update id="updateUser" parameterType="com.bank.beans.User">
+	update BANK_USER set username = #{username}, password = #{password}, birthday = #{birthday},sex = #{sex},address = #{address} where userid = #{userId}
+</update>
+
+<insert id="deleteUser" parameterType="string">
+  delete BANK_USER where userid = #{userId}
 </insert>
 
 <select id="verifyUser" parameterType="com.bank.beans.User" 
 resultType="com.bank.beans.User">
    SELECT * FROM BANK_USER WHERE username = #{username} and password = #{password}
+</select>
+
+<select id="getUserById" parameterType="string"
+resultType="com.bank.beans.User">
+   SELECT * FROM BANK_USER WHERE userid = #{userId}
 </select>
 </mapper>
