@@ -30,8 +30,8 @@ public class LoginFilter implements Filter {
 				if (uri.endsWith(".jsp") || uri.endsWith(".do")) {
 					if(!(uri.matches(".*login\\.jsp||.*login\\.do"))) {
 						response.sendRedirect(contextPath + "/jsp/login/login.jsp");
-						return;
-					}
+						return; 
+					} 
 				}
 			}
 		filterChain.doFilter(sRequest, sResponse);
