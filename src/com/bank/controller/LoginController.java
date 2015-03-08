@@ -39,7 +39,7 @@ public class LoginController {
     public ModelAndView login(@ModelAttribute("user") User user, HttpServletRequest res) {
     	boolean flag = verifyUser(user);
     	res.getSession().setAttribute(Constants.SESSION_AUTH_USER, user);
-    	ModelAndView mav = new ModelAndView();
+    	ModelAndView mav = new ModelAndView(); 
     	if (flag) {
     		//指定要返回的页面为succ.jsp
     		mav.setViewName("login/success");
