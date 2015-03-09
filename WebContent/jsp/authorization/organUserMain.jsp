@@ -17,7 +17,7 @@
 <div class="mini-splitter" style="width:100%;height:100%;">
     <div size="200" showCollapseButton="true">
         <div class="mini-fit" style="padding:5px;" >
-            <ul id="tree1" class="mini-tree" url="${pageContext.request.contextPath}/menu/menuList.do"
+            <ul id="tree1" class="mini-tree" url="${pageContext.request.contextPath}/user/organUserTree.do"
 		        showTreeIcon="true" textField="TEXT" idField="ID" parentField="PID" resultAsTree="false"
 		        expandOnLoad="false" onnodeclick="onNodeClick" style="width:100%;height:100%;"
 		        >

@@ -21,7 +21,7 @@
         <table style="width:100%;">
             <tr>
             <td style="width:100%;">
-                <a class="mini-button" iconCls="icon-add" plain="true">新增</a>
+                <a class="mini-button" iconCls="icon-add" plain="true" onclick="add();">新增</a>
                 <a class="mini-button" iconCls="icon-close" plain="true">关闭</a>
                 <span class="separator"></span>
                 <a class="mini-button" iconCls="icon-reload" plain="true">刷新</a>
@@ -43,8 +43,7 @@
             <div property="columns">
                 <div type="indexcolumn" ></div>
                 <div field="userId" width="120" headerAlign="center" allowSort="true" >员工帐号</div>
-                <div field="username" width="120" headerAlign="center" allowSort="true">员工帐号</div>    
-                <div field="name" width="120" headerAlign="center" allowSort="true">姓名</div>                            
+                <div field="username" width="120" headerAlign="center" allowSort="true">员工姓名</div>    
                 <div field="sex" width="100" renderer="onGenderRenderer" align="center" headerAlign="center">性别</div>
                 <div field="birthday" width="100" headerAlign="center" dateFormat="yyyy-MM-dd" allowSort="true">生日</div>                
             </div>
@@ -55,7 +54,7 @@
     <script type="text/javascript">
         mini.parse();
         var grid = mini.get("datagrid1");
-        grid1.hideColumn("userId");
+        grid.hideColumn("userId");
         grid.load();
 
         function onSearch() {
@@ -71,6 +70,10 @@
                 if (g.id == e.value) return g.text;
             }
             return "";
+        }
+        
+        function add() {
+        	window.location.href = "${pageContext.request.contextPath}/jsp/authorization/userForm.jsp?actionType=add";
         }
     </script>
 

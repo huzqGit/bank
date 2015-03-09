@@ -1,5 +1,6 @@
 package com.bank.dao.impl;
 
+import java.sql.Array;
 import java.util.List;
 import java.util.UUID;
 
@@ -9,12 +10,15 @@ import org.springframework.stereotype.Repository;
 
 import com.bank.beans.User;
 import com.bank.common.base.BaseDaoImpl;
+import com.bank.common.util.Md5Utils;
 import com.bank.dao.IUserDao;
 
 @Repository("userDao")
 public class UserDaoImpl extends BaseDaoImpl implements IUserDao {
 
 	//由于继承SqlSessionDaoSupport通过spring容器注入会话工厂（SqlSessionFactory）
+
+	private static final Array[] Array = null;
 
 	@Override
 	public User findUserByUsername(String username) throws Exception {
@@ -38,6 +42,7 @@ public class UserDaoImpl extends BaseDaoImpl implements IUserDao {
 
 	@Override
 	public boolean verifyUser(User user) {
+		user.setPassword(Md5Utils.hash(user.getPassword()));
 		User user2 = getSqlSession().selectOne("verifyUser", user);
 		if (user2 != null && !user2.getUserId().isEmpty()){
 			return true;
@@ -54,10 +59,11 @@ public class UserDaoImpl extends BaseDaoImpl implements IUserDao {
 	}
 
 	public String insertUser(User user) {
-		String userId = (user.getUserId() == null || user.getUserId().toString().equals(""))? UUID.randomUUID().toString() : user.getUserId();
-		user.setUserId(userId);
-		getSqlSession().insert("insertUser", user);
-		return userId;
+		//String userId = (user.getUserId() == null || user.getUserId().toString().equals(""))? UUID.randomUUID().toString() : user.getUserId();
+		//user.setUserId(userId);
+		user.setPassword(Md5Utils.hash(user.getPassword()));
+		getSqlSession().insert("insertSelective", user);
+		return user.getUserId();
 	}
 	
 	@Override
@@ -75,7 +81,9 @@ public class UserDaoImpl extends BaseDaoImpl implements IUserDao {
 	public List<User> loadAllUsers(String key, int pageIndex, int pageSize,
 			String sortField, String sortOrder) {
 		int start = pageIndex * pageSize, end = start + pageSize;
-		List<User> users = getSqlSession().selectList("loadAllUsers", new Object[]{key, start, end, sortOrder});
+		if ("desc".equals(sortOrder) == false) sortOrder = "asc";
+		Array[] ids = new Array[]{};
+		List<User> users = getSqlSession().selectList("loadAllUsers", new Object[]{start, end, sortField, sortOrder});
 		return users;
 	}
 

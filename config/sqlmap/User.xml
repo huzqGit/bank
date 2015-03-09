@@ -27,6 +27,50 @@ parameterType：指定输入参数类型，包括username,birthday,sex,address,d
   values(#{userId}, #{username}, #{password}, #{birthday}, #{sex}, #{address})
 </insert>
 
+<insert id="insertSelective" parameterType="com.bank.beans.User">
+  insert into BANK_USER
+  <trim prefix="(" suffix=")" suffixOverrides=",">
+  	<if test="userId != null">
+  		userid,
+  	</if>
+  	<if test="username != null">
+  		username,
+  	</if>
+  	<if test="password != null">
+  		password,
+  	</if>
+  	<if test="birthday != null">
+  		birthday,
+  	</if>
+  	<if test="sex != null">
+  		sex,
+  	</if>
+  	<if test="address != null">
+  		address
+  	</if>
+  </trim>	
+  <trim prefix="values (" suffix=")" suffixOverrides=",">
+  	<if test="userId != null">
+  		#{userId,jdbcType=VARCHAR},
+  	</if>
+  	<if test="username != null">
+  		#{username,jdbcType=VARCHAR},
+  	</if>
+  	<if test="password != null">
+  		#{password,jdbcType=VARCHAR},
+  	</if>
+  	<if test="birthday != null">
+  		#{birthday,jdbcType=DATE},
+  	</if>
+  	<if test="sex != null">
+  		#{sex,jdbcType=INTEGER},
+  	</if>
+  	<if test="address != null">
+  		#{address,jdbcType=VARCHAR}
+  	</if>
+  </trim>
+</insert>
+
 <update id="updateUser" parameterType="com.bank.beans.User">
 	update BANK_USER set username = #{username}, password = #{password}, birthday = #{birthday},sex = #{sex},address = #{address} where userid = #{userId}
 </update>
@@ -43,5 +87,29 @@ resultType="com.bank.beans.User">
 <select id="getUserById" parameterType="string"
 resultType="com.bank.beans.User">
    SELECT * FROM BANK_USER WHERE userid = #{userId}
+</select>
+
+<select id="loadAllUsers" parameterType="object"
+resultType="com.bank.beans.User">
+   SELECT * FROM BANK_USER 
+   <where>
+	   <if test="key != null">
+	   		username like '%#${key}%'
+	   </if>
+	   <if test="start != null">
+   			and rownum > #${start}
+   		</if>
+	   <if test="end != null">
+   			and <![CDATA[rownum < #${end}]]>
+   		</if>
+   </where>
+   <choose>
+	   <when test="sortField != null">
+	   		order by #${sortField} #${sortOrder}
+	   </when>
+	   <otherwise>
+	   		order by userId desc
+	   </otherwise>
+   </choose>
 </select>
 </mapper>

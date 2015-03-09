@@ -15,7 +15,9 @@
 </head>
 <%
 String userId = request.getParameter("userId");
+String actionType = request.getParameter("actionType");
 request.setAttribute("userId", userId);
+request.setAttribute("actionType", actionType);
 %>
 <body>
 <!-- 工具栏信息 -->
@@ -37,16 +39,14 @@ request.setAttribute("userId", userId);
 </div>
  
 <div id="form1" style="width:90%;margin:0 auto">
-<input id='dutyId' name='dutyId'  class='mini-hidden'/>
-<input id='tripId' name='tripId'  class='mini-hidden'/>
-<input id='eventId' value='' name='eventId'  class='mini-hidden'/>
+<input name="" class="mini-hidden">
 <!-- 获取表单控件 -->
 <table cellspacing='1' cellpadding='2' border='0' class='mini-grid-table'  style="width:100%;table-layout:fixed;">
 	<tr >
 		<td style='width:120px;padding-left:10px'>
 		<label>*用户名：</label>
 		</td>
-		<td style='width:50%;padding:10px;' colspan="3">
+		<td style='width:100%;padding:10px;' colspan="3">
 		<input name=userId class='mini-textbox' vtype='maxLength:40' style='width:100%;color: red;' emptyText='' required='true' allowInput='true' />
 		</td>
 	</tr>
@@ -113,15 +113,16 @@ function submitForm() {
     var formData = form.getData();      //获取表单多个控件的数据
     //formData.dutyId = ${dutyId};
     var json = mini.encode(formData);   //序列化成JSON
+    var actionType = "${actionType}";
     
     $.ajax({
         url: "${pageContext.request.contextPath}/user/saveUser.do",
         type: "post",
-        data: { formData: json},
+        data: { formData: json, actionType: actionType},
         contentType: "application/x-www-form-urlencoded; charset=utf-8",
         success: function (text) {
-        	var tripId = text;
-        	window.location.href = "${pageContext.request.contextPath}/products/runlog/nwoms/logtype/transmission.jsp?dutyId=${dutyId}&tripId=" + tripId;
+        	var userId = text;
+        	window.location.href = "${pageContext.request.contextPath}/jsp/authorization/userForm.jsp?actionType=edit&userId=" + userId;
             //alert("提交成功，返回结果:" + text);
         },
         error: function (jqXHR, textStatus, errorThrown) {

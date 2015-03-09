@@ -4,31 +4,90 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 名称空间有特殊的用途 -->
 <mapper namespace="organ">
+<resultMap id="BaseResultMap" type="com.bank.beans.Organ" >
+  <id column="organ_id" property="organId" jdbcType="VARCHAR" />
+  <result column="organ_name" property="organName" jdbcType="VARCHAR" />
+  <result column="organ_pid" property="organPid" jdbcType="VARCHAR" />
+  <result column="organ_short" property="organShort" jdbcType="VARCHAR" />
+</resultMap>
+<sql id="Base_Column_List" >
+  organ_id, organ_name, organ_pid, organ_short
+</sql>
+<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  select 
+  <include refid="Base_Column_List" />
+  from T_ORGAN
+  where id = #{organId,jdbcType=INTEGER}
+</select>
 
-<insert id="insertOrgan" parameterType="com.bank.beans.Organ">
+<insert id="insert" parameterType="com.bank.beans.Organ">
   insert into T_ORGAN(organ_id, organ_name, organ_pid, organ_short) 
   values(#{organId}, #{organName}, #{organPid}, #{organShort})
 </insert>
 
-<update id="updateOrgan" parameterType="com.bank.beans.Organ">
-	update T_ORGAN set organ_name = #{organName}, organ_pid = #{organPid}, organ_short = #{organShort} where organ_id = #{organId}
+<insert id="insertSelective" parameterType="com.bank.beans.Organ" >
+    insert into T_ORGAN
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="organId != null" >
+        organ_id,
+      </if>
+      <if test="organName != null" >
+        organ_name,
+      </if>
+      <if test="organPid != null" >
+        organ_pid,
+      </if>
+      <if test="organShort != null" >
+        organ_short,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="organId != null" >
+        #{organId,jdbcType=INTEGER},
+      </if>
+      <if test="organName != null" >
+        #{organName,jdbcType=VARCHAR},
+      </if>
+      <if test="organPid != null" >
+        #{organPid,jdbcType=VARCHAR},
+      </if>
+      <if test="organShort != null" >
+        #{organShort,jdbcType=VARCHAR},
+      </if>
+    </trim>
+</insert>
+<update id="update" parameterType="com.bank.beans.Organ">
+	update T_ORGAN 
+	set organ_name = #{organName}, 
+	organ_pid = #{organPid}, 
+	organ_short = #{organShort} 
+	where organ_id = #{organId}
 </update>
-
-<insert id="deleteOrgan" parameterType="string">
+  <update id="updateByPrimaryKeySelective" parameterType="com.bank.beans.Organ" >
+    update T_ORGAN
+    <set >
+      <if test="organName != null" >
+        organ_name = #{organName,jdbcType=VARCHAR},
+      </if>
+      <if test="organPid != null" >
+        organ_Pid = #{organPid,jdbcType=VARCHAR},
+      </if>
+      <if test="organShort != null" >
+        organ_short = #{organShort,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where organ_id = #{organId,jdbcType=INTEGER}
+  </update>
+<insert id="delete" parameterType="string">
   delete T_ORGAN where organ_id = #{organId}
 </insert>
-
-<select id="findOrganById" parameterType="string"
-resultType="com.bank.beans.Organ">
-   SELECT * FROM T_ORGAN WHERE organid = #{organId}
-</select>
 
 <resultMap id="organUserList" type="java.util.HashMap">
     <result column="ID" property="ID" jdbcType="VARCHAR" />
     <result column="TEXT" property="TEXT" jdbcType="VARCHAR" />
     <result column="PID" property="PID" jdbcType="VARCHAR" />
 </resultMap>
-<select id="findOrganById" resultMap="organUserList">
+<select id="organUser" resultMap="organUserList">
 SELECT ID, TEXT, PID FROM
    (SELECT organ_id, organ_name, organ_pid FROM T_ORGAN
    union 

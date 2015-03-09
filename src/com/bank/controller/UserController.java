@@ -42,21 +42,20 @@ public class UserController {
 	@RequestMapping(value = "/saveUser", method = RequestMethod.POST)
 	public User saveUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String formData = request.getParameter("formData");
+		String actionType = request.getParameter("actionType");
 		//這裡做了時間格式的處理
 		Object decodeJsonData = JsonUtil.Decode(formData);
 		String formatdata = JSON.toJSONStringWithDateFormat(decodeJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
 		JSONObject jsb = JSONObject.parseObject(formatdata);
 		User user = (User) JSON.toJavaObject(jsb, User.class);
-		String userId = "";
-		if ("".equals(user.getUserId()) || user.getUserId() == null) {//userId为空，做新增操作
+		String userId = user.getUserId();
+		if ("add".equals(actionType)) {//user为空，做新增操作
 			userId = userSerivce.saveUser(user);
 		} else {//userId不为空，做更新操作
 			userSerivce.updateUser(user);
-			userId = user.getUserId();
 		}
-		String json = JSON.toJSONString(userId);
 		response.setContentType("text/html;charset=UTF-8");
-	    response.getWriter().write(json);
+	    response.getWriter().write(userId);
 		return null;
 	}
 	
