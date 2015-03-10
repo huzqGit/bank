@@ -41,13 +41,13 @@ public class UserDaoImpl extends BaseDaoImpl implements IUserDao {
 	}
 
 	@Override
-	public boolean verifyUser(User user) {
+	public User verifyUser(User user) {
 		user.setPassword(Md5Utils.hash(user.getPassword()));
-		User user2 = getSqlSession().selectOne("user.verifyUser", user);
-		if (user2 != null && !user2.getUserId().isEmpty()){
-			return true;
+		User retrunUser = getSqlSession().selectOne("user.verifyUser", user);
+		if (retrunUser != null && !retrunUser.getUserId().isEmpty()){
+			return retrunUser;
 		} else {
-			return false;
+			return null;
 		}
 		
 	}

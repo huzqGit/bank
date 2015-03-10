@@ -4,7 +4,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 名称空间有特殊的用途 -->
 <mapper namespace="user">
-
+<resultMap id="BaseResultMap" type="com.bank.beans.User" >
+  <id column="user_id" property="userId" jdbcType="VARCHAR" />
+  <result column="user_name" property="userName" jdbcType="VARCHAR" />
+  <result column="password" property="password" jdbcType="VARCHAR" />
+  <result column="sex" property="sex" jdbcType="INTEGER" />
+  <result column="address" property="address" jdbcType="VARCHAR" />
+  <result column="birthday" property="birthday" jdbcType="DATE" />
+  <result column="organ_id" property="organId" jdbcType="VARCHAR" />
+</resultMap>
+<sql id="Base_Column_List" >
+  user_id, user_name, password, sex, birthday, address, organ_id
+</sql>
 <!-- 查询用户信息
 select：将select标签内容称为statement
 id：是user.xml中的唯一标识 ，statement的id
@@ -86,13 +97,17 @@ parameterType：指定输入参数类型，包括username,birthday,sex,address,d
 </insert>
 
 <select id="verifyUser" parameterType="com.bank.beans.User" 
-resultType="com.bank.beans.User">
-   SELECT * FROM T_USER WHERE user_id = #{userId} and password = #{password}
+resultMap="BaseResultMap">
+   SELECT 
+   <include refid="Base_Column_List"/>
+   FROM T_USER WHERE user_id = #{userId} and password = #{password}
 </select>
 
 <select id="user.getUserById" parameterType="string"
-resultType="com.bank.beans.User">
-   SELECT * FROM T_USER WHERE user_id = #{userId}
+resultMap="BaseResultMap">
+   SELECT 
+   <include refid="Base_Column_List"/>
+   FROM T_USER WHERE user_id = #{userId}
 </select>
 
 <select id="user.loadAllUsers" parameterType="object"

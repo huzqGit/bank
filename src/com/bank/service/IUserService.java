@@ -6,7 +6,7 @@ import com.bank.beans.User;
 
 public interface IUserService {
 
-	boolean verifyUser(User user);
+	User verifyUser(User user);
 
 	User loadUser(String userId);
 

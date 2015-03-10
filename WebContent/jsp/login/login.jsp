@@ -62,7 +62,7 @@ body {
       <form class="form-signin" action="${pageContext.request.contextPath}/user/login.do" method="post">
         <h2 class="form-signin-heading">Please sign in</h2>
 	        <label for="inputUserName" class="sr-only">用户名</label>
-	        <input type="text" id="inputUserName" name="username" class="form-control" placeholder="用户名" required autofocus>
+	        <input type="text" id="inputUserId" name="userId" class="form-control" placeholder="用户名" required autofocus>
 	        <label for="inputPassword" class="sr-only">密码</label>
 	        <input type="password" id="inputPassword" name="password" class="form-control" placeholder="密码" required>
         <div class="checkbox">

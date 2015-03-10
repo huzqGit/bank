@@ -1,6 +1,7 @@
 package com.bank.controller;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bank.Constants;
 import com.bank.beans.User;
 import com.bank.service.IUserService;
 
@@ -34,23 +36,24 @@ public class LoginController {
     }
     
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ModelAndView login(@ModelAttribute("user") User user) {
-    	boolean flag = verifyUser(user);
+    public ModelAndView login(@ModelAttribute("user") User user, HttpServletRequest request) {
+    	User retrunUser = verifyUser(user);
     	ModelAndView mav = new ModelAndView();
-    	if (flag) {
+    	if (retrunUser != null) {
+    		request.getSession().setAttribute(Constants.SESSION_AUTH_USER, retrunUser);
     		//指定要返回的页面为succ.jsp
-    		mav.setViewName("login/success");
+    		mav.setViewName("login/index");
     		//将参数返回给页面  
-    		mav.addObject("user", user);
+    		mav.addObject("user", retrunUser);
     	} else {
     		mav.setViewName("login/login");
     	}
     	return mav;
     }
 
-	private boolean verifyUser(User user) {
-		boolean flag = userService.verifyUser(user);
-		return flag;
+	private User verifyUser(User user) {
+		User retrunUser = userService.verifyUser(user);
+		return retrunUser;
 		
 	}
 
