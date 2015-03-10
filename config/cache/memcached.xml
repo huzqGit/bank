@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<memcached>
+    <client name="CACHE_SESSION" compressEnable="true" defaultEncoding="UTF-8" socketpool="pool0">
+        <errorHandler>com.alisoft.xplatform.asf.cache.memcached.MemcachedErrorHandler</errorHandler>
+    </client>
+        
+    <client name="mclient0" compressEnable="true" defaultEncoding="UTF-8" socketpool="pool0">
+        <errorHandler>com.alisoft.xplatform.asf.cache.memcached.MemcachedErrorHandler</errorHandler>
+    </client>
+    
+    
+    
+    <socketpool name="pool0" failover="true" initConn="5" minConn="5" maxConn="250" maintSleep="0"
+        nagle="false" socketTO="3000" aliveCheck="true">
+        <servers></servers>
+    </socketpool> 
+    
+   
+
+    <cluster name="CACHE_SESSION">
+        <memCachedClients>mclient0</memCachedClients>
+    </cluster>
+                
+</memcached>
