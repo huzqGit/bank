@@ -14,25 +14,25 @@ public class OrganDaoImpl extends BaseDaoImpl implements IOrganDao {
 
 	@Override
 	public Organ getOrganById(String organId) {
-		Organ Organ = getSqlSession().selectOne("getOrganById", organId);
+		Organ Organ = getSqlSession().selectOne("organ.getOrganById", organId);
 		return Organ;
 	}
 
 	public String insertOrgan(Organ organ) {
 		String organId = (organ.getOrganId() == null || organ.getOrganId().toString().equals(""))? UUID.randomUUID().toString() : organ.getOrganId();
 		organ.setOrganId(organId);
-		getSqlSession().insert("insertOrgan", organ);
+		getSqlSession().insert("organ.insert", organ);
 		return organId;
 	}
 	
 	@Override
 	public void updateOrgan(Organ organ) {
-		getSqlSession().update("updateOrgan", organ);
+		getSqlSession().update("organ.update", organ);
 		
 	}
 
 	public boolean deleteOrgan(String organId) {
-		int flag = getSqlSession().delete("deleteOrgan", organId);
+		int flag = getSqlSession().delete("organ.delete", organId);
 		return false;
 	}
 
@@ -40,7 +40,7 @@ public class OrganDaoImpl extends BaseDaoImpl implements IOrganDao {
 	public List<Organ> loadAllOrgans(String key, int pageIndex, int pageSize,
 			String sortField, String sortOrder) {
 		int start = pageIndex * pageSize, end = start + pageSize;
-		List<Organ> organs = getSqlSession().selectList("loadAllOrgans", new Object[]{key, start, end, sortOrder});
+		List<Organ> organs = getSqlSession().selectList("organ.loadAllOrgans", new Object[]{key, start, end, sortOrder});
 		return organs;
 	}
 

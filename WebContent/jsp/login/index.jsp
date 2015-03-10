@@ -42,8 +42,8 @@
         <div class="mini-splitter" style="width:100%;height:100%;" borderStyle="border:0;">
             <div size="180" maxSize="250" minSize="100" showCollapseButton="true" style="border-width:1px;">
                 <!--Tree-->
-                <ul id="leftTree" class="mini-tree" url="../data/listTree.txt" style="width:100%;height:100%;" 
-                    showTreeIcon="true" textField="text" idField="id" resultAsTree="false"  
+                <ul id="leftTree" class="mini-tree" url="${pageContext.request.contextPath}/menu/loadMenus.do" style="width:100%;height:100%;" 
+                    showTreeIcon="true" textField="menuDescr" idField="menuId" resultAsTree="false" parentField="menuPid"
                     onnodeselect="onNodeSelect" 
                 >        
                 </ul>
@@ -73,17 +73,17 @@
         function showTab(node) {
             var tabs = mini.get("mainTabs");
  
-            var id = "tab$" + node.id;
+            var id = "tab$" + node.menuId;
             var tab = tabs.getTab(id);
             if (!tab) {
                 tab = {};
-                tab._nodeid = node.id;
+                tab._nodeid = node.menuId;
                 tab.name = id;
-                tab.title = node.text;
+                tab.title = node.menuDescr;
                 tab.showCloseButton = true;
  
                 //这里拼接了url，实际项目，应该从后台直接获得完整的url地址
-                tab.url = mini_JSPath + "../../docs/api/" + node.id + ".html";
+                tab.url = "${pageContext.request.contextPath}/" + node.menuUrl;
  
                 tabs.addTab(tab);
             }

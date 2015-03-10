@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 名称空间有特殊的用途 -->
+<mapper namespace="menu">
+<resultMap id="BaseResultMap" type="com.bank.beans.Menu" >
+  <id column="menu_id" property="menuId" jdbcType="VARCHAR" />
+  <result column="menu_descr" property="menuDescr" jdbcType="VARCHAR" />
+  <result column="menu_url" property="menuUrl" jdbcType="VARCHAR" />
+  <result column="menu_pid" property="menuPid" jdbcType="VARCHAR" />
+</resultMap>
+<sql id="Base_Column_List" >
+  menu_id, menu_descr, menu_url, menu_pid
+</sql>
+
+<select id="menu.selectByPrimaryKey" parameterType="string"
+resultMap="BaseResultMap">
+   SELECT 
+   <include refid="Base_Column_List"/>
+   FROM T_SYS_MENU WHERE menu_id = #{menuId}
+</select>
+
+<insert id="menu.insert" parameterType="com.bank.beans.Menu">
+  insert into T_SYS_MENU(menu_id, menu_descr, menu_url, menu_pid) 
+  values(#{menuId}, #{menuDescr}, #{menuUrl}, #{menuPid})
+</insert>
+
+<insert id="menu.insertSelective" parameterType="com.bank.beans.Menu">
+  insert into T_SYS_MENU
+  <trim prefix="(" suffix=")" suffixOverrides=",">
+  	<if test="menuId != null">
+  		menu_id,
+  	</if>
+  	<if test="menuDescr != null">
+  		menu_descr,
+  	</if>
+  	<if test="menuUrl != null">
+  		menu_url,
+  	</if>
+  	<if test="menuPid != null">
+  		menu_pid,
+  	</if>
+  </trim>	
+  <trim prefix="values (" suffix=")" suffixOverrides=",">
+  	<if test="menuId != null">
+  		#{menuId,jdbcType=VARCHAR},
+  	</if>
+  	<if test="menuDescr != null">
+  		#{menuDescr,jdbcType=VARCHAR},
+  	</if>
+  	<if test="menuUrl != null">
+  		#{menuUrl,jdbcType=VARCHAR},
+  	</if>
+  	<if test="menuPid != null">
+  		#{menuPid,jdbcType=DATE},
+  	</if>
+  </trim>
+</insert>
+
+<update id="menu.update" parameterType="com.bank.beans.Menu">
+	update T_SYS_MENU set menu_descr = #{menuDescr}, menu_Url = #{menuUrl}, menu_Pid = #{menuPid}  where menu_id = #{menuId}
+</update>
+
+<insert id="deleteMenu" parameterType="string">
+  delete T_SYS_MENU where menu_id = #{menuId}
+</insert>
+
+<select id="menu.loadMenus" resultMap="BaseResultMap">
+   SELECT menu_id, menu_descr, menu_url, menu_pid FROM T_SYS_MENU 
+</select>
+</mapper>
