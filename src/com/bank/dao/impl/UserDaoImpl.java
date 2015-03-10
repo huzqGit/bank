@@ -35,7 +35,7 @@ public class UserDaoImpl extends BaseDaoImpl implements IUserDao {
 //		// 如果和spring整合后由spring容器自动关闭sqlSession,不用人为关闭sqlSession
 //		//sqlSession.close();
 		
-		User user = getSqlSession().selectOne("bank.findUserByUsername", "张三");
+		User user = getSqlSession().selectOne("user.findUserByUsername", "张三");
 
 		return user;
 	}
@@ -43,7 +43,7 @@ public class UserDaoImpl extends BaseDaoImpl implements IUserDao {
 	@Override
 	public boolean verifyUser(User user) {
 		user.setPassword(Md5Utils.hash(user.getPassword()));
-		User user2 = getSqlSession().selectOne("verifyUser", user);
+		User user2 = getSqlSession().selectOne("user.verifyUser", user);
 		if (user2 != null && !user2.getUserId().isEmpty()){
 			return true;
 		} else {
@@ -54,7 +54,7 @@ public class UserDaoImpl extends BaseDaoImpl implements IUserDao {
 
 	@Override
 	public User getUserById(String userId) {
-		User user = getSqlSession().selectOne("getUserById", userId);
+		User user = getSqlSession().selectOne("user.getUserById", userId);
 		return user;
 	}
 
@@ -62,18 +62,18 @@ public class UserDaoImpl extends BaseDaoImpl implements IUserDao {
 		//String userId = (user.getUserId() == null || user.getUserId().toString().equals(""))? UUID.randomUUID().toString() : user.getUserId();
 		//user.setUserId(userId);
 		user.setPassword(Md5Utils.hash(user.getPassword()));
-		getSqlSession().insert("insertSelective", user);
+		getSqlSession().insert("user.insertSelective", user);
 		return user.getUserId();
 	}
 	
 	@Override
 	public void updateUser(User user) {
-		getSqlSession().update("updateUser", user);
+		getSqlSession().update("user.update", user);
 		
 	}
 
 	public boolean deleteUser(String userId) {
-		int flag = getSqlSession().delete("deleteUser", userId);
+		int flag = getSqlSession().delete("user.delete", userId);
 		return false;
 	}
 
@@ -83,7 +83,7 @@ public class UserDaoImpl extends BaseDaoImpl implements IUserDao {
 		int start = pageIndex * pageSize, end = start + pageSize;
 		if ("desc".equals(sortOrder) == false) sortOrder = "asc";
 		Array[] ids = new Array[]{};
-		List<User> users = getSqlSession().selectList("loadAllUsers", new Object[]{start, end, sortField, sortOrder});
+		List<User> users = getSqlSession().selectList("user.loadAllUsers", new Object[]{start, end, sortField, sortOrder});
 		return users;
 	}
 

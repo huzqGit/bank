@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 名称空间有特殊的用途 -->
-<mapper namespace="bank">
+<mapper namespace="user">
 
 <!-- 查询用户信息
 select：将select标签内容称为statement
@@ -12,9 +12,9 @@ parameterType：指定向sql（向statement中）中传入参数的类型
 #{}：表示一个点位符，{}中的id表示传入变量名，当传入单个值｛｝中的变量名可以随意
 resultType：将sql查询结果集映射成java对象的类型
  -->
-<select id="findUserByUsername" parameterType="string"
+<select id="user.findUserByUsername" parameterType="string"
 resultType="com.bank.beans.User">
-   SELECT * FROM BANK_USER WHERE username = #{id}
+   SELECT * FROM T_USER WHERE user_name = #{id}
 </select>
 
 <!-- 插入用户
@@ -22,19 +22,19 @@ parameterType：指定输入参数类型，包括username,birthday,sex,address,d
 #{username}：里边的username是com.bank.beans.User的属性
 
  -->
-<insert id="insertUser" parameterType="com.bank.beans.User">
-  insert into BANK_USER(userid, username, password, birthday,sex,address) 
-  values(#{userId}, #{username}, #{password}, #{birthday}, #{sex}, #{address})
+<insert id="user.insert" parameterType="com.bank.beans.User">
+  insert into T_USER(user_id, user_name, password, birthday,sex,address, organ_id) 
+  values(#{userId}, #{userName}, #{password}, #{birthday}, #{sex}, #{address}, #{organId})
 </insert>
 
-<insert id="insertSelective" parameterType="com.bank.beans.User">
-  insert into BANK_USER
+<insert id="user.insertSelective" parameterType="com.bank.beans.User">
+  insert into T_USER
   <trim prefix="(" suffix=")" suffixOverrides=",">
   	<if test="userId != null">
-  		userid,
+  		user_id,
   	</if>
-  	<if test="username != null">
-  		username,
+  	<if test="userName != null">
+  		user_name,
   	</if>
   	<if test="password != null">
   		password,
@@ -46,15 +46,18 @@ parameterType：指定输入参数类型，包括username,birthday,sex,address,d
   		sex,
   	</if>
   	<if test="address != null">
-  		address
+  		address,
+  	</if>
+  	<if test="organ_id != null">
+  		organ_id,
   	</if>
   </trim>	
   <trim prefix="values (" suffix=")" suffixOverrides=",">
   	<if test="userId != null">
   		#{userId,jdbcType=VARCHAR},
   	</if>
-  	<if test="username != null">
-  		#{username,jdbcType=VARCHAR},
+  	<if test="userName != null">
+  		#{userName,jdbcType=VARCHAR},
   	</if>
   	<if test="password != null">
   		#{password,jdbcType=VARCHAR},
@@ -66,35 +69,38 @@ parameterType：指定输入参数类型，包括username,birthday,sex,address,d
   		#{sex,jdbcType=INTEGER},
   	</if>
   	<if test="address != null">
-  		#{address,jdbcType=VARCHAR}
+  		#{address,jdbcType=VARCHAR},
+  	</if>
+  	<if test="organId != null">
+  		#{organId,jdbcType=VARCHAR},
   	</if>
   </trim>
 </insert>
 
-<update id="updateUser" parameterType="com.bank.beans.User">
-	update BANK_USER set username = #{username}, password = #{password}, birthday = #{birthday},sex = #{sex},address = #{address} where userid = #{userId}
+<update id="user.update" parameterType="com.bank.beans.User">
+	update T_USER set user_name = #{userName}, password = #{password}, birthday = #{birthday},sex = #{sex},address = #{address}, organ_id = #{organId}  where user_id = #{userId}
 </update>
 
 <insert id="deleteUser" parameterType="string">
-  delete BANK_USER where userid = #{userId}
+  delete T_USER where user_id = #{userId}
 </insert>
 
 <select id="verifyUser" parameterType="com.bank.beans.User" 
 resultType="com.bank.beans.User">
-   SELECT * FROM BANK_USER WHERE username = #{username} and password = #{password}
+   SELECT * FROM T_USER WHERE user_id = #{userId} and password = #{password}
 </select>
 
-<select id="getUserById" parameterType="string"
+<select id="user.getUserById" parameterType="string"
 resultType="com.bank.beans.User">
-   SELECT * FROM BANK_USER WHERE userid = #{userId}
+   SELECT * FROM T_USER WHERE user_id = #{userId}
 </select>
 
-<select id="loadAllUsers" parameterType="object"
+<select id="user.loadAllUsers" parameterType="object"
 resultType="com.bank.beans.User">
-   SELECT * FROM BANK_USER 
+   SELECT * FROM T_USER 
    <where>
 	   <if test="key != null">
-	   		username like '%#${key}%'
+	   		user_name like '%#${key}%'
 	   </if>
 	   <if test="start != null">
    			and rownum > #${start}

@@ -39,40 +39,47 @@ request.setAttribute("actionType", actionType);
 </div>
  
 <div id="form1" style="width:90%;margin:0 auto">
-<input name="" class="mini-hidden">
 <!-- 获取表单控件 -->
-<table cellspacing='1' cellpadding='2' border='0' class='mini-grid-table'  style="width:100%;table-layout:fixed;">
-	<tr >
-		<td style='width:120px;padding-left:10px'>
-		<label>*用户名：</label>
-		</td>
-		<td style='width:100%;padding:10px;' colspan="3">
-		<input name=userId class='mini-textbox' vtype='maxLength:40' style='width:100%;color: red;' emptyText='' required='true' allowInput='true' />
-		</td>
-	</tr>
+<table cellspacing='0' cellpadding='0' border='0' class='mini-grid-table datagrid-searchform-table'  style="width:100%;table-layout:fixed;border-left: #e7e7e7 1px solid">
 	<tr>
-	<tr >
-		<td style='width:120px;padding-left:10px'>
+		<td style='width:120px;padding-left:10px;border-top: #ddd 1px solid;'>
+			<label>*用户名：</label>
+		</td>
+		<td style='width:50%;padding:10px;border-top: #ddd 1px solid;'>
+			<input name="userId" class='mini-textbox' vtype='maxLength:40' style='width:100%;color: red;' emptyText='' required='true' allowInput='true' />
+		</td>
+		
+		<td style='width:120px;padding-left:10px;'>
 		<label>*姓名：</label>
 		</td>
 		<td style='width:50%;padding:10px;'>
-		<input name=username class='mini-textbox' vtype='maxLength:40' style='width:100%;color: red;' emptyText='' required='true' allowInput='true' />
-		</td>
-		<td style='width:120px;padding-left:10px'>
-		<label>密码：</label>
-		</td>
-		<td style='width:50%;padding:10px;'>
-			<input name='password' class="mini-password" requiredErrorText="密码不能为空" required="true"  style='width:100%;color: red;' />
+			<input name="username" class='mini-textbox' vtype='maxLength:40' style='width:100%;color: red;' emptyText='' required='true' allowInput='true' />
 		</td>
 	</tr>
 	<tr>
-		<td style='width:120px;padding-left:10px'>
+<!-- 		<td style='width:120px;padding-left:10px;'> -->
+<!-- 		<label>*密码：</label> -->
+<!-- 		</td> -->
+<!-- 		<td style='width:50%;padding:10px;'> -->
+<!-- 			<input name="password" class='mini-textbox' vtype='maxLength:40' style='width:100%;color: red;' emptyText='' required='true' allowInput='true' /> -->
+<!-- 		</td> -->
+		
+		<td style='width:120px;padding-left:10px;'>
+		<label>密码：</label>
+		</td>
+		<td style='width:50%;padding:10px;' colspan="3">
+			<input name="password" class="mini-password" requiredErrorText="密码不能为空" required="true"  style='width:100%;color: red;' />
+		</td>
+	</tr>
+	<tr>
+		<td style='width:120px;padding-left:10px;'>
 		<label>性别：</label>
 		</td>
-		<td style='width:120px;padding:10px'>
-			<input name="sex" class="mini-radiobuttonlist" data="[{id: 1, text: '男'}, {id: 2, text: '女'}]"/>
+		<td style='width:50%;padding:10px;'>
+			<input name="sex" class="mini-radiobuttonlist" data="[{id: 1, text: '男'}, {id: 2, text: '女'}]" style='width:100%;'/>
 		</td>
-		<td style='width:120px;padding-left:10px'>
+		
+		<td style='width:120px;padding-left:10px;'>
 		<label>*生日：</label>
 		</td>
 		<td style='width:50%;padding:10px;'>
@@ -80,11 +87,11 @@ request.setAttribute("actionType", actionType);
 		</td>
 	</tr>
 	<tr>
-		<td style='width:120px;padding-left:10px'>
+		<td style='width:120px;padding-left:10px;'>
 		<label>地址：</label>
 		</td>
 		
-		<td style='width:120px;padding:10px' colspan='3'>
+		<td style='width:100%;padding:10px;' colspan='3'>
 			<input name='address' class='mini-textarea' style='width:100%;height: 40px;' emptyText='' allowInput='true' enabled='true'/>
 		</td>
 	</tr>
@@ -97,14 +104,17 @@ mini.parse();
 
 var form = new mini.Form("#form1");
 $(document).ready(function(){
-	$.ajax({
-	    url: "${pageContext.request.contextPath}/user/loadUser.do?userId=${userId}",
-	    type: "post",
-	    success: function (text) {
-	        var data = mini.decode(text);   //反序列化成对象
-	        form.setData(data);             //设置多个控件数据
-	    }
-	});
+	$("#form1").find("td").addClass("mini-grid-cell");
+	if ("${actionType}" != "add") {
+		$.ajax({
+		    url: "${pageContext.request.contextPath}/user/loadUser.do?userId=${userId}",
+		    type: "post",
+		    success: function (text) {
+		        var data = mini.decode(text);   //反序列化成对象
+		        form.setData(data);             //设置多个控件数据
+		    }
+		});
+	}
 	
 });
 

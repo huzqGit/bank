@@ -54,4 +54,5 @@
 	<bean class="com.bank.controller.SuccessController"/>
 	<bean class="com.bank.controller.HelloController"/>
     <bean class="com.bank.controller.UserController"/>
+    <bean class="com.bank.controller.OrganController"/>
 </beans>

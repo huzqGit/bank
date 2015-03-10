@@ -13,19 +13,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <sql id="Base_Column_List" >
   organ_id, organ_name, organ_pid, organ_short
 </sql>
-<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+<select id="organ.selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
   select 
   <include refid="Base_Column_List" />
   from T_ORGAN
-  where id = #{organId,jdbcType=INTEGER}
+  where organ_id = #{organId,jdbcType=VARCHAR}
 </select>
 
-<insert id="insert" parameterType="com.bank.beans.Organ">
+<insert id="organ.insert" parameterType="com.bank.beans.Organ">
   insert into T_ORGAN(organ_id, organ_name, organ_pid, organ_short) 
   values(#{organId}, #{organName}, #{organPid}, #{organShort})
 </insert>
 
-<insert id="insertSelective" parameterType="com.bank.beans.Organ" >
+<insert id="organ.insertSelective" parameterType="com.bank.beans.Organ" >
     insert into T_ORGAN
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="organId != null" >
@@ -43,7 +43,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="organId != null" >
-        #{organId,jdbcType=INTEGER},
+        #{organId,jdbcType=VARCHAR},
       </if>
       <if test="organName != null" >
         #{organName,jdbcType=VARCHAR},
@@ -56,14 +56,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       </if>
     </trim>
 </insert>
-<update id="update" parameterType="com.bank.beans.Organ">
+<update id="organ.update" parameterType="com.bank.beans.Organ">
 	update T_ORGAN 
 	set organ_name = #{organName}, 
 	organ_pid = #{organPid}, 
 	organ_short = #{organShort} 
 	where organ_id = #{organId}
 </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.bank.beans.Organ" >
+  <update id="organ.updateByPrimaryKeySelective" parameterType="com.bank.beans.Organ" >
     update T_ORGAN
     <set >
       <if test="organName != null" >
@@ -76,9 +76,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         organ_short = #{organShort,jdbcType=VARCHAR},
       </if>
     </set>
-    where organ_id = #{organId,jdbcType=INTEGER}
+    where organ_id = #{organId,jdbcType=VARCHAR}
   </update>
-<insert id="delete" parameterType="string">
+<insert id="organ.delete" parameterType="string">
   delete T_ORGAN where organ_id = #{organId}
 </insert>
 
@@ -87,10 +87,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <result column="TEXT" property="TEXT" jdbcType="VARCHAR" />
     <result column="PID" property="PID" jdbcType="VARCHAR" />
 </resultMap>
-<select id="organUser" resultMap="organUserList">
+<select id="organ.organUser" resultMap="organUserList">
 SELECT ID, TEXT, PID FROM
    (SELECT organ_id, organ_name, organ_pid FROM T_ORGAN
    union 
-   SELECT userid, username, organ_id FROM T_USER)
+   SELECT user_id, user_name, organ_id FROM T_USER)
 </select>
 </mapper>

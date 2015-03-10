@@ -7,10 +7,12 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<!-- 别名 -->
 	<typeAliases>
 		<typeAlias type="com.bank.beans.User" alias="User"/>
+		<typeAlias type="com.bank.beans.Organ" alias="Organ"/>
 	</typeAliases>
 	
 	<mappers>
 		<mapper resource="sqlmap/User.xml" />
+		<mapper resource="sqlmap/Organ.xml"/>
 	</mappers> 
 
 

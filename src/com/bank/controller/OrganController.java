@@ -41,19 +41,19 @@ public class OrganController {
 	@RequestMapping(value = "/saveOrgan", method = RequestMethod.POST)
 	public Organ saveOrgan(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String formData = request.getParameter("formData");
+		String actionType = request.getParameter("actionType");
 		//Object obj = JSON.toJSONStringWithDateFormat(formData, formData, arg2);
 		JSONObject jsb = JSONObject.parseObject(formData); //将json串转成JSONObject
 		Organ Organ = (Organ) JSONObject.toJavaObject(jsb, Organ.class);
 		String organId = "";
-		if ("".equals(Organ.getOrganId()) || Organ.getOrganId() == null) {//organId为空，做新增操作
+		if ("add".equals(actionType)) {//organId为空，做新增操作
 			organId = organSerivce.saveOrgan(Organ);
 		} else {//organId不为空，做更新操作
 			organSerivce.updateOrgan(Organ);
 			organId = Organ.getOrganId();
 		}
-		String json = JSON.toJSONString(organId);
 		response.setContentType("text/html;charset=UTF-8");
-	    response.getWriter().write(json);
+	    response.getWriter().write(organId);
 		return null;
 	}
 	
