@@ -33,8 +33,16 @@ public class MenuController {
 		List<Menu> data = menuSerivce.loadMenus();
 	    
 	    String json = JSON.toJSONString(data);
+	    String str = "";
 	    response.setContentType("text/html;charset=UTF-8");
 	    response.getWriter().write(json);
 		return null;
 	}
+	
+	@RequestMapping(value = "/save", method = RequestMethod.POST)
+	public Menu save(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		return null;
+	}
+	
 }
