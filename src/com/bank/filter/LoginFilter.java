@@ -23,17 +23,18 @@ public class LoginFilter implements Filter {
 		HttpServletResponse response = (HttpServletResponse) sResponse;
 		HttpSession session = request.getSession();
 		String uri = request.getRequestURI();
+		String contextPath = request.getContextPath();
+		User user = (User) session.getAttribute(Constants.SESSION_AUTH_USER);
 		
-			String contextPath = request.getContextPath();
-			User user = (User) session.getAttribute(Constants.SESSION_AUTH_USER);
-			if (user == null) { 
-				if (uri.endsWith(".jsp") || uri.endsWith(".do")) {
-					if(!(uri.matches(".*login\\.jsp||.*login\\.do"))) {
-						response.sendRedirect(contextPath + "/jsp/login/login.jsp");
-						return; 
-					} 
+		if (user == null) {
+			if (uri.endsWith(".jsp") || uri.endsWith(".do")) {
+				if (!(uri.matches(".*login\\.jsp||.*login\\.do"))) {
+					response.sendRedirect(contextPath + "/jsp/login/login.jsp");
+					return;
 				}
 			}
+		}
+		
 		filterChain.doFilter(sRequest, sResponse);
 	}
 
