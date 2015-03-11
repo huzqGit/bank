@@ -3,7 +3,7 @@ package com.bank.dao;
 import java.util.List;
 
 import com.bank.beans.Menu;
-import com.bank.common.dao.GenericDAO;
+import com.common.dao.GenericDAO;
 
 public interface IMenuDao extends GenericDAO<Menu, String> {
 
