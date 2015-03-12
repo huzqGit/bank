@@ -21,7 +21,7 @@ resultMap="BaseResultMap">
    FROM T_SYS_MENU WHERE menu_id = #{menuId}
 </select>
 
-<insert id="menu.save" parameterType="com.bank.beans.Menu">
+<insert id="save" parameterType="com.bank.beans.Menu">
   insert into T_SYS_MENU(menu_id, menu_descr, menu_url, menu_pid) 
   values(#{menuId}, #{menuDescr}, #{menuUrl}, #{menuPid})
 </insert>
@@ -58,15 +58,15 @@ resultMap="BaseResultMap">
   </trim>
 </insert>
 
-<update id="menu.update" parameterType="com.bank.beans.Menu">
+<update id="update" parameterType="com.bank.beans.Menu">
 	update T_SYS_MENU set menu_descr = #{menuDescr}, menu_Url = #{menuUrl}, menu_Pid = #{menuPid}  where menu_id = #{menuId}
 </update>
 
-<insert id="deleteMenu" parameterType="string">
+<insert id="delete" parameterType="string">
   delete T_SYS_MENU where menu_id = #{menuId}
 </insert>
 
-<select id="menu.loadMenus" resultMap="BaseResultMap">
+<select id="all" resultMap="BaseResultMap">
    SELECT menu_id, menu_descr, menu_url, menu_pid FROM T_SYS_MENU 
 </select>
 </mapper>
