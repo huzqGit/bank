@@ -14,14 +14,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   menu_id, menu_descr, menu_url, menu_pid
 </sql>
 
-<select id="menu.selectByPrimaryKey" parameterType="string"
+<select id="findByPK" parameterType="string"
 resultMap="BaseResultMap">
    SELECT 
    <include refid="Base_Column_List"/>
    FROM T_SYS_MENU WHERE menu_id = #{menuId}
 </select>
 
-<insert id="menu.insert" parameterType="com.bank.beans.Menu">
+<insert id="menu.save" parameterType="com.bank.beans.Menu">
   insert into T_SYS_MENU(menu_id, menu_descr, menu_url, menu_pid) 
   values(#{menuId}, #{menuDescr}, #{menuUrl}, #{menuPid})
 </insert>

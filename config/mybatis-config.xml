@@ -9,12 +9,13 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="com.bank.beans.User" alias="User"/>
 		<typeAlias type="com.bank.beans.Organ" alias="Organ"/>
 		<typeAlias type="com.bank.beans.Menu" alias="Menu"/>
+		<typeAlias type="com.bank.beans.Role" alias="Role"/>
 	</typeAliases>
 	
 	<mappers>
-		<mapper resource="sqlmap/User.xml" />
-		<mapper resource="sqlmap/Organ.xml"/>
-		<mapper resource="sqlmap/Menu.xml"/>
+		<mapper resource="model/User.xml" />
+		<mapper resource="model/Organ.xml"/>
+		<mapper resource="model/Menu.xml"/>
 	</mappers> 
 
 
