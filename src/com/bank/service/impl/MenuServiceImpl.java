@@ -16,12 +16,11 @@ public class MenuServiceImpl extends GenericServiceImpl<Menu, String> implements
 	@Resource
 	private IMenuDao menuDao;
 	
-	
-
 	@Override
 	public GenericDAO<Menu, String> getGenericDAO() {
 		return menuDao;
 	}
+	
 	
 	
 

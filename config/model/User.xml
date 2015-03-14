@@ -115,7 +115,7 @@ resultType="com.bank.beans.User">
    SELECT * FROM T_USER 
    <where>
 	   <if test="key != null">
-	   		user_name like '%#${key}%'
+	   		user_name like CONCAT('%','${key}','%' ) 
 	   </if>
 	   <if test="start != null">
    			and rownum > #${start}
