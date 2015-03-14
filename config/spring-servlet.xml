@@ -56,9 +56,6 @@
     <bean class="com.bank.controller.UserController"/>
     <bean class="com.bank.controller.OrganController"/>
     <bean class="com.bank.controller.manager.MenuController"/>
-<<<<<<< HEAD
     <bean class="com.bank.controller.manager.PrivilegeController"/>
-=======
->>>>>>> origin/master
     <bean class="com.bank.controller.company.CompanyController"/>
 </beans>
