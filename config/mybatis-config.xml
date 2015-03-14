@@ -11,6 +11,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="com.bank.beans.Menu" alias="Menu"/>
 		<typeAlias type="com.bank.beans.Role" alias="Role"/>
 		<typeAlias type="com.bank.beans.Privilege" alias="Privilege"/>
+		<typeAlias type="com.bank.beans.Company" alias="Company"/>
 	</typeAliases>
 	
 	<mappers>
@@ -18,6 +19,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="model/Organ.xml"/>
 		<mapper resource="model/Menu.xml"/>
 		<mapper resource="model/Privilege.xml"/>
+		<mapper resource="model/Company.xml" />
 	</mappers> 
 
 

@@ -9,12 +9,14 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -45,7 +47,7 @@ public class MenuController {
 	private IMenuService menuSerivce;
 	
 	@RequestMapping(value = "/loadMenus", method = RequestMethod.POST)
-	public Menu loadMenus(HttpServletRequest request, HttpServletResponse response) {
+	public Menu loadMenus(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		List<Menu> data = new ArrayList<Menu>();
 		try {
 			data = menuSerivce.getAllEntities();
@@ -59,12 +61,14 @@ public class MenuController {
 			response.getWriter().write(json);
 		} catch (IOException e) {
 			log.error("", e);
+			throw new IOException("", e);
 		}
 		return null;
 	}
 	
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public Menu save(HttpServletRequest request, HttpServletResponse response) {
+	@ResponseBody
+	public Menu save(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		User user = (User) request.getSession().getAttribute(Constants.SESSION_AUTH_USER);
 		String formData = request.getParameter("formData");
 		String actionType = request.getParameter("actionType");
@@ -73,7 +77,7 @@ public class MenuController {
 		String formatdata = JSON.toJSONStringWithDateFormat(decodeJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
 		JSONObject jsb = JSONObject.parseObject(formatdata);
 		Menu menu = (Menu) JSON.toJavaObject(jsb, Menu.class);
-		String menuId = menu.getId();
+		long menuId = menu.getId();
 		
 		if (ADD.equals(actionType)) {//user为空，做新增操作
 			menu.setCreateUser(user);
@@ -81,9 +85,13 @@ public class MenuController {
 			try {
 				menuSerivce.save(menu);
 			} catch (DAOException e) {
-				log.error("", e);
+				String msg = "Create menu occurs DAO error";
+				log.error(msg, e);
+				throw new DAOException(msg, e);
 			} catch (CreateException e) {
-				log.error("Create org group occurs error", e);
+				String msg = "Create menu occurs error";
+				log.error(msg, e);
+				throw new CreateException(msg, e);
 			}
 		} else {//userId不为空，做更新操作
 			menu.setUpdateUser(user);
@@ -91,32 +99,48 @@ public class MenuController {
 			try {
 				menuSerivce.update(menu);
 			} catch (DAOException e) {
-				log.error("", e);
+				String msg = "update privilege occurs DAO error. ";
+				log.error(msg, e);
+				throw new DAOException(msg, e);
 			} catch (UpdateException e) {
-				log.error("update menu (pk:" + menu.getId() + ") occurs error", e);
+				String msg = "update menu (pk:" + menu.getId() + ") occur errors";
+				log.error(msg, e);
+				throw new UpdateException(msg, e);
 			} catch (DataNotFoundException e) {
-				log.error("delete menu not found (pk:" + menu.getId() + ")", e);
+				String msg = "delete menu not found (pk:" + menu.getId() + ")";
+				log.error(msg, e);
+				throw new UpdateException(msg, e);
 			}
 		}
 		response.setContentType("text/html;charset=UTF-8");
 	    try {
-			response.getWriter().write(menuId);
+			response.getWriter().write(menuId + "");
 		} catch (IOException e) {
 			log.error("", e);
+			throw new IOException("", e);
 		}
 		return null;
 	}
 	
-	@RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
-	public boolean delete(@RequestParam("menuId") String menuId){
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	@ResponseBody
+	public boolean delete(@RequestParam("menuId") String menuId) throws Exception{
 		try {
-			menuSerivce.delete(menuId);
+			if (StringUtils.isEmpty(menuId)) throw new DAOException("主键不能为空!");
+			
+			menuSerivce.delete(Long.valueOf(menuId));
+			
 		} catch (DAOException e) {
 			log.error("", e);
+			throw new DAOException("", e);
 		} catch (DeleteException e) {
-			log.error("", e);
+			String msg = "delete menu occur errors";
+			log.error(msg, e);
+			throw new DeleteException(msg, e);
 		} catch (DataNotFoundException e) {
-			log.error("delete menu not found (pk:" + menuId + ")", e);
+			String msg = "delete menu not found (pk:" + menuId + ")";
+			log.error(msg, e);
+			throw new DataNotFoundException(msg, e);
 		}
 		return true;
 	}

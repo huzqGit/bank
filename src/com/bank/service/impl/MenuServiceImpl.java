@@ -11,16 +11,17 @@ import com.common.dao.GenericDAO;
 import com.common.service.impl.GenericServiceImpl;
 
 @Service("menuService")
-public class MenuServiceImpl extends GenericServiceImpl<Menu, String> implements IMenuService {
+public class MenuServiceImpl extends GenericServiceImpl<Menu, Long> implements IMenuService {
 	
 	@Resource
 	private IMenuDao menuDao;
 	
+	
+
 	@Override
-	public GenericDAO<Menu, String> getGenericDAO() {
+	public GenericDAO<Menu, Long> getGenericDAO() {
 		return menuDao;
 	}
-	
 	
 	
 

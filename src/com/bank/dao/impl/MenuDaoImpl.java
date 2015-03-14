@@ -7,6 +7,6 @@ import com.bank.dao.IMenuDao;
 import com.common.dao.impl.GenericMyBatisDAOSupport;
 
 @Repository("menuDao")
-public class MenuDaoImpl extends GenericMyBatisDAOSupport<Menu, String> implements IMenuDao {
+public class MenuDaoImpl extends GenericMyBatisDAOSupport<Menu, Long> implements IMenuDao {
 
 }

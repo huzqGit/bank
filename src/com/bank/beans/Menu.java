@@ -10,8 +10,8 @@ import com.common.bean.BaseEntity;
  * @author huzq
  * 
  */
-public class Menu extends BaseEntity<String> {
-	private String menuId;// 菜单ID
+public class Menu extends BaseEntity<Long> {
+	private String menuName;
 	private String menuDescr;// 菜单姓名
 	private String menuUrl;// 菜单地址
 	private String menuPid;// 菜单父ID
@@ -22,13 +22,13 @@ public class Menu extends BaseEntity<String> {
 	private User createUser;
 	private Timestamp updateTime;
 	private User updateUser;
-
-	public String getMenuId() {
-		return menuId;
+	
+	public String getMenuName() {
+		return menuName;
 	}
 
-	public void setMenuId(String menuId) {
-		this.menuId = menuId;
+	public void setMenuName(String menuName) {
+		this.menuName = menuName;
 	}
 
 	public String getMenuDescr() {
