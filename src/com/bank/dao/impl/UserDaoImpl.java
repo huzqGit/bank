@@ -4,6 +4,7 @@ import java.sql.Array;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
@@ -78,11 +79,11 @@ public class UserDaoImpl extends BaseDaoImpl implements IUserDao {
 	}
 
 	@Override
-	public List<User> loadAllUsers(String key, int pageIndex, int pageSize,
-			String sortField, String sortOrder) {
+	public List<User> loadAllUsers(@Param("key") String key, @Param("pageIndex") int pageIndex, @Param("pageSize")int pageSize,
+			@Param("sortField") String sortField, @Param("sortOrder") String sortOrder) {
 		int start = pageIndex * pageSize, end = start + pageSize;
 		if ("desc".equals(sortOrder) == false) sortOrder = "asc";
-		Array[] ids = new Array[]{};
+		
 		List<User> users = getSqlSession().selectList("user.loadAllUsers", new Object[]{start, end, sortField, sortOrder});
 		return users;
 	}

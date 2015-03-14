@@ -8,11 +8,14 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.bank.beans.Company;
+import com.bank.beans.Menu;
 import com.bank.dao.ICompanyDao;
 import com.bank.service.ICompanyService;
+import com.common.dao.GenericDAO;
+import com.common.service.impl.GenericServiceImpl;
 
 @Service("companyService")
-public class CompanyServiceImpl implements ICompanyService {
+public class CompanyServiceImpl extends GenericServiceImpl<Menu, Long> implements ICompanyService {
 	
 	@Resource
 	private ICompanyDao companyDao;
@@ -40,6 +43,12 @@ public class CompanyServiceImpl implements ICompanyService {
 		
 		List<Company> companys=companyDao.loadCompanys(query, pageIndex, pageSize, sortField, sortOrder);
 		return companys;
+	}
+
+	@Override
+	public GenericDAO<Menu, Long> getGenericDAO() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	
