@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package com.bank.dao.impl;
 
 import org.springframework.stereotype.Repository;
@@ -10,3 +11,16 @@ import com.common.dao.impl.GenericMyBatisDAOSupport;
 public class PrivilegeDaoImpl extends GenericMyBatisDAOSupport<Privilege, String> implements IPrivilegeDao {
 
 }
+=======
+package com.bank.dao.impl;
+
+import com.bank.beans.Privilege;
+import com.bank.dao.IPrivilegeDao;
+import com.common.dao.impl.GenericMyBatisDAOSupport;
+
+public class PrivilegeDaoImpl extends GenericMyBatisDAOSupport<Privilege, String> implements
+		IPrivilegeDao {
+
+
+}
+>>>>>>> origin/master
