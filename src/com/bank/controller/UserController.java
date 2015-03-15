@@ -68,7 +68,7 @@ public class UserController {
 	@RequestMapping(value = "/loadAllUsers", method = RequestMethod.POST)
 	public User loadAllUsers(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		//查询条件
-	    String key = request.getParameter("submitData");
+	    String key = request.getParameter("key");
 	    //分页
 	    int pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
 	    int pageSize = Integer.parseInt(request.getParameter("pageSize"));        

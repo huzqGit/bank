@@ -27,7 +27,7 @@
                 <a class="mini-button" iconCls="icon-reload" plain="true">刷新</a>
             </td>
             <td style="white-space:nowrap;"><label style="font-family:Verdana;">名称: </label>
-                <input class="mini-textbox" />
+                <input id="key" class="mini-textbox"/>
                 <a class="mini-button" iconCls="icon-search" plain="true" onclick="onSearch()">查询</a>
                 </td>
             </tr>
@@ -43,7 +43,7 @@
             <div property="columns">
                 <div type="indexcolumn" ></div>
                 <div field="userId" width="120" headerAlign="center" allowSort="true" >员工帐号</div>
-                <div field="username" width="120" headerAlign="center" allowSort="true">员工姓名</div>    
+                <div field="userName" width="120" headerAlign="center" allowSort="true">员工姓名</div>    
                 <div field="sex" width="100" renderer="onGenderRenderer" align="center" headerAlign="center">性别</div>
                 <div field="birthday" width="100" headerAlign="center" dateFormat="yyyy-MM-dd" allowSort="true">生日</div>                
             </div>
@@ -54,13 +54,11 @@
     <script type="text/javascript">
         mini.parse();
         var grid = mini.get("datagrid1");
-        grid.hideColumn("userId");
         grid.load();
 
         function onSearch() {
-            mini.open({
-                url: bootPATH + "../demo/CommonLibs/SelectGridWindow.html"
-            });
+        	var key = mini.get("key").getValue();
+            grid.load({ key: key });
         }
         ///////////////////////////////////////////////////////
         var Genders = [{ id: 1, text: '男' }, { id: 2, text: '女'}];

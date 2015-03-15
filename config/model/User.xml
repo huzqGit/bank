@@ -111,11 +111,11 @@ resultMap="BaseResultMap">
 </select>
 
 <select id="user.loadAllUsers" parameterType="map"
-resultType="com.bank.beans.User">
+resultMap="BaseResultMap">
    SELECT t.* FROM T_USER t,
 (select user_id, ROW_NUMBER() OVER () as rownum from T_USER) AS t1 where t1.user_id= t.user_id
    <if test="key != null">
-   		and t.user_name like "%"#{key}"%"
+   		and t.user_name like '%${key}%' or t.user_id like '%${key}%'
    </if>
    <if test="start != null">
   			and t1.rownum > #{start}
