@@ -110,26 +110,27 @@ resultMap="BaseResultMap">
    FROM T_USER WHERE user_id = #{userId}
 </select>
 
-<select id="user.loadAllUsers" parameterType="object"
+<select id="user.loadAllUsers" parameterType="map"
 resultType="com.bank.beans.User">
-   SELECT * FROM T_USER 
+   SELECT t.* FROM T_USER t,
+(select user_id, ROW_NUMBER() OVER () as rownum from T_USER) AS t1
    <where>
 	   <if test="key != null">
-	   		user_name like CONCAT('%','${key}','%' ) 
+	   		t.user_name like "%"#{key}"%"
 	   </if>
 	   <if test="start != null">
-   			and rownum > #${start}
+   			and t1.rownum > #${start}
    		</if>
 	   <if test="end != null">
-   			and <![CDATA[rownum < #${end}]]>
+   			and <![CDATA[t1.rownum < #${end}]]>
    		</if>
    </where>
    <choose>
-	   <when test="sortField != null">
+	   <when test="sortField != null and sortField != ''">
 	   		order by #${sortField} #${sortOrder}
 	   </when>
 	   <otherwise>
-	   		order by userId desc
+	   		order by t.user_Id desc
 	   </otherwise>
    </choose>
 </select>
