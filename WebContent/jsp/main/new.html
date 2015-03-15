@@ -1,0 +1,550 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<style type="text/css">
+body { margin:0 auto; padding:4px 8px; font-family:"微软雅黑";}
+img{ border:none;}
+
+.top-menu {font-size:14px; color:#666; background:url(images/quick-b.png) no-repeat bottom; width:100px; height:28px; text-align:center; margin:0px 1px;}
+.top-menu span {font-size:14px; padding-top:3px;  padding-left:18px; height:25px; overflow:hidden; display:block; background:url(images/gem.png) 10px 6px no-repeat;}
+.top-menu a { font-size:14px; text-decoration: none;  color:#fff;}
+.top-menu a:link { text-decoration: none;}
+.top-menu a:visited { text-decoration: none;}
+.top-menu a:hover { text-decoration: none; color:#fff; background:url(images/quick-b-a.png) no-repeat bottom; color:#ffff00; width:100px; display:block;}
+
+.hq-menu {font-size:14px; color:#666; background:url(images/quick-b.png) no-repeat bottom; width:100px; height:28px; text-align:center; margin:0px 1px;}
+.hq-menu span {font-size:14px; padding-top:3px;  padding-left:18px; height:25px; overflow:hidden; display:block; background:url(images/movie.png) 10px 6px no-repeat;}
+.hq-menu a { font-size:14px; text-decoration: none;  color:#fff;}
+.hq-menu a:link { text-decoration: none;}
+.hq-menu a:visited { text-decoration: none;}
+.hq-menu a:hover { text-decoration: none; color:#fff; background:url(images/quick-b-a.png) no-repeat bottom; color:#ffff00; width:100px; display:block;}
+
+.mj-menu {font-size:14px; color:#666; background:url(images/quick-b.png) no-repeat bottom; width:100px; height:28px; text-align:center; margin:0px 1px;}
+.mj-menu span {font-size:14px; padding-top:3px;  padding-left:18px; height:25px; overflow:hidden; display:block; background:url(images/hcards.png) 10px 6px no-repeat;}
+.mj-menu a { font-size:14px; text-decoration: none;  color:#fff;}
+.mj-menu a:link { text-decoration: none;}
+.mj-menu a:visited { text-decoration: none;}
+.mj-menu a:hover { text-decoration: none; color:#fff; background:url(images/quick-b-a.png) no-repeat bottom; color:#ffff00; width:100px; display:block;}
+
+.wd-menu {font-size:14px; color:#666; background:url(images/quick-b.png) no-repeat bottom; width:100px; height:28px; text-align:center; margin:0px 1px;}
+.wd-menu span {font-size:14px; padding-top:3px;  padding-left:18px; height:25px; overflow:hidden; display:block; background:url(images/menu-icon.png) 10px 6px no-repeat;}
+.wd-menu a { font-size:14px; text-decoration: none;  color:#fff;}
+.wd-menu a:link { text-decoration: none;}
+.wd-menu a:visited { text-decoration: none;}
+.wd-menu a:hover { text-decoration: none; color:#fff; background:url(images/quick-b-a.png) no-repeat bottom; color:#ffff00; width:100px; display:block;}
+
+.top-long {font-size:14px; color:#666; background:url(images/quick-b-on.png) no-repeat bottom; width:160px; height:28px; text-align:center; margin:0px 1px;}
+.top-long span {font-size:14px; padding-top:3px;  padding-left:18px; height:25px; overflow:hidden; display:block; background:url(images/rich.png) 10px 6px no-repeat;}
+.top-long a { font-size:14px; text-decoration: none;  color:#fff;}
+.top-long a:link { text-decoration: none;}
+.top-long a:visited { text-decoration: none;}
+.top-long a:hover { text-decoration: none; color:#fff; background:url(images/quick-b-b.png) no-repeat bottom; width:160px; color:#ffff00; display:block;}
+
+.top-select {font-size:14px; color:#666; background:url(images/quick-b-on.png) bottom; width:160px; height:28px; text-align:center; margin:0px 1px;}
+.top-select span {font-size:14px; padding-top:3px;  padding-left:18px; height:25px; overflow:hidden; display:block; background:url(images/color.png) 10px 6px no-repeat;}
+.top-select a { font-size:14px; text-decoration: none;  color:#fff;}
+.top-select a:link { text-decoration: none;}
+.top-select a:visited { text-decoration: none;}
+.top-select a:hover { text-decoration: none; color:#fff; background:url(images/quick-b-b.png) no-repeat bottom; width:160px; color:#ffff00; display:block;}
+
+.right-edit {font-size:14px; color:#666; background:url(images/quick.png) no-repeat bottom; width:100px; height:28px; text-align:center; margin:0px 5px;}
+.right-edit span {font-size:14px; padding-top:3px; padding-left:18px; height:25px; overflow:hidden; display:block; background:url(images/edit.png) 24px 6px no-repeat; }
+.right-edit a { font-size:14px; text-decoration: none;  color:#666;}
+.right-edit a:link { text-decoration: none;}
+.right-edit a:visited { text-decoration: none;}
+.right-edit a:hover { text-decoration: none; color:#fff; background:url(images/quick-on.png) no-repeat bottom; width:100px; display:block;}
+
+.right-eye {font-size:14px; color:#666; background:url(images/quick.png) no-repeat bottom; width:100px; height:28px; text-align:center; margin:0px 5px;}
+.right-eye span {font-size:14px; padding-top:3px;  padding-left:18px; height:25px; overflow:hidden; display:block; background:url(images/eye.png) 10px 6px no-repeat; }
+.right-eye a { font-size:14px; text-decoration: none;  color:#666;}
+.right-eye a:link { text-decoration: none;}
+.right-eye a:visited { text-decoration: none;}
+.right-eye a:hover { text-decoration: none; color:#fff; background:url(images/quick-on.png) no-repeat bottom; width:100px; display:block;}
+
+.td-border {
+	 filter: progid:DXImageTransform.Microsoft.gradient(startcolorstr=#ffffff,endcolorstr=#e6fcfb,gradientType=0);
+	 background:-moz-linear-gradient(top, #ffffff, #e6fcfb);
+	 background:-webkit-gradient(linear, 0 0, 0 bottom, from(#ffffff), to(#e6fcfb));
+	 background:-o-linear-gradient(top, #ffffff, #e6fcfb);
+	/* 不可缩写，如#ffffff不能缩写成#fff */
+ }
+ 
+.td-item{ border:1px #c4c4c4 solid;}
+.mr{ margin-right:10px;}
+.pb{ padding:10px 0px;}
+.item-title{ font-size:14px; color:#fff; font-weight:bold;}
+
+.datalist{
+	background:#ffffff;
+	border:1px solid #99d8e1;	/* 表格边框 */
+	font-family:"微软雅黑";
+	font-size:12px;
+	border-collapse:collapse;	/* 边框重叠 */
+}
+.datalist th{
+	border:1px solid #99d8e1;	/* 行、列名称边框 */
+	background-color:#e0f1f5;
+	font-weight:bold;
+	padding-top:4px; padding-bottom:4px;
+	padding-left:10px; padding-right:10px;
+	text-align:center;
+}
+.datalist td{
+	border:1px solid #99d8e1;	/* 单元格边框 */
+	text-align:center;
+	padding:4px;
+}
+</style>
+</head>
+
+<body>
+<table width="100%" height="100%" cellpadding="0" cellspacing="0" border="0" class="td-border">
+  <tr>
+    <td align="center" valign="top">
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" style="position: relative;">
+      <tr>
+        <td width="72%" height="36" align="left" valign="middle">
+		<table width="725" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+		    <td width="160" height="28" align="center" valign="middle" class="top-select"><span><select name="select" style="width:108px;" /></span></td>
+			<td width="1"></td>
+            <td width="100" height="28" align="center" valign="middle" class="top-menu"><a href="#"><span>门禁监控</span></a></td>
+			<td width="1"></td>
+            <td width="100" height="28" align="center" valign="middle" class="hq-menu"><a href="#"><span>视频监控</span></a></td>
+			<td width="1"></td>
+            <td width="100" height="28" align="center" valign="middle" class="mj-menu"><a href="#"><span>环境监控</span></a></td>
+			<td width="1"></td>
+			<td width="100" height="28" align="center" valign="middle" class="wd-menu"><a href="#"><span>温度监控</span></a></td>
+			<td width="1"></td>
+            <td width="160" height="28" align="center" valign="middle" class="top-long"><a href="#"><span>机房图切换 2D/3D</span></a></td>
+          </tr>
+        </table></td>
+        <td width="28%" height="36" align="right" valign="middle">
+		  <table width="210" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="100" height="28" align="center" valign="middle" class="right-edit"><a href="#"><span>编辑</span></a></td>
+			<td width="10"></td>
+            <td width="100" height="28" align="center" valign="middle" class="right-eye"><a href="#"><span>显示按钮</span></a></td>
+          </tr>
+        </table></td>
+      </tr>
+    </table>
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:4px;" >
+  <tr>
+    <td width="33%" height="261" align="left" valign="middle"><table width="98%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td height="28" align="center" valign="middle"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td width="10" height="28" style="background: url(images/title-top.png) top left;"></td>
+        <td height="28" align="center" valign="middle" style="background: url(images/title-top.png) top center;" class="item-title"><img src="tool/icons/chart_pie.png" width="16" height="16" />&nbsp;监控类百分比</td>
+        <td width="10" height="28" style="background: url(images/title-top.png) top right;"></td>
+          </tr>
+        </table></td>
+        </tr>
+      <tr>
+        <td height="10" align="center" valign="middle" style="border:1px #0da0d3 solid; padding:5px;"><object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" width="100%" height="210" >
+          <param name="movie" value="chart/Pie3D.swf" />
+          <param name="FlashVars" value="&dataXML=<chart caption='' subcaption='' xAxisName='Month' yAxisName='Sales' numberPrefix='' formatNumberScale='0'>
+   <set label='January' value='17400' />
+   <set label='February' value='19800' />
+   <set label='March' value='21800' />
+
+   </chart>" />
+          <param name="quality" value="high" />
+          <embed src="chart/Pie3D.swf" flashVars="&dataXML=<chart caption='' subcaption='' xAxisName='Month' yAxisName='Sales' numberPrefix='' formatNumberScale='0'>
+   <set label='January' value='17400' />
+   <set label='February' value='19800' />
+   <set label='March' value='21800' />
+
+   </chart>" quality="high" width="100%" height="210" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /></embed>
+          </embed>
+          </embed>
+          </embed>
+        </object></td>
+        </tr>
+
+    </table></td>
+    <td width="34%" align="center" valign="middle"><table width="98%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td height="28" align="center" valign="middle"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="10" height="28" style="background: url(images/title-top.png) top left;"></td>
+              <td height="28" align="center" valign="middle" style="background: url(images/title-top.png) top center;" class="item-title"><img src="tool/icons/poll.gif" width="16" height="16" />&nbsp;机房有效空间统计</td>
+              <td width="10" height="28" style="background: url(images/title-top.png) top right;"></td>
+            </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td height="10" align="center" valign="middle" style="border:1px #0da0d3 solid; padding:5px;"><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="100%" height="210">
+          <param name="movie" value="chart/Line.swf" />
+          <param name="FlashVars" value="&dataXML=<chart caption='' subcaption='' xAxisName='' yAxisName='' yAxisMinValue='15000'  numberPrefix='' showValues='0' alternateHGridColor='FCB541' alternateHGridAlpha='20' divLineColor='FCB541' divLineAlpha='50' canvasBorderColor='666666' baseFontColor='666666' lineColor='FCB541' formatNumberScale='0' numberSuffix='' bgAlpha='0,0' borderAlpha='0'>
+	<set label='Jan' value='17400' />
+	<set label='Feb' value='19800' />
+	<set label='Mar' value='21800' />
+	<set label='Apr' value='23800' />
+	<set label='May' value='29600' />
+	<set label='Jun' value='27600' />
+	<set label='Jul' value='31800' />
+	<set label='Aug' value='39700' />
+	<set label='Sep' value='37800' />
+	<set label='Oct' value='21900' />
+	<set label='Nov' value='32900' />
+	<set label='Dec' value='39800' />
+
+	<styles>
+		<definition>
+			<style name='Anim1' type='animation' param='_xscale' start='0' duration='1' />
+			<style name='Anim2' type='animation' param='_alpha' start='0' duration='0.6' />
+			<style name='DataShadow' type='Shadow' alpha='40'/>
+		</definition>
+		<application>
+			<apply toObject='DIVLINES' styles='Anim1' />
+			<apply toObject='HGRID' styles='Anim2' />
+			<apply toObject='DATALABELS' styles='DataShadow,Anim2' />
+	</application>	
+	</styles>
+
+</chart>" />
+          <param name="quality" value="high" />
+          <embed src="chart/Line.swf" flashVars="&dataXML=<chart caption='' subcaption='' xAxisName='' yAxisName='' yAxisMinValue='15000'  numberPrefix='' showValues='0' alternateHGridColor='FCB541' alternateHGridAlpha='20' divLineColor='FCB541' divLineAlpha='50' canvasBorderColor='666666' baseFontColor='666666' lineColor='FCB541' formatNumberScale='0' numberSuffix='' bgAlpha='0,0' borderAlpha='0'>
+	<set label='Jan' value='17400' />
+	<set label='Feb' value='19800' />
+	<set label='Mar' value='21800' />
+	<set label='Apr' value='23800' />
+	<set label='May' value='29600' />
+	<set label='Jun' value='27600' />
+	<set label='Jul' value='31800' />
+	<set label='Aug' value='39700' />
+	<set label='Sep' value='37800' />
+	<set label='Oct' value='21900' />
+	<set label='Nov' value='32900' />
+	<set label='Dec' value='39800' />
+
+	<styles>
+		<definition>
+			<style name='Anim1' type='animation' param='_xscale' start='0' duration='1' />
+			<style name='Anim2' type='animation' param='_alpha' start='0' duration='0.6' />
+			<style name='DataShadow' type='Shadow' alpha='40'/>
+		</definition>
+		<application>
+			<apply toObject='DIVLINES' styles='Anim1' />
+			<apply toObject='HGRID' styles='Anim2' />
+			<apply toObject='DATALABELS' styles='DataShadow,Anim2' />
+	</application>	
+	</styles>
+
+</chart>" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="100%" height="210"></embed>
+        </object></td>
+      </tr>
+    </table></td>
+    <td width="33%" height="261" align="right" valign="middle" ><table width="98%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td height="28" align="center" valign="middle"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="10" height="28" style="background: url(images/title-top.png) top left;"></td>
+              <td height="28" align="center" valign="middle" style="background: url(images/title-top.png) top center;" class="item-title"><img src="tool/icons/color.png" width="16" height="16" />&nbsp;机房可用空间排行</td>
+              <td width="10" height="28" style="background: url(images/title-top.png) top right;"></td>
+            </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td height="10" align="center" valign="middle" style="border:1px #0da0d3 solid; padding:5px;"><object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" width="100%" height="210" >
+          <param name="movie" value="chart/MSColumn2D.swf" />
+          <param name="FlashVars" value="&dataXML=<chart palette='2' caption='' shownames='1' showvalues='0' decimals='0' numberPrefix='' useRoundEdges='1' legendBorderAlpha='0' formatNumberScale='0' bgAlpha='0,0' borderAlpha='0'>
+   <categories>
+   <category label='Austria' />
+   <category label='Brazil' />
+   <category label='France' />
+   <category label='Germany' />
+   <category label='USA' />
+   </categories>
+   <dataset seriesName='1996' color='AFD8F8' showValues='1'>
+   <set value='25601.34' link='javascript:alert(11)' />
+   <set value='20148.82' />
+   <set value='17372.76' />
+   <set value='35407.15' />
+   <set value='38105.68' />
+   </dataset>
+   <dataset seriesName='1997' color='F6BD0F' showValues='1'>
+   <set value='57401.85' />
+   <set value='41941.19' />
+   <set value='45263.37' />
+   <set value='117320.16' />
+   <set value='114845.27' />
+   </dataset>
+   </chart>" />
+          <param name="quality" value="high" />
+          <embed src="chart/MSColumn2D.swf" flashVars="&dataXML=<chart palette='2' caption='' shownames='1' showvalues='0' decimals='0' numberPrefix='' useRoundEdges='1' legendBorderAlpha='0' formatNumberScale='0' bgAlpha='0,0' borderAlpha='0'>
+   <categories>
+   <category label='Austria' />
+   <category label='Brazil' />
+   <category label='France' />
+   <category label='Germany' />
+   <category label='USA' />
+   </categories>
+   <dataset seriesName='1996' color='AFD8F8' showValues='1'>
+   <set value='25601.34' link='javascript:alert(11)' />
+   <set value='20148.82' />
+   <set value='17372.76' />
+   <set value='35407.15' />
+   <set value='38105.68' />
+   </dataset>
+   <dataset seriesName='1997' color='F6BD0F' showValues='1'>
+   <set value='57401.85' />
+   <set value='41941.19' />
+   <set value='45263.37' />
+   <set value='117320.16' />
+   <set value='114845.27' />
+   </dataset>
+   </chart>" quality="high" width="100%" height="210" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /></embed>
+          </embed>
+        </object></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td height="4"></td>
+    <td height="4"></td>
+    <td height="4"></td>
+  </tr>
+  <tr>
+    <td width="33%" height="260" align="left" valign="middle"><table width="98%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td height="28" align="center" valign="middle"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="10" height="28" style="background: url(images/title-top.png) top left;"></td>
+              <td height="28" align="center" valign="middle" style="background: url(images/title-top.png) top center;" class="item-title"><img src="tool/icons/application_view_icons.png" width="16" height="16" />&nbsp;视频列表</td>
+              <td width="10" height="28" style="background: url(images/title-top.png) top right;"></td>
+            </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td height="10" align="center" valign="middle" style="border:1px #0da0d3 solid; padding:5px;"><table width="100%" border="0" cellspacing="0" cellpadding="0" class="datalist">
+          <tr>
+            <th align="left" valign="middle">地区：</th>
+            <th align="left" valign="middle">金额(万元)：</th>
+            <th align="left" valign="middle">大项：</th>
+            <th align="left" valign="middle">单项：</th>
+            <th align="left" valign="middle">小项：</th>
+          </tr>
+          <tr>
+            <td align="center" valign="middle">鹰潭</td>
+            <td align="center" valign="middle">5000</td>
+            <td align="center" valign="middle">4</td>
+            <td align="center" valign="middle">66</td>
+            <td align="center" valign="middle">45</td>
+          </tr>
+          <tr>
+            <td align="center" valign="middle">鹰潭</td>
+            <td align="center" valign="middle">5000</td>
+            <td align="center" valign="middle">4</td>
+            <td align="center" valign="middle">66</td>
+            <td align="center" valign="middle">45</td>
+          </tr>
+          <tr>
+            <td align="center" valign="middle">鹰潭</td>
+            <td align="center" valign="middle">5000</td>
+            <td align="center" valign="middle">4</td>
+            <td align="center" valign="middle">66</td>
+            <td align="center" valign="middle">45</td>
+          </tr>
+          <tr>
+            <td align="center" valign="middle">鹰潭</td>
+            <td align="center" valign="middle">5000</td>
+            <td align="center" valign="middle">4</td>
+            <td align="center" valign="middle">66</td>
+            <td align="center" valign="middle">45</td>
+          </tr>
+          <tr>
+            <td align="center" valign="middle">鹰潭</td>
+            <td align="center" valign="middle">5000</td>
+            <td align="center" valign="middle">4</td>
+            <td align="center" valign="middle">66</td>
+            <td align="center" valign="middle">45</td>
+          </tr>
+          <tr>
+            <td align="center" valign="middle">月湖区</td>
+            <td align="center" valign="middle">1000</td>
+            <td align="center" valign="middle">1</td>
+            <td align="center" valign="middle">66</td>
+            <td align="center" valign="middle">4</td>
+          </tr>
+          <tr>
+            <td align="center" valign="middle">余江县</td>
+            <td align="center" valign="middle">2000</td>
+            <td align="center" valign="middle">1</td>
+            <td align="center" valign="middle">6</td>
+            <td align="center" valign="middle">4</td>
+          </tr>
+        </table></td>
+      </tr>
+    </table></td>
+    <td width="34%" align="center" valign="middle"><table width="98%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td height="28" align="center" valign="middle"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="10" height="28" style="background: url(images/title-top.png) top left;"></td>
+              <td height="28" align="center" valign="middle" style="background: url(images/title-top.png) top center;" class="item-title"><img src="tool/icons/film.png" width="16" height="16" />&nbsp;机房实时监控</td>
+              <td width="10" height="28" style="background: url(images/title-top.png) top right;"></td>
+            </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td height="10" align="center" valign="middle" style="border:1px #0da0d3 solid; padding:5px;"><object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" width="100%" height="210" >
+          <param name="movie" value="chart/Column3D.swf" />
+          <param name="FlashVars" value="&dataXML=<chart caption='' xAxisName='' yAxisName='' numberPrefix='' showValues='0' bgColor='2fd6e0,c9fbfe' formatNumber='1' formatNumberScale='0' bgAlpha='0,0' borderAlpha='0'>
+   <set label='Jan' value='420000' />
+   <set label='Feb' value='910000' />
+   <set label='Mar' value='720000' />
+   <set label='Apr' value='550000' />
+   <set label='May' value='810000' />
+   <set label='Jun' value='510000' />
+   <set label='Jul' value='680000' />
+   <set label='Aug' value='620000' />
+   <set label='Sep' value='610000' />
+   <set label='Oct' value='490000' />
+   <set label='Nov' value='530000' />
+   <set label='Dec' value='330000' />
+
+   <trendLines>
+      <line startValue='700000' color='009933' displayvalue='Target' /> 
+   </trendLines>
+
+   <styles>
+
+      <definition>
+         <style name='CanvasAnim' type='animation' param='_xScale' start='0' duration='1' />
+      </definition>
+
+      <application>
+         <apply toObject='Canvas' styles='CanvasAnim' />
+      </application>   
+
+   </styles>
+
+</chart> " />
+          <param name="quality" value="high" />
+          <embed src="chart/Column3D.swf" flashVars="&dataXML=<chart caption='' xAxisName='' yAxisName='' numberPrefix='' showValues='0' bgColor='2fd6e0,c9fbfe' formatNumber='1' formatNumberScale='0' bgAlpha='0,0' borderAlpha='0'>
+   <set label='Jan' value='420000' />
+   <set label='Feb' value='910000' />
+   <set label='Mar' value='720000' />
+   <set label='Apr' value='550000' />
+   <set label='May' value='810000' />
+   <set label='Jun' value='510000' />
+   <set label='Jul' value='680000' />
+   <set label='Aug' value='620000' />
+   <set label='Sep' value='610000' />
+   <set label='Oct' value='490000' />
+   <set label='Nov' value='530000' />
+   <set label='Dec' value='330000' />
+
+   <trendLines>
+      <line startValue='700000' color='009933' displayvalue='Target' /> 
+   </trendLines>
+
+   <styles>
+
+      <definition>
+         <style name='CanvasAnim' type='animation' param='_xScale' start='0' duration='1' />
+      </definition>
+
+      <application>
+         <apply toObject='Canvas' styles='CanvasAnim' />
+      </application>   
+
+   </styles>
+
+</chart>" quality="high" width="100%" height="210" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /></embed>
+          </embed>
+          </embed>
+          </embed>
+        </object></td>
+      </tr>
+    </table></td>
+    <td width="33%" height="260" align="right" valign="middle"><table width="98%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td height="28" align="center" valign="middle"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="10" height="28" style="background: url(images/title-top.png) top left;"></td>
+              <td height="28" align="center" valign="middle" style="background: url(images/title-top.png) top center;" class="item-title"><img src="tool/icons/flag_yellow.png" width="16" height="16" />&nbsp;机房关注指标</td>
+              <td width="10" height="28" style="background: url(images/title-top.png) top right;"></td>
+            </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td height="10" align="center" valign="middle" style="border:1px #0da0d3 solid; padding:5px;"><table width="100%" border="0" cellspacing="0" cellpadding="0" class="datalist">
+          <tr>
+            <th align="left" valign="middle">地区：</th>
+            <th align="left" valign="middle">金额(万元)：</th>
+            <th align="left" valign="middle">大项：</th>
+            <th align="left" valign="middle">单项：</th>
+            <th align="left" valign="middle">小项：</th>
+          </tr>
+          <tr>
+            <td align="center" valign="middle">鹰潭</td>
+            <td align="center" valign="middle">5000</td>
+            <td align="center" valign="middle">4</td>
+            <td align="center" valign="middle">66</td>
+            <td align="center" valign="middle">45</td>
+          </tr>
+          <tr>
+            <td align="center" valign="middle">鹰潭</td>
+            <td align="center" valign="middle">5000</td>
+            <td align="center" valign="middle">4</td>
+            <td align="center" valign="middle">66</td>
+            <td align="center" valign="middle">45</td>
+          </tr>
+          <tr>
+            <td align="center" valign="middle">鹰潭</td>
+            <td align="center" valign="middle">5000</td>
+            <td align="center" valign="middle">4</td>
+            <td align="center" valign="middle">66</td>
+            <td align="center" valign="middle">45</td>
+          </tr>
+          <tr>
+            <td align="center" valign="middle">鹰潭</td>
+            <td align="center" valign="middle">5000</td>
+            <td align="center" valign="middle">4</td>
+            <td align="center" valign="middle">66</td>
+            <td align="center" valign="middle">45</td>
+          </tr>
+          <tr>
+            <td align="center" valign="middle">鹰潭</td>
+            <td align="center" valign="middle">5000</td>
+            <td align="center" valign="middle">4</td>
+            <td align="center" valign="middle">66</td>
+            <td align="center" valign="middle">45</td>
+          </tr>
+          <tr>
+            <td align="center" valign="middle">月湖区</td>
+            <td align="center" valign="middle">1000</td>
+            <td align="center" valign="middle">1</td>
+            <td align="center" valign="middle">66</td>
+            <td align="center" valign="middle">4</td>
+          </tr>
+          <tr>
+            <td align="center" valign="middle">余江县</td>
+            <td align="center" valign="middle">2000</td>
+            <td align="center" valign="middle">1</td>
+            <td align="center" valign="middle">6</td>
+            <td align="center" valign="middle">4</td>
+          </tr>
+        </table></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td height="4" align="center" valign="middle"></td>
+    <td height="4" align="center" valign="middle"></td>
+    <td height="4" align="center" valign="middle"></td>
+  </tr>  
+</table>
+
+	</td>
+  </tr>
+</table>
+
+</body>
+</html>
