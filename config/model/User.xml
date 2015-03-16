@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- 名称空间有特殊的用途 -->
+<!-- 名称空间有特殊的用途 --> 
 <mapper namespace="user">
 <resultMap id="BaseResultMap" type="com.bank.beans.User" >
   <id column="user_id" property="userId" jdbcType="VARCHAR" />

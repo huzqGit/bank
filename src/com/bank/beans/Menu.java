@@ -11,27 +11,18 @@ import com.common.bean.BaseEntity;
  * 
  */
 public class Menu extends BaseEntity<Long> {
-	long menuId;
 	private String menuName;
 	private String menuDescr;// 菜单姓名
 	private String menuUrl;// 菜单地址
 	private String menuPid;// 菜单父ID
 	private String isLeaf;
 	private String isSystem;
-	private String seq;
+	private String seq; 
 	private Timestamp createTime;
 	private User createUser;
 	private Timestamp updateTime;
 	private User updateUser;
 	
-	public long getMenuId() {
-		return menuId;
-	}
-
-	public void setMenuId(long menuId) {
-		this.menuId = menuId;
-	}
-
 	public String getMenuName() {
 		return menuName;
 	}

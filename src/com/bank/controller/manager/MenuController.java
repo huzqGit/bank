@@ -25,7 +25,6 @@ import com.bank.Constants;
 import com.bank.beans.Menu;
 import com.bank.beans.User;
 import com.bank.common.util.JsonUtil;
-import com.bank.controller.base.BaseController;
 import com.bank.service.IMenuService;
 import com.common.exception.CreateException;
 import com.common.exception.DAOException;
@@ -40,7 +39,7 @@ import com.common.exception.UpdateException;
  */
 @Controller
 @RequestMapping(value = "/menu")
-public class MenuController extends BaseController{
+public class MenuController {
 	private static Logger log = LoggerFactory.getLogger(MenuController.class);
 	private static String ADD = "add";
 	
@@ -73,9 +72,7 @@ public class MenuController extends BaseController{
 		User user = (User) request.getSession().getAttribute(Constants.SESSION_AUTH_USER);
 		String formData = request.getParameter("formData");
 		String actionType = request.getParameter("actionType");
-		String parMenuId = request.getParameter("parMenuId");
-		
-		//时间处理.
+		//這裡做了時間格式的處理
 		Object decodeJsonData = JsonUtil.Decode(formData);
 		String formatdata = JSON.toJSONStringWithDateFormat(decodeJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
 		JSONObject jsb = JSONObject.parseObject(formatdata);

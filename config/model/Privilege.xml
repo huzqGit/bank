@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 名称空间有特殊的用途 -->
+<mapper namespace="privilege">
+<resultMap id="BaseResultMap" type="com.bank.beans.Privilege" >
+  <id column="privilege_id" property="privilegeId" jdbcType="VARCHAR" />
+  <result column="privilege_type" property="privilegeType" jdbcType="VARCHAR" />
+</resultMap>
+<sql id="Base_Column_List" >
+  privilege_id, privilege_type
+</sql>
+
+<select id="findByPK" parameterType="string"
+resultMap="BaseResultMap">
+   SELECT 
+   <include refid="Base_Column_List"/>
+   FROM T_PRIVILEGE WHERE privilege_id = #{privilegeId}
+</select>
+
+<insert id="save" parameterType="com.bank.beans.Privilege">
+  insert into T_PRIVILEGE(privilege_id, privilege_type) 
+  values(#{privilegeId}, #{privilegeType})
+</insert>
+
+<insert id="privilege.insertSelective" parameterType="com.bank.beans.Privilege">
+  insert into T_PRIVILEGE
+  <trim prefix="(" suffix=")" suffixOverrides=",">
+  	<if test="privilegeId != null">
+  		privilege_id,
+  	</if>
+  	<if test="privilegeType != null">
+  		privilege_type,
+  	</if>
+  </trim>	
+  <trim prefix="values (" suffix=")" suffixOverrides=",">
+  	<if test="privilegeId != null">
+  		#{privilegeId,jdbcType=VARCHAR},
+  	</if>
+  	<if test="privilegeType != null">
+  		#{privilegeType,jdbcType=VARCHAR},
+  	</if>
+  </trim>
+</insert>
+
+<update id="update" parameterType="com.bank.beans.Privilege">
+	update T_PRIVILEGE set privilege_type = #{privilegeType}  where privilege_id = #{privilegeId}
+</update>
+
+<insert id="delete" parameterType="string">
+  delete T_PRIVILEGE where privilege_id = #{privilegeId}
+</insert>
+
+<select id="all" resultMap="BaseResultMap">
+   SELECT privilege_id, privilege_type FROM T_PRIVILEGE 
+</select>
+</mapper>

@@ -12,7 +12,7 @@ import com.bank.service.IRoleService;
 import com.common.dao.GenericDAO;
 import com.common.service.impl.GenericServiceImpl;
 
-@Service("roleService")
+@Service("roleSerivce")
 public class RoleServiceImpl extends GenericServiceImpl<Role, String> implements
 		IRoleService {
 	private static Logger log = LoggerFactory.getLogger(RoleServiceImpl.class);

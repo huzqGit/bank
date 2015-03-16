@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 名称空间有特殊的用途 -->
+<mapper namespace="company">
+	<insert id="company.insert" useGeneratedKeys="true" keyProperty="companyId" parameterType="com.bank.beans.Company">
+	  
+	 INSERT INTO T_COMPANY
+	 <trim prefix="(" suffix=")" suffixOverrides=",">
+	 	<if test="companyName != null">
+	 		companyname,
+	 	</if>
+	 	<if test="companyCategory != null">
+	 		companycategory,
+	 	</if>
+	 	<if test="companyFeature != null">
+	 	  companyfeature,
+	 	</if>
+	 	<if test="companyNature != null">
+	 	  companynature,	
+	 	</if>
+	 	<if test="mailingAddress != null">
+	 	  mailingaddress,
+	 	</if>
+	 	<if test="registerType != null">
+	 	  registertype,
+	 	</if>
+	 	<if test="registerDate != null">
+	 	  registerdate,
+	 	</if>
+	 	<if test="postCode != null">
+	 	  postcode,	
+	 	</if>
+	 	<if test="telephone != null">
+	 	  telephone,	
+	 	</if>
+	 	<if test="fax != null">
+	 	  fax,
+	 	</if>
+	 	<if test="email != null">
+	 	  email,
+	 	</if>
+	 	<if test="employees != null">
+	 	  employees,
+	 	</if>
+	 	<if test="products != null">
+	 	  products,
+	 	</if>
+	 	<if test="businessScope != null">
+	 	  businessscope,
+	 	</if>
+	 	<if test="locationArea != null">
+	 	  locationarea,
+	 	</if>
+	 	<if test="depositBank != null">
+	 		depositbank,
+	 	</if>
+	 	<if test="organCode != null">
+	 	   organcode,
+	 	</if>
+	 	<if test="creditCode != null">
+	 	   creditcode,
+	 	</if>
+	 	<if test="loancardCode != null">
+	 	   loancardcode,
+	 	</if>
+	 	<if test="regionalism != null">
+	 	   regionalism,
+	 	</if>
+	 	<if test="taxIdentifer != null">
+	 	  taxidentifer,
+	 	</if>
+	 	<if test="localIdentifer != null">
+	 	  localidentifer,
+	 	</if>
+	 	<if test="businessCode != null">
+	 	  businesscode,
+	 	</if>
+	 	<if test="businessIssuer != null">
+	 	  businessissuer,
+	 	</if>
+	 	<if test="businesschkDate != null">
+	 	   businesschkdate,
+	 	</if>
+	 	<if test="businesslicenceEnd != null">
+	  	   businesslicenceend,
+	 	</if>
+	 	<if test="localtaxCode != null">
+	 	  localtaxcode,
+	 	</if>
+	 	<if test="localtaxIssuer != null">
+	 	  localtaxissuer,
+	 	</if>
+	 	<if test="localtaxEnd != null">
+	 	  localtaxend,
+	 	</if>
+	 	<if test=" chinataxCode != null">
+	 	   chinataxcode,
+	 	</if>
+	 	<if test="chinataxIssuer != null"> 
+	 	  chinataxissuer,
+	 	</if>
+	 	<if test="chinataxEnd != null">
+	 	 chinataxend
+	 	</if>
+	 </trim>
+	 <trim prefix="values (" suffix=")" suffixOverrides=",">
+	    <if test="companyName != null">
+	 		#{companyName,jdbcType=VARCHAR},
+	 	</if>
+	 	<if test="companyCategory != null">
+	 		#{companyCategory,jdbcType=NUMERIC},
+	 	</if>
+	 	<if test="companyFeature != null">
+	 	    #{companyFeature,jdbcType=NUMERIC},
+	 	</if>
+	 	<if test="companyNature != null">
+	 	    #{companyNature,jdbcType=NUMERIC},	
+	 	</if>
+	 	<if test="mailingAddress != null">
+	 	    #{mailingAddress,jdbcType=VARCHAR},
+	 	</if>
+	 	<if test="registerType != null">
+	 	    #{registerType,jdbcType=NUMERIC},
+	 	</if>
+	 	<if test="registerDate != null">
+	 	   #{registerDate,jdbcType=DATE},
+	 	</if>
+	 	<if test="postCode != null">
+	 	   #{postCode,jdbcType=NUMERIC},
+	 	</if>
+	 	<if test="telephone != null">
+	 	   #{telephone,jdbcType=VARCHAR},	
+	 	</if>
+	 	<if test="fax != null">
+	 	   #{fax,jdbcType=VARCHAR},
+	 	</if>
+	 	<if test="email != null">
+	 	  #{email,jdbcType=VARCHAR},
+	 	</if>
+	 	<if test="employees != null">
+	 	  #{employees,jdbcType=NUMERIC},
+	 	</if>
+	 	<if test="products != null">
+	 	  #{products,jdbcType=VARCHAR},
+	 	</if>
+	 	<if test="businessScope != null">
+	 	  #{businessScope,jdbcType=VARCHAR},
+	 	</if>
+	 	<if test="locationArea != null">
+	 	  #{locationArea,jdbcType=VARCHAR},
+	 	</if>
+	 	<if test="depositBank != null">
+	 	  #{depositBank,jdbcType=VARCHAR},
+	 	</if>
+	 	<if test="organCode != null">
+	 	  #{organCode,jdbcType=VARCHAR},
+	 	</if>
+	 	<if test="creditCode != null">
+	 	  #{creditCode,jdbcType=VARCHAR},
+	 	</if>
+	 	<if test="loancardCode != null">
+	 	  #{loancardCode,jdbcType=VARCHAR},
+	 	</if>
+	 	<if test="regionalism != null">
+	 	  #{regionalism,jdbcType=VARCHAR},
+	 	</if>
+	 	<if test="taxIdentifer != null">
+	 	  #{taxIdentifer,jdbcType=VARCHAR},
+	 	</if>
+	 	<if test="localIdentifer != null">
+	 	  #{localIdentifer,jdbcType=VARCHAR},
+	 	</if>
+	 	<if test="businessCode != null">
+	 	  #{businessCode,jdbcType=VARCHAR},
+	 	</if>
+	 	<if test="businessIssuer != null">
+	 	  #{businessIssuer,jdbcType=VARCHAR},
+	 	</if>
+	 	<if test="businesschkDate != null">
+	 	  #{businesschkDate,jdbcType=DATE},
+	 	</if>
+	 	<if test="businesslicenceEnd != null">
+	  	  #{businesslicenceEnd,jdbcType=DATE},
+	 	</if>
+	 	<if test="localtaxCode != null">
+	 	  #{localtaxCode,jdbcType=VARCHAR},
+	 	</if>
+	 	<if test="localtaxIssuer != null">
+	 	  #{localtaxIssuer,jdbcType=VARCHAR},
+	 	</if>
+	 	<if test="localtaxEnd != null">
+	 	  #{localtaxEnd,jdbcType=DATE},
+	 	</if>
+	 	<if test="chinataxCode != null">
+	 	   #{chinataxCode,jdbcType=VARCHAR},
+	 	</if>
+	 	<if test="chinataxIssuer != null"> 
+	 	  #{chinataxIssuer,jdbcType=VARCHAR},
+	 	</if>
+	 	<if test="chinataxEnd != null">
+	 	  #{chinataxEnd,jdbcType=DATE}
+	 	</if>
+	 </trim>
+	</insert>
+	<update id="company.update" parameterType="com.bank.beans.Company">
+	
+	
+	
+	</update>
+	<select id="company.selectByPrimaryKey" parameterType="String" 
+		resultType="com.bank.beans.Company">
+		
+	   SELECT * FROM T_COMPANY WHERE COMPANYID = #{companyId}
+	   
+	</select>
+	<select id="company.loadCompanys" parameterType="Map" 
+		resultType="com.bank.beans.Company">
+	    select * from 
+	   (select t.*,rownumber() over(order by recordtime desc) as rn from t_company t
+	   <where>
+		    <if test="companyName != null and companyName != '' ">
+		       t.companyname like CONCAT(CONCAT('%',#{companyName}),'%') 
+		   </if>
+		   <if test="organCode != null and organCode != ''">
+		   	  and t.organcode like CONCAT(CONCAT('%',#{organCode}),'%')  
+		   </if>
+		   <if test="creditCode != null and creditCode != ''">
+		   	  and t.creditcode like CONCAT(CONCAT('%',#{creditCode}),'%') 
+		   </if>
+		   <if test="recorder != null and recorder != '' ">
+		      and t.recoder like CONCAT(CONCAT('%',#{recoder}),'%')  
+		   </if>
+		   <if test="recordTimeBegin !=null and recordTimeBegin != ''">
+		   	  <![CDATA[and t.recordtime >=to_date('#{recordTimeBegin}','yyyy-mm-dd')]]>
+		   </if>
+		   <if test="recordTimeEnd !=null and recordTimeEnd != ''">
+		   	  <![CDATA[and t.recordtime <=to_date('#{recordTimeEnd}','yyyy-mm-dd')]]>
+		   </if>
+	   </where>
+	   )
+	   <where>
+		   <if test="start != null">
+	   		 rn between #{start} and #{end}
+	   		</if>
+	   </where>
+	</select>
+</mapper>

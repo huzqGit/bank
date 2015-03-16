@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- 名称空间有特殊的用途 -->
 <mapper namespace="menu">
 <resultMap id="BaseResultMap" type="com.bank.beans.Menu" >
-  <id column="menu_id" property="menuId" jdbcType="NUMERIC" />
+  <id column="menu_id" property="menuId" jdbcType="VARCHAR" />
   <result column="menu_descr" property="menuDescr" jdbcType="VARCHAR" />
   <result column="menu_url" property="menuUrl" jdbcType="VARCHAR" />
   <result column="menu_pid" property="menuPid" jdbcType="VARCHAR" />
@@ -68,27 +68,5 @@ resultMap="BaseResultMap">
 
 <select id="all" resultMap="BaseResultMap">
    SELECT menu_id, menu_descr, menu_url, menu_pid FROM T_SYS_MENU 
-</select>
-
-<select id="pageing" parameterType="map" resultMap="BaseResultMap">
-	 SELECT t.* FROM T_SYS_MENU t,
-	(select menu_id, ROW_NUMBER() OVER () as rownum from T_SYS_MENU) AS t1 where t1.menu_id= t.menu_id
-   <if test="key != null">
-   		and t.MENU_DESCR like '%${key}%'
-   </if>
-   <if test="start != null">
-  			and t1.rownum > ${start} 
-   </if>
-   <if test="end != null">
-  			and <![CDATA[t1.rownum < ${end}]]> 
-   </if>
-<!--    <choose> -->
-<!-- 	   <when test="sortField != null and sortField != null"> -->
-<!-- 	   		order by ${sortField} ${sortOrder} -->
-<!-- 	   </when> -->
-<!-- 	   <otherwise> -->
-<!-- 	   		order by t.MENU_ID desc -->
-<!-- 	   </otherwise> -->
-<!--    </choose> -->
 </select>
 </mapper>
