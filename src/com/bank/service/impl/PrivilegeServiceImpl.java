@@ -13,7 +13,7 @@ import com.bank.service.IPrivilegeService;
 import com.common.dao.GenericDAO;
 import com.common.service.impl.GenericServiceImpl;
 
-@Service("privilege")
+@Service("privilegeService")
 public class PrivilegeServiceImpl extends GenericServiceImpl<Privilege, String> implements
 		IPrivilegeService {
 	private static Logger log = LoggerFactory.getLogger(PrivilegeServiceImpl.class);
