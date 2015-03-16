@@ -42,7 +42,7 @@ public class LoginController {
     	if (retrunUser != null) {
     		request.getSession().setAttribute(Constants.SESSION_AUTH_USER, retrunUser);
     		//指定要返回的页面为succ.jsp
-    		mav.setViewName("login/index");
+    		mav.setViewName("main/main");
     		//将参数返回给页面  
     		mav.addObject("user", retrunUser);
     	} else {

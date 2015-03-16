@@ -1,11 +1,10 @@
 package com.bank.dao.impl;
 
 import java.sql.Array;
+import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
+import java.util.Map;
 
-import org.apache.ibatis.session.SqlSession;
-import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
 
 import com.bank.beans.User;
@@ -78,12 +77,16 @@ public class UserDaoImpl extends BaseDaoImpl implements IUserDao {
 	}
 
 	@Override
-	public List<User> loadAllUsers(String key, int pageIndex, int pageSize,
-			String sortField, String sortOrder) {
+	public List<User> loadAllUsers(String key, int pageIndex, int pageSize, String sortField, String sortOrder) {
+		Map<String, Object> map = new HashMap();
 		int start = pageIndex * pageSize, end = start + pageSize;
 		if ("desc".equals(sortOrder) == false) sortOrder = "asc";
-		Array[] ids = new Array[]{};
-		List<User> users = getSqlSession().selectList("user.loadAllUsers", new Object[]{start, end, sortField, sortOrder});
+		map.put("start", start);
+		map.put("end", end);
+		map.put("sortOrder", sortOrder);
+		map.put("sortField", sortField);
+		map.put("key", key);
+		List<User> users = getSqlSession().selectList("user.loadAllUsers", map);
 		return users;
 	}
 

@@ -25,7 +25,7 @@ public class LoginFilter implements Filter {
 		String uri = request.getRequestURI();
 		String contextPath = request.getContextPath();
 		User user = (User) session.getAttribute(Constants.SESSION_AUTH_USER);
-		
+
 		if (user == null) {
 			if (uri.endsWith(".jsp") || uri.endsWith(".do")) {
 				if (!(uri.matches(".*login\\.jsp||.*login\\.do"))) {
@@ -34,14 +34,14 @@ public class LoginFilter implements Filter {
 				}
 			}
 		}
-		
+
 		filterChain.doFilter(sRequest, sResponse);
 	}
 
 	public void init(FilterConfig fc) throws ServletException {
 
 	}
-	
+
 	public void destroy() {
 	}
 }

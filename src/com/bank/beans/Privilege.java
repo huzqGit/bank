@@ -27,3 +27,4 @@ public class Privilege extends BaseEntity<String> {
 	}
 
 }
+

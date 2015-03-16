@@ -23,6 +23,5 @@ public class MenuServiceImpl extends GenericServiceImpl<Menu, Long> implements I
 		return menuDao;
 	}
 	
-	
 
 }
