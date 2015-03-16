@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 <configuration>
 
 	<!-- 别名 -->
-	<typeAliases>
+	<typeAliases> 
 		<typeAlias type="com.bank.beans.User" alias="User"/>
 		<typeAlias type="com.bank.beans.Organ" alias="Organ"/>
 		<typeAlias type="com.bank.beans.Menu" alias="Menu"/>
