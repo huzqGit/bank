@@ -14,7 +14,7 @@ public class Menu extends BaseEntity<Long> {
 	private String menuName;
 	private String menuDescr;// 菜单姓名
 	private String menuUrl;// 菜单地址
-	private String menuPid;// 菜单父ID
+	private long menuPid;// 菜单父ID
 	private String isLeaf;
 	private String isSystem;
 	private String seq;
@@ -47,11 +47,11 @@ public class Menu extends BaseEntity<Long> {
 		this.menuUrl = menuUrl;
 	}
 
-	public String getMenuPid() {
+	public long getMenuPid() {
 		return menuPid;
 	}
 
-	public void setMenuPid(String menuPid) {
+	public void setMenuPid(long menuPid) {
 		this.menuPid = menuPid;
 	}
 

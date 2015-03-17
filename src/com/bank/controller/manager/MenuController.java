@@ -83,7 +83,7 @@ public class MenuController {
 		User user = (User) request.getSession().getAttribute(Constants.SESSION_AUTH_USER);
 		String formData = request.getParameter("formData");
 		String actionType = request.getParameter("actionType");
-		String parMenuId = request.getParameter("parMenuId");
+		String parMenuIdString = request.getParameter("parMenuId");
 		
 		Object decodeJsonData = JsonUtil.Decode(formData);
 		String formatdata = JSON.toJSONStringWithDateFormat(decodeJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
@@ -92,6 +92,7 @@ public class MenuController {
 		long menuId = 0;
 		
 		if (ADD.equals(actionType)) {//user为空，做新增操作
+			long parMenuId = (StringUtils.isEmpty(parMenuIdString)) ? 0 : Long.valueOf(parMenuIdString);
 			menu.setMenuPid(parMenuId);
 //			menu.setCreateUser(user);
 //			menu.setCreateTime(new Timestamp(System.currentTimeMillis()));
