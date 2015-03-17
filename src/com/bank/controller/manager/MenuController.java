@@ -38,7 +38,7 @@ import com.common.exception.UpdateException;
  *
  */
 @Controller
-@RequestMapping(value = "/menu")
+@RequestMapping(value = "/manager")
 public class MenuController {
 	private static Logger log = LoggerFactory.getLogger(MenuController.class);
 	private static String ADD = "add";
@@ -66,22 +66,35 @@ public class MenuController {
 		return null;
 	}
 	
+	@RequestMapping(value = "/loadMenu", method = RequestMethod.POST)
+	public Menu loadMenu(@RequestParam(value="menuId",required=true) String menuId, HttpServletResponse response) throws Exception {
+		if (StringUtils.isEmpty(menuId)) return null;
+		
+		Menu menu = menuSerivce.findByPK(Long.valueOf(menuId));
+		String json = JsonUtil.Encode(menu);
+		response.setContentType("text/html;charset=UTF-8");
+	    response.getWriter().write(json);
+		return null;
+	}
+	
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
 	public Menu save(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		User user = (User) request.getSession().getAttribute(Constants.SESSION_AUTH_USER);
 		String formData = request.getParameter("formData");
 		String actionType = request.getParameter("actionType");
-		//這裡做了時間格式的處理
+		String parMenuId = request.getParameter("parMenuId");
+		
 		Object decodeJsonData = JsonUtil.Decode(formData);
 		String formatdata = JSON.toJSONStringWithDateFormat(decodeJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
 		JSONObject jsb = JSONObject.parseObject(formatdata);
 		Menu menu = (Menu) JSON.toJavaObject(jsb, Menu.class);
-		long menuId = menu.getId();
+		long menuId = 0;
 		
 		if (ADD.equals(actionType)) {//user为空，做新增操作
-			menu.setCreateUser(user);
-			menu.setCreateTime(new Timestamp(System.currentTimeMillis()));
+			menu.setMenuPid(parMenuId);
+//			menu.setCreateUser(user);
+//			menu.setCreateTime(new Timestamp(System.currentTimeMillis()));
 			try {
 				menuSerivce.save(menu);
 			} catch (DAOException e) {
@@ -94,8 +107,11 @@ public class MenuController {
 				throw new CreateException(msg, e);
 			}
 		} else {//userId不为空，做更新操作
-			menu.setUpdateUser(user);
-			menu.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+			if (menu != null) {
+				menuId = menu.getId();
+			}
+//			menu.setUpdateUser(user);
+//			menu.setUpdateTime(new Timestamp(System.currentTimeMillis()));
 			try {
 				menuSerivce.update(menu);
 			} catch (DAOException e) {
