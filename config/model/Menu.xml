@@ -21,7 +21,7 @@ resultMap="BaseResultMap">
    FROM T_SYS_MENU WHERE menu_id = #{menuId}
 </select>
 
-<insert id="menu.save" parameterType="com.bank.beans.Menu">
+<insert id="save" parameterType="com.bank.beans.Menu">
 	<selectKey resultType="long" order="BEFORE" keyProperty="id">
       SELECT T_SYS_MENU_SN.NEXTVAL FROM DUAL
     </selectKey>
