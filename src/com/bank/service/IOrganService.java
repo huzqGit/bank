@@ -12,7 +12,7 @@ public interface IOrganService {
 
 	void updateOrgan(Organ organ);
 
-	boolean deleteOrgan(String organId);
+	void deleteOrgan(String organId);
 
 	List<Organ> loadAllOrgans(String key, int pageIndex, int pageSize,
 			String sortField, String sortOrder);

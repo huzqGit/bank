@@ -15,8 +15,10 @@
 </head>
 <%
 String userId = request.getParameter("userId");
+String organId = request.getParameter("organId");
 String actionType = request.getParameter("actionType");
 request.setAttribute("userId", userId);
+request.setAttribute("organId", organId);
 request.setAttribute("actionType", actionType);
 %>
 <body>
@@ -39,6 +41,7 @@ request.setAttribute("actionType", actionType);
 </div>
  
 <div id="form1" style="width:90%;margin:0 auto">
+<input name="organId" class="mini-hidden" value="${organId}"/>
 <!-- 获取表单控件 -->
 <table cellspacing='0' cellpadding='0' border='0' class='mini-grid-table datagrid-searchform-table'  style="width:100%;table-layout:fixed;border-left: #e7e7e7 1px solid">
 	<tr>
@@ -53,7 +56,7 @@ request.setAttribute("actionType", actionType);
 		<label>*姓名：</label>
 		</td>
 		<td style='width:50%;padding:10px;'>
-			<input name="username" class='mini-textbox' vtype='maxLength:40' style='width:100%;color: red;' emptyText='' required='true' allowInput='true' />
+			<input name="userName" class='mini-textbox' vtype='maxLength:40' style='width:100%;color: red;' emptyText='' required='true' allowInput='true' />
 		</td>
 	</tr>
 	<tr>
@@ -133,7 +136,9 @@ function submitForm() {
         success: function (text) {
         	var userId = text;
         	window.location.href = "${pageContext.request.contextPath}/jsp/authorization/userForm.jsp?actionType=edit&userId=" + userId;
-            //alert("提交成功，返回结果:" + text);
+            mini.alert('提交成功!');
+            var parentTree = window.parent.getTree();
+            parentTree.load();
         },
         error: function (jqXHR, textStatus, errorThrown) {
             mini.alert('系统异常！');

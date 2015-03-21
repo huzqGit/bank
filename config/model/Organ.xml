@@ -88,9 +88,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <result column="PID" property="PID" jdbcType="VARCHAR" />
 </resultMap>
 <select id="organ.organUser" resultMap="organUserList">
-SELECT ID, TEXT, PID FROM
-   (SELECT organ_id, organ_name, organ_pid FROM T_ORGAN
+SELECT organ_id ID, organ_name TEXT, organ_pid PID, ICONCLS FROM
+   (SELECT organ_id, organ_name, organ_pid, 'icon-add' iconCls FROM T_ORGAN
    union 
-   SELECT user_id, user_name, organ_id FROM T_USER)
+   SELECT user_id, user_name, organ_id, 'icon-edit' iconCls FROM T_USER)
 </select>
 </mapper>

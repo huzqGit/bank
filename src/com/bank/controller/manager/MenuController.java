@@ -38,7 +38,7 @@ import com.common.exception.UpdateException;
  *
  */
 @Controller
-@RequestMapping(value = "/manager")
+@RequestMapping(value = "/menu")
 public class MenuController {
 	private static Logger log = LoggerFactory.getLogger(MenuController.class);
 	private static String ADD = "add";

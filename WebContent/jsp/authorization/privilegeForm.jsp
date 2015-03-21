@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>菜单信息</title>
+<title>机构</title>
 <script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
 
 <style type="text/css">
@@ -14,11 +14,9 @@
 </style> 
 </head>
 <%
-String parMenuId = request.getParameter("parMenuId");
-request.setAttribute("parMenuId", parMenuId);
-String menuId = request.getParameter("menuId");
+String privilegeId = request.getParameter("privilegeId");
 String actionType = request.getParameter("actionType");
-request.setAttribute("menuId", menuId);
+request.setAttribute("privilegeId", privilegeId);
 request.setAttribute("actionType", actionType);
 %>
 <body>
@@ -41,39 +39,15 @@ request.setAttribute("actionType", actionType);
 </div>
  
 <div id="form1" style="width:90%;margin:0 auto">
+<input name="privilegeId" class="mini-hidden"/>
 <!-- 获取表单控件 -->
-
-<table border="0" cellpadding="0" cellspacing="0"  class='mini-grid-table datagrid-searchform-table'  style="width:100%;table-layout:fixed;border-left: #e7e7e7 1px solid">
+<table cellspacing='0' cellpadding='0' border='0' class='mini-grid-table datagrid-searchform-table'  style="width:100%;table-layout:fixed;border-left: #e7e7e7 1px solid">
 	<tr>
 		<td style='width:120px;padding-left:10px;border-top: #ddd 1px solid;'>
-			<label>*菜单名称：</label>
+			<label>*资源名称：</label>
 		</td>
-		<td style='width:90%;padding:10px;border-top: #ddd 1px solid;'>
-			<input name="menuName" class='mini-textbox' vtype='maxLength:40' style='width:100%;color: red;' emptyText='' required='true' allowInput='true' />
-		</td>
-	</tr>
-	<tr>
-		<td style='width:120px;padding-left:10px;'>
-			<label>菜单描述：</label>
-		</td>
-		<td style='width:90%;padding:10px;'>
-			<input name="menuDescr" class='mini-textbox' vtype='maxLength:40' style='width:100%; emptyText='' allowInput='true' />
-		</td>
-	</tr>
-	<tr>
-		<td style='width:120px;padding-left:10px;'>
-			<label>URL地址：</label>
-		</td>
-		<td style='width:90%;padding:10px;'>
-			<input name="menuUrl" class='mini-textbox' vtype='maxLength:40' style='width:100%; emptyText='' allowInput='true' />
-		</td>
-	</tr>
-	<tr>
-		<td style='width:120px;padding-left:10px;'>
-			<label>叶节点：</label>
-		</td>
-		<td style='width:90%;padding:10px;'>
-			<input name="isLeaf" class='mini-checkbox' value="1" trueValue="1" falseValue="0" style='width:100%; emptyText='' allowInput='true' />
+		<td style='width:50%;padding:10px;border-top: #ddd 1px solid;'>
+			<input name="privilegeType" class='mini-textbox' vtype='maxLength:40' style='width:100%;color: red;' emptyText='' required='true' allowInput='true' />
 		</td>
 	</tr>
 </table>
@@ -88,7 +62,7 @@ $(document).ready(function(){
 	$("#form1").find("td").addClass("mini-grid-cell");
 	if ("${actionType}" != "add") {
 		$.ajax({
-		    url: "${pageContext.request.contextPath}/manager/loadMenu.do?menuId=${menuId}",
+		    url: "${pageContext.request.contextPath}/privilege/loadPrivilege.do?privilegeId=${privilegeId}",
 		    type: "post",
 		    success: function (text) {
 		        var data = mini.decode(text);   //反序列化成对象
@@ -96,7 +70,6 @@ $(document).ready(function(){
 		    }
 		});
 	}
-	
 });
 
 function submitForm() {
@@ -105,17 +78,18 @@ function submitForm() {
     //formData.dutyId = ${dutyId};
     var json = mini.encode(formData);   //序列化成JSON
     var actionType = "${actionType}";
-    var parMenuId = "${parMenuId}";
     
     $.ajax({
-        url: "${pageContext.request.contextPath}/manager/save.do",
+        url: "${pageContext.request.contextPath}/privilege/savePrivilege.do",
         type: "post",
-        data: { formData: json, actionType: actionType, parMenuId: parMenuId},
+        data: { formData: json, actionType: actionType},
         contentType: "application/x-www-form-urlencoded; charset=utf-8",
         success: function (text) {
-        	var userId = text;
-        	window.location.href = "${pageContext.request.contextPath}/jsp/authorization/menu.jsp?actionType=edit&menuId=" + menuId;
+        	var privilegeId = text;
+        	window.location.href = "${pageContext.request.contextPath}/jsp/authorization/privilegeForm.jsp?actionType=edit&privilegeId=" + privilegeId;
             //alert("提交成功，返回结果:" + text);
+            var parentTree = window.parent.getTree();
+            parentTree.load();
         },
         error: function (jqXHR, textStatus, errorThrown) {
             mini.alert('系统异常！');

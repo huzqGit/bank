@@ -1,8 +1,8 @@
 package com.bank.controller.manager;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -22,7 +22,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.bank.Constants;
-import com.bank.beans.Menu;
 import com.bank.beans.Role;
 import com.bank.beans.User;
 import com.bank.common.util.JsonUtil;
@@ -46,7 +45,7 @@ public class RoleController {
 	@Resource
 	private IRoleService roleSerivce;
 	
-	@RequestMapping(value = "/loadMenus", method = RequestMethod.POST)
+	@RequestMapping(value = "/loadRoles", method = RequestMethod.POST)
 	public Role loadRoles(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		List<Role> data = new ArrayList<Role>();
 		try {
@@ -79,9 +78,7 @@ public class RoleController {
 		Role role = (Role) JSON.toJavaObject(jsb, Role.class);
 		String roleId = role.getId();
 		
-		if (ADD.equals(actionType)) {//user为空，做新增操作
-//			menu.setCreateUser(user);
-//			menu.setCreateTime(new Timestamp(System.currentTimeMillis()));
+		if (ADD.equals(actionType)) {
 			try {
 				roleSerivce.save(role);
 			} catch (DAOException e) {
@@ -93,9 +90,7 @@ public class RoleController {
 				log.error(msg, e);
 				throw new CreateException(msg, e);
 			}
-		} else {//userId不为空，做更新操作
-//			menu.setUpdateUser(user);
-//			menu.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+		} else {
 			try {
 				roleSerivce.update(role);
 			} catch (DAOException e) {
@@ -143,6 +138,36 @@ public class RoleController {
 			throw new DataNotFoundException(msg, e);
 		}
 		return true;
+	}
+	
+	@RequestMapping(value = "/saveRoles", method = RequestMethod.POST)
+	@ResponseBody
+	public Role savePrivileges(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String json = request.getParameter("data");
+	    ArrayList rows = (ArrayList)JsonUtil.Decode(json);
+
+	    for(int i=0,l=rows.size(); i<l; i++){
+	    	HashMap row = (HashMap)rows.get(i);
+	    	Role role = (Role) rows.get(i);
+	    	
+			String id = row.get("roleId") != null ? row.get("roleId").toString() : "";
+	        String state = row.get("_state") != null ? row.get("_state").toString() : "";
+	        
+	        if(state.equals("added") || id.equals(""))	//新增：id为空，或_state为added
+	        {
+	            //row.put("createtime", new Date());
+	        	roleSerivce.save(role);
+	        }
+	        else if (state.equals("removed") || state.equals("deleted"))
+	        {
+	            roleSerivce.delete(id);
+	        }
+	        else if (state.equals("modified") || state.equals(""))	//更新：_state为空，或modified
+	        {
+	        	roleSerivce.update(role);
+	        }
+	    }
+		return null;
 	}
 	
 }

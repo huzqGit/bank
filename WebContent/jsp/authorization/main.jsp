@@ -52,17 +52,18 @@
     <script type="text/javascript">
         mini.parse();
 	    var iframe = document.getElementById("mainframe");
-	    iframe.src = "${pageContext.request.contextPath}/jsp/authorization/userView.jsp";
+	    iframe.src = "${pageContext.request.contextPath}/jsp/authorization/menu.jsp";
 
 		function onNodeClick(e){
 			var node = e.node;
 			var name = node.TEXT;
 			var logtype = node.LOGTYPE;
 		    var isLeaf = e.isLeaf;
+		    var menuId = node.ID;
 	        if (isLeaf) {
-		        iframe.src = "${pageContext.request.contextPath}/jsp/authorization/userView.jsp?actionType=edit&userId=1";
+		        iframe.src = "${pageContext.request.contextPath}/jsp/authorization/menu.jsp?actionType=edit&menuId="+menuId+"";
 	        } else {
-	        	 
+	        	iframe.src = "${pageContext.request.contextPath}/jsp/authorization/menu.jsp?actionType=edit&userId="+menuId+"";
 		    }
 		}
 		
@@ -119,27 +120,50 @@
 		}
 		//新增菜单
 		function onAddNode() {
-			iframe.src = "${pageContext.request.contextPath}/jsp/authorization/privilegeView.jsp";
+			var tree = mini.get("tree1");
+		    var node = tree.getSelectedNode();
+		    var menuId = node.ID;
+			iframe.src = "${pageContext.request.contextPath}/jsp/authorization/menu.jsp?actionType=add&menuId="+menuId+"";
 		}
 		//新增父菜单
 		function onAddPNode() {
-			iframe.src = "${pageContext.request.contextPath}/jsp/authorization/privilegeView.jsp";
+			var tree = mini.get("tree1");
+		    var node = tree.getSelectedNode();
+		    var menuId = node.ID;
+			iframe.src = "${pageContext.request.contextPath}/jsp/authorization/menu.jsp?actionType=add&menuId="+menuId+"";
 		}
 		//编辑菜单
 		function onEditNode() {
-			iframe.src = "${pageContext.request.contextPath}/jsp/authorization/privilegeView.jsp";
+			var tree = mini.get("tree1");
+		    var node = tree.getSelectedNode();
+		    var menuId = node.ID;
+			iframe.src = "${pageContext.request.contextPath}/jsp/authorization/menu.jsp?actionType=edit&&menuId="+menuId+"";
 		}
 		//编辑父菜单
 		function onEditPNode() {
-			iframe.src = "${pageContext.request.contextPath}/jsp/authorization/privilegeView.jsp";
+			var tree = mini.get("tree1");
+		    var node = tree.getSelectedNode();
+		    var menuId = node.ID;
+			iframe.src = "${pageContext.request.contextPath}/jsp/authorization/menu.jsp?actionType=edit&&menuId="+menuId+"";
 		}
 		//删除菜单
-		function onEditNode() {
-			iframe.src = "${pageContext.request.contextPath}/jsp/authorization/privilegeView.jsp";
+		function onRemoveNode() {
+			var tree = mini.get("tree1");
+		    var node = tree.getSelectedNode();
+		    var menuId = node.ID;
+			iframe.src = "${pageContext.request.contextPath}/jsp/menu/delete.do?menuId="+menuId+"";
 		}
 		//删除父菜单
-		function onEditPNode() {
-			iframe.src = "${pageContext.request.contextPath}/jsp/authorization/privilegeView.jsp";
+		function onRemovePNode() {
+			var tree = mini.get("tree1");
+		    var node = tree.getSelectedNode();
+		    var menuId = node.ID;
+			iframe.src = "${pageContext.request.contextPath}/jsp/menu/delete.do?menuId="+menuId+"";
+		}
+		
+		function getTree() {
+			var tree = mini.get("tree1");
+			return tree;
 		}
     </script>
     

@@ -6,7 +6,7 @@
 
 <html>
 <head>
-    <title>资源类型</title>
+    <title>用户组维护</title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 	<script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
 
@@ -37,21 +37,22 @@
     <div class="mini-fit" >
         
          <div id="datagrid1" class="mini-datagrid" style="width:100%;height:100%;" 
-		        url="${pageContext.request.contextPath}/privilege/loadPrivileges.do" idField="id"
-		        allowResize="true" pageSize="20" 
+		        url="${pageContext.request.contextPath}/role/loadRoles.do" idField="id"
+		        allowResize="true" pageSize="20" showPager="false"
 		        allowCellEdit="true" allowCellSelect="true" multiSelect="true" 
 		        editNextOnEnterKey="true" 
 		        
 		    >
             <div property="columns">
-                <div type="indexcolumn" ></div>
+                <div type="indexcolumn"></div>
                 <div type="checkcolumn"></div>
-                <div field="privilegeId" allowResize="false" width="120" headerAlign="center" allowSort="true">资源编号
+                <div field="roleId" allowResize="false" width="120" headerAlign="center" visible="false" allowSort="true">用户组ID
+	            </div>
+                <div field="roleDescr" allowResize="false" width="120" headerAlign="center" allowSort="true">用户组名称
 	                <input property="editor" class="mini-textbox" style="width:100%;" required="true" requiredErrorText="不能为空"/>
 	            </div>
-                <div field="privilegeType" allowResize="false" width="120" headerAlign="center" allowSort="true">资源类型
-	                <input property="editor" class="mini-textbox" style="width:100%;" required="true" requiredErrorText="不能为空"/>
-	            </div>
+                <div name="action" width="120" headerAlign="center" align="center" renderer="onActionRenderer" cellStyle="padding:0;">维护人员
+                </div>
             </div>
         </div> 
 
@@ -61,7 +62,18 @@
         mini.parse();
         var grid = mini.get("datagrid1");
         grid.load();
+		
+        function onActionRenderer(e) {
+            var grid = e.sender;
+            var record = e.record;
+            var uid = record._uid;
+            var rowIndex = e.rowIndex;
 
+            var s = '<a class="mini-button" href="javascript:editUsers(\'' + uid + '\')">维护用户</a> ';
+                       
+            return s;
+        }
+        
         function search() {       
             var key = mini.get("key").getValue();
             grid.load({ key: key });
@@ -89,7 +101,7 @@
             alert(json);
             grid.loading("保存中，请稍后......");
             $.ajax({
-                url: "${pageContext.request.contextPath}/privilege/savePrivileges.do",
+                url: "${pageContext.request.contextPath}/role/saveRoles.do",
                 data: { data: json },
                 type: "post",
                 success: function (text) {
@@ -99,6 +111,10 @@
                     alert(jqXHR.responseText);
                 }
             });
+        }
+        
+        function editUsers() {
+        	alert(123);
         }
     </script>
 

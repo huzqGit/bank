@@ -14,8 +14,8 @@ public class OrganDaoImpl extends BaseDaoImpl implements IOrganDao {
 
 	@Override
 	public Organ getOrganById(String organId) {
-		Organ Organ = getSqlSession().selectOne("organ.getOrganById", organId);
-		return Organ;
+		Organ organ = getSqlSession().selectOne("organ.selectByPrimaryKey", organId);
+		return organ;
 	}
 
 	public String insertOrgan(Organ organ) {
@@ -31,9 +31,8 @@ public class OrganDaoImpl extends BaseDaoImpl implements IOrganDao {
 		
 	}
 
-	public boolean deleteOrgan(String organId) {
-		int flag = getSqlSession().delete("organ.delete", organId);
-		return false;
+	public void deleteOrgan(String organId) {
+		getSqlSession().delete("organ.delete", organId);
 	}
 
 	@Override
@@ -46,8 +45,8 @@ public class OrganDaoImpl extends BaseDaoImpl implements IOrganDao {
 
 	@Override
 	public List<?> getOrganUserTree() {
-		
-		return null;
+		List<?> organUser = getSqlSession().selectList("organ.organUser");
+		return organUser;
 	}
 
 }

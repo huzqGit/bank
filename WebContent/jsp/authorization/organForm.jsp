@@ -16,7 +16,9 @@
 <%
 String organId = request.getParameter("organId");
 String actionType = request.getParameter("actionType");
+String organPid = request.getParameter("organPid");
 request.setAttribute("organId", organId);
+request.setAttribute("organPid", organPid);
 request.setAttribute("actionType", actionType);
 %>
 <body>
@@ -40,7 +42,7 @@ request.setAttribute("actionType", actionType);
  
 <div id="form1" style="width:90%;margin:0 auto">
 <input name="organId" class="mini-hidden"/>
-<input name="organPid" class="mini-hidden"/>
+<input name="organPid" class="mini-hidden" value="${organPid}"/>
 <!-- 获取表单控件 -->
 <table cellspacing='0' cellpadding='0' border='0' class='mini-grid-table datagrid-searchform-table'  style="width:100%;table-layout:fixed;border-left: #e7e7e7 1px solid">
 	<tr>
@@ -96,6 +98,8 @@ function submitForm() {
         	var organId = text;
         	window.location.href = "${pageContext.request.contextPath}/jsp/authorization/organForm.jsp?actionType=edit&organId=" + organId;
             //alert("提交成功，返回结果:" + text);
+            var parentTree = window.parent.getTree();
+            parentTree.load();
         },
         error: function (jqXHR, textStatus, errorThrown) {
             mini.alert('系统异常！');

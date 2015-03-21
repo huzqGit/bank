@@ -59,7 +59,7 @@ parameterType：指定输入参数类型，包括username,birthday,sex,address,d
   	<if test="address != null">
   		address,
   	</if>
-  	<if test="organ_id != null">
+  	<if test="organId != null">
   		organ_id,
   	</if>
   </trim>	

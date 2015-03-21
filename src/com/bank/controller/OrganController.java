@@ -31,8 +31,8 @@ public class OrganController {
 	
 	@RequestMapping(value = "/loadOrgan", method = RequestMethod.POST)
 	public Organ loadOrgan(@RequestParam(value="organId",required=true) String organId, HttpServletResponse response) throws Exception {
-		Organ Organ = organSerivce.loadOrgan(organId);
-		String json = JSON.toJSONString(Organ);
+		Organ organ = organSerivce.loadOrgan(organId);
+		String json = JSON.toJSONString(organ);
 		response.setContentType("text/html;charset=UTF-8");
 	    response.getWriter().write(json);
 		return null;
@@ -57,10 +57,10 @@ public class OrganController {
 		return null;
 	}
 	
-	@RequestMapping(value = "/deleteOrgan", method = RequestMethod.POST)
-	public boolean deleteOrgan(@RequestParam("organId") String organId){
-		boolean flag = organSerivce.deleteOrgan(organId);
-		return flag;
+	@RequestMapping(value = "/deleteOrgan")
+	public String deleteOrgan(@RequestParam("organId") String organId){
+		organSerivce.deleteOrgan(organId);
+		return null;
 	}
 	
 	@RequestMapping(value = "/loadAllOrgans", method = RequestMethod.POST)

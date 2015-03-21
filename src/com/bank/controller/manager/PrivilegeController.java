@@ -2,6 +2,7 @@ package com.bank.controller.manager;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -20,9 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.bank.Constants;
 import com.bank.beans.Privilege;
-import com.bank.beans.User;
 import com.bank.common.util.JsonUtil;
 import com.bank.controller.base.BaseController;
 import com.bank.service.IPrivilegeService;
@@ -45,8 +44,8 @@ public class PrivilegeController extends BaseController {
 	@Resource
 	private IPrivilegeService privilegeSerivce;
 	
-	@RequestMapping(value = "/loadMenus", method = RequestMethod.POST)
-	public Privilege loadMenus(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value = "/loadPrivileges", method = RequestMethod.POST)
+	public Privilege loadPrivileges(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		List<Privilege> data = new ArrayList<Privilege>();
 		try {
 			data = privilegeSerivce.getAllEntities();
@@ -139,4 +138,33 @@ public class PrivilegeController extends BaseController {
 		return true;
 	}
 	
+	@RequestMapping(value = "/savePrivileges", method = RequestMethod.POST)
+	@ResponseBody
+	public Privilege savePrivileges(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String json = request.getParameter("data");
+	    ArrayList rows = (ArrayList)JsonUtil.Decode(json);
+
+	    for(int i=0,l=rows.size(); i<l; i++){
+	    	HashMap row = (HashMap)rows.get(i);
+	    	Privilege privilege = (Privilege) rows.get(i);
+	    	
+			String id = row.get("privilegeId") != null ? row.get("privilegeId").toString() : "";
+	        String state = row.get("_state") != null ? row.get("_state").toString() : "";
+	        
+	        if(state.equals("added") || id.equals(""))	//新增：id为空，或_state为added
+	        {
+	            //row.put("createtime", new Date());
+	        	privilegeSerivce.save(privilege);
+	        }
+	        else if (state.equals("removed") || state.equals("deleted"))
+	        {
+	            privilegeSerivce.delete(id);
+	        }
+	        else if (state.equals("modified") || state.equals(""))	//更新：_state为空，或modified
+	        {
+	        	privilegeSerivce.update(privilege);
+	        }
+	    }
+		return null;
+	}
 }

@@ -30,9 +30,9 @@ public class OrganServiceImpl implements IOrganService {
 		
 	}
 	@Override
-	public boolean deleteOrgan(String organId) {
-		boolean flag = organDao.deleteOrgan(organId);
-		return flag;
+	public void deleteOrgan(String organId) {
+		organDao.deleteOrgan(organId);
+		
 	}
 	@Override
 	public List<Organ> loadAllOrgans(String key, int pageIndex, int pageSize,

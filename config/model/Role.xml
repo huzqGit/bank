@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 名称空间有特殊的用途 -->
+<mapper namespace="role">
+<resultMap id="BaseResultMap" type="com.bank.beans.Role" >
+  <id column="role_id" property="roleId" jdbcType="VARCHAR" />
+  <result column="role_descr" property="roleDescr" jdbcType="VARCHAR" />
+</resultMap>
+<sql id="Base_Column_List" >
+  role_id, role_descr
+</sql>
+
+<select id="findByPK" parameterType="string"
+resultMap="BaseResultMap">
+   SELECT 
+   <include refid="Base_Column_List"/>
+   FROM T_ROLE WHERE role_id = #{roleId}
+</select>
+
+<insert id="save" parameterType="com.bank.beans.Role">
+  insert into T_ROLE(role_id, role_descr) 
+  values(#{roleId}, #{roleDescr})
+</insert>
+
+<insert id="role.insertSelective" parameterType="com.bank.beans.Role">
+  insert into T_ROLE
+  <trim prefix="(" suffix=")" suffixOverrides=",">
+  	<if test="roleId != null">
+  		role_id,
+  	</if>
+  	<if test="roleDescr != null">
+  		role_descr,
+  	</if>
+  </trim>	
+  <trim prefix="values (" suffix=")" suffixOverrides=",">
+  	<if test="roleId != null">
+  		#{roleId,jdbcType=VARCHAR},
+  	</if>
+  	<if test="roleDescr != null">
+  		#{roleDescr,jdbcType=VARCHAR},
+  	</if>
+  </trim>
+</insert>
+
+<update id="update" parameterType="com.bank.beans.Role">
+	update T_ROLE set role_descr = #{roleDescr}  where role_id = #{roleId}
+</update>
+
+<insert id="delete" parameterType="string">
+  delete T_ROLE where role_id = #{roleId}
+</insert>
+
+<select id="all" resultMap="BaseResultMap">
+   SELECT role_id, role_descr FROM T_ROLE 
+</select>
+</mapper>
