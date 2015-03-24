@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 名称空间有特殊的用途 -->
+<mapper namespace="companyEmployee">
+<insert id="save" useGeneratedKeys="true" keyProperty="employeeId" 
+	parameterType="com.bank.beans.CompanyEmployee">
+	insert into t_company_employee
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="companyName !=null">
+			companyname,
+		</if>
+		<if test="organCode != null">
+			organcode,
+		</if>
+		<if test="creditCode != null">
+			creditcode,
+		</if>
+		<if test="name != null">
+			name,
+		</if>
+		<if test="sex != null">
+			sex,
+		</if>
+		<if test="birthday != null">
+			birthday,
+		</if>
+		<if test="category != null">
+			category,
+		</if>
+		<if test="idType != null">
+			idtype,
+		</if>
+		<if test="idNumber != null">
+			idnumber,
+		</if>
+		<if test="post != null">
+			post,
+		</if>
+		<if test="postTime != null">
+			postTime,
+		</if>
+		<if test="degree != null">
+			degree,
+		</if>
+		<if test="stockAmount != null">
+			stockamount,
+		</if>
+		<if test="skill != null">
+			skill,
+		</if>
+		<if test="skillwinTime != null">
+			skillwintime,
+		</if>
+		<if test="parttimeJob != null">
+			parttimejob,
+		</if>
+		<if test="workResume != null">
+			workresume,
+		</if>
+		<if test="award != null">
+			award,
+		</if>
+		<if test="othercompanyName != null">
+			othercompanyname,
+		</if>
+		<if test="otherregisterCode != null">
+			otherregistercode,
+		</if>
+		<if test="otherPost != null">
+			otherpost,
+		</if>
+		<if test="otherinvestAmount != null">
+			otherinvestamount,
+		</if>
+		<if test="recorder != null">
+			recorder,
+		</if>
+		<if test="recordTime != null">
+			recordtime
+		</if>
+	</trim>
+	 <trim prefix="values (" suffix=")" suffixOverrides=",">
+	 	<if test="companyName != null">
+			#{companyName,jdbcType=VARCHAR},
+		</if>
+		<if test="organCode != null">
+			#{organCode,jdbcType=VARCHAR},
+		</if>
+		<if test="creditCode != null">
+			#{creditCode,jdbcType=VARCHAR},
+		</if>
+		<if test="name != null">
+			#{name,jdbcType=VARCHAR},
+		</if>
+		<if test="sex != null">
+			#{sex,jdbcType=INTEGER},
+		</if>
+		<if test="birthday != null">
+			#{birthday,jdbcType=DATE},
+		</if>
+		<if test="category != null">
+			#{category,jdbcType=INTEGER},
+		</if>
+		<if test="idType != null">
+			#{idType,jdbcType=VARCHAR},
+		</if>
+		<if test="idNumber != null">
+			#{idNumber,jdbcType=VARCHAR},
+		</if>
+		<if test="post != null">
+			#{post,jdbcType=INTEGER},
+		</if>
+		<if test="postTime != null">
+			#{postTime,jdbcType=DATE},
+		</if>
+		<if test="degree != null">
+			#{degree,jdbcType=INTEGER},
+		</if>
+		<if test="stockAmount != null">
+			#{stockAmount,jdbcType=INTEGER},
+		</if>
+		<if test="skill !=null">
+			#{skill,jdbcType=VARCHAR},
+		</if>
+		<if test="skillwinTime != null">
+			#{skillwinTime,jdbcType=DATE},
+		</if>
+		<if test="parttimeJob != null">
+			#{parttimeJob,jdbcType=VARCHAR},
+		</if>
+		<if test="workResume != null">
+			#{workResume,jdbcType=VARCHAR},
+		</if>
+		<if test="award != null">
+			#{award,jdbcType=VARCHAR},
+		</if>
+		<if test="othercompanyName != null">
+			#{othercompanyName,jdbcType=VARCHAR},
+		</if>
+		<if test="otherregisterCode != null">
+			#{otherregisterCode,jdbcType=VARCHAR},
+		</if>
+		<if test="otherPost != null">
+			#{otherPost,jdbcType=VARCHAR},
+		</if>
+		<if test="otherinvestAmount != null">
+			#{otherinvestAmount,jdbcType=INTEGER},
+		</if>
+		<if test="recorder != null">
+			#{recorder,jdbcType=VARCHAR},
+		</if>
+		<if test="recordTime != null">
+			#{recordTime,jdbcType=TIMESTAMP}
+		</if>
+	 
+	 </trim>
+</insert>
+<select id="selectByPrimaryKey" parameterType="String" 
+		resultType="com.bank.beans.CompanyEmployee">
+		
+	   select * from t_company_employee where employeeid = #{employeeId}
+	   
+</select>
+<select id="loadEmployees" parameterType="Map" 
+		resultType="com.bank.beans.CompanyEmployee">
+			    select * from 
+	   (select t.*,rownumber() over(order by recordtime desc) as rn from t_company_employee t
+	   <where>
+		    <if test="companyName != null and companyName != '' ">
+		       t.companyname like CONCAT(CONCAT('%',#{companyName}),'%') 
+		   </if>
+		   <if test="organCode != null and organCode != ''">
+		   	  and t.name like CONCAT(CONCAT('%',#{name}),'%')  
+		   </if>
+		   <if test="creditCode != null and creditCode != ''">
+		   	  and t.category like CONCAT(CONCAT('%',#{category}),'%') 
+		   </if>
+		   <if test="recorder != null and recorder != '' ">
+		      and t.recoder like CONCAT(CONCAT('%',#{recoder}),'%')  
+		   </if>
+		   <if test="recordTimeBegin !=null and recordTimeBegin != ''">
+		   	  <![CDATA[and t.recordtime >=to_date('#{recordTimeBegin}','yyyy-mm-dd')]]>
+		   </if>
+		   <if test="recordTimeEnd !=null and recordTimeEnd != ''">
+		   	  <![CDATA[and t.recordtime <=to_date('#{recordTimeEnd}','yyyy-mm-dd')]]>
+		   </if>
+	   </where>
+	   )
+	   <where>
+		   <if test="start != null">
+	   		 rn between #{start} and #{end}
+	   		</if>
+	   </where>
+		
+</select>
+</mapper>
