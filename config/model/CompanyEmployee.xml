@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 名称空间有特殊的用途 -->
-<mapper namespace="companyEmployee">
+<mapper namespace="companyemployee">
 <insert id="save" useGeneratedKeys="true" keyProperty="employeeId" 
 	parameterType="com.bank.beans.CompanyEmployee">
 	insert into t_company_employee
@@ -157,7 +157,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 
 	 </trim>
 </insert>
-<select id="selectByPrimaryKey" parameterType="String" 
+<select id="findByPK" parameterType="String" 
 		resultType="com.bank.beans.CompanyEmployee">
 		
 	   select * from t_company_employee where employeeid = #{employeeId}
@@ -195,4 +195,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	   </where>
 		
 </select>
+<update id="update" parameterType="com.bank.beans.CompanyEmployee">
+
+	update t_company_employee 
+	set companyname=#{companyName},
+		organcode=#{organCode},
+		creditcode=#{creditCode},
+		name=#{name},
+		sex=#{sex},
+		birthday=#{birthday},
+		category=#{category},
+		idtype=#{idType},
+		idnumber=#{idNumber},
+		post=#{post},
+		postTime=#{postTime},
+		degree=#{degree},
+		stockamount=#{stockAmount},
+		skill=#{skill},
+		skillwintime=#{skillwinTime},
+		parttimejob=#{parttimeJob},
+		workresume=#{workResume},
+		award=#{award},
+		othercompanyname=#{othercompanyName},
+		otherregistercode=#{otherregisterCode},
+		otherpost=#{otherPost},
+		otherinvestamount=#{otherinvestAmount}
+	where employeeid=#{employeeId}
+	
+</update>
 </mapper>

@@ -59,4 +59,7 @@
     <bean class="com.bank.controller.manager.PrivilegeController"/>
     <bean class="com.bank.controller.manager.RoleController"/>
     <bean class="com.bank.controller.company.CompanyController"/>
+    <bean class="com.bank.controller.company.CompanyCapitalController"/>
+    <bean class="com.bank.controller.company.CompanyEmployeeController"/>
+    
 </beans>

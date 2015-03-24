@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="companycapital" >
+<insert id="save"  useGeneratedKeys="true" keyProperty="capitalId"  
+	parameterType="com.bank.beans.CompanyCapital">
+	 INSERT INTO BANK.T_COMPANY_CAPITAL
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="companyName != null">
+			companyname,
+		</if>
+		<if test="organCode != null">
+		   organcode,
+		</if>
+		<if test="creditCode != null">
+		   creditcode,
+		</if>
+		<if test="currency != null">
+			currency,
+		</if>
+		<if test="registerCapital != null">
+			registercapital,
+		</if>
+		<if test="realCapital != null">
+			realcapital,
+		</if>
+		<if test="capitalchkNum != null">
+			capitalchknum,
+		</if>
+		<if test="investor != null">
+			investor,
+		</if>
+		<if test="businessCode != null">
+			businesscode,
+		</if>
+		<if test="idType != null">
+			idtype,
+		</if>
+		<if test="idNumber != null">
+			idnumber,
+		</if>
+		<if test="investAmount != null">
+			investamount,
+		</if>
+		<if test="investStyle != null">
+			investstyle,
+		</if>
+		<if test="investDate != null">
+			investdate,
+		</if>
+		<if test="evaluateOrgan != null">
+			evaluateorgan,
+		</if>
+		<if test="recorder != null">
+			recorder,
+		</if>
+		<if test="recordTime != null">
+			recordTime
+		</if>
+	</trim>
+	<trim prefix="values (" suffix=")" suffixOverrides=",">
+		<if test="companyName != null">
+			#{companyName,jdbcType=VARCHAR},
+		</if>
+		<if test="organCode != null">
+		    #{organCode,jdbcType=VARCHAR},
+		</if>
+		<if test="creditCode != null">
+		    #{creditCode,jdbcType=VARCHAR},
+		</if>
+		<if test="currency != null">
+			#{currency,jdbcType=VARCHAR},
+		</if>
+		<if test="registerCapital != null">
+			#{registerCapital,jdbcType=INTEGER},
+		</if>
+		<if test="realCapital != null">
+			#{realCapital,jdbcType=INTEGER},
+		</if>
+		<if test="capitalchkNum != null">
+			#{capitalchkNum,jdbcType=VARCHAR},
+		</if>
+		<if test="investor != null">
+			#{investor,jdbcType=VARCHAR},
+		</if>
+		<if test="businessCode != null">
+			#{businessCode,jdbcType=VARCHAR},
+		</if>
+		<if test="idType != null">
+			#{idType,jdbcType=VARCHAR},
+		</if>
+		<if test="idNumber != null">
+			#{idNumber,jdbcType=VARCHAR},
+		</if>
+		<if test="investAmount != null">
+			#{investAmount,jdbcType=VARCHAR},
+		</if>
+		<if test="investStyle != null">
+			#{investStyle,jdbcType=VARCHAR},
+		</if>
+		<if test="investDate != null">
+			#{investDate,jdbcType=DATE},
+		</if>
+		<if test="evaluateOrgan != null">
+			#{evaluateOrgan,jdbcType=VARCHAR},
+		</if>
+		<if test="recorder != null">
+			#{recorder,jdbcType=VARCHAR},
+		</if>
+		<if test="recordTime != null">
+			#{recordTime,jdbcType=TIMESTAMP}
+		</if>
+	</trim>
+
+</insert>
+<update id="update" parameterType="com.bank.beans.CompanyCapital">
+	update t_company_capital
+	set companyname=#{companyName},
+		organcode=#{organCode},
+		creditcode=#{creditCode},
+		currency=#{currency},
+		registercapital=#{registerCapital},
+		realcapital=#{realCapital},
+		capitalchknum=#{capitalchkNum},
+		investor=#{investor},
+		businesscode=#{businessCode},
+		idtype=#{idType},
+		idnumber=#{idNumber},
+		investamount=#{investAmount},
+		investstyle=#{investStyle},
+		investdate=#{investDate},
+		evaluateorgan=#{evaluateOrgan}
+	where capitalid=#{capitalId}
+</update>
+<select id="findByPK" parameterType="String" 
+		resultType="com.bank.beans.CompanyCapital">
+	select * from t_company_capital where capitalid = #{capitalId}
+</select>
+<select id="pagingLoad" parameterType="Map" 
+		resultType="com.bank.beans.CompanyCapital">
+	    select * from 
+	   (select t.*,rownumber() over(order by recordtime desc) as rn from t_company_capital t
+	   <where>
+		    <if test="companyName != null and companyName != '' ">
+		       t.companyname like CONCAT(CONCAT('%',#{companyName}),'%') 
+		   </if>
+		   <if test="organCode != null and organCode != ''">
+		   	  and t.organcode like CONCAT(CONCAT('%',#{invester}),'%')  
+		   </if>
+		   <if test="recorder != null and recorder != '' ">
+		      and t.recoder like CONCAT(CONCAT('%',#{recoder}),'%')  
+		   </if>
+		   <if test="recordTimeBegin !=null and recordTimeBegin != ''">
+		   	  <![CDATA[and t.recordtime >=to_date('#{recordTimeBegin}','yyyy-mm-dd')]]>
+		   </if>
+		   <if test="recordTimeEnd !=null and recordTimeEnd != ''">
+		   	  <![CDATA[and t.recordtime <=to_date('#{recordTimeEnd}','yyyy-mm-dd')]]>
+		   </if>
+	   </where>
+	   )
+	   <where>
+		   <if test="start != null">
+	   		 rn between #{_ibatis_start} and #{_ibatis_start_end}
+	   		</if>
+	   </where>
+	</select>
+</mapper>

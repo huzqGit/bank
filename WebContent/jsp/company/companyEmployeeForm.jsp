@@ -23,7 +23,7 @@
   </div>
   <div id="form1" style="width:90%;margin:auto auto">
 	  <form action="/bank/company/savecompanyEmployee.do" method="POST">
-	  <input name="capitalId" class="mini-hidden" value="${companyEmployee.employeeId}"/>
+	  <input name="employeeId" class="mini-hidden" value="${companyEmployee.employeeId}"/>
 	  <input name="recorder" class="mini-hidden" value="管理员"/>
 	  <input name="recordTime" class="mini-hidden" value="${currentTime}"/>
 	  <table border="0" cellpadding="1" cellspacing="15" width="100%" >
@@ -224,6 +224,10 @@
 		        data: { formData: json},
 		        contentType: "application/x-www-form-urlencoded; charset=utf-8",
 		        success: function (text) {
+		        	var data = mini.decode(text);   //反序列化成对象
+			        if(data.employeeId!=null){
+			       	 	form.setData(data);  
+			        }
 		        	 mini.alert('保存成功！');
 		        },
 		        error: function (jqXHR, textStatus, errorThrown) {

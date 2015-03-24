@@ -38,7 +38,7 @@
         </table>
   </div>
      <div id="datagrid1" class="mini-datagrid" style="width:100%;height:420px" 
-            url="${pageContext.request.contextPath}/company/employee/loadAllEmployees.do" idField="id"
+            url="${pageContext.request.contextPath}/company/employee/loadEmployees.do" idField="id"
             sizeList="[5,10,20,50]" pageSize="10"
         >
 	        <div property="columns">

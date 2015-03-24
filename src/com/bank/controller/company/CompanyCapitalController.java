@@ -18,18 +18,18 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.bank.beans.CompanyEmployee;
+import com.bank.beans.CompanyCapital;
 import com.bank.common.util.JsonUtil;
-import com.bank.service.ICompanyEmployeeService;
+import com.bank.service.ICompanyCapitalService;
 
 @Controller
-@RequestMapping(value="/company/employee")
-public class CompanyEmployeeController {
+@RequestMapping(value = "/company/capital")
+public class CompanyCapitalController {
 	
 	@Resource
-	private ICompanyEmployeeService companyEmployeeService;
+	private ICompanyCapitalService companyCapitalService;
 	
-	@RequestMapping(value = "/saveEmployee",method = RequestMethod.POST)
+	@RequestMapping(value = "/saveCapital",method = RequestMethod.POST)
 	public ModelAndView save(HttpServletRequest request, 
 			HttpServletResponse response) throws Exception{
 
@@ -38,67 +38,67 @@ public class CompanyEmployeeController {
 		Object decodeJsonData = JsonUtil.Decode(formData);
 		String formatdata = JSON.toJSONStringWithDateFormat(decodeJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
 		JSONObject jsb = JSONObject.parseObject(formatdata);
-		CompanyEmployee companyEmployee = (CompanyEmployee) JSON.toJavaObject(jsb, CompanyEmployee.class);
-		if(companyEmployee.getEmployeeId()==null){
-			companyEmployeeService.save(companyEmployee);
+		CompanyCapital capital = (CompanyCapital) JSON.toJavaObject(jsb, CompanyCapital.class);
+		if(capital.getCapitalId()==null){
+			companyCapitalService.save(capital);
 		}else{
-			companyEmployeeService.update(companyEmployee);
+			companyCapitalService.update(capital);
 		}
-		String json = JSON.toJSONString(companyEmployee);
+		String json = JSON.toJSONString(capital);
 		response.setContentType("text/html;charset=UTF-8");
 	    response.getWriter().write(json);
 		return null;
 		
 	}
-	@RequestMapping(value = "/loadEmployee", method = RequestMethod.POST)
-	public ModelAndView loadEmployee(@RequestParam(value="employeeId",required=true) String employeeId, 
+	@RequestMapping(value = "/loadCapital", method = RequestMethod.POST)
+	public ModelAndView loadCompany(@RequestParam(value="capitalId",required=true) String capitalId, 
 			HttpServletResponse response) throws Exception {
 		
-		if(!StringUtils.isEmpty(employeeId)){
-			Long companyEmployeeId=Long.valueOf(employeeId);
-			CompanyEmployee companyEmployee = companyEmployeeService.findByPK(companyEmployeeId);
-			String json = JsonUtil.Encode(companyEmployee);
+		if(!StringUtils.isEmpty(capitalId)){
+			Long companyCapitalId=Long.valueOf(capitalId);
+			CompanyCapital companyCapital = companyCapitalService.findByPK(companyCapitalId);
+			String json = JsonUtil.Encode(companyCapital);
 			response.setContentType("text/html;charset=UTF-8");
-		    response.getWriter().write(json);
+		    response.getWriter().write(json);	
 		}
+		
 		return null;
 		
 	}
-	@RequestMapping(value="/loadEmployees",method=RequestMethod.POST)
-	public ModelAndView loadAllEmployee(HttpServletRequest request, 
+	@RequestMapping(value="/loadCapitals",method=RequestMethod.POST)
+	public ModelAndView loadAllCompany(HttpServletRequest request, 
 			HttpServletResponse response) throws Exception{
-		String companyName =request.getParameter("companyName");
-		String name=request.getParameter("name");
-		String category=request.getParameter("category");
-		String recorder =request.getParameter("recorder");
-		String recordTimeBegin=request.getParameter("recordTimeBegin");
-		String recordTimeEnd =request.getParameter("recordTimeEnd");
+		//查询条件
 		
-		Map<String,String> query = new HashMap<String,String>();
-		query.put("companyName", companyName);
-		query.put("name", name);
-		query.put("category", category);
-		query.put("recorder", recorder);
-		query.put("recordTimeBegin", recordTimeBegin);
-		query.put("recordTimeEnd", recordTimeEnd);
-		//分页
+	    String companyName = request.getParameter("companyName");
+	    String organCode=request.getParameter("organCode");
+	    String creditCode=request.getParameter("creditCode");
+	    String recorder=request.getParameter("recorder");
+	    String recordTimeBegin=request.getParameter("recordTimeBegin");
+	    String recordTimeEnd=request.getParameter("recordTimeEnd");
+	    
+	    Map<String,String> query = new HashMap<String,String>();
+	    query.put("companyName", companyName);
+	    query.put("organCode", organCode);
+	    query.put("creditCode", creditCode);
+	    query.put("recorder", recorder);
+	    query.put("recordTimeBegin", recordTimeBegin);
+	    query.put("recordTimeEnd", recordTimeEnd);
+	    //分页
 	    int pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
 	    int pageSize = Integer.parseInt(request.getParameter("pageSize"));        
 	    //字段排序
 	    String sortField = request.getParameter("sortField");
 	    String sortOrder = request.getParameter("sortOrder");
-	    
-	    List<CompanyEmployee> companyEmployee=companyEmployeeService.
-	    		loadAllCompanyEmployees(query, pageIndex, pageSize, sortField, sortOrder);
-	   
+	    List<CompanyCapital> companyCapitals=companyCapitalService
+	    		.loadAllCompanyCapital(query,pageIndex, pageSize, sortField, sortOrder);
 	    HashMap result = new HashMap();
-        result.put("data", companyEmployee);
-        result.put("total", companyEmployee.size());
+        result.put("data", companyCapitals);
+        result.put("total", companyCapitals.size());
         
 	    String json = JSON.toJSONStringWithDateFormat(result,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
 	    response.setContentType("text/html;charset=UTF-8");
 	    response.getWriter().write(json);
-	    
-	    return null;
+		return null;
 	}
 }

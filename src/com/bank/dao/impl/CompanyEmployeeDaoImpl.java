@@ -39,7 +39,7 @@ public class CompanyEmployeeDaoImpl extends
 		map.put("end",end);
 		map.put("sortOrder",sortOrder);
 		map.putAll(query);
-		List<CompanyEmployee> companys = getSqlSession().selectList("companyEmployee.loadEmployees",map);
+		List<CompanyEmployee> companys = getSqlSession().selectList("companyemployee.loadEmployees",map);
 		return companys;
 	}
 
