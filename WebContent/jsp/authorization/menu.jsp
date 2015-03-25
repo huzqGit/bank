@@ -8,7 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>菜单信息</title>
 <script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
-
+<script src="<c:url value="/framework/mask/loadmask.js"/>" type="text/javascript"></script>
 <style type="text/css">
                 
 </style> 
@@ -112,7 +112,16 @@ function submitForm() {
         type: "post",
         data: { formData: json, actionType: actionType, parMenuId: parMenuId},
         contentType: "application/x-www-form-urlencoded; charset=utf-8",
+        beforeSend : function() {
+        	form.mask("正在保存中...", null, true);
+        },
         success: function (text) {
+        	form.unmask();
+        	form.mask("保存成功...", null, false);
+        	window.setTimeout(function() {
+        	   form.unmask();
+        	   window.close();
+        	}, 500);
         	var userId = text;
         	window.location.href = "${pageContext.request.contextPath}/jsp/authorization/menu.jsp?actionType=edit&menuId=" + menuId;
             //alert("提交成功，返回结果:" + text);
