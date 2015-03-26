@@ -1,8 +1,13 @@
 package com.bank.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,14 +16,21 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.bank.Constants;
 import com.bank.beans.User;
+import com.bank.dao.IMenuDao;
 import com.bank.service.IUserService;
+import com.bank.vo.MenuPrivilegeVO;
+import com.common.exception.DAOException;
 
 @Controller
 @RequestMapping(value = "/user")
 
 public class LoginController {
+	private static Logger log = LoggerFactory.getLogger(LoginController.class);
+	
 	@Resource
 	private IUserService userService;
+	@Resource 
+	private IMenuDao menuDao;
 	
 	@RequestMapping(value = "/toLogin")
     public String toLogin() {
@@ -36,15 +48,29 @@ public class LoginController {
     }
     
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ModelAndView login(@ModelAttribute("user") User user, HttpServletRequest request) {
-    	User retrunUser = verifyUser(user);
+    public ModelAndView login(@ModelAttribute("user") User user, HttpServletRequest request) throws Exception{
+    	User returnUser = verifyUser(user);
     	ModelAndView mav = new ModelAndView();
-    	if (retrunUser != null) {
-    		request.getSession().setAttribute(Constants.SESSION_AUTH_USER, retrunUser);
+    	if (returnUser != null) {
+    		request.getSession().setAttribute(Constants.SESSION_AUTH_USER, returnUser);
+    		
+    		// topMenus
+    		List<MenuPrivilegeVO> topMenus = new ArrayList<MenuPrivilegeVO>();
+    		try {
+				topMenus = menuDao.getTopMenusByUserId(returnUser.getUserId());
+			} catch (DAOException e) {
+				String msg = "get MenuPrivilegeVO occurs DAO error";
+				log.error(msg, e);
+				throw new DAOException(msg, e);
+			}
+    		
+    		request.getSession().setAttribute("topMenus", topMenus);
+    		
+    		
     		//指定要返回的页面为succ.jsp
     		mav.setViewName("main/main");
     		//将参数返回给页面  
-    		mav.addObject("user", retrunUser);
+    		mav.addObject("user", returnUser);
     	} else {
     		mav.setViewName("login/login");
     	}
