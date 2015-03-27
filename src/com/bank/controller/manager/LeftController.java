@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.bank.Constants;
 import com.bank.beans.User;
+import com.bank.controller.base.BaseController;
 import com.bank.dao.IMenuDao;
 import com.bank.vo.MenuPrivilegeVO;
 import com.common.exception.DAOException;
@@ -24,7 +25,7 @@ import com.common.exception.DAOException;
 @Controller
 @RequestMapping(value = "/user")
 
-public class LeftController {
+public class LeftController extends BaseController {
 	private static Logger log = LoggerFactory.getLogger(LeftController.class);
 	private static final String ZERO = "0";
 	
@@ -32,8 +33,8 @@ public class LeftController {
 	private IMenuDao menuDao;
 	private List<MenuPrivilegeVO> subMenus = new ArrayList<MenuPrivilegeVO>();
 	
-	@RequestMapping(value = "/left", method = RequestMethod.POST)
-    public ModelAndView getSubMenus(@ModelAttribute("topMenuId") String topMenuId, HttpServletRequest request) throws Exception{
+	@RequestMapping(value = "/left")
+    public ModelAndView getSubMenus(@ModelAttribute("topMenuId") String topMenuId,HttpServletRequest request) throws Exception{
 		User user = (User) request.getSession().getAttribute(Constants.SESSION_AUTH_USER);
 		ModelAndView mav = new ModelAndView();
 		
@@ -44,7 +45,7 @@ public class LeftController {
 		
 		request.setAttribute("subMenus", subMenus);
 		
-		mav.setViewName("main/main");
+		mav.setViewName("main/left");
 		return mav;
 	}
 	

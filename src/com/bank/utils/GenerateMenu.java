@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GenerateMenuUtils {
+public class GenerateMenu {
 	private List<Map<Object, Object>> list;
 
-	public GenerateMenuUtils(List<Map<Object, Object>> list) {
+	public GenerateMenu(List<Map<Object, Object>> list) {
 		this.list = list;
 	}
 

@@ -1,5 +1,8 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.List"%>
+<%@ page import="java.util.Map"%>
+<%@page import="com.bank.utils.GenerateMenu"%>    
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">    
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -28,7 +31,15 @@ body {
     </tr>
     <tr>
 	  
-      <td align="left" valign="top"><iframe height="100%" width="100%" border="0" frameborder="0" src="leftmenu/index.html" name="leftFrame" id="leftFrame" title="leftFrame"></iframe></td>
+      <td align="left" valign="top">
+      
+      	<%
+				GenerateMenu gm=new GenerateMenu((List<Map<Object,Object>>)request.getAttribute("subMenus")); 
+      			out.println(gm.getMenu());
+			%>
+<!--       	<iframe height="100%" width="100%" border="0" frameborder="0" src="leftmenu/index.html" name="leftFrame" id="leftFrame" title="leftFrame"> -->
+<!--       	</iframe> -->
+      </td>
     </tr>
   </table>
 </body>

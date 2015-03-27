@@ -55,6 +55,7 @@
 	<bean class="com.bank.controller.HelloController"/>
     <bean class="com.bank.controller.UserController"/>
     <bean class="com.bank.controller.OrganController"/>
+    <bean class="com.bank.controller.manager.LeftController"/>
     <bean class="com.bank.controller.manager.MenuController"/>
     <bean class="com.bank.controller.manager.PrivilegeController"/>
     <bean class="com.bank.controller.manager.RoleController"/>

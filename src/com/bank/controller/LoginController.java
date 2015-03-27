@@ -71,6 +71,7 @@ public class LoginController {
     		mav.setViewName("main/main");
     		//将参数返回给页面  
     		mav.addObject("user", returnUser);
+//    		mav.addObject("topMenus", topMenus);
     	} else {
     		mav.setViewName("login/login");
     	}

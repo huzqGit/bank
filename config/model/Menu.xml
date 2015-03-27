@@ -11,10 +11,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <result column="menu_pid" property="menuPid" jdbcType="VARCHAR" />
 </resultMap>
 <resultMap id="MenuResultMap" type="com.bank.vo.MenuPrivilegeVO" >
-  <id column="menu_id" property="menuId" jdbcType="NUMBERIC" />
+  <id column="menu_id" property="menuId" jdbcType="VARCHAR" />
   <result column="menu_descr" property="menuDescr" jdbcType="VARCHAR" />
   <result column="menu_url" property="menuUrl" jdbcType="VARCHAR" />
-  <result column="menu_pid" property="menuPId" jdbcType="NUMBERIC" />
+  <result column="menu_pid" property="menuPId" jdbcType="VARCHAR" />
   <result column="is_leaf" property="isLeaf" jdbcType="VARCHAR" />
   <result column="privilege_id" property="privilegeId" jdbcType="VARCHAR" />
   <result column="privilege_type" property="privilegeType" jdbcType="VARCHAR" />
@@ -83,18 +83,19 @@ resultMap="BaseResultMap">
    SELECT menu_id, menu_descr, menu_url, menu_pid FROM T_SYS_MENU 
 </select>
 <select id="getTopMenusByUserId" resultMap="MenuResultMap">
-   select distinct m.menu_id,m.menu_descr,m.menu_url,m.is_leaf
+   SELECT distinct m.menu_id,m.menu_descr,m.menu_url,m.is_leaf,
    m.menu_pid,p.privilege_id,p.privilege_type 
-   from t_menu_privilege mp,t_sys_menu m,t_privilege p,t_user_role r
-   where
+   FROM t_menu_privilege mp,t_sys_menu m,t_privilege p,t_user_role r
+   WHERE
    mp.privilege_id=p.privilege_id
    and mp.role_id=r.role_id
    and mp.menu_id=m.menu_id
+   and m.menu_pid = 0
    and r.user_id=#{userId}
    order by m.menu_id 
 </select>
 <select id="getSubMenusByCondition" resultMap="MenuResultMap">
-   select distinct m.menu_id,m.menu_descr,m.menu_url,m.is_leaf
+   select distinct m.menu_id,m.menu_descr,m.menu_url,m.is_leaf,
    m.menu_pid,p.privilege_id,p.privilege_type 
    from t_menu_privilege mp,t_sys_menu m,t_privilege p,t_user_role r
    where

@@ -1,8 +1,9 @@
 package com.bank.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.bank.beans.Menu;
@@ -20,10 +21,13 @@ public class MenuDaoImpl extends GenericMyBatisDAOSupport<Menu, Long> implements
 		
 	}
 
-	public List<MenuPrivilegeVO> getSubMenusByCondition(@Param("userId") String userId,
-			@Param("parMenuId") long parMenuId) throws DAOException {
+	public List<MenuPrivilegeVO> getSubMenusByCondition( String userId, long parMenuId) throws DAOException {
 		
-		return super.getSqlSession().selectList("menu.getSubMenusByCondition", new Object[]{userId, parMenuId});
+		Map map = new HashMap();
+		map.put("userId", userId);
+		map.put("parMenuId", String.valueOf(parMenuId));
+		
+		return super.getSqlSession().selectList("menu.getSubMenusByCondition", map);
 		
 	}
 	
