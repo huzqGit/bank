@@ -72,7 +72,7 @@
             var uid = record._uid;
             var rowIndex = e.rowIndex;
 
-            var s = '<a class="mini-button" href="javascript:editUsers(\'' + uid + '\')">维护用户</a> <a class="mini-button" href="javascript:editMenus(\'' + uid + '\')">维护菜单</a> ';
+            var s = '<a class="mini-button" iconCls="icon-edit" href="javascript:editUsers(\'' + uid + '\')">维护用户</a> <a class="mini-button" iconCls="icon-edit" href="javascript:editMenus(\'' + uid + '\')">维护菜单</a> ';
                        
             return s;
         }
