@@ -8,6 +8,15 @@ public class MenuPrivilegeVO {
 	private String isLeaf;
 	private String privilegeId;
 	private String privilegeType;
+	
+	public MenuPrivilegeVO() {
+		
+	}
+	
+	public MenuPrivilegeVO(String isLeaf, long menuId) {
+		this.isLeaf = isLeaf;
+		this.menuId = menuId;
+	}
 
 	public long getMenuId() {
 		return menuId;

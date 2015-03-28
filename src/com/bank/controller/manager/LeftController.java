@@ -42,10 +42,11 @@ public class LeftController extends BaseController {
 		
 		// get all subMenus
 		getSubMenus(user.getUserId(), Long.valueOf(topMenuId));
+		subMenus.add(new MenuPrivilegeVO("0", Long.valueOf(topMenuId)));
 		
 		request.setAttribute("subMenus", subMenus);
 		
-		mav.setViewName("main/left");
+		mav.setViewName("main/leftmenu/left");
 		return mav;
 	}
 	
