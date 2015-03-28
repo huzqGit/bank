@@ -18,7 +18,7 @@
     <div size="200" showCollapseButton="true">
         <div class="mini-fit" style="padding:5px;" >
             <ul id="tree1" class="mini-tree" url="${pageContext.request.contextPath}/menu/loadMenus.do"
-		        showTreeIcon="true" textField="menuDescr" idField="menuId" parentField="menuPid" resultAsTree="false"
+		        showTreeIcon="true" textField="menuName" idField="menuId" parentField="menuPid" resultAsTree="false"
 		        expandOnLoad="true" onnodeclick="onNodeClick" style="width:100%;height:100%;" contextMenu="#treeMenu"
 		        >
 	   		 </ul>
@@ -32,8 +32,8 @@
 </div>
 
 <ul id="treeMenu" class="mini-contextmenu"  onbeforeopen="onBeforeOpen">        
-    <li name="addP" iconCls="icon-add" onclick="onAddPNode">新增父菜单</li>
-    <li class="separator"></li>
+    <li name="add" iconCls="icon-add" onclick="onAddNode">新增菜单</li>
+    <!-- <li class="separator"></li>
     <li>
 		<span name="add" iconCls="icon-add">新增菜单</span>
 		<ul>
@@ -41,10 +41,8 @@
             <li onclick="onAddAfter">插入节点后</li>	
 			<li onclick="onAddNode">插入子节点</li>             
 		</ul>
-	</li>
-	<li name="editP" iconCls="icon-edit" onclick="onEditPNode">编辑父节点</li>
+	</li> -->
 	<li name="edit" iconCls="icon-edit" onclick="onEditNode">编辑节点</li>
-	<li name="removeP" iconCls="icon-remove" onclick="onRemovePNode">删除父节点</li>   
 	<li name="remove" iconCls="icon-remove" onclick="onRemoveNode">删除节点</li>
 	<li class="separator"></li>
 	<li name="editR" iconCls="icon-edit" onclick="onEditRNode">维护资源类型</li>
@@ -59,11 +57,11 @@
 			var name = node.TEXT;
 			var logtype = node.LOGTYPE;
 		    var isLeaf = e.isLeaf;
-		    var menuId = node.ID;
+		    var menuId = node.menuId;
 	        if (isLeaf) {
 		        iframe.src = "${pageContext.request.contextPath}/jsp/authorization/menu.jsp?actionType=edit&menuId="+menuId+"";
 	        } else {
-	        	iframe.src = "${pageContext.request.contextPath}/jsp/authorization/menu.jsp?actionType=edit&userId="+menuId+"";
+	        	iframe.src = "${pageContext.request.contextPath}/jsp/authorization/menu.jsp?actionType=edit&menuId="+menuId+"";
 		    }
 		}
 		
@@ -87,29 +85,29 @@
 		    var addItem = mini.getbyName("add", menu);
 		    var editItem = mini.getbyName("edit", menu);
 		    var removeItem = mini.getbyName("remove", menu);
-		    var addPItem = mini.getbyName("addP", menu);
+		    /* var addPItem = mini.getbyName("addP", menu);
 		    var editPItem = mini.getbyName("editP", menu);
-		    var removePItem = mini.getbyName("removeP", menu);
+		    var removePItem = mini.getbyName("removeP", menu); */
 		    
 		    addItem.show();
 	        editItem.show();
 	    	removeItem.show();
-	    	addPItem.show();
+	    	/* addPItem.show();
 	        editPItem.show();
-	    	removePItem.show();
+	    	removePItem.show(); */
 	    	
 		    if (tree.isLeaf(node)) {
-		    	addItem.show();
+		    	addItem.hide();
 		        editItem.show();
 		    	removeItem.show();
-		    	addPItem.hide();
+		    	/* addPItem.hide();
 		        editPItem.hide();
-		    	removePItem.hide();
+		    	removePItem.hide(); */
 		    } else {
-		    	addPItem.show();
+		    	/* addPItem.show();
 		        editPItem.show();
-		    	removePItem.show();
-		    	addItem.hide();
+		    	removePItem.show(); */
+		    	addItem.show();
 		        editItem.hide();
 		    	removeItem.hide();
 		    }
@@ -122,44 +120,44 @@
 		function onAddNode() {
 			var tree = mini.get("tree1");
 		    var node = tree.getSelectedNode();
-		    var menuId = node.ID;
-			iframe.src = "${pageContext.request.contextPath}/jsp/authorization/menu.jsp?actionType=add&menuId="+menuId+"";
+		    var menuId = node.menuId;
+			iframe.src = "${pageContext.request.contextPath}/jsp/authorization/menu.jsp?actionType=add&menuPid="+menuId+"";
 		}
 		//新增父菜单
-		function onAddPNode() {
+		/* function onAddPNode() {
 			var tree = mini.get("tree1");
 		    var node = tree.getSelectedNode();
 		    var menuId = node.ID;
 			iframe.src = "${pageContext.request.contextPath}/jsp/authorization/menu.jsp?actionType=add&menuId="+menuId+"";
-		}
+		} */
 		//编辑菜单
 		function onEditNode() {
 			var tree = mini.get("tree1");
 		    var node = tree.getSelectedNode();
-		    var menuId = node.ID;
+		    var menuId = node.menuId;
 			iframe.src = "${pageContext.request.contextPath}/jsp/authorization/menu.jsp?actionType=edit&&menuId="+menuId+"";
 		}
 		//编辑父菜单
-		function onEditPNode() {
+		/* function onEditPNode() {
 			var tree = mini.get("tree1");
 		    var node = tree.getSelectedNode();
 		    var menuId = node.ID;
 			iframe.src = "${pageContext.request.contextPath}/jsp/authorization/menu.jsp?actionType=edit&&menuId="+menuId+"";
-		}
+		} */
 		//删除菜单
 		function onRemoveNode() {
 			var tree = mini.get("tree1");
 		    var node = tree.getSelectedNode();
-		    var menuId = node.ID;
-			iframe.src = "${pageContext.request.contextPath}/jsp/menu/delete.do?menuId="+menuId+"";
+		    var menuId = node.menuId;
+			iframe.src = "${pageContext.request.contextPath}/menu/delete.do?menuId="+menuId+"";
 		}
 		//删除父菜单
-		function onRemovePNode() {
+		/* function onRemovePNode() {
 			var tree = mini.get("tree1");
 		    var node = tree.getSelectedNode();
 		    var menuId = node.ID;
 			iframe.src = "${pageContext.request.contextPath}/jsp/menu/delete.do?menuId="+menuId+"";
-		}
+		} */
 		
 		function getTree() {
 			var tree = mini.get("tree1");

@@ -5,10 +5,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- 名称空间有特殊的用途 -->
 <mapper namespace="menu">
 <resultMap id="BaseResultMap" type="com.bank.beans.Menu" >
-  <id column="menu_id" property="menuId" jdbcType="VARCHAR" />
-  <result column="menu_descr" property="menuDescr" jdbcType="VARCHAR" />
-  <result column="menu_url" property="menuUrl" jdbcType="VARCHAR" />
-  <result column="menu_pid" property="menuPid" jdbcType="VARCHAR" />
+  <id column="MENU_ID" property="menuId" jdbcType="INTEGER" />
+  <result column="MENU_DESCR" property="menuDescr" jdbcType="VARCHAR" />
+  <result column="MENU_URL" property="menuUrl" jdbcType="VARCHAR" />
+  <result column="MENU_PID" property="menuPid" jdbcType="INTEGER" />
+  <result column="MENU_NAME" property="menuName" jdbcType="VARCHAR" />
+  <result column="ISLEAF" property="isLeaf" jdbcType="CHAR" />
 </resultMap>
 <resultMap id="MenuResultMap" type="com.bank.vo.MenuPrivilegeVO" >
   <id column="menu_id" property="menuId" jdbcType="VARCHAR" />
@@ -21,7 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   
 </resultMap>
 <sql id="Base_Column_List" >
-  menu_id, menu_descr, menu_url, menu_pid
+  menu_id, menu_name, menu_descr, menu_url, menu_pid, isleaf
 </sql>
 
 <select id="findByPK" parameterType="string"
@@ -31,12 +33,12 @@ resultMap="BaseResultMap">
    FROM T_SYS_MENU WHERE menu_id = #{menuId}
 </select>
 
-<insert id="save" parameterType="com.bank.beans.Menu">
-	<selectKey resultType="long" order="BEFORE" keyProperty="id">
+<insert id="save" useGeneratedKeys="true" parameterType="com.bank.beans.Menu">
+	<!-- <selectKey resultType="long" order="BEFORE" keyProperty="id">
       SELECT T_SYS_MENU_SN.NEXTVAL FROM DUAL
-    </selectKey>
-  insert into T_SYS_MENU(menu_id,menu_descr, menu_url, menu_pid) 
-  values(#{id}, #{menuDescr}, #{menuUrl}, #{menuPid})
+    </selectKey> -->
+  insert into T_SYS_MENU(menu_name, menu_descr, menu_url, menu_pid, isleaf) 
+  values(#{menuName}, #{menuDescr}, #{menuUrl}, #{menuPid}, #{isLeaf})
 </insert>
 
 <insert id="menu.insertSelective" parameterType="com.bank.beans.Menu">
@@ -44,6 +46,9 @@ resultMap="BaseResultMap">
   <trim prefix="(" suffix=")" suffixOverrides=",">
   	<if test="menuId != null">
   		menu_id,
+  	</if>
+  	<if test="menuName != null">
+  		menu_name,
   	</if>
   	<if test="menuDescr != null">
   		menu_descr,
@@ -54,10 +59,16 @@ resultMap="BaseResultMap">
   	<if test="menuPid != null">
   		menu_pid,
   	</if>
+  	<if test="isLeaf != null">
+  		isleaf,
+  	</if>
   </trim>	
   <trim prefix="values (" suffix=")" suffixOverrides=",">
   	<if test="menuId != null">
-  		#{menuId,jdbcType=VARCHAR},
+  		#{menuId,jdbcType=INTEGER},
+  	</if>
+  	<if test="menuName != null">
+  		#{menuName,jdbcType=VARCHAR},
   	</if>
   	<if test="menuDescr != null">
   		#{menuDescr,jdbcType=VARCHAR},
@@ -66,13 +77,15 @@ resultMap="BaseResultMap">
   		#{menuUrl,jdbcType=VARCHAR},
   	</if>
   	<if test="menuPid != null">
-  		#{menuPid,jdbcType=DATE},
+  		#{menuPid,jdbcType=INTEGER},
+  	</if><if test="isLeaf != null">
+  		#{isleaf,jdbcType=CHAR},
   	</if>
   </trim>
 </insert>
 
 <update id="update" parameterType="com.bank.beans.Menu">
-	update T_SYS_MENU set menu_descr = #{menuDescr}, menu_Url = #{menuUrl}, menu_Pid = #{menuPid}  where menu_id = #{menuId}
+	update T_SYS_MENU set menu_name = #{menuName}, menu_descr = #{menuDescr}, menu_Url = #{menuUrl}, menu_Pid = #{menuPid}, isleaf = #{isLeaf}  where menu_id = #{menuId}
 </update>
 
 <insert id="delete" parameterType="string">
@@ -80,7 +93,7 @@ resultMap="BaseResultMap">
 </insert>
 
 <select id="all" resultMap="BaseResultMap">
-   SELECT menu_id, menu_descr, menu_url, menu_pid FROM T_SYS_MENU 
+   SELECT menu_id, menu_name, menu_descr, menu_url, menu_pid, isleaf FROM T_SYS_MENU 
 </select>
 <select id="getTopMenusByUserId" resultMap="MenuResultMap">
    SELECT distinct m.menu_id,m.menu_descr,m.menu_url,m.is_leaf,

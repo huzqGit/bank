@@ -19,4 +19,6 @@ public interface IOrganDao {
 
 	List<?> getOrganUserTree();
 
+	List<?> getOrganCheckedUserTree(String roleId);
+
 }

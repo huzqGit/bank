@@ -49,4 +49,10 @@ public class OrganDaoImpl extends BaseDaoImpl implements IOrganDao {
 		return organUser;
 	}
 
+	@Override
+	public List<?> getOrganCheckedUserTree(String roleId) {
+		List<?> organCheckedUser = getSqlSession().selectList("organ.organCheckedUser", roleId);
+		return organCheckedUser;
+	}
+
 }

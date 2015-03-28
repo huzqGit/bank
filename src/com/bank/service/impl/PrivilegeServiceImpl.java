@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.bank.beans.Privilege;
-import com.bank.beans.Role;
+import com.bank.beans.UserRole;
 import com.bank.dao.IPrivilegeDao;
 import com.bank.service.IPrivilegeService;
 import com.common.dao.GenericDAO;

@@ -4,9 +4,17 @@ import com.common.bean.BaseEntity;
 
 public class Role extends BaseEntity<String> {
 	private String roleName;
-	private String roleDesc;
-	private String organId;
+	private String roleDescr;
+	private String roleId;
 	
+	public String getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(String roleId) {
+		this.roleId = roleId;
+	}
+
 	public String getRoleName() {
 		return roleName;
 	}
@@ -15,21 +23,14 @@ public class Role extends BaseEntity<String> {
 		this.roleName = roleName;
 	}
 
-	public String getRoleDesc() {
-		return roleDesc;
+	public String getRoleDescr() {
+		return roleDescr;
 	}
 
-	public void setRoleDesc(String roleDesc) {
-		this.roleDesc = roleDesc;
+	public void setRoleDescr(String roleDescr) {
+		this.roleDescr = roleDescr;
 	}
 
-	public String getOrganId() {
-		return organId;
-	}
-
-	public void setOrganId(String organId) {
-		this.organId = organId;
-	}
 
 	@Override
 	public boolean equalsIfIdNull(Object o) {

@@ -1,7 +1,6 @@
 package com.bank.controller.manager;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,9 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.bank.Constants;
 import com.bank.beans.Menu;
 import com.bank.beans.User;
@@ -55,10 +52,10 @@ public class MenuController {
 			log.error("get menus occurs error . ", e);
 		}
 	    
-	    String json = JSON.toJSONString(data);
+	    String arr = JsonUtil.Encode(data);
 	    response.setContentType("text/html;charset=UTF-8");
 	    try {
-			response.getWriter().write(json);
+			response.getWriter().write(arr);
 		} catch (IOException e) {
 			log.error("", e);
 			throw new IOException("", e);
@@ -83,16 +80,15 @@ public class MenuController {
 		User user = (User) request.getSession().getAttribute(Constants.SESSION_AUTH_USER);
 		String formData = request.getParameter("formData");
 		String actionType = request.getParameter("actionType");
-		String parMenuIdString = request.getParameter("parMenuId");
+		String menuPid = request.getParameter("menuPid");
 		
-		Object decodeJsonData = JsonUtil.Decode(formData);
-		String formatdata = JSON.toJSONStringWithDateFormat(decodeJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
-		JSONObject jsb = JSONObject.parseObject(formatdata);
-		Menu menu = (Menu) JSON.toJavaObject(jsb, Menu.class);
-		long menuId = 0;
+		JSONObject jsb = JSONObject.parseObject(formData);
+		Menu menu = (Menu) JSONObject.toJavaObject(jsb, Menu.class);
+		
+		int menuId = 0;
 		
 		if (ADD.equals(actionType)) {//user为空，做新增操作
-			long parMenuId = (StringUtils.isEmpty(parMenuIdString)) ? 0 : Long.valueOf(parMenuIdString);
+			int parMenuId = (StringUtils.isEmpty(menuPid)) ? 0 : Integer.valueOf(menuPid);
 			menu.setMenuPid(parMenuId);
 //			menu.setCreateUser(user);
 //			menu.setCreateTime(new Timestamp(System.currentTimeMillis()));
@@ -109,7 +105,7 @@ public class MenuController {
 			}
 		} else {//userId不为空，做更新操作
 			if (menu != null) {
-				menuId = menu.getId();
+				menuId = menu.getMenuId();
 			}
 //			menu.setUpdateUser(user);
 //			menu.setUpdateTime(new Timestamp(System.currentTimeMillis()));

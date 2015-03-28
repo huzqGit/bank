@@ -11,17 +11,26 @@ import com.common.bean.BaseEntity;
  * 
  */
 public class Menu extends BaseEntity<Long> {
+	private Integer menuId;
 	private String menuName;
 	private String menuDescr;// 菜单姓名
 	private String menuUrl;// 菜单地址
-	private long menuPid;// 菜单父ID
+	private Integer menuPid;// 菜单父ID
 	private String isLeaf;
-	private String isSystem;
+	/*private String isSystem;
 	private String seq;
 	private Timestamp createTime;
 	private User createUser;
 	private Timestamp updateTime;
-	private User updateUser;
+	private User updateUser;*/
+	
+	public Integer getMenuId() {
+		return menuId;
+	}
+
+	public void setMenuId(Integer menuId) {
+		this.menuId = menuId;
+	}
 	
 	public String getMenuName() {
 		return menuName;
@@ -47,11 +56,11 @@ public class Menu extends BaseEntity<Long> {
 		this.menuUrl = menuUrl;
 	}
 
-	public long getMenuPid() {
+	public Integer getMenuPid() {
 		return menuPid;
 	}
 
-	public void setMenuPid(long menuPid) {
+	public void setMenuPid(Integer menuPid) {
 		this.menuPid = menuPid;
 	}
 
@@ -63,7 +72,7 @@ public class Menu extends BaseEntity<Long> {
 		this.isLeaf = isLeaf;
 	}
 
-	public String getIsSystem() {
+	/*public String getIsSystem() {
 		return isSystem;
 	}
 
@@ -109,7 +118,7 @@ public class Menu extends BaseEntity<Long> {
 
 	public void setUpdateUser(User updateUser) {
 		this.updateUser = updateUser;
-	}
+	}*/
 
 	@Override
 	public boolean equalsIfIdNull(Object o) {

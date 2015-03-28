@@ -45,6 +45,11 @@ public class OrganServiceImpl implements IOrganService {
 		List<?> organUsers = organDao.getOrganUserTree();
 		return organUsers;
 	}
+	@Override
+	public List<?> getOrganCheckedUserTree(String roleId) {
+		List<?> organCheckedUsers = organDao.getOrganCheckedUserTree(roleId);
+		return organCheckedUsers;
+	}
 	
 
 }

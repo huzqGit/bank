@@ -14,11 +14,11 @@
 </style> 
 </head>
 <%
-String parMenuId = request.getParameter("parMenuId");
-request.setAttribute("parMenuId", parMenuId);
 String menuId = request.getParameter("menuId");
+String menuPid = request.getParameter("menuPid");
 String actionType = request.getParameter("actionType");
 request.setAttribute("menuId", menuId);
+request.setAttribute("menuPid", menuPid);
 request.setAttribute("actionType", actionType);
 %>
 <body>
@@ -41,8 +41,10 @@ request.setAttribute("actionType", actionType);
 </div>
  
 <div id="form1" style="width:90%;margin:0 auto">
+<input name="menuPid" class="mini-hidden" value="${menuPid}"/>
+<input name="menuId" class="mini-hidden" value="${menuId}"/>
+<%-- <input name="menuId" class="mini-hidden" value="${menuId}"/> --%>
 <!-- 获取表单控件 -->
-
 <table border="0" cellpadding="0" cellspacing="0"  class='mini-grid-table datagrid-searchform-table'  style="width:100%;table-layout:fixed;border-left: #e7e7e7 1px solid">
 	<tr>
 		<td style='width:120px;padding-left:10px;border-top: #ddd 1px solid;'>
@@ -88,7 +90,7 @@ $(document).ready(function(){
 	$("#form1").find("td").addClass("mini-grid-cell");
 	if ("${actionType}" != "add") {
 		$.ajax({
-		    url: "${pageContext.request.contextPath}/manager/loadMenu.do?menuId=${menuId}",
+		    url: "${pageContext.request.contextPath}/menu/loadMenu.do?menuId=${menuId}",
 		    type: "post",
 		    success: function (text) {
 		        var data = mini.decode(text);   //反序列化成对象
@@ -105,12 +107,12 @@ function submitForm() {
     //formData.dutyId = ${dutyId};
     var json = mini.encode(formData);   //序列化成JSON
     var actionType = "${actionType}";
-    var parMenuId = "${parMenuId}";
+    var menuPId = "${menuPId}";
     
     $.ajax({
-        url: "${pageContext.request.contextPath}/manager/save.do",
+        url: "${pageContext.request.contextPath}/menu/save.do",
         type: "post",
-        data: { formData: json, actionType: actionType, parMenuId: parMenuId},
+        data: { formData: json, actionType: actionType, menuPId: menuPId},
         contentType: "application/x-www-form-urlencoded; charset=utf-8",
         beforeSend : function() {
         	form.mask("正在保存中...", null, true);
@@ -122,9 +124,11 @@ function submitForm() {
         	   form.unmask();
         	   window.close();
         	}, 500);
-        	var userId = text;
+        	var menuId = text;
         	window.location.href = "${pageContext.request.contextPath}/jsp/authorization/menu.jsp?actionType=edit&menuId=" + menuId;
             //alert("提交成功，返回结果:" + text);
+        	var parentTree = window.parent.getTree();
+            parentTree.load();
         },
         error: function (jqXHR, textStatus, errorThrown) {
             mini.alert('系统异常！');
