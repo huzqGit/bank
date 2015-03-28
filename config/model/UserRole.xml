@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 名称空间有特殊的用途 -->
+<mapper namespace="userrole">
+<resultMap id="BaseResultMap" type="com.bank.beans.UserRole" >
+  <id column="role_id" property="roleId" jdbcType="VARCHAR" />
+  <result column="user_id" property="userId" jdbcType="VARCHAR" />
+</resultMap>
+<sql id="Base_Column_List" >
+  role_id, user_id
+</sql>
+
+<select id="findByPK" parameterType="string"
+resultMap="BaseResultMap">
+   SELECT 
+   <include refid="Base_Column_List"/>
+   FROM T_USER_ROLE WHERE role_id = #{roleId}
+</select>
+
+<insert id="save" parameterType="com.bank.beans.UserRole">
+  insert into T_USER_ROLE(role_id, user_id) 
+  values(#{roleId}, #{userId})
+</insert>
+
+<insert id="userrole.insertSelective" parameterType="com.bank.beans.UserRole">
+  insert into T_USER_ROLE
+  <trim prefix="(" suffix=")" suffixOverrides=",">
+  	<if test="roleId != null">
+  		role_id,
+  	</if>
+  	<if test="userId != null">
+  		user_id,
+  	</if>
+  </trim>	
+  <trim prefix="values (" suffix=")" suffixOverrides=",">
+  	<if test="roleId != null">
+  		#{roleId,jdbcType=VARCHAR},
+  	</if>
+  	<if test="userId != null">
+  		#{userId,jdbcType=VARCHAR},
+  	</if>
+  </trim>
+</insert>
+
+<update id="update" parameterType="com.bank.beans.UserRole">
+	update T_USER_ROLE set user_id = #{userId}  where role_id = #{roleId}
+</update>
+
+<insert id="delete" parameterType="string">
+  delete T_USER_ROLE where role_id = #{roleId} and user_id = #{userId}
+</insert>
+
+<select id="all" resultMap="BaseResultMap">
+   SELECT role_id, user_id FROM T_USER_ROLE 
+</select>
+
+<select id="userrole.allByRoleId" parameterType="string" resultMap="BaseResultMap">
+   SELECT role_id, user_id FROM T_USER_ROLE where role_id = #{roleId}
+</select>
+</mapper>
