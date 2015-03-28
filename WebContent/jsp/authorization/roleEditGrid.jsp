@@ -48,7 +48,10 @@
                 <div type="checkcolumn"></div>
                 <div field="roleId" allowResize="false" width="120" headerAlign="center" visible="false" allowSort="true">用户组ID
 	            </div>
-                <div field="roleDescr" allowResize="false" width="120" headerAlign="center" allowSort="true">用户组名称
+	            <div field="roleName" allowResize="false" width="120" headerAlign="center" allowSort="true">用户组名称
+	                <input property="editor" class="mini-textbox" style="width:100%;" required="true" requiredErrorText="不能为空"/>
+	            </div>
+                <div field="roleDescr" allowResize="false" width="120" headerAlign="center" allowSort="true">用户组描述
 	                <input property="editor" class="mini-textbox" style="width:100%;" required="true" requiredErrorText="不能为空"/>
 	            </div>
                 <div name="action" width="120" headerAlign="center" align="center" renderer="onActionRenderer" cellStyle="padding:0;">维护人员
@@ -69,7 +72,7 @@
             var uid = record._uid;
             var rowIndex = e.rowIndex;
 
-            var s = '<a class="mini-button" href="javascript:editUsers(\'' + uid + '\')">维护用户</a> ';
+            var s = '<a class="mini-button" href="javascript:editUsers(\'' + uid + '\')">维护用户</a> <a class="mini-button" href="javascript:editMenus(\'' + uid + '\')">维护菜单</a> ';
                        
             return s;
         }
@@ -98,7 +101,6 @@
         function saveData() {
             var data = grid.getChanges();
             var json = mini.encode(data);
-            alert(json);
             grid.loading("保存中，请稍后......");
             $.ajax({
                 url: "${pageContext.request.contextPath}/role/saveRoles.do",
@@ -113,8 +115,29 @@
             });
         }
         
-        function editUsers() {
-        	alert(123);
+        function editUsers(roleId) {
+        	var win = mini.open({
+                title: '维护用户',
+                url: '${pageContext.request.contextPath}/jsp/authorization/userRole.jsp?roleId=' + roleId,
+                showModal: false,
+                width: 400,
+                height: 400
+            });
+        }
+        
+        function editMenus(roleId) {
+        	var win = mini.open({
+                title: '维护菜单',
+                url: '${pageContext.request.contextPath}/jsp/authorization/menuRole.jsp?roleId=' + roleId,
+                showModal: false,
+                width: 400,
+                height: 400
+            });
+        }
+        
+        function getGrid() {
+        	var grid = mini.get("datagrid1");
+        	return grid;
         }
     </script>
 

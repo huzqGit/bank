@@ -1,5 +1,7 @@
 package com.bank.service.impl;
 
+import java.util.HashMap;
+
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
@@ -24,5 +26,21 @@ public class RoleServiceImpl extends GenericServiceImpl<Role, String> implements
 
 	public GenericDAO<Role, String> getGenericDAO() {
 		return roleDao;
+	}
+
+
+
+	@Override
+	public void save(HashMap row) {
+		roleDao.save(row);
+		
+	}
+
+
+
+	@Override
+	public void update(HashMap row) throws Exception {
+		roleDao.update(row);
+		
 	}
 }

@@ -19,4 +19,6 @@ public interface IOrganService {
 
 	List<?> getOrganUserTree();
 
+	List<?> getOrganCheckedUserTree(String roleId);
+
 }

@@ -1,7 +1,9 @@
 package com.bank.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +18,9 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.bank.beans.Organ;
+import com.bank.beans.UserRole;
 import com.bank.service.IOrganService;
+import com.bank.service.IUserRoleService;
 
 /**
  * 处理机构的新增、修改、删除等操作
@@ -28,6 +32,9 @@ import com.bank.service.IOrganService;
 public class OrganController {
 	@Resource
 	private IOrganService organSerivce;
+	
+	@Resource
+	private IUserRoleService userRoleSerivce;
 	
 	@RequestMapping(value = "/loadOrgan", method = RequestMethod.POST)
 	public Organ loadOrgan(@RequestParam(value="organId",required=true) String organId, HttpServletResponse response) throws Exception {
@@ -93,5 +100,33 @@ public class OrganController {
 		response.setContentType("text/html;charset=UTF-8");
 		response.getWriter().write(arr.toString());
 		return null;
-	}	
+	}
+	
+	@RequestMapping(value = "/userCheckTree", method = RequestMethod.POST)
+	public Organ userCheckTree(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		//第一种方法
+		String roleId = request.getParameter("roleId");
+		List<?> data = organSerivce.getOrganCheckedUserTree(roleId);
+		
+		//第二种方法
+		/*List<?> organlist = organSerivce.getOrganUserTree();
+		List<UserRole> userRolelist = userRoleSerivce.getAllUserRolesById(roleId);
+		List data = new ArrayList();
+		for (int j = 0; j < organlist.size(); j++) {
+			Map organuser = (HashMap) organlist.get(j);
+			for (int i = 0; i < userRolelist.size(); i++) {
+				UserRole userRole = userRolelist.get(i);
+				
+				String id = organuser.get("ID").toString();
+				if (userRole.getUserId().equals(id)) {
+					organuser.put("checked", true);
+				}
+			}
+			data.add(organuser);
+		}*/
+		JSONArray arr = (JSONArray) JSONArray.toJSON(data);
+		response.setContentType("text/html;charset=UTF-8");
+		response.getWriter().write(arr.toString());
+		return null;
+	}
 }

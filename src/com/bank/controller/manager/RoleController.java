@@ -142,13 +142,12 @@ public class RoleController {
 	
 	@RequestMapping(value = "/saveRoles", method = RequestMethod.POST)
 	@ResponseBody
-	public Role savePrivileges(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public Role saveRoles(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String json = request.getParameter("data");
 	    ArrayList rows = (ArrayList)JsonUtil.Decode(json);
 
 	    for(int i=0,l=rows.size(); i<l; i++){
 	    	HashMap row = (HashMap)rows.get(i);
-	    	Role role = (Role) rows.get(i);
 	    	
 			String id = row.get("roleId") != null ? row.get("roleId").toString() : "";
 	        String state = row.get("_state") != null ? row.get("_state").toString() : "";
@@ -156,7 +155,7 @@ public class RoleController {
 	        if(state.equals("added") || id.equals(""))	//新增：id为空，或_state为added
 	        {
 	            //row.put("createtime", new Date());
-	        	roleSerivce.save(role);
+	        	roleSerivce.save(row);
 	        }
 	        else if (state.equals("removed") || state.equals("deleted"))
 	        {
@@ -164,7 +163,7 @@ public class RoleController {
 	        }
 	        else if (state.equals("modified") || state.equals(""))	//更新：_state为空，或modified
 	        {
-	        	roleSerivce.update(role);
+	        	roleSerivce.update(row);
 	        }
 	    }
 		return null;

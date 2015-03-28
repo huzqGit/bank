@@ -6,10 +6,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="role">
 <resultMap id="BaseResultMap" type="com.bank.beans.Role" >
   <id column="role_id" property="roleId" jdbcType="VARCHAR" />
+  <result column="role_name" property="roleName" jdbcType="VARCHAR" />
   <result column="role_descr" property="roleDescr" jdbcType="VARCHAR" />
 </resultMap>
 <sql id="Base_Column_List" >
-  role_id, role_descr
+  role_id, role_name, role_descr
 </sql>
 
 <select id="findByPK" parameterType="string"
@@ -20,8 +21,8 @@ resultMap="BaseResultMap">
 </select>
 
 <insert id="save" parameterType="com.bank.beans.Role">
-  insert into T_ROLE(role_id, role_descr) 
-  values(#{roleId}, #{roleDescr})
+  insert into T_ROLE(role_id, role_name, role_descr) 
+  values(#{roleId}, #{roleName}, #{roleDescr})
 </insert>
 
 <insert id="role.insertSelective" parameterType="com.bank.beans.Role">
@@ -29,6 +30,9 @@ resultMap="BaseResultMap">
   <trim prefix="(" suffix=")" suffixOverrides=",">
   	<if test="roleId != null">
   		role_id,
+  	</if>
+  	<if test="roleName != null">
+  		role_name,
   	</if>
   	<if test="roleDescr != null">
   		role_descr,
@@ -38,6 +42,9 @@ resultMap="BaseResultMap">
   	<if test="roleId != null">
   		#{roleId,jdbcType=VARCHAR},
   	</if>
+  	<if test="roleName != null">
+  		#{roleName,jdbcType=VARCHAR},
+  	</if>
   	<if test="roleDescr != null">
   		#{roleDescr,jdbcType=VARCHAR},
   	</if>
@@ -45,7 +52,7 @@ resultMap="BaseResultMap">
 </insert>
 
 <update id="update" parameterType="com.bank.beans.Role">
-	update T_ROLE set role_descr = #{roleDescr}  where role_id = #{roleId}
+	update T_ROLE set role_name = #{roleName}, role_descr = #{roleDescr}  where role_id = #{roleId}
 </update>
 
 <insert id="delete" parameterType="string">
@@ -53,6 +60,9 @@ resultMap="BaseResultMap">
 </insert>
 
 <select id="all" resultMap="BaseResultMap">
-   SELECT role_id, role_descr FROM T_ROLE 
+   SELECT role_id, role_name, role_descr FROM T_ROLE 
+</select>
+<select id="role.allByRoleId" resultType="java.util.HashMap" parameterType="string">
+   SELECT role_id, role_name, role_descr FROM T_ROLE where role_id = #{roleId}
 </select>
 </mapper>
