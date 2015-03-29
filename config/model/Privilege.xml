@@ -55,7 +55,7 @@ resultMap="BaseResultMap">
 <select id="all" resultMap="BaseResultMap">
    SELECT privilege_id, privilege_type FROM T_PRIVILEGE 
 </select>
-<select id="privilege.allByPrivilegeId" resultMap="java.util.HashMap" parameterType="string">
+<select id="privilege.allByPrivilegeId" resultType="java.util.HashMap" parameterType="string">
    SELECT privilege_id, privilege_type FROM T_PRIVILEGE  where privilege_id = #{privilegeId}
 </select>
 </mapper>
