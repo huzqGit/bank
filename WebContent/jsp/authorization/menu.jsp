@@ -107,12 +107,11 @@ function submitForm() {
     //formData.dutyId = ${dutyId};
     var json = mini.encode(formData);   //序列化成JSON
     var actionType = "${actionType}";
-    var menuPId = "${menuPId}";
-    
+    var menuPId = "${menuPid}";
     $.ajax({
         url: "${pageContext.request.contextPath}/menu/save.do",
         type: "post",
-        data: { formData: json, actionType: actionType, menuPId: menuPId},
+        data: { formData: json, actionType: actionType, menuPid: menuPId},
         contentType: "application/x-www-form-urlencoded; charset=utf-8",
         beforeSend : function() {
         	form.mask("正在保存中...", null, true);
