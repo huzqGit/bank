@@ -173,4 +173,22 @@ public class MenuController {
 		}
 		return null;
 	}
+	
+	@RequestMapping(value = "/loadCheckedPrivileges", method = RequestMethod.POST)
+	public Menu loadCheckedPrivileges(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String roleId = request.getParameter("roleId");
+		String menuId = request.getParameter("menuId");
+		List<?> data = menuSerivce.privilegeCheckTree(roleId, menuId);
+		
+		JSONArray arr = (JSONArray) JSONArray.toJSON(data);
+	    response.setContentType("text/html;charset=UTF-8");
+	    try {
+			response.getWriter().write(arr.toString());
+		} catch (IOException e) {
+			log.error("", e);
+			throw new IOException("", e);
+		}
+		return null;
+	}
+	
 }

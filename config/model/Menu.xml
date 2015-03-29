@@ -134,4 +134,17 @@ resultMap="BaseResultMap">
    and r.user_id=#{userId}
    order by m.menu_id 
 </select>
+
+
+<resultMap id="privilegeChecklist" type="java.util.HashMap">
+    <result column="privilege_id" property="privilegeId" jdbcType="VARCHAR" />
+    <result column="privilege_type" property="privilegeType" jdbcType="VARCHAR" />
+    <result column="checked" property="checked" jdbcType="VARCHAR" />
+</resultMap>
+
+<select id="menu.privilegeCheckTree" resultMap="privilegeChecklist" parameterType="map">
+  select a.*, (select 'true' checked from T_MENU_PRIVILEGE b where a.PRIVILEGE_ID = b.PRIVILEGE_ID 
+ and b.ROLE_ID = ${roleId} and b.MENU_ID=#{menuId}
+ ) checked from T_PRIVILEGE a
+</select>
 </mapper>

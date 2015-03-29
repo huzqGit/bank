@@ -17,7 +17,7 @@
 <div class="mini-splitter" style="width:100%;height:100%;">
     <div size="200" showCollapseButton="true">
         <div class="mini-fit" style="padding:5px;" >
-            <ul id="tree1" class="mini-tree" url="${pageContext.request.contextPath}/menu/loadMenus.do"
+            <ul id="tree1" class="mini-tree" url="${pageContext.request.contextPath}/menu/loadMenuTree.do"
 		        showTreeIcon="true" textField="menuName" idField="menuId" parentField="menuPid" resultAsTree="false"
 		        expandOnLoad="true" onnodeclick="onNodeClick" style="width:100%;height:100%;" contextMenu="#treeMenu"
 		        iconField="iconCls"
@@ -97,7 +97,7 @@
 	        editPItem.show();
 	    	removePItem.show(); */
 	    	
-		    if (node.isLeaf == 1) {
+		    if (node.isleaf == 1) {
 		    	addItem.hide();
 		        editItem.show();
 		    	removeItem.show();

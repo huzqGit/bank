@@ -36,5 +36,14 @@ public class MenuDaoImpl extends GenericMyBatisDAOSupport<Menu, Long> implements
 		List<?> menuTree = getSqlSession().selectList("menu.menutree");
 		return menuTree;
 	}
+
+	@Override
+	public List<?> privilegeCheckTree(String roleId, String menuId) {
+		Map<String, Object> map = new HashMap();
+		map.put("roleId", roleId);
+		map.put("menuId", Integer.parseInt(menuId));
+		List<?> privilegeCheckTree = getSqlSession().selectList("menu.privilegeCheckTree", map);
+		return privilegeCheckTree;
+	}
 	
 }

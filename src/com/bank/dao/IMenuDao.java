@@ -14,5 +14,7 @@ public interface IMenuDao extends GenericDAO<Menu, Long> {
 	public List<MenuPrivilegeVO> getSubMenusByCondition(String userId, long parMenuId) throws DAOException;
 
 	public List<?> loadMenuTree();
+
+	public List<?> privilegeCheckTree(String roleId, String menuId);
 	
 }

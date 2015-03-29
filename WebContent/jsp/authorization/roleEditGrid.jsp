@@ -128,10 +128,10 @@
         function editMenus(roleId) {
         	var win = mini.open({
                 title: '维护菜单',
-                url: '${pageContext.request.contextPath}/jsp/authorization/menuRole.jsp?roleId=' + roleId,
+                url: '${pageContext.request.contextPath}/jsp/authorization/menuPrivilegeRole.jsp?roleId=' + roleId,
                 showModal: false,
-                width: 400,
-                height: 400
+                width: 600,
+                height: 500
             });
         }
         

@@ -1,7 +1,5 @@
 package com.bank.beans;
 
-import java.sql.Timestamp;
-
 import com.common.bean.BaseEntity;
 
 /**
@@ -131,5 +129,5 @@ public class Menu extends BaseEntity<Long> {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
+	
 }
