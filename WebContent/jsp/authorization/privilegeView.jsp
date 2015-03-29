@@ -37,7 +37,7 @@
     <div class="mini-fit" >
         
          <div id="datagrid1" class="mini-datagrid" style="width:100%;height:100%;" 
-		        url="${pageContext.request.contextPath}/privilege/loadPrivileges.do" idField="id"
+		        url="${pageContext.request.contextPath}/privilege/loadPrivileges.do" idField="id" showPager="false"
 		        allowResize="true" pageSize="20" 
 		        allowCellEdit="true" allowCellSelect="true" multiSelect="true" 
 		        editNextOnEnterKey="true" 

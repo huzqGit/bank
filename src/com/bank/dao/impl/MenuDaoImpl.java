@@ -30,5 +30,11 @@ public class MenuDaoImpl extends GenericMyBatisDAOSupport<Menu, Long> implements
 		return super.getSqlSession().selectList("menu.getSubMenusByCondition", map);
 		
 	}
+
+	@Override
+	public List<?> loadMenuTree() {
+		List<?> menuTree = getSqlSession().selectList("menu.menutree");
+		return menuTree;
+	}
 	
 }

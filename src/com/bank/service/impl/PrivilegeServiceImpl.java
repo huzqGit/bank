@@ -1,5 +1,7 @@
 package com.bank.service.impl;
 
+import java.util.HashMap;
+
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
@@ -25,5 +27,21 @@ public class PrivilegeServiceImpl extends GenericServiceImpl<Privilege, String> 
 
 	public GenericDAO<Privilege, String> getGenericDAO() {
 		return privilegeDao;
+	}
+
+
+
+	@Override
+	public void save(HashMap row) {
+		privilegeDao.save(row);
+		
+	}
+
+
+
+	@Override
+	public void update(HashMap row) throws Exception {
+		privilegeDao.update(row);
+		
 	}
 }

@@ -1,5 +1,7 @@
 package com.bank.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -21,6 +23,13 @@ public class MenuServiceImpl extends GenericServiceImpl<Menu, Long> implements I
 	@Override
 	public GenericDAO<Menu, Long> getGenericDAO() {
 		return menuDao;
+	}
+
+
+
+	@Override
+	public List<?> loadMenuTree() {
+		return menuDao.loadMenuTree();
 	}
 	
 

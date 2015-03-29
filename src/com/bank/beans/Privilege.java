@@ -3,8 +3,17 @@ package com.bank.beans;
 import com.common.bean.BaseEntity;
 
 public class Privilege extends BaseEntity<String> {
+	private String privilegeId;
 	private String privilegeType;
 	
+
+	public String getPrivilegeId() {
+		return privilegeId;
+	}
+
+	public void setPrivilegeId(String privilegeId) {
+		this.privilegeId = privilegeId;
+	}
 
 	public String getPrivilegeType() {
 		return privilegeType;

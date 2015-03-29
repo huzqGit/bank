@@ -20,6 +20,7 @@
             <ul id="tree1" class="mini-tree" url="${pageContext.request.contextPath}/menu/loadMenus.do"
 		        showTreeIcon="true" textField="menuName" idField="menuId" parentField="menuPid" resultAsTree="false"
 		        expandOnLoad="true" onnodeclick="onNodeClick" style="width:100%;height:100%;" contextMenu="#treeMenu"
+		        iconField="iconCls"
 		        >
 	   		 </ul>
         </div>
@@ -96,7 +97,7 @@
 	        editPItem.show();
 	    	removePItem.show(); */
 	    	
-		    if (tree.isLeaf(node)) {
+		    if (node.isLeaf == 1) {
 		    	addItem.hide();
 		        editItem.show();
 		    	removeItem.show();

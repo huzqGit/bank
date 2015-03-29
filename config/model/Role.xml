@@ -61,7 +61,7 @@ resultMap="BaseResultMap">
 
 <select id="all" resultMap="BaseResultMap">
    SELECT role_id, role_name, role_descr FROM T_ROLE 
-</select>
+</select>									
 <select id="role.allByRoleId" resultType="java.util.HashMap" parameterType="string">
    SELECT role_id, role_name, role_descr FROM T_ROLE where role_id = #{roleId}
 </select>

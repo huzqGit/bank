@@ -127,6 +127,21 @@
 			var tree = mini.get("tree1");
             var node = tree.getSelectedNode();
 			var userId = node.ID;
+			mini.confirm("确定删除用户？", "确定？",
+	            function (action) {
+	                if (action == "ok") {
+	                	$.ajax({
+	            		    url: "${pageContext.request.contextPath}/user/deleteUser.do?userId="+userId+"",
+	            		    type: "post",
+	            		    success: function (text) {
+	            		        mini.alert('删除成功');
+	            		    }
+	            		});
+	                } else {
+	                    
+	                }
+	            }
+	        );
 			iframe.src = "${pageContext.request.contextPath}/user/deleteUser.do?userId="+userId+"";
 		}
 		

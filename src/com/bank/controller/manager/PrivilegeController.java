@@ -146,7 +146,6 @@ public class PrivilegeController extends BaseController {
 
 	    for(int i=0,l=rows.size(); i<l; i++){
 	    	HashMap row = (HashMap)rows.get(i);
-	    	Privilege privilege = (Privilege) rows.get(i);
 	    	
 			String id = row.get("privilegeId") != null ? row.get("privilegeId").toString() : "";
 	        String state = row.get("_state") != null ? row.get("_state").toString() : "";
@@ -154,7 +153,7 @@ public class PrivilegeController extends BaseController {
 	        if(state.equals("added") || id.equals(""))	//新增：id为空，或_state为added
 	        {
 	            //row.put("createtime", new Date());
-	        	privilegeSerivce.save(privilege);
+	        	privilegeSerivce.save(row);
 	        }
 	        else if (state.equals("removed") || state.equals("deleted"))
 	        {
@@ -162,7 +161,7 @@ public class PrivilegeController extends BaseController {
 	        }
 	        else if (state.equals("modified") || state.equals(""))	//更新：_state为空，或modified
 	        {
-	        	privilegeSerivce.update(privilege);
+	        	privilegeSerivce.update(row);
 	        }
 	    }
 		return null;

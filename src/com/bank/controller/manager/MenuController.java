@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.bank.Constants;
 import com.bank.beans.Menu;
@@ -158,4 +159,18 @@ public class MenuController {
 		return true;
 	}
 	
+	@RequestMapping(value = "/loadMenuTree", method = RequestMethod.POST)
+	public Menu loadMenuTree(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		List<?> data = menuSerivce.loadMenuTree();
+		
+		JSONArray arr = (JSONArray) JSONArray.toJSON(data);
+	    response.setContentType("text/html;charset=UTF-8");
+	    try {
+			response.getWriter().write(arr.toString());
+		} catch (IOException e) {
+			log.error("", e);
+			throw new IOException("", e);
+		}
+		return null;
+	}
 }
