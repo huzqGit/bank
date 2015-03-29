@@ -59,9 +59,7 @@
 	<!-- 配置事务的传播特性 -->
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
-			<tx:method name="find*" read-only="true"/>
-			<tx:method name="get*" read-only="true"/>
-			<tx:method name="query*" read-only="true"/>
+			<tx:method name="*" read-only="true"/>
 			<tx:method name="save*" propagation="REQUIRED"/>
 			<tx:method name="update*" propagation="REQUIRED"/>
 			<tx:method name="delete*" propagation="REQUIRED"/>
