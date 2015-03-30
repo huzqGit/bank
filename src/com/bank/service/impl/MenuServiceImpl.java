@@ -31,6 +31,14 @@ public class MenuServiceImpl extends GenericServiceImpl<Menu, Long> implements I
 	public List<?> loadMenuTree() {
 		return menuDao.loadMenuTree();
 	}
+
+
+
+	@Override
+	public List<?> privilegeCheckTree(String roleId, String menuId) {
+		// TODO Auto-generated method stub
+		return menuDao.privilegeCheckTree(roleId, menuId);
+	}
 	
 
 }

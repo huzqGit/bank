@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 名称空间有特殊的用途 -->
+<mapper namespace="menuprivilege">
+<resultMap id="BaseResultMap" type="com.bank.beans.MenuPrivilege" >
+  <id column="PKID" property="pkId" jdbcType="INTEGER" />
+  <id column="MENU_ID" property="menuId" jdbcType="INTEGER" />
+  <result column="ROLE_ID" property="roleId" jdbcType="VARCHAR" />
+  <result column="PRIVILEGE_ID" property="privilegeId" jdbcType="VARCHAR" />
+</resultMap>
+
+<sql id="Base_Column_List" >
+  PKID, MENU_ID, ROLE_ID, PRIVILEGE_ID
+</sql>
+
+<select id="findByPK" parameterType="string"
+resultMap="BaseResultMap">
+   SELECT 
+   <include refid="Base_Column_List"/>
+   FROM T_MENU_PRIVILEGE WHERE PKID = #{pkId}
+</select>
+
+<insert id="save" useGeneratedKeys="true" parameterType="com.bank.beans.MenuPrivilege">
+	<!-- <selectKey resultType="long" order="BEFORE" keyProperty="id">
+      SELECT T_MENU_PRIVILEGE_SN.NEXTVAL FROM DUAL
+    </selectKey> -->
+  insert into T_MENU_PRIVILEGE(PKID, MENU_ID, ROLE_ID, PRIVILEGE_ID) 
+  values(#{pkId}, #{menuId}, #{roleId}, #{privilegeId})
+</insert>
+
+<insert id="menuprivilege.insertSelective" parameterType="com.bank.beans.MenuPrivilege">
+  insert into T_MENU_PRIVILEGE
+  <trim prefix="(" suffix=")" suffixOverrides=",">
+  	<if test="pkId != null">
+  		PKID,
+  	</if>
+  	<if test="menuId != null">
+  		MENU_ID,
+  	</if>
+  	<if test="roleId != null">
+  		ROLE_ID,
+  	</if>
+  	<if test="privilegeId != null">
+  		PRIVILEGE_ID,
+  	</if>
+  </trim>	
+  <trim prefix="values (" suffix=")" suffixOverrides=",">
+  	<if test="pkId != null">
+  		#{pkId,jdbcType=VARCHAR},
+  	</if>
+  	<if test="menuId != null">
+  		#{menuId,jdbcType=INTEGER},
+  	</if>
+  	<if test="roleId != null">
+  		#{roleId,jdbcType=VARCHAR},
+  	</if>
+  	<if test="privilegeId != null">
+  		#{privilegeId,jdbcType=VARCHAR},
+  	</if>
+  </trim>
+</insert>
+
+<update id="update" parameterType="com.bank.beans.MenuPrivilege">
+	update T_MENU_PRIVILEGE set menu_id = #{menuId}, role_id = #{roleId}, privilege_id = #{privilegeId} where pkid = #{pkId}
+</update>
+
+<insert id="delete" parameterType="string">
+  delete T_MENU_PRIVILEGE where pkid = #{pkId}
+</insert>
+
+<select id="all" resultMap="BaseResultMap">
+   SELECT PKID, MENU_ID, ROLE_ID, PRIVILEGE_ID FROM T_MENU_PRIVILEGE 
+</select>
+
+<select id="menuprivilege.deleteByMenuIdAndRoleId" parameterType="map">
+  delete T_MENU_PRIVILEGE where role_Id = #{roleId} and menu_Id = #{menuId}
+</select>
+</mapper>

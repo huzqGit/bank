@@ -57,6 +57,7 @@
     <bean class="com.bank.controller.OrganController"/>
     <bean class="com.bank.controller.manager.LeftController"/>
     <bean class="com.bank.controller.manager.MenuController"/>
+    <bean class="com.bank.controller.manager.MenuPrivilegeController"/>
     <bean class="com.bank.controller.manager.PrivilegeController"/>
     <bean class="com.bank.controller.manager.RoleController"/>
     <bean class="com.bank.controller.manager.UserRoleController"/>
