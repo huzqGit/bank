@@ -1,5 +1,7 @@
 package com.bank.beans;
 
+import java.util.Date;
+
 import com.common.bean.BaseEntity;
 
 public class FarmerMember extends BaseEntity<Long> {
@@ -29,6 +31,10 @@ public class FarmerMember extends BaseEntity<Long> {
 	private Integer sex;
 	//家庭成员的联系电话
 	private String phone;
+	//记录人
+	private String recorder;
+	//记录时间
+	private Date recordTime;
 	
 	public String getFarmerName() {
 		return farmerName;
@@ -118,6 +124,22 @@ public class FarmerMember extends BaseEntity<Long> {
 		this.phone = phone;
 	}
 
+	public String getRecorder() {
+		return recorder;
+	}
+
+	public void setRecorder(String recorder) {
+		this.recorder = recorder;
+	}
+
+	public Date getRecordTime() {
+		return recordTime;
+	}
+
+	public void setRecordTime(Date recordTime) {
+		this.recordTime = recordTime;
+	}
+
 	@Override
 	public boolean equalsIfIdNull(Object o) {
 		return false;
@@ -127,5 +149,6 @@ public class FarmerMember extends BaseEntity<Long> {
 	public int hashCodeIfIdNull() {
 		return 0;
 	}
+	
 
 }

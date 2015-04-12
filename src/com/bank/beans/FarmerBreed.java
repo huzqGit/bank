@@ -15,11 +15,13 @@ public class FarmerBreed extends BaseEntity<Long> {
 	//农户身份证号
 	private String farmerIdNum;
 	//种养殖品种
-	private String breedVariety;
+	private String variety;
 	//年产量
-	private String outputValue;
+	private String output;
 	//占地面积
 	private String floorArea;
+	//年产值
+	private String outputValue;
 	//当前评估价格
 	private String assessPrice;
 	//记录人
@@ -43,20 +45,20 @@ public class FarmerBreed extends BaseEntity<Long> {
 		this.farmerIdNum = farmerIdNum;
 	}
 
-	public String getBreedVariety() {
-		return breedVariety;
+	public String getVariety() {
+		return variety;
 	}
 
-	public void setBreedVariety(String breedVariety) {
-		this.breedVariety = breedVariety;
+	public void setVariety(String variety) {
+		this.variety = variety;
 	}
 
-	public String getOutputValue() {
-		return outputValue;
+	public String getOutput() {
+		return output;
 	}
 
-	public void setOutputValue(String outputValue) {
-		this.outputValue = outputValue;
+	public void setOutput(String output) {
+		this.output = output;
 	}
 
 	public String getFloorArea() {
@@ -67,6 +69,13 @@ public class FarmerBreed extends BaseEntity<Long> {
 		this.floorArea = floorArea;
 	}
 	
+	public String getOutputValue() {
+		return outputValue;
+	}
+
+	public void setOutputValue(String outputValue) {
+		this.outputValue = outputValue;
+	}
 	public String getAssessPrice() {
 		return assessPrice;
 	}

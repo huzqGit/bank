@@ -4,29 +4,22 @@ import java.util.Date;
 
 import com.common.bean.BaseEntity;
 
-public class FarmerCredit extends BaseEntity<Long> {
-
+public class FarmerDevice extends BaseEntity<Long> {
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 447074825679634280L;
-	//农户姓名
+	private static final long serialVersionUID = 7469892461259102070L;
 	private String farmerName;
-	//农户身份证号
 	private String farmerIdNum;
-	//信用户评定时间
-	private Date assessTime;
-	//信用户评定部门
-	private String assessOrgan;
-	//信用户级别
-	private String assessRank;
-	//有效期期限
-	private String timeLimit;
-	//记录人
+	private String name;
+	private String brand;
+	private String buyingPrice;
+	private Date buyingDate;
+	private String assessPrice;
 	private String recorder;
-	//记录时间
 	private Date recordTime;
-
+	
 	public String getFarmerName() {
 		return farmerName;
 	}
@@ -43,36 +36,44 @@ public class FarmerCredit extends BaseEntity<Long> {
 		this.farmerIdNum = farmerIdNum;
 	}
 
-	public Date getAssessTime() {
-		return assessTime;
+	public String getName() {
+		return name;
 	}
 
-	public void setAssessTime(Date assessTime) {
-		this.assessTime = assessTime;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getAssessOrgan() {
-		return assessOrgan;
+	public String getBrand() {
+		return brand;
 	}
 
-	public void setAssessOrgan(String assessOrgan) {
-		this.assessOrgan = assessOrgan;
+	public void setBrand(String brand) {
+		this.brand = brand;
 	}
 
-	public String getAssessRank() {
-		return assessRank;
+	public String getBuyingPrice() {
+		return buyingPrice;
 	}
 
-	public void setAssessRank(String assessRank) {
-		this.assessRank = assessRank;
+	public void setBuyingPrice(String buyingPrice) {
+		this.buyingPrice = buyingPrice;
 	}
 
-	public String getTimeLimit() {
-		return timeLimit;
+	public Date getBuyingDate() {
+		return buyingDate;
 	}
 
-	public void setTimeLimit(String timeLimit) {
-		this.timeLimit = timeLimit;
+	public void setBuyingDate(Date buyingDate) {
+		this.buyingDate = buyingDate;
+	}
+
+	public String getAssessPrice() {
+		return assessPrice;
+	}
+
+	public void setAssessPrice(String assessPrice) {
+		this.assessPrice = assessPrice;
 	}
 
 	public String getRecorder() {

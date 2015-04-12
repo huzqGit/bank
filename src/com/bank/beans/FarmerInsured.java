@@ -4,28 +4,17 @@ import java.util.Date;
 
 import com.common.bean.BaseEntity;
 
-public class FarmerPunish extends BaseEntity<Long> {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7374176039416934698L;
-	//农户姓名
+public class FarmerInsured extends BaseEntity<Long> {
 	private String farmerName;
-	//农户身份证号
 	private String farmerIdNum;
-	//处罚部门
-	private String organ;
-	//处罚内容
-	private String detail;
-	//处罚时间
-	private Date punishTime;
-	//记录人
+	private String name;
+	private String type;
+	private Double amount;
+	private Date insureTime;
+	private Date limitTime;
 	private String recorder;
-	//记录时间
-	private String recordTime;
+	private Date recordTime;
 	
-
 	public String getFarmerName() {
 		return farmerName;
 	}
@@ -42,28 +31,44 @@ public class FarmerPunish extends BaseEntity<Long> {
 		this.farmerIdNum = farmerIdNum;
 	}
 
-	public String getOrgan() {
-		return organ;
+	public String getName() {
+		return name;
 	}
 
-	public void setOrgan(String organ) {
-		this.organ = organ;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getDetail() {
-		return detail;
+	public String getType() {
+		return type;
 	}
 
-	public void setDetail(String detail) {
-		this.detail = detail;
+	public void setType(String type) {
+		this.type = type;
 	}
 
-	public Date getPunishTime() {
-		return punishTime;
+	public Double getAmount() {
+		return amount;
 	}
 
-	public void setPunishTime(Date punishTime) {
-		this.punishTime = punishTime;
+	public void setAmount(Double amount) {
+		this.amount = amount;
+	}
+
+	public Date getInsureTime() {
+		return insureTime;
+	}
+
+	public void setInsureTime(Date insureTime) {
+		this.insureTime = insureTime;
+	}
+
+	public Date getLimitTime() {
+		return limitTime;
+	}
+
+	public void setLimitTime(Date limitTime) {
+		this.limitTime = limitTime;
 	}
 
 	public String getRecorder() {
@@ -74,11 +79,11 @@ public class FarmerPunish extends BaseEntity<Long> {
 		this.recorder = recorder;
 	}
 
-	public String getRecordTime() {
+	public Date getRecordTime() {
 		return recordTime;
 	}
 
-	public void setRecordTime(String recordTime) {
+	public void setRecordTime(Date recordTime) {
 		this.recordTime = recordTime;
 	}
 

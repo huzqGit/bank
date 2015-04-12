@@ -4,29 +4,17 @@ import java.util.Date;
 
 import com.common.bean.BaseEntity;
 
-public class FarmerCredit extends BaseEntity<Long> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 447074825679634280L;
-	//农户姓名
+public class FarmerEnsure extends BaseEntity<Long> {
 	private String farmerName;
-	//农户身份证号
 	private String farmerIdNum;
-	//信用户评定时间
-	private Date assessTime;
-	//信用户评定部门
-	private String assessOrgan;
-	//信用户级别
-	private String assessRank;
-	//有效期期限
-	private String timeLimit;
-	//记录人
+	private String name;
+	private String idNum;
+	private Date limitTime;
+	private Double deposit;
+	private Double depositAll;
 	private String recorder;
-	//记录时间
 	private Date recordTime;
-
+	
 	public String getFarmerName() {
 		return farmerName;
 	}
@@ -43,36 +31,44 @@ public class FarmerCredit extends BaseEntity<Long> {
 		this.farmerIdNum = farmerIdNum;
 	}
 
-	public Date getAssessTime() {
-		return assessTime;
+	public String getName() {
+		return name;
 	}
 
-	public void setAssessTime(Date assessTime) {
-		this.assessTime = assessTime;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getAssessOrgan() {
-		return assessOrgan;
+	public String getIdNum() {
+		return idNum;
 	}
 
-	public void setAssessOrgan(String assessOrgan) {
-		this.assessOrgan = assessOrgan;
+	public void setIdNum(String idNum) {
+		this.idNum = idNum;
 	}
 
-	public String getAssessRank() {
-		return assessRank;
+	public Date getLimitTime() {
+		return limitTime;
 	}
 
-	public void setAssessRank(String assessRank) {
-		this.assessRank = assessRank;
+	public void setLimitTime(Date limitTime) {
+		this.limitTime = limitTime;
 	}
 
-	public String getTimeLimit() {
-		return timeLimit;
+	public Double getDeposit() {
+		return deposit;
 	}
 
-	public void setTimeLimit(String timeLimit) {
-		this.timeLimit = timeLimit;
+	public void setDeposit(Double deposit) {
+		this.deposit = deposit;
+	}
+
+	public Double getDepositAll() {
+		return depositAll;
+	}
+
+	public void setDepositAll(Double depositAll) {
+		this.depositAll = depositAll;
 	}
 
 	public String getRecorder() {
