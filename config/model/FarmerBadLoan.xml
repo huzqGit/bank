@@ -3,9 +3,9 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="farmerbadloan">
-<sql id="BadLoan_Column_List" >
+<sql id="badLoan_column_list" >
 	 badloanid, farmername, farmeridnum, bank, balance,
- 	 paymenttime, recorder, recordtime,
+ 	 paymenttime, recorder, recordtime
 </sql>
 <insert id="save" useGeneratedKeys="true" keyProperty="unbalancedId" 
 	parameterType="com.bank.beans.FarmerBadLoan">
@@ -57,9 +57,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</trim>
 </insert>
 <select id="findByPK" parameterType="Long" 
-		resultType="com.bank.beans.FarmerBadloan">
+		resultType="com.bank.beans.FarmerBadLoan">
 	select 
-	<include refid="Badloan_Column_List" />
+	<include refid="badLoan_column_list" />
 	from t_farmer_badloan where badloanid = #{id,jdbcType=INTEGER}
 </select>
 </mapper>
