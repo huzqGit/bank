@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="farmermember">
 <sql id="Member_Column_List" >
-	farmername, farmeridnum, name, relation, idnum, education,
+	memberid, farmername, farmeridnum, name, relation, idnum, education,
 	marrystatus, occupation, job, sex, phone,recorder,recordtime
 </sql>
 <insert id="save" useGeneratedKeys="true" keyProperty="memberId" 
@@ -94,11 +94,58 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    </if>
 	</trim>
 </insert>
+<resultMap id="farmerMemberList" type="com.bank.beans.FarmerMember">
+    <result column="memberId" property="id" jdbcType="BIGINT"/>
+    <result column="farmerName" property="farmerName" jdbcType="VARCHAR" />
+    <result column="farmerIdnum" property="farmerIdnum" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="relation" property="relation" jdbcType="VARCHAR" />
+	<result column="idNum" property="idNum" jdbcType="VARCHAR" />
+    <result column="education" property="education" jdbcType="INTEGER" />
+    <result column="marryStatus" property="marryStatus" jdbcType="VARCHAR" />
+    <result column="occupation" property="occupation" jdbcType="VARCHAR" />
+    <result column="job" property="job" jdbcType="VARCHAR" />
+	<result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="recorder" property="recorder" jdbcType="VARCHAR" />
+    <result column="recordTime" property="recordTime" jdbcType="DATE" />
+</resultMap>
 <select id="findByPK" parameterType="Long" 
 	resultType="com.bank.beans.FarmerMember">
 	select 
 	<include refid="Member_Column_List" />
-	from t_farmer_member where farmerid = #{id,jdbcType=INTEGER}
+	from t_farmer_member where memberid = #{id,jdbcType=INTEGER}
 </select>
-
+<select id="pageing" parameterType="Map" resultMap="farmerMemberList">
+	select 
+	<include refid="Member_Column_List" />
+	from 
+	(select t.*,rownumber() over(order by recordtime desc) as rn from t_farmer_member t
+	<where>
+		<if test="farmerName != null and farmerName != '' ">
+			t.farmername like CONCAT(CONCAT('%',#{farmerName}),'%') 
+		</if>
+		<if test="farmerIdNum != null and farmerIdNum != ''">
+		   	and t.farmeridnum like CONCAT(CONCAT('%',#{farmerIdNum}),'%')  
+		</if>
+		<if test="name != null and name != ''">
+		   	and t.name like CONCAT(CONCAT('%',#{name}),'%')  
+		</if>
+		<if test="recorder != null and recorder != '' ">
+		    and t.recoder like CONCAT(CONCAT('%',#{recoder}),'%')  
+		</if>
+		<if test="recordTimeBegin !=null and recordTimeBegin != ''">
+		   	<![CDATA[and t.recordtime >=to_date('#{recordTimeBegin}','yyyy-mm-dd')]]>
+		</if>
+		<if test="recordTimeEnd !=null and recordTimeEnd != ''">
+		   	<![CDATA[and t.recordtime <=to_date('#{recordTimeEnd}','yyyy-mm-dd')]]>
+		</if>
+	 </where>
+	 )
+	 <where>
+	 	<if test="start != null">
+	    	rn between #{start} and #{end}
+	   	</if>
+	 </where>
+</select>
 </mapper>

@@ -123,4 +123,53 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<include refid="Farmer_Column_List" />
 	from t_Farmer where farmerid = #{id,jdbcType=INTEGER}
 </select>
+<resultMap id="farmerList" type="com.bank.beans.Farmer">
+    <result column="farmerId" property="id" jdbcType="BIGINT"/>
+    <result column="farmerName" property="farmerName" jdbcType="VARCHAR" />
+    <result column="farmerIdnum" property="farmerIdnum" jdbcType="VARCHAR" />
+    <result column="politicStatus" property="politicStatus" jdbcType="INTEGER" />
+    <result column="familyNum" property="familyNum" jdbcType="INTEGER" />
+	<result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="marryStatus" property="marryStatus" jdbcType="VARCHAR" />
+    <result column="laborNum" property="politicStatus" jdbcType="INTEGER" />
+    <result column="postCode" property="postCode" jdbcType="INTEGER" />
+	<result column="nyNetincome" property="nyNetincome" jdbcType="DOUBLE" />
+    <result column="fnNetincome" property="fnNetincome" jdbcType="DOUBLE" />
+    <result column="gsNetincome" property="gsNetincome" jdbcType="DOUBLE" />
+	<result column="dgNetincome" property="dgNetincome" jdbcType="DOUBLE" />
+    <result column="qtNetincome" property="qtNetincome" jdbcType="DOUBLE" />
+    <result column="allNetincome" property="allNetincome" jdbcType="DOUBLE" />
+    <result column="recorder" property="recorder" jdbcType="VARCHAR" />
+    <result column="recordTime" property="recordTime" jdbcType="DATE" />
+</resultMap>
+<select id="pageing" parameterType="Map" resultMap="farmerList">
+	select 
+	<include refid="Farmer_Column_List" />
+	from 
+	(select t.*,rownumber() over(order by recordtime desc) as rn from t_farmer t
+	<where>
+		<if test="farmerName != null and farmerName != '' ">
+			t.farmername like CONCAT(CONCAT('%',#{farmerName}),'%') 
+		</if>
+		<if test="farmerIdNum != null and farmerIdNum != ''">
+		   	and t.farmeridnum like CONCAT(CONCAT('%',#{farmerIdNum}),'%')  
+		</if>
+		<if test="recorder != null and recorder != '' ">
+		    and t.recoder like CONCAT(CONCAT('%',#{recoder}),'%')  
+		</if>
+		<if test="recordTimeBegin !=null and recordTimeBegin != ''">
+		   	<![CDATA[and t.recordtime >=to_date('#{recordTimeBegin}','yyyy-mm-dd')]]>
+		</if>
+		<if test="recordTimeEnd !=null and recordTimeEnd != ''">
+		   	<![CDATA[and t.recordtime <=to_date('#{recordTimeEnd}','yyyy-mm-dd')]]>
+		</if>
+	 </where>
+	 )
+	 <where>
+	 	<if test="start != null">
+	    	rn between #{start} and #{end}
+	   	</if>
+	 </where>
+</select>
 </mapper>

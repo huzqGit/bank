@@ -68,4 +68,48 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<include refid="Breed_Column_List" />
 	from t_farmer_breed where breedid = #{id,jdbcType=INTEGER}
 </select>
+<resultMap id="farmerBreedList" type="com.bank.beans.FarmerBreed">
+    <result column="breedId" property="id" jdbcType="BIGINT"/>
+    <result column="farmerName" property="farmerName" jdbcType="VARCHAR" />
+    <result column="farmerIdnum" property="farmerIdnum" jdbcType="VARCHAR" />
+    <result column="variety" property="variety" jdbcType="VARCHAR" />
+    <result column="output" property="output" jdbcType="VARCHAR" />
+	<result column="floorArea" property="floorArea" jdbcType="VARCHAR"/>
+	<result column="outputValue" property="outputValue" jdbcType="DOUBLE"/>
+	<result column="assessPrice" property="assessPrice" jdbcType="DOUBLE"/>
+    <result column="recorder" property="recorder" jdbcType="VARCHAR"/>
+    <result column="recordTime" property="recordTime" jdbcType="DATE" />
+</resultMap>
+<select id="pageing" parameterType="Map" resultMap="farmerBreedList">
+	select 
+	<include refid="Breed_Column_List" />
+	from 
+	(select t.*,rownumber() over(order by recordtime desc) as rn from t_farmer_breed t
+	<where>
+		<if test="farmerName != null and farmerName != '' ">
+			t.farmername like CONCAT(CONCAT('%',#{farmerName}),'%') 
+		</if>
+		<if test="farmerIdNum != null and farmerIdNum != ''">
+		   	and t.farmeridnum like CONCAT(CONCAT('%',#{farmerIdNum}),'%')  
+		</if>
+		<if test="variety != null and variety != '' ">
+			t.variety like CONCAT(CONCAT('%',#{variety}),'%') 
+		</if>
+		<if test="recorder != null and recorder != '' ">
+		    and t.recoder like CONCAT(CONCAT('%',#{recoder}),'%')  
+		</if>
+		<if test="recordTimeBegin !=null and recordTimeBegin != ''">
+		   	<![CDATA[and t.recordtime >=to_date('#{recordTimeBegin}','yyyy-mm-dd')]]>
+		</if>
+		<if test="recordTimeEnd !=null and recordTimeEnd != ''">
+		   	<![CDATA[and t.recordtime <=to_date('#{recordTimeEnd}','yyyy-mm-dd')]]>
+		</if>
+	 </where>
+	 )
+	 <where>
+	 	<if test="start != null">
+	    	rn between #{start} and #{end}
+	   	</if>
+	</where>
+</select>
 </mapper>
