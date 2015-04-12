@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="companyinvest" >
+<insert id="save" useGeneratedKeys="true" keyProperty="investId" 
+	parameterType="com.bank.beans.CompanyInvest">
+		insert into t_company_invest
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+	<if test="companyName != null">
+	   companyName,
+	</if>
+	<if test="organCode != null">
+	   organCode,
+	</if>
+	<if test="creditCode != null">
+	creditCode,
+	</if>
+	<if test="investedcompanyName != null">
+	investedcompanyName,
+	</if>
+	<if test="investedoragnCode != null">
+	investedoragnCode,
+	</if>
+	<if test="investedloancardCode != null">
+	investedloancardCode,
+	</if>
+	<if test="investedregisterCode != null">
+	investedregisterCode,
+	</if>
+	<if test="investCurrency != null">
+	investCurrency,
+	</if>
+	<if test="investAmount != null">
+	investAmount,
+	</if>
+	<if test="equityShare != null">
+	equityShare,
+	</if>
+	<if test="recorder != null">
+	recorder,
+	</if>
+	<if test="recordTime != null">
+	recordTime
+	</if>
+	</trim>
+	<trim prefix="values (" suffix=")" suffixOverrides=",">
+		<if test="companyName != null">
+			#{companyName,jdbcType=VARCHAR},
+		</if>
+		<if test="organCode != null">
+			#{organCode,jdbcType=VARCHAR},
+		</if>
+		<if test="creditCode != null">
+			#{creditCode,jdbcType=VARCHAR},
+		</if>
+		<if test="investedcompanyName != null">
+			#{investedcompanyName,jdbcType=VARCHAR},
+		</if>
+		<if test="investedoragnCode != null">
+			#{investedoragnCode,jdbcType=VARCHAR},
+		</if>
+		<if test="investedloancardCode != null">
+			#{investedloancardCode,jdbcType=VARCHAR},
+		</if>
+		<if test="investedregisterCode != null">
+			#{investedregisterCode,jdbcType=VARCHAR},
+		</if>
+		<if test="investCurrency != null">
+			#{investCurrency,jdbcType=VARCHAR},
+		</if>
+		<if test="investAmount!=null">
+			#{investAmount,jdbcType=VARCHAR},
+		</if>
+		<if test="equityShare != null">
+			#{equityShare,jdbcType=DOUBLE},
+		</if>
+		<if test="recorder != null">
+			#{recorder,jdbcType=VARCHAR},
+		</if>
+		<if test="recordTime != null">
+			#{recordTime,jdbcType=TIMESTAMP}
+		</if>
+	</trim>
+</insert>
+<select id="findByPK" parameterType="Long" 
+		resultType="com.bank.beans.CompanyInvest">
+		
+	   select * from t_company_invest where investid = #{investId}
+	   
+</select>
+<select id="pageing" parameterType="Map" 
+		resultType="com.bank.beans.CompanyInvest">
+	    select * from 
+	   (select t.*,rownumber() over(order by recordtime desc) as rn from t_company_invest t
+	   <where>
+		    <if test="companyName != null and companyName != '' ">
+		       t.companyname like CONCAT(CONCAT('%',#{companyName}),'%') 
+		   </if>
+		   <if test="organCode != null and organCode != ''">
+		   	  and t.organcode like CONCAT(CONCAT('%',#{organCode}),'%')  
+		   </if>
+		   <if test="investedcompanyName != null and investedcompanyName != ''">
+		   	  and t.organcode like CONCAT(CONCAT('%',#{investedcompanyName}),'%')  
+		   </if>
+		   <if test="recorder != null and recorder != '' ">
+		      and t.recoder like CONCAT(CONCAT('%',#{recoder}),'%')  
+		   </if>
+		   <if test="recordTimeBegin !=null and recordTimeBegin != ''">
+		   	  <![CDATA[and t.recordtime >=to_date('#{recordTimeBegin}','yyyy-mm-dd')]]>
+		   </if>
+		   <if test="recordTimeEnd !=null and recordTimeEnd != ''">
+		   	  <![CDATA[and t.recordtime <=to_date('#{recordTimeEnd}','yyyy-mm-dd')]]>
+		   </if>
+	   </where>
+	   )
+	   <where>
+		   <if test="start != null">
+	   		 rn between #{start} and #{end}
+	   		</if>
+	   </where>
+	</select>
+</mapper>

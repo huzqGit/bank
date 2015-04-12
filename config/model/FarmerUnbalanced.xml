@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="farmerunbalanced">
+<sql id="Unbalanced_Column_List" >
+ 	unbalancedid,farmername, farmeridnum, bank, businesstype, loanuse,
+	loanway, loanbalance, providetime, limittime,recorder,recordtime
+</sql>
+<insert id="save" useGeneratedKeys="true" keyProperty="unbalancedId" 
+	parameterType="com.bank.beans.FarmerUnbalanced">
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="farmerName != null">
+		 	farmername,
+		</if>
+		<if test="farmerIdNum != null">
+		 	farmeridnum,
+		</if>
+   		<if test="bank !=null">
+   			bank,
+   		</if>
+   		<if test="businessType != null">
+   			businesstype,
+   		</if>
+   		<if test="loanUse != null">
+   			loanuse,
+   		</if>
+  		<if test="loanWay != null">
+  			loanway,
+  		</if>
+		<if test="loanBalance != null">
+			loanbalance,
+		</if>
+   		<if test="provideTime != null">
+   			providetime,
+   		</if>
+   		<if test="limitTime != null">
+   			limittime,
+   		</if>
+   		<if test="recorder != null">
+   			recorder,
+   		</if>
+   		<if test="recordTime != null">
+   		    recordtime
+   		</if>
+	</trim>
+	<trim prefix="values (" suffix=")" suffixOverrides=",">
+		<if test="farmerName != null">
+		 	#{farmerName,jdbcType=VARCHAR},
+		</if>
+		<if test="farmerIdNum != null">
+		 	#{farmerIdNum,jdbcType=VARCHAR},
+		</if>
+   		<if test="bank !=null">
+   			#{bank,jdbcType=INTEGER},
+   		</if>
+   		<if test="businessType != null">
+   			#{businessType,jdbcType=INTEGER},
+   		</if>
+   		<if test="loanUse != null">
+   			#{loanUse,jdbcType=VARCHAR},
+   		</if>
+  		<if test="loanWay != null">
+  			#{loanWay,jdbcType=INTEGER},
+  		</if>
+		<if test="loanBalance != null">
+			#{loanBalance,jdbcType=DOUBLE},
+		</if>
+   		<if test="provideTime != null">
+   			#{provideTime,jdbcType=TIMESTAMP},
+   		</if>
+   		<if test="limitTime != null">
+   			#{limitTime,jdbcType=TIMESTAMP},
+   		</if>
+   		<if test="recorder != null">
+   			#{recorder,jdbcType=VARCHAR},
+   		</if>
+   		<if test="recordTime != null">
+   		    #{recordTime,jdbcType=TIMESTAMP}
+   		</if>
+	</trim>
+</insert>
+<select id="findByPK" parameterType="Long" 
+		resultType="com.bank.beans.FarmerUnbalanced">
+	select 
+	<include refid="Unbalanced_Column_List" />
+	from t_farmer_unbalanced where unbalancedid = #{id,jdbcType=INTEGER}
+</select>
+</mapper>

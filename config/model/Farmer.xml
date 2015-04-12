@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="farmer">
+<sql id="Farmer_Column_List" >
+ farmerid, farmername, farmeridnum, politicstatus, familynum, phone, address,
+ marrystatus, labornum, postcode, nynetincome, fnnetincome, gsnetincome, dgnetincome,
+ qtnetincome, allnetincome, recorder, recordtime
+</sql>
+<insert id="save" useGeneratedKeys="true" keyProperty="farmerId" 
+	parameterType="com.bank.beans.Farmer">
+	insert into t_farmer
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+	  <if test="farmerName != null" >
+	  	farmerName,
+	  </if>
+	   <if test="farmerIdnum != null">
+	   	farmerIdnum,
+	  </if>
+	  <if test="politicStatus != null">
+	   	 politicStatus,
+	  </if>
+	  <if test="familyNum != null">
+	   	 familyNum,
+	  </if>
+	  <if test="phone != null">
+	   	 phone,
+	  </if>
+	  <if test="address != null">
+	   	  address,
+	  </if>
+	  <if test="marryStatus != null">
+	   	  marryStatus,
+	  </if>
+	  <if test="laborNum != null">
+	   	laborNum,
+	  </if>
+	  <if test="postCode != null">
+	   	postCode,
+	  </if>
+	  <if test="nyNetincome != null">
+	   	nyNetincome,
+	  </if>
+	  <if test="fnNetincome != null">
+	  	 fnNetincome, 
+	  </if>
+	  <if test="gsNetincome != null">
+	   	 gsNetincome,
+	  </if>
+	  <if test="dgNetincome != null">
+	    dgNetincome,
+	  </if>
+	  <if test="qtNetincome != null">
+	    qtNetincome,
+	  </if>
+	  <if test="allNetincome != null">
+	   	allNetincome,
+	  </if>
+	  <if test="recorder != null">
+	   recorder,
+	  </if>
+	  <if test="recordTime != null">
+		recordTime
+	  </if>
+	</trim>
+	<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  <if test="farmerName != null" >
+	  	#{farmerName,jdbcType=VARCHAR},
+	  </if>
+	   <if test="farmerIdnum != null">
+	   	#{farmerIdnum,jdbcType=VARCHAR},
+	  </if>
+	  <if test="politicStatus != null">
+	   	#{politicStatus,jdbcType=INTEGER},
+	  </if>
+	  <if test="familyNum != null">
+	   	#{familyNum,jdbcType=INTEGER},
+	  </if>
+	  <if test="phone != null">
+	   	#{phone,jdbcType=VARCHAR},
+	  </if>
+	  <if test="address != null">
+	   	#{address,jdbcType=VARCHAR},
+	  </if>
+	  <if test="marryStatus != null">
+	   	#{marryStatus,jdbcType=VARCHAR},
+	  </if>
+	  <if test="laborNum != null">
+	   	#{laborNum,jdbcType=INTEGER},
+	  </if>
+	  <if test="postCode != null">
+	   	#{postCode,jdbcType=INTEGER},
+	  </if>
+	  <if test="nyNetincome != null">
+	   	#{nyNetincome,jdbcType=DOUBLE},
+	  </if>
+	  <if test="fnNetincome != null">
+	  	#{fnNetincome, jdbcType=DOUBLE},
+	  </if>
+	  <if test="gsNetincome != null">
+	   	#{gsNetincome,jdbcType=DOUBLE},
+	  </if>
+	  <if test="dgNetincome != null">
+	    #{dgNetincome,jdbcType=DOUBLE},
+	  </if>
+	  <if test="qtNetincome != null">
+	    #{qtNetincome,jdbcType=DOUBLE},
+	  </if>
+	  <if test="allNetincome != null">
+	   	#{allNetincome,jdbcType=DOUBLE},
+	  </if>
+	  <if test="recorder != null">
+	    #{recorder,jdbcType=VARCHAR},
+	  </if>
+	  <if test="recordTime != null">
+		#{recordTime,jdbcType=TIMESTAMP}
+	  </if>
+	</trim>
+</insert>
+<select id="findByPK" parameterType="Long" resultType="com.bank.beans.Farmer">
+	select 
+	<include refid="Farmer_Column_List" />
+	from t_Farmer where farmerid = #{id,jdbcType=INTEGER}
+</select>
+</mapper>

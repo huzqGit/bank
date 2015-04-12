@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="farmerbreed">
+<sql id="Breed_Column_List" >
+	breedid, farmername, farmeridnum, variety, outputvalue,
+	floorarea, assessprice, recorder, recordtime
+</sql>
+<insert id="save" useGeneratedKeys="true" keyProperty="breedId" 
+		parameterType="com.bank.beans.FarmerBreed">
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="farmerName != null">
+			farmername,
+		</if>
+		<if test="farmerIdNum != null">
+			farmeridnum,
+		</if>
+		<if test="variety != null">
+			variety,
+		</if>
+		<if test="outPutValue != null">
+			outputvalue,
+		</if>
+		<if test="floorArea != null">
+			floorarea,
+		</if>
+		<if test="assessPrice != null">
+			assessprice,
+		</if>
+   		<if test="recorder != null">
+   			recorder,
+   		</if>
+   		<if test="recordTime != null">
+   			recordtime
+   		</if>
+	</trim>
+	<trim prefix="values (" suffix=")" suffixOverrides=",">
+		<if test="farmerName != null">
+			#{farmerName,jdbcType=VARCHAR},
+		</if>
+		<if test="farmerIdNum != null">
+			#{farmerIdNum,jdbcType=VARCHAR},
+		</if>
+		<if test="variety != null">
+			#{variety,jdbcType=VARCHAR},
+		</if>
+		<if test="outPutValue != null">
+			#{outPutValue,jdbcType=VARCHAR},
+		</if>
+		<if test="floorArea != null">
+			#{floorArea,jdbcType=DOUBLE},
+		</if>
+		<if test="assessPrice != null">
+			#{assessPrice,jdbcType=DOUBLE},
+		</if>
+   		<if test="recorder != null">
+   			#{recorder,jdbcType=VARCHAR},
+   		</if>
+   		<if test="recordTime != null">
+   			#{recordTime,jdbcType=TIMESTAMP}
+   		</if>
+	</trim>
+</insert>
+<select id="findByPK" parameterType="Long" 
+		resultType="com.bank.beans.FarmerBreed">
+	select 
+	<include refid="Breed_Column_List" />
+	from t_farmer_breed where breedid = #{id,jdbcType=INTEGER}
+</select>
+</mapper>

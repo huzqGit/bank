@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="farmercredit">
+<sql id="Ensure_Column_List" >
+    ensureid, farmername, farmeridnum, name, idnum,
+    limittime, deposit, depositall, recorder, recordtime
+</sql>
+<insert id="save" useGeneratedKeys="true" keyProperty="ensureId" 
+	parameterType="com.bank.beans.FarmerEnsure">
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="farmerName != null">
+			farmerName,
+		</if>
+		<if test="farmerIdNum != null">
+			farmerIdNum,
+		</if>
+		<if test="name != null">
+			name,
+		</if>
+		<if test="idNum != null">
+			idNum,
+		</if>
+		<if test="limitTime != null">
+			limitTime,
+		</if>
+		<if test="deposit != null">
+			deposit,
+		</if>
+		<if test="depositAll != null">
+			depositAll,
+		</if>
+		<if test ="recorder != null">
+			recorder,
+		</if>
+		<if test="recordTime != null">
+			recordTime,
+		</if>
+	</trim>
+	<trim prefix="values (" suffix=")" suffixOverrides=",">
+		<if test="farmerName != null">
+			#{farmerName,jdbcType=VARCHAR},
+		</if>
+		<if test="farmerIdNum != null">
+			#{farmerIdNum,jdbcType=VARCHAR},
+		</if>
+		<if test="name != null">
+			#{name,jdbcType=VARCHAR},
+		</if>
+		<if test="idNum != null">
+			#{idNum,jdbcType=VARCHAR},
+		</if>
+		<if test="limitTime != null">
+			#{limitTime,jdbcType=DATE},
+		</if>
+		<if test="deposit != null">
+			#{deposit,jdbcType=DOUBLE},
+		</if>
+		<if test="depositAll != null">
+			#{depositAll,jdbcType=DOUBLE},
+		</if>
+		<if test ="recorder != null">
+			#{recorder,jdbcType=VARCHAR},
+		</if>
+		<if test="recordTime != null">
+			#{recordTime,jdbcType=TIMESTAMP}
+		</if>
+	</trim>
+</insert>
+<select id="findByPK" parameterType="Long" 
+		resultType="com.bank.beans.FarmerEnsure">
+		select 
+		<include refid="Ensure_Column_List" />
+		from t_farmer_ensure where ensureid = #{id,jdbcType=INTEGER}
+</select>
+</mapper>

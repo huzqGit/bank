@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper namespace="cooperation">
+<sql id="Cooperation_Column_List" >
+   cooperationid, ooperationname,organcode, taxcode, registeraddress, mailaddress,
+   registerdate, registercapital, realcapital, legalperson, idnum, phone, members,
+   bussinesscope, businessarea, farmers, onnectionbase, recorder, recordtime
+</sql>
+<insert id="save" useGeneratedKeys="true" keyProperty="cooperationId" 
+	parameterType="com.bank.beans.FarmerCoopertaion">
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="cooperationName != null">
+			cooperationName,
+		</if>
+		<if test="organCode != null">
+			organCode,
+		</if>
+   		<if test="taxCode != null">
+   			taxCode,
+   		</if>
+		<if test="registerAddress != null">
+			registerAddress,
+		</if>
+   		<if test="mailAddress != null">
+   			mailAddress,
+   		</if>
+   		<if test ="registerDate != null">
+   			registerDate,
+   		</if>
+   		<if test="registerCapital != null">
+   			registerCapital,
+   		</if>
+   		<if test="realCapital != null">
+   			realCapital,
+   		</if>
+  		<if test="legalPerson != null">
+  			legalPerson,
+  		</if>
+		<if test="idNum != null">
+			idNum,
+		</if>
+   		<if test="phone != null">
+   			phone,
+   		</if>
+		<if test="members != null">
+			members,
+		</if>
+		<if test="businessScope != null">
+			businessScope,
+		</if>
+		<if test="businessArea != null">
+			businessArea,
+		</if>
+		<if test="farmers != null">
+			farmers,
+		</if>
+		<if test="connectionBase != null">
+			connectionBase,
+		</if>
+   		<if test="recorder != null">
+   			recorder,
+   		</if>
+  		<if test="recordTime != null">
+  			recordTime
+  		</if>
+	</trim>
+	<trim prefix="values (" suffix=")" suffixOverrides=",">
+		<if test="cooperationName != null">
+			#{cooperationName,jdbcType=VARCHAR},
+		</if>
+		<if test="organCode != null">
+			#{organCode,jdbcType=VARCHAR},
+		</if>
+   		<if test="taxCode != null">
+   			#{taxCode,jdbcType=VARCHAR},
+   		</if>
+		<if test="registerAddress != null">
+			#{registerAddress,jdbcType=VARCHAR},
+		</if>
+   		<if test="mailAddress != null">
+   			#{mailAddress,jdbcType=VARCHAR},
+   		</if>
+   		<if test ="registerDate != null">
+   			#{registerDate,jdbcType=DATE},
+   		</if>
+   		<if test="registerCapital != null">
+   			#{registerCapital,jdbcType=VARCHAR},
+   		</if>
+   		<if test="realCapital != null">
+   			#{realCapital,jdbcType=VARCHAR},
+   		</if>
+  		<if test="legalPerson != null">
+  			#{legalPerson,jdbcType=VARCHAR},
+  		</if>
+		<if test="idNum != null">
+			#{idNum,jdbcType=VARCHAR},
+		</if>
+   		<if test="phone != null">
+   			#{phone,jdbcType=VARCHAR},
+   		</if>
+		<if test="members != null">
+			#{members,jdbcType=INTEGER},
+		</if>
+		<if test="businessScope != null">
+			#{businessScope,jdbcType=VARCHAR},
+		</if>
+		<if test="businessArea != null">
+			#{businessArea,jdbcType=INTEGER},
+		</if>
+		<if test="farmers != null">
+			#{farmers,jdbcType=INTEGER},
+		</if>
+		<if test="connectionBase != null">
+			#{connectionBase,jdbcType=VARCHAR},
+		</if>
+   		<if test="recorder != null">
+   			#{recorder,jdbcType=VARCHAR},
+   		</if>
+  		<if test="recordTime != null">
+  			#{recordTime,jdbcType=TIMESTAMP}
+  		</if>
+	</trim>
+</insert>
+<select id="findByPK" parameterType="Long" 
+		resultType="com.bank.beans.FarmerCoopertion">
+	select 
+	<include refid="Cooperation_Column_List" />
+	from t_farmer_cooperation where cooperationid = #{id,jdbcType=INTEGER}
+</select>
+</mapper>

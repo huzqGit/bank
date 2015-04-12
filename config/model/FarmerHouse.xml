@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="farmerhouse">
+	<sql id="House_Column_List" >
+		houseid, farmername, farmeridnum, houseproperty, housetype, houseaddress,
+		buildarea, builddate, buildprice, floorarea, assessprice, recorder, recordtime
+	</sql>
+	<insert id="save" useGeneratedKeys="true" keyProperty="houseId" 
+		parameterType="com.bank.beans.FarmerHouse">
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			 <if test="farmerName != null">
+			 	farmername,
+			 </if>
+			 <if test="farmerIdNum != null">
+			 	farmeridnum,
+			 </if>
+			 <if test="houseProperty != null">
+				houseproperty,
+			 </if>
+			 <if test="houseType != null">
+				housetype,
+			 </if>
+			 <if test="houseAddress != null">
+			    houseaddress,
+			 </if>
+	  		 <if test="buildarea != null">
+	  		    buildarea,
+	  		 </if>
+			<if test="buildDate != null">
+				builddate,
+			</if>
+	  		<if test="buildPrice != null">
+	  		    buildPrice,
+	  		</if>
+	  		<if test="floorArea != null">
+	  			floorArea,
+	  		</if>
+	  		<if test="assessPrice != null">
+	  			assessPrice,
+	  		</if>
+			<if test="recorder != null">
+				recorder,
+			</if>
+			<if test="recordTime != null'">
+				recordTime
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="farmerName != null">
+        		#{farmerName,jdbcType=VARCHAR},
+       		</if>
+	        <if test="farmerIdNum != null">
+	         	#{farmerIdNum,jdbcType=VARCHAR},
+	        </if>
+	        <if test="houseProperty != null">
+	        	#{houseProperty,jdbcType=VARCHAR},
+	        </if>
+	        <if test="houseType != null">
+	        	#{houseType,jdbcType=VARCHAR},
+	        </if>
+	        <if test="houseAddress != null">
+	          	#{houseAddress,jdbcType=VARCHAR},
+	        </if>
+	        <if test="buildarea != null">
+	            #{buildArea,jdbcType=VARCHAR},
+	        </if>
+	        <if test="buildDate != null">
+	            #{buildDate,jdbcType=VARCHAR},
+	        </if>
+	        <if test="buildPrice != null">
+	            #{buildPrice,jdbcType=VARCHAR},
+	        </if>
+	        <if test="floorArea != null">
+	           #{floorArea,jdbcType=VARCHAR},
+	        </if>
+	        <if test="assessPrice != null">
+	           #{assessPrice,jdbcType=VARCHAR},
+	        </if>
+	        <if test="recorder != null">
+	           #{recorder,jdbcType=VARCHAR},
+	        </if>
+	        <if test="recordTime != null'">
+	           #{recordTime,jdbcType=TIMESTAMP}
+	        </if>
+		</trim>
+	</insert>
+	<select id="findByPK" parameterType="Long" 
+		resultType="com.bank.beans.FarmerHouse">
+		select 
+		<include refid="House_Column_List" />
+		from t_farmer_house where houseid = #{id,jdbcType=INTEGER}
+	</select>
+</mapper>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="farmerincome">
+	<sql id="Income_Column_List" >
+		incomeid,farmername,farmeridnum,incomename,incometype,netincome,
+		recorder,recordtime
+	</sql>
+	<insert id="save" useGeneratedKeys="true" keyProperty="incomeId" 
+		parameterType="com.bank.beans.FarmerIncome">
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="farmerName != null">
+				farmername
+			</if>
+			<if test="farmerIdNum != null">
+				farmeridnum,
+			</if>
+   			<if test="incomeName != null">
+   				incomename,
+   			</if>
+   			<if test="incomeType != null">
+   				incometype,
+   			</if>
+  			<if test="netIncome != null">
+  			 	recorder,
+  			</if>
+   			<if test="recordTime != null">
+   				recordTime
+   			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="farmerName != null">
+        		#{farmerName,JdbcType=VARCHAR},
+      		</if>
+		    <if test="farmerIdNum != null">
+		        #{farmerIdNum,JdbcType=VARCHAR},
+		    </if>
+	        <if test="incomeName != null">
+	           #{incomeName,JdbcType=VARCHAR},
+	        </if>
+	        <if test="incomeType != null">
+	           #{incomeType,JdbcType=INTEGER},
+	        </if>
+	        <if test="netIncome != null">
+	           #{recorder,JdbcType=VARCHAR},
+	        </if>
+	        <if test="recordTime != null">
+	           #{recordTime,JdbcType=TIMESTAMP}
+	        </if>
+		</trim>
+	</insert>
+	<select id="findByPK" parameterType="Long" 
+		resultType="com.bank.beans.FarmerIncome">
+		select 
+		<include refid="Income_Column_List" />
+		from t_farmer_income where incomeid = #{id,jdbcType=INTEGER}
+	</select>
+</mapper>

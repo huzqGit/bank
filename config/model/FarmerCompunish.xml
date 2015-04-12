@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="farmercompunish">
+<sql id="Compunish_Column_List" >
+	compunishid, farmername, farmeridnum, type, organ,
+	detail, occurtime, recorder, recordtime
+</sql>
+<insert id="save" useGeneratedKeys="true" keyProperty="compunishId" 
+		parameterType="com.bank.beans.FarmerCompunish">
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="farmerName != null">
+			farmername,
+		</if>
+		<if test="farmerIdNum != null">
+			farmeridnum,
+		</if>
+		<if test="type != null">
+			type,	
+		</if>
+		<if test ="organ != null">
+			organ,
+		</if>
+		<if test="detail != null">
+			detail,
+		</if>	
+		<if test="occurTime != null">
+			occurtime,
+		</if>
+		<if test ="recorder != null">
+			recorder,
+		</if>
+		<if test ="recordTime != null">
+			recordtime
+		</if>
+	</trim>
+	<trim prefix="values (" suffix=")" suffixOverrides=",">
+		<if test="farmerName != null">
+			#{farmerName,jdbcType=VARCHAR},
+		</if>
+		<if test="farmerIdNum != null">
+			#{farmerIdNum,jdbcType=VARCHAR},
+		</if>
+		<if test="type != null">
+			#{type,jdbcType=VARCHAR},	
+		</if>
+		<if test ="organ != null">
+			#{organ,jdbcType=VARCHAR},
+		</if>
+		<if test="detail != null">
+			#{detail,jdbcType=VARCHAR},
+		</if>	
+		<if test="occurTime != null">
+			#{occurTime,jdbcType=DATE},
+		</if>
+		<if test ="recorder != null">
+			#{recorder,jdbcType=VARCHAR},
+		</if>
+		<if test ="recordTime != null">
+			#{recordTime,jdbcType=TIMESTAMP}
+		</if>
+	</trim>
+</insert>
+<select id="findByPK" parameterType="Long" 
+		resultType="com.bank.beans.FarmerCompunish">
+	select 
+	<include refid="Compunish_Column_List" />
+	from t_farmer_compunish where compunishid = #{id,jdbcType=INTEGER}
+</select>
+</mapper>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="farmerinsured">
+<sql id="Insured_Column_List" >
+	insuredid, farmername, farmeridnum, name, type,
+    amount, insuretime, limittime, recorder, recordtime
+</sql>
+<insert id="save" useGeneratedKeys="true" keyProperty="insuredId" 
+	parameterType="com.bank.beans.FarmerInsured">
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="farmerName != null">
+			farmername,
+		</if>
+		<if test="farmerIdNum != null">
+			farmeridnum,
+		</if>
+   		<if test="name != null">
+   			name,
+   		</if>
+   		<if test="type != null">
+   			type,
+   		</if>
+   		<if test="amount != null">
+   			amount,
+   		</if>
+   		<if test="insureTime != null">
+   			insuretime,
+   		</if>
+   		<if test="limitTime != null">
+   			limittime,
+   		</if>
+		<if test ="recorder != null">
+			recorder,
+		</if>
+		<if test="recordTime != null">
+		 	recordtime
+		</if>
+	</trim>
+	<trim prefix="values (" suffix=")" suffixOverrides=",">
+		<if test="farmerName != null">
+			#{farmerName,jdbcType=VARCHAR},
+		</if>
+		<if test="farmerIdNum != null">
+			#{farmerIdNum,jdbcType=VARCHAR},
+		</if>
+   		<if test="name != null">
+   			#{name,jdbcType=VARCHAR},
+   		</if>
+   		<if test="type != null">
+   			#{type,jdbcType=INTEGER},
+   		</if>
+   		<if test="amount != null">
+   			#{amount,jdbcType=DOUBLE},
+   		</if>
+   		<if test="insureTime != null">
+   			#{insureTime,jdbcType=DATE},
+   		</if>
+   		<if test="limitTime != null">
+   			#{limitTime,jdbcType=DATE},
+   		</if>
+		<if test ="recorder != null">
+			#{recorder,jdbcType=VARCHAR},
+		</if>
+		<if test="recordTime != null">
+		 	#{recordTime,jdbcType=TIMESTAMP}
+		</if>
+	</trim>
+</insert>
+<select id="findByPK" parameterType="Long" 
+	resultType="com.bank.beans.FarmerInsured">
+	select 
+	<include refid="Insured_Column_List" />
+	from t_farmer_insured where insuredid = #{id,jdbcType=INTEGER}
+</select>
+</mapper>

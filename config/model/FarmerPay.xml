@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="farmerpay">
+	<sql id="Pay_Column_List" >
+		payid, farmerName, farmerIdNum, productpay, livingpay, medicalpay,
+		educatepay, insuredpay, otherpay, totalpay, recorder, recordTime
+	</sql>
+	<insert id="save" useGeneratedKeys="true" keyProperty="payId" 
+		parameterType="com.bank.beans.FarmerPay">
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+		   <if test="farmerName != null">
+		   	   farmername,
+		   </if>
+		   <if test="farmerIdNum != null">
+		       farmeridnum,
+		   </if>
+	  	   <if test="productPay != null">
+	  		   productpay,
+	  	   </if>
+	  	   <if test="livingPay != null">
+	  		   livingpay,
+	  	   </if>
+	   	   <if test="medicalPay != null">
+	   		   medicalpay,
+	   	   </if>
+	   	   <if test="educatePay != null">
+	   		   educatepay,
+	   	   </if>
+	   	   <if test="insuredPay != null">
+	   		   insuredpay
+	   	   </if>
+		   <if test="otherPay != null">
+			   otherpay,
+		   </if>
+		   <if test="totalPay != null">
+			   totalpay,
+		   </if>
+	   	   <if test="recorder != null">
+	   		   recorder,
+	   	   </if>
+	  	   <if test="recordTime != null">
+	  		   recordtime
+	  	   </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+		   <if test="farmerName != null">
+               #{farmerName,jdbcType=VARCHAR},
+       	   </if>
+	       <if test="farmerIdNum != null">
+	           #{farmerIdNum,jdbcType=VARCHAR},
+	       </if>
+	       <if test="productPay != null">
+	           #{productPay,jdbcType=DOUBLE},
+	       </if>
+           <if test="livingPay != null">
+           	   #{livingPay,jdbcType=DOUBLE},
+           </if>
+           <if test="medicalPay != null">
+               #{medicalPay,jdbcType=DOUBLE},
+           </if>
+           <if test="educatePay != null">
+           	   #{educatePay,jdbcType=DOUBLE},
+           </if>
+           <if test="insuredPay != null">
+          	   #{insuredPay,jdbcType=DOUBLE},
+          </if>
+	      <if test="otherPay != null">
+	           #{otherPay,jdbcType=DOUBLE},
+	      </if>
+	      <if test="totalPay != null">
+	      	   #{totalPay,jdbcType=DOUBLE},
+	      </if>
+          <if test="recorder != null">
+          	   #{recorder,jdbcType=VARCHAR},
+          </if>
+         <if test="recordTime != null">
+              #{recordTime,jdbcType=TIMESTAMP}
+         </if>
+		</trim>
+	</insert>
+	<select id="findByPK" parameterType="Long" 
+		resultType="com.bank.beans.FarmerPay">
+		select 
+		<include refid="Pay_Column_List" />
+		from t_farmer_pay where payid = #{id,jdbcType=INTEGER}
+	</select>
+	
+</mapper>
