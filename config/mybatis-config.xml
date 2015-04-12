@@ -16,7 +16,23 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="com.bank.beans.MenuPrivilege" alias="MenuPrivilege"/>
 		<typeAlias type="com.bank.beans.Company" alias="Company"/>
 		<typeAlias type="com.bank.beans.CompanyCapital" alias="CompanyCapital"/>
+		<typeAlias type="com.bank.beans.CompanyInvest" alias="CompanyInvest"/>
 		<typeAlias type="com.bank.beans.CompanyEmployee" alias="CompanyEmployee"/>
+		<typeAlias type="com.bank.beans.Farmer" alias="Farmer"/>
+		<typeAlias type="com.bank.beans.FarmerMember" alias="FarmerMember"/>
+		<typeAlias type="com.bank.beans.FarmerIncome" alias="FarmerIncome"/>
+		<typeAlias type="com.bank.beans.FarmerPay" alias="FarmerPay"/>
+		<typeAlias type="com.bank.beans.FarmerHouse" alias="FarmerHouse"/>
+		<typeAlias type="com.bank.beans.FarmerForest" alias="FarmerForest"/>
+		<typeAlias type="com.bank.beans.FarmerBreed" alias="FarmerBreed"/>
+		<typeAlias type="com.bank.beans.FarmerDevice" alias="FarmerDevice"/>
+		<typeAlias type="com.bank.beans.FarmerUnbalanced" alias="FarmerUnbalanced"/>
+		<typeAlias type="com.bank.beans.FarmerBadLoan" alias="FarmerBadLoan"/>
+		<typeAlias type="com.bank.beans.FarmerEnsure" alias="FarmerEnsure"/>
+		<typeAlias type="com.bank.beans.FarmerInsured" alias="FarmerInsured"/>
+		<typeAlias type="com.bank.beans.FarmerEvaluate" alias="FarmerEvaluate"/>
+		<typeAlias type="com.bank.beans.FarmerCredit" alias="FarmerCredit"/>
+		<typeAlias type="com.bank.beans.FarmerCompunish" alias="FarmerCompunish"/>
 	</typeAliases>
 	
 	<mappers>
@@ -30,6 +46,22 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="model/Company.xml" />
 		<mapper resource="model/CompanyCapital.xml" />
 		<mapper resource="model/CompanyEmployee.xml" />
+		<mapper resource="model/CompanyInvest.xml" />
+		<mapper resource="model/Farmer.xml" />
+		<mapper resource="model/FarmerMember.xml" />
+		<mapper resource="model/FarmerIncome.xml" />
+		<mapper resource="model/FarmerPay.xml" />
+		<mapper resource="model/FarmerHouse.xml"/>
+		<mapper resource="model/FarmerForest.xml"/>
+		<mapper resource="model/FarmerBreed.xml"/>
+		<mapper resource="model/FarmerDevice.xml"/>
+		<mapper resource="model/FarmerUnbalanced.xml"/>
+		<mapper resource="model/FarmerBadLoan.xml"/>
+		<mapper resource="model/FarmerEnsure.xml"/>
+		<mapper resource="model/FarmerInsured.xml"/>
+		<mapper resource="model/FarmerEvaluate.xml"/>
+		<mapper resource="model/FarmerCredit.xml"/>
+		<mapper resource="model/FarmerCompunish.xml"/>
 	</mappers> 
 
 

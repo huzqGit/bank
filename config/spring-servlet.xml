@@ -63,6 +63,22 @@
     <bean class="com.bank.controller.manager.UserRoleController"/>
     <bean class="com.bank.controller.company.CompanyController"/>
     <bean class="com.bank.controller.company.CompanyCapitalController"/>
+    <bean class="com.bank.controller.company.CompanyInvestController"/>
     <bean class="com.bank.controller.company.CompanyEmployeeController"/>
+    <bean class="com.bank.controller.farmer.FarmerController"/>
+    <bean class="com.bank.controller.farmer.FarmerMemberController"/>
+    <bean class="com.bank.controller.farmer.FarmerIncomeController"/>
+    <bean class="com.bank.controller.farmer.FarmerPayController"/>
+    <bean class="com.bank.controller.farmer.FarmerHouseController"/>
+    <bean class="com.bank.controller.farmer.FarmerForestController"/>
+    <bean class="com.bank.controller.farmer.FarmerBreedController"/>
+    <bean class="com.bank.controller.farmer.FarmerDeviceController"/>
+    <bean class="com.bank.controller.farmer.FarmerUnbalancedController"/>
+    <bean class="com.bank.controller.farmer.FarmerBadLoanController"/>
+    <bean class="com.bank.controller.farmer.FarmerEnsureController"/>
+    <bean class="com.bank.controller.farmer.FarmerInsuredController"/>
+    <bean class="com.bank.controller.farmer.FarmerEvaluateController"/>
+    <bean class="com.bank.controller.farmer.FarmerCreditController"/>
+    <bean class="com.bank.controller.farmer.FarmerCompunishController"/>
     
 </beans>
