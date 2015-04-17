@@ -9,6 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </sql>
 <insert id="save" useGeneratedKeys="true" keyProperty="compunishId" 
 		parameterType="com.bank.beans.FarmerCompunish">
+	insert into t_farmer_compunish
 	<trim prefix="(" suffix=")" suffixOverrides=",">
 		<if test="farmerName != null">
 			farmername,
@@ -67,5 +68,51 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	select 
 	<include refid="Compunish_Column_List" />
 	from t_farmer_compunish where compunishid = #{id,jdbcType=INTEGER}
+</select>
+<resultMap id="farmerCompunishList" type="com.bank.beans.FarmerCompunish">
+    <result column="compunishId" property="id" jdbcType="BIGINT"/>
+    <result column="farmerName" property="farmerName" jdbcType="VARCHAR" />
+    <result column="farmerIdNum" property="farmerIdNum" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="organ" property="organ" jdbcType="VARCHAR" />
+	<result column="detail" property="detail" jdbcType="VARCHAR" />
+	<result column="occurTime" property="occurTime" jdbcType="DATE" />
+    <result column="recorder" property="recorder" jdbcType="VARCHAR" />
+    <result column="recordTime" property="recordTime" jdbcType="DATE" />
+</resultMap>
+<select id="pageing" parameterType="Map" resultMap="farmerCompunishList">
+	select 
+	<include refid="Compunish_Column_List" />
+	from 
+	(select t.*,rownumber() over(order by recordtime desc) as rn from t_farmer_compunish t
+	<where>
+		<if test="farmerName != null and farmerName != '' ">
+			t.farmername like CONCAT(CONCAT('%',#{farmerName}),'%') 
+		</if>
+		<if test="farmerIdNum != null and farmerIdNum != ''">
+		   	and t.farmeridnum like CONCAT(CONCAT('%',#{farmerIdNum}),'%')  
+		</if>
+		<if test="type != null and type != '' ">
+			t.type like CONCAT(CONCAT('%',#{type}),'%') 
+		</if>
+		<if test="organ != null and organ != ''">
+		   	and t.organ like CONCAT(CONCAT('%',#{organ}),'%')  
+		</if>
+		<if test="recorder != null and recorder != '' ">
+		    and t.recoder like CONCAT(CONCAT('%',#{recoder}),'%')  
+		</if>
+		<if test="recordTimeBegin !=null and recordTimeBegin != ''">
+		   	<![CDATA[and t.recordtime >=to_date('#{recordTimeBegin}','yyyy-mm-dd')]]>
+		</if>
+		<if test="recordTimeEnd !=null and recordTimeEnd != ''">
+		   	<![CDATA[and t.recordtime <=to_date('#{recordTimeEnd}','yyyy-mm-dd')]]>
+		</if>
+	 </where>
+	 )
+	 <where>
+	 	<if test="start != null">
+	    	rn between #{start} and #{end}
+	   	</if>
+	 </where>
 </select>
 </mapper>

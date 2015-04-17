@@ -9,6 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</sql>
 	<insert id="save" useGeneratedKeys="true" keyProperty="houseId" 
 		parameterType="com.bank.beans.FarmerHouse">
+		insert into t_farmer_house
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			 <if test="farmerName != null">
 			 	farmername,
@@ -25,7 +26,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			 <if test="houseAddress != null">
 			    houseaddress,
 			 </if>
-	  		 <if test="buildarea != null">
+	  		 <if test="buildArea != null">
 	  		    buildarea,
 	  		 </if>
 			<if test="buildDate != null">
@@ -43,7 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="recorder != null">
 				recorder,
 			</if>
-			<if test="recordTime != null'">
+			<if test="recordTime != null">
 				recordTime
 			</if>
 		</trim>
@@ -63,7 +64,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	        <if test="houseAddress != null">
 	          	#{houseAddress,jdbcType=VARCHAR},
 	        </if>
-	        <if test="buildarea != null">
+	        <if test="buildArea != null">
 	            #{buildArea,jdbcType=VARCHAR},
 	        </if>
 	        <if test="buildDate != null">
@@ -81,7 +82,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	        <if test="recorder != null">
 	           #{recorder,jdbcType=VARCHAR},
 	        </if>
-	        <if test="recordTime != null'">
+	        <if test="recordTime != null">
 	           #{recordTime,jdbcType=TIMESTAMP}
 	        </if>
 		</trim>
@@ -94,7 +95,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <resultMap id="farmerHouseList" type="com.bank.beans.FarmerHouse">
     <result column="houseId" property="id" jdbcType="BIGINT"/>
     <result column="farmerName" property="farmerName" jdbcType="VARCHAR" />
-    <result column="farmerIdnum" property="farmerIdnum" jdbcType="VARCHAR" />
+    <result column="farmerIdnum" property="farmerIdNum" jdbcType="VARCHAR" />
     <result column="houseProperty" property="houseProperty" jdbcType="VARCHAR" />
     <result column="houseType" property="houseType" jdbcType="VARCHAR" />
 	<result column="houseAddress" property="houseAddress" jdbcType="VARCHAR"/>

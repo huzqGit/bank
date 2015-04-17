@@ -9,6 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </sql>
 <insert id="save" useGeneratedKeys="true" keyProperty="payId" 
 		parameterType="com.bank.beans.FarmerPay">
+		insert into t_farmer_pay
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 		   <if test="farmerName != null">
 		   	   farmername,
@@ -29,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	   		   educatepay,
 	   	   </if>
 	   	   <if test="insuredPay != null">
-	   		   insuredpay
+	   		   insuredpay,
 	   	   </if>
 		   <if test="otherPay != null">
 			   otherpay,
@@ -80,8 +81,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </if>
 		</trim>
 </insert>
-<select id="findByPK" parameterType="Long" 
-		resultType="com.bank.beans.FarmerPay">
+<select id="findByPK" parameterType="Long" resultType="com.bank.beans.FarmerPay">
 		select 
 		<include refid="Pay_Column_List" />
 		from t_farmer_pay where payid = #{id,jdbcType=INTEGER}
@@ -89,7 +89,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <resultMap id="farmerPayList" type="com.bank.beans.FarmerPay">
     <result column="payId" property="id" jdbcType="BIGINT"/>
     <result column="farmerName" property="farmerName" jdbcType="VARCHAR" />
-    <result column="farmerIdnum" property="farmerIdnum" jdbcType="VARCHAR" />
+    <result column="farmerIdNum" property="farmerIdNum" jdbcType="VARCHAR" />
     <result column="productPay" property="productPay" jdbcType="DOUBLE" />
     <result column="livingPay" property="livingPay" jdbcType="DOUBLE" />
 	<result column="medicalPay" property="medicalPay" jdbcType="DOUBLE" />

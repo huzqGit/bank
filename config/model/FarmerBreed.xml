@@ -9,6 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </sql>
 <insert id="save" useGeneratedKeys="true" keyProperty="breedId" 
 		parameterType="com.bank.beans.FarmerBreed">
+		insert into t_farmer_breed
 	<trim prefix="(" suffix=")" suffixOverrides=",">
 		<if test="farmerName != null">
 			farmername,

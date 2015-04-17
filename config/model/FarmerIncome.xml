@@ -9,11 +9,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </sql>
 <insert id="save" useGeneratedKeys="true" keyProperty="incomeId" 
 		parameterType="com.bank.beans.FarmerIncome">
+		insert into t_farmer_income
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="farmerName != null">
-				farmername
+				farmername,
 			</if>
-			<if test="farmerIdNum != null">
+			<if test="farmerIdnum != null">
 				farmeridnum,
 			</if>
    			<if test="incomeName != null">
@@ -22,7 +23,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    			<if test="incomeType != null">
    				incometype,
    			</if>
-  			<if test="netIncome != null">
+   			<if test="netIncome != null">
+   				netincome,
+   			</if>
+  			<if test="recorder != null">
   			 	recorder,
   			</if>
    			<if test="recordTime != null">
@@ -31,27 +35,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="farmerName != null">
-        		#{farmerName,JdbcType=VARCHAR},
+        		#{farmerName,jdbcType=VARCHAR},
       		</if>
-		    <if test="farmerIdNum != null">
-		        #{farmerIdNum,JdbcType=VARCHAR},
+		    <if test="farmerIdnum != null">
+		        #{farmerIdnum,jdbcType=VARCHAR},
 		    </if>
 	        <if test="incomeName != null">
-	           #{incomeName,JdbcType=VARCHAR},
+	           #{incomeName,jdbcType=VARCHAR},
 	        </if>
 	        <if test="incomeType != null">
-	           #{incomeType,JdbcType=INTEGER},
+	           #{incomeType,jdbcType=INTEGER},
 	        </if>
 	        <if test="netIncome != null">
-	           #{recorder,JdbcType=VARCHAR},
+   				#{netIncome,jdbcType=VARCHAR},
+   			</if>
+	        <if test="recorder != null">
+	           #{recorder,jdbcType=VARCHAR},
 	        </if>
 	        <if test="recordTime != null">
-	           #{recordTime,JdbcType=TIMESTAMP}
+	           #{recordTime,jdbcType=TIMESTAMP}
 	        </if>
 		</trim>
 </insert>
-<select id="findByPK" parameterType="Long" 
-		resultType="com.bank.beans.FarmerIncome">
+<select id="findByPK" parameterType="Long" resultType="com.bank.beans.FarmerIncome">
 		select 
 		<include refid="Income_Column_List" />
 		from t_farmer_income where incomeid = #{id,jdbcType=INTEGER}
@@ -75,8 +81,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="farmerName != null and farmerName != '' ">
 			t.farmername like CONCAT(CONCAT('%',#{farmerName}),'%') 
 		</if>
-		<if test="farmerIdNum != null and farmerIdNum != ''">
-		   	and t.farmeridnum like CONCAT(CONCAT('%',#{farmerIdNum}),'%')  
+		<if test="farmerIdnum != null and farmerIdnum != ''">
+		   	and t.farmeridnum like CONCAT(CONCAT('%',#{farmerIdnum}),'%')  
 		</if>
 		<if test="name != null and name != ''">
 		   	and t.incometype ='#{incomeType}'  

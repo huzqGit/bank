@@ -4,11 +4,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="farmerforest">
 <sql id="Forest_Column_List" >
-	farmername, farmeridnum, cardnum, wordnum, user, usetype, 
+	forestid, farmername, farmeridnum, cardnum, wordnum, user, usetype, 
 	area, storenum, timelimit, assessprice, recorder, recordtime
 </sql>
 <insert id="save" useGeneratedKeys="true" keyProperty="forestId" 
 		parameterType="com.bank.beans.FarmerForest">
+	insert into t_farmer_forest
 	<trim prefix="(" suffix=")" suffixOverrides=",">
 	   <if test="farmerName != null">
 	   		farmername,
@@ -49,45 +50,44 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</trim>
 	<trim prefix="values (" suffix=")" suffixOverrides=",">
 		<if test="farmerName != null">
-         	#{farmerName,JdbcType=VARCHAR},
+         	#{farmerName,jdbcType=VARCHAR},
 	    </if>
 	    <if test="farmerIdNum != null">
-	        #{farmerIdNum,JdbcType=VARCHAR},
+	        #{farmerIdNum,jdbcType=VARCHAR},
 	    </if>
 	    <if test="cardNum != null">
-	        #{cardNum,JdbcType=VARCHAR},
+	        #{cardNum,jdbcType=VARCHAR},
 	    </if>
 	    <if test="wordNum != null">
-	        #{wordNum,JdbcType=VARCHAR},
+	        #{wordNum,jdbcType=VARCHAR},
 	    </if>
 	    <if test="user != null">
-	        #{user,JdbcType=VARCHAR},
+	        #{user,jdbcType=VARCHAR},
 	    </if>
 	    <if test="useType != null">
-	      	#{useType,JdbcType=INTEGER},
+	      	#{useType,jdbcType=INTEGER},
 	    </if>
 	    <if test="area != null">
-	        #{area,JdbcType=VARCHAR},
+	        #{area,jdbcType=VARCHAR},
 	    </if>
 	    <if test="storeNum != null">
-	     	#{storeNum,JdbcType=VARCHAR},
+	     	#{storeNum,jdbcType=VARCHAR},
 	    </if>
 	    <if test ="timeLimit != null">
-	     	#{imeLimit,JdbcType=VARCHAR},
+	     	#{timeLimit,jdbcType=VARCHAR},
 	    </if>
 	    <if test="assessPrice != null">
-	     	#{assessPrice,JdbcType=VARCHAR},
+	     	#{assessPrice,jdbcType=VARCHAR},
 	    </if>
 	    <if test="recorder != null">
-	     	#{recorder,JdbcType=VARCHAR},
+	     	#{recorder,jdbcType=VARCHAR},
 	    </if>
 	    <if test="recordTime != null">
-	        #{recordTime,JdbcType=TIMESTAMP}
+	        #{recordTime,jdbcType=TIMESTAMP}
 	    </if>
 	</trim>
 </insert>
-<select id="findByPK" parameterType="Long" 
-		resultType="com.bank.beans.FarmerForest">
+<select id="findByPK" parameterType="Long" resultType="com.bank.beans.FarmerForest">
 	select 
 	<include refid="Forest_Column_List" />
 	from t_farmer_forest where forestid = #{id,jdbcType=INTEGER}
@@ -95,7 +95,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <resultMap id="farmerForestList" type="com.bank.beans.FarmerForest">
     <result column="forestId" property="id" jdbcType="BIGINT"/>
     <result column="farmerName" property="farmerName" jdbcType="VARCHAR" />
-    <result column="farmerIdnum" property="farmerIdnum" jdbcType="VARCHAR" />
+    <result column="farmerIdNum" property="farmerIdNum" jdbcType="VARCHAR" />
     <result column="cardNum" property="cardNum" jdbcType="VARCHAR" />
     <result column="wordNum" property="wordNum" jdbcType="VARCHAR" />
 	<result column="user" property="user" jdbcType="VARCHAR"/>

@@ -9,6 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </sql>
 <insert id="save" useGeneratedKeys="true" keyProperty="unbalancedId" 
 	parameterType="com.bank.beans.FarmerUnbalanced">
+	insert into t_farmer_unbalanced
 	<trim prefix="(" suffix=")" suffixOverrides=",">
 		<if test="farmerName != null">
 		 	farmername,
@@ -80,10 +81,58 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    		</if>
 	</trim>
 </insert>
-<select id="findByPK" parameterType="Long" 
-		resultType="com.bank.beans.FarmerUnbalanced">
+<select id="findByPK" parameterType="Long" resultType="com.bank.beans.FarmerUnbalanced">
 	select 
 	<include refid="Unbalanced_Column_List" />
 	from t_farmer_unbalanced where unbalancedid = #{id,jdbcType=INTEGER}
+</select>
+<resultMap id="farmerUnbalancedList" type="com.bank.beans.FarmerUnbalanced">
+    <result column="unbalancedId" property="id" jdbcType="BIGINT"/>
+    <result column="farmerName" property="farmerName" jdbcType="VARCHAR" />
+    <result column="farmerIdNum" property="farmerIdNum" jdbcType="VARCHAR" />
+    <result column="bank" property="bank" jdbcType="INTEGER" />
+    <result column="businessType" property="businessType" jdbcType="INTEGER" />
+	<result column="loanUse" property="loanUse" jdbcType="VARCHAR" />
+    <result column="loanWay" property="loanWay" jdbcType="INTEGER" />
+    <result column="loanBalance" property="loanBalance" jdbcType="DOUBLE" />
+    <result column="provideTime" property="provideTime" jdbcType="DATE" />
+    <result column="limitTime" property="limitTime" jdbcType="DATE" />
+    <result column="recorder" property="recorder" jdbcType="VARCHAR" />
+    <result column="recordTime" property="recordTime" jdbcType="DATE" />
+</resultMap>
+<select id="pageing" parameterType="Map" resultMap="farmerUnbalancedList">
+	select 
+	<include refid="Unbalanced_Column_List" />
+	from 
+	(select t.*,rownumber() over(order by recordtime desc) as rn from t_farmer_unbalanced t
+	<where>
+		<if test="farmerName != null and farmerName != '' ">
+			t.farmername like CONCAT(CONCAT('%',#{farmerName}),'%') 
+		</if>
+		<if test="farmerIdNum != null and farmerIdNum != ''">
+		   	and t.farmeridnum like CONCAT(CONCAT('%',#{farmerIdNum}),'%')  
+		</if>
+		<if test="bank != null and bank != '' ">
+			t.bank like CONCAT(CONCAT('%',#{bank}),'%') 
+		</if>
+		<if test="businessType != null and businessType != ''">
+		   	and t.businesstype like CONCAT(CONCAT('%',#{businessType}),'%')  
+		</if>
+		<if test="recorder != null and recorder != '' ">
+		    and t.recoder like CONCAT(CONCAT('%',#{recoder}),'%')  
+		</if>
+		<if test="recordTimeBegin !=null and recordTimeBegin != ''">
+		   	<![CDATA[and t.recordtime >=to_date('#{recordTimeBegin}','yyyy-mm-dd')]]>
+		</if>
+		<if test="recordTimeEnd !=null and recordTimeEnd != ''">
+		   	<![CDATA[and t.recordtime <=to_date('#{recordTimeEnd}','yyyy-mm-dd')]]>
+		</if>
+	 </where>
+	 )
+	 <where>
+	 	<if test="start != null">
+	    	rn between #{start} and #{end}
+	   	</if>
+	 </where>
 </select>
 </mapper>

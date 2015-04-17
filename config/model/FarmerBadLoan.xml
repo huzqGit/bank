@@ -3,12 +3,13 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="farmerbadloan">
-<sql id="badLoan_column_list" >
+<sql id="BadLoan_column_list" >
 	 badloanid, farmername, farmeridnum, bank, balance,
  	 paymenttime, recorder, recordtime
 </sql>
 <insert id="save" useGeneratedKeys="true" keyProperty="unbalancedId" 
 	parameterType="com.bank.beans.FarmerBadLoan">
+	insert into t_farmer_badloan
 	<trim prefix="(" suffix=")" suffixOverrides=",">
 		<if test="farmerName != null">
 			farmername,
@@ -59,7 +60,49 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <select id="findByPK" parameterType="Long" 
 		resultType="com.bank.beans.FarmerBadLoan">
 	select 
-	<include refid="badLoan_column_list" />
+	<include refid="BadLoan_column_list" />
 	from t_farmer_badloan where badloanid = #{id,jdbcType=INTEGER}
+</select>
+<resultMap id="farmerBadLoanList" type="com.bank.beans.FarmerBadLoan">
+    <result column="badloanId" property="id" jdbcType="BIGINT"/>
+    <result column="farmerName" property="farmerName" jdbcType="VARCHAR" />
+    <result column="farmerIdnum" property="farmerIdnum" jdbcType="VARCHAR" />
+    <result column="bank" property="bank" jdbcType="VARCHAR" />
+    <result column="balance" property="balance" jdbcType="DOUBLE" />
+	<result column="paymentTime" property="paymentTime" jdbcType="DATE" />
+    <result column="recorder" property="recorder" jdbcType="VARCHAR" />
+    <result column="recordTime" property="recordTime" jdbcType="DATE" />
+</resultMap>
+<select id="pageing" parameterType="Map" resultMap="farmerBadLoanList">
+	select 
+	<include refid="BadLoan_column_list" />
+	from 
+	(select t.*,rownumber() over(order by recordtime desc) as rn from t_farmer_badloan t
+	<where>
+		<if test="farmerName != null and farmerName != '' ">
+			t.farmername like CONCAT(CONCAT('%',#{farmerName}),'%') 
+		</if>
+		<if test="farmerIdNum != null and farmerIdNum != ''">
+		   	and t.farmeridnum like CONCAT(CONCAT('%',#{farmerIdNum}),'%')  
+		</if>
+		<if test="bank != null and bank != '' ">
+			t.bank like CONCAT(CONCAT('%',#{bank}),'%') 
+		</if>
+		<if test="recorder != null and recorder != '' ">
+		    and t.recoder like CONCAT(CONCAT('%',#{recoder}),'%')  
+		</if>
+		<if test="recordTimeBegin !=null and recordTimeBegin != ''">
+		   	<![CDATA[and t.recordtime >=to_date('#{recordTimeBegin}','yyyy-mm-dd')]]>
+		</if>
+		<if test="recordTimeEnd !=null and recordTimeEnd != ''">
+		   	<![CDATA[and t.recordtime <=to_date('#{recordTimeEnd}','yyyy-mm-dd')]]>
+		</if>
+	 </where>
+	 )
+	 <where>
+	 	<if test="start != null">
+	    	rn between #{start} and #{end}
+	   	</if>
+	 </where>
 </select>
 </mapper>
