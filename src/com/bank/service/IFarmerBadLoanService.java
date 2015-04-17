@@ -1,9 +1,9 @@
 package com.bank.service;
 
-import com.bank.beans.FarmerBadloan;
+import com.bank.beans.FarmerBadLoan;
 import com.common.service.GenericService;
 
 public interface IFarmerBadLoanService extends
-		GenericService<FarmerBadloan, Long> {
+		GenericService<FarmerBadLoan, Long> {
 
 }
