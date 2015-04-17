@@ -52,11 +52,11 @@ public class FarmerCreditController {
 	}
 	
 	@RequestMapping(value = "/loadCredit", method = RequestMethod.POST)
-	public ModelAndView loadCompany(@RequestParam(value="farmerId",required=true) String farmerId, 
+	public ModelAndView loadCompany(@RequestParam(value="id",required=true) String id, 
 			HttpServletResponse response) throws Exception {
-		if(StringUtils.isEmpty(farmerId)){
-			Long id=Long.valueOf(farmerId);
-			FarmerCredit farmer = farmerCreditService.findByPK(id);
+		if(!StringUtils.isEmpty(id)){
+			Long creditId=Long.valueOf(id);
+			FarmerCredit farmer = farmerCreditService.findByPK(creditId);
 			String json = JsonUtil.Encode(farmer);
 			response.setContentType("text/html;charset=UTF-8");
 		    response.getWriter().write(json);
@@ -69,18 +69,15 @@ public class FarmerCreditController {
 	public ModelAndView loadAllCompany(HttpServletRequest request, 
 			HttpServletResponse response) throws Exception{
 		//查询条件
-		
-	    String companyName = request.getParameter("companyName");
-	    String organCode=request.getParameter("organCode");
-	    String creditCode=request.getParameter("creditCode");
+		String farmerName = request.getParameter("farmerName");
+	    String farmerIdNum=request.getParameter("farmerIdNum");
 	    String recorder=request.getParameter("recorder");
 	    String recordTimeBegin=request.getParameter("recordTimeBegin");
 	    String recordTimeEnd=request.getParameter("recordTimeEnd");
 	    
 	    Map<String,String> query = new HashMap<String,String>();
-	    query.put("companyName", companyName);
-	    query.put("organCode", organCode);
-	    query.put("creditCode", creditCode);
+	    query.put("farmerName", farmerName);
+	    query.put("farmerIdNum", farmerIdNum);
 	    query.put("recorder", recorder);
 	    query.put("recordTimeBegin", recordTimeBegin);
 	    query.put("recordTimeEnd", recordTimeEnd);

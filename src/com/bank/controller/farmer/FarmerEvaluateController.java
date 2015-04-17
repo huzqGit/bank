@@ -54,7 +54,7 @@ public class FarmerEvaluateController {
 	@RequestMapping(value = "/loadEvaluate", method = RequestMethod.POST)
 	public ModelAndView loadCompany(@RequestParam(value="id",required=true) String id, 
 			HttpServletResponse response) throws Exception {
-		if(StringUtils.isEmpty(id)){
+		if(!StringUtils.isEmpty(id)){
 			Long evaluateId=Long.valueOf(id);
 			FarmerEvaluate farmer = farmerEvaluateService.findByPK(evaluateId);
 			String json = JsonUtil.Encode(farmer);
@@ -69,18 +69,19 @@ public class FarmerEvaluateController {
 	public ModelAndView loadAllCompany(HttpServletRequest request, 
 			HttpServletResponse response) throws Exception{
 		//查询条件
-		
-	    String companyName = request.getParameter("companyName");
-	    String organCode=request.getParameter("organCode");
-	    String creditCode=request.getParameter("creditCode");
+		String farmerName = request.getParameter("farmerName");
+	    String farmerIdNum=request.getParameter("farmerIdNum");
+	    String harmonyStatus=request.getParameter("harmonyStatus");
+	    String honestStatus=request.getParameter("honestStatus");
 	    String recorder=request.getParameter("recorder");
 	    String recordTimeBegin=request.getParameter("recordTimeBegin");
 	    String recordTimeEnd=request.getParameter("recordTimeEnd");
 	    
 	    Map<String,String> query = new HashMap<String,String>();
-	    query.put("companyName", companyName);
-	    query.put("organCode", organCode);
-	    query.put("creditCode", creditCode);
+	    query.put("farmerName", farmerName);
+	    query.put("farmerIdNum", farmerIdNum);
+	    query.put("harmonyStatus", harmonyStatus);
+	    query.put("honestStatus", honestStatus);
 	    query.put("recorder", recorder);
 	    query.put("recordTimeBegin", recordTimeBegin);
 	    query.put("recordTimeEnd", recordTimeEnd);

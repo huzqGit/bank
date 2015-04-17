@@ -54,7 +54,7 @@ public class FarmerEnsureController {
 	@RequestMapping(value = "/loadEnsure", method = RequestMethod.POST)
 	public ModelAndView loadCompany(@RequestParam(value="id",required=true) String id, 
 			HttpServletResponse response) throws Exception {
-		if(StringUtils.isEmpty(id)){
+		if(!StringUtils.isEmpty(id)){
 			Long ensureId=Long.valueOf(id);
 			FarmerEnsure farmer = farmerEnsureService.findByPK(ensureId);
 			String json = JsonUtil.Encode(farmer);
@@ -70,17 +70,19 @@ public class FarmerEnsureController {
 			HttpServletResponse response) throws Exception{
 		//查询条件
 		
-	    String companyName = request.getParameter("companyName");
-	    String organCode=request.getParameter("organCode");
-	    String creditCode=request.getParameter("creditCode");
+		String farmerName = request.getParameter("farmerName");
+	    String farmerIdNum=request.getParameter("farmerIdNum");
+	    String name=request.getParameter("name");
+	    String idNum=request.getParameter("idNum");
 	    String recorder=request.getParameter("recorder");
 	    String recordTimeBegin=request.getParameter("recordTimeBegin");
 	    String recordTimeEnd=request.getParameter("recordTimeEnd");
 	    
 	    Map<String,String> query = new HashMap<String,String>();
-	    query.put("companyName", companyName);
-	    query.put("organCode", organCode);
-	    query.put("creditCode", creditCode);
+	    query.put("farmerName", farmerName);
+	    query.put("farmerIdNum", farmerIdNum);
+	    query.put("name", name);
+	    query.put("idNum", idNum);
 	    query.put("recorder", recorder);
 	    query.put("recordTimeBegin", recordTimeBegin);
 	    query.put("recordTimeEnd", recordTimeEnd);

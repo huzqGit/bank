@@ -23,7 +23,7 @@ import com.bank.common.util.JsonUtil;
 import com.bank.service.IFarmerHouseService;
 
 @Controller
-@RequestMapping(value = "/farmer/house")
+@RequestMapping(value = "/farmer")
 public class FarmerHouseController {
 	
 	@Resource
@@ -54,7 +54,7 @@ public class FarmerHouseController {
 	@RequestMapping(value = "/loadHouse", method = RequestMethod.POST)
 	public ModelAndView loadCompany(@RequestParam(value="id",required=true) String id, 
 			HttpServletResponse response) throws Exception {
-		if(StringUtils.isEmpty(id)){
+		if(!StringUtils.isEmpty(id)){
 			Long houseId=Long.valueOf(id);
 			FarmerHouse farmerHouse = farmerHouseService.findByPK(houseId);
 			String json = JsonUtil.Encode(farmerHouse);
@@ -65,22 +65,23 @@ public class FarmerHouseController {
 		
 	}
 	
-	@RequestMapping(value="/loadAllHouses",method=RequestMethod.POST)
+	@RequestMapping(value="/loadAllHouse",method=RequestMethod.POST)
 	public ModelAndView loadAllCompany(HttpServletRequest request, 
 			HttpServletResponse response) throws Exception{
 		//查询条件
-		
-	    String companyName = request.getParameter("companyName");
-	    String organCode=request.getParameter("organCode");
-	    String creditCode=request.getParameter("creditCode");
+		String farmerName = request.getParameter("farmerName");
+	    String farmerIdNum=request.getParameter("farmerIdNum");
 	    String recorder=request.getParameter("recorder");
+	    String houseProperty=request.getParameter("houseProperty");
+	    String houseType=request.getParameter("houseType");
 	    String recordTimeBegin=request.getParameter("recordTimeBegin");
 	    String recordTimeEnd=request.getParameter("recordTimeEnd");
 	    
 	    Map<String,String> query = new HashMap<String,String>();
-	    query.put("companyName", companyName);
-	    query.put("organCode", organCode);
-	    query.put("creditCode", creditCode);
+	    query.put("farmerName", farmerName);
+	    query.put("farmerIdNum", farmerIdNum);
+	    query.put("houseProperty", houseProperty);
+	    query.put("houseType", houseType);
 	    query.put("recorder", recorder);
 	    query.put("recordTimeBegin", recordTimeBegin);
 	    query.put("recordTimeEnd", recordTimeEnd);

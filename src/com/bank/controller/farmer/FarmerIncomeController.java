@@ -23,13 +23,13 @@ import com.bank.common.util.JsonUtil;
 import com.bank.service.IFarmerIncomeService;
 
 @Controller
-@RequestMapping(value = "/farmerIncome")
+@RequestMapping(value = "/farmer")
 public class FarmerIncomeController {
 	
 	@Resource
 	private IFarmerIncomeService farmerIncomeService;
 	
-	@RequestMapping(value = "/saveFarmerIncome",method = RequestMethod.POST)
+	@RequestMapping(value = "/saveIncome",method = RequestMethod.POST)
 	public ModelAndView save(HttpServletRequest request, 
 			HttpServletResponse response) throws Exception{
 
@@ -51,12 +51,12 @@ public class FarmerIncomeController {
 		
 	}
 	
-	@RequestMapping(value = "/loadFarmer", method = RequestMethod.POST)
-	public ModelAndView loadCompany(@RequestParam(value="farmerId",required=true) String farmerId, 
+	@RequestMapping(value = "/loadIncome", method = RequestMethod.POST)
+	public ModelAndView loadCompany(@RequestParam(value="id",required=true) String id, 
 			HttpServletResponse response) throws Exception {
-		if(StringUtils.isEmpty(farmerId)){
-			Long id=Long.valueOf(farmerId);
-			FarmerIncome farmerIncome = farmerIncomeService.findByPK(id);
+		if(!StringUtils.isEmpty(id)){
+			Long incomeId=Long.valueOf(id);
+			FarmerIncome farmerIncome = farmerIncomeService.findByPK(incomeId);
 			String json = JsonUtil.Encode(farmerIncome);
 			response.setContentType("text/html;charset=UTF-8");
 		    response.getWriter().write(json);
@@ -65,22 +65,22 @@ public class FarmerIncomeController {
 		
 	}
 	
-	@RequestMapping(value="/loadAllFarmers",method=RequestMethod.POST)
+	@RequestMapping(value="/loadAllIncome",method=RequestMethod.POST)
 	public ModelAndView loadAllCompany(HttpServletRequest request, 
 			HttpServletResponse response) throws Exception{
 		//查询条件
 		
-	    String companyName = request.getParameter("companyName");
-	    String organCode=request.getParameter("organCode");
-	    String creditCode=request.getParameter("creditCode");
+		String farmerName = request.getParameter("farmerName");
+	    String farmerIdnum=request.getParameter("farmerIdnum");
 	    String recorder=request.getParameter("recorder");
+	    String incomeType=request.getParameter("incomeType");
 	    String recordTimeBegin=request.getParameter("recordTimeBegin");
 	    String recordTimeEnd=request.getParameter("recordTimeEnd");
 	    
 	    Map<String,String> query = new HashMap<String,String>();
-	    query.put("companyName", companyName);
-	    query.put("organCode", organCode);
-	    query.put("creditCode", creditCode);
+	    query.put("farmerName", farmerName);
+	    query.put("farmerIdnum", farmerIdnum);
+	    query.put("incomeType", incomeType);
 	    query.put("recorder", recorder);
 	    query.put("recordTimeBegin", recordTimeBegin);
 	    query.put("recordTimeEnd", recordTimeEnd);

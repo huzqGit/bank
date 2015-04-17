@@ -23,7 +23,7 @@ import com.bank.common.util.JsonUtil;
 import com.bank.service.IFarmerUnbalancedService;
 
 @Controller
-@RequestMapping(value = "/farmer/unbalanced")
+@RequestMapping(value = "/farmer")
 public class FarmerUnbalancedController {
 	
 	@Resource
@@ -54,10 +54,10 @@ public class FarmerUnbalancedController {
 	@RequestMapping(value = "/loadUnbalanced", method = RequestMethod.POST)
 	public ModelAndView loadCompany(@RequestParam(value="id",required=true) String id, 
 			HttpServletResponse response) throws Exception {
-		if(StringUtils.isEmpty(id)){
+		if(!StringUtils.isEmpty(id)){
 			Long unbalancedId=Long.valueOf(id);
-			FarmerUnbalanced farmer = farmerUnbalancedService.findByPK(unbalancedId);
-			String json = JsonUtil.Encode(farmer);
+			FarmerUnbalanced unbalanced = farmerUnbalancedService.findByPK(unbalancedId);
+			String json = JsonUtil.Encode(unbalanced);
 			response.setContentType("text/html;charset=UTF-8");
 		    response.getWriter().write(json);
 		}
@@ -69,18 +69,19 @@ public class FarmerUnbalancedController {
 	public ModelAndView loadAllCompany(HttpServletRequest request, 
 			HttpServletResponse response) throws Exception{
 		//查询条件
-		
-	    String companyName = request.getParameter("companyName");
-	    String organCode=request.getParameter("organCode");
-	    String creditCode=request.getParameter("creditCode");
+		String farmerName = request.getParameter("farmerName");
+	    String farmerIdNum=request.getParameter("farmerIdNum");
+	    String bank=request.getParameter("bank");
+	    String businessType=request.getParameter("businessType");
 	    String recorder=request.getParameter("recorder");
 	    String recordTimeBegin=request.getParameter("recordTimeBegin");
 	    String recordTimeEnd=request.getParameter("recordTimeEnd");
 	    
 	    Map<String,String> query = new HashMap<String,String>();
-	    query.put("companyName", companyName);
-	    query.put("organCode", organCode);
-	    query.put("creditCode", creditCode);
+	    query.put("farmerName", farmerName);
+	    query.put("farmerIdNum", farmerIdNum);
+	    query.put("bank", bank);
+	    query.put("businessType", businessType);
 	    query.put("recorder", recorder);
 	    query.put("recordTimeBegin", recordTimeBegin);
 	    query.put("recordTimeEnd", recordTimeEnd);

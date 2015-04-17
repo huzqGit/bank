@@ -54,7 +54,7 @@ public class FarmerCompunishController {
 	@RequestMapping(value = "/loadCompunish", method = RequestMethod.POST)
 	public ModelAndView loadCompany(@RequestParam(value="id",required=true) String id, 
 			HttpServletResponse response) throws Exception {
-		if(StringUtils.isEmpty(id)){
+		if(!StringUtils.isEmpty(id)){
 			Long compunishId=Long.valueOf(id);
 			FarmerCompunish farmer = farmerCompunishService.findByPK(compunishId);
 			String json = JsonUtil.Encode(farmer);
@@ -69,18 +69,19 @@ public class FarmerCompunishController {
 	public ModelAndView loadAllCompany(HttpServletRequest request, 
 			HttpServletResponse response) throws Exception{
 		//查询条件
-		
-	    String companyName = request.getParameter("companyName");
-	    String organCode=request.getParameter("organCode");
-	    String creditCode=request.getParameter("creditCode");
+		String farmerName = request.getParameter("farmerName");
+	    String farmerIdNum=request.getParameter("farmerIdNum");
+	    String type = request.getParameter("type");
+	    String organ=request.getParameter("organ");
 	    String recorder=request.getParameter("recorder");
 	    String recordTimeBegin=request.getParameter("recordTimeBegin");
 	    String recordTimeEnd=request.getParameter("recordTimeEnd");
 	    
 	    Map<String,String> query = new HashMap<String,String>();
-	    query.put("companyName", companyName);
-	    query.put("organCode", organCode);
-	    query.put("creditCode", creditCode);
+	    query.put("farmerName", farmerName);
+	    query.put("farmerIdNum", farmerIdNum);
+	    query.put("type", type);
+	    query.put("organ", organ);
 	    query.put("recorder", recorder);
 	    query.put("recordTimeBegin", recordTimeBegin);
 	    query.put("recordTimeEnd", recordTimeEnd);

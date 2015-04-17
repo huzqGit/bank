@@ -23,13 +23,13 @@ import com.bank.common.util.JsonUtil;
 import com.bank.service.IFarmerPayService;
 
 @Controller
-@RequestMapping(value = "/farmerPay")
+@RequestMapping(value = "/farmer")
 public class FarmerPayController {
 	
 	@Resource
 	private IFarmerPayService farmerPayService;
 	
-	@RequestMapping(value = "/saveFarmerPay",method = RequestMethod.POST)
+	@RequestMapping(value = "/savePay",method = RequestMethod.POST)
 	public ModelAndView save(HttpServletRequest request, 
 			HttpServletResponse response) throws Exception{
 
@@ -51,10 +51,10 @@ public class FarmerPayController {
 		
 	}
 	
-	@RequestMapping(value = "/loadFarmerPay", method = RequestMethod.POST)
+	@RequestMapping(value = "/loadPay", method = RequestMethod.POST)
 	public ModelAndView loadCompany(@RequestParam(value="id",required=true) String id, 
 			HttpServletResponse response) throws Exception {
-		if(StringUtils.isEmpty(id)){
+		if(!StringUtils.isEmpty(id)){
 			Long payId=Long.valueOf(id);
 			FarmerPay farmer = farmerPayService.findByPK(payId);
 			String json = JsonUtil.Encode(farmer);
@@ -65,22 +65,19 @@ public class FarmerPayController {
 		
 	}
 	
-	@RequestMapping(value="/loadAllFarmers",method=RequestMethod.POST)
+	@RequestMapping(value="/loadAllPay",method=RequestMethod.POST)
 	public ModelAndView loadAllCompany(HttpServletRequest request, 
 			HttpServletResponse response) throws Exception{
 		//查询条件
-		
-	    String companyName = request.getParameter("companyName");
-	    String organCode=request.getParameter("organCode");
-	    String creditCode=request.getParameter("creditCode");
+		String farmerName = request.getParameter("farmerName");
+	    String farmerIdNum=request.getParameter("farmerIdNum");
 	    String recorder=request.getParameter("recorder");
 	    String recordTimeBegin=request.getParameter("recordTimeBegin");
 	    String recordTimeEnd=request.getParameter("recordTimeEnd");
 	    
 	    Map<String,String> query = new HashMap<String,String>();
-	    query.put("companyName", companyName);
-	    query.put("organCode", organCode);
-	    query.put("creditCode", creditCode);
+	    query.put("farmerName", farmerName);
+	    query.put("farmerIdNum", farmerIdNum);
 	    query.put("recorder", recorder);
 	    query.put("recordTimeBegin", recordTimeBegin);
 	    query.put("recordTimeEnd", recordTimeEnd);

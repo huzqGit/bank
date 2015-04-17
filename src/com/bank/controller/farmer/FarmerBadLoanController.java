@@ -18,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.bank.beans.FarmerBadloan;
+import com.bank.beans.FarmerBadLoan;
 import com.bank.common.util.JsonUtil;
 import com.bank.service.IFarmerBadLoanService;
 
@@ -38,7 +38,7 @@ public class FarmerBadLoanController {
 		Object decodeJsonData = JsonUtil.Decode(formData);
 		String formatdata = JSON.toJSONStringWithDateFormat(decodeJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
 		JSONObject jsb = JSONObject.parseObject(formatdata);
-		FarmerBadloan badLoan = (FarmerBadloan) JSON.toJavaObject(jsb, FarmerBadloan.class);
+		FarmerBadLoan badLoan = (FarmerBadLoan) JSON.toJavaObject(jsb, FarmerBadLoan.class);
 		if(badLoan.getId()!=null){
 			farmerBadLoanService.update(badLoan);
 		}else{
@@ -54,9 +54,9 @@ public class FarmerBadLoanController {
 	@RequestMapping(value = "/loadBadLoan", method = RequestMethod.POST)
 	public ModelAndView loadCompany(@RequestParam(value="id",required=true) String id,
 				HttpServletResponse response) throws Exception {
-		if(StringUtils.isEmpty(id)){
+		if(!StringUtils.isEmpty(id)){
 			Long badloanId=Long.valueOf(id);
-			FarmerBadloan farmerBadLoan = farmerBadLoanService.findByPK(badloanId);
+			FarmerBadLoan farmerBadLoan = farmerBadLoanService.findByPK(badloanId);
 			String json = JsonUtil.Encode(farmerBadLoan);
 			response.setContentType("text/html;charset=UTF-8");
 		    response.getWriter().write(json);
@@ -70,17 +70,17 @@ public class FarmerBadLoanController {
 			HttpServletResponse response) throws Exception{
 		//查询条件
 		
-	    String companyName = request.getParameter("companyName");
-	    String organCode=request.getParameter("organCode");
-	    String creditCode=request.getParameter("creditCode");
+		String farmerName = request.getParameter("farmerName");
+	    String farmerIdNum=request.getParameter("farmerIdNum");
+	    String bank=request.getParameter("bank");
 	    String recorder=request.getParameter("recorder");
 	    String recordTimeBegin=request.getParameter("recordTimeBegin");
 	    String recordTimeEnd=request.getParameter("recordTimeEnd");
 	    
 	    Map<String,String> query = new HashMap<String,String>();
-	    query.put("companyName", companyName);
-	    query.put("organCode", organCode);
-	    query.put("creditCode", creditCode);
+	    query.put("farmerName", farmerName);
+	    query.put("farmerIdNum", farmerIdNum);
+	    query.put("bank", bank);
 	    query.put("recorder", recorder);
 	    query.put("recordTimeBegin", recordTimeBegin);
 	    query.put("recordTimeEnd", recordTimeEnd);
@@ -90,7 +90,7 @@ public class FarmerBadLoanController {
 	    //字段排序
 	    String sortField = request.getParameter("sortField");
 	    String sortOrder = request.getParameter("sortOrder");
-	    List<FarmerBadloan> data = farmerBadLoanService.getPageingEntities(pageIndex, pageSize, sortField, sortOrder, query);
+	    List<FarmerBadLoan> data = farmerBadLoanService.getPageingEntities(pageIndex, pageSize, sortField, sortOrder, query);
 	    
 	    HashMap result = new HashMap();
         result.put("data", data);
