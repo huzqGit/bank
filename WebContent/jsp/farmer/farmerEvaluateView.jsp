@@ -22,7 +22,7 @@ background:url(/bank/jsp/main/leftmenu/images/icon-bg.jpg) repeat-x center;
        		
        		<tr>
        			<td>
-       			<a class="mini-button" iconCls="icon-add" plain="true"  target ="_self" href="/bank/jsp/company/companyInvestForm.jsp">新增</a>
+       			<a class="mini-button" iconCls="icon-add" plain="true"  target ="_self" href="/bank/jsp/farmer/farmerEvaluateForm.jsp">新增</a>
             	<span class="separator"></span>
             	<a class="mini-button" iconCls="icon-goto" plain="true" href="">导入</a>
        			<span class="separator"></span>
@@ -35,7 +35,7 @@ background:url(/bank/jsp/main/leftmenu/images/icon-bg.jpg) repeat-x center;
                 <td style="white-space:nowrap;">
                 <form id="query">
 	            	<span>户主姓名：</span><input id="farmerName" emptyText="请输入户主姓名" class="mini-textbox" />
-	            	<span>身份证号：</span><input id="farmerIdNUm" emptyText="请输入身份证号" class="mini-textbox">
+	            	<span>身份证号：</span><input id="farmerIdNum" emptyText="请输入身份证号" class="mini-textbox">
 	            	<span>是否遵纪守法：</span><input id="legalStatus" emptyText="请输入..." class="mini-textbox">
 	            	<span>是否诚实守信：</span><input id="honestStatus" emptyText="请输入..." class="mini-textbox">			
 	             	<span>创建人：</span><input id="recorder" emptyText="请输入创建人" class="mini-textbox" />
@@ -53,7 +53,7 @@ background:url(/bank/jsp/main/leftmenu/images/icon-bg.jpg) repeat-x center;
 	        <div property="columns">
 	             <div type="indexcolumn" ></div>
 	             <div field="farmerName" width="60" headerAlign="center" allowSort="true" >户主姓名</div>
-	             <div field="farmerIdNUm" width="120" headerAlign="center" allowSort="true"  >户主身份证号</div>
+	             <div field="farmerIdNum" width="120" headerAlign="center" allowSort="true"  >户主身份证号</div>
 	             <div field="personality" width="60" headerAlign="center" allowSort="true" >人品综合评价</div>   
 	             <div field="harmonyStatus" width="90" headerAlign="center" allowSort="true" >家庭和睦情况</div>     
 	             <div field="respectStatus" width="90" headerAlign="center" allowSort="true" >敬老爱幼情况</div>                            
@@ -79,20 +79,22 @@ background:url(/bank/jsp/main/leftmenu/images/icon-bg.jpg) repeat-x center;
 		  query.clear();
 	  }
 	  function onSearch() {
-		  var companyName = mini.get("companyName").getValue();
-		  var organCode =mini.get("organCode").getValue();
-		  var  creditCode=mini.get("creditCode").getValue();
+		  var farmerName = mini.get("farmerName").getValue();
+		  var farmerIdNum =mini.get("farmerIdNum").getValue();
+		  var harmonyStatus =mini.get("harmonyStatus").getValue();
+		  var honestStatus=mini.get("honestStatus").getValue();
 		  var recorder=mini.get("recorder").getValue();
 		  var recordTimeBegin=mini.get("recordTimeBegin").getValue();
 		  var recordTimeEnd=mini.get("recordTimeEnd").getValue();
 		  
-          grid.load({companyName:companyName,organCode:organCode,creditCode:creditCode,
-        	  recorder:recorder,recordTimeBegin:recordTimeBegin,recordTimeEnd:recordTimeEnd});
+		  grid.load({farmerName:farmerName,farmerIdNum:farmerIdNum,harmonyStatus:harmonyStatus,
+			  honestStatus:honestStatus,recorder:recorder,recordTimeBegin:recordTimeBegin,
+            recordTimeEnd:recordTimeEnd});
        }
 	  function onActionRenderer(e) {
           var record = e.record;
-          var investId = record.investId;
-          var s = '<a class="New_Button" target="_self" href="/bank/jsp/company/companyInvestForm.jsp?investId='+investId+'">[查看]</a>';      
+          var id = record.id;
+          var s = '<a class="New_Button" target="_self" href="/bank/jsp/farmer/farmerEvaluateForm.jsp?id='+id+'">[查看]</a>';      
           return s;
       }
    </script> 

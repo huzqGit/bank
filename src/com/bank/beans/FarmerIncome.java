@@ -13,7 +13,7 @@ public class FarmerIncome extends BaseEntity<Long> {
 	//农户姓名
 	private String farmerName;
 	//农户身份证号
-	private String farmerIdNum;
+	private String farmerIdnum;
 	//收入项目名称
 	private String incomeName;
 	//收入项目类型
@@ -34,12 +34,12 @@ public class FarmerIncome extends BaseEntity<Long> {
 		this.farmerName = farmerName;
 	}
 
-	public String getFarmerIdNum() {
-		return farmerIdNum;
+	public String getFarmerIdnum() {
+		return farmerIdnum;
 	}
 
-	public void setFarmerIdNum(String farmerIdNum) {
-		this.farmerIdNum = farmerIdNum;
+	public void setFarmerIdnum(String farmerIdnum) {
+		this.farmerIdnum = farmerIdnum;
 	}
 
 	public String getIncomeName() {

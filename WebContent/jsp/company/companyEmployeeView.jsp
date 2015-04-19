@@ -6,6 +6,14 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
 <title>Insert title here</title>
+<style type="text/css">
+.mini-toolbar{
+background:url(/bank/jsp/main/leftmenu/images/icon-bg.jpg) repeat-x center;
+}
+.mini-grid-headerCell-nowrap{
+background:url(/bank/jsp/main/leftmenu/images/icon-bg.jpg) repeat-x center;
+} 
+</style>
 </head>
 <body>
  <div class="mini-toolbar" style="padding-top:5px;border-bottom:0;">

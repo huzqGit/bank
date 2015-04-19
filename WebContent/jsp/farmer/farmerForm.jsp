@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="../common/CurrentTime.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -23,8 +24,8 @@
       </table>
 </div>
 <div id="form1" style="width:90%;margin:auto auto">
-	<form action="/bank/company/save.do" method="POST">
-	<input type="hidden" name="companyId" value="${company.companyId}"/>
+	<form action="/bank/farmer/saveFarmer.do" method="POST">
+	<input name="id" class="mini-hidden" />
 	<input name="recorder" class="mini-hidden" value="管理员"/>
 	<input name="recordTime" class="mini-hidden" value="${currentTime}"/>
 	<table border="0" cellpadding="1" cellspacing="15" width="100%" >
@@ -35,86 +36,88 @@
 	<div class="fieldset-body">
 	<table width="100%">
 	<tr>
-	<td style="width:10%"><label for="textbox1$text">户主姓名:</label></td>
+	<td style="width:10%"><label for="textbox1$text"><font color="red">*</font>户主姓名:</label></td>
 	<td style="width:40%">
 	<input id="textbox1"  name="farmerName" class="mini-textbox" required="true" 
 		requiredErrorText="户主姓名不能为空" style="width:90%"/>
 	</td>
-	<td style="width:10%"><label for="textbox2$text">户主身份证号:</label></td>
+	<td style="width:10%"><label for="textbox2$text"><font color="red">*</font>户主身份证号:</label></td>
 	<td style="width:40%" >
 	<input id="textbox2"  name="farmerIdnum" class="mini-textbox" required="true" 
 		requiredErrorText="户主身份证号不能为空"  style="width:90%"/>
 	</td>
 	</tr>
 	<tr>
-	<td style="width:10%"><label for="textbox1$text">政治面貌:</label></td>
+	<td style="width:10%"><label for="textbox1$text"><font color="red">*</font>政治面貌:</label></td>
 	<td style="width:40%">
 	<input id="textbox1"  name="politicStatus" class="mini-combobox" required="true"
-		requiredErrorText="政治面貌不能为空" style="width:90%"/>
+		requiredErrorText="政治面貌不能为空" style="width:90%"
+		 url="/bank/dic/PoliticStatus.txt" emptyText="请选择..."/>
 	</td>
-	<td style="width:10%"><label for="textbox2$text">家庭人数:</label></td>
+	<td style="width:10%"><label for="textbox2$text"><font color="red">*</font>家庭人数:</label></td>
 	<td style="width:40%" >
 	<input id="textbox2"  name="familyNum" class="mini-textbox" required="true" 
 		requiredErrorText="家庭人数不能为空"  style="width:90%"/>
 	</td>
 	</tr>
 	<tr>
-	<td style="width:10%"><label for="textbox1$text">联系电话:</label></td>
+	<td style="width:10%"><label for="textbox1$text"><font color="red">*</font>联系电话:</label></td>
 	<td style="width:40%">
 	<input id="textbox1"  name="phone" class="mini-textbox" required="true" 
 		requiredErrorText="联系电话不能为空" style="width:90%"/>
 	</td>
-	<td style="width:10%"><label for="textbox2$text">现住址:</label></td>
+	<td style="width:10%"><label for="textbox2$text"><font color="red">*</font>现住址:</label></td>
 	<td style="width:40%" >
 	<input id="textbox2"  name="address" class="mini-textarea" required="true" 
 		requiredErrorText="现住址不能为空"  style="width:90%"/>
 	</td>
 	</tr>
 	<tr>
-	<td style="width:10%"><label for="textbox1$text">婚姻状况:</label></td>
+	<td style="width:10%"><label for="textbox1$text"> 婚姻状况:</label></td>
 	<td style="width:40%">
 	<input id="textbox1"  name="marryStatus" class="mini-combobox" required="true" 
-		requiredErrorText="婚姻状况不能为空" style="width:90%"/>
+		requiredErrorText="婚姻状况不能为空" style="width:90%"
+		url="/bank/dic/MarryStatus.txt" emptyText="请选择..."/>
 	</td>
-	<td style="width:10%"><label for="textbox2$text">劳动力人数:</label></td>
+	<td style="width:10%"><label for="textbox2$text"> 劳动力人数:</label></td>
 	<td style="width:40%" >
 	<input id="textbox2"  name="laborNum" class="mini-textbox" required="true" 
 		requiredErrorText="劳动力人数不能为空"  style="width:90%"/>
 	</td>
 	</tr>
 	<tr>
-	<td style="width:10%"><label for="textbox1$text">邮政编码:</label></td>
+	<td style="width:10%"><label for="textbox1$text"> 邮政编码:</label></td>
 	<td style="width:40%">
-	<input id="textbox1"  name="postCode" class="mini-combobox" required="true" 
+	<input id="textbox1"  name="postCode" class="mini-textbox" required="true" 
 		requiredErrorText="邮政编码不能为空" style="width:90%"/>
 	</td>
-	<td style="width:10%"><label for="textbox2$text">主要农作物年度净收入合计:</label></td>
+	<td style="width:10%"><label for="textbox2$text"> 主要农作物年度净收入合计:</label></td>
 	<td style="width:40%" >
 	<input id="textbox2"  name="nyNetincome" class="mini-textbox" style="width:90%"/>
 	</td>
 	</tr>
 	<tr>
-	<td style="width:10%"><label for="textbox1$text">林、牧、副、渔业年度净收入合计:</label></td>
+	<td style="width:10%"><label for="textbox1$text"> 林、牧、副、渔业年度净收入合计:</label></td>
 	<td style="width:40%">
 	<input id="textbox1"  name="fnNetincome" class="mini-textbox" style="width:90%"/>
 	</td>
-	<td style="width:10%"><label for="textbox2$text">家庭工商业年度净收入合计:</label></td>
+	<td style="width:10%"><label for="textbox2$text"> 家庭工商业年度净收入合计:</label></td>
 	<td style="width:40%" >
 	<input id="textbox2"  name="gsNetincome" class="mini-textbox" style="width:90%"/>
 	</td>
 	</tr>
 	<tr>
-	<td style="width:10%"><label for="textbox1$text">外出务工年度净收入合计:</label></td>
+	<td style="width:10%"><label for="textbox1$text"> 外出务工年度净收入合计:</label></td>
 	<td style="width:40%">
 	<input id="textbox1"  name="dgNetincome" class="mini-textbox" style="width:90%"/>
 	</td>
-	<td style="width:10%"><label for="textbox2$text">其他收入年度净收入合计:</label></td>
+	<td style="width:10%"><label for="textbox2$text"> 其他收入年度净收入合计:</label></td>
 	<td style="width:40%" >
 	<input id="textbox2"  name="qtNetincome" class="mini-textbox" style="width:90%"/>
 	</td>
 	</tr>
 	<tr>
-	<td style="width:10%"><label for="textbox1$text">家庭年度总收入合计:</label></td>
+	<td style="width:10%"><label for="textbox1$text"> 家庭年度总收入合计:</label></td>
 	<td style="width:40%">
 	<input id="textbox1"  name="allNetincome" class="mini-textbox" style="width:90%"/>
 	</td>
@@ -131,12 +134,12 @@
 
 	mini.parse();
 	var form = new mini.Form("#form1");
-
+	
 	$(document).ready(function(){
 		$.ajax({
 		    url: "${pageContext.request.contextPath}/farmer/loadFarmer.do",
 		    type: "post",
-		    data:{companyId:"${param.farmerId}"},
+		    data:{id:"${param.id}"},
 		    success: function (text) {
 		        var data = mini.decode(text);   //反序列化成对象
 		        form.setData(data);             //设置多个控件数据

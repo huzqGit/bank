@@ -8,7 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  marrystatus, labornum, postcode, nynetincome, fnnetincome, gsnetincome, dgnetincome,
  qtnetincome, allnetincome, recorder, recordtime
 </sql>
-<insert id="save" useGeneratedKeys="true" keyProperty="farmerId" 
+<insert id="save" useGeneratedKeys="true" keyProperty="id" 
 	parameterType="com.bank.beans.Farmer">
 	insert into t_farmer
 	<trim prefix="(" suffix=")" suffixOverrides=",">
@@ -122,6 +122,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	select 
 	<include refid="Farmer_Column_List" />
 	from t_Farmer where farmerid = #{id,jdbcType=INTEGER}
+</select>
+<select id="findByID" parameterType="String" resultType="com.bank.beans.Farmer">
+	select 
+	<include refid="Farmer_Column_List" />
+	from t_Farmer where farmeridnum = #{farmerIdNum,jdbcType=VARCHAR}
 </select>
 <resultMap id="farmerList" type="com.bank.beans.Farmer">
     <result column="farmerId" property="id" jdbcType="BIGINT"/>

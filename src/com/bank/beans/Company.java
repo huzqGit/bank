@@ -7,7 +7,7 @@ import com.common.bean.BaseEntity;
 public class Company extends BaseEntity<Integer> {
 	private Integer companyId;//主键
 	private String companyName;//企业名称
-	private Integer companyCategory;//行业分类
+	private String companyCategory;//行业分类
 	private Integer companyFeature;//企业特征
 	private Integer companyNature;//企业性质
 	private String mailingAddress;//企业通信地址
@@ -72,11 +72,11 @@ public class Company extends BaseEntity<Integer> {
 		this.companyName = companyName;
 	}
 
-	public Integer getCompanyCategory() {
+	public String getCompanyCategory() {
 		return companyCategory;
 	}
 
-	public void setCompanyCategory(Integer companyCategory) {
+	public void setCompanyCategory(String companyCategory) {
 		this.companyCategory = companyCategory;
 	}
 

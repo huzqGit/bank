@@ -22,7 +22,7 @@ background:url(/bank/jsp/main/leftmenu/images/icon-bg.jpg) repeat-x center;
        		
        		<tr>
        			<td>
-       			<a class="mini-button" iconCls="icon-add" plain="true"  target ="_self" href="/bank/jsp/company/companyInvestForm.jsp">新增</a>
+       			<a class="mini-button" iconCls="icon-add" plain="true"  target ="_self" href="/bank/jsp/farmer/farmerMemberForm.jsp">新增</a>
             	<span class="separator"></span>
             	<a class="mini-button" iconCls="icon-goto" plain="true" href="">导入</a>
        			<span class="separator"></span>
@@ -37,7 +37,6 @@ background:url(/bank/jsp/main/leftmenu/images/icon-bg.jpg) repeat-x center;
 	            	<span>户主姓名：</span><input id="farmerName" emptyText="请输入户主姓名" class="mini-textbox" />
 	            	<span>身份证号：</span><input id="farmerIdNUm" emptyText="请输入身份证号" class="mini-textbox">
 	            	<span>姓名：</span><input id="name" emptyText="请输入身份证号" class="mini-textbox">
-	            	<span>性别：</span><input id="sex" emptyText="请输入身份证号" class="mini-textbox">
 	             	<span>创建人：</span><input id="recorder" emptyText="请输入创建人" class="mini-textbox" />
 	             	<span>创建时间从：</span><input id="recordTimeBegin" emptyText="请输入时间" class="mini-datepicker" />
 	             	<span>到：</span><input id="recordTimeEnd" emptyText="请输入时间" class="mini-datepicker" />
@@ -47,7 +46,7 @@ background:url(/bank/jsp/main/leftmenu/images/icon-bg.jpg) repeat-x center;
         </table>
   </div>
    <div id="datagrid1" class="mini-datagrid" style="width:100%;height:420px" 
-            url="" idField="id"
+            url="${pageContext.request.contextPath}/farmer/loadAllMember.do" idField="id"
             sizeList="[5,10,20,50]" pageSize="10"
         >
 	        <div property="columns">
@@ -55,10 +54,10 @@ background:url(/bank/jsp/main/leftmenu/images/icon-bg.jpg) repeat-x center;
 	             <div field="farmerName" width="60" headerAlign="center" allowSort="true" >户主姓名</div>
 	             <div field="farmerIdNUm" width="120" headerAlign="center" allowSort="true"  >户主身份证号</div>
 	             <div field="name" width="60" headerAlign="center" allowSort="true" >姓名</div>   
-	              <div field="relation" width="60" headerAlign="center" allowSort="true" >与户主关系</div>     
+	              <div field="relation" width="80" headerAlign="center" allowSort="true" >与户主关系</div>     
 	             <div field="idNum" width="120" headerAlign="center" allowSort="true" >身份证号</div>                            
 	             <div field="education" width="60" headerAlign="center" allowSort="true" >文化程度</div>    
-	             <div field="marryStatus" width="130" headerAlign="center" allowSort="true" >婚姻状况</div>
+	             <div field="marryStatus" width="60" headerAlign="center" allowSort="true" >婚姻状况</div>
 	             <div field="occupation" width="80" headerAlign="center" allowSort="true">职业</div>   
 	               <div field="job" width="80" headerAlign="center" allowSort="true" >职务</div>
 	              <div field="sex" width="50" headerAlign="center" allowSort="true">性别</div>     
@@ -80,20 +79,21 @@ background:url(/bank/jsp/main/leftmenu/images/icon-bg.jpg) repeat-x center;
 		  query.clear();
 	  }
 	  function onSearch() {
-		  var companyName = mini.get("companyName").getValue();
-		  var organCode =mini.get("organCode").getValue();
-		  var  creditCode=mini.get("creditCode").getValue();
+		  var farmerName = mini.get("farmerName").getValue();
+		  var farmerIdNum =mini.get("farmerIdNum").getValue();
+		  var name=mini.get("name").getValue();
 		  var recorder=mini.get("recorder").getValue();
 		  var recordTimeBegin=mini.get("recordTimeBegin").getValue();
 		  var recordTimeEnd=mini.get("recordTimeEnd").getValue();
 		  
-          grid.load({companyName:companyName,organCode:organCode,creditCode:creditCode,
-        	  recorder:recorder,recordTimeBegin:recordTimeBegin,recordTimeEnd:recordTimeEnd});
+          grid.load({farmerName:farmerName,farmerIdNum:farmerIdNum,
+          name:name,recorder:recorder,recordTimeBegin:recordTimeBegin,
+          recordTimeEnd:recordTimeEnd});
        }
 	  function onActionRenderer(e) {
           var record = e.record;
-          var investId = record.investId;
-          var s = '<a class="New_Button" target="_self" href="/bank/jsp/company/companyInvestForm.jsp?investId='+investId+'">[查看]</a>';      
+          var id = record.id;
+          var s = '<a class="New_Button" target="_self" href="/bank/jsp/farmer/farmerMemberForm.jsp?id='+id+'">[查看]</a>';      
           return s;
       }
    </script> 

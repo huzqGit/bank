@@ -110,7 +110,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 		#{companyName,jdbcType=VARCHAR},
 	 	</if>
 	 	<if test="companyCategory != null">
-	 		#{companyCategory,jdbcType=NUMERIC},
+	 		#{companyCategory,jdbcType=VARCHAR},
 	 	</if>
 	 	<if test="companyFeature != null">
 	 	    #{companyFeature,jdbcType=NUMERIC},

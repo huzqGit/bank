@@ -18,11 +18,9 @@ background:url(/bank/jsp/main/leftmenu/images/icon-bg.jpg) repeat-x center;
 <body>
 <div class="mini-toolbar" style="padding-top:5px;border-bottom:0;">
         <table style="width:100%;">
-        
-       		
        		<tr>
        			<td>
-       			<a class="mini-button" iconCls="icon-add" plain="true"  target ="_self" href="/bank/jsp/company/companyInvestForm.jsp">新增</a>
+       			<a class="mini-button" iconCls="icon-add" plain="true"  target ="_self" href="/bank/jsp/farmer/farmerIncomeForm.jsp">新增</a>
             	<span class="separator"></span>
             	<a class="mini-button" iconCls="icon-goto" plain="true" href="">导入</a>
        			<span class="separator"></span>
@@ -35,8 +33,8 @@ background:url(/bank/jsp/main/leftmenu/images/icon-bg.jpg) repeat-x center;
                 <td style="white-space:nowrap;">
                 <form id="query">
 	            	<span>户主姓名：</span><input id="farmerName" emptyText="请输入户主姓名" class="mini-textbox" />
-	            	<span>身份证号：</span><input id="farmerIdNUm" emptyText="请输入身份证号" class="mini-textbox">
-	            	<span>收入来源类型：</span><input id="incomeType" emptyText="请输入收入来源类型" class="mini-textbox">
+	            	<span>身份证号：</span><input id="farmerIdnum" emptyText="请输入身份证号" class="mini-textbox">
+	            	<span>收入类型：</span><input id="incomeType" emptyText="请输入收入来源类型" class="mini-textbox">
 	             	<span>创建人：</span><input id="recorder" emptyText="请输入创建人" class="mini-textbox" />
 	             	<span>创建时间从：</span><input id="recordTimeBegin" emptyText="请输入时间" class="mini-datepicker" />
 	             	<span>到：</span><input id="recordTimeEnd" emptyText="请输入时间" class="mini-datepicker" />
@@ -46,13 +44,13 @@ background:url(/bank/jsp/main/leftmenu/images/icon-bg.jpg) repeat-x center;
         </table>
   </div>
    <div id="datagrid1" class="mini-datagrid" style="width:100%;height:420px" 
-            url="" idField="id"
+            url="${pageContext.request.contextPath}/farmer/loadAllIncome.do" idField="id"
             sizeList="[5,10,20,50]" pageSize="10"
         >
 	        <div property="columns">
 	             <div type="indexcolumn" ></div>
 	             <div field="farmerName" width="60" headerAlign="center" allowSort="true" >户主姓名</div>
-	             <div field="farmerIdNUm" width="120" headerAlign="center" allowSort="true"  >户主身份证号</div>
+	             <div field="farmerIdnum" width="120" headerAlign="center" allowSort="true"  >户主身份证号</div>
 	             <div field="name" width="60" headerAlign="center" allowSort="true" >姓名</div>   
 	              <div field="incomeName" width="60" headerAlign="center" allowSort="true" >收入项目名称</div>     
 	             <div field="incomeType" width="120" headerAlign="center" allowSort="true" >收入项目类型</div>                            
@@ -74,20 +72,20 @@ background:url(/bank/jsp/main/leftmenu/images/icon-bg.jpg) repeat-x center;
 		  query.clear();
 	  }
 	  function onSearch() {
-		  var companyName = mini.get("companyName").getValue();
-		  var organCode =mini.get("organCode").getValue();
-		  var  creditCode=mini.get("creditCode").getValue();
+		  var farmerName = mini.get("farmerName").getValue();
+		  var farmerIdnum =mini.get("farmerIdnum").getValue();
+		  var incomeType=mini.get("incomeType").getValue();
 		  var recorder=mini.get("recorder").getValue();
 		  var recordTimeBegin=mini.get("recordTimeBegin").getValue();
 		  var recordTimeEnd=mini.get("recordTimeEnd").getValue();
 		  
-          grid.load({companyName:companyName,organCode:organCode,creditCode:creditCode,
+          grid.load({farmerName:farmerName,farmerIdnum:farmerIdnum,incomeType:incomeType,
         	  recorder:recorder,recordTimeBegin:recordTimeBegin,recordTimeEnd:recordTimeEnd});
        }
 	  function onActionRenderer(e) {
           var record = e.record;
-          var investId = record.investId;
-          var s = '<a class="New_Button" target="_self" href="/bank/jsp/company/companyInvestForm.jsp?investId='+investId+'">[查看]</a>';      
+          var id = record.id;
+          var s = '<a class="New_Button" target="_self" href="/bank/jsp/farmer/farmerIncomeForm.jsp?id='+id+'">[查看]</a>';      
           return s;
       }
    </script> 

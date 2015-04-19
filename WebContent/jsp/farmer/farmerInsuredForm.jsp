@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="../common/CurrentTime.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -24,7 +25,7 @@
 </div>
 <div id="form1" style="width:90%;margin:auto auto">
 	<form action="/bank/company/save.do" method="POST">
-	<input type="hidden" name="insuredId"/>
+	<input name="id" class="mini-hidden"/>
 	<input name="recorder" class="mini-hidden" value="管理员"/>
 	<input name="recordTime" class="mini-hidden" value="${currentTime}"/>
 	<table border="0" cellpadding="1" cellspacing="15" width="100%" >
@@ -55,7 +56,8 @@
 	<td style="width:10%"><label for="textbox2$text">参加保险种类:</label></td>
 	<td style="width:40%" >
 	<input id="textbox2"  name="type" class="mini-combobox" required="true" 
-		requiredErrorText="参加保险种类不能为空" style="width:90%"/>
+		requiredErrorText="参加保险种类不能为空" style="width:90%"
+		url="/bank/dic/InsuredType.txt" emptyText="请选择..."/>
 	</td>
 	</tr>
 	<tr>
@@ -85,5 +87,52 @@
 	</table>
 	</form>
 </div>
+<script type="text/javascript">
+
+	mini.parse();
+	var form = new mini.Form("#form1");
+	
+	$(document).ready(function(){
+		$.ajax({
+		    url: "${pageContext.request.contextPath}/farmer/loadInsured.do",
+		    type: "post",
+		    data:{id:"${param.id}"},
+		    success: function (text) {
+		        var data = mini.decode(text);   //反序列化成对象
+		        form.setData(data);             //设置多个控件数据
+		    }
+		});
+		
+	});
+	function back(){
+		history.go(-1);
+	}
+	function submitForm() {
+		//提交表单数据
+	    var formData = form.getData();      //获取表单多个控件的数据
+	    var json = mini.encode(formData);   //序列化成JSON
+	    $.ajax({
+	        url: "${pageContext.request.contextPath}/farmer/saveInsured.do",
+	        type: "post",
+	        data: { formData: json},
+	        contentType: "application/x-www-form-urlencoded; charset=utf-8",
+	        success: function (text) {
+	        	var data = mini.decode(text);   //反序列化成对象
+		        if(data.id!=null){
+		       	 	form.setData(data);  
+		        }
+	        	 mini.alert('保存成功！');
+	        },
+	        error: function (jqXHR, textStatus, errorThrown) {
+	            mini.alert('系统异常！');
+	        }
+	});
+	function onDrawCell(e) {
+            value = e.value;
+            //组织HTML设置给cellHtml
+            e.cellHtml = '<span style="color:red;">'+value+'</span>';   
+	}
+}
+</script>
 </body>
 </html>

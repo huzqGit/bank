@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.bank.vo.MenuPrivilegeVO;
 
 public class GenerateMenu {
@@ -84,7 +86,7 @@ public class GenerateMenu {
 	
 	public String getMenu() {
 		sb.delete(0, sb.length());
-		sb.append("<div class=\"accMain\">\n<div class=\"arrowlistmenu\">\n");
+		sb.append("<div style=\"width:200px;height:100%; margin-left:7px;\">\n<div class=\"arrowlistmenu\">\n");
 		if(list==null){
 			return "noAuthority";
 		}
@@ -104,8 +106,7 @@ public class GenerateMenu {
 			}
 		}
 		sb.append("\n</div>\n</div>\n");
-		//cacheMap.put(rootId, sb.toString());
-		//System.out.println("生成的菜单："+cacheMap.get(rootId));
+		System.out.println("生成的菜单："+sb.toString());
 		return sb.toString();
 	}
 	
@@ -117,21 +118,15 @@ public class GenerateMenu {
 		for (MenuPrivilegeVO vo : list) {
 			if (parentId.equals(vo.getMenuPId() + "")) {
 				String needcount = "";
-				if ("0".equals(vo.getIsLeaf())) {
+				if ("0".equals(StringUtils.trimToNull(vo.getIsLeaf()))) {
 					isSubMenu = rootId.equals(String.valueOf(vo.getMenuPId() + ""));
 					//根节点的第一级节点
 					if (isSubMenu) {
 						i++;
 						sb
 						.append(
-								"<div class=\"menuheader expandable\">\n<span class=\"main_left_expand\"></span>\n")
-								.append("<span><a href=\"javascript:void(0)\" "+needcount+" onclick=\"linkurl(")
-								.append("'" + vo.getIsLeaf() + "'").append(",")
-								.append("'" + vo.getMenuId() + "'")
-								.append(",")
-								.append("'" + vo.getMenuDescr() + "'").append(")\" menuid='"+vo.getMenuId()+"'>")
+								"<div class=\"menuheader expandable\">\n")
 							    .append(vo.getMenuDescr().toString())
-							    .append("</a></span>\n")
 							    .append(
 								"</div>\n");
 						sb.append("<ul class=\"categoryitems\">\n");

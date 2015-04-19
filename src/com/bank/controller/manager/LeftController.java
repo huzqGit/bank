@@ -37,7 +37,7 @@ public class LeftController extends BaseController {
     public ModelAndView getSubMenus(@ModelAttribute("topMenuId") String topMenuId,HttpServletRequest request) throws Exception{
 		User user = (User) request.getSession().getAttribute(Constants.SESSION_AUTH_USER);
 		ModelAndView mav = new ModelAndView();
-		
+		subMenus.clear();
 		if (StringUtils.isEmpty(topMenuId)) throw new DAOException("topMenuId 不能为空!");
 		
 		// get all subMenus

@@ -22,7 +22,7 @@ background:url(/bank/jsp/main/leftmenu/images/icon-bg.jpg) repeat-x center;
        		
        		<tr>
        			<td>
-       			<a class="mini-button" iconCls="icon-add" plain="true"  target ="_self" href="/bank/jsp/company/companyInvestForm.jsp">新增</a>
+       			<a class="mini-button" iconCls="icon-add" plain="true"  target ="_self" href="/bank/jsp/farmer/farmerForm.jsp">新增</a>
             	<span class="separator"></span>
             	<a class="mini-button" iconCls="icon-goto" plain="true" href="">导入</a>
        			<span class="separator"></span>
@@ -45,13 +45,13 @@ background:url(/bank/jsp/main/leftmenu/images/icon-bg.jpg) repeat-x center;
         </table>
   </div>
    <div id="datagrid1" class="mini-datagrid" style="width:100%;height:420px" 
-            url="" idField="id"
+            url="${pageContext.request.contextPath}/farmer/loadAllFarmer.do" idField="id"
             sizeList="[5,10,20,50]" pageSize="10"
         >
 	        <div property="columns">
 	             <div type="indexcolumn" ></div>
 	             <div field="farmerName" width="60" headerAlign="center" allowSort="true" >户主姓名</div>
-	             <div field="farmerIdNUm" width="80" headerAlign="center" allowSort="true"  >身份证号</div>
+	             <div field="farmerIdNum" width="80" headerAlign="center" allowSort="true"  >身份证号</div>
 	             <div field="nyNetincome" width="120" headerAlign="center" allowSort="true" >农作物年度净收入合计</div>    
 	             <div field="fnNetincome" width="160" headerAlign="center" allowSort="true" >林、牧、副、渔业年度净收入合计</div>                            
 	             <div field="gsNetincome" width="120" headerAlign="center" allowSort="true" >工商业年度净收入合计</div>    
@@ -66,29 +66,26 @@ background:url(/bank/jsp/main/leftmenu/images/icon-bg.jpg) repeat-x center;
   <script type="text/javascript">
    
 	  mini.parse();
-	  
 	  var grid = mini.get("datagrid1");
-
 	  grid.load();
 	  function reset(){
 		  var query = new mini.Form("#query");
 		  query.clear();
 	  }
 	  function onSearch() {
-		  var companyName = mini.get("companyName").getValue();
-		  var organCode =mini.get("organCode").getValue();
-		  var  creditCode=mini.get("creditCode").getValue();
+		  var farmerName = mini.get("farmerName").getValue();
+		  var farmerIdNum =mini.get("farmerIdNum").getValue();
 		  var recorder=mini.get("recorder").getValue();
 		  var recordTimeBegin=mini.get("recordTimeBegin").getValue();
 		  var recordTimeEnd=mini.get("recordTimeEnd").getValue();
 		  
-          grid.load({companyName:companyName,organCode:organCode,creditCode:creditCode,
-        	  recorder:recorder,recordTimeBegin:recordTimeBegin,recordTimeEnd:recordTimeEnd});
+          grid.load({farmerName:farmerName,farmerIdNum:farmerIdNum,recorder:recorder,
+          	recordTimeBegin:recordTimeBegin,recordTimeEnd:recordTimeEnd});
        }
 	  function onActionRenderer(e) {
           var record = e.record;
-          var investId = record.investId;
-          var s = '<a class="New_Button" target="_self" href="/bank/jsp/company/companyInvestForm.jsp?investId='+investId+'">[查看]</a>';      
+          var id = record.id;
+          var s = '<a class="New_Button" target="_self" href="/bank/jsp/farmer/farmerForm.jsp?id='+id+'">[查看]</a>';      
           return s;
       }
    </script> 

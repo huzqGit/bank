@@ -5,14 +5,28 @@ import java.util.Date;
 import com.common.bean.BaseEntity;
 
 public class FarmerInsured extends BaseEntity<Long> {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4718082476820104198L;
+	//户主姓名
 	private String farmerName;
+	//户主身份证号
 	private String farmerIdNum;
+	//参保人姓名
 	private String name;
+	//被参加保险种类
 	private String type;
+	//参保金额
 	private Double amount;
+	//参保时间
 	private Date insureTime;
+	//参保到期日
 	private Date limitTime;
+	//记录人
 	private String recorder;
+	//记录时间
 	private Date recordTime;
 	
 	public String getFarmerName() {

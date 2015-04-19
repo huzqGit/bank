@@ -9,8 +9,8 @@ public class FarmerMember extends BaseEntity<Long> {
 	 * 
 	 */
 	private static final long serialVersionUID = -1550305454462009720L;
-	//农户姓名
-	private String farmerName;
+	//农户表主键
+	private String farmerId;
 	//农户的身份证号
 	private String farmerIdNum;
 	//家庭成员姓名
@@ -36,12 +36,12 @@ public class FarmerMember extends BaseEntity<Long> {
 	//记录时间
 	private Date recordTime;
 	
-	public String getFarmerName() {
-		return farmerName;
+	public String getFarmerId() {
+		return farmerId;
 	}
 
-	public void setFarmerName(String farmerName) {
-		this.farmerName = farmerName;
+	public void setFarmerId(String farmerId) {
+		this.farmerId = farmerId;
 	}
 
 	public String getFarmerIdNum() {

@@ -1,5 +1,7 @@
 package com.bank.beans;
 
+import java.util.Date;
+
 import com.common.bean.BaseEntity;
 
 public class CompanyInvest extends BaseEntity<Long> {
@@ -11,11 +13,11 @@ public class CompanyInvest extends BaseEntity<Long> {
 	private String investedoragnCode;
 	private String investedloancardCode;
 	private String investedregisterCode;
-	private Integer investCurrency;
+	private String investCurrency;
 	private String investAmount;
 	private Double equityShare;
 	private String recorder;
-	private String recordTime;
+	private Date recordTime;
 	
 	public Long getInvestId() {
 		return investId;
@@ -81,11 +83,11 @@ public class CompanyInvest extends BaseEntity<Long> {
 		this.investedregisterCode = investedregisterCode;
 	}
 
-	public Integer getInvestCurrency() {
+	public String getInvestCurrency() {
 		return investCurrency;
 	}
 
-	public void setInvestCurrency(Integer investCurrency) {
+	public void setInvestCurrency(String investCurrency) {
 		this.investCurrency = investCurrency;
 	}
 
@@ -113,11 +115,11 @@ public class CompanyInvest extends BaseEntity<Long> {
 		this.recorder = recorder;
 	}
 
-	public String getRecordTime() {
+	public Date getRecordTime() {
 		return recordTime;
 	}
 
-	public void setRecordTime(String recordTime) {
+	public void setRecordTime(Date recordTime) {
 		this.recordTime = recordTime;
 	}
 

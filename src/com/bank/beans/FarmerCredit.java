@@ -15,7 +15,7 @@ public class FarmerCredit extends BaseEntity<Long> {
 	//农户身份证号
 	private String farmerIdNum;
 	//信用户评定时间
-	private Date assessTime;
+	private Date assessDate;
 	//信用户评定部门
 	private String assessOrgan;
 	//信用户级别
@@ -43,12 +43,13 @@ public class FarmerCredit extends BaseEntity<Long> {
 		this.farmerIdNum = farmerIdNum;
 	}
 
-	public Date getAssessTime() {
-		return assessTime;
+
+	public Date getAssessDate() {
+		return assessDate;
 	}
 
-	public void setAssessTime(Date assessTime) {
-		this.assessTime = assessTime;
+	public void setAssessDate(Date assessDate) {
+		this.assessDate = assessDate;
 	}
 
 	public String getAssessOrgan() {

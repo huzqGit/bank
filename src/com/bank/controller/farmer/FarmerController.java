@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.bank.beans.Farmer;
+import com.bank.beans.FarmerMember;
 import com.bank.common.util.JsonUtil;
 import com.bank.service.IFarmerService;
 
@@ -33,18 +35,23 @@ public class FarmerController {
 	public ModelAndView save(HttpServletRequest request, 
 			HttpServletResponse response) throws Exception{
 
-		String formData = request.getParameter("formData");
+		String basicData = request.getParameter("basic");
+		String memberData=request.getParameter("member");
 		//這裡做了時間格式的處理
-		Object decodeJsonData = JsonUtil.Decode(formData);
-		String formatdata = JSON.toJSONStringWithDateFormat(decodeJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
-		JSONObject jsb = JSONObject.parseObject(formatdata);
-		Farmer farmer = (Farmer) JSON.toJavaObject(jsb, Farmer.class);
-		if(farmer.getId()!=null){
-			farmerService.update(farmer);
-		}else{
-			farmerService.save(farmer);
-		}
-		String json = JSON.toJSONString(farmer);
+		Object basicJsonData = JsonUtil.Decode(basicData);
+		basicData = JSON.toJSONStringWithDateFormat(basicJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
+		JSONObject basic = JSONObject.parseObject(basicData);
+		Farmer farmer = (Farmer) JSON.toJavaObject(basic, Farmer.class);
+		//
+		Object memberJsonData = JsonUtil.Decode(memberData);
+		memberData = JSON.toJSONStringWithDateFormat(memberJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
+		List<FarmerMember> members = (List<FarmerMember>) JSON.parseArray(memberData, FarmerMember.class);
+		farmerService.saveFarmer(farmer, members);
+		Map map = new HashMap();
+		map.put("farmer",farmer);
+		map.put("member", members);
+		String json = JSON.toJSONString(map);
+		System.out.println(json);
 		response.setContentType("text/html;charset=UTF-8");
 	    response.getWriter().write(json);
 		return null;

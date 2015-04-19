@@ -10,4 +10,10 @@ import com.common.dao.impl.GenericMyBatisDAOSupport;
 public class FarmerDaoImpl extends GenericMyBatisDAOSupport<Farmer, Long>
 	implements IFarmerDao {
 
+	@Override
+	public Farmer findByID(String farmerIdNum) {
+		Farmer farmer=this.getSqlSession().selectOne(farmerIdNum);
+		return farmer;
+	}
+
 }

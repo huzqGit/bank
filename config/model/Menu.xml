@@ -111,7 +111,7 @@ resultMap="BaseResultMap">
 </select>
 
 <select id="getTopMenusByUserId" resultMap="MenuResultMap">
-   SELECT distinct m.menu_id,m.menu_descr,m.menu_url,m.is_leaf,
+   SELECT distinct m.menu_id,m.menu_descr,m.menu_url,m.isleaf,
    m.menu_pid,p.privilege_id,p.privilege_type 
    FROM t_menu_privilege mp,t_sys_menu m,t_privilege p,t_user_role r
    WHERE
@@ -122,7 +122,7 @@ resultMap="BaseResultMap">
    and r.user_id=#{userId}
    order by m.menu_id 
 </select>
-<select id="getSubMenusByCondition" resultMap="MenuResultMap">
+<select id="getSubMenusByCondition_bak" resultMap="MenuResultMap">
    select distinct m.menu_id,m.menu_descr,m.menu_url,m.is_leaf,
    m.menu_pid,p.privilege_id,p.privilege_type 
    from t_menu_privilege mp,t_sys_menu m,t_privilege p,t_user_role r
@@ -135,6 +135,20 @@ resultMap="BaseResultMap">
    order by m.menu_id 
 </select>
 
+<select id="getSubMenusByCondition" resultMap="MenuResultMap">
+with rpl(menu_id,menu_descr,menu_url,menu_pid,menu_name,isleaf,issystem,seq) as (
+  select * from T_SYS_MENU root where menu_id=#{parMenuId}
+  union all
+  select child.* from rpl parent,t_sys_menu child
+  where parent.menu_id=child.menu_pid
+  )select distinct m.menu_id,m.menu_descr,m.menu_url,m.isleaf,m.menu_pid,p.privilege_id,p.privilege_type 
+  from rpl m,t_menu_privilege mp,t_privilege p,t_user_role r
+   where mp.privilege_id=p.privilege_id
+   and mp.role_id=r.role_id
+   and mp.menu_id=m.menu_id
+   and r.user_id=#{userId}
+   order by m.menu_id 
+</select>
 
 <resultMap id="privilegeChecklist" type="java.util.HashMap">
     <result column="privilege_id" property="privilegeId" jdbcType="VARCHAR" />
@@ -147,4 +161,5 @@ resultMap="BaseResultMap">
  and b.ROLE_ID = ${roleId} and b.MENU_ID=#{menuId}
  ) checked from T_PRIVILEGE a
 </select>
+
 </mapper>

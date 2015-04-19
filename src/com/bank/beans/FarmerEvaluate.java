@@ -17,17 +17,17 @@ public class FarmerEvaluate extends BaseEntity<Long> {
 	//人品综合评价
 	private String personality;
 	//家庭和睦情况
-	private Integer harmonyStatus;
+	private String harmonyStatus;
 	//敬老爱幼幼情况
 	private String respectStatus;
 	//邻里团结情况
 	private String neighborStatus;
 	//是否遵纪守法
-	private String legalStatus;
+	private Integer legalStatus;
 	//对公益事业关心程度
 	private String welfareStatus;
 	//是否诚实守信
-	private String honestStatus;
+	private Integer honestStatus;
 	//其他
 	private String otherStatus;
 	//记录人
@@ -59,11 +59,11 @@ public class FarmerEvaluate extends BaseEntity<Long> {
 		this.personality = personality;
 	}
 
-	public Integer getHarmonyStatus() {
+	public String getHarmonyStatus() {
 		return harmonyStatus;
 	}
 
-	public void setHarmonyStatus(Integer harmonyStatus) {
+	public void setHarmonyStatus(String harmonyStatus) {
 		this.harmonyStatus = harmonyStatus;
 	}
 
@@ -83,11 +83,11 @@ public class FarmerEvaluate extends BaseEntity<Long> {
 		this.neighborStatus = neighborStatus;
 	}
 
-	public String getLegalStatus() {
+	public Integer getLegalStatus() {
 		return legalStatus;
 	}
 
-	public void setLegalStatus(String legalStatus) {
+	public void setLegalStatus(Integer legalStatus) {
 		this.legalStatus = legalStatus;
 	}
 
@@ -99,11 +99,11 @@ public class FarmerEvaluate extends BaseEntity<Long> {
 		this.welfareStatus = welfareStatus;
 	}
 
-	public String getHonestStatus() {
+	public Integer getHonestStatus() {
 		return honestStatus;
 	}
 
-	public void setHonestStatus(String honestStatus) {
+	public void setHonestStatus(Integer honestStatus) {
 		this.honestStatus = honestStatus;
 	}
 

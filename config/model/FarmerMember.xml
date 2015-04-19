@@ -5,15 +5,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="farmermember">
 <sql id="Member_Column_List" >
-	memberid, farmername, farmeridnum, name, relation, idnum, education,
-	marrystatus, occupation, job, sex, phone,recorder,recordtime
+	memberid, farmerid, farmeridnum, name, relation, idnum, education,
+	marrystatus, occupation, job, sex, phone
 </sql>
-<insert id="save" useGeneratedKeys="true" keyProperty="memberId" 
+<insert id="save" useGeneratedKeys="true" keyProperty="id" 
 	parameterType="com.bank.beans.FarmerMember">
 	insert into t_farmer_member
  	<trim prefix="(" suffix=")" suffixOverrides=",">
-		<if test="farmerName != null">
-			farmername,
+		<if test="farmerId != null">
+			farmerid,
 		</if>
 		<if test="farmerIdNum != null">
 			farmeridnum,
@@ -45,16 +45,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	   <if test="phone != null">
 	   		phone,
 	   </if>
-	   <if test="recorder != null">
-	   		recorder,
-	   </if>
-	   <if test="recordTime != null">
-	   		recordtime
-	   </if>
 	</trim>
 	<trim prefix="values (" suffix=")" suffixOverrides=",">
-		<if test="farmerName != null">
-	     	#{farmerName,jdbcType=VARCHAR},
+		<if test="farmerId != null">
+	     	#{farmerId,jdbcType=VARCHAR},
 	    </if>
 	    <if test="farmerIdNum != null">
 	        #{farmerIdNum,jdbcType=VARCHAR},
@@ -86,17 +80,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    <if test="phone != null">
 	        #{phone,jdbcType=VARCHAR},
 	    </if>
-	    <if test="recorder != null">
-	        #{recorder,jdbcType=VARCHAR},
-	    </if>
-	    <if test="recordTime != null">
-	        #{recordTime,jdbcType=TIMESTAMP}
-	    </if>
 	</trim>
 </insert>
 <resultMap id="farmerMemberList" type="com.bank.beans.FarmerMember">
     <result column="memberId" property="id" jdbcType="BIGINT"/>
-    <result column="farmerName" property="farmerName" jdbcType="VARCHAR" />
+    <result column="farmerId" property="farmerId" jdbcType="VARCHAR" />
     <result column="farmerIdnum" property="farmerIdnum" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="relation" property="relation" jdbcType="VARCHAR" />

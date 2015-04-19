@@ -13,6 +13,12 @@ margin:0px;
 padding:0px;
 text-decoration:none
 }
+.mini-toolbar{
+background:url(/bank/jsp/main/leftmenu/images/icon-bg.jpg) repeat-x center;
+}
+.mini-grid-headerCell-nowrap{
+background:url(/bank/jsp/main/leftmenu/images/icon-bg.jpg) repeat-x center;
+} 
 </style>
 </head>
 <body>
