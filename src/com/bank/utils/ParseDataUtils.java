@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -24,17 +25,23 @@ import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 public class ParseDataUtils {
 	
 	
+	public static String[][] getExeclData(File file, int ignoreRows)
+	           throws FileNotFoundException, IOException {
+		BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
+		return getExeclData(in, ignoreRows);
+	}
+	
 	/**
 	 * Parse Excel Data
 	 */
-	public static String[][] getExeclData(File file, int ignoreRows)
+	public static String[][] getExeclData(InputStream inputStream, int ignoreRows)
 	           throws FileNotFoundException, IOException {
 
 	       List<String[]> result = new ArrayList<String[]>();
 
 	       int rowSize = 0;
 
-	       BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
+	       BufferedInputStream in = new BufferedInputStream(inputStream);
 
 	       // 打开HSSFWorkbook
 
