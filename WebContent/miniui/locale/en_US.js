@@ -52,62 +52,12 @@ mini.dateInfo = {
     clockType: 24
 };
 
-/* Number
------------------------------------------------------------------------------*/
-mini.cultures["en"] = {
-    name: "en",
-    numberFormat: {
-        number: {
-            pattern: ["n", "-n"],
-            decimals: 2,
-            decimalsSeparator: ".",
-            groupSeparator: ",",
-            groupSize: [3]
-        },
-        percent: {
-            pattern: ["n %", "-n %"],
-            decimals: 2,
-            decimalsSeparator: ".",
-            groupSeparator: ",",
-            groupSize: [3],
-            symbol: "%"
-        },
-        currency: {
-            pattern: ["$n", "($n)"],
-            decimals: 2,
-            decimalsSeparator: ".",
-            groupSeparator: ",",
-            groupSize: [3],
-            symbol: "$"
-        }
-    }
-}
-mini.culture("en");
-
-/* MessageBox
------------------------------------------------------------------------------*/
-if (mini.MessageBox) {
-    mini.copyTo(mini.MessageBox, {
-        alertTitle: "Alert",
-        confirmTitle: "Confirm",
-        prompTitle: "Prompt",
-        prompMessage: "Input content: ",
-        buttonText: {
-            ok: "Ok", //"OK",
-            cancel: "Cancel", //"Cancel",
-            yes: "Yes", //"Yes",
-            no: "No"//"No"
-        }
-    });
-};
-
 /* Calendar
 -----------------------------------------------------------------------------*/
 
 if (mini.Calendar) {
     mini.copyTo(mini.Calendar.prototype, {
         firstDayOfWeek: 0,
-        yesterdayText: "Yesterday",
         todayText: "Today",
         clearText: "Clear",
         okText: "OK",

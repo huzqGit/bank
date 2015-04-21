@@ -1,0 +1,20 @@
+<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt"  uri="http://java.sun.com/jsp/jstl/fmt" %>
+<script src="<c:url value="/miniui/jquery-1.6.2.min.js"/>" type="text/javascript"></script>
+<script src="<c:url value="/miniui/miniui.js"/>" type="text/javascript"></script>
+<%-- <script src="<c:url value="/miniui/boot.js"/>" type="text/javascript"></script> --%>
+
+<!-- commonjs -->
+<script type="text/javascript" src="<c:url  value="/common/js/utils.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/common/js/jsrule.js"/>"></script>
+
+
+<link href="${pageContext.request.contextPath}/miniui/themes/default/miniui.css" rel="stylesheet" type="text/css" />
+<link href="${pageContext.request.contextPath}/miniui/themes/icons.css" rel="stylesheet" type="text/css" />
+<link href="<c:url value="/miniui/themes/stategrid-skin/skin.css"/>" rel="stylesheet" type="text/css"/>
+
+
+
+
+

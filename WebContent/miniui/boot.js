@@ -19,24 +19,23 @@
         path = href + "/" + path;
     }
     return path;
-};
-
+}
 
 var bootPATH = __CreateJSPath("boot.js");
 
 //debugger
-mini_debugger = false;   
+mini_debugger = true;   
 
 //miniui
 document.write('<script src="' + bootPATH + 'jquery-1.6.2.min.js" type="text/javascript"></sc' + 'ript>');
-document.write('<script src="' + bootPATH + 'miniui.js" type="text/javascript" ></sc' + 'ript>');
-document.write('<link href="' + bootPATH + 'themes/default/miniui.css" rel="stylesheet" type="text/css" />');
-document.write('<link href="' + bootPATH + 'themes/icons.css" rel="stylesheet" type="text/css" />');
+document.write('<script src="' + bootPATH + '/miniui.js" type="text/javascript" ></sc' + 'ript>');
+document.write('<link href="' + bootPATH + '/themes/default/miniui.css" rel="stylesheet" type="text/css" />');
+document.write('<link href="' + bootPATH + '/themes/icons.css" rel="stylesheet" type="text/css" />');
 
 //skin
 var skin = getCookie("miniuiSkin");
 if (skin) {
-    document.write('<link href="' + bootPATH + 'themes/' + skin + '/skin.css" rel="stylesheet" type="text/css" />');
+    document.write('<link href="' + bootPATH + 'miniui/themes/' + skin + '/skin.css" rel="stylesheet" type="text/css" />');
 }
 
 

@@ -52,61 +52,12 @@ mini.dateInfo = {
     clockType: 24
 };
 
-/* Number
------------------------------------------------------------------------------*/
-mini.cultures["zh-CN"] = {
-    name: "zh-CN",
-    numberFormat: {
-        number: {
-            pattern: ["n", "-n"],
-            decimals: 2,
-            decimalsSeparator: ".",
-            groupSeparator: ",",
-            groupSize: [3]
-        },
-        percent: {
-            pattern: ["n%", "-n%"],
-            decimals: 2,
-            decimalsSeparator: ".",
-            groupSeparator: ",",
-            groupSize: [3],
-            symbol: "%"
-        },
-        currency: {
-            pattern: ["$n", "$-n"],
-            decimals: 2,
-            decimalsSeparator: ".",
-            groupSeparator: ",",
-            groupSize: [3],
-            symbol: "¥"
-        }
-    }
-}
-mini.culture("zh-CN");
-
-/* MessageBox
------------------------------------------------------------------------------*/
-if(mini.MessageBox){
-    mini.copyTo(mini.MessageBox, {
-        alertTitle: "提醒",
-        confirmTitle: "确认",
-        prompTitle: "输入",
-        prompMessage: "请输入内容：",
-        buttonText: {
-            ok: "确定", //"OK",
-            cancel: "取消", //"Cancel",
-            yes: "是", //"Yes",
-            no: "否"//"No"
-        }
-    });
-};
 
 /* Calendar
 -----------------------------------------------------------------------------*/
 if (mini.Calendar) {
     mini.copyTo(mini.Calendar.prototype, {
         firstDayOfWeek: 0,
-        yesterdayText: "昨天",
         todayText: "今天",
         clearText: "清除",
         okText: "确定",
