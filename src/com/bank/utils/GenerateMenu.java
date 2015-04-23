@@ -106,7 +106,7 @@ public class GenerateMenu {
 			}
 		}
 		sb.append("\n</div>\n</div>\n");
-		System.out.println("生成的菜单："+sb.toString());
+//		System.out.println("生成的菜单："+sb.toString());
 		return sb.toString();
 	}
 	
