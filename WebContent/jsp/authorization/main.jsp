@@ -1,10 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/jsp/taglibsCommon.jspf"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
+<%-- <script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script> --%>
 <title>权限控制主页</title>
 </head>
 <style type="text/css">
@@ -13,24 +13,21 @@
     }    
 </style>
 <body>
-    
-<div class="mini-splitter" style="width:100%;height:100%;">
-    <div size="200" showCollapseButton="true">
-        <div class="mini-fit" style="padding:5px;" >
-            <ul id="tree1" class="mini-tree" url="${pageContext.request.contextPath}/menu/loadMenuTree.do"
+
+ <div id="layout1" class="mini-layout" style="width:100%;height:100%;">
+    <div title="菜单" showProxyText="true" region="west" width="200" expanded="true" showSplitIcon="false">
+        <ul id="tree1" class="mini-tree" url="${pageContext.request.contextPath}/menu/loadMenuTree.do"
 		        showTreeIcon="true" textField="menuName" idField="menuId" parentField="menuPid" resultAsTree="false"
 		        expandOnLoad="true" onnodeclick="onNodeClick" style="width:100%;height:100%;" contextMenu="#treeMenu"
 		        iconField="iconCls"
 		        >
 	   		 </ul>
-        </div>
     </div>
-    <div showCollapseButton="true">
-        <div class="mini-fit" style="width:100%;height:100%;">
-             <iframe id="mainframe" frameborder="0" name="main" style="width:100%;height:100%;" border="0"></iframe>
-        </div>
+    <div title="center" region="center" style="width:100%;border-bottom:0;padding:0px;">
+    	<iframe id="mainframe" frameborder="0" name="main" style="width:100%;height:100%;" border="0"></iframe>
     </div>
-</div>
+    
+
 
 <ul id="treeMenu" class="mini-contextmenu"  onbeforeopen="onBeforeOpen">        
     <li name="add" iconCls="icon-add" onclick="onAddNode">新增菜单</li>

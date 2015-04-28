@@ -11,9 +11,12 @@
 			http://www.springframework.org/schema/context/spring-context-3.1.xsd
 			http://www.springframework.org/schema/mvc
            	http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
+    
+    <context:component-scan base-package="com.bank" >      
+   		 <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service" /> 
+	</context:component-scan> 
           
     <!-- 激活在bean中定义的各种注解，@Transactional注解除外，它需要tx:annotation-driven激活 -->       	
-	<context:annotation-config/>
 	<mvc:annotation-driven />  
 	<!-- 控制器类名必须使用*Controller命名规则，如HomeController访问路径为/home/*，Controller前的所有字符转为小写字母 -->
 	<bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping" />
@@ -44,41 +47,35 @@
 		</property>
 	</bean>
 	
-	<!--Spring3.1开始的注解 HandlerMapping -->
-    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
-    
-<!--     <bean class="org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter" /> -->
-<!--     <bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" /> -->
-    
-    <bean class="com.bank.controller.LoginController"/>  
-	<bean class="com.bank.controller.SuccessController"/>
-	<bean class="com.bank.controller.HelloController"/>
-    <bean class="com.bank.controller.UserController"/>
-    <bean class="com.bank.controller.OrganController"/>
-    <bean class="com.bank.controller.manager.LeftController"/>
-    <bean class="com.bank.controller.manager.MenuController"/>
-    <bean class="com.bank.controller.manager.MenuPrivilegeController"/>
-    <bean class="com.bank.controller.manager.PrivilegeController"/>
-    <bean class="com.bank.controller.manager.RoleController"/>
-    <bean class="com.bank.controller.manager.UserRoleController"/>
-    <bean class="com.bank.controller.company.CompanyController"/>
-    <bean class="com.bank.controller.company.CompanyCapitalController"/>
-    <bean class="com.bank.controller.company.CompanyInvestController"/>
-    <bean class="com.bank.controller.company.CompanyEmployeeController"/>
-    <bean class="com.bank.controller.farmer.FarmerController"/>
-    <bean class="com.bank.controller.farmer.FarmerMemberController"/>
-    <bean class="com.bank.controller.farmer.FarmerIncomeController"/>
-    <bean class="com.bank.controller.farmer.FarmerPayController"/>
-    <bean class="com.bank.controller.farmer.FarmerHouseController"/>
-    <bean class="com.bank.controller.farmer.FarmerForestController"/>
-    <bean class="com.bank.controller.farmer.FarmerBreedController"/>
-    <bean class="com.bank.controller.farmer.FarmerDeviceController"/>
-    <bean class="com.bank.controller.farmer.FarmerUnbalancedController"/>
-    <bean class="com.bank.controller.farmer.FarmerBadLoanController"/>
-    <bean class="com.bank.controller.farmer.FarmerEnsureController"/>
-    <bean class="com.bank.controller.farmer.FarmerInsuredController"/>
-    <bean class="com.bank.controller.farmer.FarmerEvaluateController"/>
-    <bean class="com.bank.controller.farmer.FarmerCreditController"/>
-    <bean class="com.bank.controller.farmer.FarmerCompunishController"/>
+<!-- 	<bean class="com.bank.controller.LoginController"/>   -->
+<!-- 	<bean class="com.bank.controller.SuccessController"/> -->
+<!-- 	<bean class="com.bank.controller.HelloController"/> -->
+<!--     <bean class="com.bank.controller.UserController"/> -->
+<!--     <bean class="com.bank.controller.OrganController"/> -->
+<!--     <bean class="com.bank.controller.manager.LeftController"/> -->
+<!--     <bean class="com.bank.controller.manager.MenuController"/> -->
+<!--     <bean class="com.bank.controller.manager.MenuPrivilegeController"/> -->
+<!--     <bean class="com.bank.controller.manager.PrivilegeController"/> -->
+<!--     <bean class="com.bank.controller.manager.RoleController"/> -->
+<!--     <bean class="com.bank.controller.manager.UserRoleController"/> -->
+<!--     <bean class="com.bank.controller.company.CompanyController"/> -->
+<!--     <bean class="com.bank.controller.company.CompanyCapitalController"/> -->
+<!--     <bean class="com.bank.controller.company.CompanyInvestController"/> -->
+<!--     <bean class="com.bank.controller.company.CompanyEmployeeController"/> -->
+<!--     <bean class="com.bank.controller.farmer.FarmerController"/> -->
+<!--     <bean class="com.bank.controller.farmer.FarmerMemberController"/> -->
+<!--     <bean class="com.bank.controller.farmer.FarmerIncomeController"/> -->
+<!--     <bean class="com.bank.controller.farmer.FarmerPayController"/> -->
+<!--     <bean class="com.bank.controller.farmer.FarmerHouseController"/> -->
+<!--     <bean class="com.bank.controller.farmer.FarmerForestController"/> -->
+<!--     <bean class="com.bank.controller.farmer.FarmerBreedController"/> -->
+<!--     <bean class="com.bank.controller.farmer.FarmerDeviceController"/> -->
+<!--     <bean class="com.bank.controller.farmer.FarmerUnbalancedController"/> -->
+<!--     <bean class="com.bank.controller.farmer.FarmerBadLoanController"/> -->
+<!--     <bean class="com.bank.controller.farmer.FarmerEnsureController"/> -->
+<!--     <bean class="com.bank.controller.farmer.FarmerInsuredController"/> -->
+<!--     <bean class="com.bank.controller.farmer.FarmerEvaluateController"/> -->
+<!--     <bean class="com.bank.controller.farmer.FarmerCreditController"/> -->
+<!--     <bean class="com.bank.controller.farmer.FarmerCompunishController"/> -->
     
 </beans>

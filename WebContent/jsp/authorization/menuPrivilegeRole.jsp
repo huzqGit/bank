@@ -1,6 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/jsp/taglibsCommon.jspf"%>
 <%
 String roleId = request.getParameter("roleId");
 request.setAttribute("roleId", roleId);
@@ -9,17 +8,20 @@ request.setAttribute("roleId", roleId);
 <html>
 <head>
     <title>CheckBoxTree</title>
+    <style type="text/css">
+	    body{
+	        margin:0;padding:0;border:0;width:100%;height:100%;overflow:hidden;
+	    }
+    </style> 
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-    <script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
+<%--     <script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script> --%>
 </head>
 <body style="">
     <div id="layout1" class="mini-layout" style="width:600px;height:400px;"  borderStyle="border:solid 1px #aaa;">
-    <div title="west" showProxyText="true" region="west" width="200" expanded="true" showSplitIcon="false">
+    <div title="菜单" showProxyText="true" region="west" width="200" expanded="true" showSplitIcon="false">
         <ul id="tree2" class="mini-tree" url="${pageContext.request.contextPath}/menu/loadMenuTree.do" style="width:200px;padding:5px;height: 300px;" 
 	        showTreeIcon="true" onnodeclick="onNodeClick" textField="menuName" idField="menuId" parentField="menuPid" resultAsTree="false"  expandOnLoad="true"
-	        onbeforenodecheck="onBeforeNodeCheck" allowSelect="false" enableHotTrack="false" iconField="iconCls"
-	        
-	        >
+	        onbeforenodecheck="onBeforeNodeCheck" allowSelect="false" enableHotTrack="false" iconField="iconCls">
 	    </ul>
     </div>
     <div title="center" region="center" style="width:100%;border-bottom:0;padding:0px;">
