@@ -1,5 +1,7 @@
 package com.bank.controller.farmer;
 
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,39 +20,78 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.bank.beans.Farmer;
 import com.bank.beans.FarmerEvaluate;
+import com.bank.beans.FarmerMember;
 import com.bank.common.util.JsonUtil;
 import com.bank.service.IFarmerEvaluateService;
+import com.bank.service.IFarmerService;
 
 @Controller
 @RequestMapping(value = "/farmer")
 public class FarmerEvaluateController {
 	
 	@Resource
+	private IFarmerService farmerService;
+	@Resource
 	private IFarmerEvaluateService farmerEvaluateService;
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/saveEvaluate",method = RequestMethod.POST)
 	public ModelAndView save(HttpServletRequest request, 
 			HttpServletResponse response) throws Exception{
-
-		String formData = request.getParameter("formData");
-		//這裡做了時間格式的處理
-		Object decodeJsonData = JsonUtil.Decode(formData);
-		String formatdata = JSON.toJSONStringWithDateFormat(decodeJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
-		JSONObject jsb = JSONObject.parseObject(formatdata);
-		FarmerEvaluate farmerEvaluate = (FarmerEvaluate) JSON.toJavaObject(jsb, FarmerEvaluate.class);
-		if(farmerEvaluate.getId()!=null){
-			farmerEvaluateService.update(farmerEvaluate);
-		}else{
-			farmerEvaluateService.save(farmerEvaluate);
-		}
-		String json = JSON.toJSONString(farmerEvaluate);
-		response.setContentType("text/html;charset=UTF-8");
-	    response.getWriter().write(json);
-		return null;
+		String farmerData  = request.getParameter("farmer");
+		String evaluateData = request.getParameter("evaluate");
 		
-	}
+		Object farmerJsonData = JsonUtil.Decode(farmerData);
+		farmerData = JSON.toJSONStringWithDateFormat(farmerJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
+		JSONObject farmerJson = JSONObject.parseObject(farmerData);
+		Farmer farmer = (Farmer) JSON.toJavaObject(farmerJson, Farmer.class);
+		
+		Object decodeJsonData = JsonUtil.Decode(evaluateData);
+		evaluateData = JSON.toJSONStringWithDateFormat(decodeJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
+		JSONObject evaluatejsb = JSONObject.parseObject(evaluateData);
+		FarmerEvaluate evaluate = (FarmerEvaluate) JSON.toJavaObject(evaluatejsb, FarmerEvaluate.class);
+		farmerEvaluateService.saveEvaluate(farmer, evaluate);
+		PrintWriter writer = response.getWriter();
+		Map map = new HashMap();
+		map.put("evaluate", evaluate);
+		String json =JSON.toJSONString(map);
+		writer.write(json);
+		writer.flush();
+		return null;	
 	
+}
+@RequestMapping(value="/typeInEvaluate",method=RequestMethod.POST)
+public ModelAndView typeInEvaluate(@RequestParam(value="farmerName") String farmerName,
+		@RequestParam(value="farmerIdNum") String farmerIdNum, 
+		HttpServletResponse response) throws Exception{
+	//查询条件
+	if(StringUtils.isEmpty(farmerIdNum) && StringUtils.isEmpty(farmerName)){
+		ModelAndView view = new ModelAndView("/farmer/farmerBasicInfoView");
+		view.addObject("msg", "请您填写完农户姓名和身份证号码后录入资产信息!");
+		return  view;
+	}
+	List<Farmer> farmers= farmerService.findByIDAndName(farmerIdNum, farmerName);
+	if(farmers.size()== 0){
+	    ModelAndView view = new ModelAndView("/farmer/farmerQiTaView");
+		view.addObject("farmerIdNum", farmerIdNum);
+		view.addObject("farmerName",farmerName);
+		view.addObject("msg","未找到相应的农户信息!您可以填写好姓名和身份证号码后录入新的农户信息");
+		return view;
+	}else if(farmers.size()== 1){
+		Farmer farmer = farmers.get(0);
+    	FarmerEvaluate evaluate = farmerEvaluateService.getEvaluateByFarmer(farmer.getId());
+    	ModelAndView view = new ModelAndView("/farmer/farmerQiTaForm");
+		view.addObject("farmer", farmer);
+		view.addObject("evaluate", evaluate);
+		return view;
+	 }else{
+		ModelAndView view = new ModelAndView("/farmer/farmerQiTaView");
+		view.addObject("farmers",farmers);
+		return view;
+	 }
+}	
 	@RequestMapping(value = "/loadEvaluate", method = RequestMethod.POST)
 	public ModelAndView loadCompany(@RequestParam(value="id",required=true) String id, 
 			HttpServletResponse response) throws Exception {
