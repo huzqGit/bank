@@ -4,99 +4,97 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="farmerevaluate">
 <sql id="Evaluate_Column_List" >
-     evaluateid, farmername, farmeridnum, personality, harmonystatus, 
-     respectstatus,neighborstatus, legalstatus, welfarestatus, honeststatus,
-      otherstatus,recorder,recordtime
+     evaluateId, farmerId, personality, harmonyStatus, respectStatus,
+     neighborStatus,  legalStatus, welfareStatus, honestStatus, otherStatus
 </sql>
-<insert id="save" useGeneratedKeys="true" keyProperty="evaluateId" 
+<insert id="save" useGeneratedKeys="true" keyProperty="id" 
 	parameterType="com.bank.beans.FarmerEvaluate">
 	insert into t_farmer_evaluate
 	<trim prefix="(" suffix=")" suffixOverrides=",">
-	<if test="farmerName != null">
-		farmername,
-	</if>
-	<if test="farmerIdNum != null">
-		farmeridnum,
+	<if test="farmerId != null">
+		farmerId,
 	</if>
    	<if test="personality != null">
    		personality,
    	</if>
 	<if test="harmonyStatus != null">
-		harmonystatus,
+		harmonyStatus,
 	</if>
 	<if test="respectStatus != null">
-		respectstatus,
+		respectStatus,
 	</if>
 	<if test="neighborStatus != null">
-		neighborstatus,
+		neighborStatus,
 	</if>
 	<if test="legalStatus != null">
-		legalstatus,
+		legalStatus,
 	</if>
  	<if test="welfareStatus != null">
- 		welfarestatus,
+ 		welfareStatus,
  	</if>
 	<if test="honestStatus != null">
-		honeststatus,
+		honestStatus,
 	</if>
 	<if test="otherStatus != null">
-		otherstatus,
-	</if>
-	<if test="recorder != null">
-		recorder,
-	</if>
-	<if test="recordTime != null">
-		recordtime
+		otherStatus
 	</if>
 	</trim>
 	<trim prefix="values (" suffix=")" suffixOverrides=",">
-	<if test="farmerName != null">
-		#{farmername,jdbcType=VARCHAR},
-	</if>
-	<if test="farmerIdNum != null">
-		#{farmeridnum,jdbcType=VARCHAR},
+	<if test="farmerId != null">
+		#{farmerId,jdbcType=BIGINT},
 	</if>
    	<if test="personality != null">
    		#{personality,jdbcType=VARCHAR},
    	</if>
 	<if test="harmonyStatus != null">
-		#{harmonystatus,jdbcType=INTEGER},
+		#{harmonyStatus,jdbcType=INTEGER},
 	</if>
 	<if test="respectStatus != null">
-		#{respectstatus,jdbcType=VARCHAR},
+		#{respectStatus,jdbcType=VARCHAR},
 	</if>
 	<if test="neighborStatus != null">
-		#{neighborstatus,jdbcType=VARCHAR},
+		#{neighborStatus,jdbcType=VARCHAR},
 	</if>
 	<if test="legalStatus != null">
-		#{legalstatus,jdbcType=INTEGER},
+		#{legalStatus,jdbcType=INTEGER},
 	</if>
  	<if test="welfareStatus != null">
- 		#{welfarestatus,jdbcType=VARCHAR},
+ 		#{welfareStatus,jdbcType=VARCHAR},
  	</if>
 	<if test="honestStatus != null">
-		#{honeststatus,jdbcType=INTEGER},
+		#{honestStatus,jdbcType=INTEGER},
 	</if>
 	<if test="otherStatus != null">
-		#{otherstatus,jdbcType=VARCHAR},
-	</if>
-	<if test="recorder != null">
-		#{recorder,jdbcType=VARCHAR},
-	</if>
-	<if test="recordTime != null">
-		#{recordtime,jdbcType=TIMESTAMP}
+		#{otherStatus,jdbcType=VARCHAR}
 	</if>
 	</trim>
 </insert>
+<update id="update" parameterType="com.bank.beans.FarmerEvaluate">
+	update t_farmer_evaluate
+	set farmerId = #{farmerId,jdbcType=BIGINT},
+	personality = #{personality,jdbcType=VARCHAR},
+	harmonyStatus = #{harmonyStatus,jdbcType=VARCHAR},
+	respectStatus = #{respectStatus,jdbcType=VARCHAR},
+	neighborStatus = #{neighborStatus,jdbcType=VARCHAR},
+	legalStatus = #{legalStatus,jdbcType=INTEGER},
+	welfareStatus = #{welfareStatus,jdbcType=VARCHAR},
+	honestStatus = #{honestStatus,jdbcType=INTEGER},
+	otherStatus = #{otherStatus,jdbcType=VARCHAR}
+	where evaluateId = #{id,jdbcType=BIGINT}
+</update>
 <select id="findByPK" parameterType="Long" resultType="com.bank.beans.FarmerEvaluate">
 		select 
 		<include refid="Evaluate_Column_List" />
-		from t_farmer_evaluate where evaluateid = #{id,jdbcType=INTEGER}
+		from t_farmer_evaluate where evaluateId = #{id,jdbcType=BIGINT}
+</select>
+<select id="findByFarmerId" parameterType="Long" resultMap="farmerEvaluateList">
+		select 
+		<include refid="Evaluate_Column_List" />
+		from t_farmer_evaluate where farmerId = #{id,jdbcType=BIGINT}
 </select>
 <resultMap id="farmerEvaluateList" type="com.bank.beans.FarmerEvaluate">
-    <result column="evaluateId" property="id" jdbcType="BIGINT"/>
-    <result column="farmerName" property="farmerName" jdbcType="VARCHAR" />
-    <result column="farmerIdnum" property="farmerIdnum" jdbcType="VARCHAR" />
+    <id column="evaluateId" property="id" jdbcType="BIGINT"/>
+    <result column="farmerId" property="farmerId" jdbcType="BIGINT" />
     <result column="personality" property="personality" jdbcType="VARCHAR" />
     <result column="harmonyStatus" property="harmonyStatus" jdbcType="VARCHAR" />
 	<result column="respectStatus" property="respectStatus" jdbcType="VARCHAR" />
@@ -105,8 +103,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<result column="welfareStatus" property="welfareStatus" jdbcType="VARCHAR" />
 	<result column="honestStatus" property="honestStatus" jdbcType="INTEGER" />
 	<result column="otherStatus" property="otherStatus" jdbcType="VARCHAR" />
-    <result column="recorder" property="recorder" jdbcType="VARCHAR" />
-    <result column="recordTime" property="recordTime" jdbcType="DATE" />
 </resultMap>
 <select id="pageing" parameterType="Map" resultMap="farmerEvaluateList">
 	select 

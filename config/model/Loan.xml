@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 名称空间有特殊的用途 -->
+<mapper namespace="loan">
+<sql id="Loan_Column_List" >
+     loanId,   clientNum,   noteNum,   compactNum,   loanDate,   limitDate,
+     limitDate1,  currency, amount,   balance,   oweInterest,   currentRate,
+     clientId,   clientName,   clientType,   idType,   idNum,   phone,  address,
+     loanUse,  guaranteeType,  grade,   grade1,   settleType,   chargePerson,
+     organCode,   organName,  businessType,   businessBody,   provideType,
+     invest,   termTYpe,   guaranteeType1,   floatScope,   adjustType,
+     runType,  frequeency
+</sql>
+<resultMap id="loanResultMap" type="com.bank.beans.Loan" >
+  <id column="loanid" property="id" jdbcType="BIGINT" />
+  <result column="clientNum" property="clientNum" jdbcType="VARCHAR" />
+  <result column="noteNum" property="noteNum" jdbcType="VARCHAR" />
+  <result column="compactNum" property="compactNum" jdbcType="VARCHAR" />
+  <result column="loanDate" property="loanDate" jdbcType="VARCHAR" />
+  <result column="limitDate1" property="limitDate1" jdbcType="VARCHAR" />
+  <result column="currency" property="currency" jdbcType="VARCHAR" />
+  <result column="amount" property="amount" jdbcType="VARCHAR" />
+  <result column="balance" property="balance" jdbcType="VARCHAR" />
+  <result column="oweInterest" property="oweInterest" jdbcType="VARCHAR" />
+  <result column="currentRate" property="currentRate" jdbcType="VARCHAR" />
+  <result column="clientId" property="clientId" jdbcType="BIGINT" />
+  <result column="clientName" property="clientName" jdbcType="VARCHAR" />
+  <result column="clientType" property="clientType" jdbcType="VARCHAR" />
+  <result column="idType" property="idType" jdbcType="VARCHAR" />
+  <result column="idNum" property="idNum" jdbcType="VARCHAR" />
+  <result column="loanUse" property="loanUse" jdbcType="VARCHAR" />
+  <result column="guaranteeType" property="guaranteeType" jdbcType="VARCHAR" />
+   <result column="grade" property="grade" jdbcType="VARCHAR" />
+  <result column="grade1" property="grade1" jdbcType="VARCHAR" />
+  <result column="settleType" property="settleType" jdbcType="VARCHAR" />
+  <result column="chargePerson" property="chargePerson" jdbcType="VARCHAR" />
+  <result column="organCode" property="organCode" jdbcType="VARCHAR" />
+  <result column="organName" property="organName" jdbcType="VARCHAR" />
+  <result column="businessType" property="businessType" jdbcType="VARCHAR" />
+  <result column="businessBody" property="businessBody" jdbcType="VARCHAR" />
+  <result column="provideType" property="provideType" jdbcType="VARCHAR" />
+  <result column="invest" property="invest" jdbcType="VARCHAR" />
+  <result column="termTYpe" property="termTYpe" jdbcType="VARCHAR" />
+  <result column="guaranteeType1" property="guaranteeType1" jdbcType="VARCHAR" />
+  <result column="floatScope" property="floatScope" jdbcType="VARCHAR" />
+  <result column="adjustType" property="adjustType" jdbcType="VARCHAR" />
+  <result column="runType" property="runType" jdbcType="VARCHAR" />
+  <result column="frequeency" property="frequeency" jdbcType="VARCHAR" />
+</resultMap>
+<insert id="save" useGeneratedKeys="true" keyProperty="id" 
+	parameterType="com.bank.beans.Loan">
+	  
+	 insert into t_loan
+	 <trim prefix="(" suffix=")" suffixOverrides=",">
+	    <if test="clientNum != null ">
+	    	clientNum,
+	   </if>
+	   <if test="noteNum != null ">
+	   		noteNum,
+	   </if>
+	   <if test="compactNum != null ">
+	   	    compactNum,
+	   </if>
+	   <if test="loanDate != null ">
+	   		loanDate,
+	   </if>
+	   <if test="limitDate != null ">
+	   		limitDate,
+	   </if>
+	   <if test="currency != null ">
+	   		currency,
+	   </if>
+	   <if test="amount != null ">
+	   		amount,	
+	   </if>
+	   <if test="balance != null ">
+	   		balance,
+	   </if>
+	   <if test="oweInterest != null ">
+	   		oweInterest,
+	   </if>
+	   <if test="currentRate != null ">
+	   		currentRate,
+	   </if>
+	   <if test="clientId != null ">
+	   		clientId,
+	   </if>
+	   <if test="clientName != null ">
+	   		clientName,
+	   </if>
+	   <if test="clientType != null ">
+	   		clientType,
+	   </if>
+	   <if test="idType != null ">
+	   		idType,
+	   </if>
+	   <if test="idNum != null ">
+	   		idNum,
+	   </if>
+	   <if test="phone != null ">
+	   		phone,
+	   </if>
+	   <if test="address != null ">
+	   		address,
+	   </if>
+	   <if test="loanUse != null ">
+	   		loanUse,
+	   </if>
+	   <if test="guaranteeType != null ">
+	   		guaranteeType,
+	   </if>
+	   <if test="grade != null ">
+	   		grade,
+	   </if>
+	   <if test="grade1 != null ">
+	   		grade1,
+	   </if>
+	   <if test="settleType != null ">
+	   		settleType,
+	   </if>
+	   <if test="chargePerson != null ">
+	   		chargePerson,
+	   </if>
+	   <if test="organCode != null ">
+	   		organCode,
+	   </if>
+	   <if test="organName != null ">
+	   		organName,
+	   </if>
+	   <if test="businessType != null ">
+	   		businessType,
+	   </if>
+	   <if test="businessBody != null ">
+	   		businessBody,
+	   </if>
+	   <if test="provideType != null ">
+	   		provideType,
+	   </if>
+	   <if test="invest != null ">
+	   		invest,
+	   </if>
+	   <if test="termTYpe != null ">
+	   		termTYpe,
+	   </if>
+	   <if test="guaranteeType1 != null ">
+	   		guaranteeType1,
+	   </if>
+	   <if test="floatScope != null ">
+	   		floatScope,
+	   </if>
+	   <if test="adjustType != null ">
+	   		adjustType,
+	   </if>
+	   <if test="runType != null ">
+	   		runType,
+	   </if>
+	   <if test="frequeency != null ">
+	   		frequeency
+	   </if>
+	 </trim>
+	 <trim prefix="values (" suffix=")" suffixOverrides=",">
+	 	<if test="clientNum != null ">
+	    	#{clientNum,jdbcType=VARCHAR},
+	   </if>
+	   <if test="noteNum != null ">
+	   		#{noteNum,jdbcType=VARCHAR},
+	   </if>
+	   <if test="compactNum != null ">
+	   	    #{compactNum,jdbcType=VARCHAR},
+	   </if>
+	   <if test="loanDate != null ">
+	   		#{loanDate,jdbcType=VARCHAR},
+	   </if>
+	   <if test="limitDate != null ">
+	   		#{limitDate,jdbcType=VARCHAR},
+	   </if>
+	   <if test="currency != null ">
+	   		#{currency,jdbcType=VARCHAR},
+	   </if>
+	   <if test="amount != null ">
+	   		#{amount,jdbcType=VARCHAR},	
+	   </if>
+	   <if test="balance != null ">
+	   		#{balance,jdbcType=VARCHAR},
+	   </if>
+	   <if test="oweInterest != null ">
+	   		#{oweInterest,jdbcType=VARCHAR},
+	   </if>
+	   <if test="currentRate != null ">
+	   		#{currentRate,jdbcType=VARCHAR},
+	   </if>
+	   <if test="clientId != null ">
+	   		#{clientId,jdbcType=BIGINT},
+	   </if>
+	   <if test="clientName != null ">
+	   		#{clientName,jdbcType=VARCHAR},
+	   </if>
+	   <if test="clientType != null ">
+	   		#{clientType,jdbcType=VARCHAR},
+	   </if>
+	   <if test="idType != null ">
+	   		#{idType,jdbcType=VARCHAR},
+	   </if>
+	   <if test="idNum != null ">
+	   		#{idNum,jdbcType=VARCHAR},
+	   </if>
+	   <if test="phone != null ">
+	   		#{phone,jdbcType=VARCHAR},
+	   </if>
+	   <if test="address != null ">
+	   		#{address,jdbcType=VARCHAR},
+	   </if>
+	   <if test="loanUse != null ">
+	   		#{loanUse,jdbcType=VARCHAR},
+	   </if>
+	   <if test="guaranteeType != null ">
+	   		#{guaranteeType,jdbcType=VARCHAR},
+	   </if>
+	   <if test="grade != null ">
+	   		#{grade,jdbcType=VARCHAR},
+	   </if>
+	   <if test="grade1 != null ">
+	   		#{grade1,jdbcType=VARCHAR},
+	   </if>
+	   <if test="settleType != null ">
+	   		#{settleType,jdbcType=VARCHAR},
+	   </if>
+	   <if test="chargePerson != null ">
+	   		#{chargePerson,jdbcType=VARCHAR},
+	   </if>
+	   <if test="organCode != null ">
+	   		#{organCode,jdbcType=VARCHAR},
+	   </if>
+	   <if test="organName != null ">
+	   		#{organName,jdbcType=VARCHAR},
+	   </if>
+	   <if test="businessType != null ">
+	   		#{businessType,jdbcType=VARCHAR},
+	   </if>
+	   <if test="businessBody != null ">
+	   		#{businessBody,jdbcType=VARCHAR},
+	   </if>
+	   <if test="provideType != null ">
+	   		#{provideType,jdbcType=VARCHAR},
+	   </if>
+	   <if test="invest != null ">
+	   		#{invest,jdbcType=VARCHAR},
+	   </if>
+	   <if test="termTYpe != null ">
+	   		#{termTYpe,jdbcType=VARCHAR},
+	   </if>
+	   <if test="guaranteeType1 != null ">
+	   		#{guaranteeType1,jdbcType=VARCHAR},
+	   </if>
+	   <if test="floatScope != null ">
+	   		#{floatScope,jdbcType=VARCHAR},
+	   </if>
+	   <if test="adjustType != null ">
+	   		#{adjustType,jdbcType=VARCHAR},
+	   </if>
+	   <if test="runType != null ">
+	   		#{runType,jdbcType=VARCHAR},
+	   </if>
+	   <if test="frequeency != null ">
+	   		#{frequeency,jdbcType=VARCHAR}
+	   </if>
+	 </trim>
+</insert>
+<select id="findSpecialLoan" parameterType="Long" resultMap="loanResultMap">
+	select 
+	<include refid="Loan_Column_List" />
+	from t_loan
+	<where>
+	<if test="clientId != null">
+		clientId = #{clientId,jdbcType=BIGINT}
+	</if>
+	<if test="compactNum != null">
+		compactNum = #{compactNum,jdbcType=VARCHAR}
+	</if>
+	</where>
+</select>
+<select id="findByID" parameterType="Map" resultMap="loanResultMap">
+	select 
+	<include refid="Loan_Column_List" />
+	from t_loan
+	where clientType = #{clientType,jdbcType=INTEGER}
+	and idType = #{idType,jdbcType=INTEGER}
+	and	idNum = #{idNum,jdbcType=VARCHAR}
+	and clientId is null
+</select>
+<select id="findByCompactNum" parameterType="String" resultMap="loanResultMap">
+	select 
+	<include refid="Loan_Column_List" />
+	from t_loan
+	where compactNum = #{compactNum,jdbcType = VARCHAR}
+</select>
+</mapper>
