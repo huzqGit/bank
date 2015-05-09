@@ -33,6 +33,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="com.bank.beans.FarmerEvaluate" alias="FarmerEvaluate"/>
 		<typeAlias type="com.bank.beans.FarmerCredit" alias="FarmerCredit"/>
 		<typeAlias type="com.bank.beans.FarmerCompunish" alias="FarmerCompunish"/>
+		<typeAlias type="com.bank.beans.Loan" alias="loan"/>
 	</typeAliases>
 	
 	<mappers>
@@ -62,6 +63,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="model/FarmerEvaluate.xml"/>
 		<mapper resource="model/FarmerCredit.xml"/>
 		<mapper resource="model/FarmerCompunish.xml"/>
+		<mapper resource="model/Loan.xml"/>
 	</mappers> 
 
 
