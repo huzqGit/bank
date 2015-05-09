@@ -10,30 +10,21 @@ public class FarmerDevice extends BaseEntity<Long> {
 	 * 
 	 */
 	private static final long serialVersionUID = 7469892461259102070L;
-	private String farmerName;
-	private String farmerIdNum;
+	private Long farmerId;
 	private String name;
 	private String brand;
 	private String buyingPrice;
-	private Date buyingDate;
+	private String buyingDate;
 	private String assessPrice;
 	private String recorder;
 	private Date recordTime;
-	
-	public String getFarmerName() {
-		return farmerName;
+
+	public Long getFarmerId() {
+		return farmerId;
 	}
 
-	public void setFarmerName(String farmerName) {
-		this.farmerName = farmerName;
-	}
-
-	public String getFarmerIdNum() {
-		return farmerIdNum;
-	}
-
-	public void setFarmerIdNum(String farmerIdNum) {
-		this.farmerIdNum = farmerIdNum;
+	public void setFarmerId(Long farmerId) {
+		this.farmerId = farmerId;
 	}
 
 	public String getName() {
@@ -60,11 +51,11 @@ public class FarmerDevice extends BaseEntity<Long> {
 		this.buyingPrice = buyingPrice;
 	}
 
-	public Date getBuyingDate() {
+	public String getBuyingDate() {
 		return buyingDate;
 	}
 
-	public void setBuyingDate(Date buyingDate) {
+	public void setBuyingDate(String buyingDate) {
 		this.buyingDate = buyingDate;
 	}
 

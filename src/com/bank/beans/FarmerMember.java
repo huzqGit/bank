@@ -10,7 +10,7 @@ public class FarmerMember extends BaseEntity<Long> {
 	 */
 	private static final long serialVersionUID = -1550305454462009720L;
 	//农户表主键
-	private String farmerId;
+	private Long farmerId;
 	//农户的身份证号
 	private String farmerIdNum;
 	//家庭成员姓名
@@ -31,16 +31,18 @@ public class FarmerMember extends BaseEntity<Long> {
 	private Integer sex;
 	//家庭成员的联系电话
 	private String phone;
+	//家庭成员地址
+	private String address;
 	//记录人
 	private String recorder;
 	//记录时间
 	private Date recordTime;
 	
-	public String getFarmerId() {
+	public Long getFarmerId() {
 		return farmerId;
 	}
 
-	public void setFarmerId(String farmerId) {
+	public void setFarmerId(Long farmerId) {
 		this.farmerId = farmerId;
 	}
 
@@ -126,6 +128,14 @@ public class FarmerMember extends BaseEntity<Long> {
 
 	public String getRecorder() {
 		return recorder;
+	}
+	
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	public void setRecorder(String recorder) {

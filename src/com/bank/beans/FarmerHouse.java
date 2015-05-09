@@ -9,10 +9,8 @@ public class FarmerHouse extends BaseEntity<Long> {
 	 * 
 	 */
 	private static final long serialVersionUID = 3527327656335653102L;
-	//农户姓名
-	private String farmerName;
 	//农户身份证号
-	private String farmerIdNum;
+	private Long farmerId;
 	//房产性质
 	private String houseProperty;
 	//房屋类型
@@ -22,32 +20,21 @@ public class FarmerHouse extends BaseEntity<Long> {
 	//建筑面积
 	private String buildArea;
 	//构建年份
-	private Date buildDate;
+	private String buildDate;
 	//构建价格
 	private	String buildPrice;
 	//占地面积
 	private String floorArea;
 	//当前评估价格
 	private String assessPrice;
-	//记录人
-	private String recorder;
-	//记录时间
-	private Date recordTime;
 	
-	public String getFarmerName() {
-		return farmerName;
+
+	public Long getFarmerId() {
+		return farmerId;
 	}
 
-	public void setFarmerName(String farmerName) {
-		this.farmerName = farmerName;
-	}
-
-	public String getFarmerIdNum() {
-		return farmerIdNum;
-	}
-
-	public void setFarmerIdNum(String farmerIdNum) {
-		this.farmerIdNum = farmerIdNum;
+	public void setFarmerId(Long farmerId) {
+		this.farmerId = farmerId;
 	}
 
 	public String getHouseProperty() {
@@ -82,11 +69,11 @@ public class FarmerHouse extends BaseEntity<Long> {
 		this.buildArea = buildArea;
 	}
 
-	public Date getBuildDate() {
+	public String getBuildDate() {
 		return buildDate;
 	}
 
-	public void setBuildDate(Date buildDate) {
+	public void setBuildDate(String buildDate) {
 		this.buildDate = buildDate;
 	}
 
@@ -113,23 +100,7 @@ public class FarmerHouse extends BaseEntity<Long> {
 	public void setAssessPrice(String assessPrice) {
 		this.assessPrice = assessPrice;
 	}
-
-	public String getRecorder() {
-		return recorder;
-	}
-
-	public void setRecorder(String recorder) {
-		this.recorder = recorder;
-	}
-
-	public Date getRecordTime() {
-		return recordTime;
-	}
-
-	public void setRecordTime(Date recordTime) {
-		this.recordTime = recordTime;
-	}
-
+	
 	@Override
 	public boolean equalsIfIdNull(Object o) {
 		return false;
