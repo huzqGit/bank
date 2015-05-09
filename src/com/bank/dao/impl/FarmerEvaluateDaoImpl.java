@@ -10,4 +10,11 @@ import com.common.dao.impl.GenericMyBatisDAOSupport;
 public class FarmerEvaluateDaoImpl extends GenericMyBatisDAOSupport<FarmerEvaluate, Long>
 	implements IFarmerEvaluateDao {
 
+	@Override
+	public FarmerEvaluate getEvaluateByFarmerId(Long farmerId) {
+		FarmerEvaluate evaluate =this.getSqlSession().selectOne("farmerevaluate.findByFarmerId",farmerId);
+		return evaluate;
+	}
+	
+
 }
