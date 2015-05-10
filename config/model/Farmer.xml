@@ -4,9 +4,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="farmer">
 <sql id="Farmer_Column_List" >
- farmerid, farmername, farmeridnum, politicstatus, familynum, phone, address,
- marrystatus, labornum, postcode, nynetincome, fnnetincome, gsnetincome, dgnetincome,
- qtnetincome, allnetincome, recorder, recordtime
+ farmerId, farmerName, farmerIdnum, politicStatus, familyNum, phone, address,
+ sex,education,marryStatus, laborNum, postCode,  recorder, recordTime
 </sql>
 <insert id="save" useGeneratedKeys="true" keyProperty="id" 
 	parameterType="com.bank.beans.Farmer">
@@ -30,6 +29,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  <if test="address != null">
 	   	  address,
 	  </if>
+	  <if test="sex != null">
+	   	 sex,
+	  </if>
+	  <if test="education != null">
+	   	  education,
+	  </if>
 	  <if test="marryStatus != null">
 	   	  marryStatus,
 	  </if>
@@ -38,24 +43,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  </if>
 	  <if test="postCode != null">
 	   	postCode,
-	  </if>
-	  <if test="nyNetincome != null">
-	   	nyNetincome,
-	  </if>
-	  <if test="fnNetincome != null">
-	  	 fnNetincome, 
-	  </if>
-	  <if test="gsNetincome != null">
-	   	 gsNetincome,
-	  </if>
-	  <if test="dgNetincome != null">
-	    dgNetincome,
-	  </if>
-	  <if test="qtNetincome != null">
-	    qtNetincome,
-	  </if>
-	  <if test="allNetincome != null">
-	   	allNetincome,
 	  </if>
 	  <if test="recorder != null">
 	   recorder,
@@ -83,6 +70,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  <if test="address != null">
 	   	#{address,jdbcType=VARCHAR},
 	  </if>
+	   <if test="sex != null">
+	   	#{sex,jdbcType=INTEGER},
+	  </if>
+	  <if test="education != null">
+	   	#{education,jdbcType=INTEGER},
+	  </if>
 	  <if test="marryStatus != null">
 	   	#{marryStatus,jdbcType=VARCHAR},
 	  </if>
@@ -92,24 +85,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  <if test="postCode != null">
 	   	#{postCode,jdbcType=INTEGER},
 	  </if>
-	  <if test="nyNetincome != null">
-	   	#{nyNetincome,jdbcType=DOUBLE},
-	  </if>
-	  <if test="fnNetincome != null">
-	  	#{fnNetincome, jdbcType=DOUBLE},
-	  </if>
-	  <if test="gsNetincome != null">
-	   	#{gsNetincome,jdbcType=DOUBLE},
-	  </if>
-	  <if test="dgNetincome != null">
-	    #{dgNetincome,jdbcType=DOUBLE},
-	  </if>
-	  <if test="qtNetincome != null">
-	    #{qtNetincome,jdbcType=DOUBLE},
-	  </if>
-	  <if test="allNetincome != null">
-	   	#{allNetincome,jdbcType=DOUBLE},
-	  </if>
 	  <if test="recorder != null">
 	    #{recorder,jdbcType=VARCHAR},
 	  </if>
@@ -118,18 +93,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  </if>
 	</trim>
 </insert>
-<select id="findByPK" parameterType="Long" resultType="com.bank.beans.Farmer">
-	select 
-	<include refid="Farmer_Column_List" />
-	from t_Farmer where farmerid = #{id,jdbcType=INTEGER}
-</select>
-<select id="findByID" parameterType="String" resultType="com.bank.beans.Farmer">
-	select 
-	<include refid="Farmer_Column_List" />
-	from t_Farmer where farmeridnum = #{farmerIdNum,jdbcType=VARCHAR}
-</select>
+<update id="update" parameterType="com.bank.beans.Farmer">
+	update t_farmer 
+	set farmerName = #{farmerName,jdbcType = VARCHAR}, 
+	farmerIdnum = #{farmerIdnum,jdbcType = VARCHAR}, 
+	politicStatus = #{politicStatus,jdbcType = INTEGER},
+	familyNum = #{familyNum,jdbcType = INTEGER}, 
+	phone = #{phone,jdbcType = VARCHAR}, 
+	address = #{address,jdbcType = VARCHAR},
+ 	sex=  #{sex,jdbcType = INTEGER},
+ 	education = #{education,jdbcType = INTEGER},
+ 	marryStatus = #{marryStatus,jdbcType = VARCHAR},
+ 	laborNum = #{laborNum,jdbcType = VARCHAR},
+ 	postCode = #{postCode,jdbcType = VARCHAR}
+ 	where farmerId = #{id,jdbcType=BIGINT}
+</update>
 <resultMap id="farmerList" type="com.bank.beans.Farmer">
-    <result column="farmerId" property="id" jdbcType="BIGINT"/>
+    <id column="farmerId" property="id" jdbcType="BIGINT"/>
     <result column="farmerName" property="farmerName" jdbcType="VARCHAR" />
     <result column="farmerIdnum" property="farmerIdnum" jdbcType="VARCHAR" />
     <result column="politicStatus" property="politicStatus" jdbcType="INTEGER" />
@@ -137,17 +117,55 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<result column="phone" property="phone" jdbcType="VARCHAR" />
     <result column="address" property="address" jdbcType="VARCHAR" />
     <result column="marryStatus" property="marryStatus" jdbcType="VARCHAR" />
-    <result column="laborNum" property="politicStatus" jdbcType="INTEGER" />
+    <result column="laborNum" property="laborNum" jdbcType="INTEGER" />
     <result column="postCode" property="postCode" jdbcType="INTEGER" />
-	<result column="nyNetincome" property="nyNetincome" jdbcType="DOUBLE" />
-    <result column="fnNetincome" property="fnNetincome" jdbcType="DOUBLE" />
-    <result column="gsNetincome" property="gsNetincome" jdbcType="DOUBLE" />
-	<result column="dgNetincome" property="dgNetincome" jdbcType="DOUBLE" />
-    <result column="qtNetincome" property="qtNetincome" jdbcType="DOUBLE" />
-    <result column="allNetincome" property="allNetincome" jdbcType="DOUBLE" />
     <result column="recorder" property="recorder" jdbcType="VARCHAR" />
     <result column="recordTime" property="recordTime" jdbcType="DATE" />
 </resultMap>
+<select id="findByPK" parameterType="Long" resultType="com.bank.beans.Farmer">
+	select 
+	<include refid="Farmer_Column_List" />
+	from t_Farmer where farmerId = #{id,jdbcType=INTEGER}
+</select>
+<select id="findByID" parameterType="String" resultMap="farmerList">
+	select 
+	<include refid="Farmer_Column_List" />
+	from t_Farmer where farmerIdNum = #{farmerIdNum,jdbcType=VARCHAR}
+</select>
+<select id="findByIDAndName" parameterType="String" resultMap="farmerList">
+	select 
+	<include refid="Farmer_Column_List" />
+	from t_Farmer
+	<where>
+	<if test="farmerName != null and  farmerName != ''">
+		farmerName = #{farmerName,jdbcType=VARCHAR} 
+	</if>
+	<if test="farmerIdNum != null and farmerIdNum != ''">
+		and farmerIdNum = #{farmerIdNum,jdbcType=VARCHAR}
+	</if>
+	</where>
+</select>
+<select id="findByNames" parameterType="String" resultMap="farmerList">
+	select 
+	<include refid="Farmer_Column_List" />
+	from t_Farmer
+	<where>
+		farmerName in
+		<foreach item="item" index="index" collection="list" 
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</where>
+</select>
+<select id="findByMultiCondition" parameterType="Map" resultMap="farmerList">
+	select 
+	<include refid="Farmer_Column_List" />
+	from t_farmer t
+	<where>
+	 t.farmeridnum = #{farmerIdNum,jdbcType=VARCHAR}
+	 </where>
+</select>
+
 <select id="pageing" parameterType="Map" resultMap="farmerList">
 	select 
 	<include refid="Farmer_Column_List" />

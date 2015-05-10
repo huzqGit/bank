@@ -1,7 +1,5 @@
 package com.bank.beans;
 
-import java.util.Date;
-
 import com.common.bean.BaseEntity;
 
 public class FarmerForest extends BaseEntity<Long> {
@@ -9,10 +7,8 @@ public class FarmerForest extends BaseEntity<Long> {
 	 * 
 	 */
 	private static final long serialVersionUID = 8668764238248835128L;
-	//农户姓名
-	private String farmerName;
 	//农户身份证号
-	private String farmerIdNum;
+	private Long farmerId;
 	//林权证编号
 	private String cardNum;
 	//林权字号
@@ -29,26 +25,13 @@ public class FarmerForest extends BaseEntity<Long> {
 	private String timeLimit;
 	//当前评估价格
 	private String assessPrice;
-	//记录人
-	private String recorder;
-	//记录时间
-	private Date recordTime;
-	
-	
-	public String getFarmerName() {
-		return farmerName;
+
+	public Long getFarmerId() {
+		return farmerId;
 	}
 
-	public void setFarmerName(String farmerName) {
-		this.farmerName = farmerName;
-	}
-
-	public String getFarmerIdNum() {
-		return farmerIdNum;
-	}
-
-	public void setFarmerIdNum(String farmerIdNum) {
-		this.farmerIdNum = farmerIdNum;
+	public void setFarmerId(Long farmerId) {
+		this.farmerId = farmerId;
 	}
 
 	public String getCardNum() {
@@ -113,22 +96,6 @@ public class FarmerForest extends BaseEntity<Long> {
 
 	public void setAssessPrice(String assessPrice) {
 		this.assessPrice = assessPrice;
-	}
-
-	public String getRecorder() {
-		return recorder;
-	}
-
-	public void setRecorder(String recorder) {
-		this.recorder = recorder;
-	}
-
-	public Date getRecordTime() {
-		return recordTime;
-	}
-
-	public void setRecordTime(Date recordTime) {
-		this.recordTime = recordTime;
 	}
 
 	@Override

@@ -4,18 +4,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="farmercompunish">
 <sql id="Compunish_Column_List" >
-	compunishid, farmername, farmeridnum, type, organ,
-	detail, occurtime, recorder, recordtime
+	compunishId, farmerId, type, organ, detail, occurTime
 </sql>
-<insert id="save" useGeneratedKeys="true" keyProperty="compunishId" 
+<insert id="save" useGeneratedKeys="true" keyProperty="id" 
 		parameterType="com.bank.beans.FarmerCompunish">
 	insert into t_farmer_compunish
 	<trim prefix="(" suffix=")" suffixOverrides=",">
-		<if test="farmerName != null">
-			farmername,
-		</if>
-		<if test="farmerIdNum != null">
-			farmeridnum,
+		<if test="farmerId != null">
+			farmerId,
 		</if>
 		<if test="type != null">
 			type,	
@@ -27,21 +23,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			detail,
 		</if>	
 		<if test="occurTime != null">
-			occurtime,
-		</if>
-		<if test ="recorder != null">
-			recorder,
-		</if>
-		<if test ="recordTime != null">
-			recordtime
+			occurTime,
 		</if>
 	</trim>
 	<trim prefix="values (" suffix=")" suffixOverrides=",">
-		<if test="farmerName != null">
-			#{farmerName,jdbcType=VARCHAR},
-		</if>
-		<if test="farmerIdNum != null">
-			#{farmerIdNum,jdbcType=VARCHAR},
+		<if test="farmerId != null">
+			#{farmerId,jdbcType=VARCHAR},
 		</if>
 		<if test="type != null">
 			#{type,jdbcType=VARCHAR},	
@@ -55,24 +42,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="occurTime != null">
 			#{occurTime,jdbcType=DATE},
 		</if>
-		<if test ="recorder != null">
-			#{recorder,jdbcType=VARCHAR},
-		</if>
-		<if test ="recordTime != null">
-			#{recordTime,jdbcType=TIMESTAMP}
-		</if>
 	</trim>
 </insert>
+<update id="update">
+	update t_farmer_compunish
+	set farmerId = #{farmerId,jdbcType=BIGINT},
+	type = #{ type,jdbcType=INTEGER},
+	organ = #{ organ,jdbcType=VARCHAR},
+	detail = #{ detail,jdbcType=VARCHAR},
+	occurTime = #{ occurTime,jdbcType=DATE}
+	where compunishId = #{id,jdbcType=BIGINT}
+</update>
 <select id="findByPK" parameterType="Long" 
 		resultType="com.bank.beans.FarmerCompunish">
 	select 
 	<include refid="Compunish_Column_List" />
-	from t_farmer_compunish where compunishid = #{id,jdbcType=INTEGER}
+	from t_farmer_compunish where compunishId = #{id,jdbcType=BIGINT}
+</select>
+<select id="findByFarmerId" parameterType="Long" 
+		resultMap="farmerCompunishList">
+	select 
+	<include refid="Compunish_Column_List" />
+	from t_farmer_compunish where farmerId = #{id,jdbcType=BIGINT}
 </select>
 <resultMap id="farmerCompunishList" type="com.bank.beans.FarmerCompunish">
     <result column="compunishId" property="id" jdbcType="BIGINT"/>
-    <result column="farmerName" property="farmerName" jdbcType="VARCHAR" />
-    <result column="farmerIdNum" property="farmerIdNum" jdbcType="VARCHAR" />
+    <result column="farmerId" property="farmerId" jdbcType="BIGINT" />
     <result column="type" property="type" jdbcType="INTEGER" />
     <result column="organ" property="organ" jdbcType="VARCHAR" />
 	<result column="detail" property="detail" jdbcType="VARCHAR" />

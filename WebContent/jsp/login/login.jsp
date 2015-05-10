@@ -9,7 +9,7 @@
 <title>中国人民银行新干县农村信用信息管理系统</title>
 <style type="text/css">
 body{ margin:0 auto; background:#0a76b0;}
-.login{ width:950px; background:url(images/dn-bg.png) top center; background-repeat:no-repeat;}
+.login{ width:950px; background:url(/bank/jsp/login/images/dn-bg.png) top center; background-repeat:no-repeat;}
 img{ border:0px;}
 </style>
 <!--[if IE 6]>
@@ -72,7 +72,7 @@ function reset() {
 </SCRIPT>
 </head>
 
-<body onload="MM_preloadImages('images/login_11_1.gif','images/login_12_1.gif','images/login_2_1.jpg','images/login_1_1.jpg','images/login_1_1.png','images/login_2_1.png')">
+<body onload="MM_preloadImages('/bank/jsp/login/images/login_11_1.gif','/bank/jsp/login/images/login_12_1.gif','/bank/jsp/login/images/login_2_1.jpg','/bank/jsp/login/images/login_1_1.jpg','/bank/jsp/login/images/login_1_1.png','/bank/jsp/login/images/login_2_1.png')">
 <div align="center">
 <div class="login">
 <form id="form1" class="form-signin" action="${pageContext.request.contextPath}/user/login.do" method="post">
@@ -104,13 +104,13 @@ function reset() {
               </tr>
               <tr>
                 <td height="52" align="center" valign="top"><a href="javascript:login_do();"><img id="Image1" 
-                              onmouseover="MM_swapImage('Image1','','images/login_1_1.png',1)" 
+                              onmouseover="MM_swapImage('Image1','','/bank/jsp/login/images/login_1_1.png',1)" 
                               onmouseout="MM_swapImgRestore()" border="0" 
-                              name="Image1" src="images/login_1.png" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a 
+                              name="Image1" src="/bank/jsp/login/images/login_1.png" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a 
                               href="javascript:reset();"><img id="Image2" 
                               onmouseover="MM_swapImage('Image2','','images/login_2_1.png',1)" 
                               onmouseout="MM_swapImgRestore()" border="0" 
-                              name="Image2" src="images/login_2.png" /></a></td>
+                              name="Image2" src="/bank/jsp/login/images/login_2.png" /></a></td>
               </tr>
           </table></td>
         </tr>

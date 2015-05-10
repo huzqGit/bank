@@ -54,45 +54,25 @@ a img {	border:none; }
 <script type="text/javascript" src="js/unitpngfix.js"></script>
 <![endif]-->
 <script type='text/javascript'>
-		function gopage(i){
-			url="tool/index.html";
-			if(i==2){
-				url="tool/main.html";
-			}
-			if(i==3){
-				url="right.html";
-			}
-			if(i==4){
-				url="tool/td.html";
-			}
-			if(i==5){
-				url="tool/info.html";
-			}
-			if(i==6){
-				url="tool/server.html";
-			}
-			if(i==7){
-				url="new.html";
-			}
-			if(i==8){
-				url="blue.html";
-			}
-			if(i==9){
-				url="old.html";
-			}
-			//alert(parent.mainFrame.rightFrame.window.location.href);
-			parent.mainFrame.rightFrame.window.location.href=url;
+	function go2Login(){
+		window.parent.location.href="/bank/jsp/login/login.jsp";
+	}
+	//左侧链接方法
+	function linkToLeft(url,menuid){
+
+		if(menuid==1){
+			parent.mainFrame.document.getElementById("frmTitle").style.display="none";
+			parent.mainFrame.document.getElementById("switcher").style.display="none";
+			parent.mainFrame.rightFrame.window.location.href = "/bank/jsp/main/tool/index.html";
+		}else{
+			parent.mainFrame.document.getElementById("frmTitle").style.display="block";
+			parent.mainFrame.document.getElementById("switcher").style.display="block";
+			parent.mainFrame.leftFrame.leftFrame.window.location.href = url;
+			parent.mainFrame.rightFrame.window.location.href = "/bank/jsp/main/blank.html";
 		}
 		
-		function go2Login(){
-			window.parent.location.href="/bank/jsp/login/login.jsp";
-		}
 		
-		//左侧链接方法
-		function linkToLeft(url){
-			parent.mainFrame.leftFrame.window.location.href = url;
-			//document.getElementById('frmleft').src=url;
-		}
+	}
 		
 </script>
 </head>
@@ -125,15 +105,12 @@ a img {	border:none; }
         <td width="96%" align="left" valign="middle"><table width="720" border="0" cellspacing="0" cellpadding="0">
           <tr>
           	<c:forEach items="${topMenus}" var="topMenu">
-            	<td width="80" height="25" align="center" valign="middle" class="menu"><a href="javascript:linkToLeft('${root}/user/left.do?topMenuId=${topMenu.menuId}');">${topMenu.menuDescr}</a></td>
+            	<td  height="25" align="center" valign="middle" class="menu"><a href="javascript:linkToLeft('${root}/user/left.do?topMenuId=${topMenu.menuId}',${topMenu.menuId});">${topMenu.menuDescr}</a></td>
             </c:forEach>
-            
           </tr>
         </table></td>
       </tr>
     </table></td>
-  </tr>
-</table></td>
   </tr>
 </table>
 </body>

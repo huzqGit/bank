@@ -5,8 +5,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="farmermember">
 <sql id="Member_Column_List" >
-	memberid, farmerid, farmeridnum, name, relation, idnum, education,
-	marrystatus, occupation, job, sex, phone
+	memberId, farmerId, name, relation, idNum, education,
+	marryStatus, occupation, job, sex, phone
 </sql>
 <insert id="save" useGeneratedKeys="true" keyProperty="id" 
 	parameterType="com.bank.beans.FarmerMember">
@@ -82,6 +82,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    </if>
 	</trim>
 </insert>
+<update id="update">
+update t_farmer_member set 
+name = #{name, jdbcType = VARCHAR},
+relation = #{relation,jdbcType=VARCHAR},
+idNum = #{idNum,jdbcType = VARCHAR},
+education = #{education,jdbcType = INTEGER},
+marryStatus = #{marryStatus,jdbcType = VARCHAR},
+occupation = #{occupation,jdbcType = VARCHAR},
+job = #{job,jdbcType = VARCHAR},
+sex = #{sex,jdbcType = INTEGER}, 
+phone = #{phone,jdbcType = VARCHAR}
+where memberId = #{id,jdbcType = VARCHAR}
+</update>
 <resultMap id="farmerMemberList" type="com.bank.beans.FarmerMember">
     <result column="memberId" property="id" jdbcType="BIGINT"/>
     <result column="farmerId" property="farmerId" jdbcType="VARCHAR" />
@@ -103,6 +116,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	select 
 	<include refid="Member_Column_List" />
 	from t_farmer_member where memberid = #{id,jdbcType=INTEGER}
+</select>
+<select id="findByFarmerId" parameterType="Long" 
+	resultMap="farmerMemberList">
+	select 
+	<include refid="Member_Column_List" />
+	from t_farmer_member where farmerId = #{farmerId,jdbcType=VARCHAR}
 </select>
 <select id="pageing" parameterType="Map" resultMap="farmerMemberList">
 	select 

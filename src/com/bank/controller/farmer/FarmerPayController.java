@@ -1,5 +1,7 @@
 package com.bank.controller.farmer;
 
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,41 +20,77 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.bank.beans.Farmer;
+import com.bank.beans.FarmerIncome;
 import com.bank.beans.FarmerPay;
 import com.bank.common.util.JsonUtil;
 import com.bank.service.IFarmerPayService;
+import com.bank.service.IFarmerService;
 
 @Controller
 @RequestMapping(value = "/farmer")
 public class FarmerPayController {
 	
 	@Resource
+	private IFarmerService farmerService;
+	
+	@Resource
 	private IFarmerPayService farmerPayService;
 	
-	@RequestMapping(value = "/savePay",method = RequestMethod.POST)
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping(value = "/saveBalance",method = RequestMethod.POST)
 	public ModelAndView save(HttpServletRequest request, 
 			HttpServletResponse response) throws Exception{
-
-		String formData = request.getParameter("formData");
-		//這裡做了時間格式的處理
-		Object decodeJsonData = JsonUtil.Decode(formData);
-		String formatdata = JSON.toJSONStringWithDateFormat(decodeJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
-		JSONObject jsb = JSONObject.parseObject(formatdata);
-		FarmerPay farmerPay = (FarmerPay) JSON.toJavaObject(jsb, FarmerPay.class);
-		if(farmerPay.getId()!=null){
-			farmerPayService.update(farmerPay);
-		}else{
-			farmerPayService.save(farmerPay);
-		}
-		String json = JSON.toJSONString(farmerPay);
-		response.setContentType("text/html;charset=UTF-8");
-	    response.getWriter().write(json);
-		return null;
 		
+		String farmerData= request.getParameter("farmer");
+		String balanceData = request.getParameter("balance");
+		String incomeData = request.getParameter("income");
+		if(StringUtils.isEmpty(farmerData) && StringUtils.isEmpty(balanceData) 
+				&& StringUtils.isEmpty(incomeData)){
+			//身份证号码不能为空
+			return null;
+		}
+		//农户信息
+		Object farmerJsonData = JsonUtil.Decode(farmerData);
+		farmerData = JSON.toJSONStringWithDateFormat(farmerJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
+		JSONObject farmerJosn = JSONObject.parseObject(farmerData);
+		Farmer farmer = (Farmer) JSON.toJavaObject(farmerJosn, Farmer.class);
+		
+		//年度收支信息
+		Object balanceJsonData = JsonUtil.Decode(balanceData);
+		balanceData = JSON.toJSONStringWithDateFormat(balanceJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
+		JSONObject balanceJosn = JSONObject.parseObject(balanceData);
+		FarmerPay balance = (FarmerPay) JSON.toJavaObject(balanceJosn, FarmerPay.class);
+
+		//小微型收入
+		Object incomeJsonData = JsonUtil.Decode(incomeData);
+		incomeData = JSON.toJSONStringWithDateFormat(incomeJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);	
+		List<FarmerIncome> income = (List<FarmerIncome>)JSON.parseArray(incomeData, FarmerIncome.class);
+		if(farmer.getId() == null){
+			//农户信息为空
+			return null;
+		}
+		Farmer dbfarmer = farmerService.findByPK(farmer.getId());
+		if(dbfarmer == null){
+			//不存在农户信息
+			return null;
+		}
+		farmerPayService.saveBalance(farmer, balance, income);
+		Map map = new HashMap();
+		map.put("farmer", farmer);
+		map.put("balance", balance);
+		map.put("income", income);
+		String json = JSON.toJSONString(map);
+		response.setContentType("text/html;charset=UTF-8");
+	    PrintWriter writer = response.getWriter();
+	    writer.write(json);
+	    writer.flush();
+		return null;
 	}
 	
 	@RequestMapping(value = "/loadPay", method = RequestMethod.POST)
-	public ModelAndView loadCompany(@RequestParam(value="id",required=true) String id, 
+	public ModelAndView loadBalance(@RequestParam(value="id",required=true) String id, 
 			HttpServletResponse response) throws Exception {
 		if(!StringUtils.isEmpty(id)){
 			Long payId=Long.valueOf(id);
@@ -63,6 +101,65 @@ public class FarmerPayController {
 		}
 		return null;
 		
+	}
+	@RequestMapping(value = "/typeInBalance", method = RequestMethod.POST)
+	public ModelAndView TypeinBalance(@RequestParam(value="year") String year, 
+			@RequestParam(value="farmerName") String farmerName,
+			@RequestParam(value="farmerIdNum") String farmerIdNum,
+			HttpServletResponse response) throws Exception {
+		
+		if(StringUtils.isEmpty(year) && StringUtils.isEmpty(farmerName) && StringUtils.isEmpty(farmerIdNum)){
+			//身份证号码不能为空
+			ModelAndView view = new ModelAndView("/farmer/farmerBalanceInfoView");
+			view.addObject("msg","请您填写完农户姓名和身份证号码后录入收支信息!");
+			return view;
+		}
+		List<Farmer> farmers = farmerService.findByIDAndName(farmerIdNum, farmerName);
+		if(farmers.size() == 0){
+			ModelAndView view = new ModelAndView("/farmer/farmerBalanceInfoView");
+			view.addObject("msg","未找到匹配的农户信息!您可以到【农户】-【数据采集】-【基本信息】模块中录入农户信息后再录入农户的资产信息!");
+			return view;
+		}else if(farmers.size() == 1){
+			Farmer farmer = farmers.get(0);
+			List<FarmerPay> balances=farmerPayService.loadPayByDateAndFarmer(farmer.getId(), year);
+			if(balances.size() == 0){
+				if(StringUtils.isEmpty(year)){
+					ModelAndView view = new ModelAndView("/farmer/farmerBalanceInfoView");
+					view.addObject("year",year);
+					view.addObject("farmerIdNum",farmerIdNum);
+					view.addObject("farmerName",farmerName);
+					view.addObject("msg", "未找到对应的收支信息!您可以填写完年份后再录入收支信息");
+					return view;	
+				}else{
+					FarmerPay balance = new FarmerPay();
+					balance.setFarmerId(farmer.getId());
+					balance.setYear(year);
+					List<FarmerIncome> incomes =new ArrayList<FarmerIncome>();
+					incomes.add(new FarmerIncome());
+					ModelAndView view = new ModelAndView("/farmer/farmerBalanceForm");
+					view.addObject("farmer",farmer);
+					view.addObject("balance",balance);
+					view.addObject("incomes",incomes);
+					return view;	
+				}
+			
+			}else if(balances.size() == 1){
+				FarmerPay balance = balances.get(0);
+				List<FarmerIncome> incomes =farmerPayService.loadTotalIncome(balance.getId());
+				ModelAndView view = new ModelAndView("/farmer/farmerBalanceForm");
+				view.addObject("farmer",farmer);
+				view.addObject("balance",balance);
+				view.addObject("incomes",incomes);
+				return view;
+			}else{
+				ModelAndView view = new ModelAndView("/farmer/farmerBalanceView");
+				return view;
+			}
+		}else{
+			ModelAndView view = new ModelAndView("/farmer/farmerBalanceInfoView");
+			view.addObject("msg", "找到多个农户信息!");
+			return view;
+		}
 	}
 	
 	@RequestMapping(value="/loadAllPay",method=RequestMethod.POST)

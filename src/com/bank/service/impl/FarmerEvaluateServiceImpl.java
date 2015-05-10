@@ -4,10 +4,15 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.bank.beans.Farmer;
 import com.bank.beans.FarmerEvaluate;
 import com.bank.dao.IFarmerEvaluateDao;
 import com.bank.service.IFarmerEvaluateService;
 import com.common.dao.GenericDAO;
+import com.common.exception.CreateException;
+import com.common.exception.DAOException;
+import com.common.exception.DataNotFoundException;
+import com.common.exception.UpdateException;
 import com.common.service.impl.GenericServiceImpl;
 
 @Service("farmerEvaluateService")
@@ -21,6 +26,27 @@ public class FarmerEvaluateServiceImpl extends GenericServiceImpl<FarmerEvaluate
 	public GenericDAO<FarmerEvaluate, Long> getGenericDAO() {
 		
 		return this.farmerEvaluateDao;
+	}
+
+	@Override
+	public void saveEvaluate(Farmer farmer, FarmerEvaluate evaluate)
+			throws DAOException, CreateException, UpdateException,
+			DataNotFoundException {
+		if(farmer.getId() == null){
+			return ;
+		}
+		evaluate.setFarmerId(farmer.getId());
+		if(evaluate.getId() == null){
+			farmerEvaluateDao.save(evaluate);
+		}else{
+			farmerEvaluateDao.update(evaluate);
+		}
+	}
+
+	@Override
+	public FarmerEvaluate getEvaluateByFarmer(Long farmerId) {
+		FarmerEvaluate evaluate = farmerEvaluateDao.getEvaluateByFarmerId(farmerId);
+		return evaluate;
 	}
 
 }

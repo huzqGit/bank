@@ -9,10 +9,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="reset.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="jquery-1.4.js"></script>
+<script type="text/javascript" src="/bank/jsp/main/leftmenu/jquery-1.4.js"></script>
 <!--多级抽屉型导航(分离版)start-->
-<link href="skins/blue/style.css" rel="stylesheet" type="text/css" id="compStyle"/>
-<script type="text/javascript" src="js/ddaccordion_split.js"></script>
+<link href="/bank/jsp/main/leftmenu/skins/blue/style.css" rel="stylesheet" type="text/css" id="compStyle"/>
+<script type="text/javascript" src="/bank/jsp/main/leftmenu/js/ddaccordion_split.js"></script>
 <!---多级抽屉型导航(分离版)end-->
 <title>左侧菜单</title>
 <style type="text/css">
@@ -25,29 +25,16 @@ body {
 }
 .item-title{ font-size:14px; color:#fff; font-weight:bold;}
 </style>
+<script type="text/javascript">
+	function linkurl(isleaf,url,menuid,menuname){
+		top.mainFrame.rightFrame.window.location.href=url;
+	}
+</script>
 </head>
 <body style="height:100%">
-  <table width="214" border="0" height="100%" cellspacing="0" cellpadding="0" style="border-left:1px #0da0d3 solid;">
-    <tr>
-      <td height="28" align="left" valign="top" style="background:url(../images/left-bg-s.jpg) repeat-x center;"><table width="160" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-          <td width="40" height="28" align="center" valign="middle"><img src="images/detail.png" /></td>
-          <td width="120" align="left" valign="middle" class="item-title">功能菜单</td>
-        </tr>
-      </table></td>
-    </tr>
-    <tr>
-	  
-      <td align="left" valign="top">
-      
-      	<%
+	<%
 				GenerateMenu gm=new GenerateMenu((List<MenuPrivilegeVO>)request.getAttribute("subMenus")); 
       			out.println(gm.getMenu());
-			%>
-<!--       	<iframe height="100%" width="100%" border="0" frameborder="0" src="leftmenu/index.html" name="leftFrame" id="leftFrame" title="leftFrame"> -->
-<!--       	</iframe> -->
-      </td>
-    </tr>
-  </table>
+	%>
 </body>
 </html>

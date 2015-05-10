@@ -19,7 +19,6 @@
         <ul id="tree1" class="mini-tree" url="${pageContext.request.contextPath}/menu/loadMenuTree.do"
 		        showTreeIcon="true" textField="menuName" idField="menuId" parentField="menuPid" resultAsTree="false"
 		        expandOnLoad="true" onnodeclick="onNodeClick" style="width:100%;height:100%;" contextMenu="#treeMenu"
-		        iconField="iconCls"
 		        >
 	   		 </ul>
     </div>
@@ -27,19 +26,10 @@
     	<iframe id="mainframe" frameborder="0" name="main" style="width:100%;height:100%;" border="0"></iframe>
     </div>
     
-
+</div>
 
 <ul id="treeMenu" class="mini-contextmenu"  onbeforeopen="onBeforeOpen">        
     <li name="add" iconCls="icon-add" onclick="onAddNode">新增菜单</li>
-    <!-- <li class="separator"></li>
-    <li>
-		<span name="add" iconCls="icon-add">新增菜单</span>
-		<ul>
-		    <li onclick="onAddBefore">插入节点前</li>                
-            <li onclick="onAddAfter">插入节点后</li>	
-			<li onclick="onAddNode">插入子节点</li>             
-		</ul>
-	</li> -->
 	<li name="edit" iconCls="icon-edit" onclick="onEditNode">编辑节点</li>
 	<li name="remove" iconCls="icon-remove" onclick="onRemoveNode">删除节点</li>
 	<li class="separator"></li>
@@ -83,28 +73,16 @@
 		    var addItem = mini.getbyName("add", menu);
 		    var editItem = mini.getbyName("edit", menu);
 		    var removeItem = mini.getbyName("remove", menu);
-		    /* var addPItem = mini.getbyName("addP", menu);
-		    var editPItem = mini.getbyName("editP", menu);
-		    var removePItem = mini.getbyName("removeP", menu); */
 		    
 		    addItem.show();
 	        editItem.show();
 	    	removeItem.show();
-	    	/* addPItem.show();
-	        editPItem.show();
-	    	removePItem.show(); */
 	    	
-		    if (node.isleaf == 1) {
+		    if (node.isLeaf == 1) {
 		    	addItem.hide();
 		        editItem.show();
 		    	removeItem.show();
-		    	/* addPItem.hide();
-		        editPItem.hide();
-		    	removePItem.hide(); */
 		    } else {
-		    	/* addPItem.show();
-		        editPItem.show();
-		    	removePItem.show(); */
 		    	addItem.show();
 		        editItem.hide();
 		    	removeItem.hide();

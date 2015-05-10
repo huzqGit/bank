@@ -4,34 +4,66 @@ import java.util.Date;
 
 import com.common.bean.BaseEntity;
 
-public class FarmerPay extends BaseEntity<Long> {
+public class FarmerPay implements java.io.Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -3464766790870019558L;
+	private Long id;
+	private Long farmerId;
+	private String year;
 	//农户姓名
 	private String farmerName;
 	//农户身份证号
 	private String farmerIdNum;
+   	private Double farmingIncome;
+    private Double avocationIncome;
+   	private Double businessIncome;
+    private Double otherIncome;
+    private Double totalIncome;
 	//生产支出
-	private String productPay;
+	private Double productPay;
 	//生活支出
-	private String livingPay;
+	private Double livingPay;
 	//医疗支出
-	private String medicalPay;
+	private Double medicalPay;
 	//教育支出
-	private String educatePay;
+	private Double educatePay;
 	//参保支出
-	private String insuredPay;
+	private Double insuredPay;
 	//其他支出
-	private String otherPay;
+	private Double otherPay;
 	//家庭年度总支出合计
-	private String totalPay;
+	private Double totalPay;
 	//记录人
 	private String recorder;
 	//记录时间
 	private Date recordTime;
 	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getYear() {
+		return year;
+	}
+
+	public void setYear(String year) {
+		this.year = year;
+	}
+
+	public Long getFarmerId() {
+		return farmerId;
+	}
+
+	public void setFarmerId(Long farmerId) {
+		this.farmerId = farmerId;
+	}
+
 	public String getFarmerName() {
 		return farmerName;
 	}
@@ -39,7 +71,6 @@ public class FarmerPay extends BaseEntity<Long> {
 	public void setFarmerName(String farmerName) {
 		this.farmerName = farmerName;
 	}
-
 
 	public String getFarmerIdNum() {
 		return farmerIdNum;
@@ -49,59 +80,99 @@ public class FarmerPay extends BaseEntity<Long> {
 		this.farmerIdNum = farmerIdNum;
 	}
 
-	public String getProductPay() {
+	public Double getFarmingIncome() {
+		return farmingIncome;
+	}
+
+	public void setFarmingIncome(Double farmingIncome) {
+		this.farmingIncome = farmingIncome;
+	}
+
+	public Double getAvocationIncome() {
+		return avocationIncome;
+	}
+
+	public void setAvocationIncome(Double avocationIncome) {
+		this.avocationIncome = avocationIncome;
+	}
+
+	public Double getBusinessIncome() {
+		return businessIncome;
+	}
+
+	public void setBusinessIncome(Double businessIncome) {
+		this.businessIncome = businessIncome;
+	}
+
+	public Double getOtherIncome() {
+		return otherIncome;
+	}
+
+	public void setOtherIncome(Double otherIncome) {
+		this.otherIncome = otherIncome;
+	}
+
+	public Double getTotalIncome() {
+		return totalIncome;
+	}
+
+	public void setTotalIncome(Double totalIncome) {
+		this.totalIncome = totalIncome;
+	}
+
+	public Double getProductPay() {
 		return productPay;
 	}
 
-	public void setProductPay(String productPay) {
+	public void setProductPay(Double productPay) {
 		this.productPay = productPay;
 	}
 
-	public String getLivingPay() {
+	public Double getLivingPay() {
 		return livingPay;
 	}
 
-	public void setLivingPay(String livingPay) {
+	public void setLivingPay(Double livingPay) {
 		this.livingPay = livingPay;
 	}
 
-	public String getMedicalPay() {
+	public Double getMedicalPay() {
 		return medicalPay;
 	}
 
-	public void setMedicalPay(String medicalPay) {
+	public void setMedicalPay(Double medicalPay) {
 		this.medicalPay = medicalPay;
 	}
 
-	public String getEducatePay() {
+	public Double getEducatePay() {
 		return educatePay;
 	}
 
-	public void setEducatePay(String educatePay) {
+	public void setEducatePay(Double educatePay) {
 		this.educatePay = educatePay;
 	}
 
-	public String getInsuredPay() {
+	public Double getInsuredPay() {
 		return insuredPay;
 	}
 
-	public void setInsuredPay(String insuredPay) {
+	public void setInsuredPay(Double insuredPay) {
 		this.insuredPay = insuredPay;
 	}
 
-	public String getOtherPay() {
+	public Double getOtherPay() {
 		return otherPay;
 	}
 
-	public void setOtherPay(String otherPay) {
+	public void setOtherPay(Double otherPay) {
 		this.otherPay = otherPay;
 	}
 
-	public String getTotalPay() {
+	public Double getTotalPay() {
 		return totalPay;
 	}
 
-	public void setTotalPay(String totalPay) {
+	public void setTotalPay(Double totalPay) {
 		this.totalPay = totalPay;
 	}
 
@@ -119,16 +190,6 @@ public class FarmerPay extends BaseEntity<Long> {
 
 	public void setRecordTime(Date recordTime) {
 		this.recordTime = recordTime;
-	}
-
-	@Override
-	public boolean equalsIfIdNull(Object o) {
-		return false;
-	}
-
-	@Override
-	public int hashCodeIfIdNull() {
-		return 0;
 	}
 
 }

@@ -4,42 +4,36 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="farmerincome">
 <sql id="Income_Column_List" >
-		incomeid,farmername,farmeridnum,incomename,incometype,netincome,
-		recorder,recordtime
+		incomeId, payId, incomeName, incomeType, netIncome
 </sql>
-<insert id="save" useGeneratedKeys="true" keyProperty="incomeId" 
+<resultMap id="farmerIncomeList" type="com.bank.beans.FarmerIncome">
+    <id column="incomeId" property="id" jdbcType="BIGINT"/>
+    <result column="payId" property="payId" jdbcType="BIGINT" />
+    <result column="incomeName" property="incomeName" jdbcType="VARCHAR" />
+    <result column="incomeType" property="incomeType" jdbcType="INTEGER" />
+	<result column="netIncome" property="netIncome" jdbcType="VARCHAR" />
+</resultMap>
+<insert id="save" useGeneratedKeys="true" keyProperty="id" 
 		parameterType="com.bank.beans.FarmerIncome">
 		insert into t_farmer_income
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="farmerName != null">
-				farmername,
-			</if>
-			<if test="farmerIdnum != null">
-				farmeridnum,
+			<if test="payId != null">
+				payId,
 			</if>
    			<if test="incomeName != null">
-   				incomename,
+   				incomeName,
    			</if>
    			<if test="incomeType != null">
-   				incometype,
+   				incomeType,
    			</if>
    			<if test="netIncome != null">
-   				netincome,
-   			</if>
-  			<if test="recorder != null">
-  			 	recorder,
-  			</if>
-   			<if test="recordTime != null">
-   				recordTime
+   				netIncome,
    			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="farmerName != null">
-        		#{farmerName,jdbcType=VARCHAR},
+			<if test="payId != null">
+        		#{payId,jdbcType=BIGINT},
       		</if>
-		    <if test="farmerIdnum != null">
-		        #{farmerIdnum,jdbcType=VARCHAR},
-		    </if>
 	        <if test="incomeName != null">
 	           #{incomeName,jdbcType=VARCHAR},
 	        </if>
@@ -49,29 +43,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	        <if test="netIncome != null">
    				#{netIncome,jdbcType=VARCHAR},
    			</if>
-	        <if test="recorder != null">
-	           #{recorder,jdbcType=VARCHAR},
-	        </if>
-	        <if test="recordTime != null">
-	           #{recordTime,jdbcType=TIMESTAMP}
-	        </if>
 		</trim>
 </insert>
+<update id="update">
+update t_farmer_income
+set payId = #{payId,jdbcType=BIGINT},
+#{ incomeName,jdbcType=VARCHAR},
+#{ incomeType,jdbcType=INTEGER},
+#{ netIncome,jdbcType=VARCHAR}
+where incomeId = #{id,jdbcType=BIGINT}
+</update>
 <select id="findByPK" parameterType="Long" resultType="com.bank.beans.FarmerIncome">
 		select 
 		<include refid="Income_Column_List" />
 		from t_farmer_income where incomeid = #{id,jdbcType=INTEGER}
 </select>
-<resultMap id="farmerIncomeList" type="com.bank.beans.FarmerIncome">
-    <result column="incomeId" property="id" jdbcType="BIGINT"/>
-    <result column="farmerName" property="farmerName" jdbcType="VARCHAR" />
-    <result column="farmerIdnum" property="farmerIdnum" jdbcType="VARCHAR" />
-    <result column="incomeName" property="incomeName" jdbcType="VARCHAR" />
-    <result column="incomeType" property="incomeType" jdbcType="INTEGER" />
-	<result column="netIncome" property="netIncome" jdbcType="VARCHAR" />
-    <result column="recorder" property="recorder" jdbcType="VARCHAR" />
-    <result column="recordTime" property="recordTime" jdbcType="DATE" />
-</resultMap>
+<select id="findAll" parameterType="Long" resultMap="farmerIncomeList">
+		select 
+		<include refid="Income_Column_List" />
+		from t_farmer_income where payId = #{payId,jdbcType=BIGINT}
+</select>
 <select id="pageing" parameterType="Map" resultMap="farmerIncomeList">
 	select 
 	<include refid="Income_Column_List" />

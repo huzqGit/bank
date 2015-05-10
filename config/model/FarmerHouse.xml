@@ -3,34 +3,31 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="farmerhouse">
-	<sql id="House_Column_List" >
-		houseid, farmername, farmeridnum, houseproperty, housetype, houseaddress,
-		buildarea, builddate, buildprice, floorarea, assessprice, recorder, recordtime
-	</sql>
-	<insert id="save" useGeneratedKeys="true" keyProperty="houseId" 
-		parameterType="com.bank.beans.FarmerHouse">
+<sql id="House_Column_List" >
+	houseId, farmerId, houseProperty, houseType, houseAddress,
+	buildArea, buildDate, buildPrice, floorArea, assessPrice
+</sql>
+<insert id="save" useGeneratedKeys="true" keyProperty="id" 
+	parameterType="com.bank.beans.FarmerHouse">
 		insert into t_farmer_house
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			 <if test="farmerName != null">
-			 	farmername,
-			 </if>
-			 <if test="farmerIdNum != null">
-			 	farmeridnum,
+			 <if test="farmerId != null">
+			 	farmerId,
 			 </if>
 			 <if test="houseProperty != null">
-				houseproperty,
+				houseProperty,
 			 </if>
 			 <if test="houseType != null">
-				housetype,
+				houseType,
 			 </if>
 			 <if test="houseAddress != null">
-			    houseaddress,
+			    houseAddress,
 			 </if>
 	  		 <if test="buildArea != null">
-	  		    buildarea,
+	  		    buildArea,
 	  		 </if>
 			<if test="buildDate != null">
-				builddate,
+				buildDate,
 			</if>
 	  		<if test="buildPrice != null">
 	  		    buildPrice,
@@ -39,21 +36,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  			floorArea,
 	  		</if>
 	  		<if test="assessPrice != null">
-	  			assessPrice,
+	  			assessPrice
 	  		</if>
-			<if test="recorder != null">
-				recorder,
-			</if>
-			<if test="recordTime != null">
-				recordTime
-			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="farmerName != null">
-        		#{farmerName,jdbcType=VARCHAR},
-       		</if>
-	        <if test="farmerIdNum != null">
-	         	#{farmerIdNum,jdbcType=VARCHAR},
+	        <if test="farmerId != null">
+	         	#{farmerId,jdbcType=BIGINT},
 	        </if>
 	        <if test="houseProperty != null">
 	        	#{houseProperty,jdbcType=VARCHAR},
@@ -77,25 +65,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	           #{floorArea,jdbcType=VARCHAR},
 	        </if>
 	        <if test="assessPrice != null">
-	           #{assessPrice,jdbcType=VARCHAR},
-	        </if>
-	        <if test="recorder != null">
-	           #{recorder,jdbcType=VARCHAR},
-	        </if>
-	        <if test="recordTime != null">
-	           #{recordTime,jdbcType=TIMESTAMP}
+	           #{assessPrice,jdbcType=VARCHAR}
 	        </if>
 		</trim>
-	</insert>
+</insert>
+<update id="update" parameterType="com.bank.beans.FarmerHouse">
+	update t_farmer_house
+	set farmerId = #{farmerId,jdbcType=BIGINT},
+	houseProperty = #{houseProperty,jdbcType=VARCHAR},
+	houseType = #{houseType,jdbcType=VARCHAR},
+	houseAddress = #{houseAddress,jdbcType=VARCHAR},
+	buildArea = #{buildArea,jdbcType=VARCHAR},
+	buildDate = #{buildDate,jdbcType=VARCHAR},
+	buildPrice = #{buildPrice,jdbcType=VARCHAR},
+	floorArea = #{floorArea,jdbcType=VARCHAR},
+	assessPrice = #{assessPrice,jdbcType=VARCHAR}
+	where houseId =#{id,jdbcType=BIGINT}
+</update>
 <select id="findByPK" parameterType="Long" resultType="com.bank.beans.FarmerHouse">
 		select 
 		<include refid="House_Column_List" />
-		from t_farmer_house where houseid = #{id,jdbcType=INTEGER}
+		from t_farmer_house where houseId = #{id,jdbcType=BIGINT}
+</select>
+<select id="findByFarmerId" parameterType="Long" 
+	resultMap="farmerHouseList">
+	select 
+	<include refid="House_Column_List" />
+	from t_farmer_house where farmerId = #{id,jdbcType=BIGINT}
 </select>
 <resultMap id="farmerHouseList" type="com.bank.beans.FarmerHouse">
-    <result column="houseId" property="id" jdbcType="BIGINT"/>
-    <result column="farmerName" property="farmerName" jdbcType="VARCHAR" />
-    <result column="farmerIdnum" property="farmerIdNum" jdbcType="VARCHAR" />
+    <id column="houseId" property="id" jdbcType="BIGINT"/>
+    <result column="farmerId" property="farmerId" jdbcType="BIGINT" />
     <result column="houseProperty" property="houseProperty" jdbcType="VARCHAR" />
     <result column="houseType" property="houseType" jdbcType="VARCHAR" />
 	<result column="houseAddress" property="houseAddress" jdbcType="VARCHAR"/>
@@ -104,8 +104,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <result column="buildPrice" property="buildPrice" jdbcType="DOUBLE"/>
 	<result column="floorArea" property="floorArea" jdbcType="VARCHAR" />
 	<result column="assessPrice" property="assessPrice" jdbcType="VARCHAR"/>
-    <result column="recorder" property="recorder" jdbcType="VARCHAR"/>
-    <result column="recordTime" property="recordTime" jdbcType="DATE" />
 </resultMap>
 <select id="pageing" parameterType="Map" resultMap="farmerHouseList">
 	select 
