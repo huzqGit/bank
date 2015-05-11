@@ -4,31 +4,51 @@ import java.util.Date;
 
 import com.common.bean.BaseEntity;
 
-public class Farmer extends BaseEntity<Long> {
+public class Farmer implements java.io.Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7920128196248590259L;
+	private Long id;
 	private String farmerName;
+	private Integer idType; 
 	private String farmerIdnum;
 	private Integer politicStatus;
+	private Integer marryStatus;
 	private Integer familyNum;
 	private String phone;
 	private String address;
-	private String marryStatus;
+	private Integer sex;
+	private Integer education;
+	private String occupation;
 	private Integer laborNum;
 	private Integer postCode;
-	private Double nyNetincome;
-	private Double fnNetincome;
-	private Double gsNetincome;
-	private Double dgNetincome;
-	private Double qtNetincome;
-	private Double allNetincome;
 	private String recorder;
 	private Date recordTime;
 	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public String getFarmerName() {
 		return farmerName;
 	}
 
 	public void setFarmerName(String farmerName) {
 		this.farmerName = farmerName;
+	}
+
+	public Integer getIdType() {
+		return idType;
+	}
+
+	public void setIdType(Integer idType) {
+		this.idType = idType;
 	}
 
 	public String getFarmerIdnum() {
@@ -45,6 +65,14 @@ public class Farmer extends BaseEntity<Long> {
 
 	public void setPoliticStatus(Integer politicStatus) {
 		this.politicStatus = politicStatus;
+	}
+
+	public Integer getMarryStatus() {
+		return marryStatus;
+	}
+
+	public void setMarryStatus(Integer marryStatus) {
+		this.marryStatus = marryStatus;
 	}
 
 	public Integer getFamilyNum() {
@@ -71,12 +99,28 @@ public class Farmer extends BaseEntity<Long> {
 		this.address = address;
 	}
 
-	public String getMarryStatus() {
-		return marryStatus;
+	public Integer getSex() {
+		return sex;
 	}
 
-	public void setMarryStatus(String marryStatus) {
-		this.marryStatus = marryStatus;
+	public void setSex(Integer sex) {
+		this.sex = sex;
+	}
+
+	public Integer getEducation() {
+		return education;
+	}
+
+	public void setEducation(Integer education) {
+		this.education = education;
+	}
+
+	public String getOccupation() {
+		return occupation;
+	}
+
+	public void setOccupation(String occupation) {
+		this.occupation = occupation;
 	}
 
 	public Integer getLaborNum() {
@@ -95,54 +139,6 @@ public class Farmer extends BaseEntity<Long> {
 		this.postCode = postCode;
 	}
 
-	public Double getNyNetincome() {
-		return nyNetincome;
-	}
-
-	public void setNyNetincome(Double nyNetincome) {
-		this.nyNetincome = nyNetincome;
-	}
-
-	public Double getFnNetincome() {
-		return fnNetincome;
-	}
-
-	public void setFnNetincome(Double fnNetincome) {
-		this.fnNetincome = fnNetincome;
-	}
-
-	public Double getGsNetincome() {
-		return gsNetincome;
-	}
-
-	public void setGsNetincome(Double gsNetincome) {
-		this.gsNetincome = gsNetincome;
-	}
-
-	public Double getDgNetincome() {
-		return dgNetincome;
-	}
-
-	public void setDgNetincome(Double dgNetincome) {
-		this.dgNetincome = dgNetincome;
-	}
-
-	public Double getQtNetincome() {
-		return qtNetincome;
-	}
-
-	public void setQtNetincome(Double qtNetincome) {
-		this.qtNetincome = qtNetincome;
-	}
-
-	public Double getAllNetincome() {
-		return allNetincome;
-	}
-
-	public void setAllNetincome(Double allNetincome) {
-		this.allNetincome = allNetincome;
-	}
-
 	public String getRecorder() {
 		return recorder;
 	}
@@ -158,17 +154,4 @@ public class Farmer extends BaseEntity<Long> {
 	public void setRecordTime(Date recordTime) {
 		this.recordTime = recordTime;
 	}
-
-	@Override
-	public boolean equalsIfIdNull(Object o) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public int hashCodeIfIdNull() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 }

@@ -1,5 +1,6 @@
 package com.bank.controller.farmer;
 
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,35 +19,72 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.bank.beans.Farmer;
+import com.bank.beans.FarmerBreed;
+import com.bank.beans.FarmerDevice;
+import com.bank.beans.FarmerForest;
 import com.bank.beans.FarmerHouse;
 import com.bank.common.util.JsonUtil;
 import com.bank.service.IFarmerHouseService;
+import com.bank.service.IFarmerService;
 
 @Controller
 @RequestMapping(value = "/farmer")
 public class FarmerHouseController {
 	
 	@Resource
+	private IFarmerService farmerService;
+	@Resource
 	private IFarmerHouseService farmerHouseService;
 	
-	@RequestMapping(value = "/saveHouse",method = RequestMethod.POST)
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value = "/saveChanQuan",method = RequestMethod.POST)
 	public ModelAndView save(HttpServletRequest request, 
 			HttpServletResponse response) throws Exception{
 
-		String formData = request.getParameter("formData");
+		String farmerData = request.getParameter("farmer");
+		String houseData = request.getParameter("house");
+		String forestData = request.getParameter("forest");
+		String breedData = request.getParameter("breed");
+		String deviceData = request.getParameter("device");
 		//這裡做了時間格式的處理
-		Object decodeJsonData = JsonUtil.Decode(formData);
+		Object decodeJsonData = JsonUtil.Decode(farmerData);
 		String formatdata = JSON.toJSONStringWithDateFormat(decodeJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
 		JSONObject jsb = JSONObject.parseObject(formatdata);
-		FarmerHouse farmerHouse = (FarmerHouse) JSON.toJavaObject(jsb, FarmerHouse.class);
-		if(farmerHouse.getId()!=null){
-			farmerHouseService.update(farmerHouse);
+		Farmer farmer = (Farmer) JSON.toJavaObject(jsb, Farmer.class);
+		
+		Object houseJsonData = JsonUtil.Decode(houseData);
+		houseData = JSON.toJSONStringWithDateFormat(houseJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);	
+		List<FarmerHouse> house = (List<FarmerHouse>)JSON.parseArray(houseData, FarmerHouse.class);
+		
+		Object forestJsonData = JsonUtil.Decode(forestData);
+		forestData = JSON.toJSONStringWithDateFormat(forestJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);	
+		List<FarmerForest> forest = (List<FarmerForest>)JSON.parseArray(forestData, FarmerForest.class);
+		
+		Object breedJsonData = JsonUtil.Decode(breedData);
+		breedData = JSON.toJSONStringWithDateFormat(breedJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);	
+		List<FarmerBreed> breed = (List<FarmerBreed>)JSON.parseArray(breedData, FarmerBreed.class);
+		
+		Object deviceJsonData = JsonUtil.Decode(deviceData);
+		deviceData = JSON.toJSONStringWithDateFormat(deviceJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);	
+		List<FarmerDevice> device = (List<FarmerDevice>)JSON.parseArray(deviceData, FarmerDevice.class);
+		
+		if(farmer.getId() == null){
+			return null;
 		}else{
-			farmerHouseService.save(farmerHouse);
+			farmerHouseService.saveChanQuan(farmer, house, forest, breed, device);
 		}
-		String json = JSON.toJSONString(farmerHouse);
-		response.setContentType("text/html;charset=UTF-8");
-	    response.getWriter().write(json);
+		Map map = new HashMap();
+		map.put("farmer",farmer);
+		map.put("house",house);
+		map.put("forest",forest);
+		map.put("breed",breed);
+		map.put("device",device);
+		String json =JSON.toJSONString(map);
+		System.out.println(json);
+		PrintWriter writer = response.getWriter();
+		writer.write(json);
+		writer.flush();
 		return null;
 		
 	}
@@ -102,5 +140,56 @@ public class FarmerHouseController {
 	    response.getWriter().write(json);
 		return null;
 	}
-	
+	@RequestMapping(value="/typeInChanQuan",method=RequestMethod.POST)
+	public ModelAndView typeInChanQuan(HttpServletRequest request, 
+			HttpServletResponse response) throws Exception{
+		//查询条件
+		String farmerName = request.getParameter("farmerName");
+	    String farmerIdNum=request.getParameter("farmerIdNum");
+	    if(StringUtils.isEmpty(farmerName) && StringUtils.isEmpty(farmerIdNum)){
+	    	ModelAndView view = new ModelAndView("/farmer/farmerChanQuanView");
+	    	view.addObject("msg","请您填写完农户姓名和身份证号码后录入资产信息!");
+	    	return view;
+	    }
+	   List<Farmer> farmers = farmerService.findByIDAndName(farmerIdNum, farmerName);
+	   if(farmers.size() == 0){
+		   ModelAndView view = new ModelAndView("/farmer/farmerChanQuanView");
+	       view.addObject("msg","未找到匹配的农户信息!您可以到【农户】-【数据采集】-【基本信息】模块中录入农户信息后再录入农户的资产信息!");
+	       return view;
+	   }else if(farmers.size() == 1){
+		   Farmer farmer = farmers.get(0);
+	       Long farmerId = farmer.getId();
+	       List<FarmerHouse> houses = farmerHouseService.findHouseByFarmer(farmerId);
+	       if(houses.size() == 0){
+	    		FarmerHouse house= new FarmerHouse();
+	    		houses.add(house);
+	       }
+	       List<FarmerForest> forests = farmerHouseService.findForestByFarmer(farmerId);
+	       if(forests.size() == 0){
+	    		FarmerForest forest = new FarmerForest();
+	    		forests.add(forest);
+	       }
+	       List<FarmerBreed> breeds = farmerHouseService.findBreedByFarmer(farmerId);
+	       if(breeds.size() == 0){
+	    		FarmerBreed breed = new FarmerBreed();
+	    		breeds.add(breed);
+	       }
+	       List<FarmerDevice>  devices = farmerHouseService.findDeviceByFarmer(farmerId);
+	    	if(devices.size() == 0){
+	    		FarmerDevice device = new FarmerDevice();
+	    		devices.add(device);
+	       }
+	       ModelAndView view = new ModelAndView("/farmer/farmerChanQuanForm");
+	       view.addObject("farmer", farmer);
+	       view.addObject("houses",houses);
+	       view.addObject("forests",forests);
+	       view.addObject("breeds",breeds);
+	       view.addObject("devices",devices);
+	       return view;
+	   }else{
+		   ModelAndView view = new ModelAndView("/farmer/farmerChanQuanView");
+	       view.addObject("msg","找到多个农户信息!");
+	       return view;
+	   }
+	}
 }

@@ -1,5 +1,6 @@
 package com.bank.controller.farmer;
 
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,37 +19,51 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.bank.beans.Farmer;
 import com.bank.beans.FarmerCompunish;
+import com.bank.beans.FarmerEvaluate;
 import com.bank.common.util.JsonUtil;
 import com.bank.service.IFarmerCompunishService;
+import com.bank.service.IFarmerService;
 
 @Controller
 @RequestMapping(value = "/farmer")
 public class FarmerCompunishController {
 	
 	@Resource
+	private IFarmerService farmerService;
+	@Resource
 	private IFarmerCompunishService farmerCompunishService;
 	
-	@RequestMapping(value = "/saveCompunish",method = RequestMethod.POST)
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value = "/saveJiangCheng",method = RequestMethod.POST)
 	public ModelAndView save(HttpServletRequest request, 
 			HttpServletResponse response) throws Exception{
-
-		String formData = request.getParameter("formData");
+		String farmerData  = request.getParameter("farmer");
+		String compunishData = request.getParameter("compunish");
 		//這裡做了時間格式的處理
-		Object decodeJsonData = JsonUtil.Decode(formData);
-		String formatdata = JSON.toJSONStringWithDateFormat(decodeJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
-		JSONObject jsb = JSONObject.parseObject(formatdata);
-		FarmerCompunish farmer = (FarmerCompunish) JSON.toJavaObject(jsb, FarmerCompunish.class);
-		if(farmer.getId()!=null){
-			farmerCompunishService.update(farmer);
-		}else{
-			farmerCompunishService.save(farmer);
-		}
-		String json = JSON.toJSONString(farmer);
-		response.setContentType("text/html;charset=UTF-8");
-	    response.getWriter().write(json);
-		return null;
 		
+		Object farmerJsonData = JsonUtil.Decode(farmerData);
+		farmerData = JSON.toJSONStringWithDateFormat(farmerJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
+		JSONObject farmerJson = JSONObject.parseObject(farmerData);
+		Farmer farmer = (Farmer) JSON.toJavaObject(farmerJson, Farmer.class);
+		
+		Object compunishJsonData = JsonUtil.Decode(compunishData);
+		compunishData = JSON.toJSONStringWithDateFormat(compunishJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);	
+		List<FarmerCompunish> compunishs = (List<FarmerCompunish>)JSON.parseArray(compunishData, FarmerCompunish.class);
+		
+		if(farmer.getId() == null){
+			return null;
+		}else{
+			farmerCompunishService.saveJiangCheng(farmer, compunishs);
+			Map map = new HashMap();
+			map.put("compunish", compunishs);
+			String json = JSON.toJSONString(map);
+			PrintWriter writer = response.getWriter();
+			writer.write(json);
+			writer.flush();
+			return null;
+		}		
 	}
 	
 	@RequestMapping(value = "/loadCompunish", method = RequestMethod.POST)
@@ -102,5 +117,39 @@ public class FarmerCompunishController {
 	    response.getWriter().write(json);
 		return null;
 	}
-	
+	@RequestMapping(value="/typeInJiangCheng",method=RequestMethod.POST)
+	public ModelAndView typeInJiangCheng(@RequestParam(value="farmerName") String farmerName,
+			@RequestParam(value="farmerIdNum") String farmerIdNum,  
+			HttpServletResponse response) throws Exception{
+		if(StringUtils.isEmpty(farmerName) && StringUtils.isEmpty(farmerIdNum)){
+			ModelAndView view = new ModelAndView("/farmer/farmerJiangChengView");
+			view.addObject("msg","请您填写完农户姓名和身份证号码后录入资产信息!!");
+			return view;
+		}else{
+			List<Farmer> farmers = farmerService.findByIDAndName(farmerIdNum, farmerName);
+			if(farmers.size() == 0){
+				ModelAndView view = new ModelAndView("/farmer/farmerJiangChengView");
+				view.addObject("msg","未找到匹配的农户信息!您可以到【农户】-【数据采集】-【基本信息】模块中录入农户信息后再录入农户的资产信息!");
+				return view;
+			}else if(farmers.size() ==1){
+				Farmer farmer = farmers.get(0);
+				FarmerEvaluate evaluate = farmerCompunishService.getEvaluateByFarmer(farmer.getId());
+				List<FarmerCompunish> compunishs = farmerCompunishService.getCompunishByFarmer(farmer.getId());
+				if(compunishs.size() == 0){
+					compunishs.add(new FarmerCompunish());
+				}
+				ModelAndView view = new ModelAndView("/farmer/farmerJiangChengForm");
+				view.addObject("farmer",farmer);
+				view.addObject("evaluate",evaluate);
+				view.addObject("compunishs",compunishs);
+				return view;
+			}else{
+				ModelAndView view = new ModelAndView("/farmer/farmerJiangChengView");
+				view.addObject("msg", "找到多个农户信息!");
+				view.addObject("farmer",farmers);
+			}
+		}
+		ModelAndView view = new ModelAndView("/farmer/farmerJiangChengView");
+		return view;
+	}
 }

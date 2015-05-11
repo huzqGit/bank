@@ -13,17 +13,37 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bank.beans.Farmer;
+import com.bank.beans.FarmerBreed;
+import com.bank.beans.FarmerCompunish;
+import com.bank.beans.FarmerDevice;
+import com.bank.beans.FarmerEvaluate;
+import com.bank.beans.FarmerForest;
+import com.bank.beans.FarmerHouse;
+import com.bank.beans.FarmerIncome;
 import com.bank.beans.FarmerMember;
+import com.bank.beans.FarmerPay;
+import com.bank.dao.IFarmerBreedDao;
+import com.bank.dao.IFarmerCompunishDao;
 import com.bank.dao.IFarmerDao;
+import com.bank.dao.IFarmerDeviceDao;
+import com.bank.dao.IFarmerEvaluateDao;
+import com.bank.dao.IFarmerForestDao;
+import com.bank.dao.IFarmerHouseDao;
+import com.bank.dao.IFarmerIncomeDao;
 import com.bank.dao.IFarmerMemberDao;
+import com.bank.dao.IFarmerPayDao;
 import com.bank.service.IFarmerService;
 import com.common.dao.GenericDAO;
 import com.common.exception.CreateException;
 import com.common.exception.DAOException;
 import com.common.exception.DataNotFoundException;
+import com.common.exception.DeleteException;
 import com.common.exception.UpdateException;
 import com.common.service.impl.GenericServiceImpl;
 
@@ -35,6 +55,22 @@ public class FarmerServiceImpl extends GenericServiceImpl<Farmer, Long>
 	private IFarmerDao farmerDao;
 	@Resource
 	private IFarmerMemberDao farmerMemberDao;
+	@Resource
+	private IFarmerHouseDao farmerHouseDao;
+	@Resource
+	private IFarmerForestDao farmerForestDao;
+	@Resource
+	private IFarmerBreedDao farmerBreedDao;
+	@Resource
+	private IFarmerDeviceDao farmerDeviceDao;
+	@Resource
+	private IFarmerPayDao farmerPayDao;
+	@Resource
+	private IFarmerIncomeDao farmerIncomeDao;
+	@Resource
+	private IFarmerEvaluateDao farmerEvaluateDao;
+	@Resource
+	private IFarmerCompunishDao farmerCompunishDao;
 
 	@Override
 	public GenericDAO<Farmer, Long> getGenericDAO() {
@@ -42,45 +78,125 @@ public class FarmerServiceImpl extends GenericServiceImpl<Farmer, Long>
 		return this.farmerDao;
 	}
 
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor={DAOException.class, DeleteException.class, DataNotFoundException.class})
 	@Override
-	public Map saveFarmer(Farmer farmer, List<FarmerMember> members) {
+	public Map saveFarmer(Farmer farmer, List<FarmerMember> members) 
+					throws DAOException, UpdateException, DataNotFoundException, CreateException {
+		
+		
 		Map map = new HashMap();
-		try {
-			if(farmer.getId()==null){
-				Farmer dbFarmer=farmerDao.findByID(farmer.getFarmerIdnum());
-				if(dbFarmer!=null){
-					farmerDao.update(farmer);
-				}else{
-					farmerDao.save(farmer);
-				}
-			}else{
-				farmerDao.update(farmer);
-			}
-			List list = new ArrayList<FarmerMember>();
-			for(Iterator<FarmerMember> it =members.iterator();it.hasNext();){
-				FarmerMember member=it.next();
-				member.setFarmerId(String.valueOf(farmer.getId()));
-				if(member.getId()==null){
-					farmerMemberDao.save(member);
-				}else{
-					farmerMemberDao.update(member);
-				}
-				list.add(member);
-			}
-			map.put("farmer", farmer);
-			map.put("member", list);
-		} catch (DAOException e) {
-			e.printStackTrace();
-		} catch (CreateException e) {
-			e.printStackTrace();
-		} catch (UpdateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (DataNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		List<FarmerMember> farmerMember = new ArrayList<FarmerMember>();
+		//农户身份证不能为空
+		if(StringUtils.isEmpty(farmer.getFarmerIdnum())){
+			return null;
 		}
+		if(farmer.getId() == null){
+			Farmer dbFarmer = farmerDao.findByID(farmer.getFarmerIdnum());
+			if(dbFarmer != null){
+				 farmer.setId(dbFarmer.getId());
+				 farmerDao.update(farmer);
+				 //保存农户家庭成员情况
+				 for(Iterator<FarmerMember> it =members.iterator();it.hasNext();){
+					 	FarmerMember member =it.next();
+					 	member.setFarmerId(farmer.getId());
+					 	farmerMemberDao.save(member);
+					 	farmerMember.add(member);
+				 }
+			}else{
+				 farmerDao.save(farmer);
+				 //保存农户家庭成员情况
+				 for(Iterator<FarmerMember> it =members.iterator();it.hasNext();){
+					 	FarmerMember member =it.next();
+					 	member.setFarmerId(farmer.getId());
+					 	farmerMemberDao.save(member);
+					 	farmerMember.add(member);
+				 }
+			}
+		}else if(farmer.getId() != null){
+			 farmerDao.update(farmer);
+			 //保存农户家庭成员情况
+			 for(Iterator<FarmerMember> it =members.iterator();it.hasNext();){
+				 	FarmerMember member =it.next();
+				 	if(member.getId() == null){
+				 		Long farmerId= Long.valueOf(farmer.getId());
+				 		member.setFarmerId(farmerId);
+					 	farmerMemberDao.save(member);
+					 	farmerMember.add(member);
+				 	}else{
+				 		farmerMemberDao.update(member);
+				 		farmerMember.add(member);
+				 	}
+			 }
+		}
+		map.put("farmer", farmer);
+		map.put("member", farmerMember);
 		return map;
+	}
+
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public Map loadFarmer(Long farmerId) throws DAOException, DataNotFoundException {
+		Map map = new HashMap();
+		Farmer farmer =farmerDao.findByPK(farmerId);
+		List<FarmerMember> members = farmerMemberDao.getMembersByFarmerId(farmerId);
+		List<FarmerHouse> houses = farmerHouseDao.getHousesByFarmerId(farmerId);
+		List<FarmerForest> forests = farmerForestDao.getForestsByFarmerId(farmerId);
+		List<FarmerBreed> breeds = farmerBreedDao.getBreedsByFarmerId(farmerId);
+		List<FarmerDevice> devices = farmerDeviceDao.getDevicesByFarmerId(farmerId);
+		FarmerEvaluate evaluate = farmerEvaluateDao.getEvaluateByFarmerId(farmerId);
+		FarmerPay balance = farmerPayDao.findByFarmer(farmerId);
+		List<FarmerIncome> incomes = new ArrayList<FarmerIncome>();
+		if(balance == null){
+			balance = new FarmerPay();
+			incomes.add(new FarmerIncome()); 
+		}else{
+			incomes  = farmerIncomeDao.findAll(balance.getId());
+		}
+		List<FarmerCompunish> compunishs = farmerCompunishDao.getCompunishByFarmerId(farmerId);
+		map.put("farmer", farmer);
+		map.put("members", members);
+		map.put("houses", houses);
+		map.put("breeds", breeds);
+		map.put("devices", devices);
+		map.put("forests", forests);
+		map.put("balance", balance);
+		map.put("incomes", incomes);
+		map.put("evaluate", evaluate);
+		map.put("compunishs", compunishs);
+		return map;
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public List<Farmer> loadFarmers(Map condition) throws DAOException,
+			DataNotFoundException {
+			List<Farmer> farmers = farmerDao.findFarmer(condition);
+		return farmers;
+	}
+
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public Farmer findById(String idNum) {
+		Farmer farmer = farmerDao.findByID(idNum);
+		return farmer;
+	}
+
+
+	@Override
+	public List<Farmer> findByIDAndName(String farmerIdNum, String farmerName) {
+		List<Farmer> farmers = farmerDao.findByIDAndName(farmerIdNum, farmerName);
+		return farmers;
+	}
+
+
+	@Override
+	public List<Farmer> findByNames(List<String> farmerNames) {
+		List<Farmer> farmers = farmerDao.findByNames(farmerNames);
+		return farmers;
 	}
 
 }

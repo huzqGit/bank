@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 名称空间有特殊的用途 -->
+<mapper namespace="news">
+<sql id="News_Column_List" >
+ newsId, pName, pTime, pDetail, recorder, recordTime
+</sql>
+<insert id="save" useGeneratedKeys="true" keyProperty="id" 
+	parameterType="com.bank.beans.News">
+	insert into t_news
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+	  <if test="pName != null">
+	   pName,
+	  </if>
+	  <if test="pTime != null">
+	   pTime,
+	  </if>
+	  <if test="pDetail != null">
+	   pDetail,
+	  </if>
+	  <if test="recorder != null">
+	   recorder,
+	  </if>
+	  <if test="recordTime != null">
+		recordTime
+	  </if>
+	</trim>
+	<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  <if test="pName != null">
+	   #{pName,jdbcType=VARCHAR},
+	  </if>
+	  <if test="pTime != null">
+	   #{pTime,jdbcType=DATE},
+	  </if>
+	  <if test="pDetail != null">
+	   #{pDetail,jdbcType=VARCHAR},
+	  </if>
+	  <if test="recorder != null">
+	    #{recorder,jdbcType=VARCHAR},
+	  </if>
+	  <if test="recordTime != null">
+		#{recordTime,jdbcType=TIMESTAMP}
+	  </if>
+	</trim>
+</insert>
+<update id="update" parameterType="com.bank.beans.News">
+update t_news
+set pName = #{pName,jdbcType=VARCHAR},
+pTime = #{pTime,jdbcType=DATE},
+pDetail = #{pDetail,jdbcType=DATE}
+where newsId = #{newsId,jdbcType=BIGINT}
+</update>
+<resultMap id="newsList" type="com.bank.beans.News">
+    <id column="newsId" property="id" jdbcType="BIGINT"/>
+    <result column="pName" property="pName" jdbcType="VARCHAR" />
+    <result column="pTime" property="pTime" jdbcType="DATE" />
+    <result column="pDetail" property="pDetail" jdbcType="VARCHAR" />
+    <result column="recorder" property="recorder" jdbcType="VARCHAR" />
+    <result column="recordTime" property="recordTime" jdbcType="DATE" />
+</resultMap>
+<select id="findByPK" parameterType="Long" resultMap="com.bank.beans.News">
+	select 
+	<include refid="News_Column_List" />
+	from t_news where newsId = #{id,jdbcType=BIGINT}
+</select>
+<select id="findByPK" parameterType="Long" resultMap="com.bank.beans.News">
+	select 
+	<include refid="News_Column_List" />
+	from t_news where newsId = #{id,jdbcType=BIGINT}
+</select>
+<select id="findByNumber" parameterType="Long" resultMap="com.bank.beans.News">
+	select 
+	<include refid="News_Column_List" />
+	from t_news fetch first #{number,jdbcType=INTEGER} rows only 
+</select>		
+</mapper>

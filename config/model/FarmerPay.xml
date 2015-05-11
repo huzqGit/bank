@@ -4,54 +4,82 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="farmerpay">
 <sql id="Pay_Column_List" >
-	payid, farmerName, farmerIdNum, productpay, livingpay, medicalpay,
-	educatepay, insuredpay, otherpay, totalpay, recorder, recordTime
+	payId, farmerId, farmingIncome, avocationIncome, businessIncome,
+	otherIncome, totalIncome,productPay, livingPay, medicalPay, educatePay,
+	insuredPay,otherPay, totalPay,year, recorder, recordTime
 </sql>
-<insert id="save" useGeneratedKeys="true" keyProperty="payId" 
+<insert id="save" useGeneratedKeys="true" keyProperty="id" 
 		parameterType="com.bank.beans.FarmerPay">
 		insert into t_farmer_pay
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-		   <if test="farmerName != null">
-		   	   farmername,
+		   <if test="farmerId != null">
+		   	   farmerId,
 		   </if>
-		   <if test="farmerIdNum != null">
-		       farmeridnum,
+		   <if test="farmingIncome != null">
+		   	   farmingIncome,
+		   </if>
+		   <if test="avocationIncome != null">
+		       avocationIncome,
+		   </if>
+		   <if test="businessIncome != null">
+		   	   businessIncome,
+		   </if>
+		   <if test="otherIncome != null">
+		       otherIncome,
+		   </if>
+		   <if test="totalIncome != null">
+		   	   totalIncome,
 		   </if>
 	  	   <if test="productPay != null">
-	  		   productpay,
+	  		   productPay,
 	  	   </if>
 	  	   <if test="livingPay != null">
-	  		   livingpay,
+	  		   livingPay,
 	  	   </if>
 	   	   <if test="medicalPay != null">
-	   		   medicalpay,
+	   		   medicalPay,
 	   	   </if>
 	   	   <if test="educatePay != null">
-	   		   educatepay,
+	   		   educatePay,
 	   	   </if>
 	   	   <if test="insuredPay != null">
-	   		   insuredpay,
+	   		   insuredPay,
 	   	   </if>
 		   <if test="otherPay != null">
-			   otherpay,
+			   otherPay,
 		   </if>
 		   <if test="totalPay != null">
-			   totalpay,
+			   totalPay,
+		   </if>
+		    <if test="year != null">
+			   year,
 		   </if>
 	   	   <if test="recorder != null">
 	   		   recorder,
 	   	   </if>
 	  	   <if test="recordTime != null">
-	  		   recordtime
+	  		   recordTime
 	  	   </if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
-		   <if test="farmerName != null">
-               #{farmerName,jdbcType=VARCHAR},
-       	   </if>
-	       <if test="farmerIdNum != null">
-	           #{farmerIdNum,jdbcType=VARCHAR},
-	       </if>
+			<if test="farmerId != null">
+		   	   #{farmerId,jdbcType=VARCHAR},
+		   </if>
+	       <if test="farmingIncome != null">
+		   	   #{farmingIncome,jdbcType=DOUBLE},
+		   </if>
+		   <if test="avocationIncome != null">
+		       #{avocationIncome,jdbcType=DOUBLE},
+		   </if>
+		   <if test="businessIncome != null">
+		   	   #{businessIncome,jdbcType=DOUBLE},
+		   </if>
+		   <if test="otherIncome != null">
+		       #{otherIncome,jdbcType=DOUBLE},
+		   </if>
+		   <if test="totalIncome != null">
+		   	   #{totalIncome,jdbcType=DOUBLE},
+		   </if>
 	       <if test="productPay != null">
 	           #{productPay,jdbcType=DOUBLE},
 	       </if>
@@ -73,6 +101,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	      <if test="totalPay != null">
 	      	   #{totalPay,jdbcType=DOUBLE},
 	      </if>
+	      <if test="year != null">
+	      	   #{year,jdbcType=VARCHAR},
+	      </if>
           <if test="recorder != null">
           	   #{recorder,jdbcType=VARCHAR},
           </if>
@@ -81,22 +112,58 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </if>
 		</trim>
 </insert>
+<update id="update" parameterType="com.bank.beans.FarmerPay">
+	update t_farmer_pay
+	set farmerId = #{farmerId,jdbcType=BIGINT}, 
+	farmingIncome = #{farmingIncome,jdbcType=DOUBLE},
+ 	avocationIncome = #{avocationIncome,jdbcType=DOUBLE} ,
+ 	businessIncome = #{ businessIncome,jdbcType=DOUBLE} ,
+ 	otherIncome = #{otherIncome,jdbcType=DOUBLE} ,
+  	totalIncome = #{ totalIncome,jdbcType=DOUBLE},
+ 	productPay = #{productPay,jdbcType=DOUBLE},
+ 	livingPay = #{ livingPay,jdbcType=DOUBLE},
+ 	medicalPay = #{ medicalPay,jdbcType=DOUBLE},
+  	educatePay = #{ educatePay,jdbcType=DOUBLE}, 
+ 	insuredPay = #{ insuredPay,jdbcType=DOUBLE},
+	otherPay = #{ otherPay,jdbcType=DOUBLE},
+	totalPay = #{ totalPay,jdbcType=DOUBLE}, 
+	year = #{year,jdbcType=VARCHAR}
+	where payId=#{id,jdbcType=BIGINT}
+</update>
 <select id="findByPK" parameterType="Long" resultType="com.bank.beans.FarmerPay">
 		select 
 		<include refid="Pay_Column_List" />
-		from t_farmer_pay where payid = #{id,jdbcType=INTEGER}
+		from t_farmer_pay where payId = #{id,jdbcType=INTEGER}
+</select>
+<select id="findByFarmerAndYear" parameterType="Map" resultMap="farmerPayList">
+		select 
+		<include refid="Pay_Column_List" />
+		from t_farmer_pay 
+		where year = #{year,jdbcType=VARCHAR}
+		and farmerId = #{farmerId,jdbcType=BIGINT}
+</select>
+<select id="findByFarmer" parameterType="Map" resultMap="farmerPayList">
+		select 
+		<include refid="Pay_Column_List" />
+		from t_farmer_pay 
+		where farmerId = #{farmerId,jdbcType=BIGINT}
 </select>
 <resultMap id="farmerPayList" type="com.bank.beans.FarmerPay">
-    <result column="payId" property="id" jdbcType="BIGINT"/>
-    <result column="farmerName" property="farmerName" jdbcType="VARCHAR" />
-    <result column="farmerIdNum" property="farmerIdNum" jdbcType="VARCHAR" />
+    <id column="payId" property="id" jdbcType="BIGINT"/>
+    <result column="farmerId" property="farmerId" jdbcType="BIGINT" />
+    <result column="farmingIncome" property="farmingIncome" jdbcType="DOUBLE" />
+    <result column="avocationIncome" property="avocationIncome" jdbcType="DOUBLE" />
+	<result column="businessIncome" property="businessIncome" jdbcType="DOUBLE" />
+	<result column="otherIncome" property="otherIncome" jdbcType="DOUBLE" />
+    <result column="totalIncome" property="totalIncome" jdbcType="DOUBLE" />
     <result column="productPay" property="productPay" jdbcType="DOUBLE" />
     <result column="livingPay" property="livingPay" jdbcType="DOUBLE" />
 	<result column="medicalPay" property="medicalPay" jdbcType="DOUBLE" />
 	<result column="educatePay" property="educatePay" jdbcType="DOUBLE" />
     <result column="insuredPay" property="insuredPay" jdbcType="DOUBLE" />
     <result column="otherPay" property="otherPay" jdbcType="DOUBLE" />
-	<result column="totalPay" property="totalPay" jdbcType="DOUBLE" />
+    <result column="totalPay" property="totalPay" jdbcType="DOUBLE" />
+	<result column="year" property="year" jdbcType="VARCHAR" />
     <result column="recorder" property="recorder" jdbcType="VARCHAR" />
     <result column="recordTime" property="recordTime" jdbcType="DATE" />
 </resultMap>

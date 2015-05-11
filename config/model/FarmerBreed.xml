@@ -4,53 +4,52 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="farmerbreed">
 <sql id="Breed_Column_List" >
-	breedid, farmername, farmeridnum, variety, outputvalue,
-	floorarea, assessprice, recorder, recordtime
+	breedId,variety, outputValue,floorArea, assessPrice
 </sql>
-<insert id="save" useGeneratedKeys="true" keyProperty="breedId" 
+<insert id="save" useGeneratedKeys="true" keyProperty="id" 
 		parameterType="com.bank.beans.FarmerBreed">
 		insert into t_farmer_breed
 	<trim prefix="(" suffix=")" suffixOverrides=",">
-		<if test="farmerName != null">
-			farmername,
-		</if>
-		<if test="farmerIdNum != null">
-			farmeridnum,
+		<if test="farmerId != null">
+			farmerId,
 		</if>
 		<if test="variety != null">
 			variety,
 		</if>
-		<if test="outPutValue != null">
-			outputvalue,
+		<if test="output != null">
+			output,
+		</if>
+		<if test="outputValue != null">
+			outputValue,
 		</if>
 		<if test="floorArea != null">
-			floorarea,
+			floorArea,
 		</if>
 		<if test="assessPrice != null">
-			assessprice,
+			assessPrice,
 		</if>
    		<if test="recorder != null">
    			recorder,
    		</if>
    		<if test="recordTime != null">
-   			recordtime
+   			recordTime
    		</if>
 	</trim>
 	<trim prefix="values (" suffix=")" suffixOverrides=",">
-		<if test="farmerName != null">
-			#{farmerName,jdbcType=VARCHAR},
-		</if>
-		<if test="farmerIdNum != null">
-			#{farmerIdNum,jdbcType=VARCHAR},
+		<if test="farmerId != null">
+			#{farmerId,jdbcType=BIGINT},
 		</if>
 		<if test="variety != null">
 			#{variety,jdbcType=VARCHAR},
 		</if>
-		<if test="outPutValue != null">
-			#{outPutValue,jdbcType=VARCHAR},
+		<if test="output != null">
+			#{output,jdbcType=VARCHAR},
+		</if>
+		<if test="outputValue != null">
+			#{outputValue,jdbcType=DOUBLE},
 		</if>
 		<if test="floorArea != null">
-			#{floorArea,jdbcType=DOUBLE},
+			#{floorArea,jdbcType=VARCHAR},
 		</if>
 		<if test="assessPrice != null">
 			#{assessPrice,jdbcType=DOUBLE},
@@ -63,16 +62,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    		</if>
 	</trim>
 </insert>
+<update id="update" >
+	update t_farmer_breed
+	set farmerId = #{farmerId,jdbcType=BIGINT},
+	variety = #{variety,jdbcType = VARCHAR},
+	output = #{output,jdbcType = VARCHAR},
+	outputValue = #{outputValue,jdbcType = DOUBLE},
+	floorArea = #{floorArea,jdbcType = VARCHAR},
+	assessPrice = #{assessPrice,jdbcType = DOUBLE}
+	where breedId = #{id,jdbcType = BIGINT}
+</update>
 <select id="findByPK" parameterType="Long" 
-		resultType="com.bank.beans.FarmerBreed">
+	resultType="com.bank.beans.FarmerBreed">
 	select 
 	<include refid="Breed_Column_List" />
-	from t_farmer_breed where breedid = #{id,jdbcType=INTEGER}
+	from t_farmer_breed where breedId = #{id,jdbcType=INTEGER}
+</select>
+<select id="findByID" parameterType="Long" 
+	resultMap="farmerBreedList">
+	select 
+	<include refid="Breed_Column_List" />
+	from t_farmer_breed where farmerId = #{farmerId,jdbcType=BIGINT}
 </select>
 <resultMap id="farmerBreedList" type="com.bank.beans.FarmerBreed">
     <result column="breedId" property="id" jdbcType="BIGINT"/>
-    <result column="farmerName" property="farmerName" jdbcType="VARCHAR" />
-    <result column="farmerIdnum" property="farmerIdnum" jdbcType="VARCHAR" />
+    <result column="farmerId" property="farmerId" jdbcType="BIGINT" />
     <result column="variety" property="variety" jdbcType="VARCHAR" />
     <result column="output" property="output" jdbcType="VARCHAR" />
 	<result column="floorArea" property="floorArea" jdbcType="VARCHAR"/>

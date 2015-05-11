@@ -92,7 +92,7 @@
 		
 	});
 	function back(){
-		history.go(-1);
+		window.history.go(-1);
 	}
 	function submitForm() {
 		//提交表单数据

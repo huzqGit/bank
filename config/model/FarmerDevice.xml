@@ -4,18 +4,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="farmerdevice">
 <sql id="Device_Column_List" >
-	deviceid,farmername, farmeridnum, name, brand, buyingprice,
-	buyingdate, assessprice, recorder, recordtime
+	deviceId,name, brand, buyingPrice,buyingDate, assessPrice
 </sql>
-<insert id="save" useGeneratedKeys="true" keyProperty="deviceId" 
+<insert id="save" useGeneratedKeys="true" keyProperty="id" 
 	parameterType="com.bank.beans.FarmerDevice">
 	insert into t_farmer_device
 	<trim prefix="(" suffix=")" suffixOverrides=",">
-		<if test="farmerName != null">
-		  	farmername,
-		</if>
-		<if test="farmerIdNum != null">
-		  	farmeridnum,
+		<if test="farmerId != null">
+		  	farmerId,
 		</if>
 		<if test="name != null">
 		  	name,
@@ -24,27 +20,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    			brand,
    		</if>
    		<if test="buyingPrice != null">
-   			buyingprice,
+   			buyingPrice,
    		</if>
   		<if test="buyingDate != null">
-  			buyingdate,
+  			buyingDate,
   		</if>
   		<if test="assessPrice != null">
-  			assessprice,
+  			assessPrice,
   		</if>
 		<if test="recorder != null">
 		 	recorder,
 		</if>
   		<if test="recordTime != null">
-  			recordtime
+  			recordTime
   		</if>
 	</trim>
 	<trim prefix="values (" suffix=")" suffixOverrides=",">
-		<if test="farmerName != null">
-		  	#{farmerName,jdbcType=VARCHAR},
-		</if>
-		<if test="farmerIdNum != null">
-		  	#{farmerIdNum,jdbcType=VARCHAR},
+		<if test="farmerId != null">
+		  	#{farmerId,jdbcType=BIGINT},
 		</if>
 		<if test="name != null">
 		  	#{name,jdbcType=VARCHAR},
@@ -69,15 +62,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   		</if>
 	</trim>
 </insert>
+<update id="update">
+ update t_farmer_device
+ set farmerId = #{farmerId,jdbcType=BIGINT},
+ name = #{name,jdbcType = VARCHAR},
+ brand = #{brand,jdbcType = VARCHAR},
+ buyingPrice = #{buyingPrice,jdbcType = VARCHAR},
+ buyingDate = #{buyingDate,jdbcType = VARCHAR},
+ assessPrice = #{assessPrice,jdbcType = VARCHAR}
+ where deviceId = #{id,jdbcType = BIGINT}
+</update>
 <select id="findByPK" parameterType="Long" resultType="com.bank.beans.FarmerDevice">
 	select 
 	<include refid="Device_Column_List" />
-	from t_farmer_device where deviceid = #{id,jdbcType=INTEGER}
+	from t_farmer_device where deviceId = #{id,jdbcType=INTEGER}
+</select>
+<select id="findByID" parameterType="Long" 
+	resultMap="farmerDeviceList">
+	select 
+	<include refid="Device_Column_List" />
+	from t_farmer_device where farmerId = #{farmerId,jdbcType=BIGINT}
 </select>
 <resultMap id="farmerDeviceList" type="com.bank.beans.FarmerDevice">
     <result column="deviceId" property="id" jdbcType="BIGINT"/>
-    <result column="farmerName" property="farmerName" jdbcType="VARCHAR" />
-    <result column="farmerIdNum" property="farmerIdNum" jdbcType="VARCHAR" />
+    <result column="farmerId" property="farmerId" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="brand" property="brand" jdbcType="VARCHAR" />
 	<result column="buyingPrice" property="buyingPrice" jdbcType="VARCHAR"/>

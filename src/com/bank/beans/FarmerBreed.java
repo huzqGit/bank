@@ -10,10 +10,9 @@ public class FarmerBreed extends BaseEntity<Long> {
 	 * 
 	 */
 	private static final long serialVersionUID = -2714377766892141459L;
-	//农户姓名
-	private String farmerName;
+
 	//农户身份证号
-	private String farmerIdNum;
+	private Long farmerId;
 	//种养殖品种
 	private String variety;
 	//年产量
@@ -29,20 +28,13 @@ public class FarmerBreed extends BaseEntity<Long> {
 	//记录时间
 	private Date recordTime;
 
-	public String getFarmerName() {
-		return farmerName;
+
+	public Long getFarmerId() {
+		return farmerId;
 	}
 
-	public void setFarmerName(String farmerName) {
-		this.farmerName = farmerName;
-	}
-
-	public String getFarmerIdNum() {
-		return farmerIdNum;
-	}
-
-	public void setFarmerIdNum(String farmerIdNum) {
-		this.farmerIdNum = farmerIdNum;
+	public void setFarmerId(Long farmerId) {
+		this.farmerId = farmerId;
 	}
 
 	public String getVariety() {

@@ -4,30 +4,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="farmerforest">
 <sql id="Forest_Column_List" >
-	forestid, farmername, farmeridnum, cardnum, wordnum, user, usetype, 
-	area, storenum, timelimit, assessprice, recorder, recordtime
+	forestId,  farmerId, cardNum, wordNum, user, useType, 
+	area, storeNum, timeLimit, assessPrice
 </sql>
-<insert id="save" useGeneratedKeys="true" keyProperty="forestId" 
+<insert id="save" useGeneratedKeys="true" keyProperty="id" 
 		parameterType="com.bank.beans.FarmerForest">
 	insert into t_farmer_forest
 	<trim prefix="(" suffix=")" suffixOverrides=",">
-	   <if test="farmerName != null">
-	   		farmername,
-	   </if>
-	   <if test="farmerIdNum != null">
-	   		farmeridnum,
+	   <if test="farmerId != null">
+	   		farmerId,
 	   </if>
 	   <if test="cardNum != null">
-	   		cardnum,
+	   		cardNum,
 	   </if>
 	   <if test="wordNum != null">
-	   		wordnum,
+	   		wordNum,
 	   </if>
 	   <if test="user != null">
 	  	 	user,
 	   </if>
 	   <if test="useType != null">
-			usetype,
+			useType,
 	   </if>
 	   <if test="area != null">
 	   		area,
@@ -36,24 +33,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			storeNum,
 	   </if>
 	   <if test ="timeLimit != null">
-		 	timelimit,
+		 	timeLimit,
 	   </if>
 	   <if test="assessPrice != null">
-			assessprice,
-	   </if>
-	   <if test="recorder != null">
-		   recorder,
-	   </if>
-	   <if test="recordTime != null">
-	   	   recordtime
+			assessPrice
 	   </if>
 	</trim>
 	<trim prefix="values (" suffix=")" suffixOverrides=",">
-		<if test="farmerName != null">
-         	#{farmerName,jdbcType=VARCHAR},
-	    </if>
-	    <if test="farmerIdNum != null">
-	        #{farmerIdNum,jdbcType=VARCHAR},
+	    <if test="farmerId != null">
+	        #{farmerId,jdbcType=VARCHAR},
 	    </if>
 	    <if test="cardNum != null">
 	        #{cardNum,jdbcType=VARCHAR},
@@ -77,25 +65,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	     	#{timeLimit,jdbcType=VARCHAR},
 	    </if>
 	    <if test="assessPrice != null">
-	     	#{assessPrice,jdbcType=VARCHAR},
-	    </if>
-	    <if test="recorder != null">
-	     	#{recorder,jdbcType=VARCHAR},
-	    </if>
-	    <if test="recordTime != null">
-	        #{recordTime,jdbcType=TIMESTAMP}
+	     	#{assessPrice,jdbcType=VARCHAR}
 	    </if>
 	</trim>
 </insert>
+<update id="update" parameterType="com.bank.beans.FarmerForest">
+	update t_farmer_forest
+	set farmerId = #{farmerId,jdbcType=VARCHAR},
+	cardNum = #{cardNum,jdbcType=VARCHAR}, 
+	wordNum = #{wordNum,jdbcType=VARCHAR}, 
+	user = #{user,jdbcType=VARCHAR}, 
+	useType = #{useType,jdbcType=INTEGER}, 
+	area = #{area,jdbcType=VARCHAR},
+	storeNum = #{storeNum,jdbcType=VARCHAR}, 
+	timeLimit = #{timeLimit,jdbcType=VARCHAR},
+	assessPrice = #{assessPrice,jdbcType=VARCHAR}
+	where forestId = #{id,jdbcType=BIGINT}
+</update>
 <select id="findByPK" parameterType="Long" resultType="com.bank.beans.FarmerForest">
 	select 
 	<include refid="Forest_Column_List" />
-	from t_farmer_forest where forestid = #{id,jdbcType=INTEGER}
+	from t_farmer_forest where forestId = #{id,jdbcType=INTEGER}
+</select>
+<select id="findByFarmerId" parameterType="Long" 
+	resultMap="farmerForestList">
+	select 
+	<include refid="Forest_Column_List" />
+	from t_farmer_forest where farmerId = #{id,jdbcType=INTEGER}
 </select>
 <resultMap id="farmerForestList" type="com.bank.beans.FarmerForest">
-    <result column="forestId" property="id" jdbcType="BIGINT"/>
-    <result column="farmerName" property="farmerName" jdbcType="VARCHAR" />
-    <result column="farmerIdNum" property="farmerIdNum" jdbcType="VARCHAR" />
+    <id column="forestId" property="id" jdbcType="BIGINT"/>
+    <result column="farmerId" property="farmerId" jdbcType="BIGINT" />
     <result column="cardNum" property="cardNum" jdbcType="VARCHAR" />
     <result column="wordNum" property="wordNum" jdbcType="VARCHAR" />
 	<result column="user" property="user" jdbcType="VARCHAR"/>
@@ -104,8 +104,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <result column="storeNum" property="storeNum" jdbcType="VARCHAR"/>
 	<result column="timeLimit" property="timeLimit" jdbcType="VARCHAR" />
 	<result column="assessPrice" property="assessPrice" jdbcType="VARCHAR"/>
-    <result column="recorder" property="recorder" jdbcType="VARCHAR"/>
-    <result column="recordTime" property="recordTime" jdbcType="DATE" />
 </resultMap>
 <select id="pageing" parameterType="Map" resultMap="farmerForestList">
 	select 

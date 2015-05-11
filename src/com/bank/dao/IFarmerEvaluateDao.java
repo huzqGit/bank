@@ -4,5 +4,6 @@ import com.bank.beans.FarmerEvaluate;
 import com.common.dao.GenericDAO;
 
 public interface IFarmerEvaluateDao extends GenericDAO<FarmerEvaluate, Long> {
-
+	public FarmerEvaluate getEvaluateByFarmerId(Long farmerId);
+	
 }

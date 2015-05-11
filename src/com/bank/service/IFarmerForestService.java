@@ -5,5 +5,4 @@ import com.common.service.GenericService;
 
 public interface IFarmerForestService extends
 		GenericService<FarmerForest, Long> {
-
 }
