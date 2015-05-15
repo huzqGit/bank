@@ -1,17 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
+<%@ include file="/jsp/taglibsCommon.jspf"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>机构</title>
-<script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
+<%-- <script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script> --%>
+<script src="<c:url value="/framework/mask/loadmask.js"/>" type="text/javascript"></script>
 
 <style type="text/css">
-                
-</style> 
+            body{
+        margin:0;padding:0;border:0;width:100%;height:100%;overflow:hidden;
+    }    
+</style>
 </head>
 <%
 String organId = request.getParameter("organId");
@@ -21,15 +24,15 @@ request.setAttribute("organId", organId);
 request.setAttribute("organPid", organPid);
 request.setAttribute("actionType", actionType);
 %>
-<body>
+<body style="width: 100%;height: 100%;overflow-x:hidden;overflow-y:auto;"  onload="">
 <!-- 工具栏信息 -->
-<div id="toolbar1" class="mini-toolbar" style="width:90%; padding: 0px; border-width: 0px; margin:0 auto">
-    <table style="width:100%;height:100%">
+<div id="toolbar1" class="mini-toolbar" style="padding:2px;">
+    <table style="width:100%;">
         <tr>
         	<!-- 按钮 -->
-	        <td style="width:100%;">
-	       		 <span id='toolTitle' style='float:left; margin:10px 0px 0px 15px; font-size:16px;'></span>
-	        </td>
+	         <td style="width:100%;">
+                    <a style="cursor:default;padding:2px;padding-left:5px;">机构维护</a>
+                </td>
 	        
         	<!-- 链接界面 -->
 	       	<td style="white-space:nowrap;">
@@ -40,23 +43,24 @@ request.setAttribute("actionType", actionType);
     </table>
 </div>
  
-<div id="form1" style="width:90%;margin:0 auto">
+<div id="form1" style="margin-left: 20px ;margin-right: 20px">
 <input name="organId" class="mini-hidden"/>
 <input name="organPid" class="mini-hidden" value="${organPid}"/>
 <!-- 获取表单控件 -->
-<table cellspacing='0' cellpadding='0' border='0' class='mini-grid-table datagrid-searchform-table'  style="width:100%;table-layout:fixed;border-left: #e7e7e7 1px solid">
+<table style="width: 100%;" cellpadding="0" cellspacing="3px" border="0"  >
 	<tr>
-		<td style='width:120px;padding-left:10px;border-top: #ddd 1px solid;'>
-			<label>*机构名称：</label>
+		<td style='width:120px;'>
+			*机构名称：
 		</td>
-		<td style='width:50%;padding:10px;border-top: #ddd 1px solid;'>
+		<td style='width:90%;' align="left">
 			<input name="organName" class='mini-textbox' vtype='maxLength:40' style='width:100%;color: red;' emptyText='' required='true' allowInput='true' />
 		</td>
-		
-		<td style='width:120px;padding-left:10px;border-top: #ddd 1px solid;'>
+	</tr>
+	<tr>	
+		<td style='width:120px;'>
 			<label>*机构简称：</label>
 		</td>
-		<td style='width:50%;padding:10px;border-top: #ddd 1px solid;'>
+		<td style='width:90%;'>
 			<input name="organShort" class='mini-textbox' vtype='maxLength:40' style='width:100%;color: red;' emptyText='' required='true' allowInput='true' />
 		</td>
 	</tr>
@@ -69,7 +73,7 @@ mini.parse();
 
 var form = new mini.Form("#form1");
 $(document).ready(function(){
-	$("#form1").find("td").addClass("mini-grid-cell");
+	//$("#form1").find("td").addClass("mini-grid-cell");
 	if ("${actionType}" != "add") {
 		$.ajax({
 		    url: "${pageContext.request.contextPath}/organ/loadOrgan.do?organId=${organId}",

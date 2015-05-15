@@ -50,7 +50,12 @@ public class UserController {
 		User user = (User) JSON.toJavaObject(jsb, User.class);
 		String userId = user.getUserId();
 		if ("add".equals(actionType)) {//user为空，做新增操作
-			userId = userSerivce.saveUser(user);
+			User user2 = userSerivce.loadUser(userId);
+			if (user2 != null && user2.getUserId().equals(userId)) {
+				userId = "false";
+			} else {
+				userId = userSerivce.saveUser(user);
+			}
 		} else {//userId不为空，做更新操作
 			userSerivce.updateUser(user);
 		}

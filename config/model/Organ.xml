@@ -90,9 +90,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </resultMap>
 <select id="organ.organUser" resultMap="organUserList">
 SELECT organ_id ID, organ_name TEXT, organ_pid PID, ICONCLS FROM
-   (SELECT organ_id, organ_name, organ_pid, 'icon-add' iconCls FROM T_ORGAN
+   (SELECT organ_id, organ_name, organ_pid, '' iconCls FROM T_ORGAN
    union 
-   SELECT user_id, user_name, organ_id, 'icon-edit' iconCls FROM T_USER)
+   SELECT user_id, user_name, organ_id, 'icon-user' iconCls FROM T_USER)
 </select>
 
 <resultMap id="organCheckedUserList" type="java.util.HashMap">
@@ -104,8 +104,8 @@ SELECT organ_id ID, organ_name TEXT, organ_pid PID, ICONCLS FROM
 </resultMap>
 <select id="organ.organCheckedUser" resultMap="organCheckedUserList" parameterType="string">
 SELECT organ_id ID, organ_name TEXT, organ_pid PID, ICONCLS, checked FROM
-   (SELECT organ_id, organ_name, organ_pid, 'icon-add' iconCls, 'false' as checked  FROM T_ORGAN
+   (SELECT organ_id, organ_name, organ_pid, '' iconCls, 'false' as checked  FROM T_ORGAN
    union 
-   SELECT user_id, user_name, organ_id, 'icon-edit' iconCls, (select 'true' as checked from T_USER_ROLE where T_USER_ROLE.USER_ID = T_USER.USER_ID and T_USER_ROLE.ROLE_ID=#{roleId})  FROM T_USER)
+   SELECT user_id, user_name, organ_id, 'icon-user' iconCls, (select 'true' as checked from T_USER_ROLE where T_USER_ROLE.USER_ID = T_USER.USER_ID and T_USER_ROLE.ROLE_ID=#{roleId})  FROM T_USER)
 </select>
 </mapper>

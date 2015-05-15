@@ -77,8 +77,7 @@
 		    addItem.show();
 	        editItem.show();
 	    	removeItem.show();
-	    	
-		    if (node.isLeaf == 1) {
+		    if (node.isleaf == 1) {
 		    	addItem.hide();
 		        editItem.show();
 		    	removeItem.show();
@@ -98,6 +97,8 @@
 		    var node = tree.getSelectedNode();
 		    var menuId = node.menuId;
 			iframe.src = "${pageContext.request.contextPath}/jsp/authorization/menu.jsp?actionType=add&menuPid="+menuId+"";
+			var node = tree.getNode(menuId);
+			tree.selectNode(node);
 		}
 		//新增父菜单
 		/* function onAddPNode() {
@@ -125,7 +126,21 @@
 			var tree = mini.get("tree1");
 		    var node = tree.getSelectedNode();
 		    var menuId = node.menuId;
-			iframe.src = "${pageContext.request.contextPath}/menu/delete.do?menuId="+menuId+"";
+			mini.confirm("确定删除菜单？", "确定？",
+	            function (action) {
+	                if (action == "ok") {
+	                	$.ajax({
+	            		    url: "${pageContext.request.contextPath}/menu/delete.do?menuId="+menuId+"",
+	            		    type: "post",
+	            		    success: function (text) {
+	            		        mini.alert('删除成功');
+	            		        tree.removeNode(node);
+	            		    }
+	            		});
+	                } else {
+	                    
+	                }
+			});      
 		}
 		//删除父菜单
 		/* function onRemovePNode() {

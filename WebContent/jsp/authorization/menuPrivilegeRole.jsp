@@ -17,20 +17,19 @@ request.setAttribute("roleId", roleId);
 <%--     <script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script> --%>
 </head>
 <body style="">
-    <div id="layout1" class="mini-layout" style="width:600px;height:400px;"  borderStyle="border:solid 1px #aaa;">
+    <div id="layout1" class="mini-layout" style="width:100%;height:100%;"  borderStyle="border:solid 1px #aaa;">
     <div title="菜单" showProxyText="true" region="west" width="200" expanded="true" showSplitIcon="false">
-        <ul id="tree2" class="mini-tree" url="${pageContext.request.contextPath}/menu/loadMenuTree.do" style="width:200px;padding:5px;height: 300px;" 
+        <ul id="tree2" class="mini-tree" url="${pageContext.request.contextPath}/menu/loadMenuTree.do" style="width:100%;height:100%;" 
 	        showTreeIcon="true" onnodeclick="onNodeClick" textField="menuName" idField="menuId" parentField="menuPid" resultAsTree="false"  expandOnLoad="true"
 	        onbeforenodecheck="onBeforeNodeCheck" allowSelect="false" enableHotTrack="false" iconField="iconCls">
 	    </ul>
     </div>
-    <div title="center" region="center" style="width:100%;border-bottom:0;padding:0px;">
-	        <div class="mini-toolbar" style="width:100%;border-bottom:0;padding:0px;">
-	            <a class="mini-button" iconCls="icon-save" onclick="save()">确定</a>
-	        </div>
-	    <div class="mini-fit" >
-	    <div id="datagrid1" class="mini-datagrid" style="width:100%;height:100%;" allowResize="false" allowCellEdit="true"
-	        url="${pageContext.request.contextPath}/menu/loadCheckedPrivileges.do?menuId=0&roleId=${roleId}"  idField="id" multiSelect="true" showPager="false"
+    <div title="center" region="center" style="height:70%;border-bottom:0;padding:0px;">
+        <div class="mini-toolbar" style="border-bottom:0;padding:0px;">
+            <a class="mini-button" iconCls="icon-save" onclick="save()">确定</a>
+        </div>
+	    <div id="datagrid1" class="mini-datagrid" style="" allowResize="false" allowCellEdit="true"
+	        url="${pageContext.request.contextPath}/menu/loadCheckedPrivileges.do"  idField="id" multiSelect="true" showPager="false"
 	    >
 	        <div property="columns">
 	            <div type="indexcolumn"></div>       
@@ -38,8 +37,7 @@ request.setAttribute("roleId", roleId);
 	            <div type="checkboxcolumn" field="checked" trueValue="true" falseValue="false" width="60" headerAlign="center">授权</div>         
 	            <div field="privilegeType" width="120" headerAlign="center" allowSort="true">资源名称</div>    
 	        </div>
-	    </div>
-	 </div>
+	 	</div>	
 	 </div>
 </div>
     
@@ -56,7 +54,10 @@ request.setAttribute("roleId", roleId);
                 data: { roleId: '${roleId}', menuId: menuId},
                 type: "post",
                 success: function (text) {
-                	grid.load();
+                	grid.load({
+                		menuId: menuId,
+						roleId:'${roleId}'
+                	});
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     alert(jqXHR.responseText);

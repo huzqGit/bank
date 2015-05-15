@@ -2,7 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/jsp/taglibsCommon.jspf"%>
 <html xmlns="http://www.w3.org/1999/xhtml">
-<script src="<c:url value="/framework/mask/loadmask.js"/>" type="text/javascript"></script>
 <head>
 <%
 String menuId = request.getParameter("menuId");
@@ -13,6 +12,7 @@ request.setAttribute("menuPid", menuPid);
 request.setAttribute("actionType", actionType);
 %>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<script src="<c:url value="/framework/mask/loadmask.js"/>" type="text/javascript"></script>
 <title>菜单信息</title> 	
 <style type="text/css">
     body{
@@ -37,30 +37,30 @@ request.setAttribute("actionType", actionType);
         </tr>
     </table>
     </div>
-<div id="form" style="margin-left: 10px ;margin-right: 10px">
+<div id="form" style="margin-left: 20px ;margin-right: 20px">
 <input name="menuPid" class="mini-hidden" value="${menuPid}"/>
 <input name="menuId" class="mini-hidden" value="${menuId}"/>
  <table style="width: 100%;" cellpadding="0" cellspacing="3px" border="0" >
 	<tr>
-		<td width="70px" align="right">菜单名称:</td>
-		<td width="180px">
-			<input id="menuName" name="menuName" class='mini-textbox' style="width: 100%;" style='width:100%;color: red;' emptyText='' required='true' allowInput='true' />
+		<td width="120px" align="">菜单名称:</td>
+		<td width="90%">
+			<input id="menuName" name="menuName" class='mini-textbox' style="width: 60%;" style="width:100%;color: red;" emptyText='' required='true' allowInput='true' />
 		</td>
 	</tr>
 	<tr>
-		<td width="70px" align="right">菜单描述:</td>
+		<td width="70px" align="">菜单描述:</td>
 		<td colspan="3">
-			<input id="menuDescr" name="menuDescr" class='mini-textbox' style="width: 100%;" style='width:100%; emptyText='' allowInput='true' />
+			<input id="menuDescr" name="menuDescr" class='mini-textbox' style="width: 60%;" style='width:100%; emptyText='' allowInput='true' />
 		</td>
 	</tr>
 	<tr>
-		<td width="70px" align="right">URL地址:</td>
+		<td width="70px" align="">URL地址:</td>
 		<td colspan="3">
-			<input id="menuUrl" name="menuUrl" class='mini-textbox' style="width: 100%;" style='width:100%; emptyText='' allowInput='true' />
+			<input id="menuUrl" name="menuUrl" class='mini-textbox' style="width: 60%;" style='width:100%; emptyText='' allowInput='true' />
 		</td>
 	</tr>
 	<tr>
-		<td width="70px" align="right">叶节点：</td>
+		<td width="70px" align="">叶节点：</td>
 		<td colspan="3">
 			<input id="isLeaf" name="isLeaf" class='mini-checkbox' value="1" trueValue="1" falseValue="0" style='width:100%; emptyText='' allowInput='true' />
 		</td>

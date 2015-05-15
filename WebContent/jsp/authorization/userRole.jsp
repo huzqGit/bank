@@ -27,7 +27,7 @@ request.setAttribute("roleId", roleId);
     <a class="mini-button" iconCls="icon-add" onclick="checkAll">选择所有</a>
     <a class="mini-button" iconCls="icon-add" onclick="uncheckAll">取消选择所有</a>
 	<a class="mini-button" iconCls="icon-save" onclick="getCheckedNodes">确定</a>
-	<a class="mini-button" iconCls="icon-remove" onclick="getCheckedNodes">取消</a>
+	<a class="mini-button" iconCls="icon-remove" onclick="onCancel">取消</a>
     <br />
     </div>
     <script type="text/javascript">
@@ -47,16 +47,18 @@ request.setAttribute("roleId", roleId);
 					}
 				}
 			}
-            alert(nodeStr);
             $.ajax({
                 url: "${pageContext.request.contextPath}/userRole/saveUserRoles.do?roleId=${roleId}",
                 data: { data: nodeStr},
                 type: "post",
                 success: function (text) {
+                	CloseWindow("save");
                     window.parent.getGrid().load();
+                    
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     alert(jqXHR.responseText);
+                    CloseWindow();
                 }
             });
         }
@@ -77,6 +79,23 @@ request.setAttribute("roleId", roleId);
             if (tree.hasChildren(node)) {
                 //e.cancel = true;
             }
+        }
+       
+        ///////////////////////////////////
+        function CloseWindow(action) {            
+            if (action == "close" && form.isChanged()) {
+                if (confirm("数据被修改了，是否先保存？")) {
+                    return false;
+                }
+            }
+            if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+            else window.close();            
+        }
+        /* function onOk(e) {
+            SaveData();
+        } */
+        function onCancel(e) {
+            CloseWindow("cancel");
         }
     </script>
 </body>

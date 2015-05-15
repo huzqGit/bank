@@ -70,9 +70,10 @@
             var grid = e.sender;
             var record = e.record;
             var uid = record._uid;
+           // alert(uid + "==========" + record.roleId);
             var rowIndex = e.rowIndex;
 
-            var s = '<a class="mini-button" iconCls="icon-edit" href="javascript:editUsers(\'' + uid + '\')">维护用户</a> <a class="mini-button" iconCls="icon-edit" href="javascript:editMenus(\'' + uid + '\')">维护菜单</a> ';
+            var s = '<a class="mini-button" iconCls="icon-edit" href="javascript:editUsers(\'' + record.roleId + '\')">维护用户</a> <a class="mini-button" iconCls="icon-edit" href="javascript:editMenus(\'' + record.roleId + '\')">维护菜单</a> ';
                        
             return s;
         }
@@ -130,8 +131,8 @@
                 title: '维护菜单',
                 url: '${pageContext.request.contextPath}/jsp/authorization/menuPrivilegeRole.jsp?roleId=' + roleId,
                 showModal: false,
-                width: 600,
-                height: 500
+                width: 800,
+                height: 600
             });
         }
         

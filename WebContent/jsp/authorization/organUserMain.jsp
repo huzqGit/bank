@@ -14,9 +14,8 @@
 </style>
 <body>
     
-<div class="mini-splitter" style="width:100%;height:100%;">
-    <div size="200" showCollapseButton="true">
-        <div class="mini-fit" style="padding:5px;" >
+<div id="layout1" class="mini-layout" style="width:100%;height:100%;">
+    <div title="组织机构" showProxyText="true" region="west" width="200" expanded="true" showSplitIcon="false">
             <ul id="tree1" class="mini-tree" url="${pageContext.request.contextPath}/organ/organUserTree.do"
 		        showTreeIcon="true" textField="TEXT" idField="ID" parentField="PID" resultAsTree="false"
 		        expandOnLoad="true" onnodeclick="onNodeClick" style="width:100%;height:100%;" contextMenu="#treeMenu"
@@ -25,12 +24,9 @@
 		        >
 	   		 </ul>
         </div>
-    </div>
-    <div showCollapseButton="true">
-        <div class="mini-fit" style="width:100%;height:100%;">
+         <div title="center" region="center" style="width:100%;border-bottom:0;padding:0px;">
              <iframe id="mainframe" frameborder="0" name="main" style="width:100%;height:100%;" border="0"></iframe>
         </div>
-    </div>
 </div>
 <ul id="treeMenu" class="mini-contextmenu"  onbeforeopen="onBeforeOpen">        
     <li name="addOrgan" iconCls="icon-add" onclick="onAddOrganNode">新增机构</li>
@@ -52,7 +48,7 @@
 			var logtype = node.LOGTYPE;
 		    var nodeId = node.ID;
 		    
-	        if (node.ICONCLS == 'icon-edit') {
+	        if (node.ICONCLS == 'icon-user') {
 		        iframe.src = "${pageContext.request.contextPath}/jsp/authorization/userForm.jsp?actionType=edit&userId="+nodeId+"";
 	        } else {
 	        	iframe.src = "${pageContext.request.contextPath}/jsp/authorization/organForm.jsp?actionType=edit&organId="+nodeId+"";
@@ -90,7 +86,7 @@
 	    	removeUserItem.show();
 	    	managerRoleItem.show();
 	    	
-		    if (node.ICONCLS == 'icon-edit') {
+		    if (node.ICONCLS == 'icon-user') {
 		    	addOrganItem.hide();
 		    	removeOrganItem.hide();
 		    	addUserItem.hide();
@@ -135,6 +131,7 @@
 	            		    type: "post",
 	            		    success: function (text) {
 	            		        mini.alert('删除成功');
+	            		        tree.removeNode(node);
 	            		    }
 	            		});
 	                } else {

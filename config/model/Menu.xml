@@ -158,7 +158,7 @@ with rpl(menu_id,menu_descr,menu_url,menu_pid,menu_name,isleaf,issystem,seq) as 
 
 <select id="menu.privilegeCheckTree" resultMap="privilegeChecklist" parameterType="map">
   select a.*, (select 'true' checked from T_MENU_PRIVILEGE b where a.PRIVILEGE_ID = b.PRIVILEGE_ID 
- and b.ROLE_ID = ${roleId} and b.MENU_ID=#{menuId}
+ and b.ROLE_ID = #{roleId} and b.MENU_ID=#{menuId}
  ) checked from T_PRIVILEGE a
 </select>
 
