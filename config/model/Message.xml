@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 名称空间有特殊的用途 -->
+<mapper namespace="message">
+<resultMap id="BaseResultMap" type="com.bank.beans.Message" >
+  <id column="message_id" property="messageId" jdbcType="VARCHAR" />
+  <result column="user_id" property="userId" jdbcType="VARCHAR" />
+  <result column="user_Name" property="userName" jdbcType="VARCHAR" />
+  <result column="publish_date" property="publishDate" jdbcType="DATE" />
+  <result column="message_content" property="messageContent" jdbcType="VARCHAR" />
+</resultMap>
+<sql id="Base_Column_List" >
+  message_id, user_id, user_name, publish_date, message_content
+</sql>
+
+<insert id="message.insert" parameterType="com.bank.beans.Message">
+  insert into T_MESSAGE(message_id, user_id, user_name, publish_date, message_content) 
+  values(#{messageId}, #{userId}, #{userName}, #{publishDate}, #{messageContent})
+</insert>
+
+<insert id="message.insertSelective" parameterType="com.bank.beans.Message">
+  insert into T_MESSAGE
+  <trim prefix="(" suffix=")" suffixOverrides=",">
+  	<if test="messageId != null">
+  		message_id,
+  	</if>
+  	<if test="userId != null">
+  		user_id,
+  	</if>
+  	<if test="userName != null">
+  		user_name,
+  	</if>
+  	<if test="publishDate != null">
+  		publish_date,
+  	</if>
+  	<if test="messageContent != null">
+  		message_content,
+  	</if>
+  </trim>	
+  <trim prefix="values (" suffix=")" suffixOverrides=",">
+  	<if test="messageId != null">
+  		#{messageId,jdbcType=VARCHAR},
+  	</if>
+  	<if test="userId != null">
+  		#{userId,jdbcType=VARCHAR},
+  	</if>
+  	<if test="userName != null">
+  		#{userName,jdbcType=VARCHAR},
+  	</if>
+  	<if test="publishDate != null">
+  		#{publishDate,jdbcType=DATE},
+  	</if>
+  	<if test="messageContent != null">
+  		#{messageContent,jdbcType=VARCHAR},
+  	</if>
+  </trim>
+</insert>
+
+<update id="message.update" parameterType="com.bank.beans.Message">
+	update T_MESSAGE set user_id = #{userId}, user_name = #{userName}, publish_date = #{publishDate}, message_content = #{messageContent}  where message_id = #{messageId}
+</update>
+
+<insert id="delete" parameterType="string">
+  delete T_MESSAGE where message_id = #{messageId}
+</insert>
+
+<select id="message.getMessageById" parameterType="string"
+resultMap="BaseResultMap">
+   SELECT 
+   <include refid="Base_Column_List"/>
+   FROM T_MESSAGE WHERE message_id = #{messageId}
+</select>
+
+<select id="message.loadAllMessages" parameterType="map"
+resultMap="BaseResultMap">
+   SELECT t.* FROM T_MESSAGE t,
+(select MESSAGE_id, ROW_NUMBER() OVER () as rownum from T_MESSAGE) AS t1 where t1.MESSAGE_id= t.MESSAGE_id
+   <if test="key != null">
+   		and t.MESSAGE_CONTENT like '%${key}%' or t.user_NAME like '%${key}%'
+   </if>
+   <if test="start != null">
+  			and t1.rownum > #{start}
+   </if>
+   <if test="end != null">
+  			and <![CDATA[t1.rownum < #{end}]]>
+   </if>
+   <choose>
+	   <when test="sortField != null and sortField != ''">
+	   		order by #{sortField} #{sortOrder}
+	   </when>
+	   <otherwise>
+	   		order by t.PUBLISH_DATE desc
+	   </otherwise>
+   </choose>
+</select>
+</mapper>
