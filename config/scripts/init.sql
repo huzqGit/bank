@@ -6,7 +6,8 @@ VALUES('admin','超级管理员','21232f297a57a5a743894a0e4a801fc3','1656099b-87
 //查看权限
 insert into T_PRIVILEGE(PRIVILEGE_ID,PRIVILEGE_TYPE)VALUES('225b8a9d-f8e5-4491-96f0-b5e80a3fd432','010');
 //加入超级管理员
-insert into T_ROLE('c465b15d-f14d-4127-b5bd-f26f016d4bf0','超级管理员')
+insert into T_ROLE('c465b15d-f14d-4127-b5bd-f26f016d4bf0','超级管理员');
+insert into t_user_role(user_id,role_id) values('admin','c465b15d-f14d-4127-b5bd-f26f016d4bf0');
 //顶部系统管理菜单
 insert into T_SYS_MENU(MENU_DESCR,MENU_PID,MENU_NAME,ISLEAF,ISSYSTEM,SEQ)VALUES('系统管理',0,'menu.sys',0,1,0);
 insert into T_SYS_MENU(MENU_DESCR,MENU_PID,MENU_NAME,ISLEAF,ISSYSTEM,SEQ)VALUES('农户',0,'menu.farmer',0,1,0);
