@@ -4,8 +4,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="farmer">
 <sql id="Farmer_Column_List" >
- farmerId, farmerName, farmerIdnum, politicStatus, familyNum, phone, address,
- sex,education,marryStatus, laborNum, postCode,  recorder, recordTime
+ farmerId, farmerName, farmerIdnum, politicStatus, familyNum, phone, villages,
+ address,sex,education,marryStatus, laborNum, postCode,  recorder, recordTime
 </sql>
 <insert id="save" useGeneratedKeys="true" keyProperty="id" 
 	parameterType="com.bank.beans.Farmer">
@@ -25,6 +25,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  </if>
 	  <if test="phone != null">
 	   	 phone,
+	  </if>
+	  <if test="villages != null">
+	   	 villages,
 	  </if>
 	  <if test="address != null">
 	   	  address,
@@ -67,6 +70,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  <if test="phone != null">
 	   	#{phone,jdbcType=VARCHAR},
 	  </if>
+	   <if test="villages != null">
+	   	#{villages,jdbcType=VARCHAR},
+	  </if>
 	  <if test="address != null">
 	   	#{address,jdbcType=VARCHAR},
 	  </if>
@@ -93,6 +99,50 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  </if>
 	</trim>
 </insert>
+<insert id="saveApply" useGeneratedKeys="true" keyProperty="id" 
+	parameterType="com.bank.beans.Apply">
+	insert into t_bank_apply
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="userId !=  null">
+			userId,
+		</if>
+		<if test="userName != null">
+			userName,
+		</if>
+		<if test="applyType != null">
+			applyType,
+		</if>
+		<if test="applyName != null">
+			applyName,
+		</if>
+		<if test="applyInfo != null">
+			applyInfo,
+		</if>
+		<if test="applyTime != null">
+			applyTime
+		</if>
+	</trim>
+	<trim prefix="values (" suffix=")" suffixOverrides=",">
+		<if test="userId !=  null">
+			#{userId,jdbcType=VARCHAR},
+		</if>
+		<if test="userName != null">
+			#{userName,jdbcType=VARCHAR},
+		</if>
+		<if test="applyType != null">
+			#{applyType,jdbcType=VARCHAR},
+		</if>
+		<if test="applyName != null">
+			#{applyName,jdbcType=VARCHAR},
+		</if>
+		<if test="applyInfo != null">
+			#{applyInfo,jdbcType=VARCHAR},
+		</if>
+		<if test="applyTime != null">
+			#{applyTime,jdbcType=DATE}
+		</if>
+	</trim>
+</insert>
 <update id="update" parameterType="com.bank.beans.Farmer">
 	update t_farmer 
 	set farmerName = #{farmerName,jdbcType = VARCHAR}, 
@@ -100,6 +150,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	politicStatus = #{politicStatus,jdbcType = INTEGER},
 	familyNum = #{familyNum,jdbcType = INTEGER}, 
 	phone = #{phone,jdbcType = VARCHAR}, 
+	villages = #{villages,jdbcType=VARCHAR},
 	address = #{address,jdbcType = VARCHAR},
  	sex=  #{sex,jdbcType = INTEGER},
  	education = #{education,jdbcType = INTEGER},
@@ -115,17 +166,45 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <result column="politicStatus" property="politicStatus" jdbcType="INTEGER" />
     <result column="familyNum" property="familyNum" jdbcType="INTEGER" />
 	<result column="phone" property="phone" jdbcType="VARCHAR" />
+	<result column="villages" property="villages" jdbcType="VARCHAR" />
     <result column="address" property="address" jdbcType="VARCHAR" />
+     <result column="sex" property="sex" jdbcType="INTEGER" />
     <result column="marryStatus" property="marryStatus" jdbcType="VARCHAR" />
     <result column="laborNum" property="laborNum" jdbcType="INTEGER" />
     <result column="postCode" property="postCode" jdbcType="INTEGER" />
     <result column="recorder" property="recorder" jdbcType="VARCHAR" />
     <result column="recordTime" property="recordTime" jdbcType="DATE" />
 </resultMap>
-<select id="findByPK" parameterType="Long" resultType="com.bank.beans.Farmer">
+<resultMap id="applylist" type="com.bank.beans.Apply">
+	 <id column="applyId" property="id" jdbcType="BIGINT"/>
+	 <result column="userId" property="userId" jdbcType="VARCHAR" />
+	 <result column="userName" property="userName" jdbcType="VARCHAR" />
+	 <result column="applyType" property="applyType" jdbcType="VARCHAR" />
+	 <result column="applyName" property="applyName" jdbcType="VARCHAR" />
+	 <result column="applyInfo" property="applyInfo" jdbcType="VARCHAR" />
+	 <result column="applyTime" property="applyTime" jdbcType="DATE" />
+</resultMap>
+<select id="findApplyByUser" parameterType="String" resultMap="applylist">
+	select applyId,userId,userName,applyType,applyName,applyInfo,applyTime
+	from t_bank_apply
+	where userId = #{userId,jdbcType=VARCHAR}
+</select>
+<select id="findByPK" parameterType="Long" resultMap="farmerList">
 	select 
 	<include refid="Farmer_Column_List" />
 	from t_Farmer where farmerId = #{id,jdbcType=INTEGER}
+</select>
+<select id="findByPKM" parameterType="list" resultMap="farmerList">
+	select 
+	<include refid="Farmer_Column_List" />
+	from t_Farmer 
+	<where>
+		farmerId in
+		<foreach item="item" index="index" collection="list" 
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</where>
 </select>
 <select id="findByID" parameterType="String" resultMap="farmerList">
 	select 
@@ -138,7 +217,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	from t_Farmer
 	<where>
 	<if test="farmerName != null and  farmerName != ''">
-		farmerName = #{farmerName,jdbcType=VARCHAR} 
+		farmerName like CONCAT(CONCAT('%',#{farmerName}),'%') 
 	</if>
 	<if test="farmerIdNum != null and farmerIdNum != ''">
 		and farmerIdNum = #{farmerIdNum,jdbcType=VARCHAR}

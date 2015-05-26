@@ -65,9 +65,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<include refid="Compunish_Column_List" />
 	from t_farmer_compunish where farmerId = #{id,jdbcType=BIGINT}
 </select>
+<select id="findByFarmers" parameterType="list" resultMap="farmerCompunishList1">
+	select 
+	a.farmerName,a.farmerIdNum,b.*
+	from t_farmer a,t_farmer_compunish b
+	where a.farmerId = b.farmerId
+	and a.farmerId in
+	<foreach item="item" index="index" collection="list" 
+			open="(" separator="," close=")">
+	#{item}
+	</foreach>
+</select>
 <resultMap id="farmerCompunishList" type="com.bank.beans.FarmerCompunish">
     <result column="compunishId" property="id" jdbcType="BIGINT"/>
     <result column="farmerId" property="farmerId" jdbcType="BIGINT" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="organ" property="organ" jdbcType="VARCHAR" />
+	<result column="detail" property="detail" jdbcType="VARCHAR" />
+	<result column="occurTime" property="occurTime" jdbcType="DATE" />
+    <result column="recorder" property="recorder" jdbcType="VARCHAR" />
+    <result column="recordTime" property="recordTime" jdbcType="DATE" />
+</resultMap>
+<resultMap id="farmerCompunishList1" type="com.bank.beans.FarmerCompunish">
+    <result column="compunishId" property="id" jdbcType="BIGINT"/>
+    <result column="farmerId" property="farmerId" jdbcType="BIGINT" />
+    <result column="farmerName" property="farmerName" jdbcType="VARCHAR" />
+    <result column="farmerIdNum" property="farmerIdNum" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="INTEGER" />
     <result column="organ" property="organ" jdbcType="VARCHAR" />
 	<result column="detail" property="detail" jdbcType="VARCHAR" />

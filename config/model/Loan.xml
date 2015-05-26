@@ -10,7 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
      clientId,   clientName,   clientType,   idType,   idNum,   phone,  address,
      loanUse,  guaranteeType,  grade,   grade1,   settleType,   chargePerson,
      organCode,   organName,  businessType,   businessBody,   provideType,
-     invest,   termTYpe,   guaranteeType1,   floatScope,   adjustType,
+     invest,   termType,   guaranteeType1,   floatScope,   adjustType,
      runType,  frequeency
 </sql>
 <resultMap id="loanResultMap" type="com.bank.beans.Loan" >
@@ -32,7 +32,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <result column="idNum" property="idNum" jdbcType="VARCHAR" />
   <result column="loanUse" property="loanUse" jdbcType="VARCHAR" />
   <result column="guaranteeType" property="guaranteeType" jdbcType="VARCHAR" />
-   <result column="grade" property="grade" jdbcType="VARCHAR" />
+  <result column="grade" property="grade" jdbcType="VARCHAR" />
   <result column="grade1" property="grade1" jdbcType="VARCHAR" />
   <result column="settleType" property="settleType" jdbcType="VARCHAR" />
   <result column="chargePerson" property="chargePerson" jdbcType="VARCHAR" />
@@ -42,7 +42,45 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <result column="businessBody" property="businessBody" jdbcType="VARCHAR" />
   <result column="provideType" property="provideType" jdbcType="VARCHAR" />
   <result column="invest" property="invest" jdbcType="VARCHAR" />
-  <result column="termTYpe" property="termTYpe" jdbcType="VARCHAR" />
+  <result column="termType" property="termType" jdbcType="VARCHAR" />
+  <result column="guaranteeType1" property="guaranteeType1" jdbcType="VARCHAR" />
+  <result column="floatScope" property="floatScope" jdbcType="VARCHAR" />
+  <result column="adjustType" property="adjustType" jdbcType="VARCHAR" />
+  <result column="runType" property="runType" jdbcType="VARCHAR" />
+  <result column="frequeency" property="frequeency" jdbcType="VARCHAR" />
+</resultMap>
+<resultMap id="loanResultMap1" type="com.bank.beans.Loan" >
+  <id column="loanid" property="id" jdbcType="BIGINT" />
+  <result column="farmerName" property="farmerName" jdbcType="VARCHAR" />
+  <result column="farmerIdNum" property="farmerIdNum" jdbcType="VARCHAR" />
+  <result column="clientNum" property="clientNum" jdbcType="VARCHAR" />
+  <result column="noteNum" property="noteNum" jdbcType="VARCHAR" />
+  <result column="compactNum" property="compactNum" jdbcType="VARCHAR" />
+  <result column="loanDate" property="loanDate" jdbcType="VARCHAR" />
+  <result column="limitDate1" property="limitDate1" jdbcType="VARCHAR" />
+  <result column="currency" property="currency" jdbcType="VARCHAR" />
+  <result column="amount" property="amount" jdbcType="VARCHAR" />
+  <result column="balance" property="balance" jdbcType="VARCHAR" />
+  <result column="oweInterest" property="oweInterest" jdbcType="VARCHAR" />
+  <result column="currentRate" property="currentRate" jdbcType="VARCHAR" />
+  <result column="clientId" property="clientId" jdbcType="BIGINT" />
+  <result column="clientName" property="clientName" jdbcType="VARCHAR" />
+  <result column="clientType" property="clientType" jdbcType="VARCHAR" />
+  <result column="idType" property="idType" jdbcType="VARCHAR" />
+  <result column="idNum" property="idNum" jdbcType="VARCHAR" />
+  <result column="loanUse" property="loanUse" jdbcType="VARCHAR" />
+  <result column="guaranteeType" property="guaranteeType" jdbcType="VARCHAR" />
+  <result column="grade" property="grade" jdbcType="VARCHAR" />
+  <result column="grade1" property="grade1" jdbcType="VARCHAR" />
+  <result column="settleType" property="settleType" jdbcType="VARCHAR" />
+  <result column="chargePerson" property="chargePerson" jdbcType="VARCHAR" />
+  <result column="organCode" property="organCode" jdbcType="VARCHAR" />
+  <result column="organName" property="organName" jdbcType="VARCHAR" />
+  <result column="businessType" property="businessType" jdbcType="VARCHAR" />
+  <result column="businessBody" property="businessBody" jdbcType="VARCHAR" />
+  <result column="provideType" property="provideType" jdbcType="VARCHAR" />
+  <result column="invest" property="invest" jdbcType="VARCHAR" />
+  <result column="termType" property="termType" jdbcType="VARCHAR" />
   <result column="guaranteeType1" property="guaranteeType1" jdbcType="VARCHAR" />
   <result column="floatScope" property="floatScope" jdbcType="VARCHAR" />
   <result column="adjustType" property="adjustType" jdbcType="VARCHAR" />
@@ -141,8 +179,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	   <if test="invest != null ">
 	   		invest,
 	   </if>
-	   <if test="termTYpe != null ">
-	   		termTYpe,
+	   <if test="termType != null ">
+	   		termType,
 	   </if>
 	   <if test="guaranteeType1 != null ">
 	   		guaranteeType1,
@@ -248,8 +286,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	   <if test="invest != null ">
 	   		#{invest,jdbcType=VARCHAR},
 	   </if>
-	   <if test="termTYpe != null ">
-	   		#{termTYpe,jdbcType=VARCHAR},
+	   <if test="termType != null ">
+	   		#{termType,jdbcType=VARCHAR},
 	   </if>
 	   <if test="guaranteeType1 != null ">
 	   		#{guaranteeType1,jdbcType=VARCHAR},
@@ -268,18 +306,49 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	   </if>
 	 </trim>
 </insert>
-<select id="findSpecialLoan" parameterType="Long" resultMap="loanResultMap">
+<update id="update" parameterType="com.bank.beans.Loan">
+	update t_loan set clientNum = #{clientNum,jdbcType=VARCHAR},
+	noteNum = #{noteNum,jdbcType=VARCHAR},
+	compactNum = #{compactNum,jdbcType=VARCHAR},
+	loanDate = #{loanDate,jdbcType=VARCHAR},
+	limitDate = #{limitDate,jdbcType=VARCHAR},
+	limitDate1 = #{limitDate1,jdbcType=VARCHAR},
+	currency = #{currency,jdbcType=VARCHAR},
+	amount = #{amount,jdbcType=VARCHAR},
+	balance = #{balance,jdbcType=VARCHAR},
+	oweInterest = #{oweInterest,jdbcType=VARCHAR},
+	currentRate = #{currentRate,jdbcType=VARCHAR},
+	clientId = #{clientId,jdbcType=VARCHAR},
+	clientName = #{clientName,jdbcType=VARCHAR},
+	clientType = #{clientType,jdbcType=VARCHAR},
+	idType = #{idType,jdbcType=VARCHAR},
+	idNum = #{idNum,jdbcType=VARCHAR},
+	phone = #{phone,jdbcType=VARCHAR},
+	address = #{address,jdbcType=VARCHAR},
+	loanUse = #{loanUse,jdbcType=VARCHAR},
+	guaranteeType = #{guaranteeType,jdbcType=VARCHAR},
+	grade = #{grade,jdbcType=VARCHAR},
+	grade1 = #{grade1,jdbcType=VARCHAR},
+	settleType = #{settleType,jdbcType=VARCHAR},
+	chargePerson = #{chargePerson,jdbcType=VARCHAR},
+	organName = #{organName,jdbcType=VARCHAR},
+	businessType = #{businessType,jdbcType=VARCHAR},
+	businessBody = #{businessBody,jdbcType=VARCHAR},
+	provideType = #{provideType,jdbcType=VARCHAR},
+	invest = #{invest,jdbcType=VARCHAR},
+	termType = #{termType,jdbcType=VARCHAR},
+	guaranteeType1 = #{guaranteeType1,jdbcType=VARCHAR},
+	floatScope = #{floatScope,jdbcType=VARCHAR},
+	adjustType = #{adjustType,jdbcType=VARCHAR},
+	runType = #{runType,jdbcType=VARCHAR},
+	frequeency = #{frequeency,jdbcType=VARCHAR}
+	where loanId= #{id,jdbcType=BIGINT}
+</update>
+<select id="findByPK" parameterType="Long" resultMap="loanResultMap">
 	select 
 	<include refid="Loan_Column_List" />
 	from t_loan
-	<where>
-	<if test="clientId != null">
-		clientId = #{clientId,jdbcType=BIGINT}
-	</if>
-	<if test="compactNum != null">
-		compactNum = #{compactNum,jdbcType=VARCHAR}
-	</if>
-	</where>
+	where loanId = #{loanId,jdbcType=BIGINT}
 </select>
 <select id="findByID" parameterType="Map" resultMap="loanResultMap">
 	select 
@@ -288,12 +357,72 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	where clientType = #{clientType,jdbcType=INTEGER}
 	and idType = #{idType,jdbcType=INTEGER}
 	and	idNum = #{idNum,jdbcType=VARCHAR}
-	and clientId is null
+</select>
+<select id="findByFarmerId" parameterType="long" resultMap="loanResultMap1">
+	select a.farmerName,a.farmerIdNum,b.*
+	from t_farmer a,t_loan b
+	where a.farmerId = b.clientId
+	and a.farmerId = #{farmerId,jdbcType=BIGINT}
+</select>
+<select id="findByFarmers" parameterType="list" resultMap="loanResultMap1">
+	select a.farmerName,a.farmerIdNum,b.*
+	from t_farmer a,t_loan b
+	where a.farmerId = b.clientId
+	and clientId in
+	<foreach item="item" index="index" collection="list" 
+			open="(" separator="," close=")">
+	#{item}
+	</foreach>
 </select>
 <select id="findByCompactNum" parameterType="String" resultMap="loanResultMap">
 	select 
 	<include refid="Loan_Column_List" />
 	from t_loan
 	where compactNum = #{compactNum,jdbcType = VARCHAR}
+</select>
+<select id="loan.findByNoteNum" parameterType="String" resultMap="loanResultMap">
+	select 
+	<include refid="Loan_Column_List" />
+	from t_loan
+	where noteNum = #{noteNum,jdbcType = VARCHAR}
+</select>
+<select id="findUnbalanceByFarmer" parameterType="Long" resultMap="loanResultMap">
+	select 
+	<include refid="Loan_Column_List" />
+	from t_loan
+	where to_number(balance)>0
+	and clientId = #{farmerId,jdbcType = BIGINT}
+</select>
+<select id="findBadbalanceByFarmer" parameterType="Long" resultMap="loanResultMap">
+	select 
+	<include refid="Loan_Column_List" />
+	from t_loan
+	where grade in('3','4','5')
+	and clientId = #{farmerId,jdbcType = BIGINT}
+</select>
+<select id="findSpecialLoan" parameterType="Map" resultMap="loanResultMap">
+	select 
+	<include refid="Loan_Column_List" />
+	from t_loan
+	<where>
+		<if test="oranName != null and oranName !=''">
+			organName = #{organName,jdbcType = VARCHAR}
+		</if>
+		<if test="loanDate1 != null and loanDate1 !=''">
+			<![CDATA[and loanDate >= #{loanDate1,jdbcType = VARCHAR}]]>
+		</if>
+		<if test="loanDate1 != null and loanDate1 !=''">
+			<![CDATA[and loanDate <= #{loanDate1,jdbcType = VARCHAR}]]>
+		</if>
+		<if test="balance1 != null and balance1 !=''">
+			<![CDATA[and balance >= #{balance1,jdbcType = VARCHAR}]]>
+		</if>
+		<if test="balance2 != null and balance2 !=''">
+			<![CDATA[and balance <= #{balance2,jdbcType = VARCHAR}]]>
+		</if>
+		<if test="clientType != null and clientType !=''">
+			and clientType = 1
+		</if>
+	</where>
 </select>
 </mapper>

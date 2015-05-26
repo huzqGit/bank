@@ -53,7 +53,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	        #{user,jdbcType=VARCHAR},
 	    </if>
 	    <if test="useType != null">
-	      	#{useType,jdbcType=INTEGER},
+	      	#{useType,jdbcType=VARCHAR},
 	    </if>
 	    <if test="area != null">
 	        #{area,jdbcType=VARCHAR},
@@ -75,7 +75,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	cardNum = #{cardNum,jdbcType=VARCHAR}, 
 	wordNum = #{wordNum,jdbcType=VARCHAR}, 
 	user = #{user,jdbcType=VARCHAR}, 
-	useType = #{useType,jdbcType=INTEGER}, 
+	useType = #{useType,jdbcType=VARCHAR}, 
 	area = #{area,jdbcType=VARCHAR},
 	storeNum = #{storeNum,jdbcType=VARCHAR}, 
 	timeLimit = #{timeLimit,jdbcType=VARCHAR},
@@ -99,7 +99,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <result column="cardNum" property="cardNum" jdbcType="VARCHAR" />
     <result column="wordNum" property="wordNum" jdbcType="VARCHAR" />
 	<result column="user" property="user" jdbcType="VARCHAR"/>
-	<result column="useType" property="useType" jdbcType="INTEGER"/>
+	<result column="useType" property="useType" jdbcType="VARCHAR"/>
     <result column="area" property="area" jdbcType="VARCHAR"/>
     <result column="storeNum" property="storeNum" jdbcType="VARCHAR"/>
 	<result column="timeLimit" property="timeLimit" jdbcType="VARCHAR" />

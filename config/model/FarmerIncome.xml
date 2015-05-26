@@ -46,12 +46,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</trim>
 </insert>
 <update id="update">
-update t_farmer_income
-set payId = #{payId,jdbcType=BIGINT},
-#{ incomeName,jdbcType=VARCHAR},
-#{ incomeType,jdbcType=INTEGER},
-#{ netIncome,jdbcType=VARCHAR}
-where incomeId = #{id,jdbcType=BIGINT}
+	update t_farmer_income
+	set payId = #{payId,jdbcType=BIGINT},
+	incomeName = #{incomeName,jdbcType=VARCHAR},
+	incomeType = #{incomeType,jdbcType=INTEGER},
+	netIncome = #{netIncome,jdbcType=VARCHAR}
+	where incomeId = #{id,jdbcType=BIGINT}
 </update>
 <select id="findByPK" parameterType="Long" resultType="com.bank.beans.FarmerIncome">
 		select 

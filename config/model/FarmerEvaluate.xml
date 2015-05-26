@@ -92,6 +92,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<include refid="Evaluate_Column_List" />
 		from t_farmer_evaluate where farmerId = #{id,jdbcType=BIGINT}
 </select>
+<select id="findByFarmers" parameterType="list" resultMap="farmer.farmerList">
+	select a.*
+	from t_farmer a,t_farmer_evaluate b
+	where a.farmerId = b.farmerId
+	and a.farmerId in
+	<foreach item="item" index="index" collection="list" 
+			open="(" separator="," close=")">
+	#{item}
+	</foreach>
+</select>
 <resultMap id="farmerEvaluateList" type="com.bank.beans.FarmerEvaluate">
     <id column="evaluateId" property="id" jdbcType="BIGINT"/>
     <result column="farmerId" property="farmerId" jdbcType="BIGINT" />
