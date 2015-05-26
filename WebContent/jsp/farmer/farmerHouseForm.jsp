@@ -50,7 +50,8 @@
 	<tr>
 	<td style="width:10%"><label for="textbox1$text"><font color="red">*</font>房产性质:</label></td>
 	<td style="width:40%">
-	<input id="textbox1"  name="houseProperty" class="mini-textbox" style="width:90%"/>
+	<input id="textbox1"  name="houseProperty" class="mini-combobox" style="width:90%"
+		url="/bank/dic/HouseProperty.txt" emptyText="请选择..."/>
 	</td>
 	<td style="width:10%"><label for="textbox2$text"><font color="red">*</font>房屋类型:</label></td>
 	<td style="width:40%" >

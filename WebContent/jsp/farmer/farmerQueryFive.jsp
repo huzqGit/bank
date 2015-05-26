@@ -20,6 +20,28 @@ endColorstr = 'white' );
 -ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType = 0,startColorstr = '#6DC8E3', 
 endColorstr = 'white' )"; 
 }
+.file{
+        position:absolute;
+        top:0px;
+        left:0px;
+        width:120px;
+        height:24px;
+		opacity:0;
+		filter:alpha(opacity=0);
+	
+		}
+		#scanFile{
+			width:100px;
+			height:25px;
+			border:0;
+			background:url(/bank/images/scanFile.png) no-repeat;
+		}
+		#uploadFile{
+			width:100px;
+			height:25px;
+			border:0;
+			background:url(/bank/images/uploadFile.png) no-repeat;
+		}
 .labelName{
 font-size:15px;
 font-weight:bold;
@@ -33,20 +55,35 @@ height:20px;
 li{
 margin-top:5px
 }
-.table_m{width:98%;height:250px;margin:auto auto;overflow-y:auto;overflow-x:hidden;}
-.table_m table{width:100%;border-bottom:1px dotted gray}
-.table_m tr:hover{background:#90D5EA}
-.table_m table td{height:30px;line-height:30px;border-top:1px dotted gray;}
+.table_m{width:90%;margin:auto auto}
+.table_m table{width:100%;border-bottom:1px dotted #cc9999}
+.table_m table td{height:30px;line-height:30px;border-top:1px dotted #cc9999}
 </style>
 </head>
 <body>
+
 <div class="queryPane" style="padding-top:10px;width:100%">
-<form action="/bank/farmer/loadFarmerThree.do" method="POST">
+<form id="apply"  method="POST" enctype="multipart/form-data">
+<input name="farmerIds" type="hidden" value="${farmerIds}"/>
+<input name="apply" type="hidden" value="${apply}"/>
 <table width="100%" style="vertical-align:middle;border:1px solid #8AD3E9">
 	<tr>
-		<td class="labelName"  width="30%" align="right">贷款金融机构名称:</td>
+		<td class="labelName"  width="10%" align="right" >贷款金融机构名称</td>
+		<td width="2%"></td>
+		<td align="left">
+			<input name="organName" type="text">
+		</td>
 		<td width="2%" ></td>
-		<td align="left" colspan="3"><input  type="text" name="organName"></td>
+		<td class="labelName" width="10%"align="right" >农户名单:</td>
+		<td width="15%" >
+        	<input type='text' name='textfield' id='textfield' class='txt' value="不限定农户" />
+       	 </td>
+       	 <td>
+        	<div style="position:relative">
+	            <input id="scanFile" type='button' class='btn' value=""  />
+	        	<input type="file" name="myfile" class="file" id="myfile" size="28" onchange="document.getElementById('textfield').value=this.value" />
+       		</div>
+        </td>
 	</tr>
 	<tr>
 		<td class="labelName" width="30%"align="right" >贷款时间从:</td> 
@@ -54,7 +91,7 @@ margin-top:5px
 		<td><input type="text" name="loanDate1"/></td>
 		<td width="2%" ></td>
 		<td class="labelName"  width="10%" align="right">到:</td>
-		<td><input  type="text" name="loandDate2"></td>
+		<td colspan="2"><input  type="text" name="loanDate2"></td>
 	</tr>
 	<tr>
 		<td class="labelName" width="30%"align="right" >贷款余额范围从:</td> 
@@ -63,13 +100,18 @@ margin-top:5px
 		<td width="2%" ></td>
 		<td class="labelName"  width="10%" align="right">到:</td>
 		<td><input  type="text" name="balance2"></td>
-	</tr>
-	<tr>
-		<td colspan="5">
-		<td  align="center">
-			<input type="submit" value="" style="width:100px;height:25px;margin-top:10px;border:0;background:url(/bank/images/query.png) no-repeat">
+		<td >
+			<input type="button" onclick="query()" value ="" 
+				style="width:100px;height:25px;margin-top:10px;border:0;background:url(/bank/images/query.png) no-repeat">
 		</td>
 	</tr>
+	<c:if test="${ ! empty farmers}">
+	<tr>
+		<td colspan="7" align="center">
+			<input type="button" onClick="offLineApply()" value="申请下载"/>
+		</td>
+	</tr>
+	</c:if>
 </table>
 </form>
 </div>
@@ -95,13 +137,13 @@ margin-top:5px
 <fieldset style="width:90%;margin:auto auto">
 <legend style="width:310px;height:74px;background:url(/bank/images/tips.png) no-repeat"></legend>
 <div class="table_m">
-<table class="table_m" border="0" cellspacing="0" cellpadding="0">
-	<tr style="font-weight:bold;color:black">
-		<td align="center" width="8%">编号</td>
-		<td align="center" width="10%">姓名</td>
-		<td align="center" width="15%">身份证号码</td>
-		<td align="center" width="15%">联系电话</td>
-		<td align="center" width="50%">住址</td>
+	<table width="90%">
+	<tr style="font-weight:bold;color:#ff6666">
+		<td align="center">编号</td>
+		<td align="center">姓名</td>
+		<td align="center">身份证号码</td>
+		<td align="center">联系电话</td>
+		<td align="center">住址</td>
 	</tr>
 	<c:forEach items="${farmers}" var="farmer" varStatus="status">
 	<tr onclick="detail(${farmer.id})">
@@ -118,5 +160,20 @@ margin-top:5px
 </div>
 </c:otherwise>
 </c:choose>
+<script type="text/javascript">
+function detail(id){
+	window.location.href="/bank/farmer/loadChanQuan.do?fid="+id;
+};
+function query(){
+	var form = document.getElementById("apply");
+	form.action="/bank/farmer/loadFarmerFive.do";
+	form.submit();
+};
+function offLineApply(){
+	var form = document.getElementById("apply");
+	form.action="/bank/farmer/offlineApply.do";
+	form.submit();
+};
+</script>
 </body>
 </html>

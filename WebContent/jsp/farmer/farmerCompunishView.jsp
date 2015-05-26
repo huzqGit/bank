@@ -7,12 +7,14 @@
 <script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
 <title>Insert title here</title>
 <style type="text/css">
+body{scrollbar-base-color:#90D5EA;line-height:120%;font-family:"仿宋_GB2312";font-size:13pt;}
 .mini-toolbar{
 background:url(/bank/jsp/main/leftmenu/images/icon-bg.jpg) repeat-x center;
 }
 .mini-grid-headerCell-nowrap{
 background:url(/bank/jsp/main/leftmenu/images/icon-bg.jpg) repeat-x center;
 } 
+
 </style>
 </head>
 <body>

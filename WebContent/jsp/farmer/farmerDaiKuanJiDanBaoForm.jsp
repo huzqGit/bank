@@ -36,14 +36,12 @@
 <div class="topMenu" style="background:linear-gradient(#6DC8E3,white)">
 <table cellpadding="0" cellspacing="0" height="40px">
     <tr>
-        <td width="200px" id="guid1" class="active" align="center" onclick="linkUrl(1)">房产基本情况</td>
+        <td width="200px" id="guid1" class="active" align="center" onclick="linkUrl(1)">当前未结情况</td>
         <td width="1px" class="line"></td>
-        <td width="200px" id="guid2" class="inactive" align="center" onclick="linkUrl(2)">林权基本情况</td>
+        <td width="200px" id="guid2" class="inactive" align="center" onclick="linkUrl(2)">不良贷款情况</td>
         <td width="1px" class="line"></td>
-        <td width="200px" id="guid3"  class="inactive" align="center" onclick="linkUrl(3)">种养殖基本情况</td>
+        <td width="200px" id="guid3"  class="inactive" align="center" onclick="linkUrl(3)">对外担保情况</td>
         <td width="1px" class="line"></td>
-        <td width="200px" id="guid4"  class="inactive" align="center" onclick="linkUrl(4)">主要设备情况</td>                
-        <td width="15px"></td>
         <td width="65px">
        	 <button id="saveBtn" onclick="save()"></button>
         </td>
@@ -62,6 +60,7 @@
 		<td class="labelName" width="10%" align="center">身份证号码</td>
 		<td class="labelValue" width="1%">:</td>
 		<td class="labelValue" align="left">${farmer.farmerIdnum}</td>
+		
 	</tr>
 </table>
 </form>
@@ -71,62 +70,74 @@
 <legend><label>农户房产基本情况</label></legend>
 <div class="fieldset-body">
 <table width="100%"><tr><td>
-<c:forEach items="${houses}" var="house" varStatus="status">
-<form  id="farmerHouse${status.index}" class="farmerHouse" method="POST">
-<input name="id" class="mini-hidden" value="${house.id}" />
-<input name="farmerId" class="mini-hidden" value="${house.farmerId}" />
-<table border="0" cellpadding="1" cellspacing="15" width="100%" >
-<tr><td style="width:100%">
-<table width="100%">
-<tr>
-	<td style="width:15%"><label for="textbox1$text"><font color="red">*</font>房产性质:</label></td>
-    <td style="width:35%">
-    	<input name="houseProperty" class="mini-combobox" value="${house.houseProperty}" 
-    	style="width:90%" url="/bank/dic/HouseProperty.txt" emptyText="请选择..."/>
-    </td>
-   	<td style="width:15%"><label for="textbox2$text"><font color="red">*</font>房屋类型:</label></td>
-    <td style="width:35%" >
-    	<input name="houseType" class="mini-combobox" value ="${house.houseType}" style="width:90%"
-        url="/bank/dic/HouseType.txt" emptyText="请选择..."/>
-    </td>
-</tr>
-<tr>
-	<td style="width:15%"><label for="textbox1$text"><font color="red">*</font>房屋地址:</label></td>
-    <td style="width:35%">
-    	<input name="houseAddress" class="mini-textbox" value ="${house.houseAddress}" style="width:90%"/>
-    </td>
-    <td style="width:15%"><label for="textbox1$text"><font color="red">*</font>购建年份:</label></td>
-    <td style="width:35%">
-    	<input name="buildDate" class="mini-textbox" value="${house.buildDate}" style="width:90%"/>
+<form action="/bank/company/save.do" method="POST">
+	<input type="hidden" name="deviceId"/>
+	<input name="recorder" class="mini-hidden" value="管理员"/>
+	<input name="recordTime" class="mini-hidden" value="${currentTime}"/>
+	<table border="0" cellpadding="1" cellspacing="15" width="100%" >
+	<tr>
+	<td >
+	<table width="100%">
+	<tr>
+	<td style="width:10%"><label for="textbox1$text">户主姓名:</label></td>
+	<td style="width:40%">
+	<input id="textbox1"  name="farmerName" class="mini-textbox" required="true" 
+		requiredErrorText="户主姓名不能为空" style="width:90%"/>
 	</td>
-</tr>
-<tr>
-	 <td style="width:15%"><label for="textbox1$text"><font color="red">*</font>建筑面积(平方米):</label></td>
-     <td style="width:35%">
-    	<input name="buildArea" class="mini-textbox" value ="${house.buildArea}" style="width:90%"/>
-     </td>
-	 <td style="width:15%"><label for="textbox1$text"><font color="red">*</font>占地面积(平方米):</label></td>
-     <td style="width:35%">
-     	<input name="floorArea" class="mini-textbox"  value="${house.floorArea}" style="width:90%"/>
-	 </td>
-</tr>
-<tr>
-	<td style="width:15%"><label for="textbox1$text"><font color="red">*</font>购建价格(元):</label></td>
-    <td style="width:35%">
-    	<input name="buildPrice" class="mini-spinner" value="${house.buildPrice}"
-    		 style="width:90%" minValue="0"/>
-    </td>
-     <td style="width:15%"><label for="textbox1$text"><font color="red">*</font>当前评估价格(元):</label></td>
-     <td style="width:35%">
-     	<input name="assessPrice" class="mini-spinner" value="${house.assessPrice}" 
-     		style="width:90%"  minValue="0"/>
-     </td>
-</tr>
-</table>
-</td></tr>
-</table>
-</form>
-</c:forEach>
+	<td style="width:10%"><label for="textbox2$text">户主身份证号:</label></td>
+	<td style="width:40%" >
+	<input id="textbox2"  name="farmerIdnum" class="mini-textbox" required="true" 
+		requiredErrorText="户主身份证号不能为空"  style="width:90%"/>
+	</td>
+	</tr>
+	<tr>
+	<td style="width:10%"><label for="textbox1$text">贷款金融机构:</label></td>
+	<td style="width:40%">
+	<input id="textbox1"  name="bank" class="mini-textbox" required="true" 
+		requiredErrorText="贷款金融机构不能为空"style="width:90%"/>
+	</td>
+	<td style="width:10%"><label for="textbox2$text">业务类别:</label></td>
+	<td style="width:40%" >
+	<input id="textbox2"  name="businessType" class="mini-textbox" required="true" 
+		requiredErrorText="业务类别不能为空" style="width:90%"/>
+	</td>
+	</tr>
+	<tr>
+	<td style="width:10%"><label for="textbox1$text">贷款用途:</label></td>
+	<td style="width:40%">
+	<input id="textbox1"  name="loanUse" class="mini-textbox" required="true" 
+		requiredErrorText="贷款用途不能为空" style="width:90%"/>
+	</td>
+	<td style="width:10%"><label for="textbox1$text">贷款方式:</label></td>
+	<td style="width:40%">
+	<input id="textbox1"  name="loanWay" class="mini-combobox" required="true" 
+		requiredErrorText="贷款方式不能为空" style="width:90%"/>
+	</td>
+	</tr>
+	<tr>
+	<td style="width:10%"><label for="textbox1$text">贷款余额(万元):</label></td>
+	<td style="width:40%">
+	<input id="textbox1"  name="loanBalance" class="mini-textbox" required="true" 
+		requiredErrorText="当前评估价格不能为空" style="width:90%"/>
+	</td>
+	<td style="width:10%"><label for="textbox1$text">贷款发放时间:</label></td>
+	<td style="width:40%">
+	<input id="textbox1"  name="provideTime" class="mini-datepicker" required="true" 
+		requiredErrorText="贷款发放时间不能为空" style="width:90%"/>
+	</td>
+	</tr>
+	<tr>
+	<td style="width:10%"><label for="textbox1$text">贷款到期时间:</label></td>
+	<td style="width:40%">
+	<input id="textbox1"  name="limitTime" class="mini-datepicker" required="true" 
+		requiredErrorText="贷款到期时间不能为空" style="width:90%"/>
+	</td>
+	</tr>
+	</table>
+	</td>
+	</tr>
+	</table>
+	</form>
 </td></tr>
 <tr>
 <td align="center">
@@ -137,70 +148,54 @@
 </div>
 <div id="tab2" class="hidden">
 <fieldset style="width:90%;margin:auto auto">
-<legend><label>农户林权基本情况</label></legend>
+<legend><label>农户不良贷款情况基本信息</label></legend>
 <div class="fieldset-body">
 <table width="100%"><tr><td>
-<c:forEach items="${forests}" var ="forest" varStatus="status">
-<form  id="farmerForest${status.index}" class="farmerForest" method="POST">
-<input name="id" class="mini-hidden" value="${forest.id}"/>
-<input name="farmerId" class="mini-hidden" value="${house.farmerId}" />
-<table border="0" cellpadding="1" cellspacing="15" width="100%" >
-<tr><td style="width:100%">
-<table width="100%">
-<tr>
-	<td style="width:15%"><label for="textbox1$text"><font color="red">*</font>林权证编号:</label></td>
-	<td style="width:35%">
-		<input name="cardNum" class="mini-textbox" value="${forest.cardNum}" 
-			required="true" requiredErrorText="不能为空" style="width:90%"/>
-    </td>
-    <td style="width:15%"><label for="textbox2$text"><font color="red">*</font>林权字号:</label></td>
-    <td style="width:35%" >
-	    <input name="wordNum" class="mini-textbox" value="${forest.wordNum}" 
-	    	required="true" requiredErrorText="不能为空" style="width:90%"/>
-    </td>
-</tr>
-<tr>
-	<td style="width:15%"><label for="textbox1$text"><font color="red">*</font>林权使用人:</label></td>
-    <td style="width:35%">
-    	<input name="user" class="mini-textbox"  value="${forest.user}" 
-    		required="true" requiredErrorText="不能为空" style="width:90%"/>
-    </td>
-    <td style="width:15%"><label for="textbox1$text"><font color="red">*</font>林权使用种类:</label></td>
-    <td style="width:35%">
-        <input name="useType" class="mini-combobox" value="${forest.useType}" 
-        	required="true" requiredErrorText="不能为空" style="width:90%"
-        	url="/bank/dic/ForestType.txt" emptyText="请选择..."/>
-    </td>
-</tr>
-<tr>
-	<td style="width:15%"><label for="textbox1$text"><font color="red">*</font>面积(亩):</label></td>
-	<td style="width:35%">
-		<input name="area" class="mini-textbox" value="${forest.area}" 
-			required="true" requiredErrorText="不能为空" style="width:90%"/>
-    </td>
-    <td style="width:15%"><label for="textbox1$text"><font color="red">*</font>蓄积量:</label></td>
-    <td style="width:35%">
-    	<input name="storeNum" class="mini-textbox" value="${forest.storeNum}" 
-    		required="true" requiredErrorText="不能为空" style="width:90%"/>
-    </td>
-</tr>
-<tr>
-	<td style="width:15%"><label for="textbox1$text"><font color="red">*</font>使用权期限:</label></td>
-    <td style="width:35%">
-   		<input name="timeLimit" class="mini-textbox"  value="${forest.timeLimit}"
-   			required="true" requiredErrorText="不能为空" style="width:90%"/>
-    </td>
-    <td style="width:15%"><label for="textbox1$text"><font color="red">*</font>当前评估价格(元):</label></td>
-    <td style="width:35%">
-    	<input name="assessPrice" class="mini-spinner" value="${forest.assessPrice}" 
-    		required="true" requiredErrorText="不能为空" style="width:90%"/>
-   	</td>
-</tr>
-</table>
-</td></tr>
-</table>
-</form>
-</c:forEach>
+<form action="/bank/company/save.do" method="POST">
+	<input type="hidden" name="badloanId"/>
+	<input name="recorder" class="mini-hidden" value="管理员"/>
+	<input name="recordTime" class="mini-hidden" value="${currentTime}"/>
+	<table border="0" cellpadding="1" cellspacing="15" width="100%" >
+	<tr>
+	<td colspan="4" style="width:100%">
+	<div class="fieldset-body">
+	<table width="100%">
+	<tr>
+	<td style="width:10%"><label for="textbox1$text">户主姓名:</label></td>
+	<td style="width:40%">
+	<input id="textbox1"  name="farmerName" class="mini-textbox" required="true" 
+		requiredErrorText="户主姓名不能为空" style="width:90%"/>
+	</td>
+	<td style="width:10%"><label for="textbox2$text">户主身份证号:</label></td>
+	<td style="width:40%" >
+	<input id="textbox2"  name="farmerIdNum" class="mini-textbox" required="true" 
+		requiredErrorText="户主身份证号不能为空"  style="width:90%"/>
+	</td>
+	</tr>
+	<tr>
+	<td style="width:10%"><label for="textbox1$text">贷款金融机构:</label></td>
+	<td style="width:40%">
+	<input id="textbox1"  name="bank" class="mini-textbox" required="true" 
+		requiredErrorText="贷款金融机构不能为空"style="width:90%"/>
+	</td>
+	<td style="width:10%"><label for="textbox2$text">不良贷款余额:</label></td>
+	<td style="width:40%" >
+	<input id="textbox2"  name="balance" class="mini-textbox" required="true" 
+		requiredErrorText="不良贷款余额不能为空" style="width:90%"/>
+	</td>
+	</tr>
+	<tr>
+	<td style="width:10%"><label for="textbox1$text">不良贷款偿还日期:</label></td>
+	<td style="width:40%">
+	<input id="textbox1"  name="paymentTime" class="mini-datepicker" required="true" 
+		requiredErrorText="不良贷款偿还日期" style="width:90%"/>
+	</td>
+	</tr>
+	</table>
+	</td>
+	</tr>
+	</table>
+	</form>
 </td></tr>
 <tr><td align="center">
 	<input class="addBtn"  type="button" value="" onclick="addForest()"/>
@@ -215,7 +210,6 @@
 <div class="fieldset-body">
 <table width="100%" >
 <tr><td style="width:100%">
-<c:forEach items="${breeds}" var="breed" varStatus="status">
 <form  id="farmerBreed${status.index}" class="farmerBreed" method="POST">
 <input name="id" class="mini-hidden" value="${breed.id}"/>
 <input name="farmerId" class="mini-hidden" value="${house.farmerId}" />
@@ -235,19 +229,19 @@
     </td>
 </tr>
 <tr>
-	<td style="width:15%"><label for="textbox1$text"><font color="red">*</font>占地面积(平方米 )</label></td>
+	<td style="width:15%"><label for="textbox1$text"><font color="red">*</font>占地面积(亩)</label></td>
     <td style="width:35%">
     	<input name="floorArea" class="mini-textbox" value="${breed.floorArea}"
     		required="true" requiredErrorText="不能为空" style="width:90%"/>
     </td>
-    <td style="width:15%"><label for="textbox1$text"><font color="red">*</font>年平均产值(元)</label></td>
+    <td style="width:15%"><label for="textbox1$text"><font color="red">*</font>年平均产值(万元)</label></td>
     <td style="width:35%">
     	<input name="outputValue" class="mini-spinner" value="${breed.outputValue}" style="width:90%"
     		required="true" requiredErrorText="不能为空" minValue="0" maxValue="999999999999" format="n"/>
     </td>
 </tr>
 <tr>
-    <td style="width:15%"><label for="textbox1$text"><font color="red">*</font>当前评估价格(元):</label></td>
+    <td style="width:15%"><label for="textbox1$text"><font color="red">*</font>当前评估价格:</label></td>
     <td style="width:35%">
     	<input name="assessPrice" class="mini-spinner" value="${breed.assessPrice}" style="width:90%"
     		required="true" requiredErrorText="不能为空" minValue="0" maxValue="999999999999" format="n"/>
@@ -256,7 +250,6 @@
 </table>
 </td></tr></table>
 </form>
-</c:forEach>
 </td></tr>
 <tr><td align="center">
 	<input class="addBtn" type="button" value="" onclick="addBreed()"/>
@@ -270,45 +263,56 @@
 <div class="fieldset-body">
 <table width="100%"><tr><td>
 <c:forEach items="${devices}" var="device" varStatus="status">
-<form  id="farmerDevice${status.index}" class="farmerDevice" method="POST">
-<input name="id" class="mini-hidden" value="${device.id}"/>
-<input name="farmerId" class="mini-hidden" value="${house.farmerId}" />
-<table border="0" cellpadding="1" cellspacing="10" width="100%" >
-<tr><td>
-<table width="100%">
-<tr>
-	<td style="width:15%"><label for="textbox1$text"><font color="red">*</font>设备名称:</label></td>
-    <td style="width:30%">
-	    <input name="name" class="mini-textbox"  value="${device.name}" required="true"
-	           requiredErrorText="不能为空" style="width:90%"/>
-    </td>
-    <td style="width:15%"><label for="textbox2$text"><font color="red">*</font>品牌型号:</label></td>
-    <td style="width:30%" >
-        <input id="textbox2"  name="brand" class="mini-textbox" value="${device.brand}" style="width:90%"/>
-    </td>
-</tr>
-<tr>
-    <td style="width:15%"><label for="textbox1$text"><font color="red">*</font>构建价格(元):</label></td>
-    <td style="width:30%">
-    	<input name="buyingPrice" class="mini-spinner" value="${device.buyingPrice}" required="true"
-        	requiredErrorText="购建价格不能为空" style="width:90%" minValue="0" />
-    </td>
-    <td style="width:15%"><label for="textbox1$text"><font color="red">*</font>购进年份:</label></td>
-    <td style="width:30%">
-    	<input name="buyingDate" class="mini-textbox" value="${device.buyingDate}" required="true"
-        	requiredErrorText="购进年份不能为空" style="width:90%" />
-    </td>
-</tr>
-<tr>
-	<td style="width:15%"><label for="textbox1$text"><font color="red">*</font>当前评估价格(元):</label></td>
-    <td style="width:30%">
-   		<input id="textbox1"  name="assessPrice" class="mini-spinner" value="${device.assessPrice}" style="width:90%"
-   			required="true" requiredErrorText="当前评估价格不能为空" minValue="0" />
-    </td>
-</tr>
-</table>
-</td></tr></table>
-</form>
+<form action="/bank/company/save.do" method="POST">
+	<input name="id" class="mini-hidden"/>
+	<input name="recorder" class="mini-hidden" value="管理员"/>
+	<input name="recordTime" class="mini-hidden" value="${currentTime}"/>
+	<table width="100%">
+	<tr>
+	<td style="width:10%"><label for="textbox1$text">户主姓名:</label></td>
+	<td style="width:40%">
+	<input id="textbox1"  name="farmerName" class="mini-textbox" required="true" 
+		requiredErrorText="户主姓名不能为空" style="width:90%"/>
+	</td>
+	<td style="width:10%"><label for="textbox2$text">户主身份证号:</label></td>
+	<td style="width:40%" >
+	<input id="textbox2"  name="farmerIdNum" class="mini-textbox" required="true" 
+		requiredErrorText="户主身份证号不能为空"  style="width:90%"/>
+	</td>
+	</tr>
+	<tr>
+	<td style="width:10%"><label for="textbox1$text">被担保人姓名:</label></td>
+	<td style="width:40%">
+	<input id="textbox1"  name="name" class="mini-textbox" required="true" 
+		requiredErrorText="被担保人姓名不能为空"style="width:90%"/>
+	</td>
+	<td style="width:10%"><label for="textbox2$text">被担保人身份证号:</label></td>
+	<td style="width:40%" >
+	<input id="textbox2"  name="idNum" class="mini-textbox" required="true" 
+		requiredErrorText="被担保人身份证号不能为空" style="width:90%"/>
+	</td>
+	</tr>
+	<tr>
+	<td style="width:10%"><label for="textbox1$text">未结清担保到期日:</label></td>
+	<td style="width:40%">
+	<input id="textbox1"  name="limitTime" class="mini-textbox" required="true" 
+		requiredErrorText="未结清担保到期日能为空" style="width:90%"/>
+	</td>
+	<td style="width:10%"><label for="textbox1$text">未结清担保金:</label></td>
+	<td style="width:40%">
+	<input id="textbox1"  name="deposit" class="mini-textarea" required="true" 
+		requiredErrorText="未结清担保金不能为空" style="width:90%"/>
+	</td>
+	</tr>
+	<tr>
+	<td style="width:10%"><label for="textbox1$text">未结清担保金合计:</label></td>
+	<td style="width:40%">
+	<input id="textbox1"  name="depositAll" class="mini-combobox" required="true" 
+		requiredErrorText="未结清担保金合计不能为空" style="width:90%"/>
+	</td>
+	</tr>
+	</table>
+	</form>
 </c:forEach>
 <tr><td align="center">
 	<input class="addBtn" type="button" value="" onclick="addDevice()"/>

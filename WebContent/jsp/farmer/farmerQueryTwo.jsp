@@ -13,10 +13,7 @@
          margin:0;
          padding:0;
         }
-        body{
-            font-size: 14px;
-           
-        }
+body{scrollbar-base-color:#90D5EA;line-height:120%;font-family:"仿宋_GB2312";font-size:13pt;}
         a{text-decoration:none}
         a:link{text-decoration:none;}
         legend{

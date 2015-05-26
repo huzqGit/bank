@@ -63,7 +63,7 @@
 <fieldset id="fd2" style="width:100%;margin:auto auto">
 <legend><label>农户年度收支基本情况</label></legend>
 <div class="fieldset-body">
-<table border="0" cellpadding="1" cellspacing="15" width="100%">
+<table width="100%">
 <tr>
 	<td style="width:15%"><label for="textbox1$text">主要农业年度净收入合计:</label></td>
     <td style="width:35%">
@@ -125,7 +125,7 @@
     </td>
 </tr>
 <tr>
-	<td style="width:15%"><label for="textbox2$text">家庭年度总收入合计:</label></td>
+	<td style="width:15%"><label for="textbox2$text"><font color="red">*</font>家庭年度总收入合计:</label></td>
     <td style="width:35%" >
     	<input name="totalIncome" class="mini-spinner" value ="${balance.totalIncome}" style="width:90%"
         	minValue="0" maxValue="999999999" format="n"/>
@@ -217,6 +217,20 @@ function save(){
 	           mini.alert('系统异常！');
 	       }
   		});
+}
+function getData(name){
+	 return  mini.encode(new mini.Form(name).getData());
+ }
+function getDataArray(name){
+	var size=$("."+name).length;
+  	var array=new Array();
+  	for(var i=0;i<size;i++){
+  		var id=name+i;
+  		var form=new mini.Form(id);
+  	    var data=form.getData();
+  	  	array.push(data);
+  	};
+	return mini.encode(array);
 }
 function addIncome(){
  $(".farmerIncome").last().after(FarmerIncome($(".farmerIncome").length));

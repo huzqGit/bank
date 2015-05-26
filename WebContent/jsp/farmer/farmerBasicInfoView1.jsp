@@ -20,26 +20,39 @@ endColorstr = 'white' );
 -ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType = 0,startColorstr = '#6DC8E3', 
 endColorstr = 'white' )"; 
 }
-.labelName{font-size:15px;font-weight:bold;color:darkgreen;}
+.labelName{font-family:"仿宋_GB2312";font-size:16pt;line-height:150%;font-weight:bold;color:darkgreen;}
 input{border:1px solid #8AD3E9;background-color:#F5F7CF;height:20px;}
-li{margin-top:5px}
 .table_m{width:98%;height:250px;margin:auto auto;overflow-y:auto;overflow-x:hidden;}
 .table_m table{width:100%;border-bottom:1px dotted gray}
-.table_m tr{cursor:pointer}
 .table_m tr:hover{background:#90D5EA}
 .table_m table td{height:30px;line-height:30px;border-top:1px dotted gray;}
 </style>
 </head>
 <body>
 <div class="queryPane" style="padding-top:10px;width:100%;height:80px">
-<form action="/bank/farmer/typeInEvaluate.do" method="POST">
+<form id="farmer" action="" method="POST">
 <table width="100%" height="60px" style="vertical-align:middle;border:1px solid #8AD3E9">
 	<tr>
-		<td class="labelName" width="30%"align="right" ><font color="red">*</font>农户姓名:&nbsp;&nbsp;&nbsp; <input name="farmerName" type="text"/></td>
-		<td width="5%" ></td>
-		<td class="labelName"  width="30%"><font color="red">*</font>农户身份证号:&nbsp;&nbsp;&nbsp;<input name="farmerIdNum" type="text"></td>
-		<td width="15%" align="left">
-			<input type="submit" value="" style="width:100px;height:25px;border:0;background:url(/bank/images/typein.png) no-repeat">
+		<td  width="5%"align="right" >
+		</td>
+		<td class="labelName" width="11%">
+			<font color="red">*</font>农户姓名:&nbsp;&nbsp;&nbsp; 
+		</td>
+		<td width="10%" align=center>
+			<input name="farmerName" type="text" value="${farmerName}"/>
+		</td>
+		<td width="1%" ></td>
+		<td class="labelName"  width="15%">
+			<font color="red">*</font>农户身份证号:
+		</td>
+		<td width="10%">
+			<input name="farmerIdNum" type="text" value="${farmerIdNum}"></td>
+		<td width="1%"></td>
+		<td width="10%" align="left">
+			<input type="button" value=""  onclick="ChaXun()"style="width:100px;height:25px;border:0;background:url(/bank/images/query.png) no-repeat">
+		</td>
+		<td width="10%" align="left">
+			<input type="button" value=""  onclick="LuRu()" style="width:100px;height:25px;border:0;background:url(/bank/images/LuRu.png) no-repeat">
 		</td>
 	</tr>
 </table>
@@ -51,11 +64,10 @@ li{margin-top:5px}
 <fieldset style="width:90%;margin:auto auto">
 	 <legend style="width:310px;height:74px;background:url(/bank/images/tips.png) no-repeat"></legend>
 	 <div style="padding:8px 5px 10px 35px">
-	 	<p style="font-size:15px;font-family:黑体;font-weight:bold;color:darkgreen;margin-bottom:10px">农户收支信息录入功能:</p>
+	 	<p style="font-size:15px;font-family:黑体;font-weight:bold;color:darkgreen;margin-bottom:10px">农户基本信息录入功能:</p>
 	 	<ol>
-	 		<li>如果不存在该农户的信息，则提示用户先录入农户的基本信息。</li>
-	 		<li>如果存在该农户该年份的收支信息，则跳转至该农户该年份的收支信息并可以对其进行修改。</li>
-	 		<li>如果不存在该农户该年份的收支信息，则跳转至收支信息的新增录入界面。</li>
+	 		<li>如果系统中存在该农户的基本信息，则跳转至基本信息录入界面，对该农户户的信息进行修改。</li>
+	 		<li>如果系统中不存在该农户的基本信息，则跳转至基本信息录入界面，增加新的农户的信息。</li>
 	 		<c:if test="${!empty msg}">
 	 		<li style="color:red;font-weight:bold">${msg}</li>
 	 		</c:if>
@@ -68,15 +80,15 @@ li{margin-top:5px}
 <c:otherwise>
 <div>
 <fieldset style="width:90%;margin:auto auto">
-<legend style="width:310px;height:74px;background:url(/bank/images/tips.png) no-repeat"></legend>
+<legend style="width:310px;height:74px;background:url(/bank/images/ChaXunJieGuo.png) no-repeat"></legend>
 <div class="table_m">
-	<table width="90%" border="0" cellspacing="0" cellpadding="0">
+	<table width="100%" cellspacing="0" cellpadding="0">
 	<tr style="font-weight:bold;color:black">
-		<td align="center">编号</td>
-		<td align="center">姓名</td>
-		<td align="center">身份证号码</td>
-		<td align="center">联系电话</td>
-		<td align="center">住址</td>
+		<td align="center" width="8%">编号</td>
+		<td align="center" width="10%">姓名</td>
+		<td align="center" width="15%">身份证号码</td>
+		<td align="center" width="15%">联系电话</td>
+		<td align="center" width="50%">住址</td>
 	</tr>
 	<c:forEach items="${farmers}" var="farmer" varStatus="status">
 	<tr onclick="detail(${farmer.id})">
@@ -84,7 +96,7 @@ li{margin-top:5px}
 		<td align="center">${farmer.farmerName}</td>
 		<td align="center">${farmer.farmerIdnum}</td>
 		<td align="center">${farmer.phone}</td>
-		<td align="center">${farmer.address}</td>
+		<td align="left">${farmer.address}</td>
 	</tr>	
 	</c:forEach>
 </table>
@@ -94,17 +106,19 @@ li{margin-top:5px}
 </c:otherwise>
 </c:choose>
 <script type="text/javascript">
+function ChaXun(){
+	var form = document.getElementById("farmer");
+	form.action="/bank/farmer/queryFarmer1.do";
+	form.submit();
+}
+function LuRu(){
+	var form = document.getElementById("farmer");
+	form.action="/bank/farmer/typeInFarmer1.do";
+	form.submit();
+}
 function detail(id){
-	window.location.href="/bank/farmer/loadEvaluate.do?fid="+id;
+	window.location.href="/bank/farmer/loadFarmer1.do?id="+id;
 };
 </script>
-
-<div>
-<table>
-	<tr>
-		<td></td>
-	</tr>
-</table>
-</div>
 </body>
 </html>

@@ -95,7 +95,6 @@
 
 	mini.parse();
 	var form = new mini.Form("#form1");
-	
 	$(document).ready(function(){
 		$.ajax({
 		    url: "${pageContext.request.contextPath}/farmer/loadPay.do",

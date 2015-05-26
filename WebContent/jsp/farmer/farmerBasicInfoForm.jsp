@@ -86,16 +86,18 @@
    </td>
 </tr>
 <tr>
-	<td style="width:10%"><label for="textbox1$text">&nbsp;&nbsp;政治面貌:</label></td>
-    <td style="width:40%">
-    	<input name="politicStatus" class="mini-combobox"  value="${farmer.politicStatus}" style="width:90%"
-            url="/bank/dic/PoliticStatus.txt" emptyText="请选择..."/>
-    </td>
-    <td style="width:10%"><label for="textbox2$text"><font color="red">*</font>家庭人数:</label></td>
-    <td style="width:40%" >
-    	<input name="familyNum" class="mini-spinner"  value="${farmer.familyNum}"
-        	minValue="1" maxValue="10" style="width:90%"/>
-    </td>
+	<td style="width:10%"><label for="textbox1$text"><font color="red">*</font>性别:</label></td>
+	<td style="width:40%">
+	    	<input  name="sex" class="mini-combobox" value="${farmer.sex}" 
+	        	style="width:90%" required="true" requiredErrorText="性别不能为空" 
+	        	url="/bank/dic/Sex.txt" emptyText="请选择..."/>
+	</td>
+	<td style="width:10%"><label for="textbox1$text"><font color="red">*</font>婚姻状况:</label></td>
+	    <td style="width:40%">
+	    	<input  name="marryStatus" class="mini-combobox" value="${farmer.marryStatus}" 
+	        	style="width:90%" required="true" requiredErrorText="婚姻状况不能为空" 
+	        	url="/bank/dic/MarryStatus.txt" emptyText="请选择..."/>
+	</td>
 </tr>
 <tr>
 	<td style="width:10%"><label for="textbox1$text"><font color="red">*</font>联系电话:</label></td>
@@ -103,18 +105,25 @@
     	<input name="phone" class="mini-textbox" value="${farmer.phone}"
         	required="true" requiredErrorText="联系电话不能为空" style="width:90%"/>
     </td>
-    <td style="width:10%"><label for="textbox2$text"><font color="red">*</font>现住址:</label></td>
+</tr>
+<tr>
+	<td style="width:10%"><label for="textbox2$text"><font color="red">*</font>所属乡镇:</label></td>
+    <td style="width:40%" >
+    	<input name="villages" class="mini-combobox"  value="${farmer.villages}" style="width:90%"
+   			required="true"  requiredErrorText="现住址不能为空" 
+   			url="/bank/dic/Villages.txt" emptyText="请选择..." />
+   </td>
+    <td style="width:10%"><label for="textbox2$text"><font color="red">*</font>住址:</label></td>
     <td style="width:40%" >
     	<input name="address" class="mini-textarea"  value="${farmer.address}" style="width:90%"
    			required="true"  requiredErrorText="现住址不能为空"  />
    </td>
  </tr>
  <tr>
- 	<td style="width:10%"><label for="textbox1$text"><font color="red">*</font>婚姻状况:</label></td>
-    <td style="width:40%">
-    	<input  name="marryStatus" class="mini-combobox" value="${farmer.marryStatus}" 
-        	style="width:90%" required="true" requiredErrorText="婚姻状况不能为空" 
-        	url="/bank/dic/MarryStatus.txt" emptyText="请选择..."/>
+ 	<td style="width:10%"><label for="textbox2$text"><font color="red">*</font>家庭人数:</label></td>
+    <td style="width:40%" >
+    	<input name="familyNum" class="mini-spinner"  value="${farmer.familyNum}"
+        	minValue="1" maxValue="10" style="width:90%"/>
     </td>
     <td style="width:10%"><label for="textbox2$text">&nbsp;&nbsp;劳动力人数:</label></td>
     <td style="width:40%" >
@@ -124,6 +133,11 @@
     </td>
 </tr>
 <tr>
+	<td style="width:10%"><label for="textbox1$text">&nbsp;&nbsp;政治面貌:</label></td>
+    <td style="width:40%">
+    	<input name="politicStatus" class="mini-combobox"  value="${farmer.politicStatus}" style="width:90%"
+            url="/bank/dic/PoliticStatus.txt" emptyText="请选择..."/>
+    </td>
 	<td style="width:10%"><label for="textbox1$text">&nbsp;&nbsp;邮政编码:</label></td>
     <td style="width:40%">
     	<input name="postCode" class="mini-spinner"  value="${farmer.postCode}" style="width:90%"
@@ -179,27 +193,27 @@
     </td>
 </tr>
 <tr>
+	<td style="width:10%"><label for="textbox2$text"><font color="red">*</font>性别:</label></td>
+    <td style="width:40%" >
+    	<input name="sex" class="mini-combobox" value="${member.sex }" style="width:90%"
+        	required="true"  requiredErrorText="性别不能为空" url="/bank/dic/Sex.txt" emptyText="请选择..."/>
+   </td>
 	<td style="width:10%"><label for="textbox1$text"><font color="red">*</font>婚姻状况:</label></td>
     <td style="width:40%">
 	    <input name="marryStatus" class="mini-combobox" value="${member.marryStatus}" style="width:90%"
 	    	required="true" requiredErrorText="婚姻状况不能为空" url="/bank/dic/MarryStatus.txt" emptyText="请选择..."/>
    </td>
-   <td style="width:10%"><label for="textbox2$text">&nbsp;&nbsp;职业:</label></td>
-   <td style="width:40%" >
-   		<input name="occupation" class="mini-textbox" value="${member.occupation}" style="width:90%"
-    		required="true" requiredErrorText="职业不能为空"  />
-   </td>
 </tr>
 <tr>
+   <td style="width:10%"><label for="textbox2$text">&nbsp;&nbsp;职业:</label></td>
+   <td style="width:40%" >
+   		<input name="occupation" class="mini-textbox" value="${member.occupation}" style="width:90%"/>
+   </td>
 	<td style="width:10%"><label for="textbox1$text">&nbsp;&nbsp;职务:</label></td>
     <td style="width:40%">
     	<input name="job" class="mini-textbox" value="${member.job }" style="width:90%"/>
     </td>
-    <td style="width:10%"><label for="textbox2$text"><font color="red">*</font>性别:</label></td>
-    <td style="width:40%" >
-    	<input name="sex" class="mini-combobox" value="${member.sex }" style="width:90%"
-        	required="true"  requiredErrorText="性别不能为空" url="/bank/dic/Sex.txt" emptyText="请选择..."/>
-   </td>
+    
 </tr>
 <tr>
 	<td style="width:10%"><label for="textbox1$text"><font color="red">*</font>联系电话:</label></td>
@@ -226,7 +240,7 @@
    </td>
 </tr>
 </table>
-        </div>
+</div>
 </fieldset>
 </td></tr></table>
 </div>
