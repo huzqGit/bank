@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.bank.beans.Company;
 import com.bank.beans.Farmer;
+import com.bank.beans.FarmerPay;
 import com.bank.beans.Loan;
 import com.bank.dao.ILoanDao;
 import com.common.dao.impl.GenericMyBatisDAOSupport;
@@ -43,7 +44,7 @@ public class LoanDaoImpl extends GenericMyBatisDAOSupport<Loan, Long> implements
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public List<Loan> findById(int clientType, int idType, String idNum) {
+	public List<Loan> findById(String clientType, String idType, String idNum) {
 		Map map = new HashMap();
 		map.put("clientType",clientType);
 		map.put("idType", idType);
@@ -53,11 +54,37 @@ public class LoanDaoImpl extends GenericMyBatisDAOSupport<Loan, Long> implements
 	}
 
 	@Override
-	public Loan findByCompactNum(String compactNum) {
-		Loan loan = this.getSqlSession().selectOne("loan.findByCompactNum",compactNum);
+	public List<Loan> findByCompactNum(String compactNum) {
+		List<Loan> loans = this.getSqlSession().selectList("loan.findByCompactNum",compactNum);
+		return loans;
+	}
+
+	@Override
+	public Loan findByNoteNum(String noteNum) {
+		Loan loan = this.getSqlSession().selectOne("loan.findByNoteNum",noteNum);
 		return loan;
 	}
-	
 
-	
+	@Override
+	public List<Loan> findByFarmerId(long farmerId) {
+		List<Loan> loans = this.getSqlSession().selectList("loan.findByFarmerId",farmerId);
+		return loans;
+	}
+
+	@Override
+	public List<Loan> findByFarmers(List<Long> farmerIds) {
+		List<Loan> loans =this.getSqlSession().selectList("loan.findByFarmers", farmerIds);
+		return loans;
+	}
+	@Override
+	public List<Loan> findUnBalanceByFarmer(Long farmerId) {
+		List<Loan> balaces = this.getSqlSession().selectList("loan.findUnbalanceByFarmer",farmerId);
+		return balaces;
+	}
+
+	@Override
+	public List<Loan> findBadBalanceByFarmer(Long farmerId) {
+		List<Loan> balaces = this.getSqlSession().selectList("loan.findBadbalanceByFarmer", farmerId);
+		return balaces;
+	}
 }

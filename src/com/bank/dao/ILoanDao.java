@@ -15,7 +15,12 @@ public List<Loan> loadSpecialLoan(Map map);
 
 public List<Loan> relateLoan(Farmer farmer);
 public List<Loan> relateLoan(Company company);
-public List<Loan> findById(int clientType, int idType,String idNum);
-public Loan findByCompactNum(String compactNum);
+public List<Loan> findById(String clientType, String idType,String idNum);
+public List<Loan> findByCompactNum(String compactNum);
+public Loan findByNoteNum(String noteNum);
+public List<Loan> findByFarmerId(long farmerId);
+public List<Loan> findByFarmers(List<Long> farmerIds);
+public List<Loan> findUnBalanceByFarmer(Long farmerId);
+public List<Loan> findBadBalanceByFarmer(Long farmerId);
 
 }
