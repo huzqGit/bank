@@ -1,0 +1,17 @@
+[	
+	{id: "A", text: "个人经营" },
+	{id: "A01", text: "种植业", pid: "A"},
+	{id: "A02", text: "加工业", pid: "A"},
+	{id: "A03", text: "养殖业", pid: "A"},
+	{id: "A02", text: "批发零售业", pid: "A"},
+	{id: "A03", text: "服务业", pid: "A"},
+	{id: "A09", text: "其他", pid: "A"},
+	{id: "B", text: "个人消费" },
+	{id: "B01", text: "住房", pid: "B"},
+	{id: "B02", text: "助学", pid: "B"},
+	{id: "B03", text: "车辆", pid: "B"},
+	{id: "B04", text: "大型用品", pid: "B"},
+	{id: "B05", text: "旅游", pid: "B"},
+	{id: "B09", text: "其他", pid: "B"},
+	{id: "C", text: "其他" }
+]
