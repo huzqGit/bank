@@ -1,5 +1,7 @@
 package com.bank.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -46,6 +48,18 @@ public class FarmerEvaluateServiceImpl extends GenericServiceImpl<FarmerEvaluate
 	@Override
 	public FarmerEvaluate getEvaluateByFarmer(Long farmerId) {
 		FarmerEvaluate evaluate = farmerEvaluateDao.getEvaluateByFarmerId(farmerId);
+		return evaluate;
+	}
+
+	@Override
+	public List<Farmer> findByFarmers(List<Long> farmerIds) {
+		List<Farmer> farmers = farmerEvaluateDao.findByFarmers(farmerIds);
+		return farmers;
+	}
+
+	@Override
+	public FarmerEvaluate findByID(Long farmerId) {
+		FarmerEvaluate evaluate = farmerEvaluateDao.findByFarmer(farmerId);
 		return evaluate;
 	}
 

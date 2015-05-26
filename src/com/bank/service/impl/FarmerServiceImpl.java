@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bank.beans.Apply;
 import com.bank.beans.Farmer;
 import com.bank.beans.FarmerBreed;
 import com.bank.beans.FarmerCompunish;
@@ -26,8 +27,10 @@ import com.bank.beans.FarmerEvaluate;
 import com.bank.beans.FarmerForest;
 import com.bank.beans.FarmerHouse;
 import com.bank.beans.FarmerIncome;
+import com.bank.beans.FarmerInsured;
 import com.bank.beans.FarmerMember;
 import com.bank.beans.FarmerPay;
+import com.bank.beans.Loan;
 import com.bank.dao.IFarmerBreedDao;
 import com.bank.dao.IFarmerCompunishDao;
 import com.bank.dao.IFarmerDao;
@@ -36,8 +39,10 @@ import com.bank.dao.IFarmerEvaluateDao;
 import com.bank.dao.IFarmerForestDao;
 import com.bank.dao.IFarmerHouseDao;
 import com.bank.dao.IFarmerIncomeDao;
+import com.bank.dao.IFarmerInsuredDao;
 import com.bank.dao.IFarmerMemberDao;
 import com.bank.dao.IFarmerPayDao;
+import com.bank.dao.ILoanDao;
 import com.bank.service.IFarmerService;
 import com.common.dao.GenericDAO;
 import com.common.exception.CreateException;
@@ -71,7 +76,10 @@ public class FarmerServiceImpl extends GenericServiceImpl<Farmer, Long>
 	private IFarmerEvaluateDao farmerEvaluateDao;
 	@Resource
 	private IFarmerCompunishDao farmerCompunishDao;
-
+	@Resource
+	private ILoanDao loanDao;
+	@Resource
+	private IFarmerInsuredDao farmerInsuredDao;
 	@Override
 	public GenericDAO<Farmer, Long> getGenericDAO() {
 		
@@ -134,6 +142,18 @@ public class FarmerServiceImpl extends GenericServiceImpl<Farmer, Long>
 		map.put("member", farmerMember);
 		return map;
 	}
+	
+	@Override
+	public void saveAapply(Apply apply) {
+		farmerDao.saveApply(apply);
+	}
+
+
+	@Override
+	public List<Apply> findApplyByUser(String userId) {
+		List<Apply> applys = farmerDao.findApplyByUser(userId);
+		return applys;
+	}
 
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -142,22 +162,52 @@ public class FarmerServiceImpl extends GenericServiceImpl<Farmer, Long>
 		Map map = new HashMap();
 		Farmer farmer =farmerDao.findByPK(farmerId);
 		List<FarmerMember> members = farmerMemberDao.getMembersByFarmerId(farmerId);
+		List<Loan> loans = loanDao.findByFarmerId(farmerId);
 		List<FarmerHouse> houses = farmerHouseDao.getHousesByFarmerId(farmerId);
 		List<FarmerForest> forests = farmerForestDao.getForestsByFarmerId(farmerId);
 		List<FarmerBreed> breeds = farmerBreedDao.getBreedsByFarmerId(farmerId);
 		List<FarmerDevice> devices = farmerDeviceDao.getDevicesByFarmerId(farmerId);
+		List<FarmerPay> balances = farmerPayDao.findByFarmer(farmerId);
 		FarmerEvaluate evaluate = farmerEvaluateDao.getEvaluateByFarmerId(farmerId);
-		FarmerPay balance = farmerPayDao.findByFarmer(farmerId);
-		List<FarmerIncome> incomes = new ArrayList<FarmerIncome>();
-		if(balance == null){
-			balance = new FarmerPay();
-			incomes.add(new FarmerIncome()); 
-		}else{
-			incomes  = farmerIncomeDao.findAll(balance.getId());
-		}
 		List<FarmerCompunish> compunishs = farmerCompunishDao.getCompunishByFarmerId(farmerId);
+		List<FarmerInsured> insureds = farmerInsuredDao.findByFarmerId(farmerId);
 		map.put("farmer", farmer);
 		map.put("members", members);
+		map.put("loans", loans);
+		map.put("houses", houses);
+		map.put("breeds", breeds);
+		map.put("devices", devices);
+		map.put("forests", forests);
+		map.put("balances", balances);
+		map.put("evaluate", evaluate);
+		map.put("compunishs", compunishs);
+		map.put("insureds", insureds);
+		return map;
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public Map loadTotalFarmer(Long farmerId) throws Exception {
+
+		Map map = new HashMap();
+		Farmer farmer =farmerDao.findByPK(farmerId);
+		List<FarmerMember> members = farmerMemberDao.getMembersByFarmerId(farmerId);
+		List<Loan> loans = loanDao.findByFarmerId(farmerId);
+		List<FarmerHouse> houses = farmerHouseDao.getHousesByFarmerId(farmerId);
+		List<FarmerForest> forests = farmerForestDao.getForestsByFarmerId(farmerId);
+		List<FarmerBreed> breeds = farmerBreedDao.getBreedsByFarmerId(farmerId);
+		List<FarmerDevice> devices = farmerDeviceDao.getDevicesByFarmerId(farmerId);
+		FarmerPay balance = farmerPayDao.findLatestByFarmer(farmerId);
+		List<FarmerIncome> incomes = new ArrayList<FarmerIncome>();
+		if(balance != null){
+			 incomes =farmerIncomeDao.findAll(balance.getId());
+		}
+		FarmerEvaluate evaluate = farmerEvaluateDao.getEvaluateByFarmerId(farmerId);
+		List<FarmerCompunish> compunishs = farmerCompunishDao.getCompunishByFarmerId(farmerId);
+		List<FarmerInsured> insureds = farmerInsuredDao.findByFarmerId(farmerId);
+		map.put("farmer", farmer);
+		map.put("members", members);
+		map.put("loans", loans);
 		map.put("houses", houses);
 		map.put("breeds", breeds);
 		map.put("devices", devices);
@@ -166,8 +216,18 @@ public class FarmerServiceImpl extends GenericServiceImpl<Farmer, Long>
 		map.put("incomes", incomes);
 		map.put("evaluate", evaluate);
 		map.put("compunishs", compunishs);
+		map.put("insureds", insureds);
 		return map;
+	
 	}
+
+
+	@Override
+	public List<Farmer> findByFarmerIds(List<Long> farmerIds) {
+		List<Farmer> farmers = farmerDao.findByFarmerIds(farmerIds);
+		return farmers;
+	}
+
 
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -177,8 +237,6 @@ public class FarmerServiceImpl extends GenericServiceImpl<Farmer, Long>
 		return farmers;
 	}
 
-
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public Farmer findById(String idNum) {
 		Farmer farmer = farmerDao.findByID(idNum);
@@ -199,4 +257,80 @@ public class FarmerServiceImpl extends GenericServiceImpl<Farmer, Long>
 		return farmers;
 	}
 
+	@Override
+	public List<FarmerMember> findMemberByFarmer(Long farmerId) {
+		List<FarmerMember> members = farmerMemberDao.getMembersByFarmerId(farmerId);
+		return members;
+	}
+	
+
+	@Override
+	public List<FarmerHouse> findHouseByFarmer(Long farmerId) {
+		List<FarmerHouse> houses = farmerHouseDao.getHousesByFarmerId(farmerId);
+		return houses;
+	}
+
+
+	@Override
+	public List<FarmerForest> findForestByFarmer(Long farmerId) {
+		List<FarmerForest> forests = farmerForestDao.getForestsByFarmerId(farmerId);
+		return forests;
+	}
+
+
+	@Override
+	public List<FarmerBreed> findBreedByFarmer(Long farmerId) {
+		List<FarmerBreed> breeds = farmerBreedDao.getBreedsByFarmerId(farmerId);
+		return breeds;
+	}
+
+
+	@Override
+	public List<FarmerDevice> findDeviceByFarmer(Long farmerId) {
+		List<FarmerDevice> devices = farmerDeviceDao.getDevicesByFarmerId(farmerId);
+		return devices;
+	}
+
+
+	@Override
+	public FarmerEvaluate findEvaluateByFarmer(Long farmerId) {
+		FarmerEvaluate evaluate = farmerEvaluateDao.getEvaluateByFarmerId(farmerId);
+		return evaluate;
+	}
+
+
+	@Override
+	public List<FarmerCompunish> findCompunishByFarmer(Long farmerId) {
+		List<FarmerCompunish> compunishs = farmerCompunishDao.getCompunishByFarmerId(farmerId);
+		return compunishs;
+	}
+
+
+	@Override
+	public List<Loan> findLoanByFarmer(Long farmerId) {
+		List<Loan> loans = loanDao.findByFarmerId(farmerId);
+		return loans;
+	}
+
+	@Override
+	public List<FarmerPay> findBalanceByFarmer(Long farmerId) {
+		// TODO Auto-generated method stub
+		List<FarmerPay> balances = farmerPayDao.findByFarmer(farmerId);
+		return balances;
+	}
+
+
+	@Override
+	public FarmerPay findLatestBalanceByFarmer(Long farmerId) {
+		FarmerPay balance = farmerPayDao.findLatestByFarmer(farmerId);
+		return balance;
+	}
+
+
+	@Override
+	public List<FarmerInsured> findInsuredByFarmer(Long farmerId) {
+		List<FarmerInsured> insureds = farmerInsuredDao.findByFarmerId(farmerId);
+		return insureds;
+	}
+	
 }

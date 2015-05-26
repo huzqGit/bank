@@ -1,5 +1,7 @@
 package com.bank.service;
 
+import java.util.List;
+
 import com.bank.beans.Farmer;
 import com.bank.beans.FarmerEvaluate;
 import com.common.exception.CreateException;
@@ -13,4 +15,6 @@ public interface IFarmerEvaluateService extends
 	public void saveEvaluate(Farmer farmer,FarmerEvaluate evaluate)throws DAOException, 
 			CreateException, UpdateException, DataNotFoundException;
 	public FarmerEvaluate getEvaluateByFarmer(Long farmerId);
+	public List<Farmer> findByFarmers(List<Long> farmerIds);
+	public FarmerEvaluate findByID(Long farmerId);
 }

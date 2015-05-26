@@ -1,8 +1,6 @@
 package com.bank.service;
 
 import java.util.List;
-import java.util.Map;
-
 import com.bank.beans.Farmer;
 import com.bank.beans.FarmerIncome;
 import com.bank.beans.FarmerPay;
@@ -23,6 +21,6 @@ public interface IFarmerPayService extends
 	
 	public List<FarmerIncome> loadTotalIncome(Long balanceId);
 	//查找用户指定年份的收支信息
-	public List<FarmerPay> findByFarmerAndYear();
-
+	public List<FarmerPay> findByFarmerAndYear(Long farmerId,String year);
+	public List<FarmerPay> findByFarmersAndYear(List<Long> farmerIds,String year);
 }

@@ -22,6 +22,7 @@ public interface IFarmerHouseService extends
 	public void saveChanQuan(Farmer farmer,List<FarmerHouse> houses,
 			List<FarmerForest> forests,List<FarmerBreed> breeds,
 			List<FarmerDevice> devices)throws DAOException, CreateException,
-			UpdateException, DataNotFoundException ;	
+			UpdateException, DataNotFoundException ;
+	public  List<Farmer> findByFarmers(List<Long> farmerIds);
 
 }
