@@ -13,6 +13,8 @@ public class FarmerCompunish extends BaseEntity<Long> {
 
 
 	private Long farmerId;
+	private String farmerName;
+	private String farmerIdNum;
 	//表彰或处罚类型
 	private Integer type;
 	//表彰或处罚部门
@@ -28,6 +30,22 @@ public class FarmerCompunish extends BaseEntity<Long> {
 
 	public void setFarmerId(Long farmerId) {
 		this.farmerId = farmerId;
+	}
+
+	public String getFarmerName() {
+		return farmerName;
+	}
+
+	public void setFarmerName(String farmerName) {
+		this.farmerName = farmerName;
+	}
+
+	public String getFarmerIdNum() {
+		return farmerIdNum;
+	}
+
+	public void setFarmerIdNum(String farmerIdNum) {
+		this.farmerIdNum = farmerIdNum;
 	}
 
 	public String getOrgan() {

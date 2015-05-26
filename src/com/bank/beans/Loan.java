@@ -8,6 +8,8 @@ public class Loan extends BaseEntity<Long> {
 	 * 
 	 */
 	private static final long serialVersionUID = -6483673794707088054L;
+	private String farmerName;
+	private String farmerIdNum;
 	private String clientNum;
 	private String noteNum;
 	private String compactNum;
@@ -39,12 +41,28 @@ public class Loan extends BaseEntity<Long> {
 	private String businessBody;
 	private String provideType;
 	private String invest;
-	private String termTYpe;
+	private String termType;
 	private String guaranteeType1;
 	private String floatScope;
 	private String adjustType;
 	private String runType;
 	private String frequeency;
+	
+	public String getFarmerName() {
+		return farmerName;
+	}
+
+	public void setFarmerName(String farmerName) {
+		this.farmerName = farmerName;
+	}
+
+	public String getFarmerIdNum() {
+		return farmerIdNum;
+	}
+
+	public void setFarmerIdNum(String farmerIdNum) {
+		this.farmerIdNum = farmerIdNum;
+	}
 
 	public String getClientNum() {
 		return clientNum;
@@ -296,12 +314,12 @@ public class Loan extends BaseEntity<Long> {
 		this.invest = invest;
 	}
 
-	public String getTermTYpe() {
-		return termTYpe;
+	public String getTermType() {
+		return termType;
 	}
 
-	public void setTermTYpe(String termTYpe) {
-		this.termTYpe = termTYpe;
+	public void setTermType(String termType) {
+		this.termType = termType;
 	}
 
 	public String getGuaranteeType1() {

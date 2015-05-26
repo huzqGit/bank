@@ -16,7 +16,7 @@ public class FarmerForest extends BaseEntity<Long> {
 	//林权使用人
 	private String user;
 	//使用权种类
-	private Integer useType;
+	private String useType;
 	//面积
 	private String area;
 	//蓄积量
@@ -58,11 +58,11 @@ public class FarmerForest extends BaseEntity<Long> {
 		this.user = user;
 	}
 
-	public Integer getUseType() {
+	public String getUseType() {
 		return useType;
 	}
 
-	public void setUseType(Integer useType) {
+	public void setUseType(String useType) {
 		this.useType = useType;
 	}
 
