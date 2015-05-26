@@ -3,6 +3,7 @@ package com.bank.controller.farmer;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -89,15 +90,22 @@ public class FarmerPayController {
 		return null;
 	}
 	
-	@RequestMapping(value = "/loadPay", method = RequestMethod.POST)
+	@RequestMapping(value = "/loadBalance", method = RequestMethod.GET)
 	public ModelAndView loadBalance(@RequestParam(value="id",required=true) String id, 
 			HttpServletResponse response) throws Exception {
 		if(!StringUtils.isEmpty(id)){
 			Long payId=Long.valueOf(id);
-			FarmerPay farmer = farmerPayService.findByPK(payId);
-			String json = JsonUtil.Encode(farmer);
-			response.setContentType("text/html;charset=UTF-8");
-		    response.getWriter().write(json);
+			FarmerPay balance = farmerPayService.findByPK(payId);
+			Farmer farmer = farmerService.findByPK(balance.getFarmerId());
+			List<FarmerIncome> incomes = farmerPayService.loadTotalIncome(payId);
+			if(incomes.size() ==0 ){
+				incomes.add(new FarmerIncome());
+			}
+			ModelAndView view = new ModelAndView("/farmer/farmerBalanceForm");
+			view.addObject("farmer", farmer);
+			view.addObject("balance", balance);
+			view.addObject("incomes", incomes);
+			return view;
 		}
 		return null;
 		
@@ -112,6 +120,12 @@ public class FarmerPayController {
 			//身份证号码不能为空
 			ModelAndView view = new ModelAndView("/farmer/farmerBalanceInfoView");
 			view.addObject("msg","请您填写完农户姓名和身份证号码后录入收支信息!");
+			return view;
+		}
+		if(StringUtils.isEmpty(farmerName) && StringUtils.isEmpty(farmerIdNum) && !StringUtils.isEmpty(year)){
+			List<FarmerPay> balances = farmerPayService.findByFarmerAndYear(null,year);
+			ModelAndView view = new ModelAndView("/farmer/farmerBalanceInfoView");
+			view.addObject("balances",balances);
 			return view;
 		}
 		List<Farmer> farmers = farmerService.findByIDAndName(farmerIdNum, farmerName);
@@ -143,22 +157,22 @@ public class FarmerPayController {
 					return view;	
 				}
 			
-			}else if(balances.size() == 1){
-				FarmerPay balance = balances.get(0);
-				List<FarmerIncome> incomes =farmerPayService.loadTotalIncome(balance.getId());
-				ModelAndView view = new ModelAndView("/farmer/farmerBalanceForm");
-				view.addObject("farmer",farmer);
-				view.addObject("balance",balance);
-				view.addObject("incomes",incomes);
-				return view;
 			}else{
-				ModelAndView view = new ModelAndView("/farmer/farmerBalanceView");
+				ModelAndView view = new ModelAndView("/farmer/farmerBalanceInfoView");
+				view.addObject("balances",balances);
 				return view;
 			}
 		}else{
+			List<Long> farmerIds = new ArrayList<Long>();
+			for(Iterator<Farmer> it = farmers.iterator();it.hasNext();){
+				Farmer farmer = it.next();
+				farmerIds.add(farmer.getId());
+			}
+			List<FarmerPay> balances=farmerPayService.findByFarmersAndYear(farmerIds, year);
 			ModelAndView view = new ModelAndView("/farmer/farmerBalanceInfoView");
-			view.addObject("msg", "找到多个农户信息!");
+			view.addObject("balances", balances);
 			return view;
+			
 		}
 	}
 	
@@ -195,5 +209,6 @@ public class FarmerPayController {
 	    response.getWriter().write(json);
 		return null;
 	}
+	
 	
 }
