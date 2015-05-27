@@ -25,9 +25,26 @@ public class FarmerPayDaoImpl extends GenericMyBatisDAOSupport<FarmerPay, Long>
 	}
 
 	@Override
-	public FarmerPay findByFarmer(Long farmerId) {
-		FarmerPay balance = this.getSqlSession().selectOne("farmerpay.findByFarmer",farmerId);
+	public List<FarmerPay> findByFarmer(Long farmerId) {
+		List<FarmerPay> balances = this.getSqlSession().selectList("farmerpay.findByFarmer",farmerId);
+		return balances;
+	}
+
+	@Override
+	public FarmerPay findLatestByFarmer(Long farmerId) {
+		FarmerPay balance = this.getSqlSession().selectOne("farmerpay.findLatestByFarmer",farmerId);
 		return balance;
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public List<FarmerPay> findByFarmersAndYear(List<Long> farmerIds,
+			String year) {
+		Map map = new HashMap();
+		map.put("farmerIds",farmerIds);
+		map.put("year", year);
+		List<FarmerPay> balances = this.getSqlSession().selectList("farmerpay.findByFarmersAndYear", map);
+		return balances;
 	}
 	
 }

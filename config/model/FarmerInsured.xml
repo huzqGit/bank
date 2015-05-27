@@ -4,18 +4,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="farmerinsured">
 <sql id="Insured_Column_List" >
-	insuredid, farmername, farmeridnum, name, type,
-    amount, insuretime, limittime, recorder, recordtime
+	insuredId,farmerId, name, type,
+    amount, insureTime, limitTime, recorder, recordTime
 </sql>
-<insert id="save" useGeneratedKeys="true" keyProperty="insuredId" 
+<insert id="save" useGeneratedKeys="true" keyProperty="id" 
 	parameterType="com.bank.beans.FarmerInsured">
 	insert into t_farmer_insured
 	<trim prefix="(" suffix=")" suffixOverrides=",">
-		<if test="farmerName != null">
-			farmername,
-		</if>
-		<if test="farmerIdNum != null">
-			farmeridnum,
+		<if test="farmerId!= null">
+			farmerId,
 		</if>
    		<if test="name != null">
    			name,
@@ -40,11 +37,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</if>
 	</trim>
 	<trim prefix="values (" suffix=")" suffixOverrides=",">
-		<if test="farmerName != null">
-			#{farmerName,jdbcType=VARCHAR},
-		</if>
-		<if test="farmerIdNum != null">
-			#{farmerIdNum,jdbcType=VARCHAR},
+		<if test="farmerId != null">
+			#{farmerId,jdbcType=BIGINT},
 		</if>
    		<if test="name != null">
    			#{name,jdbcType=VARCHAR},
@@ -69,10 +63,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</if>
 	</trim>
 </insert>
-<select id="findByPK" parameterType="Long" resultType="com.bank.beans.FarmerInsured">
+<update id="update" parameterType="com.bank.beans.FarmerInsured">
+	update t_farmer_insured
+	set farmerId = #{farmerId,jdbcType=BIGINT},
+   	type = #{type,jdbcType=INTEGER},
+	amount = #{amount,jdbcType=DOUBLE},
+	insureTime = #{insureTime,jdbcType=DATE},
+	limitTime = #{limitTime,jdbcType=DATE}
+	where insuredId = #{id,jdbcType=BIGINT}
+</update>
+<select id="findByPK" parameterType="Long" resultMap="farmerInsuredList">
 	select 
 	<include refid="Insured_Column_List" />
-	from t_farmer_insured where insuredid = #{id,jdbcType=INTEGER}
+	from t_farmer_insured where insuredId = #{id,jdbcType=INTEGER}
+</select>
+<select id="findByFarmerId" parameterType="Long" resultMap="farmerInsuredList">
+	select 
+	<include refid="Insured_Column_List" />
+	from t_farmer_insured where farmerId = #{farmerId,jdbcType=BIGINT}
+</select>
+<select id="findByFarmers" parameterType="list" resultMap="farmer.farmerList">
+	select a.*
+	from t_farmer a,t_farmer_insured b
+	where a.farmerId = b.farmerId
+	and a.farmerId in
+	<foreach item="item" index="index" collection="list" 
+			open="(" separator="," close=")">
+	#{item}
+	</foreach>
 </select>
 <resultMap id="farmerInsuredList" type="com.bank.beans.FarmerInsured">
     <result column="insuredId" property="id" jdbcType="BIGINT"/>

@@ -18,6 +18,7 @@ public class Farmer implements java.io.Serializable {
 	private Integer marryStatus;
 	private Integer familyNum;
 	private String phone;
+	private String villages;
 	private String address;
 	private Integer sex;
 	private Integer education;
@@ -89,6 +90,16 @@ public class Farmer implements java.io.Serializable {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+
+
+	public String getVillages() {
+		return villages;
+	}
+
+	public void setVillages(String villages) {
+		this.villages = villages;
 	}
 
 	public String getAddress() {

@@ -128,6 +128,20 @@ function save(){
 	       }
   		});
 }
+function getData(name){
+	 return  mini.encode(new mini.Form(name).getData());
+}
+function getDataArray(name){
+	var size=$("."+name).length;
+ 	var array=new Array();
+ 	for(var i=0;i<size;i++){
+ 		var id=name+i;
+ 		var form=new mini.Form(id);
+ 	    var data=form.getData();
+ 	  	array.push(data);
+ 	};
+	return mini.encode(array);
+}
 function addCompunish(){
  $(".farmerCompunish").last().after(FarmerCompunish($(".farmerCompunish").length));
 	  mini.parse();

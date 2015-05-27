@@ -16,6 +16,11 @@ public interface ILoanService extends GenericService<Loan, Long> {
 	@SuppressWarnings("rawtypes")
 	public List<Loan> loadSpecialLoan(Map map);
 	public int relateLoan(Farmer farmer) throws DAOException, CreateException;
-	public List<Loan> findByID(int clientType,int idType,String idNum);
-	public Loan findByCompactNum(String compactNum); 
+	public List<Loan> findByID(String clientType,String idType,String idNum);
+	public List<Loan> findByCompactNum(String compactNum); 
+	public Loan findByNoteNum(String noteNum);
+	public List<Loan> findByFarmerId(long farmerId);
+	public List<Loan> findByFarmers(List<Long> farmerIds);
+	public List<Loan> findUnBalanceByFarmer(Long farmerId);
+	public List<Loan> findBadBalanceByFarmer(Long farmerId);
 }

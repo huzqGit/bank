@@ -65,4 +65,10 @@ public class FarmerCompunishServiceImpl extends GenericServiceImpl<FarmerCompuni
 		
 	}
 
+	@Override
+	public List<FarmerCompunish> findByFarmers(List<Long> farmerIds) {
+		List<FarmerCompunish> compunishs = farmerCompunishDao.findByFarmers(farmerIds);
+		return compunishs;
+	}
+
 }

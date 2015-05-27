@@ -10,6 +10,8 @@ public class FarmerEvaluate extends BaseEntity<Long> {
 	private static final long serialVersionUID = 6808936993388416975L;
 	//农户身份证号
 	private Long farmerId;
+	private String farmerName;
+	private String farmerIdNum;
 	//人品综合评价
 	private String personality;
 	//家庭和睦情况
@@ -33,6 +35,22 @@ public class FarmerEvaluate extends BaseEntity<Long> {
 
 	public void setFarmerId(Long farmerId) {
 		this.farmerId = farmerId;
+	}
+
+	public String getFarmerName() {
+		return farmerName;
+	}
+
+	public void setFarmerName(String farmerName) {
+		this.farmerName = farmerName;
+	}
+
+	public String getFarmerIdNum() {
+		return farmerIdNum;
+	}
+
+	public void setFarmerIdNum(String farmerIdNum) {
+		this.farmerIdNum = farmerIdNum;
 	}
 
 	public String getPersonality() {

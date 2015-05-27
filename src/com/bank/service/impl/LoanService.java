@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.bank.beans.Farmer;
+import com.bank.beans.FarmerPay;
 import com.bank.beans.Loan;
 import com.bank.dao.IFarmerDao;
 import com.bank.dao.ILoanDao;
@@ -77,14 +78,40 @@ public class LoanService extends GenericServiceImpl<Loan, Long>
 	 * 
 	 */
 	@Override
-	public List<Loan> findByID(int clientType, int idType, String idNum) {
+	public List<Loan> findByID(String clientType, String idType, String idNum) {
 		List<Loan> loans = loanDao.findById(clientType, idType, idNum);
 		return loans;
 	}
 	@Override
-	public Loan findByCompactNum(String compactNum) {
-		Loan loan = loanDao.findByCompactNum(compactNum);
+	public List<Loan> findByCompactNum(String compactNum) {
+		List<Loan> loans = loanDao.findByCompactNum(compactNum);
+		return loans;
+	}
+	
+	@Override
+	public Loan findByNoteNum(String noteNum) {
+		Loan loan = loanDao.findByNoteNum(noteNum);
 		return loan;
+	}
+	@Override
+	public List<Loan> findByFarmerId(long farmerId) {
+		List<Loan>  loans =loanDao.findByFarmerId(farmerId);
+		return loans;
+	}
+	@Override
+	public List<Loan> findByFarmers(List<Long> farmerIds) {
+		List<Loan> loans = loanDao.findByFarmers(farmerIds);
+		return loans;
+	}
+	@Override
+	public List<Loan> findUnBalanceByFarmer(Long farmerId) {
+		List<Loan> unbalaces = loanDao.findUnBalanceByFarmer(farmerId);
+		return unbalaces;
+	}
+	@Override
+	public List<Loan> findBadBalanceByFarmer(Long farmerId) {
+		List<Loan> badbalaces = loanDao.findBadBalanceByFarmer(farmerId);
+		return badbalaces;
 	}
 	
 }

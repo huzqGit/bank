@@ -130,23 +130,50 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	year = #{year,jdbcType=VARCHAR}
 	where payId=#{id,jdbcType=BIGINT}
 </update>
-<select id="findByPK" parameterType="Long" resultType="com.bank.beans.FarmerPay">
+<select id="findByPK" parameterType="Long" resultMap="farmerPayList">
 		select 
 		<include refid="Pay_Column_List" />
 		from t_farmer_pay where payId = #{id,jdbcType=INTEGER}
 </select>
 <select id="findByFarmerAndYear" parameterType="Map" resultMap="farmerPayList">
-		select 
-		<include refid="Pay_Column_List" />
-		from t_farmer_pay 
-		where year = #{year,jdbcType=VARCHAR}
-		and farmerId = #{farmerId,jdbcType=BIGINT}
+	select a.farmerIdNum,a.farmerName,b.*
+	from t_farmer a,t_farmer_pay b
+	where a.farmerId = b.farmerId
+	<if test="year != null and year != ''">
+		and b.year = #{year,jdbcType=VARCHAR}
+	</if> 
+	<if test="farmerId != null and farmerId !=''"> 
+		and a.farmerId = #{farmerId,jdbcType=BIGINT}
+	</if>
+</select>
+<select id="findByFarmersAndYear" parameterType="Map" resultMap="farmerPayList">
+	select a.farmerIdNum,a.farmerName,b.*
+	from t_farmer a,t_farmer_pay b
+	where a.farmerId = b.farmerId
+	<if test="year != null and year != ''">
+		and b.year = #{year,jdbcType=VARCHAR}
+	</if> 
+	<if test="farmerIds != null"> 
+		and a.farmerId in
+		<foreach item="item" index="index" collection="farmerIds" 
+			open="(" separator="," close=")">
+		#{item}
+		</foreach>
+	</if>
 </select>
 <select id="findByFarmer" parameterType="Map" resultMap="farmerPayList">
 		select 
 		<include refid="Pay_Column_List" />
 		from t_farmer_pay 
 		where farmerId = #{farmerId,jdbcType=BIGINT}
+</select>
+<select id="findLatestByFarmer" parameterType="Map" resultMap="farmerPayList">
+		select 
+		<include refid="Pay_Column_List" />
+		from t_farmer_pay 
+		where farmerId = #{farmerId,jdbcType=BIGINT}
+		and year=(select max(year) from t_farmer_pay
+		where farmerId =#{farmerId,jdbcType=BIGINT})
 </select>
 <resultMap id="farmerPayList" type="com.bank.beans.FarmerPay">
     <id column="payId" property="id" jdbcType="BIGINT"/>

@@ -1,7 +1,9 @@
 package com.bank.controller.farmer;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -66,18 +68,19 @@ public class FarmerCompunishController {
 		}		
 	}
 	
-	@RequestMapping(value = "/loadCompunish", method = RequestMethod.POST)
-	public ModelAndView loadCompany(@RequestParam(value="id",required=true) String id, 
+	@RequestMapping(value = "/loadJiangCheng", method = RequestMethod.GET)
+	public ModelAndView loadCompany(@RequestParam(value="fid") String fid, 
 			HttpServletResponse response) throws Exception {
-		if(!StringUtils.isEmpty(id)){
-			Long compunishId=Long.valueOf(id);
-			FarmerCompunish farmer = farmerCompunishService.findByPK(compunishId);
-			String json = JsonUtil.Encode(farmer);
-			response.setContentType("text/html;charset=UTF-8");
-		    response.getWriter().write(json);
+		Long farmerId =Long.valueOf(fid);
+		Farmer farmer = farmerService.findByPK(farmerId);
+		List<FarmerCompunish> compunishs = farmerCompunishService.getCompunishByFarmer(farmerId);
+		if(compunishs.size() == 0){
+			compunishs.add(new FarmerCompunish());
 		}
-		return null;
-		
+		ModelAndView view = new ModelAndView("/farmer/farmerJiangChengForm");
+		view.addObject("farmer",farmer);
+		view.addObject("compunishs",compunishs);
+		return view;
 	}
 	
 	@RequestMapping(value="/loadAllCompunish",method=RequestMethod.POST)
@@ -125,31 +128,21 @@ public class FarmerCompunishController {
 			ModelAndView view = new ModelAndView("/farmer/farmerJiangChengView");
 			view.addObject("msg","请您填写完农户姓名和身份证号码后录入资产信息!!");
 			return view;
-		}else{
-			List<Farmer> farmers = farmerService.findByIDAndName(farmerIdNum, farmerName);
-			if(farmers.size() == 0){
-				ModelAndView view = new ModelAndView("/farmer/farmerJiangChengView");
-				view.addObject("msg","未找到匹配的农户信息!您可以到【农户】-【数据采集】-【基本信息】模块中录入农户信息后再录入农户的资产信息!");
-				return view;
-			}else if(farmers.size() ==1){
-				Farmer farmer = farmers.get(0);
-				FarmerEvaluate evaluate = farmerCompunishService.getEvaluateByFarmer(farmer.getId());
-				List<FarmerCompunish> compunishs = farmerCompunishService.getCompunishByFarmer(farmer.getId());
-				if(compunishs.size() == 0){
-					compunishs.add(new FarmerCompunish());
-				}
-				ModelAndView view = new ModelAndView("/farmer/farmerJiangChengForm");
-				view.addObject("farmer",farmer);
-				view.addObject("evaluate",evaluate);
-				view.addObject("compunishs",compunishs);
-				return view;
-			}else{
-				ModelAndView view = new ModelAndView("/farmer/farmerJiangChengView");
-				view.addObject("msg", "找到多个农户信息!");
-				view.addObject("farmer",farmers);
-			}
 		}
-		ModelAndView view = new ModelAndView("/farmer/farmerJiangChengView");
-		return view;
+		List<Farmer> farmers = farmerService.findByIDAndName(farmerIdNum, farmerName);
+		if(farmers.size() == 0){
+			ModelAndView view = new ModelAndView("/farmer/farmerJiangChengView");
+			view.addObject("farmerName", farmerName);
+			view.addObject("farmerIdNum", farmerIdNum);
+			view.addObject("msg","未找到匹配的农户信息!您可以到【农户】-【数据采集】-【基本信息】模块中录入农户信息后再录入农户的资产信息!");
+			return view;
+		}else{
+			ModelAndView view = new ModelAndView("/farmer/farmerJiangChengView");
+			view.addObject("farmerName", farmerName);
+			view.addObject("farmerIdNum", farmerIdNum);
+			view.addObject("farmers",farmers);
+			return view;
+		}
 	}
+
 }

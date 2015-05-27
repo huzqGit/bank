@@ -33,7 +33,12 @@
 <input name="clientId" class="mini-hidden"  value="${farmer.id}" />
 <input name="clientName" class="mini-hidden" value="${farmer.farmerName}"/>
 <input name="idNum" class="mini-hidden" value="${farmer.farmerIdnum}"/>
+<input name="clientNum" class="mini-hidden" value="${clientNum}"/>
+<input name="noteNum" class="mini-hidden" value="${noteNum}"/>
+<input name="businessBody" class="mini-hidden"  value="${loan.businessBody}"/>
+<input name="clientType" class="mini-hidden" value="1"/>
 <input name="recorder" class="mini-hidden" value="管理员"/>
+<input name="idType" class="mini-hidden" value="${loan.idType}">
 <input name="recordTime" class="mini-hidden" value="${currentTime}"/>
 <div class="topMenu" style="background:linear-gradient(#6DC8E3,white)">
 <table cellpadding="0" cellspacing="0"  height="60px">
@@ -63,188 +68,144 @@
 	<div class="fieldset-body">
 	<table width="100%">
 	<tr>
-	<td style="width:10%"><label for="textbox1$text"><font color="red">*</font>客户号:</label></td>
-	<td style="width:40%">
-	<input id="textbox1"  name="clientNum" class="mini-textbox" required="true" 
-		requiredErrorText="户主姓名不能为空" style="width:90%"/>
+		<td style="width:12%"><label for="textbox1$text"><font color="red">*</font>机构名称:</label></td>
+		<td colspan="3" style="width:88%">
+			<input name="organName" class="mini-textbox" value="${loan.organName}"  style="width:96%"/>
+		</td>
+	</tr>
+	<tr>
+		<td style="width:12%"><label for="textbox1$text"><font color="red">*</font>机构号:</label></td>
+		<td style="width:38%">
+			<input name="organCode" class="mini-textbox" value="${loan.organCode}" style="width:90%"/>
+		</td>
+		<td style="width:12%"><label for="textbox1$text"><font color="red">*</font>合同号:</label></td>
+		<td style="width:38%">
+		<input id="textbox1"  name="compactNum" class="mini-textbox" value="${loan.compactNum}" 
+			 style="width:90%"/>
+		</td>	
+	</tr>
+	<tr>
+		<td style="width:12%"><label for="textbox1$text">业务种类:</label></td>
+		<td style="width:38%">
+			<input name="businessType" class="mini-treeselect" value="${loan.businessType}" style="width:90%"
+			url="/bank/dic/BusinessType.txt" multiSelect="false"  valueFromSelect="false"
+	        textField="text" valueField="id" parentField="pid" value="control"  allowInput="true"showFolderCheckBox="false"/>
+		</td>
+		<td style="width:12%"><label for="textbox1$text">担保方式:</label></td>
+		<td style="width:38%">
+		<input name="guaranteeType" class="mini-combobox" value="${loan.guaranteeType}" style="width:90%"
+			url="/bank/dic/EnsureType.txt" emptyText="请选择"/>
+		</td>
+	</tr>
+	<tr>
+		<td style="width:12%"><label for="textbox2$text"><font color="red">*</font>贷款日期</label></td>
+		<td style="width:38%" >
+			<input name="loanDate" class="mini-datepicker" value="${loan.loanDate}" style="width:90%"/>
+		</td>
+	</tr>
+	<tr>
+	<td style="width:12%"><label for="textbox1$text"><font color="red">*</font>到期日期:</label></td>
+	<td style="width:38%">
+	<input name="limitDate" class="mini-datepicker" value="${loan.limitDate}" style="width:90%"/>
 	</td>
-	<td style="width:10%"><label for="textbox2$text"><font color="red">*</font>借据号:</label></td>
-	<td style="width:40%" >
-	<input id="textbox2"  name="noteNum" class="mini-textbox" required="true" 
-		requiredErrorText="户主身份证号不能为空"  style="width:90%"/>
+	<td style="width:12%"><label for="textbox2$text">&nbsp;&nbsp;原到期日期:</label></td>
+	<td style="width:38%" >
+	<input name="limitDate1" class="mini-datepicker" value="${loan.limitDate1}" style="width:90%"/>
 	</td>
 	</tr>
 	<tr>
-	<td style="width:10%"><label for="textbox1$text"><font color="red">*</font>合同号:</label></td>
-	<td style="width:40%">
-	<input id="textbox1"  name="compactNum" class="mini-textbox" value="${loan.compactNum}" 
-		readonly="yes" style="width:90%"/>
-	</td>
-	<td style="width:10%"><label for="textbox1$text"><font color="red">*</font>客户类型:</label></td>
-	<td style="width:40%">
-	<input id="textbox1"  name="clientType" class="mini-combobox" style="width:90%" 
-		required="true"  requiredErrorText="联系电话不能为空" url="/bank/dic/ClientType.txt" 
-		emptyText="请选择"/>
-	</td>
-	</tr>
-	<tr>
-	<td style="width:10%"><label for="textbox2$text"><font color="red">*</font>证件类型:</label></td>
-	<td style="width:40%" >
-	<input id="textbox2"  name="idType" class="mini-combobox" style="width:90%"
-		required="true" requiredErrorText="现住址不能为空"  url="/bank/dic/IdType.txt"
-		emptyText="请选择"/>
-	</td>
-	<td style="width:10%"><label for="textbox2$text"> 联系电话:</label></td>
-	<td style="width:40%" >
-	<input id="textbox2"  name="phone" class="mini-textbox" required="true" 
-		requiredErrorText="劳动力人数不能为空"  style="width:90%"/>
-	</td>
-	</tr>
-	<tr>
-	<td style="width:10%"><label for="textbox1$text"> 联系地址:</label></td>
-	<td style="width:40%">
-	<input id="textbox1"  name="address" class="mini-textarea" required="true" 
-		requiredErrorText="邮政编码不能为空" style="width:90%"/>
-	</td>
-	<td style="width:10%"><label for="textbox2$text">贷款日期</label></td>
-	<td style="width:40%" >
-		<input id="textbox2"  name="loanDate" class="mini-datepicker" 
-		value="${loan.loanDate}" style="width:90%"/>
-	</td>
-	</tr>
-	<tr>
-	<td style="width:10%"><label for="textbox1$text">到期日期:</label></td>
-	<td style="width:40%">
-	<input id="textbox1"  name="limitDate" class="mini-datepicker" 
-		value="${loan.limitDate}" style="width:90%"/>
-	</td>
-	<td style="width:10%"><label for="textbox2$text">原到期日期:</label></td>
-	<td style="width:40%" >
-	<input id="textbox2"  name="limitDate1" class="mini-datepicker" style="width:90%"/>
-	</td>
-	</tr>
-	<tr>
-	<td style="width:10%"><label for="textbox1$text">币种:</label></td>
-	<td style="width:40%">
-	<input id="textbox1"  name="currency" class="mini-combobox" style="width:90%"
+	<td style="width:12%"><label for="textbox1$text"><font color="red">*</font>币种:</label></td>
+	<td style="width:38%">
+	<input name="currency" class="mini-combobox" value="${loan.currency}" style="width:90%"
 		url="/bank/dic/Currency.txt" emptyText="请选择"/>
 	</td>
-	<td style="width:10%"><label for="textbox2$text">贷款金额:</label></td>
-	<td style="width:40%" >
-	<input id="textbox2"  name="amount" class="mini-spinner" style="width:90%" 
-		value="${loan.amount}"  minValue="0" maxValue="999999999999999999"	format="n"/>
+	<td style="width:12%"><label for="textbox2$text"><font color="red">*</font>贷款金额:</label></td>
+	<td style="width:38%" >
+	<input name="amount" class="mini-spinner" style="width:90%" value="${loan.amount}"  
+		minValue="0" format="n"/>
 	</td>
 	</tr>
 	<tr>
-	<td style="width:10%"><label for="textbox1$text">贷款余额:</label></td>
-	<td style="width:40%">
-	<input id="textbox1"  name="balance" class="mini-spinner" style="width:90%"/>
+	<td style="width:12%"><label for="textbox1$text">&nbsp;&nbsp;贷款余额:</label></td>
+	<td style="width:38%">
+	<input name="balance" class="mini-spinner" value="${loan.balance}" style="width:90%"/>
 	</td>
-	<td style="width:10%"><label for="textbox1$text">节欠利息:</label></td>
-	<td style="width:40%">
-	<input id="textbox1"  name="oweInterest" class="mini-spinner" style="width:90%"
-		format="n"/>
-	</td>
-	</tr>
-		<tr>
-	<td style="width:10%"><label for="textbox1$text">当前利率:</label></td>
-	<td style="width:40%">
-	<input id="textbox1"  name="currentRate" class="mini-spinner" style="width:90%"
-		format="n"/>
-	</td>
-	<td style="width:10%"><label for="textbox1$text">利率类型:</label></td>
-	<td style="width:40%">
-	<input id="textbox1"  name="rateType" class="mini-textbox" style="width:90%"/>
+	<td style="width:12%"><label for="textbox1$text">&nbsp;&nbsp;结欠利息:</label></td>
+	<td style="width:38%">
+	<input name="oweInterest" class="mini-spinner" value="${loan.balance}" style="width:90%"
+		minValue="0" maxValue="999999999999999999" format="n"/>
 	</td>
 	</tr>
 		<tr>
-		<td style="width:10%"><label for="textbox1$text">贷款用途:</label></td>
-	<td style="width:40%">
-	<input id="textbox1"  name="loanUse" class="mini-textarea" style="width:90%"/>
+	<td style="width:12%"><label for="textbox1$text">&nbsp;&nbsp;当前利率:</label></td>
+	<td style="width:38%">
+	<input name="currentRate" class="mini-spinner" value="${loan.currentRate}" style="width:90%"
+		format="n"/>
 	</td>
-	<td style="width:10%"><label for="textbox1$text">担保方式:</label></td>
-	<td style="width:40%">
-	<input id="textbox1"  name="guaranteeType" class="mini-combobox" style="width:90%"/>
+	<td style="width:12%"><label for="textbox1$text">&nbsp;&nbsp;利率类型:</label></td>
+	<td style="width:38%">
+	<input name="rateType" class="mini-textbox" value="${loan.rateType}" style="width:90%"/>
+	</td>
+	</tr>
+		<tr>
+		<td style="width:12%"><label for="textbox1$text"><font color="red">*</font>贷款用途:</label></td>
+	<td colspan="3" style="width:88%">
+	<input name="loanUse" class="mini-textbox"  value="${loan.loanUse}" style="width:96%"/>
 	</td>
 	</tr>
 	<tr>
-	<td style="width:10%"><label for="textbox1$text">贷款五级分类形态:</label></td>
-	<td style="width:40%">
-	<input id="textbox1"  name="grade" class="mini-combobox" style="width:90%"
+	<td style="width:12%"><label for="textbox1$text"><font color="red">*</font>贷款五级分类形态:</label></td>
+	<td style="width:38%">
+	<input name="grade" class="mini-combobox" value="${loan.grade}" style="width:90%"
 		url="/bank/dic/FiveGrade.txt"/>
 	</td>
-	<td style="width:10%"><label for="textbox1$text">贷款十级分类形态:</label></td>
-	<td style="width:40%">
-	<input id="textbox1"  name="grade1" class="mini-combobox" style="width:90%"/>
-	</td>
-	</tr>
-	<tr>
-	<td style="width:10%"><label for="textbox1$text">结息方式:</label></td>
-	<td style="width:40%">
-	<input id="textbox1"  name="settleType" class="mini-combobox" style="width:90%"
+	<td style="width:12%"><label for="textbox1$text"><font color="red">*</font>结息方式:</label></td>
+	<td style="width:38%">
+	<input name="settleType" class="mini-combobox" value="${loan.settleType}" style="width:90%"
 		url="/bank/dic/SettleType.txt" emptyText="请选择"/>
 	</td>
-	<td style="width:10%"><label for="textbox1$text">管理负责人名称:</label></td>
-	<td style="width:40%">
-	<input id="textbox1"  name="chargePerson" class="mini-textbox" style="width:90%"/>
-	</td>
 	</tr>
-		<tr>
-	<td style="width:10%"><label for="textbox1$text">机构号:</label></td>
-	<td style="width:40%">
-	<input id="textbox1"  name="organCode" class="mini-textbox" style="width:90%"/>
+	<tr>
+	<td style="width:12%"><label for="textbox1$text">贷款发放类型:</label></td>
+	<td style="width:38%">
+	<input name="provideType" class="mini-textbox" value="${loan.provideType}" style="width:90%"/>
 	</td>
-	<td style="width:10%"><label for="textbox1$text">机构名称:</label></td>
-	<td style="width:40%">
-	<input id="textbox1"  name="organName" class="mini-textarea" style="width:90%"/>
-	</td>
-	</tr>
-		<tr>
-	<td style="width:10%"><label for="textbox1$text">业务种类:</label></td>
-	<td style="width:40%">
-	<input id="textbox1"  name="businessType" class="mini-textbox" style="width:90%"/>
-	</td>
-	<td style="width:10%"><label for="textbox1$text">贷款主体:</label></td>
-	<td style="width:40%">
-	<input id="textbox1"  name="businessBody" class="mini-textbox" style="width:90%"/>
-	</td>
-	</tr>
-		<tr>
-	<td style="width:10%"><label for="textbox1$text">贷款发放类型:</label></td>
-	<td style="width:40%">
-	<input id="textbox1"  name="provideType" class="mini-textbox" style="width:90%"/>
-	</td>
-	<td style="width:10%"><label for="textbox1$text">贷款投向:</label></td>
-	<td style="width:40%">
-	<input id="textbox1"  name="invest" class="mini-combobox" style="width:90%"/>
+	<td style="width:12%"><label for="textbox1$text">贷款投向:</label></td>
+	<td style="width:38%">
+	<input name="invest" class="mini-textbox" value="${loan.invest}" style="width:90%"/>
 	</td>
 	</tr>
 	<tr>
-	<td style="width:10%"><label for="textbox1$text">贷款期限种类:</label></td>
-	<td style="width:40%">
-	<input id="textbox1"  name="termTYpe" class="mini-textbox" style="width:90%"/>
+	<td style="width:12%"><label for="textbox1$text">贷款期限种类:</label></td>
+	<td style="width:38%">
+	<input name="termType" class="mini-textbox"  value="${loan.termType}" style="width:90%"/>
 	</td>
-	<td style="width:10%"><label for="textbox1$text">利率浮动范围:</label></td>
-	<td style="width:40%">
-	<input id="textbox1"  name="floatScope" class="mini-spinner" style="width:90%"
+	<td style="width:12%"><label for="textbox1$text">利率浮动范围:</label></td>
+	<td style="width:38%">
+	<input name="floatScope" class="mini-spinner" value="${loan.floatScope}" style="width:90%"
 		format="n"/>
 	</td>
 	</tr>
 	<tr>
-	<td style="width:10%"><label for="textbox1$text">利率调整方式:</label></td>
-	<td style="width:40%">
-	<input id="textbox1"  name="adjustType" class="mini-textbox" style="width:90%"/>
+	<td style="width:12%"><label for="textbox1$text">利率调整方式:</label></td>
+	<td style="width:38%">
+	<input name="adjustType" class="mini-textbox" value="${loan.adjustType}" style="width:90%"/>
 	</td>
-	<td style="width:10%"><label for="textbox1$text">利率执行方式:</label></td>
-	<td style="width:40%">
-	<input id="textbox1"  name="runType" class="mini-combobox" style="width:90%"
+	<td style="width:12%"><label for="textbox1$text">利率执行方式:</label></td>
+	<td style="width:38%">
+	<input name="runType" class="mini-combobox" value="${loan.runType}" style="width:90%"
 		url="/bank/dic/RunType.txt"/>
 	</td>
 	</tr>
 	<tr>
-	<td style="width:10%"><label for="textbox1$text">还款频率:</label></td>
-	<td style="width:40%">
-	<input id="textbox1"  name="frequeency" class="mini-textbox" style="width:90%"/>
+	<td style="width:12%"><label for="textbox1$text">还款频率:</label></td>
+	<td style="width:38%">
+	<input name="frequeency" class="mini-textbox" value="${loan.frequeency}" style="width:90%"/>
+	</td>
+	<td style="width:12%"><label for="textbox2$text"><font color="red">*</font>联系电话:</label></td>
+	<td style="width:38%" >
+	<input id="textbox2"  name="phone" class="mini-textbox" value="${loan.phone}" 
+		required="true" requiredErrorText="劳动力人数不能为空"  style="width:90%"/>
 	</td>
 	</tr>
 	</table>

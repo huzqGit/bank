@@ -18,6 +18,12 @@ public class FarmerCompunishDaoImpl extends GenericMyBatisDAOSupport<FarmerCompu
 		List<FarmerCompunish> compunishs = this.getSqlSession().selectList("farmercompunish.findByFarmerId",farmerId);
 		return compunishs;
 	}
+
+	@Override
+	public List<FarmerCompunish> findByFarmers(List<Long> farmerIds) {
+		List<FarmerCompunish> compunishs = this.getSqlSession().selectList("farmercompunish.findByFarmers", farmerIds);
+		return compunishs;
+	}
 	
 
 }

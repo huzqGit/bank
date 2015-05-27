@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
+import com.bank.beans.Apply;
 import com.bank.beans.Farmer;
 import com.bank.dao.IFarmerDao;
 import com.common.dao.impl.GenericMyBatisDAOSupport;
@@ -13,6 +14,16 @@ import com.common.dao.impl.GenericMyBatisDAOSupport;
 @Repository("farmerDao")
 public class FarmerDaoImpl extends GenericMyBatisDAOSupport<Farmer, Long>
 	implements IFarmerDao {
+
+	@Override
+	public List<Farmer> findByFarmerIds(List<Long> farmerIds) {
+		if(farmerIds.size() >0 ){
+			List<Farmer> farmers = this.getSqlSession().selectList("farmer.findByPKM",farmerIds);
+			return farmers;
+		}else{
+			return null;
+		}
+	}
 
 	@Override
 	public Farmer findByID(String farmerIdNum) {
@@ -42,6 +53,18 @@ public class FarmerDaoImpl extends GenericMyBatisDAOSupport<Farmer, Long>
 	public List<Farmer> findByNames(List<String> farmerNames) {
 		List<Farmer> farmers = this.getSqlSession().selectList("farmer.findByNames",farmerNames);
 		return farmers;
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public void saveApply(Apply apply) {
+		this.getSqlSession().insert("farmer.saveApply",apply);
+	}
+
+	@Override
+	public List<Apply> findApplyByUser(String userId) {
+		List<Apply> applys = this.getSqlSession().selectList("farmer.findApplyByUser",userId);
+		return applys;
 	}
 	
 }

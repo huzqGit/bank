@@ -15,6 +15,8 @@ import java.util.Map;
 
 
 
+
+
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
@@ -88,9 +90,16 @@ public class FarmerPayServiceImpl extends GenericServiceImpl<FarmerPay, Long>
 	}
 
 	@Override
-	public List<FarmerPay> findByFarmerAndYear() {
-		
-		return null;
+	public List<FarmerPay> findByFarmerAndYear(Long farmerId,String year) {
+		List<FarmerPay> balances = farmerPayDao.findByFarmerAndYear(farmerId, year);
+		return balances;
 	}
+	@Override
+	public List<FarmerPay> findByFarmersAndYear(List<Long> farmerIds,
+			String year) {
+		List<FarmerPay> balances = farmerPayDao.findByFarmersAndYear(farmerIds, year);
+		return balances;
+	}
+
 	
 }

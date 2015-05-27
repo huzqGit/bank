@@ -93,6 +93,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<include refid="House_Column_List" />
 	from t_farmer_house where farmerId = #{id,jdbcType=BIGINT}
 </select>
+<select id="findByFarmers" parameterType="list" resultMap="farmer.farmerList">
+	select a.*
+	from t_farmer a
+	where a.farmerId in 
+	(
+	select distinct farmerId from
+		(
+		select farmerId from t_farmer_house
+		union all
+		select farmerId from t_farmer_forest
+		union all
+		select farmerId from t_farmer_breed
+		union all
+		select farmerId from t_farmer_device
+		)
+	)
+	and a.farmerId in
+	<foreach item="item" index="index" collection="list" 
+			open="(" separator="," close=")">
+	#{item}
+	</foreach>
+</select>
 <resultMap id="farmerHouseList" type="com.bank.beans.FarmerHouse">
     <id column="houseId" property="id" jdbcType="BIGINT"/>
     <result column="farmerId" property="farmerId" jdbcType="BIGINT" />

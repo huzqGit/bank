@@ -10,10 +10,8 @@ public class FarmerInsured extends BaseEntity<Long> {
 	 * 
 	 */
 	private static final long serialVersionUID = -4718082476820104198L;
-	//户主姓名
-	private String farmerName;
 	//户主身份证号
-	private String farmerIdNum;
+	private Long farmerId;
 	//参保人姓名
 	private String name;
 	//被参加保险种类
@@ -29,20 +27,13 @@ public class FarmerInsured extends BaseEntity<Long> {
 	//记录时间
 	private Date recordTime;
 	
-	public String getFarmerName() {
-		return farmerName;
+
+	public Long getFarmerId() {
+		return farmerId;
 	}
 
-	public void setFarmerName(String farmerName) {
-		this.farmerName = farmerName;
-	}
-
-	public String getFarmerIdNum() {
-		return farmerIdNum;
-	}
-
-	public void setFarmerIdNum(String farmerIdNum) {
-		this.farmerIdNum = farmerIdNum;
+	public void setFarmerId(Long farmerId) {
+		this.farmerId = farmerId;
 	}
 
 	public String getName() {

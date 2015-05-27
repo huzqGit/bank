@@ -18,8 +18,6 @@ background:url(/bank/jsp/main/leftmenu/images/icon-bg.jpg) repeat-x center;
 <body>
 <div class="mini-toolbar" style="padding-top:5px;border-bottom:0;">
         <table style="width:100%;">
-        
-       		
        		<tr>
        			<td>
        			<a class="mini-button" iconCls="icon-add" plain="true"  target ="_self" href="/bank/jsp/farmer/farmerBadLoanForm.jsp">新增</a>

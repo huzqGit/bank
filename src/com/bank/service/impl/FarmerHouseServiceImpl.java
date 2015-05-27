@@ -131,4 +131,11 @@ public class FarmerHouseServiceImpl extends GenericServiceImpl<FarmerHouse, Long
 			}
 		}
 	}
+
+	@Override
+	public List<Farmer> findByFarmers(List<Long> farmerIds) {
+		List<Farmer> farmers =  farmerHouseDao.findByFarmers(farmerIds);
+		return farmers;
+	}
+	
 }

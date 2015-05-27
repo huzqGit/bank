@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="farmermember">
 <sql id="Member_Column_List" >
 	memberId, farmerId, name, relation, idNum, education,
-	marryStatus, occupation, job, sex, phone
+	marryStatus, occupation, job, sex,address, phone
 </sql>
 <insert id="save" useGeneratedKeys="true" keyProperty="id" 
 	parameterType="com.bank.beans.FarmerMember">
@@ -41,6 +41,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	   </if>
 	   <if test="sex != null">
 	   	    sex,
+	   </if>
+	    <if test="address != null">
+	   	    address,
 	   </if>
 	   <if test="phone != null">
 	   		phone,
@@ -77,6 +80,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    <if test="sex != null">
 	        #{sex,jdbcType=INTEGER},
 	    </if>
+	     <if test="address != null">
+	   	    #{address,jdbcType=VARCHAR},
+	   </if>
 	    <if test="phone != null">
 	        #{phone,jdbcType=VARCHAR},
 	    </if>
@@ -92,6 +98,7 @@ marryStatus = #{marryStatus,jdbcType = VARCHAR},
 occupation = #{occupation,jdbcType = VARCHAR},
 job = #{job,jdbcType = VARCHAR},
 sex = #{sex,jdbcType = INTEGER}, 
+address = #{address,jdbcType=VARCHAR},
 phone = #{phone,jdbcType = VARCHAR}
 where memberId = #{id,jdbcType = VARCHAR}
 </update>

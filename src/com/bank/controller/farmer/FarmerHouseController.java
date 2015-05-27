@@ -1,7 +1,9 @@
 package com.bank.controller.farmer;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -54,7 +56,7 @@ public class FarmerHouseController {
 		Farmer farmer = (Farmer) JSON.toJavaObject(jsb, Farmer.class);
 		
 		Object houseJsonData = JsonUtil.Decode(houseData);
-		houseData = JSON.toJSONStringWithDateFormat(houseJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);	
+		houseData = JSON.toJSONStringWithDateFormat(houseJsonData, "yyyy", SerializerFeature.WriteDateUseDateFormat);	
 		List<FarmerHouse> house = (List<FarmerHouse>)JSON.parseArray(houseData, FarmerHouse.class);
 		
 		Object forestJsonData = JsonUtil.Decode(forestData);
@@ -66,7 +68,7 @@ public class FarmerHouseController {
 		List<FarmerBreed> breed = (List<FarmerBreed>)JSON.parseArray(breedData, FarmerBreed.class);
 		
 		Object deviceJsonData = JsonUtil.Decode(deviceData);
-		deviceData = JSON.toJSONStringWithDateFormat(deviceJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);	
+		deviceData = JSON.toJSONStringWithDateFormat(deviceJsonData, "yyyy", SerializerFeature.WriteDateUseDateFormat);	
 		List<FarmerDevice> device = (List<FarmerDevice>)JSON.parseArray(deviceData, FarmerDevice.class);
 		
 		if(farmer.getId() == null){
@@ -88,7 +90,40 @@ public class FarmerHouseController {
 		return null;
 		
 	}
-	
+	@RequestMapping(value="/loadChanQuan",method=RequestMethod.GET)
+	public ModelAndView loadChanQuan(@RequestParam(value="fid") String fid,
+			HttpServletResponse response) throws Exception{
+		//查询条件
+	   Long farmerId = Long.valueOf(fid);
+	   Farmer farmer = farmerService.findByPK(farmerId);
+	   List<FarmerHouse> houses = farmerHouseService.findHouseByFarmer(farmerId);
+	   if(houses.size() == 0){
+	    	FarmerHouse house= new FarmerHouse();
+	    	houses.add(house);
+	   }
+	   List<FarmerForest> forests = farmerHouseService.findForestByFarmer(farmerId);
+	   if(forests.size() == 0){
+		   FarmerForest forest = new FarmerForest();
+	       forests.add(forest);
+	   }
+	   List<FarmerBreed> breeds = farmerHouseService.findBreedByFarmer(farmerId);
+	   if(breeds.size() == 0){
+		   FarmerBreed breed = new FarmerBreed();
+	       breeds.add(breed);
+	   }
+	   List<FarmerDevice>  devices = farmerHouseService.findDeviceByFarmer(farmerId);
+	   if(devices.size() == 0){
+		   FarmerDevice device = new FarmerDevice();
+	       devices.add(device);
+	   }
+	   ModelAndView view = new ModelAndView("/farmer/farmerChanQuanForm");
+	   view.addObject("farmer", farmer);
+	   view.addObject("houses",houses);
+	   view.addObject("forests",forests);
+	   view.addObject("breeds",breeds);
+	   view.addObject("devices",devices);
+	   return view;
+	}
 	@RequestMapping(value = "/loadHouse", method = RequestMethod.POST)
 	public ModelAndView loadCompany(@RequestParam(value="id",required=true) String id, 
 			HttpServletResponse response) throws Exception {
@@ -154,41 +189,15 @@ public class FarmerHouseController {
 	   List<Farmer> farmers = farmerService.findByIDAndName(farmerIdNum, farmerName);
 	   if(farmers.size() == 0){
 		   ModelAndView view = new ModelAndView("/farmer/farmerChanQuanView");
+		   view.addObject("farmerName", farmerName);
+		   view.addObject("farmerIdNum", farmerIdNum);
 	       view.addObject("msg","未找到匹配的农户信息!您可以到【农户】-【数据采集】-【基本信息】模块中录入农户信息后再录入农户的资产信息!");
-	       return view;
-	   }else if(farmers.size() == 1){
-		   Farmer farmer = farmers.get(0);
-	       Long farmerId = farmer.getId();
-	       List<FarmerHouse> houses = farmerHouseService.findHouseByFarmer(farmerId);
-	       if(houses.size() == 0){
-	    		FarmerHouse house= new FarmerHouse();
-	    		houses.add(house);
-	       }
-	       List<FarmerForest> forests = farmerHouseService.findForestByFarmer(farmerId);
-	       if(forests.size() == 0){
-	    		FarmerForest forest = new FarmerForest();
-	    		forests.add(forest);
-	       }
-	       List<FarmerBreed> breeds = farmerHouseService.findBreedByFarmer(farmerId);
-	       if(breeds.size() == 0){
-	    		FarmerBreed breed = new FarmerBreed();
-	    		breeds.add(breed);
-	       }
-	       List<FarmerDevice>  devices = farmerHouseService.findDeviceByFarmer(farmerId);
-	    	if(devices.size() == 0){
-	    		FarmerDevice device = new FarmerDevice();
-	    		devices.add(device);
-	       }
-	       ModelAndView view = new ModelAndView("/farmer/farmerChanQuanForm");
-	       view.addObject("farmer", farmer);
-	       view.addObject("houses",houses);
-	       view.addObject("forests",forests);
-	       view.addObject("breeds",breeds);
-	       view.addObject("devices",devices);
 	       return view;
 	   }else{
 		   ModelAndView view = new ModelAndView("/farmer/farmerChanQuanView");
-	       view.addObject("msg","找到多个农户信息!");
+		   view.addObject("farmerName", farmerName);
+		   view.addObject("farmerIdNum", farmerIdNum);
+		   view.addObject("farmers",farmers);
 	       return view;
 	   }
 	}

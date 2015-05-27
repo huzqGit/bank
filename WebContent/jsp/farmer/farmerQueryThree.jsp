@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -9,9 +10,7 @@
 <title>农户信息条件查询</title>
 <style type="text/css">
 *{margin:0;padding:0}
-body{
-line-height:15px;
-}
+body{scrollbar-base-color:#90D5EA;line-height:120%;font-family:"仿宋_GB2312";font-size:13pt;}
 .queryPane{
 background:linear-gradient(white,#6DC8E3,white);
 /* IE6 & IE7 */
@@ -34,59 +33,48 @@ height:20px;
 li{
 margin-top:5px
 }
+.table_m{width:98%;height:250px;margin:auto auto;overflow-y:auto;overflow-x:hidden;}
+.table_m table{width:100%;border-bottom:1px dotted gray}
+.table_m tr:hover{background:#90D5EA}
+.table_m table td{height:30px;line-height:30px;border-top:1px dotted gray;}
 </style>
 </head>
 <body>
 <div class="queryPane" style="padding-top:10px;width:100%">
+<form action="/bank/farmer/loadFarmerThree.do" method="POST">
 <table width="100%" style="vertical-align:middle;border:1px solid #8AD3E9">
 	<tr>
-		<td class="labelName" width="30%"align="right" >地区:</td> 
+		<td class="labelName"  width="30%" align="right">贷款金融机构名称:</td>
 		<td width="2%" ></td>
-		<td width="10%"><input type="text"/></td>
-		<td width="2%" ></td>
-		<td class="labelName"  width="10%" align="right">金融机构名称:</td>
-		<td align="left"><input  type="text"></td>
+		<td align="left" colspan="3"><input  type="text" name="organName"></td>
 	</tr>
 	<tr>
-		<td class="labelName" width="30%"align="right" >时间从:</td> 
+		<td class="labelName" width="30%"align="right" >贷款时间从:</td> 
 		<td width="2%" ></td>
-		<td><input type="text"/></td>
+		<td><input type="text" name="loanDate1"/></td>
 		<td width="2%" ></td>
 		<td class="labelName"  width="10%" align="right">到:</td>
-		<td><input  type="text"></td>
+		<td><input  type="text" name="loandDate2"></td>
 	</tr>
 	<tr>
 		<td class="labelName" width="30%"align="right" >贷款余额范围从:</td> 
 		<td width="2%" ></td>
-		<td><input type="text"/></td>
+		<td><input type="text" name="balance1"/></td>
 		<td width="2%" ></td>
 		<td class="labelName"  width="10%" align="right">到:</td>
-		<td><input  type="text"></td>
-	</tr>
-	<tr>
-		<td class="labelName" width="30%"align="right" >资产总额范围从:</td>
-		<td width="2%" ></td>
-		<td><input type="text"/></td>
-		<td width="2%" ></td>
-		<td class="labelName"  width="10%"  align="right">到:</td>
-		<td><input  type="text"></td>
-	</tr>
-	<tr>
-		<td class="labelName" width="30%"align="right" >收入范围从:</td>
-		<td width="2%" ></td>
-		<td><input type="text"/></td>
-		<td width="2%" ></td>
-		<td class="labelName"  width="10%"  align="right">到:</td>
-		<td><input  type="text"></td>
+		<td><input  type="text" name="balance2"></td>
 	</tr>
 	<tr>
 		<td colspan="5">
 		<td  align="center">
-			<input type="button"style="width:100px;height:25px;margin-top:10px;border:0;background:url(/bank/images/query.png) no-repeat">
+			<input type="submit" value="" style="width:100px;height:25px;margin-top:10px;border:0;background:url(/bank/images/query.png) no-repeat">
 		</td>
 	</tr>
 </table>
+</form>
 </div>
+<c:choose>
+<c:when test="${empty farmers}">
 <div>
 <fieldset style="width:90%;margin:auto auto">
 	 <legend style="width:310px;height:74px;background:url(/bank/images/threetips.png) no-repeat"></legend>
@@ -101,5 +89,34 @@ margin-top:5px
 	 </div>
 </fieldset>
 </div>
+</c:when>
+<c:otherwise>
+<div>
+<fieldset style="width:90%;margin:auto auto">
+<legend style="width:310px;height:74px;background:url(/bank/images/tips.png) no-repeat"></legend>
+<div class="table_m">
+<table class="table_m" border="0" cellspacing="0" cellpadding="0">
+	<tr style="font-weight:bold;color:black">
+		<td align="center" width="8%">编号</td>
+		<td align="center" width="10%">姓名</td>
+		<td align="center" width="15%">身份证号码</td>
+		<td align="center" width="15%">联系电话</td>
+		<td align="center" width="50%">住址</td>
+	</tr>
+	<c:forEach items="${farmers}" var="farmer" varStatus="status">
+	<tr onclick="detail(${farmer.id})">
+		<td align="center">${status.index+1}</td>
+		<td align="center">${farmer.farmerName}</td>
+		<td align="center">${farmer.farmerIdnum}</td>
+		<td align="center">${farmer.phone}</td>
+		<td align="center">${farmer.address}</td>
+	</tr>	
+	</c:forEach>
+</table>
+</div>
+</fieldset>
+</div>
+</c:otherwise>
+</c:choose>
 </body>
 </html>

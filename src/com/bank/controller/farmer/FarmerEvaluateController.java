@@ -3,6 +3,7 @@ package com.bank.controller.farmer;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -79,28 +80,25 @@ public ModelAndView typeInEvaluate(@RequestParam(value="farmerName") String farm
 		view.addObject("farmerName",farmerName);
 		view.addObject("msg","未找到相应的农户信息!您可以填写好姓名和身份证号码后录入新的农户信息");
 		return view;
-	}else if(farmers.size()== 1){
-		Farmer farmer = farmers.get(0);
-    	FarmerEvaluate evaluate = farmerEvaluateService.getEvaluateByFarmer(farmer.getId());
-    	ModelAndView view = new ModelAndView("/farmer/farmerQiTaForm");
-		view.addObject("farmer", farmer);
-		view.addObject("evaluate", evaluate);
-		return view;
-	 }else{
+	}else{
 		ModelAndView view = new ModelAndView("/farmer/farmerQiTaView");
+		view.addObject("farmerIdNum",farmerIdNum);
+		view.addObject("farmerName",farmerName);
 		view.addObject("farmers",farmers);
 		return view;
 	 }
 }	
-	@RequestMapping(value = "/loadEvaluate", method = RequestMethod.POST)
-	public ModelAndView loadCompany(@RequestParam(value="id",required=true) String id, 
+	@RequestMapping(value = "/loadEvaluate", method = RequestMethod.GET)
+	public ModelAndView loadEvaluate(@RequestParam(value="fid") String fid, 
 			HttpServletResponse response) throws Exception {
-		if(!StringUtils.isEmpty(id)){
-			Long evaluateId=Long.valueOf(id);
-			FarmerEvaluate farmer = farmerEvaluateService.findByPK(evaluateId);
-			String json = JsonUtil.Encode(farmer);
-			response.setContentType("text/html;charset=UTF-8");
-		    response.getWriter().write(json);
+		if(!StringUtils.isEmpty(fid)){
+			Long farmerId=Long.valueOf(fid);
+			Farmer farmer = farmerService.findByPK(farmerId);
+			FarmerEvaluate evaluate = farmerEvaluateService.findByID(farmerId);
+			ModelAndView view = new ModelAndView("/farmer/farmerQiTaForm");
+			view.addObject("farmer", farmer);
+			view.addObject("evaluate", evaluate);
+			return view;
 		}
 		return null;
 		

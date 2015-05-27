@@ -13,7 +13,12 @@ public class Dictionary {
 	private static Properties marrystatus = new Properties();
 	private static Properties politicstatus = new Properties();
 	private static Properties housetype = new Properties();
+	private static Properties houseproperties = new Properties();
 	private static Properties yesorno = new Properties();
+	private static Properties evaluate = new Properties();
+	private static Properties insure = new Properties();
+	
+	
 	static{
 		sex.put("1", "男性");
 		sex.put("2", "女性");
@@ -53,6 +58,33 @@ public class Dictionary {
 		yesorno.put("0", "否");
 		yesorno.put("1", "是");
 		
+		evaluate.put("1", "好");
+		evaluate.put("2", "较好");
+		evaluate.put("3", "一般");
+		evaluate.put("4", "差");
+		evaluate.put("5", "很差");
+		evaluate.put("9", "其他");
+		
+		insure.put("1", "人寿");
+		insure.put("2", "财产");
+		insure.put("3", "医疗");
+		insure.put("4", "农业保险");
+		insure.put("5", "社会保险险种");
+		insure.put("9", "其他");
+		houseproperties.put("1", "房屋");
+		houseproperties.put("2", "商品房");
+		houseproperties.put("3", "房改房");
+		houseproperties.put("4", "存量房");
+		houseproperties.put("5", "集资房");
+		houseproperties.put("6", "微利房");
+		houseproperties.put("7", "平价房");
+		houseproperties.put("8", "解困房");
+		houseproperties.put("9", "再上市房");
+		houseproperties.put("10", "廉租住房");
+		houseproperties.put("11", "花园式住房");
+		houseproperties.put("12", "经济适用住房");
+		houseproperties.put("13",  "公寓式住房");
+
 		dic.put("sex",sex);
 		dic.put("relation", relation);
 		dic.put("education", education);
@@ -60,11 +92,15 @@ public class Dictionary {
 		dic.put("politicstatus",politicstatus);
 		dic.put("housetype",housetype);
 		dic.put("yesorno",yesorno);
-
+		dic.put("evaluate", evaluate);
+		dic.put("insure", insure);
+		dic.put("houseproperties",houseproperties);
 	}
 	public static String translate(String name,String value){
 		Properties prop = dic.get(name);
-		if(prop == null){
+		if(value == null){
+			return "";
+		}else if(prop == null){
 			return "";
 		}else{
 			return prop.getProperty(value);
