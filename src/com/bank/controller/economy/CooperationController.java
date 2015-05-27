@@ -146,9 +146,18 @@ public class CooperationController {
 			HttpServletResponse response) throws Exception{
 		
 		//查询条件
-	    String key = request.getParameter("key");
+	    String cooperationName = HttpUtils.getParameter(request,"cooperationName");
+	    String orgaCode = HttpUtils.getParameter(request,"orgaCode");
+	    String recorder = HttpUtils.getParameter(request,"recorder");
+	    String recordTimeBegin = HttpUtils.getParameter(request,"recordTimeBegin");
+	    String recordTimeEnd = HttpUtils.getParameter(request,"recordTimeEnd");
+
 	    Map<String,String> map = new HashMap<String,String>();
-	    map.put("key", key);
+	    map.put("cooperationName", cooperationName);
+	    map.put("orgaCode", orgaCode);
+	    map.put("recorder", recorder);
+	    map.put("recordTimeBegin", recordTimeBegin);
+	    map.put("recordTimeEnd", recordTimeEnd);
 	    
 	    int pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
 	    int pageSize = Integer.parseInt(request.getParameter("pageSize"));        

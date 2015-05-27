@@ -78,15 +78,20 @@ background:url(/bank/jsp/main/leftmenu/images/icon-bg.jpg) repeat-x center;
 		  query.clear();
 	  }
 	  function onSearch() {
-		  var companyName = mini.get("companyName").getValue();
-		  var organCode =mini.get("organCode").getValue();
-		  var  creditCode=mini.get("creditCode").getValue();
+		  var cooperationName = mini.get("cooperationName").getValue();
+		  var orgaCode =mini.get("orgaCode").getValue();
 		  var recorder=mini.get("recorder").getValue();
 		  var recordTimeBegin=mini.get("recordTimeBegin").getValue();
 		  var recordTimeEnd=mini.get("recordTimeEnd").getValue();
-		  
-          grid.load({companyName:companyName,organCode:organCode,creditCode:creditCode,
-        	  recorder:recorder,recordTimeBegin:recordTimeBegin,recordTimeEnd:recordTimeEnd});
+		  recordTimeBegin = mini.formatDate ( recordTimeBegin, 'yyyy-MM-dd' );
+		  recordTimeEnd = mini.formatDate ( recordTimeEnd, 'yyyy-MM-dd' );
+         	  grid.load({
+        	  	cooperationName : cooperationName,
+        	  	orgaCode : orgaCode,
+        	 	recorder : recorder,
+        	 	recordTimeBegin : recordTimeBegin,
+        	 	recordTimeEnd : recordTimeEnd
+        	  });
        }
 	  function onActionRenderer(e) {
           var record = e.record;
