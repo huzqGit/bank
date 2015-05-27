@@ -14,8 +14,10 @@
 	<table style="width:100%;">
     	<tr>
         	<td style="white-space:nowrap;">
-	        	<a class="mini-button" iconCls="icon-save" plain="true" onclick="submitForm()">保存</a>
-	           	<span class="separator"></span>
+        		<span style="${display}">
+		        	<a class="mini-button" iconCls="icon-save" plain="true" onclick="submitForm()">保存</a>
+		           	<span class="separator"></span>
+	            </span>
 	            <a class="mini-button" iconCls="icon-upgrade" plain="true" onclick="back()">返回</a>
                 <span class="separator"></span>
             </td>
@@ -23,8 +25,8 @@
       </table>
 </div>
 <div id="form1" style="width:90%;margin:auto auto">
-	<form action="/bank/company/save.do" method="POST">
-	<input type="hidden" name="cooperationId"/>
+	<form action="/bank/economy/saveCooperation.do" method="POST">
+	<input name="cooperationId" class="mini-hidden" value="${cooperationId}"/>
 	<input name="recorder" class="mini-hidden" value="管理员"/>
 	<input name="recordTime" class="mini-hidden" value="${currentTime}"/>
 	<table border="0" cellpadding="1" cellspacing="15" width="100%" >
@@ -40,10 +42,10 @@
 	<input id="textbox1"  name="cooperationName" class="mini-textbox" required="true" 
 		requiredErrorText="合作社名称不能为空" style="width:90%"/>
 	</td>
-	<td style="width:10%"><label for="textbox2$text">组织机构代码:</label></td>
+	<td style="width:10%"><label for="textbox2$text">组织机构编码:</label></td>
 	<td style="width:40%" >
-	<input id="textbox2"  name="organCode" class="mini-textbox" required="true" 
-		requiredErrorText="组织机构代码不能为空"  style="width:90%"/>
+	<input id="textbox2"  name="orgaCode" class="mini-textbox" required="true" 
+		requiredErrorText="组织机构编码不能为空"  style="width:90%"/>
 	</td>
 	</tr>
 	<tr>
@@ -109,7 +111,7 @@
 	<tr>
 	<td style="width:10%"><label for="textbox1$text">经营范围:</label></td>
 	<td style="width:40%">
-	<input id="textbox1"  name="bussinesScope" class="mini-textbox" required="true" 
+	<input id="textbox1"  name="businesScope" class="mini-textbox" required="true" 
 		requiredErrorText="经营范围不能为空" style="width:90%"/>
 	</td>
 	<td style="width:10%"><label for="textbox1$text">经营场地面积:</label></td>
@@ -139,4 +141,54 @@
 	</form>
 </div>
 </body>
+<script type="text/javascript">
+		mini.parse();
+		var form = new mini.Form("#form1");
+		//查询表单数据
+		$(document).ready(function(){
+			$.ajax({
+			    url: "${pageContext.request.contextPath}/economy/findCooperation.do",
+			    type: "post",
+			    data:{cooperationId:"${cooperationId}"},
+			    success: function (text) {
+			        var data = mini.decode(text);   //反序列化成对象
+			        if(data.cooperationId!=null){
+			       	 	form.setData(data);  //设置多个控件数据   
+			        }
+			    },
+			    error:function(text,arg2){
+			    }
+			});
+			
+		});
+		
+		function back(){
+			history.go(-1);
+		}
+		
+		function submitForm(){
+			//提交表单数据
+		    var formData = form.getData();      //获取表单多个控件的数据'
+		   	form.validate();
+	      	if (!form.isValid())
+	      		return;
+		    var json = mini.encode(formData);   //序列化成JSON
+		    $.ajax({
+		        url: "${pageContext.request.contextPath}/economy/saveCooperation.do",
+		        type: "post",
+		        data: { formData: json},
+		        contentType: "application/x-www-form-urlencoded; charset=utf-8",
+		        success: function (text) {
+		        	var data = mini.decode(text);   //反序列化成对象
+			        if(data.cooperationId!=null){
+			       	 	form.setData(data);
+			        }
+		        	 mini.alert('保存成功！');
+		        },
+		        error: function (jqXHR, textStatus, errorThrown) {
+		            mini.alert('系统异常！');
+		        }
+			});
+		}
+	  </script>
 </html>
