@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cooperation">
 <sql id="Cooperation_Column_List" >
-   cooperationid, ooperationname,organcode, taxcode, registeraddress, mailaddress,
+   cooperationid, cooperationname,orgaCode, taxcode, registeraddress, mailaddress,
    registerdate, registercapital, realcapital, legalperson, idnum, phone, members,
-   bussinesscope, businessarea, farmers, onnectionbase, recorder, recordtime
+   businesScope, businessarea, farmers, connectionbase, recorder, recordtime
 </sql>
 <insert id="save" useGeneratedKeys="true" keyProperty="cooperationId" 
-	parameterType="com.bank.beans.FarmerCoopertaion">
+	parameterType="com.bank.beans.FarmerCooperation">
+	insert into t_cooperation
 	<trim prefix="(" suffix=")" suffixOverrides=",">
 		<if test="cooperationName != null">
 			cooperationName,
 		</if>
-		<if test="organCode != null">
-			organCode,
+		<if test="orgaCode != null">
+			orgaCode,
 		</if>
    		<if test="taxCode != null">
    			taxCode,
@@ -44,8 +46,8 @@
 		<if test="members != null">
 			members,
 		</if>
-		<if test="businessScope != null">
-			businessScope,
+		<if test="businesScope != null">
+			businesScope,
 		</if>
 		<if test="businessArea != null">
 			businessArea,
@@ -67,8 +69,8 @@
 		<if test="cooperationName != null">
 			#{cooperationName,jdbcType=VARCHAR},
 		</if>
-		<if test="organCode != null">
-			#{organCode,jdbcType=VARCHAR},
+		<if test="orgaCode != null">
+			#{orgaCode,jdbcType=VARCHAR},
 		</if>
    		<if test="taxCode != null">
    			#{taxCode,jdbcType=VARCHAR},
@@ -100,8 +102,8 @@
 		<if test="members != null">
 			#{members,jdbcType=INTEGER},
 		</if>
-		<if test="businessScope != null">
-			#{businessScope,jdbcType=VARCHAR},
+		<if test="businesScope != null">
+			#{businesScope,jdbcType=VARCHAR},
 		</if>
 		<if test="businessArea != null">
 			#{businessArea,jdbcType=INTEGER},
@@ -120,10 +122,48 @@
   		</if>
 	</trim>
 </insert>
+<update id="update" parameterType="com.bank.beans.FarmerCooperation">
+	update t_cooperation 
+	set	members = #{members},cooperationname = #{cooperationName},
+		orgaCode = #{orgaCode}, taxcode = #{taxCode},
+		registeraddress = #{registerAddress}, mailaddress = #{mailAddress},
+	   	registerdate = #{registerDate}, registercapital = #{registerCapital},
+	   	realcapital = #{realCapital}, legalperson = #{legalPerson},
+	   	idnum = #{idNum}, phone = #{phone}, 
+	   	businesscope = #{businesScope}, businessarea = #{businessArea},
+	   	farmers = #{farmers}, connectionbase = #{connectionBase},
+	   	recorder = #{recorder}, recordtime = #{recordTime}
+	   	where cooperationid = #{cooperationId}
+</update>
 <select id="findByPK" parameterType="Long" 
-		resultType="com.bank.beans.FarmerCoopertion">
+		resultType="com.bank.beans.FarmerCooperation">
 	select 
 	<include refid="Cooperation_Column_List" />
-	from t_farmer_cooperation where cooperationid = #{id,jdbcType=INTEGER}
+	from t_cooperation where cooperationid = #{id,jdbcType=INTEGER}
+</select>
+<select id="getPageingEntities" parameterType="map"
+	resultType="com.bank.beans.FarmerCooperation">
+   SELECT t.* FROM t_cooperation t,
+	(select cooperationid, ROW_NUMBER() OVER () as rn from t_cooperation) AS t1 where t1.cooperationid= t.cooperationid
+   <if test="key != null">
+   		and t.user_name like '%${key}%' or t.user_id like '%${key}%'
+   </if>
+   <if test="start != null">
+  		<![CDATA[ and  t1.rn > #{start}	]]>
+   </if>
+   <if test="end != null">
+  		<![CDATA[	and t1.rn <= #{end}		]]>
+   </if>
+   <choose>
+	   <when test="sortField != null and sortField != ''">
+	   		<![CDATA[ order by ${sortField} ${sortOrder}	]]>
+	   </when>
+	   <otherwise>
+	   		order by t.cooperationid desc
+	   </otherwise>
+   </choose>
+</select>
+<select id="getTotal" parameterType="map" resultType="long">
+	select count(*) from t_cooperation
 </select>
 </mapper>
