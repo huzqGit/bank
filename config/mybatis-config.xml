@@ -36,6 +36,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="com.bank.beans.Loan" alias="loan"/>
 		<typeAlias type="com.bank.beans.Message" alias="Message"/>
 		<typeAlias type="com.bank.beans.FarmerCooperation" alias="FarmerCooperation"/>
+		<typeAlias type="com.bank.beans.FarmerCooperationDebt" alias="FarmerCooperationDebt"/>
 	</typeAliases>
 	
 	<mappers>
@@ -68,6 +69,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="model/Loan.xml"/>
 		<mapper resource="model/Message.xml"/>
 		<mapper resource="model/Cooperation.xml" />
+		<mapper resource="model/CooperationDebt.xml" />
 	</mappers> 
 
 

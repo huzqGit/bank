@@ -43,9 +43,9 @@ public class CooperationController {
 		String formatdata = JSON.toJSONStringWithDateFormat(decodeJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
 		JSONObject jsb = JSONObject.parseObject(formatdata);
 		FarmerCooperation coo = (FarmerCooperation) JSON.toJavaObject(jsb, FarmerCooperation.class);
-		if(coo.getRecordTime() == null)
-			coo.setRecordTime(new Date());
 		try{
+			if(coo.getRecordTime() == null)
+				coo.setRecordTime(new Date());
 			if(coo.getCooperationId()==null){
 				cooperationService.save(coo);
 			}else{

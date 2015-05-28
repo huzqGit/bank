@@ -25,7 +25,7 @@ background:url(/bank/jsp/main/leftmenu/images/icon-bg.jpg) repeat-x center;
  <div class="mini-toolbar" style="padding-top:5px;border-bottom:0;">
         <table style="width:100%;">
        		<tr>
-       			<td><a class="mini-button" iconCls="icon-add" plain="true"  target ="_self" href="${pageContext.request.contextPath}/economy/addForm.do?dest=cooperation/cooperationForm">新增</a>
+       			<td><a class="mini-button" iconCls="icon-add" plain="true"  target ="_self" href="${pageContext.request.contextPath}/common/addForm.do?dest=cooperation/cooperationForm">新增</a>
             		<span class="separator"></span>
             		<a class="mini-button" iconCls="icon-goto" plain="true" href="">导入</a>
        			<span class="separator"></span>
@@ -96,8 +96,8 @@ background:url(/bank/jsp/main/leftmenu/images/icon-bg.jpg) repeat-x center;
 	  function onActionRenderer(e) {
           var record = e.record;
           var cooperationId = record.cooperationId;
-          var s = '<a class="New_Button" target="_self" href="${pageContext.request.contextPath}/economy/viewForm.do?dest=cooperation/cooperationForm&sys_key=cooperationId&sys_value='+cooperationId+'">[查看]</a>';      
-           s += '<a class="New_Button" target="_self" href="${pageContext.request.contextPath}/economy/editForm.do?dest=cooperation/cooperationForm&sys_key=cooperationId&sys_value='+cooperationId+'">[编辑]</a>';      
+          var s = '<a class="New_Button" target="_self" href="${pageContext.request.contextPath}/common/viewForm.do?dest=cooperation/cooperationForm&sys_key=cooperationId&sys_value='+cooperationId+'">[查看]</a>';      
+           s += '<a class="New_Button" target="_self" href="${pageContext.request.contextPath}/common/editForm.do?dest=cooperation/cooperationForm&sys_key=cooperationId&sys_value='+cooperationId+'">[编辑]</a>';      
           return s;
       }
    </script>

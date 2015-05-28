@@ -123,16 +123,27 @@
 	</trim>
 </insert>
 <update id="update" parameterType="com.bank.beans.FarmerCooperation">
-	update t_cooperation 
-	set	members = #{members},cooperationname = #{cooperationName},
-		orgaCode = #{orgaCode}, taxcode = #{taxCode},
-		registeraddress = #{registerAddress}, mailaddress = #{mailAddress},
-	   	registerdate = #{registerDate}, registercapital = #{registerCapital},
-	   	realcapital = #{realCapital}, legalperson = #{legalPerson},
-	   	idnum = #{idNum}, phone = #{phone}, 
-	   	businesscope = #{businesScope}, businessarea = #{businessArea},
-	   	farmers = #{farmers}, connectionbase = #{connectionBase},
-	   	recorder = #{recorder}, recordtime = #{recordTime}
+	update t_cooperation
+	<set>
+		<if test="members != null and members != ''">members = #{members},</if>
+		<if test="cooperationName != null and cooperationName != ''">cooperationname = #{cooperationName},</if>
+		<if test="orgaCode != null and orgaCode != ''">orgaCode = #{orgaCode},</if>
+		<if test="taxCode != null and taxCode != ''">taxcode = #{taxCode},</if>
+		<if test="registerAddress != null and registerAddress != ''">registeraddress = #{registerAddress},</if>
+		<if test="mailAddress != null and mailAddress != ''">mailaddress = #{mailAddress},</if>
+	   	<if test="registerDate != null and registerDate != ''">registerdate = #{registerDate},</if>
+	   	<if test="registerCapital != null and registerCapital != ''">registercapital = #{registerCapital},</if>
+	   	<if test="realCapital != null and realCapital != ''">realcapital = #{realCapital},</if>
+	   	<if test="legalPerson != null and legalPerson != ''">legalperson = #{legalPerson},</if>
+	   	<if test="idNum != null and idNum != ''">idnum = #{idNum},</if>
+	   	<if test="phone != null and phone != ''">phone = #{phone}, </if>
+	   	<if test="businesScope != null and businesScope != ''">businesscope = #{businesScope},</if>
+	   	<if test="businessArea != null and businessArea != ''">businessarea = #{businessArea},</if>
+	   	<if test="farmers != null and farmers != ''">farmers = #{farmers},</if>
+	   	<if test="connectionBase != null and connectionBase != ''">connectionbase = #{connectionBase},</if>
+	   	<if test="recorder != null and recorder != ''">recorder = #{recorder},</if>
+	   	<if test="recordTime != null and recordTime != ''">recordtime = #{recordTime}</if>
+	</set>
 	   	where cooperationid = #{cooperationId}
 </update>
 <select id="findByPK" parameterType="Long" 
@@ -145,8 +156,20 @@
 	resultType="com.bank.beans.FarmerCooperation">
    SELECT t.* FROM t_cooperation t,
 	(select cooperationid, ROW_NUMBER() OVER () as rn from t_cooperation) AS t1 where t1.cooperationid= t.cooperationid
-   <if test="key != null">
-   		and t.user_name like '%${key}%' or t.user_id like '%${key}%'
+   <if test="cooperationName != null and cooperationName != ''">
+  		and t.cooperationName like '%${cooperationName}%'
+   </if>
+   <if test="orgaCode != null and orgaCode != ''">
+   		and t.orgaCode like '%${orgaCode}%'
+   </if>
+   <if test="recorder != null and recorder != ''">
+   		and t.recorder like '%${recorder}%'
+   </if>
+   <if test="recordTimeBegin !=null and recordTimeBegin != ''">
+   	  <![CDATA[and t.recordtime >=to_date('${recordTimeBegin}','yyyy-mm-dd')]]>
+   </if>
+   <if test="recordTimeEnd !=null and recordTimeEnd != ''">
+   	  <![CDATA[and t.recordtime <=to_date('${recordTimeEnd}','yyyy-mm-dd')]]>
    </if>
    <if test="start != null">
   		<![CDATA[ and  t1.rn > #{start}	]]>
@@ -164,6 +187,21 @@
    </choose>
 </select>
 <select id="getTotal" parameterType="map" resultType="long">
-	select count(*) from t_cooperation
+	select count(*) from t_cooperation where 1=1
+   <if test="cooperationName != null and cooperationName != ''">
+  		and t.cooperationName like '%${cooperationName}%'
+   </if>
+   <if test="orgaCode != null and orgaCode != ''">
+   		and t.orgaCode like '%${orgaCode}%'
+   </if>
+   <if test="recorder != null and recorder != ''">
+   		and t.recorder like '%${recorder}%'
+   </if>
+   <if test="recordTimeBegin !=null and recordTimeBegin != ''">
+   	  <![CDATA[and t.recordtime >=to_date('${recordTimeBegin}','yyyy-mm-dd')]]>
+   </if>
+   <if test="recordTimeEnd !=null and recordTimeEnd != ''">
+   	  <![CDATA[and t.recordtime <=to_date('${recordTimeEnd}','yyyy-mm-dd')]]>
+   </if>
 </select>
 </mapper>

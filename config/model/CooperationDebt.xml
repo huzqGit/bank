@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cooperationDebt">
+	<sql id="Cooperation_Column_List">
+		debtid,accountspayable,assetall,bankloan,buildingproject,businessprofit,capitalreserve,cashcapital,
+		cooperationname,depositreceived,deprecication,financialcost,fixedasset,fixedassetall,floatasset,
+		floatassetall,floatdebt,floatdebtall,handingcost,interestexpense,inventory,investincome,invisibleasset,
+		longdebtall,netprofit,netvalue,organcode,paidaddedtax,payableaddedtax,payableincometax,prepayment,profitloss,
+		realcapital,receivables,recorder,recordtime,registercapital,shortinvest,shortloan,subsidyincome,surplusreserve,
+		totalequity,totalequity1,totalprofit,unallotprofit,unbusinessexpense,unbusinessincome,unpaidtax
+	</sql>
+	<insert id="save" useGeneratedKeys="true" keyProperty="debtid"
+		parameterType="com.bank.beans.FarmerCooperationDebt">
+		insert into t_cooperation_debt
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="accountspayable != null">accountspayable,</if>
+			<if test="assetall != null">assetall,</if>
+			<if test="bankloan != null">bankloan,</if>
+			<if test="buildingproject != null">buildingproject,</if>
+			<if test="businessprofit != null">businessprofit,</if>
+			<if test="capitalreserve != null">capitalreserve,</if>
+			<if test="cashcapital != null">cashcapital,</if>
+			<if test="cooperationname != null">cooperationname,</if>
+			<if test="depositreceived != null">depositreceived,</if>
+			<if test="deprecication != null">deprecication,</if>
+			<if test="financialcost != null">financialcost,</if>
+			<if test="fixedasset != null">fixedasset,</if>
+			<if test="fixedassetall != null">fixedassetall,</if>
+			<if test="floatasset != null">floatasset,</if>
+			<if test="floatassetall != null">floatassetall,</if>
+			<if test="floatdebt != null">floatdebt,</if>
+			<if test="floatdebtall != null">floatdebtall,</if>
+			<if test="handingcost != null">handingcost,</if>
+			<if test="interestexpense != null">interestexpense,</if>
+			<if test="inventory != null">inventory,</if>
+			<if test="investincome != null">investincome,</if>
+			<if test="invisibleasset != null">invisibleasset,</if>
+			<if test="longdebtall != null">longdebtall,</if>
+			<if test="netprofit != null">netprofit,</if>
+			<if test="netvalue != null">netvalue,</if>
+			<if test="organcode != null">organcode,</if>
+			<if test="paidaddedtax != null">paidaddedtax,</if>
+			<if test="payableaddedtax != null">payableaddedtax,</if>
+			<if test="payableincometax != null">payableincometax,</if>
+			<if test="prepayment != null">prepayment,</if>
+			<if test="profitloss != null">profitloss,</if>
+			<if test="realcapital != null">realcapital,</if>
+			<if test="receivables != null">receivables,</if>
+			<if test="recorder != null">recorder,</if>
+			<if test="recordtime != null">recordtime,</if>
+			<if test="registercapital != null">registercapital,</if>
+			<if test="shortinvest != null">shortinvest,</if>
+			<if test="shortloan != null">shortloan,</if>
+			<if test="subsidyincome != null">subsidyincome,</if>
+			<if test="surplusreserve != null">surplusreserve,</if>
+			<if test="totalequity != null">totalequity,</if>
+			<if test="totalequity1 != null">totalequity1,</if>
+			<if test="totalprofit != null">totalprofit,</if>
+			<if test="unallotprofit != null">unallotprofit,</if>
+			<if test="unbusinessexpense != null">unbusinessexpense,</if>
+			<if test="unbusinessincome != null">unbusinessincome,</if>
+			<if test="unpaidtax != null">unpaidtax</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="accountspayable != null">#{accountspayablejdbcType=VARCHAR},</if>
+			<if test="assetall != null">#{assetall,jdbcType=VARCHAR},</if>
+			<if test="bankloan != null">#{bankloan,jdbcType=VARCHAR},</if>
+			<if test="buildingproject != null">#{buildingproject,jdbcType=VARCHAR},</if>
+			<if test="businessprofit != null">#{businessprofit,jdbcType=VARCHAR},</if>
+			<if test="capitalreserve != null">#{capitalreserve,jdbcType=VARCHAR},</if>
+			<if test="cashcapital != null">#{cashcapital,jdbcType=VARCHAR},</if>
+			<if test="cooperationname != null">#{cooperationname,jdbcType=VARCHAR},</if>
+			<if test="depositreceived != null">#{depositreceived,jdbcType=VARCHAR},</if>
+			<if test="deprecication != null">#{deprecication,jdbcType=VARCHAR},</if>
+			<if test="financialcost != null">#{financialcost,jdbcType=VARCHAR},</if>
+			<if test="fixedasset != null">#{fixedasset,jdbcType=VARCHAR},</if>
+			<if test="fixedassetall != null">#{fixedassetall,jdbcType=VARCHAR},</if>
+			<if test="floatasset != null">#{floatasset,jdbcType=VARCHAR},</if>
+			<if test="floatassetall != null">#{floatassetall,jdbcType=VARCHAR},</if>
+			<if test="floatdebt != null">#{floatdebt,jdbcType=VARCHAR},</if>
+			<if test="floatdebtall != null">#{floatdebtall,jdbcType=VARCHAR},</if>
+			<if test="handingcost != null">#{handingcost,jdbcType=VARCHAR},</if>
+			<if test="interestexpense != null">#{interestexpense,jdbcType=VARCHAR},</if>
+			<if test="inventory != null">#{inventory,jdbcType=VARCHAR},</if>
+			<if test="investincome != null">#{investincome,jdbcType=VARCHAR},</if>
+			<if test="invisibleasset != null">#{invisibleasset,jdbcType=VARCHAR},</if>
+			<if test="longdebtall != null">#{longdebtall,jdbcType=VARCHAR},</if>
+			<if test="netprofit != null">#{netprofit,jdbcType=VARCHAR},</if>
+			<if test="netvalue != null">#{netvalue,jdbcType=VARCHAR},</if>
+			<if test="organcode != null">#{organcode,jdbcType=VARCHAR},</if>
+			<if test="paidaddedtax != null">#{paidaddedtax,jdbcType=VARCHAR},</if>
+			<if test="payableaddedtax != null">#{payableaddedtax,jdbcType=VARCHAR},</if>
+			<if test="payableincometax != null">#{payableincometax,jdbcType=VARCHAR},</if>
+			<if test="prepayment != null">#{prepayment,jdbcType=VARCHAR},</if>
+			<if test="profitloss != null">#{profitloss,jdbcType=VARCHAR},</if>
+			<if test="realcapital != null">#{realcapital,jdbcType=VARCHAR},</if>
+			<if test="receivables != null">#{receivables,jdbcType=VARCHAR},</if>
+			<if test="recorder != null">#{recorder,jdbcType=VARCHAR},</if>
+			<if test="recordtime != null">#{recordtime,jdbcType=TIMESTAMP},</if>
+			<if test="registercapital != null">#{registercapital,jdbcType=VARCHAR},</if>
+			<if test="shortinvest != null">#{shortinvest,jdbcType=VARCHAR},</if>
+			<if test="shortloan != null">#{shortloan,jdbcType=VARCHAR},</if>
+			<if test="subsidyincome != null">#{subsidyincome,jdbcType=VARCHAR},</if>
+			<if test="surplusreserve != null">#{surplusreserve,jdbcType=VARCHAR},</if>
+			<if test="totalequity != null">#{totalequity,jdbcType=VARCHAR},</if>
+			<if test="totalequity1 != null">#{totalequity1,jdbcType=VARCHAR},</if>
+			<if test="totalprofit != null">#{totalprofit,jdbcType=VARCHAR},</if>
+			<if test="unallotprofit != null">#{unallotprofit,jdbcType=VARCHAR},</if>
+			<if test="unbusinessexpense != null">#{unbusinessexpense,jdbcType=VARCHAR},</if>
+			<if test="unbusinessincome != null">#{unbusinessincome,jdbcType=VARCHAR},</if>
+			<if test="unpaidtax != null">#{unpaidtax,jdbcType=VARCHAR}</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="com.bank.beans.FarmerCooperationDebt">
+		update t_cooperation_debt
+		<set>
+			 <if test="accountspayable!=null and accountspayable!=''">accountspayable=#{accountspayable},</if>
+			 <if test="assetall!=null and assetall!=''">assetall=#{assetall},</if>
+			 <if test="bankloan!=null and bankloan!=''">bankloan=#{bankloan},</if>
+			 <if test="buildingproject!=null and buildingproject!=''">buildingproject=#{buildingproject},</if>
+			 <if test="businessprofit!=null and businessprofit!=''">businessprofit=#{businessprofit},</if>
+			 <if test="capitalreserve!=null and capitalreserve!=''">capitalreserve=#{capitalreserve},</if>
+			 <if test="cashcapital!=null and cashcapital!=''">cashcapital=#{cashcapital},</if>
+			 <if test="cooperationname!=null and cooperationname!=''">cooperationname=#{cooperationname},</if>
+			 <if test="depositreceived!=null and depositreceived!=''">depositreceived=#{depositreceived},</if>
+			 <if test="deprecication!=null and deprecication!=''">deprecication=#{deprecication},</if>
+			 <if test="financialcost!=null and financialcost!=''">financialcost=#{financialcost},</if>
+			 <if test="fixedasset!=null and fixedasset!=''">fixedasset=#{fixedasset},</if>
+			 <if test="fixedassetall!=null and fixedassetall!=''">fixedassetall=#{fixedassetall},</if>
+			 <if test="floatasset!=null and floatasset!=''">floatasset=#{floatasset},</if>
+			 <if test="floatassetall!=null and floatassetall!=''">floatassetall=#{floatassetall},</if>
+			 <if test="floatdebt!=null and floatdebt!=''">floatdebt=#{floatdebt},</if>
+			 <if test="floatdebtall!=null and floatdebtall!=''">floatdebtall=#{floatdebtall},</if>
+			 <if test="handingcost!=null and handingcost!=''">handingcost=#{handingcost},</if>
+			 <if test="interestexpense!=null and interestexpense!=''">interestexpense=#{interestexpense},</if>
+			 <if test="inventory!=null and inventory!=''">inventory=#{inventory},</if>
+			 <if test="investincome!=null and investincome!=''">investincome=#{investincome},</if>
+			 <if test="invisibleasset!=null and invisibleasset!=''">invisibleasset=#{invisibleasset},</if>
+			 <if test="longdebtall!=null and longdebtall!=''">longdebtall=#{longdebtall},</if>
+			 <if test="netprofit!=null and netprofit!=''">netprofit=#{netprofit},</if>
+			 <if test="netvalue!=null and netvalue!=''">netvalue=#{netvalue},</if>
+			 <if test="organcode!=null and organcode!=''">organcode=#{organcode},</if>
+			 <if test="paidaddedtax!=null and paidaddedtax!=''">paidaddedtax=#{paidaddedtax},</if>
+			 <if test="payableaddedtax!=null and payableaddedtax!=''">payableaddedtax=#{payableaddedtax},</if>
+			 <if test="payableincometax!=null and payableincometax!=''">payableincometax=#{payableincometax},</if>
+			 <if test="prepayment!=null and prepayment!=''">prepayment=#{prepayment},</if>
+			 <if test="profitloss!=null and profitloss!=''">profitloss=#{profitloss},</if>
+			 <if test="realcapital!=null and realcapital!=''">realcapital=#{realcapital},</if>
+			 <if test="receivables!=null and receivables!=''">receivables=#{receivables},</if>
+			 <if test="recorder!=null and recorder!=''">recorder=#{recorder},</if>
+			 <if test="recordtime!=null and recordtime!=''">recordtime=#{recordtime},</if>
+			 <if test="registercapital!=null and registercapital!=''">registercapital=#{registercapital},</if>
+			 <if test="shortinvest!=null and shortinvest!=''">shortinvest=#{shortinvest},</if>
+			 <if test="shortloan!=null and shortloan!=''">shortloan=#{shortloan},</if>
+			 <if test="subsidyincome!=null and subsidyincome!=''">subsidyincome=#{subsidyincome},</if>
+			 <if test="surplusreserve!=null and surplusreserve!=''">surplusreserve=#{surplusreserve},</if>
+			 <if test="totalequity!=null and totalequity!=''">totalequity=#{totalequity},</if>
+			 <if test="totalequity1!=null and totalequity1!=''">totalequity1=#{totalequity1},</if>
+			 <if test="totalprofit!=null and totalprofit!=''">totalprofit=#{totalprofit},</if>
+			 <if test="unallotprofit!=null and unallotprofit!=''">unallotprofit=#{unallotprofit},</if>
+			 <if test="unbusinessexpense!=null and unbusinessexpense!=''">unbusinessexpense=#{unbusinessexpense},</if>
+			 <if test="unbusinessincome!=null and unbusinessincome!=''">unbusinessincome=#{unbusinessincome},</if>
+			 <if test="unpaidtax!=null and unpaidtax!=''">unpaidtax=#{unpaidtax},</if>
+		</set>
+			where debtid=#{debtid,jdbcType=INTEGER}
+	</update>
+	<select id="findByPK" parameterType="Long"
+		resultType="com.bank.beans.FarmerCooperationDebt">
+		select
+		<include refid="Cooperation_Column_List" />
+		from t_cooperation_debt where debtid = #{id,jdbcType=INTEGER}
+	</select>
+	<select id="getPageingEntities" parameterType="map"
+		resultType="com.bank.beans.FarmerCooperationDebt">
+		SELECT t.* FROM t_cooperation_debt t,
+		(select debtid, ROW_NUMBER() OVER () as rn from t_cooperation_debt) AS t1
+		where t1.debtid= t.debtid
+		<if test="recorder != null and recorder !=''">
+			and t.recorder like '%${recorder}%'
+		</if>
+		<if test="cooperationname != null and cooperationname !=''">
+	  		and t.cooperationname like '%${cooperationname}%'
+	    </if>
+	    <if test="organcode != null and organcode != ''">
+	   		and t.organcode like '%${organcode}%'
+	    </if>
+		<if test="recordTimeBegin !=null and recordTimeBegin != ''">
+   	 		 <![CDATA[and t.recordtime >=to_date('${recordTimeBegin}','yyyy-mm-dd')]]>
+		</if>
+		<if test="recordTimeEnd !=null and recordTimeEnd != ''">
+   	  		<![CDATA[and t.recordtime <=to_date('${recordTimeEnd}','yyyy-mm-dd')]]>
+		</if>
+		<if test="start != null">
+  		<![CDATA[ and  t1.rn > #{start}	]]>
+		</if>
+		<if test="end != null">
+  		<![CDATA[	and t1.rn <= #{end}		]]>
+		</if>
+		<choose>
+			<when test="sortField != null and sortField != ''">
+	   		<![CDATA[ order by ${sortField} ${sortOrder}	]]>
+			</when>
+			<otherwise>
+				order by t.debtid desc
+			</otherwise>
+		</choose>
+	</select>
+	<select id="getTotal" parameterType="map" resultType="long">
+		select count(*) from t_cooperation_debt t where 1=1
+		<if test="recorder != null and recorder !=''">
+			and t.recorder like '%${recorder}%'
+		</if>
+		<if test="cooperationname != null and cooperationname !=''">
+	  		and t.cooperationname like '%${cooperationname}%'
+	    </if>
+	    <if test="organcode != null and organcode != ''">
+	   		and t.organcode like '%${organcode}%'
+	    </if>
+		<if test="recordTimeBegin !=null and recordTimeBegin != ''">
+   	 		 <![CDATA[and t.recordtime >=to_date('${recordTimeBegin}','yyyy-mm-dd')]]>
+		</if>
+		<if test="recordTimeEnd !=null and recordTimeEnd != ''">
+   	  		<![CDATA[and t.recordtime <=to_date('${recordTimeEnd}','yyyy-mm-dd')]]>
+		</if>
+	</select>
+</mapper>
