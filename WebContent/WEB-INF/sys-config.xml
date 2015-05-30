@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<security>
+		<login>
+		</login>
+		<sys-manager>
+			<entry key="bank.superadmin" value="admin" description="超级管理员" />	
+		</sys-manager>
+		<input-filter>
+			<filter>
+				<input output="">
+					<![CDATA["<[ ]*script[ ]*>"]]>
+				</input>
+			</filter>
+			<filter>
+				<input output="">
+					<![CDATA["<[ ]*img.+src.+javascript"]]>
+				</input>
+			</filter>
+			<filter>
+				<input output="">
+					<![CDATA["(?i)update.+(?i)set.+"]]>
+				</input>
+			</filter>
+			<filter>
+				<input output="">
+					<![CDATA["(?i)select.+(?i)from"]]>
+				</input>
+			</filter>
+			<filter>
+				<input output="">
+					<![CDATA["(?i)union.+(?i)select"]]>
+				</input>
+			</filter>
+			<filter>
+				<input output="">
+					<![CDATA["(?i)javascript"]]>
+				</input>
+			</filter>
+			<filter>
+				<input output="">
+					<![CDATA["<[/ ]*(?i)iframe[ ]*>"]]>
+				</input>
+			</filter>
+			<filter>
+				<input output="">
+					<![CDATA["(?i)alert[ ]*\\([ ]*['"]*[\\S ]*['"]*[ ]*\\)"]]>
+				</input>
+			</filter>
+			<filter>
+				<input output="\u2018">
+					<![CDATA["'"]]>
+				</input>
+			</filter>
+			<filter>
+				<input output="">
+					<![CDATA["<" ]]>
+				</input>
+			</filter>
+			<filter>
+				<input output="">
+					<![CDATA[">"]]>
+				</input>
+			</filter>
+			<filter>
+				<input output="">
+					<![CDATA["(?i)cookie"]]>
+				</input>
+			</filter>
+			<filter>
+				<input output="">
+					<![CDATA["(?i)alert"]]>
+				</input>
+			</filter>
+			<filter>
+				<input output="">
+					<![CDATA["(?i)<[/ ]*object[ ]*>"]]>
+				</input>
+			</filter>
+		</input-filter>
+	</security>
+</configuration>
