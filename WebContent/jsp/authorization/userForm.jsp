@@ -99,6 +99,15 @@ request.setAttribute("actionType", actionType);
 			<input name='address' class='mini-textarea' style='width:100%;height: 40px;' emptyText='' allowInput='true' enabled='true'/>
 		</td>
 	</tr>
+	<tr>
+		<td style='width:190px;'>
+		<label>是否为管理员：</label>
+		</td>
+		
+		<td style='width:100%;' colspan='3'>
+			<input name="isAdmin" class="mini-checkbox" checked="true" readOnly="true" />
+		</td>
+	</tr>
 </table>
 
 </div>

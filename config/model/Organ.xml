@@ -9,9 +9,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <result column="organ_name" property="organName" jdbcType="VARCHAR" />
   <result column="organ_pid" property="organPid" jdbcType="VARCHAR" />
   <result column="organ_short" property="organShort" jdbcType="VARCHAR" />
+  <result column="organ_no" property="organNo" jdbcType="VARCHAR" />
+  <result column="organ_type" property="organType" jdbcType="VARCHAR" />
 </resultMap>
 <sql id="Base_Column_List" >
-  organ_id, organ_name, organ_pid, organ_short
+  organ_id, organ_name, organ_pid, organ_short, organ_no, organ_type
 </sql>
 <select id="organ.selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
   select 
@@ -21,8 +23,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </select>
 
 <insert id="organ.insert" parameterType="com.bank.beans.Organ">
-  insert into T_ORGAN(organ_id, organ_name, organ_pid, organ_short) 
-  values(#{organId}, #{organName}, #{organPid}, #{organShort})
+  insert into T_ORGAN(organ_id, organ_name, organ_pid, organ_short,organ_no, organ_type) 
+  values(#{organId}, #{organName}, #{organPid}, #{organShort}, #{organNo}, #{organType})
 </insert>
 
 <insert id="organ.insertSelective" parameterType="com.bank.beans.Organ" >
@@ -40,6 +42,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <if test="organShort != null" >
         organ_short,
       </if>
+      <if test="organType != null" >
+        organ_type,
+      </if>
+      <if test="organNo != null" >
+        organ_no,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="organId != null" >
@@ -54,13 +62,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <if test="organShort != null" >
         #{organShort,jdbcType=VARCHAR},
       </if>
+      <if test="organType != null" >
+        #{organType,jdbcType=VARCHAR},
+      </if>
+      <if test="organNo != null" >
+        #{organNo,jdbcType=VARCHAR},
+      </if>
     </trim>
 </insert>
 <update id="organ.update" parameterType="com.bank.beans.Organ">
 	update T_ORGAN 
 	set organ_name = #{organName}, 
 	organ_pid = #{organPid}, 
-	organ_short = #{organShort} 
+	organ_short = #{organShort},
+	organ_no = #{organNo}, 
+	organ_type = #{organType}
 	where organ_id = #{organId}
 </update>
   <update id="organ.updateByPrimaryKeySelective" parameterType="com.bank.beans.Organ" >
@@ -74,6 +90,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       </if>
       <if test="organShort != null" >
         organ_short = #{organShort,jdbcType=VARCHAR},
+      </if>
+      <if test="organNo != null" >
+        organ_no = #{organNo,jdbcType=VARCHAR},
+      </if>
+      <if test="organType != null" >
+        organ_type = #{organType,jdbcType=VARCHAR},
       </if>
     </set>
     where organ_id = #{organId,jdbcType=VARCHAR}
