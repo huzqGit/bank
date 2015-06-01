@@ -21,6 +21,7 @@ import com.bank.dao.IMenuDao;
 import com.bank.service.IOrganService;
 import com.bank.service.IUserService;
 import com.bank.vo.MenuPrivilegeVO;
+import com.common.config.SystemConfig;
 import com.common.exception.DAOException;
 
 @Controller
@@ -28,6 +29,7 @@ import com.common.exception.DAOException;
 
 public class LoginController {
 	private static Logger log = LoggerFactory.getLogger(LoginController.class);
+	private static final String SUPERADMIN = "bank.superadmin";
 	
 	@Resource
 	private IUserService userService;
@@ -65,7 +67,26 @@ public class LoginController {
     		// topMenus
     		List<MenuPrivilegeVO> topMenus = new ArrayList<MenuPrivilegeVO>();
     		try {
-				topMenus = menuDao.getTopMenusByUserId(returnUser.getUserId(), returnUser.getIsAdmin());
+    			
+    			//超级管理员.
+    			String isSuperAdmin = "";
+    			String isAdmin = returnUser.getIsAdmin();
+    			List<String> superAdmins = SystemConfig.getSystemConfig().getList(SUPERADMIN);
+    			if (superAdmins.contains(returnUser.getUserId())) {
+    				isSuperAdmin = "1";
+    			} 
+    			
+    			if ("0".equals(isAdmin) || "".equals(isAdmin)) {
+    				topMenus = menuDao.getTopMenusByUserId(returnUser.getUserId());
+    			} else {
+    				if ("1".equals(isSuperAdmin)) {
+    					topMenus = menuDao.getTopAllMenus();
+    				} else {
+    					topMenus = menuDao.getTopSysMenus(isSuperAdmin);
+    				}
+    			}
+				
+				
 			} catch (DAOException e) {
 				String msg = "get MenuPrivilegeVO occurs DAO error";
 				log.error(msg, e);

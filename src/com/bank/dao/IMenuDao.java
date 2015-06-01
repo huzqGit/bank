@@ -10,9 +10,15 @@ import com.common.exception.DAOException;
 
 public interface IMenuDao extends GenericDAO<Menu, Long> {
 
-	public List<MenuPrivilegeVO> getTopMenusByUserId(String userId, String isAdmin) throws DAOException;	
+	public List<MenuPrivilegeVO> getTopMenusByUserId(String userId) throws DAOException;	
+	
+	public List<MenuPrivilegeVO> getTopSysMenus(String isSuperAdmin) throws DAOException;	
+	
+	public List<MenuPrivilegeVO> getTopAllMenus() throws DAOException;
 	
 	public List<MenuPrivilegeVO> getSubMenusByCondition(String userId, long parMenuId) throws DAOException;
+	
+	public List<MenuPrivilegeVO> getSubSysMenusByCondition(long parMenuId) throws DAOException;
 
 	public List<?> loadMenuTree();
 

@@ -15,12 +15,16 @@ import com.common.exception.DAOException;
 @Repository("menuDao")
 public class MenuDaoImpl extends GenericMyBatisDAOSupport<Menu, Long> implements IMenuDao {
 
-	public List<MenuPrivilegeVO> getTopMenusByUserId(String userId, String isAdmin) throws DAOException {
-		Map map = new HashMap();
-		map.put("userId", userId);
-		map.put("isAdmin", isAdmin);
-		return super.getSqlSession().selectList("menu.getTopMenusByUserId", map);
-		
+	public List<MenuPrivilegeVO> getTopMenusByUserId(String userId) throws DAOException {
+		return super.getSqlSession().selectList("menu.getTopMenusByUserId", userId);
+	}
+	
+	public List<MenuPrivilegeVO> getTopSysMenus(String isSuperAdmin) throws DAOException {
+		return super.getSqlSession().selectList("menu.getTopSysMenus", isSuperAdmin);
+	}
+	
+	public List<MenuPrivilegeVO> getTopAllMenus() throws DAOException {
+		return super.getSqlSession().selectList("menu.getTopAllMenus");
 	}
 
 	public List<MenuPrivilegeVO> getSubMenusByCondition( String userId, long parMenuId) throws DAOException {
@@ -31,6 +35,10 @@ public class MenuDaoImpl extends GenericMyBatisDAOSupport<Menu, Long> implements
 		
 		return super.getSqlSession().selectList("menu.getSubMenusByCondition", map);
 		
+	}
+	
+	public List<MenuPrivilegeVO> getSubSysMenusByCondition(long parMenuId) throws DAOException {
+		return super.getSqlSession().selectList("menu.getSubSysMenusByCondition", parMenuId);
 	}
 
 	@Override
