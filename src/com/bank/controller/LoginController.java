@@ -65,7 +65,7 @@ public class LoginController {
     		// topMenus
     		List<MenuPrivilegeVO> topMenus = new ArrayList<MenuPrivilegeVO>();
     		try {
-				topMenus = menuDao.getTopMenusByUserId(returnUser.getUserId());
+				topMenus = menuDao.getTopMenusByUserId(returnUser.getUserId(), returnUser.getIsAdmin());
 			} catch (DAOException e) {
 				String msg = "get MenuPrivilegeVO occurs DAO error";
 				log.error(msg, e);

@@ -15,9 +15,11 @@ import com.common.exception.DAOException;
 @Repository("menuDao")
 public class MenuDaoImpl extends GenericMyBatisDAOSupport<Menu, Long> implements IMenuDao {
 
-	public List<MenuPrivilegeVO> getTopMenusByUserId(String userId) throws DAOException {
-		
-		return super.getSqlSession().selectList("menu.getTopMenusByUserId", userId);
+	public List<MenuPrivilegeVO> getTopMenusByUserId(String userId, String isAdmin) throws DAOException {
+		Map map = new HashMap();
+		map.put("userId", userId);
+		map.put("isAdmin", isAdmin);
+		return super.getSqlSession().selectList("menu.getTopMenusByUserId", map);
 		
 	}
 
@@ -33,16 +35,19 @@ public class MenuDaoImpl extends GenericMyBatisDAOSupport<Menu, Long> implements
 
 	@Override
 	public List<?> loadMenuTree() {
+		long t1 = System.currentTimeMillis();
 		List<?> menuTree = getSqlSession().selectList("menu.menutree");
+		long t2 = System.currentTimeMillis();
+		System.out.println("loadMenuTree：" + (t2 - t1) + ".ms");
 		return menuTree;
 	}
 
 	@Override
-	public List<?> privilegeCheckTree(String roleId, String menuId) {
+	public List<Map> privilegeCheckTree(String roleId, String menuId) {
 		Map<String, Object> map = new HashMap();
 		map.put("roleId", roleId);
 		map.put("menuId", Integer.parseInt(menuId));
-		List<?> privilegeCheckTree = getSqlSession().selectList("menu.privilegeCheckTree", map);
+		List<Map> privilegeCheckTree = getSqlSession().selectList("menu.privilegeCheckTree", map);
 		return privilegeCheckTree;
 	}
 	

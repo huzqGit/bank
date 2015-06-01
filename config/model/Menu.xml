@@ -118,6 +118,12 @@ resultMap="BaseResultMap">
    mp.privilege_id=p.privilege_id
    and mp.role_id=r.role_id
    and mp.menu_id=m.menu_id
+   <if test="isAdmin == 1" >
+        and ISSYSTEM = '1'
+    </if>
+    <if test="isAdmin == 0" >
+        and ISSYSTEM = '0'
+    </if>
    and m.menu_pid = 0
    and r.user_id=#{userId}
    order by m.menu_id 
