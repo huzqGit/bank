@@ -12,9 +12,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <result column="address" property="address" jdbcType="VARCHAR" />
   <result column="birthday" property="birthday" jdbcType="DATE" />
   <result column="organ_id" property="organId" jdbcType="VARCHAR" />
+  <result column="unit_id" property="unitId" jdbcType="VARCHAR" />
+  <result column="isadmin" property="isAdmin" jdbcType="VARCHAR" />
 </resultMap>
 <sql id="Base_Column_List" >
-  user_id, user_name, password, sex, birthday, address, organ_id
+  user_id, user_name, password, sex, birthday, address, organ_id, unit_id, isadmin
 </sql>
 <!-- 查询用户信息
 select：将select标签内容称为statement
@@ -33,9 +35,12 @@ parameterType：指定输入参数类型，包括username,birthday,sex,address,d
 #{username}：里边的username是com.bank.beans.User的属性
 
  -->
+ <insert id="user.delete" parameterType="string">
+  delete T_USER where user_id = #{userId}
+</insert>
 <insert id="user.insert" parameterType="com.bank.beans.User">
-  insert into T_USER(user_id, user_name, password, birthday,sex,address, organ_id) 
-  values(#{userId}, #{userName}, #{password}, #{birthday}, #{sex}, #{address}, #{organId})
+  insert into T_USER(user_id, user_name, password, birthday,sex,address, organ_id, unit_id, isadmin) 
+  values(#{userId}, #{userName}, #{password}, #{birthday}, #{sex}, #{address}, #{organId}, #{unitId}, #{isAdmin})
 </insert>
 
 <insert id="user.insertSelective" parameterType="com.bank.beans.User">
@@ -62,6 +67,12 @@ parameterType：指定输入参数类型，包括username,birthday,sex,address,d
   	<if test="organId != null">
   		organ_id,
   	</if>
+  	<if test="unitId != null">
+  		unit_id,
+  	</if>
+  	<if test="isAdmin != null">
+  		isadmin,
+  	</if>
   </trim>	
   <trim prefix="values (" suffix=")" suffixOverrides=",">
   	<if test="userId != null">
@@ -85,11 +96,17 @@ parameterType：指定输入参数类型，包括username,birthday,sex,address,d
   	<if test="organId != null">
   		#{organId,jdbcType=VARCHAR},
   	</if>
+  	<if test="unitId != null">
+  		#{unitId,jdbcType=VARCHAR},
+  	</if>
+  	<if test="isAdmin != null">
+  		#{isAdmin,jdbcType=VARCHAR},
+  	</if>
   </trim>
 </insert>
 
 <update id="user.update" parameterType="com.bank.beans.User">
-	update T_USER set user_name = #{userName}, password = #{password}, birthday = #{birthday},sex = #{sex},address = #{address}, organ_id = #{organId}  where user_id = #{userId}
+	update T_USER set user_name = #{userName}, password = #{password}, birthday = #{birthday},sex = #{sex},address = #{address}, organ_id = #{organId}, unit_id = #{unitId}, isadmin = #{isAdmin}  where user_id = #{userId}
 </update>
 
 <insert id="deleteUser" parameterType="string">

@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,9 +16,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.bank.beans.Organ;
 import com.bank.beans.User;
 import com.bank.common.util.JsonUtil;
+import com.bank.service.IOrganService;
 import com.bank.service.IUserService;
+import com.common.exception.DAOException;
 
 /**
  * 处理用户的新增、修改、删除等操作
@@ -29,6 +33,8 @@ import com.bank.service.IUserService;
 public class UserController {
 	@Resource
 	private IUserService userSerivce;
+	@Resource
+	private IOrganService organSerivce;
 	
 	@RequestMapping(value = "/loadUser", method = RequestMethod.POST)
 	public User loadUser(@RequestParam(value="userId",required=true) String userId, HttpServletResponse response) throws Exception {
@@ -48,6 +54,28 @@ public class UserController {
 		String formatdata = JSON.toJSONStringWithDateFormat(decodeJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
 		JSONObject jsb = JSONObject.parseObject(formatdata);
 		User user = (User) JSON.toJavaObject(jsb, User.class);
+		
+		if (user == null) throw new DAOException("user 不能为空！");
+		
+		if (StringUtils.isNotEmpty(user.getIsAdmin())) {
+			if ("true".equals(user.getIsAdmin())) {
+				user.setIsAdmin("1");
+			} else {
+				user.setIsAdmin("0");
+			}
+		} else {
+			user.setIsAdmin("0");
+		}
+		
+		//unitId
+		if (StringUtils.isNotEmpty(user.getOrganId())) {
+			Organ organ = organSerivce.loadOrgan(user.getOrganId());
+			if (organ != null) {
+				String unitId = StringUtils.isNotEmpty(organ.getOrganPid()) ? organ.getOrganPid() : organ.getOrganId();
+				user.setUnitId(unitId);
+			}
+		}
+		
 		String userId = user.getUserId();
 		if ("add".equals(actionType)) {//user为空，做新增操作
 			User user2 = userSerivce.loadUser(userId);

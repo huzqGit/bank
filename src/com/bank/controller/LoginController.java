@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bank.Constants;
+import com.bank.beans.Organ;
 import com.bank.beans.User;
 import com.bank.dao.IMenuDao;
+import com.bank.service.IOrganService;
 import com.bank.service.IUserService;
 import com.bank.vo.MenuPrivilegeVO;
 import com.common.exception.DAOException;
@@ -29,6 +31,8 @@ public class LoginController {
 	
 	@Resource
 	private IUserService userService;
+	@Resource
+	private IOrganService organService;
 	@Resource 
 	private IMenuDao menuDao;
 	
@@ -53,6 +57,12 @@ public class LoginController {
     	ModelAndView mav = new ModelAndView();
     	if (returnUser != null) {
     		request.getSession().setAttribute(Constants.SESSION_AUTH_USER, returnUser);
+    		Organ currentUnit = organService.loadOrgan(returnUser.getUnitId());
+    		if (currentUnit != null) {
+    			request.getSession().setAttribute(Constants.SESSION_CURRENT_UNIT, currentUnit);
+    		}
+    		
+    		System.out.println("currentUnit  :  " + currentUnit.getOrganId());
     		
     		// topMenus
     		List<MenuPrivilegeVO> topMenus = new ArrayList<MenuPrivilegeVO>();
