@@ -62,8 +62,6 @@ public class LoginController {
     			request.getSession().setAttribute(Constants.SESSION_CURRENT_UNIT, currentUnit);
     		}
     		
-    		System.out.println("currentUnit  :  " + currentUnit.getOrganId());
-    		
     		// topMenus
     		List<MenuPrivilegeVO> topMenus = new ArrayList<MenuPrivilegeVO>();
     		try {
