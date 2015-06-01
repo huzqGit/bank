@@ -62,73 +62,6 @@ public class CooperationController {
 		return null;
 	}
 	
-	@RequestMapping(value="addForm")
-	public ModelAndView addForm(HttpServletRequest request, 
-			HttpServletResponse response) throws Exception{
-		String keys = HttpUtils.getParameter(request, "sys_key");
-		String values = HttpUtils.getParameter(request, "sys_value");
-		//跳转页面jsp
-		String redirectJsp = HttpUtils.getParameter(request, "dest");
-		if(redirectJsp.endsWith(".jsp"))
-			redirectJsp = redirectJsp.replace(".jsp", "");
-		ModelAndView view = new ModelAndView(redirectJsp);
-		String[] key = null;
-		String[] value = null;
-		if(keys !=null && values != null){
-			key = keys.split(";");
-			value = values.split(";");
-			for(int i=0;i<key.length;i++){
-				view.addObject(key[i], value[i]);
-			}
-		}
-		view.addObject("display","display:display");
-		return view;
-	}
-	@RequestMapping(value="editForm")
-	public ModelAndView editForm(HttpServletRequest request, 
-			HttpServletResponse response) throws Exception{
-		String keys = HttpUtils.getParameter(request, "sys_key");
-		String values = HttpUtils.getParameter(request, "sys_value");
-		//跳转页面jsp
-		String redirectJsp = HttpUtils.getParameter(request, "dest");
-		if(redirectJsp.endsWith(".jsp"))
-			redirectJsp = redirectJsp.replace(".jsp", "");
-		ModelAndView view = new ModelAndView(redirectJsp);
-		String[] key = null;
-		String[] value = null;
-		if(keys !=null && values != null){
-			key = keys.split(";");
-			value = values.split(";");
-			for(int i=0;i<key.length;i++){
-				view.addObject(key[i], value[i]);
-			}
-		}
-		view.addObject("display","display:display");
-		return view;
-	}
-	@RequestMapping(value="viewForm")
-	public ModelAndView viewForm(HttpServletRequest request, 
-			HttpServletResponse response) throws Exception{
-		String keys = HttpUtils.getParameter(request, "sys_key");
-		String values = HttpUtils.getParameter(request, "sys_value");
-		//跳转页面jsp
-		String redirectJsp = HttpUtils.getParameter(request, "dest");
-		if(redirectJsp.endsWith(".jsp"))
-			redirectJsp = redirectJsp.replace(".jsp", "");
-		ModelAndView view = new ModelAndView(redirectJsp);
-		String[] key = null;
-		String[] value = null;
-		if(keys !=null && values != null){
-			key = keys.split(";");
-			value = values.split(";");
-			for(int i=0;i<key.length;i++){
-				view.addObject(key[i], value[i]);
-			}
-		}
-		view.addObject("display","display:none");
-		return view;
-	}
-	
 	@RequestMapping(value="findCooperation",method = RequestMethod.POST)
 	public FarmerCooperation findByPK(HttpServletRequest request, 
 			HttpServletResponse response) throws Exception{
@@ -175,6 +108,18 @@ public class CooperationController {
 //	    String json = JSON.toJSONString(result);
 	    response.setContentType("text/html;charset=UTF-8");
 	    response.getWriter().write(json);
-	    
+	}
+	
+	@RequestMapping(value="deleteByKey")
+	public void deleteByKey(HttpServletRequest request,HttpServletResponse response)throws Exception{
+		String id = HttpUtils.getParameter(request, "id");
+		response.setContentType("text/html;charset=UTF-8");
+		try {
+			cooperationService.delete(Long.parseLong(id));
+			response.getWriter().write("{\"success\":\"删除成功\"}");
+		} catch (Exception e) {
+			response.getWriter().write("{\"success\":\"删除失败\"}");
+		}
+		return;
 	}
 }

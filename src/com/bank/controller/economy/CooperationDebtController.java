@@ -104,6 +104,18 @@ public class CooperationDebtController {
 //	    String json = JSON.toJSONString(result);
 	    response.setContentType("text/html;charset=UTF-8");
 	    response.getWriter().write(json);
-	    
+	}
+	
+	@RequestMapping(value="deleteByKey")
+	public void deleteByKey(HttpServletRequest request,HttpServletResponse response)throws Exception{
+		String id = HttpUtils.getParameter(request, "id");
+		response.setContentType("text/html;charset=UTF-8");
+		try {
+			cooperationDebtService.delete(Long.parseLong(id));
+			response.getWriter().write("{\"success\":\"删除成功\"}");
+		} catch (Exception e) {
+			response.getWriter().write("{\"success\":\"删除失败\"}");
+		}
+		return;
 	}
 }
