@@ -33,6 +33,8 @@
        			<a class="mini-button" iconCls="icon-redo" plain="true" onclick="reset()">重置</a>
        			<span class="separator"></span>
        			<a class="mini-button" iconCls="icon-search" plain="true" onclick="onSearch()">查询</a>
+       			<span class="separator"></span>
+       			<a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">删除</a>
        			</td>
        		</tr>
            <tr>
@@ -134,6 +136,28 @@
           var s = '<a class="New_Button" target="_self" href="${pageContext.request.contextPath}/common/viewForm.do?dest=cooperation/cooperationDebtForm&sys_key=debtid&sys_value='+debtid+'">[查看]</a>';      
            s += '<a class="New_Button" target="_self" href="${pageContext.request.contextPath}/common/editForm.do?dest=cooperation/cooperationDebtForm&sys_key=debtid&sys_value='+debtid+'">[编辑]</a>';      
           return s;
+      }
+	  
+	  function remove() {
+          var rows = grid.getSelecteds();
+          if (rows.length == 1) {
+              if (confirm("确定删除选中记录？")) {
+                  var id = rows[0].debtid;
+                  grid.loading("操作中，请稍后......");
+                  $.ajax({
+                      url: "${pageContext.request.contextPath}/economy/debt/deleteByKey.do?id=" +id,
+                      success: function (text) {
+                          grid.reload();
+                      },
+                      error: function () {
+                    	  alert("删除失败");
+                    	  grid.reload();
+                      }
+                  });
+              }
+          } else {
+              alert("请选中一条记录");
+          }
       }
    </script>
 </body>
