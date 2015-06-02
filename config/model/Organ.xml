@@ -12,6 +12,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <result column="organ_no" property="organNo" jdbcType="VARCHAR" />
   <result column="organ_type" property="organType" jdbcType="VARCHAR" />
 </resultMap>
+<resultMap id="organResultMap" type="java.lang.String" >
+  <id column="organ_id" property="organId" jdbcType="VARCHAR" />
+</resultMap>
 <sql id="Base_Column_List" >
   organ_id, organ_name, organ_pid, organ_short, organ_no, organ_type
 </sql>
@@ -130,4 +133,41 @@ SELECT organ_id ID, organ_name TEXT, organ_pid PID, ICONCLS, checked FROM
    union 
    SELECT user_id, user_name, organ_id, 'icon-user' iconCls, (select 'true' as checked from T_USER_ROLE where T_USER_ROLE.USER_ID = T_USER.USER_ID and T_USER_ROLE.ROLE_ID=#{roleId})  FROM T_USER)
 </select>
+
+<select id="organ.organUserByCondition" resultMap="organUserList" parameterType="string">
+WITH RPL (ID, TEXT, PID, ICONCLS) AS        
+(        
+SELECT ROOT.organ_id ID, ROOT.organ_name TEXT, ROOT.organ_pid PID, '' ICONCLS         
+FROM t_organ ROOT        
+WHERE ROOT.organ_id = #{unitId} 
+UNION ALL       
+SELECT CHILD.organ_id ID , CHILD.organ_name TEXT, CHILD.organ_pid PID, '' ICONCLS 
+FROM RPL PARENT, t_organ CHILD
+WHERE PARENT.ID = CHILD.organ_pid
+UNION ALL       
+SELECT CHILD.user_id ID, CHILD.user_name TEXT, CHILD.organ_id PID, 'icon-user' ICONCLS
+FROM RPL PARENT, t_user CHILD
+WHERE PARENT.ID = CHILD.organ_id
+)
+SELECT DISTINCT ID, TEXT, PID , ICONCLS     
+FROM RPL
+ORDER BY  ID, TEXT, PID, ICONCLS
+</select>
+<select id="organ.getSubOrgansByUnitId" resultMap="organResultMap" parameterType="String" >
+ WITH RPL (organ_id) AS        
+(        
+SELECT ROOT.organ_id        
+FROM t_organ ROOT        
+WHERE ROOT.organ_id = #{unitId}  
+UNION ALL       
+SELECT CHILD.organ_id
+FROM RPL PARENT, t_organ CHILD
+WHERE PARENT.organ_id = CHILD.organ_pid
+)
+SELECT DISTINCT organ_id       
+FROM RPL
+ORDER BY organ_id
+</select>
+
+
 </mapper>

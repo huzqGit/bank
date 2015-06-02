@@ -9,6 +9,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,10 +19,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.bank.Constants;
 import com.bank.beans.Organ;
+import com.bank.beans.User;
 import com.bank.beans.UserRole;
 import com.bank.service.IOrganService;
 import com.bank.service.IUserRoleService;
+import com.common.config.SystemConfig;
 
 /**
  * 处理机构的新增、修改、删除等操作
@@ -30,6 +35,8 @@ import com.bank.service.IUserRoleService;
 @Controller
 @RequestMapping(value = "/organ")
 public class OrganController {
+	private static Logger log = LoggerFactory.getLogger(OrganController.class);
+	private static final String SUPERADMIN = "bank.superadmin";
 	@Resource
 	private IOrganService organSerivce;
 	
@@ -95,7 +102,26 @@ public class OrganController {
 	
 	@RequestMapping(value = "/organUserTree", method = RequestMethod.POST)
 	public Organ organUserTree(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		List<?> list = organSerivce.getOrganUserTree();
+		User user = (User) request.getSession().getAttribute(Constants.SESSION_AUTH_USER);
+		//超级管理员.
+		String isSuperAdmin = "";
+		List<String> superAdmins = SystemConfig.getSystemConfig().getList(SUPERADMIN);
+		if (superAdmins.contains(user.getUserId())) {
+			isSuperAdmin = "1";
+		} 
+		
+		List<?> list = new ArrayList();
+		if ("1".equals(isSuperAdmin)) {
+			
+			list = organSerivce.getOrganUserTree();
+			
+		} else {
+			Organ unit = (Organ) request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
+			if (unit != null) {
+				list = organSerivce.getOrganUserTreeByCondition(unit.getOrganId());
+			}
+		}
+		
 		JSONArray arr = (JSONArray) JSONArray.toJSON(list);
 		response.setContentType("text/html;charset=UTF-8");
 		response.getWriter().write(arr.toString());

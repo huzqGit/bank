@@ -1,6 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/jsp/taglibsCommon.jspf"%>
+<%@ page import="com.bank.beans.User"%> 
+<%@ page import="com.bank.Constants"%> 
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -15,9 +17,11 @@
 </style> 
 </head>
 <%
+User user = (User) request.getSession().getAttribute(Constants.SESSION_AUTH_USER);
 String userId = request.getParameter("userId");
 String organId = request.getParameter("organId");
 String actionType = request.getParameter("actionType");
+request.setAttribute("user", user);
 request.setAttribute("userId", userId);
 request.setAttribute("organId", organId);
 request.setAttribute("actionType", actionType);
@@ -99,15 +103,16 @@ request.setAttribute("actionType", actionType);
 			<input name='address' class='mini-textarea' style='width:100%;height: 40px;' emptyText='' allowInput='true' enabled='true'/>
 		</td>
 	</tr>
-	<tr>
-		<td style='width:190px;'>
-		<label>是否为管理员：</label>
-		</td>
-		
-		<td style='width:100%;' colspan='3'>
-			<input name="isAdmin" class="mini-checkbox" checked="true" readOnly="true" />
-		</td>
-	</tr>
+	<c:if test="${user.userId == 'admin'}">
+		<tr>
+			<td style='width:210px;'>
+			<label>是否为管理员：</label>
+			</td>
+				<td style='width:100%;' colspan='3'>
+					<input name="isAdmin" class="mini-checkbox" checked="true" readOnly="true" />
+				</td>
+		</tr>
+	</c:if>
 </table>
 
 </div>

@@ -46,5 +46,10 @@ public class UserServiceImpl implements IUserService {
 		return users;
 	}
 	
-
+	public List<User> loadAllUsersByOrganIds(String key, int pageIndex,
+			int pageSize, String sortField, String sortOrder,
+			String organIds) {
+		return userDao.loadAllUsersByOrganIds(key, pageIndex, pageSize, sortField, sortOrder, organIds);
+	}
+	
 }

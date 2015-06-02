@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.bank.beans.Organ;
 import com.bank.dao.IOrganDao;
 import com.bank.service.IOrganService;
+import com.common.exception.DAOException;
 
 @Service("organService")
 public class OrganServiceImpl implements IOrganService {
@@ -51,5 +52,13 @@ public class OrganServiceImpl implements IOrganService {
 		return organCheckedUsers;
 	}
 	
+	public List<?> getOrganUserTreeByCondition(String unitId) throws DAOException {
+		List<?> organUsers = organDao.getOrganUserTreeByCondition(unitId);
+		return organUsers;
+	}
+	
+	public List<String> getSubOrgansByUnitId(String unitId) throws DAOException {
+		return organDao.getSubOrgansByUnitId(unitId);
+	}
 
 }

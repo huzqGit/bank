@@ -90,6 +90,19 @@ public class UserDaoImpl extends BaseDaoImpl implements IUserDao {
 		return users;
 	}
 
-
+	public List<User> loadAllUsersByOrganIds(String key, int pageIndex, int pageSize, 
+			String sortField, String sortOrder, String organIds) {
+		Map<String, Object> map = new HashMap();
+		int start = pageIndex * pageSize, end = start + pageSize;
+		if ("desc".equals(sortOrder) == false) sortOrder = "asc";
+		map.put("start", start);
+		map.put("end", end);
+		map.put("sortOrder", sortOrder);
+		map.put("sortField", sortField);
+		map.put("key", key);
+		map.put("organIds", organIds);
+		List<User> users = getSqlSession().selectList("user.loadAllUsersByorganIds", map);
+		return users;
+	}
 
 }
