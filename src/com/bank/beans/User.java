@@ -12,6 +12,9 @@ public class User extends BaseEntity<Integer> {
 	private Date birthday;// 出生日期
 	private String address;// 地址
 	private String organId;// 地址
+	private String unitId;
+	private String isAdmin;
+	
 	public String getUserId() {
 		return userId;
 	}
@@ -54,6 +57,20 @@ public class User extends BaseEntity<Integer> {
 	public void setOrganId(String organId) {
 		this.organId = organId;
 	}
+	
+	public String getUnitId() {
+		return unitId;
+	}
+	public void setUnitId(String unitId) {
+		this.unitId = unitId;
+	}
+	public String getIsAdmin() {
+		return isAdmin;
+	}
+	public void setIsAdmin(String isAdmin) {
+		this.isAdmin = isAdmin;
+	}
+	
 	@Override
 	public boolean equalsIfIdNull(Object o) {
 		// TODO Auto-generated method stub

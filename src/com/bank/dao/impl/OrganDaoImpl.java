@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.bank.beans.Organ;
 import com.bank.common.base.BaseDaoImpl;
 import com.bank.dao.IOrganDao;
+import com.common.exception.DAOException;
 
 @Repository("organDao")
 public class OrganDaoImpl extends BaseDaoImpl implements IOrganDao {
@@ -53,6 +54,15 @@ public class OrganDaoImpl extends BaseDaoImpl implements IOrganDao {
 	public List<?> getOrganCheckedUserTree(String roleId) {
 		List<?> organCheckedUser = getSqlSession().selectList("organ.organCheckedUser", roleId);
 		return organCheckedUser;
+	}
+	
+	public List<?> getOrganUserTreeByCondition(String unitId) throws DAOException {
+		List<?> organUser = getSqlSession().selectList("organ.organUserByCondition", unitId);
+		return organUser;
+	}
+
+	public List<String> getSubOrgansByUnitId(String unitId) throws DAOException {
+		return super.getSqlSession().selectList("organ.getSubOrgansByUnitId", unitId);
 	}
 
 }

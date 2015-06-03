@@ -22,6 +22,9 @@ public interface IUserDao {
 
 	public List<User> loadAllUsers(String key, int pageIndex, int pageSize,
 			String sortField, String sortOrder);
+	
+	public List<User> loadAllUsersByOrganIds(String key, int pageIndex, int pageSize,
+			String sortField, String sortOrder, String organIds);
 
 
 }

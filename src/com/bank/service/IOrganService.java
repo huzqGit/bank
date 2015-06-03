@@ -3,6 +3,7 @@ package com.bank.service;
 import java.util.List;
 
 import com.bank.beans.Organ;
+import com.common.exception.DAOException;
 
 public interface IOrganService {
 
@@ -20,5 +21,9 @@ public interface IOrganService {
 	List<?> getOrganUserTree();
 
 	List<?> getOrganCheckedUserTree(String roleId);
+	
+	List<?> getOrganUserTreeByCondition(String unitId) throws DAOException;
+	
+	List<String> getSubOrgansByUnitId(String unitId) throws DAOException;
 
 }
