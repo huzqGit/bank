@@ -37,6 +37,13 @@
 	<div class="fieldset-body">
 	<table width="100%">
 	<tr>
+		<td style="width:10%"><label for="textbox1$text">年月:</label></td>
+		<td style="width:23%">
+		<input id="textbox1"  name="yearmonth" class="mini-textbox" required="true" 
+			requiredErrorText="年月不能为空" style="width:90%"/>
+		</td>
+	</tr>
+	<tr>
 		<td style="width:10%"><label for="textbox1$text">合作社名称:</label></td>
 		<td style="width:23%">
 		<input id="textbox1"  name="cooperationname" class="mini-textbox" required="true" 
@@ -83,87 +90,87 @@
 		</td>
 		<td style="width:10%"><label for="textbox3$text">货币资金:</label></td>
 		<td style="width:23%" >
-		<input id="textbox3"  name="cashcapital" class="mini-textbox" required="true" 
+		<input id="textbox3"  name="cashcapital" class="mini-textbox" required="true" vtype="float"
 			requiredErrorText="货币资金不能为空"  style="width:90%"/>
 		</td>
 	</tr>
 	<tr>
 		<td style="width:10%"><label for="textbox1$text">预收账款:</label></td>
 		<td style="width:23%">
-		<input id="textbox1"  name="depositreceived" class="mini-textbox" required="true" 
+		<input id="textbox1"  name="depositreceived" class="mini-textbox" required="true" vtype="float"
 			requiredErrorText="预收账款不能为空" style="width:90%"/>
 		</td>
 		<td style="width:10%"><label for="textbox2$text">其中折旧:</label></td>
 		<td style="width:23%" >
-		<input id="textbox2"  name="deprecication" class="mini-textbox" required="true" 
+		<input id="textbox2"  name="deprecication" class="mini-textbox" required="true"  vtype="float"
 			requiredErrorText="其中折旧不能为空"  style="width:90%"/>
 		</td>
 		<td style="width:10%"><label for="textbox3$text">财务费用:</label></td>
 		<td style="width:23%" >
-		<input id="textbox3"  name="financialcost" class="mini-textbox" required="true" 
+		<input id="textbox3"  name="financialcost" class="mini-textbox" required="true" vtype="float"
 			requiredErrorText="财务费用不能为空"  style="width:90%"/>
 		</td>
 	</tr>
 	<tr>
 		<td style="width:10%"><label for="textbox1$text">固定资产原价:</label></td>
 		<td style="width:23%">
-		<input id="textbox1"  name="fixedasset" class="mini-textbox" required="true" 
+		<input id="textbox1"  name="fixedasset" class="mini-textbox" required="true"  vtype="float"
 			requiredErrorText="固定资产原价不能为空" style="width:90%"/>
 		</td>
 		<td style="width:10%"><label for="textbox2$text">固定资产合计:</label></td>
 		<td style="width:23%" >
-		<input id="textbox2"  name="fixedassetall" class="mini-textbox" required="true" 
+		<input id="textbox2"  name="fixedassetall" class="mini-textbox" required="true" vtype="float"
 			requiredErrorText="固定资产合计不能为空"  style="width:90%"/>
 		</td>
 		<td style="width:10%"><label for="textbox3$text">其他流动资产:</label></td>
 		<td style="width:23%" >
-		<input id="textbox3"  name="floatasset" class="mini-textbox" required="true" 
+		<input id="textbox3"  name="floatasset" class="mini-textbox" required="true" vtype="float"
 			requiredErrorText="其他流动资产不能为空"  style="width:90%"/>
 		</td>
 	</tr>
 	<tr>
 		<td style="width:10%"><label for="textbox1$text">流动资产合计:</label></td>
 		<td style="width:23%">
-		<input id="textbox1"  name="floatassetall" class="mini-textbox" required="true" 
+		<input id="textbox1"  name="floatassetall" class="mini-textbox" required="true"  vtype="float"
 			requiredErrorText="流动资产合计不能为空" style="width:90%"/>
 		</td>
 		<td style="width:10%"><label for="textbox2$text">其他流动负债:</label></td>
 		<td style="width:23%" >
-		<input id="textbox2"  name="floatdebt" class="mini-textbox" required="true" 
+		<input id="textbox2"  name="floatdebt" class="mini-textbox" required="true" vtype="float"
 			requiredErrorText="其他流动负债不能为空"  style="width:90%"/>
 		</td>
 		<td style="width:10%"><label for="textbox3$text">流动负债合计:</label></td>
 		<td style="width:23%" >
-		<input id="textbox3"  name="floatdebtall" class="mini-textbox" required="true" 
+		<input id="textbox3"  name="floatdebtall" class="mini-textbox" required="true" vtype="float"
 			requiredErrorText="流动负债合计不能为空"  style="width:90%"/>
 		</td>
 	</tr>
 	<tr>
 		<td style="width:10%"><label for="textbox1$text">管理费用:</label></td>
 		<td style="width:23%">
-		<input id="textbox1"  name="handingcost" class="mini-textbox" required="true" 
+		<input id="textbox1"  name="handingcost" class="mini-textbox" required="true" vtype="float"
 			requiredErrorText="管理费用不能为空" style="width:90%"/>
 		</td>
 		<td style="width:10%"><label for="textbox2$text">其中利息支出:</label></td>
 		<td style="width:23%" >
-		<input id="textbox2"  name="interestexpense" class="mini-textbox" required="true" 
+		<input id="textbox2"  name="interestexpense" class="mini-textbox" required="true" vtype="float"
 			requiredErrorText="其中利息支出不能为空"  style="width:90%"/>
 		</td>
 		<td style="width:10%"><label for="textbox3$text">存货:</label></td>
 		<td style="width:23%" >
-		<input id="textbox3"  name="inventory" class="mini-textbox" required="true" 
+		<input id="textbox3"  name="inventory" class="mini-textbox" required="true" vtype="float"
 			requiredErrorText="存货不能为空"  style="width:90%"/>
 		</td>
 	</tr>
 	<tr>
 		<td style="width:10%"><label for="textbox1$text">投资收益:</label></td>
 		<td style="width:23%">
-		<input id="textbox1"  name="investincome" class="mini-textbox" required="true" 
+		<input id="textbox1"  name="investincome" class="mini-textbox" required="true" vtype="float"
 			requiredErrorText="投资收益不能为空" style="width:90%"/>
 		</td>
 		<td style="width:10%"><label for="textbox2$text">无形及递延资产合计:</label></td>
 		<td style="width:23%" >
-		<input id="textbox2"  name="invisibleasset" class="mini-textbox" required="true" 
+		<input id="textbox2"  name="invisibleasset" class="mini-textbox" required="true" vtype="float"
 			requiredErrorText="无形及递延资产合计不能为空"  style="width:90%"/>
 		</td>
 		<td style="width:10%"><label for="textbox3$text">长期负债合计:</label></td>
@@ -175,34 +182,34 @@
 	<tr>
 		<td style="width:10%"><label for="textbox1$text">利润净额:</label></td>
 		<td style="width:23%">
-		<input id="textbox1"  name="netprofit" class="mini-textbox" required="true" 
+		<input id="textbox1"  name="netprofit" class="mini-textbox" required="true" vtype="float"
 			requiredErrorText="利润净额不能为空" style="width:90%"/>
 		</td>
 		<td style="width:10%"><label for="textbox2$text">固定资产净值:</label></td>
 		<td style="width:23%" >
-		<input id="textbox2"  name="netvalue" class="mini-textbox" required="true" 
+		<input id="textbox2"  name="netvalue" class="mini-textbox" required="true" vtype="float"
 			requiredErrorText="固定资产净值不能为空"  style="width:90%"/>
 		</td>
 		<td style="width:10%"><label for="textbox3$text">实交增值税:</label></td>
 		<td style="width:23%" >
-		<input id="textbox3"  name="paidaddedtax" class="mini-textbox" required="true" 
+		<input id="textbox3"  name="paidaddedtax" class="mini-textbox" required="true" vtype="float"
 			requiredErrorText="实交增值税不能为空"  style="width:90%"/>
 		</td>
 	</tr>
 	<tr>
 		<td style="width:10%"><label for="textbox1$text">应交增值税:</label></td>
 		<td style="width:23%">
-		<input id="textbox1"  name="payableaddedtax" class="mini-textbox" required="true" 
+		<input id="textbox1"  name="payableaddedtax" class="mini-textbox" required="true" vtype="float"
 			requiredErrorText="应交增值税不能为空" style="width:90%"/>
 		</td>
 		<td style="width:10%"><label for="textbox2$text">应交所得税:</label></td>
 		<td style="width:23%" >
-		<input id="textbox2"  name="payableincometax" class="mini-textbox" required="true" 
+		<input id="textbox2"  name="payableincometax" class="mini-textbox" required="true" vtype="float"
 			requiredErrorText="应交所得税不能为空"  style="width:90%"/>
 		</td>
 		<td style="width:10%"><label for="textbox3$text">预付账款:</label></td>
 		<td style="width:23%" >
-		<input id="textbox3"  name="prepayment" class="mini-textbox" required="true" 
+		<input id="textbox3"  name="prepayment" class="mini-textbox" required="true" vtype="float"
 			requiredErrorText="预付账款"  style="width:90%"/>
 		</td>
 	</tr>
@@ -214,12 +221,12 @@
 		</td>
 		<td style="width:10%"><label for="textbox2$text">实收资本:</label></td>
 		<td style="width:23%" >
-		<input id="textbox2"  name="realcapital" class="mini-textbox" required="true" 
+		<input id="textbox2"  name="realcapital" class="mini-textbox" required="true" vtype="float"
 			requiredErrorText="实收资本不能为空"  style="width:90%"/>
 		</td>
 		<td style="width:10%"><label for="textbox3$text">应收账款:</label></td>
 		<td style="width:23%" >
-		<input id="textbox3"  name="receivables" class="mini-textbox" required="true" 
+		<input id="textbox3"  name="receivables" class="mini-textbox" required="true" vtype="float"
 			requiredErrorText="实交增值税不能为空"  style="width:90%"/>
 		</td>
 	</tr>
@@ -243,51 +250,51 @@
 	<tr>
 		<td style="width:10%"><label for="textbox1$text">国家补贴收入:</label></td>
 		<td style="width:23%">
-		<input id="textbox1"  name="subsidyincome" class="mini-textbox" required="true" 
+		<input id="textbox1"  name="subsidyincome" class="mini-textbox" required="true" vtype="float"
 			requiredErrorText="国家补贴收入不能为空" style="width:90%"/>
 		</td>
 		<td style="width:10%"><label for="textbox2$text">盈余公积:</label></td>
 		<td style="width:23%" >
-		<input id="textbox2"  name="surplusreserve" class="mini-textbox" required="true" 
+		<input id="textbox2"  name="surplusreserve" class="mini-textbox" required="true" vtype="float"
 			requiredErrorText="盈余公积不能为空"  style="width:90%"/>
 		</td>
 		<td style="width:10%"><label for="textbox3$text">所有者权益合计:</label></td>
 		<td style="width:23%" >
-		<input id="textbox3"  name="totalequity" class="mini-textbox" required="true" 
+		<input id="textbox3"  name="totalequity" class="mini-textbox" required="true" vtype="float"
 			requiredErrorText="所有者权益合计不能为空"  style="width:90%"/>
 		</td>
 	</tr>
 	<tr>
 		<td style="width:10%"><label for="textbox1$text">负债和所有者权益合计:</label></td>
 		<td style="width:23%">
-		<input id="textbox1"  name="totalequity1" class="mini-textbox" required="true" 
+		<input id="textbox1"  name="totalequity1" class="mini-textbox" required="true" vtype="float"
 			requiredErrorText="负债和所有者权益合计不能为空" style="width:90%"/>
 		</td>
 		<td style="width:10%"><label for="textbox2$text">利润总和:</label></td>
 		<td style="width:23%" >
-		<input id="textbox2"  name="totalprofit" class="mini-textbox" required="true" 
+		<input id="textbox2"  name="totalprofit" class="mini-textbox" required="true" vtype="float"
 			requiredErrorText="利润总和不能为空"  style="width:90%"/>
 		</td>
 		<td style="width:10%"><label for="textbox3$text">未分配利润:</label></td>
 		<td style="width:23%" >
-		<input id="textbox3"  name="unallotprofit" class="mini-textbox" required="true" 
+		<input id="textbox3"  name="unallotprofit" class="mini-textbox" required="true" vtype="float"
 			requiredErrorText="未分配利润不能为空"  style="width:90%"/>
 		</td>
 	</tr>
 	<tr>
 		<td style="width:10%"><label for="textbox1$text">营业外支出:</label></td>
 		<td style="width:23%">
-		<input id="textbox1"  name="unbusinessexpense" class="mini-textbox" required="true" 
+		<input id="textbox1"  name="unbusinessexpense" class="mini-textbox" required="true" vtype="float"
 			requiredErrorText="营业外支出不能为空" style="width:90%"/>
 		</td>
 		<td style="width:10%"><label for="textbox2$text">营业外收入:</label></td>
 		<td style="width:23%" >
-		<input id="textbox2"  name="unbusinessincome" class="mini-textbox" required="true" 
+		<input id="textbox2"  name="unbusinessincome" class="mini-textbox" required="true" vtype="float"
 			requiredErrorText="营业外收入不能为空"  style="width:90%"/>
 		</td>
 		<td style="width:10%"><label for="textbox3$text">未缴税金:</label></td>
 		<td style="width:23%" >
-		<input id="textbox3"  name="unpaidtax" class="mini-textbox" required="true" 
+		<input id="textbox3"  name="unpaidtax" class="mini-textbox" required="true" vtype="float"
 			requiredErrorText="未缴税金不能为空"  style="width:90%"/>
 		</td>
 	</tr>

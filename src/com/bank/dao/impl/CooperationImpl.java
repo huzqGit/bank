@@ -1,5 +1,6 @@
 package com.bank.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +32,7 @@ public class CooperationImpl extends GenericMyBatisDAOSupport<FarmerCooperation,
 
 	@Override
 	public void delete(Long pk) throws DAOException, DeleteException{
-
+		this.getSqlSession().update("cooperation.delete", pk);
 	}
 
 	@Override
@@ -61,6 +62,16 @@ public class CooperationImpl extends GenericMyBatisDAOSupport<FarmerCooperation,
 	
 	public long getTotal(Map<String,String> map){
 		return getSqlSession().selectOne("cooperation.getTotal",map);
+	}
+	
+	public List<Map<String,Object>> getCooperationTree(Map<String,Object> map){
+		List<Map<String,Object>> list = getSqlSession().selectList("cooperation.getCooperationTree", map);
+		Map<String,Object> pMap = new HashMap<String, Object>();
+		pMap.put("name", "合作社名称");
+		pMap.put("id", "pn");
+		pMap.put("expanded", true);
+		list.add(pMap);
+		return list;
 	}
 
 }

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cooperationDebt">
 	<sql id="Cooperation_Column_List">
-		debtid,accountspayable,assetall,bankloan,buildingproject,businessprofit,capitalreserve,cashcapital,
+		debtid,yearmonth,accountspayable,assetall,bankloan,buildingproject,businessprofit,capitalreserve,cashcapital,
 		cooperationname,depositreceived,deprecication,financialcost,fixedasset,fixedassetall,floatasset,
 		floatassetall,floatdebt,floatdebtall,handingcost,interestexpense,inventory,investincome,invisibleasset,
 		longdebtall,netprofit,netvalue,organcode,paidaddedtax,payableaddedtax,payableincometax,prepayment,profitloss,
@@ -14,6 +14,7 @@
 		insert into t_cooperation_debt
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="accountspayable != null">accountspayable,</if>
+			<if test="yearmonth != null">yearmonth,</if>
 			<if test="assetall != null">assetall,</if>
 			<if test="bankloan != null">bankloan,</if>
 			<if test="buildingproject != null">buildingproject,</if>
@@ -62,7 +63,8 @@
 			<if test="unpaidtax != null">unpaidtax</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="accountspayable != null">#{accountspayablejdbcType=VARCHAR},</if>
+			<if test="accountspayable != null">#{accountspayable,jdbcType=VARCHAR},</if>
+			<if test="yearmonth != null">#{yearmonth,jdbcType=VARCHAR},</if>
 			<if test="assetall != null">#{assetall,jdbcType=VARCHAR},</if>
 			<if test="bankloan != null">#{bankloan,jdbcType=VARCHAR},</if>
 			<if test="buildingproject != null">#{buildingproject,jdbcType=VARCHAR},</if>
@@ -114,6 +116,7 @@
 	<update id="update" parameterType="com.bank.beans.FarmerCooperationDebt">
 		update t_cooperation_debt
 		<set>
+			 <if test="yearmonth != null and yearmonth != ''">yearmonth=#{yearmonth},</if>
 			 <if test="accountspayable!=null and accountspayable!=''">accountspayable=#{accountspayable},</if>
 			 <if test="assetall!=null and assetall!=''">assetall=#{assetall},</if>
 			 <if test="bankloan!=null and bankloan!=''">bankloan=#{bankloan},</if>
@@ -223,4 +226,7 @@
    	  		<![CDATA[and t.recordtime <=to_date('${recordTimeEnd}','yyyy-mm-dd')]]>
 		</if>
 	</select>
+	<delete id="delete" parameterType="long">
+		delete from t_cooperation_debt where debtid = #{id,jdbcType=INTEGER}
+	</delete>
 </mapper>

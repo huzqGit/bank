@@ -15,6 +15,7 @@ public class FarmerCooperationDebt extends BaseEntity<Long>{
 	private static final long serialVersionUID = 3563675816402829802L;
 	
 	private Long debtid;
+	private String yearmonth;     //	年月
 	private String accountspayable;     //	应付账款
 	private String assetall;     //	资产合计
 	private String bankloan;     //	银行借款
@@ -455,6 +456,14 @@ public class FarmerCooperationDebt extends BaseEntity<Long>{
 
 	public void setUnpaidtax(String unpaidtax) {
 		this.unpaidtax = unpaidtax;
+	}
+
+	public String getYearmonth() {
+		return yearmonth;
+	}
+
+	public void setYearmonth(String yearmonth) {
+		this.yearmonth = yearmonth;
 	}
 	
 }

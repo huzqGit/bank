@@ -1,9 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>农民专业合作经济组织基本概况信息</title>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
@@ -18,7 +18,7 @@
 		        	<a class="mini-button" iconCls="icon-save" plain="true" onclick="submitForm()">保存</a>
 		           	<span class="separator"></span>
 	            </span>
-	            <a class="mini-button" iconCls="icon-upgrade" plain="true" onclick="back()">返回</a>
+	            <a class="mini-button" iconCls="icon-remove" plain="true" onclick="close()">关闭</a>
                 <span class="separator"></span>
             </td>
          </tr>
@@ -40,7 +40,7 @@
 	<td style="width:10%"><label for="textbox1$text">合作社名称:</label></td>
 	<td style="width:40%">
 	<input id="textbox1"  name="cooperationName" class="mini-textbox" required="true" 
-		requiredErrorText="合作社名称不能为空" style="width:90%"/>
+		requiredErrorText="合作社名称不能为空" style="width:90%" value="${cname}"/>
 	</td>
 	<td style="width:10%"><label for="textbox2$text">组织机构编码:</label></td>
 	<td style="width:40%" >
@@ -75,12 +75,12 @@
 	<tr>
 	<td style="width:10%"><label for="textbox1$text">注册资金:</label></td>
 	<td style="width:40%">
-	<input id="textbox1"  name="registerCapital" class="mini-textbox" required="true" 
+	<input id="textbox1"  name="registerCapital" class="mini-textbox" required="true"  vtype="float"
 		requiredErrorText="注册资金不能为空" style="width:90%"/>
 	</td>
 	<td style="width:10%"><label for="textbox1$text">实收资金:</label></td>
 	<td style="width:40%">
-	<input id="textbox1"  name="realCapital" class="mini-textbox" required="true" 
+	<input id="textbox1"  name="realCapital" class="mini-textbox" required="true"  vtype="float"
 		requiredErrorText="实收资金不能为空" style="width:90%"/>
 	</td>
 	</tr>
@@ -97,12 +97,12 @@
 	</td>
 	</tr>
 	<tr>
-	<td style="width:10%"><label for="textbox1$text">联系电话号码:</label></td>
+	<td style="width:10%"><label for="textbox1$text">联系电话号码:</label></td> 
 	<td style="width:40%">
 	<input id="textbox1"  name="phone" class="mini-textbox" required="true" 
 		requiredErrorText="联系电话号码不能为空" style="width:90%"/>
 	</td>
-	<td style="width:10%"><label for="textbox1$text">社员人数:</label></td>
+	<td style="width:10%"><label for="textbox1$text">社员人数:</label></td> vtype="float"
 	<td style="width:40%">
 	<input id="textbox1"  name="members" class="mini-textbox" required="true" 
 		requiredErrorText="社员人数不能为空" style="width:90%"/>
@@ -123,12 +123,12 @@
 	<tr>
 	<td style="width:10%"><label for="textbox1$text">带动农户（户）:</label></td>
 	<td style="width:40%">
-	<input id="textbox1"  name="farmers" class="mini-textbox" required="true" 
+	<input id="textbox1"  name="farmers" class="mini-textbox" required="true" vtype="float"
 		requiredErrorText="带动农户不能为空" style="width:90%"/>
 	</td>
 	<td style="width:10%"><label for="textbox1$text">联接基地（亩）:</label></td>
 	<td style="width:40%">
-	<input id="textbox1"  name="connectionBase" class="mini-textbox" required="true" 
+	<input id="textbox1"  name="connectionBase" class="mini-textbox" required="true" vtype="float"
 		requiredErrorText="联接基地不能为空" style="width:90%"/>
 	</td>
 	</tr>
@@ -164,6 +164,11 @@
 		
 		function back(){
 			history.go(-1);
+		}
+		
+		function close(){
+			//window.close();
+			window.CloseOwnerWindow();
 		}
 		
 		function submitForm(){

@@ -110,6 +110,24 @@ public class CooperationController {
 	    response.getWriter().write(json);
 	}
 	
+	@RequestMapping(value="getCooperationTree",method = RequestMethod.POST)
+	public void getCooperationTree(HttpServletRequest request, 
+			HttpServletResponse response) throws Exception{
+		
+		//查询条件
+	    String cooperationName = HttpUtils.getParameter(request,"cooperationName");
+	    Map<String,Object> map = new HashMap<String,Object>();
+	    map.put("cooperationName", cooperationName);
+	    
+	    List<Map<String,Object>> data = cooperationService.getCooperationTree(map);
+//	    HashMap<String,Object> result = new HashMap<String,Object>();
+//      result.put("data", data);
+	    String json = JSON.toJSONString(data);
+//	    System.out.println(json);
+	    response.setContentType("text/html;charset=UTF-8");
+	    response.getWriter().write(json);
+	}
+	
 	@RequestMapping(value="deleteByKey")
 	public void deleteByKey(HttpServletRequest request,HttpServletResponse response)throws Exception{
 		String id = HttpUtils.getParameter(request, "id");

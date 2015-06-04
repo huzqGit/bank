@@ -38,7 +38,7 @@ public class ICooperationServiceImpl  extends GenericServiceImpl<FarmerCooperati
 	@Override
 	public void delete(Long pk) throws DAOException, DeleteException,
 			DataNotFoundException {
-		
+		cooperationDao.delete(pk);
 	}
 
 	@Override
@@ -56,6 +56,10 @@ public class ICooperationServiceImpl  extends GenericServiceImpl<FarmerCooperati
 			String sortField, String sortOrder, Map paramMap)
 			throws DAOException {
 		return cooperationDao.getPageingEntities(pageIndex, pageSize, sortField, sortOrder, paramMap);
+	}
+	
+	public List<Map<String,Object>> getCooperationTree(Map<String,Object> paramMap){
+		return cooperationDao.getCooperationTree(paramMap);
 	}
 
 	@Override

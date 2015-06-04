@@ -187,7 +187,7 @@
    </choose>
 </select>
 <select id="getTotal" parameterType="map" resultType="long">
-	select count(*) from t_cooperation where 1=1
+	select count(*) from t_cooperation t where 1=1
    <if test="cooperationName != null and cooperationName != ''">
   		and t.cooperationName like '%${cooperationName}%'
    </if>
@@ -204,4 +204,16 @@
    	  <![CDATA[and t.recordtime <=to_date('${recordTimeEnd}','yyyy-mm-dd')]]>
    </if>
 </select>
+
+<select id="getCooperationTree" parameterType="map" resultType="java.util.HashMap"
+	>
+   select distinct COOPERATIONNAME as "id",t.COOPERATIONNAME as "name",'pn' as "pid" from t_cooperation t where 1=1
+   <if test="cooperationName != null and cooperationName != ''">
+  		and t.cooperationName like '%${cooperationName}%'
+   </if>
+   
+</select>
+<delete id="delete" parameterType="long">
+	delete from t_cooperation where cooperationid = #{id,jdbcType=INTEGER}
+</delete>
 </mapper>

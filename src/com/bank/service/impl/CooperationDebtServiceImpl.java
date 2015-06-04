@@ -38,7 +38,7 @@ public class CooperationDebtServiceImpl  extends GenericServiceImpl<FarmerCooper
 	@Override
 	public void delete(Long pk) throws DAOException, DeleteException,
 			DataNotFoundException {
-		
+		cooperationDebtDao.delete(pk);
 	}
 
 	@Override

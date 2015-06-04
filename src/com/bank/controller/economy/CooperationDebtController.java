@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.bank.beans.FarmerCooperation;
@@ -42,24 +43,37 @@ public class CooperationDebtController {
 		
 		Object decodeJsonData = JsonUtil.Decode(formData);
 		String formatdata = JSON.toJSONStringWithDateFormat(decodeJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
-		JSONObject jsb = JSONObject.parseObject(formatdata);
-		FarmerCooperationDebt coo = (FarmerCooperationDebt) JSON.toJavaObject(jsb, FarmerCooperationDebt.class);
-		try{
-			if(coo.getDebtid()==null){
-				if(coo.getRecordtime() == null)
-					coo.setRecordtime(new Date());
-				cooperationDebtService.save(coo);
-			}else{
-				cooperationDebtService.update(coo);
+		JSONArray jsa = null;
+		JSONObject[] jsons = new JSONObject[1];
+		FarmerCooperationDebt coo = null;
+		if(formData != null && formData.startsWith("[")){
+			jsa = JSONArray.parseArray(formatdata);
+			jsons = new JSONObject[jsa.size()];
+			for(int i = 0;i<jsa.size();i++){
+				jsons[i] = jsa.getJSONObject(i);
 			}
-		}catch(Exception e){
-			log.error(e.getMessage());
-			throw e;
+		}else{
+			jsons[0] = JSONObject.parseObject(formatdata);
 		}
-		log.info("保存成功");
-		String json = JSON.toJSONString(coo);
-		response.setContentType("text/html;charset=UTF-8");
-	    response.getWriter().write(json);
+		for (JSONObject jsb : jsons){
+			coo = (FarmerCooperationDebt) JSON.toJavaObject(jsb, FarmerCooperationDebt.class);
+			try{
+				if(coo.getDebtid()==null){
+					if(coo.getRecordtime() == null)
+						coo.setRecordtime(new Date());
+					cooperationDebtService.save(coo);
+				}else{
+					cooperationDebtService.update(coo);
+				}
+			}catch(Exception e){
+				log.error(e.getMessage());
+				throw e;
+			}
+			log.info("保存成功");
+			String json = JSON.toJSONString(coo);
+			response.setContentType("text/html;charset=UTF-8");
+		    response.getWriter().write(json);
+		}
 		return null;
 	}
 	

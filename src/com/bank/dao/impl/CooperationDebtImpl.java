@@ -31,7 +31,7 @@ public class CooperationDebtImpl extends GenericMyBatisDAOSupport<FarmerCooperat
 
 	@Override
 	public void delete(Long pk) throws DAOException, DeleteException{
-
+		this.getSqlSession().update("cooperationDebt.delete", pk);
 	}
 
 	@Override
