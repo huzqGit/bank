@@ -101,7 +101,7 @@ public class FarmerServiceImpl extends GenericServiceImpl<Farmer, Long>
 			return null;
 		}
 		if(farmer.getId() == null){
-			Farmer dbFarmer = farmerDao.findByID(farmer.getFarmerIdnum());
+			Farmer dbFarmer = farmerDao.findByID(farmer.getFarmerIdnum(),farmer.getRunitId());
 			if(dbFarmer != null){
 				 farmer.setId(dbFarmer.getId());
 				 farmerDao.update(farmer);
@@ -238,8 +238,8 @@ public class FarmerServiceImpl extends GenericServiceImpl<Farmer, Long>
 	}
 
 	@Override
-	public Farmer findById(String idNum) {
-		Farmer farmer = farmerDao.findByID(idNum);
+	public Farmer findById(String idNum,String organId) {
+		Farmer farmer = farmerDao.findByID(idNum,organId);
 		return farmer;
 	}
 
@@ -247,6 +247,17 @@ public class FarmerServiceImpl extends GenericServiceImpl<Farmer, Long>
 	@Override
 	public List<Farmer> findByIDAndName(String farmerIdNum, String farmerName) {
 		List<Farmer> farmers = farmerDao.findByIDAndName(farmerIdNum, farmerName);
+		return farmers;
+	}
+
+
+	@Override
+	public List<Farmer> findPagingByIDAndName(String pageIndex,
+			String pageSize, String sortField, String sortOrder,
+			String farmerIdNum, String farmerName, String organId) {
+		// TODO Auto-generated method stub
+		List<Farmer> farmers = farmerDao.findPagingByIDAndName(pageIndex, pageSize, sortField, sortOrder,
+				farmerIdNum, farmerName, organId);
 		return farmers;
 	}
 
@@ -332,5 +343,13 @@ public class FarmerServiceImpl extends GenericServiceImpl<Farmer, Long>
 		List<FarmerInsured> insureds = farmerInsuredDao.findByFarmerId(farmerId);
 		return insureds;
 	}
+
+
+	@Override
+	public void deleteMembers(List<Long> memberIds) {
+		// TODO Auto-generated method stub
+		farmerMemberDao.deleteMembers(memberIds);
+	}
+	
 	
 }

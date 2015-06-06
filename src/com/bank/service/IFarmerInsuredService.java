@@ -17,4 +17,6 @@ public interface IFarmerInsuredService extends
 			throws DAOException, CreateException,UpdateException, 
 			DataNotFoundException;
 	public List<Farmer> findByFarmers(List<Long> farmerIds);
+	public List<FarmerInsured> findPagingByFarmerId(int pageIndex,int pageSize,
+			String sortField,String sortOrder,Long farmerId);
 }

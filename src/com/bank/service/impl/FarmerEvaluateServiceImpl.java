@@ -63,4 +63,13 @@ public class FarmerEvaluateServiceImpl extends GenericServiceImpl<FarmerEvaluate
 		return evaluate;
 	}
 
+	@Override
+	public List<FarmerEvaluate> findPagingByFarmerId(int pageIndex,
+			int pageSize, String sortField, String sortOrder, Long farmerId) {
+		// TODO Auto-generated method stub
+		List<FarmerEvaluate> evaluates = farmerEvaluateDao.findPagingByFarmerId(pageIndex, pageSize, sortField, sortOrder, farmerId);
+		return evaluates;
+	}
+	
+
 }

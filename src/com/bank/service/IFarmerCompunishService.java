@@ -5,7 +5,6 @@ import java.util.List;
 import com.bank.beans.Farmer;
 import com.bank.beans.FarmerCompunish;
 import com.bank.beans.FarmerEvaluate;
-import com.bank.beans.Loan;
 import com.common.exception.CreateException;
 import com.common.exception.DAOException;
 import com.common.exception.DataNotFoundException;
@@ -19,5 +18,7 @@ public interface IFarmerCompunishService extends
 	public void saveJiangCheng(Farmer farmer,List<FarmerCompunish> compunishs)throws DAOException, 
 			CreateException, UpdateException, DataNotFoundException;
 	public List<FarmerCompunish> findByFarmers(List<Long> farmerIds);
+	public List<FarmerCompunish> findPagingByFarmerId(int pageIndex,int pageSize,
+			String sortField,String sortOrder,Long farmerId);
 
 }

@@ -1,5 +1,7 @@
 package com.bank.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -16,6 +18,13 @@ public class FarmerBreedServiceImpl extends GenericServiceImpl<FarmerBreed, Long
 	
 	@Resource
 	private IFarmerBreedDao farmerBreedDao;
+
+	@Override
+	public List<FarmerBreed> findBreedByFarmer(Long farmerId) {
+		// TODO Auto-generated method stub
+		List<FarmerBreed> breeds = farmerBreedDao.getBreedsByFarmerId(farmerId);
+		return breeds;
+	}
 
 	@Override
 	public GenericDAO<FarmerBreed, Long> getGenericDAO() {

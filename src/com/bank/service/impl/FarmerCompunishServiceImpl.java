@@ -71,4 +71,13 @@ public class FarmerCompunishServiceImpl extends GenericServiceImpl<FarmerCompuni
 		return compunishs;
 	}
 
+	@Override
+	public List<FarmerCompunish> findPagingByFarmerId(int pageIndex,
+			int pageSize, String sortField, String sortOrder, Long farmerId) {
+		// TODO Auto-generated method stub
+		List<FarmerCompunish> compunishs = farmerCompunishDao.findPagingByFarmerId(pageIndex, pageSize, sortField, sortOrder, farmerId);
+		return compunishs;
+	}
+	
+
 }

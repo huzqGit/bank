@@ -17,4 +17,6 @@ public interface IFarmerEvaluateService extends
 	public FarmerEvaluate getEvaluateByFarmer(Long farmerId);
 	public List<Farmer> findByFarmers(List<Long> farmerIds);
 	public FarmerEvaluate findByID(Long farmerId);
+	public List<FarmerEvaluate> findPagingByFarmerId(int pageIndex,int pageSize,
+			String sortField,String sortOrder,Long farmerId);
 }

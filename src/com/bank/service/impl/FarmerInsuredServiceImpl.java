@@ -68,4 +68,13 @@ public class FarmerInsuredServiceImpl extends GenericServiceImpl<FarmerInsured, 
 		return farmers;
 	}
 
+	@Override
+	public List<FarmerInsured> findPagingByFarmerId(int pageIndex,
+			int pageSize, String sortField, String sortOrder, Long farmerId) {
+		// TODO Auto-generated method stub
+		List<FarmerInsured> insureds = farmerInsuredDao.findPagingByFarmerId(pageIndex, pageSize, sortField, sortOrder, farmerId);
+		return insureds;
+	}
+	
+
 }

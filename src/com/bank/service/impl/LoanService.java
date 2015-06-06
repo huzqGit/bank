@@ -9,7 +9,6 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.bank.beans.Farmer;
-import com.bank.beans.FarmerPay;
 import com.bank.beans.Loan;
 import com.bank.dao.IFarmerDao;
 import com.bank.dao.ILoanDao;
@@ -43,7 +42,7 @@ public class LoanService extends GenericServiceImpl<Loan, Long>
 		for(Iterator<Loan> it = loans.iterator();it.hasNext();){
 				Loan loan = it.next();
 				if(loan.getClientType().equals("其它自然人客户")){
-					Farmer farmer= farmerDao.findByID(loan.getIdNum());
+					Farmer farmer= farmerDao.findByID(loan.getIdNum(),loan.getRunitId());
 					if(farmer == null){
 						return ;
 					} 
@@ -90,7 +89,8 @@ public class LoanService extends GenericServiceImpl<Loan, Long>
 	
 	@Override
 	public Loan findByNoteNum(String noteNum) {
-		Loan loan = loanDao.findByNoteNum(noteNum);
+			Loan loan = loanDao.findByNoteNum(noteNum);
+
 		return loan;
 	}
 	@Override

@@ -35,8 +35,11 @@ public interface IFarmerService extends
 	public Map loadTotalFarmer(Long farmerId) throws Exception ;
 	public List<Farmer> findByFarmerIds(List<Long> farmerIds);
 	public List<Farmer>  loadFarmers(Map condition)throws DAOException, DataNotFoundException ;
-	public Farmer findById(String idNum);
+	public Farmer findById(String idNum,String organId);
 	public List<Farmer> findByIDAndName(String farmerIdNum, String farmerName);
+	public List<Farmer> findPagingByIDAndName(String pageIndex,String pageSize,
+			String sortField,String sortOrder,String farmerIdNum,String farmerName,
+			String organId);
 	List<Farmer> findByNames(List<String> farmerNames); 
 	public List<FarmerMember> findMemberByFarmer(Long farmerId);
 	public List<FarmerHouse> findHouseByFarmer(Long farmerId);
@@ -49,5 +52,6 @@ public interface IFarmerService extends
 	public List<FarmerPay> findBalanceByFarmer(Long farmerId);
 	public FarmerPay findLatestBalanceByFarmer(Long farmerId);
 	public List<FarmerInsured> findInsuredByFarmer(Long farmerId);
+	public void deleteMembers(List<Long> memberIds);
 
 }

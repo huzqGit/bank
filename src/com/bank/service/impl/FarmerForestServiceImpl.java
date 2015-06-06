@@ -21,6 +21,14 @@ public class FarmerForestServiceImpl extends GenericServiceImpl<FarmerForest, Lo
 
 
 	@Override
+	public List<FarmerForest> findForestByFarmer(Long farmerId) {
+		// TODO Auto-generated method stub
+		List<FarmerForest> forests = farmerForestDao.getForestsByFarmerId(farmerId);
+		return forests;
+	}
+
+
+	@Override
 	public GenericDAO<FarmerForest, Long> getGenericDAO() {
 		
 		return this.farmerForestDao;
