@@ -1,5 +1,6 @@
 package com.bank.controller.farmer;
 
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,8 +9,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,10 +24,15 @@ import com.bank.beans.FarmerBreed;
 import com.bank.common.util.JsonUtil;
 import com.bank.service.IFarmerBreedService;
 import com.bank.service.IFarmerService;
+import com.common.exception.DAOException;
+import com.common.exception.DataNotFoundException;
 
 @Controller
-@RequestMapping(value = "/farmer/breed")
+@RequestMapping(value = "/farmer")
 public class FarmerBreedController {
+	
+	@Resource
+	private IFarmerService farmerService;
 	
 	@Resource
 	private IFarmerBreedService farmerBreedService;
@@ -52,17 +58,101 @@ public class FarmerBreedController {
 		return null;
 		
 	}
+
+	@RequestMapping(value = "/saveBreed1",method = RequestMethod.POST)
+	public ModelAndView saveBreed1(@ModelAttribute(value="breed") FarmerBreed breed,
+			HttpServletRequest request,HttpServletResponse response){
+		try{
+			if(breed.getId() ==null){
+				farmerBreedService.save(breed);
+			}else{
+				farmerBreedService.update(breed);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		Farmer farmer = null;
+		try {
+			farmer = farmerService.findByPK(breed.getFarmerId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		ModelAndView view = new ModelAndView("/farmer/farmerBreedView1");
+		view.addObject("farmer",farmer);
+		return view;
+	}
+	@RequestMapping(value="/deleteBreed",method=RequestMethod.GET)
+	public ModelAndView deleteBreed(HttpServletRequest request,HttpServletResponse response){
+		String id = request.getParameter("id");
+		String fid = request.getParameter("fid");
+		Long breedId = Long.valueOf(id);
+		Long farmerId = Long.valueOf(fid);
+		try {
+			farmerBreedService.delete(breedId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Farmer farmer = null;
+		try {
+			farmer = farmerService.findByPK(farmerId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ModelAndView view = new ModelAndView("/farmer/farmerBreedView1");
+		view.addObject("farmer",farmer);
+		return view;
+	}
+	@RequestMapping(value="/editBreed",method=RequestMethod.GET)
+	public ModelAndView editBreed(@RequestParam(value="id") String id,@RequestParam(value="fid") String fid,
+			HttpServletRequest request,HttpServletResponse response){
+		
+		Long breedId = Long.valueOf(id);
+		Long farmerId = Long.valueOf(fid);
+		Farmer farmer = null;
+		FarmerBreed breed = null;
+		try {
+			farmer = farmerService.findByPK(farmerId);
+			breed = farmerBreedService.findByPK(breedId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ModelAndView view = new ModelAndView("/farmer/farmerBreedForm1");
+		view.addObject("farmer",farmer);
+		view.addObject("breed",breed);
+		return view;
+	}
+	@RequestMapping(value="/queryBreed",method=RequestMethod.GET)
+	public ModelAndView queryBreed(@RequestParam(value="fid") String fid, 
+			HttpServletRequest request,HttpServletResponse response){
+		
+		Long farmerId = Long.valueOf(fid);
+		ModelAndView view = new ModelAndView("/farmer/farmerBreedView1");
+		Farmer farmer = null;
+		try {
+			farmer = farmerService.findByPK(farmerId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		view.addObject("farmer",farmer);
+		return view;
+	}
 	
 	@RequestMapping(value = "/loadBreed", method = RequestMethod.POST)
-	public ModelAndView loadCompany(@RequestParam(value="id",required=true) String id, 
+	public ModelAndView loadBreed(@RequestParam(value="fid",required=true) String fid, 
 			HttpServletResponse response) throws Exception {
-		if(!StringUtils.isEmpty(id)){
-			Long breedId=Long.valueOf(id);
-			FarmerBreed farmer = farmerBreedService.findByPK(breedId);
-			String json = JsonUtil.Encode(farmer);
-			response.setContentType("text/html;charset=UTF-8");
-		    response.getWriter().write(json);
-		}
+
+		Long farmerId=Long.valueOf(fid);
+		List<FarmerBreed> breeds = farmerBreedService.findBreedByFarmer(farmerId);
+		String json = JSON.toJSONStringWithDateFormat(breeds,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
+		response.setContentType("text/html;charset=UTF-8");
+		PrintWriter writer = response.getWriter();
+		writer.write(json);
+		writer.flush();
 		return null;
 		
 	}
@@ -102,6 +192,25 @@ public class FarmerBreedController {
 	    response.setContentType("text/html;charset=UTF-8");
 	    response.getWriter().write(json);
 		return null;
+	}
+	@RequestMapping(value="/typeInBreed",method=RequestMethod.GET)
+	public ModelAndView typeInBreed(@RequestParam(value="fid") String fid, 
+			HttpServletRequest request,HttpServletResponse response){
+		
+		Long farmerId = Long.valueOf(fid);
+		Farmer farmer = null;
+		try {
+			farmer = farmerService.findByPK(farmerId);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DataNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ModelAndView view = new ModelAndView("/farmer/farmerBreedForm1");
+		view.addObject("farmer",farmer);
+		return view;
 	}
 	
 }

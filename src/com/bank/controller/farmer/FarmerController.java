@@ -31,6 +31,7 @@ import org.apache.poi.xwpf.usermodel.XWPFTableCell.XWPFVertAlign;
 import org.apache.tools.zip.ZipEntry;
 import org.apache.tools.zip.ZipOutputStream;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,6 +41,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.bank.Constants;
 import com.bank.beans.Apply;
 import com.bank.beans.Dictionary;
 import com.bank.beans.Farmer;
@@ -54,12 +56,17 @@ import com.bank.beans.FarmerInsured;
 import com.bank.beans.FarmerMember;
 import com.bank.beans.FarmerPay;
 import com.bank.beans.Loan;
+import com.bank.beans.Organ;
 import com.bank.beans.User;
 import com.bank.common.util.JsonUtil;
 import com.bank.service.IFarmerPayService;
 import com.bank.service.IFarmerService;
 import com.bank.service.ILoanService;
 import com.bank.utils.ParseDataUtils;
+import com.common.exception.CreateException;
+import com.common.exception.DAOException;
+import com.common.exception.DataNotFoundException;
+import com.common.exception.UpdateException;
 
 @Controller
 @RequestMapping(value = "/farmer")
@@ -78,14 +85,20 @@ public class FarmerController   {
 
 		String basicData = request.getParameter("farmer");
 		String memberData=request.getParameter("member");
+		User user = (User)request.getSession().getAttribute(Constants.SESSION_AUTH_USER);
+		Organ organ =(Organ)request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
 		if(StringUtils.isEmpty(basicData)){
 			return null;
 		}
+		
 		//這裡做了時間格式的處理
 		Object basicJsonData = JsonUtil.Decode(basicData);
 		basicData = JSON.toJSONStringWithDateFormat(basicJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
 		JSONObject basic = JSONObject.parseObject(basicData);
 		Farmer farmer = (Farmer) JSON.toJavaObject(basic, Farmer.class);
+		farmer.setRunitId(organ.getOrganId());
+		farmer.setRunitName(organ.getOrganName());
+		farmer.setRecorder(user.getUserName());
 		//农户家庭成员情况
 		Object memberJsonData = JsonUtil.Decode(memberData);
 		memberData = JSON.toJSONStringWithDateFormat(memberJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
@@ -99,7 +112,49 @@ public class FarmerController   {
 		return null;
 		
 	}
-	
+	@RequestMapping(value = "/saveFarmer1",method = RequestMethod.POST)
+	public ModelAndView saveFarmer1(@ModelAttribute(value="farmer") Farmer farmer,
+			HttpServletRequest request,HttpServletResponse response){
+		List<FarmerMember> members = farmer.getMembers();
+		Map farmerInfo = null;
+		try {
+		 farmerInfo = farmerService.saveFarmer(farmer, members);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Farmer dbFarmer = (Farmer)farmerInfo.get("farmer");
+		List<FarmerMember> dbMembers = (List<FarmerMember>)farmerInfo.get("member");
+		ModelAndView  view = new ModelAndView("/common/bankBuilding");
+		view.addObject("farmer", dbFarmer);
+		view.addObject("members", dbMembers);
+		return view;
+		
+	}
+	@RequestMapping(value = "/deleteMember",method = RequestMethod.GET)
+	public ModelAndView deleteMember(HttpServletRequest request,HttpServletResponse response){
+
+		String id = request.getParameter("id");
+		String fid = request.getParameter("fid");
+		Long memberId = Long.valueOf(id);
+		Long farmerId = Long.valueOf(fid);
+		List<Long> memberIds = new ArrayList<Long>();
+		memberIds.add(memberId);
+		Farmer farmer = null;
+		List<FarmerMember> members = null;
+		farmerService.deleteMembers(memberIds);
+		try {
+		 farmer = farmerService.findByPK(farmerId);
+		 members = farmerService.findMemberByFarmer(farmerId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		ModelAndView  view = new ModelAndView("/common/bankBuilding");
+		view.addObject("farmer", farmer);
+		view.addObject("members", members);
+		return view;
+		
+	}
 	@RequestMapping(value = "/loadFarmer", method = RequestMethod.GET)
 	public ModelAndView loadFarmer(@RequestParam(value="id") String id,
 			HttpServletResponse response) throws Exception {
@@ -694,34 +749,32 @@ public class FarmerController   {
 		return null;
 	}
 	@RequestMapping(value="/queryFarmer",method=RequestMethod.POST)
-	public ModelAndView queryFarmer(@RequestParam(value="farmerName") String farmerName,
-			@RequestParam(value="farmerIdNum") String farmerIdNum, 
-			HttpServletResponse response) throws Exception{
-		/*查询条件
+	public ModelAndView queryFarmer(HttpServletRequest request,HttpServletResponse response){
 		
-		if(StringUtils.isEmpty(farmerIdNum) && StringUtils.isEmpty(farmerName)){
-			ModelAndView view = new ModelAndView("/farmer/farmerBasicInfoView");
-			view.addObject("msg", "请您填写完农户姓名和身份证号码后查询!");
-			return  view;
-		}*/
-	    List<Farmer> farmers= farmerService.findByIDAndName(farmerIdNum, farmerName);
-	    if(farmers.size()== 0){
-	    	ModelAndView view = new ModelAndView("/farmer/farmerBasicInfoView");
-	    	view.addObject("farmerName",farmerName);
-		    view.addObject("farmerIdNum",farmerIdNum);
-			view.addObject("msg", "未找到符合条件的农户信息!");
-			return  view;
-	    }else{
-		    ModelAndView view = new ModelAndView("/farmer/farmerBasicInfoView");
-		    view.addObject("farmerName",farmerName);
-		    view.addObject("farmerIdNum",farmerIdNum);
-		    view.addObject("farmers",farmers);
-			return view;
-	    }
+		
+	    String pageIndex = request.getParameter("pageIndex");
+	    String pageSize = request.getParameter("pageSize");        
+	    String sortField = request.getParameter("sortField");
+	    String sortOrder = request.getParameter("sortOrder");
+	    String farmerIdNum = request.getParameter("farmerIdNum");
+		String farmerName = request.getParameter("farmerName");
+		farmerName = StringUtils.isEmpty(farmerName)?null:farmerName;
+		Organ organ = (Organ)request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
+		String organId = organ.getOrganId();
+		List<Farmer> farmers= farmerService.findPagingByIDAndName(pageIndex, pageSize, sortField, sortOrder,
+				farmerIdNum, farmerName, organId);
+	    String json = JSON.toJSONStringWithDateFormat(farmers,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
+	    response.setContentType("text/html;charset=UTF-8");
+	    try {
+			response.getWriter().write(json);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    return null;
 	}
 	@RequestMapping(value="/queryFarmer1",method=RequestMethod.POST)
-	public ModelAndView queryFarmer1(@RequestParam(value="farmerName") String farmerName,
-			@RequestParam(value="farmerIdNum") String farmerIdNum, 
+	public ModelAndView queryFarmer1(HttpServletRequest request,
 			HttpServletResponse response) throws Exception{
 		/*查询条件
 		
@@ -730,7 +783,16 @@ public class FarmerController   {
 			view.addObject("msg", "请您填写完农户姓名和身份证号码后查询!");
 			return  view;
 		}*/
-	    List<Farmer> farmers= farmerService.findByIDAndName(farmerIdNum, farmerName);
+	    String pageIndex = request.getParameter("pageIndex");
+	    String pageSize = request.getParameter("pageSize");        
+	    String sortField = request.getParameter("sortField");
+	    String sortOrder = request.getParameter("sortOrder");
+	    String farmerIdNum = request.getParameter("farmerIdNum");
+		String farmerName = request.getParameter("farmerName");
+		Organ organ = (Organ)request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
+		String organId = organ.getOrganId();
+		List<Farmer> farmers= farmerService.findPagingByIDAndName(pageIndex, pageSize, sortField, sortOrder,
+				farmerIdNum, farmerName, organId);
 	    if(farmers.size()== 0){
 	    	ModelAndView view = new ModelAndView("/farmer/farmerBasicInfoView1");
 	    	view.addObject("farmerName",farmerName);
@@ -747,15 +809,17 @@ public class FarmerController   {
 	}
 	@RequestMapping(value="/typeInFarmer",method=RequestMethod.POST)
 	public ModelAndView typeInFarmer(@RequestParam(value="farmerName") String farmerName,
-			@RequestParam(value="farmerIdNum") String farmerIdNum, 
-			HttpServletResponse response) throws Exception{
+			@RequestParam(value="farmerIdNum") String farmerIdNum, HttpServletRequest request,
+			HttpServletResponse response){
 		//查询条件
 		if(StringUtils.isEmpty(farmerIdNum) || StringUtils.isEmpty(farmerName)){
 			ModelAndView view = new ModelAndView("/farmer/farmerBasicInfoView");
 			view.addObject("msg", "请您填写完农户姓名和身份证号码后录入农户信息!");
 			return  view;
 		}
-	    Farmer farmer= farmerService.findById(farmerIdNum);
+		Organ organ =(Organ)request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
+		String organId = organ.getOrganId();
+	    Farmer farmer= farmerService.findById(farmerIdNum,organId);
 	    List<FarmerMember> members = new ArrayList<FarmerMember>();
 	    if(farmer == null){
 	    	farmer= new Farmer();
@@ -774,21 +838,31 @@ public class FarmerController   {
 	}
 	@RequestMapping(value="/typeInFarmer1",method=RequestMethod.POST)
 	public ModelAndView typeInFarmer1(@RequestParam(value="farmerName") String farmerName,
-			@RequestParam(value="farmerIdNum") String farmerIdNum, 
-			HttpServletResponse response) throws Exception{
+			@RequestParam(value="farmerIdNum") String farmerIdNum,  HttpServletRequest request,
+			HttpServletResponse response){
 		//查询条件
 		if(StringUtils.isEmpty(farmerIdNum) || StringUtils.isEmpty(farmerName)){
 			ModelAndView view = new ModelAndView("/farmer/farmerBasicInfoView");
 			view.addObject("msg", "请您填写完农户姓名和身份证号码后录入农户信息!");
 			return  view;
 		}
-	    Farmer farmer= farmerService.findById(farmerIdNum);
+		Organ organ =(Organ)request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
+		String organId = organ.getOrganId();
+	    Farmer farmer= farmerService.findById(farmerIdNum,organId);
 	    List<FarmerMember> members = new ArrayList<FarmerMember>();
 	    if(farmer == null){
 	    	farmer= new Farmer();
 	    	farmer.setFarmerName(farmerName);
 	    	farmer.setFarmerIdnum(farmerIdNum);
-	    	farmerService.save(farmer);
+	    	try {
+				farmerService.save(farmer);
+			} catch (DAOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (CreateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	    }else{
 	    	ModelAndView view = new ModelAndView("/farmer/farmerBasicInfoView");
 			view.addObject("msg", "请您填写完农户姓名和身份证号码后录入农户信息!");

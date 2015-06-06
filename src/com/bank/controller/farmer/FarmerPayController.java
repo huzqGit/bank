@@ -1,5 +1,6 @@
 package com.bank.controller.farmer;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,8 +27,11 @@ import com.bank.beans.Farmer;
 import com.bank.beans.FarmerIncome;
 import com.bank.beans.FarmerPay;
 import com.bank.common.util.JsonUtil;
+import com.bank.service.IFarmerIncomeService;
 import com.bank.service.IFarmerPayService;
 import com.bank.service.IFarmerService;
+import com.common.exception.DAOException;
+import com.common.exception.DataNotFoundException;
 
 @Controller
 @RequestMapping(value = "/farmer")
@@ -38,10 +43,12 @@ public class FarmerPayController {
 	@Resource
 	private IFarmerPayService farmerPayService;
 	
+	@Resource
+	private IFarmerIncomeService farmerIncomeService;
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/saveBalance",method = RequestMethod.POST)
-	public ModelAndView save(HttpServletRequest request, 
+	public ModelAndView saveBalance(HttpServletRequest request, 
 			HttpServletResponse response) throws Exception{
 		
 		String farmerData= request.getParameter("farmer");
@@ -89,7 +96,108 @@ public class FarmerPayController {
 	    writer.flush();
 		return null;
 	}
+	@RequestMapping(value="/saveBalance1",method=RequestMethod.POST)
+	public ModelAndView saveBalance1(@ModelAttribute(value="balance") FarmerPay balance,
+			HttpServletRequest request,HttpServletResponse response) throws Exception{
+		
+		if(balance.getId()==null){
+			farmerPayService.save(balance);
+		}else{
+			farmerPayService.update(balance);
+		}
+		List<FarmerIncome> incomes = balance.getIncomes();
+		for(FarmerIncome income : incomes){
+			income.setPayId(balance.getId());
+			if(income.getId()==null){
+				farmerIncomeService.save(income);
+			}else{
+				farmerIncomeService.update(income);
+			}
+		}
+		Farmer farmer = null;
+		try {
+			 farmer = farmerService.findByPK(balance.getFarmerId());
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DataNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ModelAndView view = new ModelAndView("/farmer/farmerBalanceView");
+		view.addObject("farmer",farmer);
+		return view;
+	}
+	@RequestMapping(value="/editBalance",method=RequestMethod.GET)
+	public ModelAndView editBalance(@RequestParam(value="id") String id,@RequestParam(value="fid") String fid,
+			HttpServletRequest request,HttpServletResponse response){
+		
+		Long balanceId = Long.valueOf(id);
+		Long farmerId = Long.valueOf(fid);
+		Farmer farmer = null;
+		FarmerPay balance = null;
+		List<FarmerIncome> incomes = null;
+		try {
+			farmer = farmerService.findByPK(farmerId);
+			balance = farmerPayService.findByPK(balanceId);
+			incomes = farmerPayService.loadTotalIncome(balanceId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	
+		ModelAndView view = new ModelAndView("/farmer/farmerBalanceForm1");
+		view.addObject("farmer",farmer);
+		view.addObject("balance",balance);
+		view.addObject("incomes",incomes);
+		return view;
+	}
+	@RequestMapping(value="/deleteBalance",method=RequestMethod.POST)
+	public ModelAndView deleteBalance(HttpServletRequest request,HttpServletResponse response){
+		
+		String id = request.getParameter("id");
+		String fid = request.getParameter("fid");
+		Long balanceId = Long.valueOf(id);
+		Long farmerId = Long.valueOf(fid);
+		try {
+			farmerPayService.delete(balanceId);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		Farmer farmer = null;
+		try {
+			 farmer = farmerService.findByPK(farmerId);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DataNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ModelAndView view = new ModelAndView("/farmer/farmerBalanceView");
+		view.addObject("farmer",farmer);
+		return view;
+	}
+	@RequestMapping(value="/queryBalance",method=RequestMethod.GET)
+	public ModelAndView queryBalance(@RequestParam(value="fid") String fid, 
+			HttpServletRequest request,HttpServletResponse response){
+		
+		Long farmerId = Long.valueOf(fid);
+		ModelAndView view = new ModelAndView("/farmer/farmerBalanceView");
+		Farmer farmer = null;
+		try {
+			 farmer = farmerService.findByPK(farmerId);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DataNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		view.addObject("farmer",farmer);
+		return view;
+	}
 	@RequestMapping(value = "/loadBalance", method = RequestMethod.GET)
 	public ModelAndView loadBalance(@RequestParam(value="id",required=true) String id, 
 			HttpServletResponse response) throws Exception {
@@ -106,6 +214,22 @@ public class FarmerPayController {
 			view.addObject("balance", balance);
 			view.addObject("incomes", incomes);
 			return view;
+		}
+		return null;
+		
+	}
+	@RequestMapping(value = "/loadBalance1", method = RequestMethod.POST)
+	public ModelAndView loadBalance1(@RequestParam(value="fid",required=true) String fid, 
+			HttpServletResponse response){
+		Long farmerId = Long.valueOf(fid);
+		List<FarmerPay> balances = farmerService.findBalanceByFarmer(farmerId);
+	    String json = JSON.toJSONStringWithDateFormat(balances,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
+	    response.setContentType("text/html;charset=UTF-8");
+	    try {
+			response.getWriter().write(json);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return null;
 		
@@ -174,6 +298,25 @@ public class FarmerPayController {
 			return view;
 			
 		}
+	}
+	@RequestMapping(value="/typeinBalance1",method=RequestMethod.GET)
+	public ModelAndView TypeinBalance1(@RequestParam(value="fid") String fid, 
+			HttpServletRequest request,HttpServletResponse response){
+		
+		Long farmerId = Long.valueOf(fid);
+		Farmer farmer = null;
+		try {
+			farmer = farmerService.findByPK(farmerId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		List<FarmerIncome> incomes =new ArrayList<FarmerIncome>();
+		incomes.add(new FarmerIncome());
+		ModelAndView view = new ModelAndView("/farmer/farmerBalanceForm1");
+		view.addObject("farmer",farmer);
+		view.addObject("incomes",incomes);
+		return view;
 	}
 	
 	@RequestMapping(value="/loadAllPay",method=RequestMethod.POST)

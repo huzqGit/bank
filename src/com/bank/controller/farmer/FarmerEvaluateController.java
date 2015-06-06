@@ -1,9 +1,8 @@
 package com.bank.controller.farmer;
 
+import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -23,10 +22,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.bank.beans.Farmer;
 import com.bank.beans.FarmerEvaluate;
-import com.bank.beans.FarmerMember;
 import com.bank.common.util.JsonUtil;
 import com.bank.service.IFarmerEvaluateService;
 import com.bank.service.IFarmerService;
+import com.common.exception.DAOException;
+import com.common.exception.DataNotFoundException;
 
 @Controller
 @RequestMapping(value = "/farmer")
@@ -62,6 +62,67 @@ public class FarmerEvaluateController {
 		writer.flush();
 		return null;	
 	
+}
+@RequestMapping(value="/queryEvaluate",method=RequestMethod.GET)
+public ModelAndView queryCompunish(@RequestParam(value="fid") String fid, 
+			HttpServletRequest request,HttpServletResponse response){
+		
+		Long farmerId = Long.valueOf(fid);
+		ModelAndView view = new ModelAndView("/farmer/farmerEvaluateView1");
+		Farmer farmer = null;
+		try {
+			 farmer = farmerService.findByPK(farmerId);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DataNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		view.addObject("farmer",farmer);
+		return view;
+}
+@RequestMapping(value="/loadEvaluate",method=RequestMethod.POST)
+public ModelAndView loadEvaluate(@RequestParam(value="fid") String fid,
+		HttpServletRequest request,HttpServletResponse response){
+	
+	Long farmerId = Long.valueOf(fid);
+	Farmer farmer = null;
+	FarmerEvaluate evaluate = null;
+	try {
+		 farmer = farmerService.findByPK(farmerId);
+		 evaluate = farmerEvaluateService.findByID(farmerId);
+	} catch (DAOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} catch (DataNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	ModelAndView view = new ModelAndView("/farmer/farmerEvaluateForm1");
+	view.addObject("farmer",farmer);
+	view.addObject("evaluate", evaluate);
+	return view;
+}
+@RequestMapping(value="/loadEvaluate1",method=RequestMethod.POST)
+public ModelAndView loadEvaluate1(@RequestParam(value="fid") String fid,
+		HttpServletRequest request,HttpServletResponse response){
+	
+	Long farmerId = Long.valueOf(fid);
+    int pageIndex = Integer.valueOf(request.getParameter("pageIndex"));
+    int pageSize = Integer.valueOf(request.getParameter("pageSize"));        
+    String sortField = request.getParameter("sortField");
+    String sortOrder = request.getParameter("sortOrder");
+	List<FarmerEvaluate> evaluates =farmerEvaluateService.findPagingByFarmerId(pageIndex, pageSize, sortField, sortOrder, farmerId);
+    String json = JSON.toJSONStringWithDateFormat(evaluates,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
+    response.setContentType("text/html;charset=UTF-8");
+    try {
+		response.getWriter().write(json);
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	return null;
 }
 @RequestMapping(value="/typeInEvaluate",method=RequestMethod.POST)
 public ModelAndView typeInEvaluate(@RequestParam(value="farmerName") String farmerName,

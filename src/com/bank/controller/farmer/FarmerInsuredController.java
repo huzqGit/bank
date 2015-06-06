@@ -1,8 +1,7 @@
 package com.bank.controller.farmer;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,14 +21,12 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.bank.beans.Farmer;
-import com.bank.beans.FarmerBreed;
-import com.bank.beans.FarmerDevice;
-import com.bank.beans.FarmerForest;
-import com.bank.beans.FarmerHouse;
 import com.bank.beans.FarmerInsured;
 import com.bank.common.util.JsonUtil;
 import com.bank.service.IFarmerInsuredService;
 import com.bank.service.IFarmerService;
+import com.common.exception.DAOException;
+import com.common.exception.DataNotFoundException;
 
 @Controller
 @RequestMapping(value = "/farmer")
@@ -65,7 +63,113 @@ public class FarmerInsuredController {
 		return null;
 		
 	}
-	
+	@RequestMapping(value="/saveInsured1",method=RequestMethod.POST)
+	public ModelAndView saveInsured1(@ModelAttribute(value="insured") FarmerInsured insured,
+			HttpServletRequest request,HttpServletResponse response) throws Exception{
+		if(insured.getId()==null){
+			farmerInsuredService.save(insured);
+		}else{
+			farmerInsuredService.update(insured);
+		}
+		ModelAndView view = new ModelAndView("/farmer/farmerInsuredView1");
+		Farmer farmer = null;
+		try {
+			 farmer = farmerService.findByPK(insured.getFarmerId());
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DataNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		view.addObject("farmer",farmer);
+		return view;
+	}
+	@RequestMapping(value="/deleteInsured",method=RequestMethod.GET)
+	public ModelAndView deleteInsured(HttpServletRequest request,HttpServletResponse response){
+		String id = request.getParameter("id");
+		String fid = request.getParameter("fid");
+		Long insuredId = Long.valueOf(id);
+		Long farmerId = Long.valueOf(fid);
+		try {
+			farmerInsuredService.delete(insuredId);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		Farmer farmer = null;
+		try {
+			 farmer = farmerService.findByPK(farmerId);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DataNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ModelAndView view = new ModelAndView("/farmer/farmerInsuredView1");
+		view.addObject("farmer",farmer);
+		return view;
+	}
+	@RequestMapping(value="/editInsured",method=RequestMethod.GET)
+	public ModelAndView editInsured(@RequestParam(value="id") String id,@RequestParam(value="fid") String fid,
+			HttpServletRequest request,HttpServletResponse response){
+		
+		Long insuredId = Long.valueOf(id);
+		Long farmerId = Long.valueOf(fid);
+		Farmer farmer = null;
+		FarmerInsured insured = null;
+		try {
+			farmer = farmerService.findByPK(farmerId);
+			insured = farmerInsuredService.findByPK(insuredId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ModelAndView view = new ModelAndView("/farmer/farmerInsuredForm1");
+		view.addObject("farmer",farmer);
+		view.addObject("insured",insured);
+		return view;
+	}
+	@RequestMapping(value="/queryInsured",method=RequestMethod.GET)
+	public ModelAndView queryCompunish(@RequestParam(value="fid") String fid, 
+			HttpServletRequest request,HttpServletResponse response){
+		
+		Long farmerId = Long.valueOf(fid);
+		ModelAndView view = new ModelAndView("/farmer/farmerInsuredView1");
+		Farmer farmer = null;
+		try {
+			 farmer = farmerService.findByPK(farmerId);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DataNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		view.addObject("farmer",farmer);
+		return view;
+	}
+	@RequestMapping(value="/loadInsured",method=RequestMethod.POST)
+	public ModelAndView loadInsured(@RequestParam(value="fid") String fid,
+			HttpServletRequest request,HttpServletResponse response){
+		
+		Long farmerId = Long.valueOf(fid);
+	    int pageIndex = Integer.valueOf(request.getParameter("pageIndex"));
+	    int pageSize = Integer.valueOf(request.getParameter("pageSize"));        
+	    String sortField = request.getParameter("sortField");
+	    String sortOrder = request.getParameter("sortOrder");
+		List<FarmerInsured> insureds =farmerInsuredService.findPagingByFarmerId(pageIndex, pageSize, sortField, sortOrder, farmerId);
+	    String json = JSON.toJSONStringWithDateFormat(insureds,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
+	    response.setContentType("text/html;charset=UTF-8");
+	    try {
+			response.getWriter().write(json);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 	@RequestMapping(value = "/loadCanBao", method = RequestMethod.GET)
 	public ModelAndView loadCanBao(@RequestParam(value="fid") String fid, 
 			HttpServletResponse response) throws Exception {
@@ -148,4 +252,22 @@ public ModelAndView typeInCanBao(HttpServletRequest request,
 	       return view;
 	  }
 	}
+@RequestMapping(value="/typeInInsured1",method=RequestMethod.GET)
+public ModelAndView typeInInsured1(@RequestParam(value="fid") String fid, 
+		HttpServletRequest request,HttpServletResponse response) throws Exception{
+	Long farmerId = Long.valueOf(fid);
+	Farmer farmer = null;
+	try {
+		farmer = farmerService.findByPK(farmerId);
+	} catch (DAOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} catch (DataNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	ModelAndView view = new ModelAndView("/farmer/farmerInsuredForm1");
+	view.addObject("farmer",farmer);
+	return view;
+}
 }

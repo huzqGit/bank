@@ -1,5 +1,7 @@
 package com.bank.controller.farmer;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,8 +10,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,13 +20,20 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.bank.beans.Farmer;
 import com.bank.beans.FarmerForest;
 import com.bank.common.util.JsonUtil;
 import com.bank.service.IFarmerForestService;
+import com.bank.service.IFarmerService;
+import com.common.exception.DAOException;
+import com.common.exception.DataNotFoundException;
 
 @Controller
 @RequestMapping(value = "/farmer")
 public class FarmerForestController {
+	
+	@Resource
+	private IFarmerService farmerService;
 	
 	@Resource
 	private IFarmerForestService farmerForestService;
@@ -50,17 +59,105 @@ public class FarmerForestController {
 		return null;
 		
 	}
-	
-	@RequestMapping(value = "/loadForest", method = RequestMethod.POST)
-	public ModelAndView loadCompany(@RequestParam(value="id",required=true) String id, 
-			HttpServletResponse response) throws Exception {
-		if(!StringUtils.isEmpty(id)){
-			Long forestId=Long.valueOf(id);
-			FarmerForest farmerForest = farmerForestService.findByPK(forestId);
-			String json = JsonUtil.Encode(farmerForest);
-			response.setContentType("text/html;charset=UTF-8");
-		    response.getWriter().write(json);
+	@RequestMapping(value = "/saveForest1",method = RequestMethod.POST)
+	public ModelAndView saveForest(@ModelAttribute(value="house") FarmerForest forest,
+			HttpServletRequest request,HttpServletResponse response){
+		try{
+			if(forest.getId() ==null){
+				farmerForestService.save(forest);
+			}else{
+				farmerForestService.update(forest);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
 		}
+		Farmer farmer = null;
+		try {
+			farmer = farmerService.findByPK(forest.getFarmerId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		ModelAndView view = new ModelAndView("/farmer/farmerForestView1");
+		view.addObject("farmer",farmer);
+		return view;
+	}
+	@RequestMapping(value="/queryForest",method=RequestMethod.GET)
+	public ModelAndView queryForest(@RequestParam(value="fid") String fid, 
+			HttpServletRequest request,HttpServletResponse response){
+		
+		Long farmerId = Long.valueOf(fid);
+		ModelAndView view = new ModelAndView("/farmer/farmerForestView1");
+		Farmer farmer = null;
+		try {
+			farmer = farmerService.findByPK(farmerId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		view.addObject("farmer",farmer);
+		return view;
+	}
+	@RequestMapping(value="/deleteForest",method=RequestMethod.GET)
+	public ModelAndView deleteForest(HttpServletRequest request,HttpServletResponse response){
+		String id = request.getParameter("id");
+		String fid = request.getParameter("fid");
+		Long forestId = Long.valueOf(id);
+		Long farmerId = Long.valueOf(fid);
+		try {
+			farmerForestService.delete(forestId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Farmer farmer = null;
+		try {
+			farmer = farmerService.findByPK(farmerId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ModelAndView view = new ModelAndView("/farmer/farmerForestView1");
+		view.addObject("farmer",farmer);
+		return view;
+	}
+	@RequestMapping(value="/editForest",method=RequestMethod.GET)
+	public ModelAndView editForest(@RequestParam(value="id") String id,@RequestParam(value="fid") String fid,
+			HttpServletRequest request,HttpServletResponse response){
+		
+		Long forestId = Long.valueOf(id);
+		Long farmerId = Long.valueOf(fid);
+		Farmer farmer = null;
+		FarmerForest forest = null;
+		try {
+			farmer = farmerService.findByPK(farmerId);
+			forest = farmerForestService.findByPK(forestId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ModelAndView view = new ModelAndView("/farmer/farmerForestForm1");
+		view.addObject("farmer",farmer);
+		view.addObject("forest",forest);
+		return view;
+	}
+	@RequestMapping(value = "/loadForest", method = RequestMethod.POST)
+	public ModelAndView loadForest(@RequestParam(value="fid",required=true) String fid, 
+			HttpServletResponse response){
+		
+		Long farmerId=Long.valueOf(fid);
+		List<FarmerForest> houses = farmerForestService.findForestByFarmer(farmerId);
+		 String json = JSON.toJSONStringWithDateFormat(houses,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
+		response.setContentType("text/html;charset=UTF-8");
+		PrintWriter writer = null;
+		try {
+			writer = response.getWriter();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		writer.write(json);
+		writer.flush();
 		return null;
 		
 	}
@@ -101,6 +198,25 @@ public class FarmerForestController {
 	    response.setContentType("text/html;charset=UTF-8");
 	    response.getWriter().write(json);
 		return null;
+	}
+	@RequestMapping(value="/typeInForest",method=RequestMethod.GET)
+	public ModelAndView typeInForest(@RequestParam(value="fid") String fid, 
+			HttpServletRequest request,HttpServletResponse response){
+		
+		Long farmerId = Long.valueOf(fid);
+		Farmer farmer = null;
+		try {
+			farmer = farmerService.findByPK(farmerId);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DataNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ModelAndView view = new ModelAndView("/farmer/farmerForestForm1");
+		view.addObject("farmer",farmer);
+		return view;
 	}
 	
 }

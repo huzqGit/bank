@@ -1,9 +1,8 @@
 package com.bank.controller.farmer;
 
+import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,6 +29,8 @@ import com.bank.beans.FarmerHouse;
 import com.bank.common.util.JsonUtil;
 import com.bank.service.IFarmerHouseService;
 import com.bank.service.IFarmerService;
+import com.common.exception.DAOException;
+import com.common.exception.DataNotFoundException;
 
 @Controller
 @RequestMapping(value = "/farmer")
@@ -90,6 +92,135 @@ public class FarmerHouseController {
 		return null;
 		
 	}
+	@RequestMapping(value = "/saveHouse",method = RequestMethod.POST)
+	public ModelAndView saveHouse(@ModelAttribute(value="house") FarmerHouse house,
+			HttpServletRequest request,HttpServletResponse response){
+		
+		try{
+			if(house.getId() == null){
+					farmerHouseService.save(house);
+			}else{
+				farmerHouseService.update(house);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		Farmer farmer = null;
+		try {
+			farmer = farmerService.findByPK(house.getFarmerId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		ModelAndView view = new ModelAndView("/farmer/farmerHouseView1");
+		view.addObject("farmer",farmer);
+		return view;
+	}
+	@RequestMapping(value="/deleteHouse",method=RequestMethod.GET)
+	public ModelAndView deleteHouse(HttpServletRequest request,HttpServletResponse response){
+		String id = request.getParameter("id");
+		String fid = request.getParameter("fid");
+		Long houseId = Long.valueOf(id);
+		Long farmerId = Long.valueOf(fid);
+		try {
+			farmerHouseService.delete(houseId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Farmer farmer = null;
+		try {
+			farmer = farmerService.findByPK(farmerId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ModelAndView view = new ModelAndView("/farmer/farmerHouseView1");
+		view.addObject("farmer",farmer);
+		return view;
+	}
+	@RequestMapping(value="/queryCapital",method=RequestMethod.GET)
+	public ModelAndView queryCapital(@RequestParam(value="fid") String fid, 
+			HttpServletRequest request,HttpServletResponse response){
+		
+		Long farmerId = Long.valueOf(fid);
+		ModelAndView view = new ModelAndView("/farmer/farmerCapital");
+		Farmer farmer = null;
+		List<FarmerHouse> houses = null;
+		List<FarmerForest> forests = null;
+		List<FarmerBreed> breeds = null;
+		List<FarmerDevice>  devices = null;
+		try {
+			 farmer = farmerService.findByPK(farmerId);
+			 houses = farmerHouseService.findHouseByFarmer(farmerId);
+			 if(houses.size() == 0){
+			    	FarmerHouse house= new FarmerHouse();
+			    	houses.add(house);
+			 }
+			 forests = farmerHouseService.findForestByFarmer(farmerId);
+			 if(forests.size() == 0){
+				   FarmerForest forest = new FarmerForest();
+			       forests.add(forest);
+			 }
+			 breeds = farmerHouseService.findBreedByFarmer(farmerId);
+			 if(breeds.size() == 0){
+				   FarmerBreed breed = new FarmerBreed();
+			       breeds.add(breed);
+			 }
+			 devices = farmerHouseService.findDeviceByFarmer(farmerId);
+			 if(devices.size() == 0){
+				   FarmerDevice device = new FarmerDevice();
+			       devices.add(device);
+			 }
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DataNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		view.addObject("farmer",farmer);
+		view.addObject("houses",houses);
+		view.addObject("forests",forests);
+		view.addObject("breeds",breeds);
+		view.addObject("devices",devices);
+		return view;
+	}
+	@RequestMapping(value="/queryHouse",method=RequestMethod.GET)
+	public ModelAndView queryHouse(@RequestParam(value="fid") String fid, 
+			HttpServletRequest request,HttpServletResponse response){
+		
+		Long farmerId = Long.valueOf(fid);
+		ModelAndView view = new ModelAndView("/farmer/farmerHouseView1");
+		Farmer farmer = null;
+		try {
+			farmer = farmerService.findByPK(farmerId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		view.addObject("farmer",farmer);
+		return view;
+	}
+	@RequestMapping(value="/editHouse",method=RequestMethod.GET)
+	public ModelAndView editHouse(@RequestParam(value="id") String id,@RequestParam(value="fid") String fid,
+			HttpServletRequest request,HttpServletResponse response){
+		
+		Long houseId = Long.valueOf(id);
+		Long farmerId = Long.valueOf(fid);
+		Farmer farmer = null;
+		FarmerHouse house = null;
+		try {
+			farmer = farmerService.findByPK(farmerId);
+			house = farmerHouseService.findByPK(houseId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ModelAndView view = new ModelAndView("/farmer/farmerHouseForm1");
+		view.addObject("farmer",farmer);
+		view.addObject("house",house);
+		return view;
+	}
 	@RequestMapping(value="/loadChanQuan",method=RequestMethod.GET)
 	public ModelAndView loadChanQuan(@RequestParam(value="fid") String fid,
 			HttpServletResponse response) throws Exception{
@@ -125,17 +256,23 @@ public class FarmerHouseController {
 	   return view;
 	}
 	@RequestMapping(value = "/loadHouse", method = RequestMethod.POST)
-	public ModelAndView loadCompany(@RequestParam(value="id",required=true) String id, 
-			HttpServletResponse response) throws Exception {
-		if(!StringUtils.isEmpty(id)){
-			Long houseId=Long.valueOf(id);
-			FarmerHouse farmerHouse = farmerHouseService.findByPK(houseId);
-			String json = JsonUtil.Encode(farmerHouse);
+	public ModelAndView loadHouse(@RequestParam(value="fid",required=true) String fid, 
+			HttpServletResponse response) {
+	
+			Long farmerId=Long.valueOf(fid);
+			List<FarmerHouse> houses = farmerHouseService.findHouseByFarmer(farmerId);
+			 String json = JSON.toJSONStringWithDateFormat(houses,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
 			response.setContentType("text/html;charset=UTF-8");
-		    response.getWriter().write(json);
-		}
-		return null;
-		
+			try {
+				PrintWriter writer = response.getWriter();
+				writer.write(json);
+				writer.flush();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    return null;
+
 	}
 	
 	@RequestMapping(value="/loadAllHouse",method=RequestMethod.POST)
@@ -200,5 +337,24 @@ public class FarmerHouseController {
 		   view.addObject("farmers",farmers);
 	       return view;
 	   }
+	}
+	@RequestMapping(value="/typeInHouse",method=RequestMethod.GET)
+	public ModelAndView typeInHouse(@RequestParam(value="fid") String fid, 
+			HttpServletRequest request,HttpServletResponse response){
+		
+		Long farmerId = Long.valueOf(fid);
+		Farmer farmer = null;
+		try {
+			farmer = farmerService.findByPK(farmerId);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DataNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ModelAndView view = new ModelAndView("/farmer/farmerHouseForm1");
+		view.addObject("farmer",farmer);
+		return view;
 	}
 }
