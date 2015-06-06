@@ -13,7 +13,8 @@
 <style type="text/css">
        body{
         margin:0;padding:0;border:0;width:100%;height:100%;overflow:hidden;
-    }         
+    }    
+   
 </style> 
 </head>
 <%
@@ -53,31 +54,25 @@ request.setAttribute("actionType", actionType);
 		<td style='width:10%;'>
 			<label>*用户名：</label>
 		</td>
-		<td style='width:40%;'>
+		<td style='width:20%;'>
 			<input name="userId" class='mini-textbox' vtype='maxLength:40' style='width:100%;color: red;' emptyText='' required='true' allowInput='true' />
 		</td>
 		
 		<td style='width:10%;'>
 		<label>*姓名：</label>
 		</td>
-		<td style='width:40%;'>
+		<td style='width:20%;'>
 			<input name="userName" class='mini-textbox' vtype='maxLength:40' style='width:100%;color: red;' emptyText='' required='true' allowInput='true' />
 		</td>
 	</tr>
 	<tr>
-<!-- 		<td style='width:120px;'> -->
-<!-- 		<label>*密码：</label> -->
-<!-- 		</td> -->
-<!-- 		<td style='width:30%;padding:10px;'> -->
-<!-- 			<input name="password" class='mini-textbox' vtype='maxLength:40' style='width:100%;color: red;' emptyText='' required='true' allowInput='true' /> -->
-<!-- 		</td> -->
-		
 		<td style='width:10%;'>
-		<label>密码：</label>
+		<label>*密码：</label>
 		</td>
-		<td style='width:40%;' colspan="3">
-			<input name="password" class="mini-password" requiredErrorText="密码不能为空" required="true"  style='width:100%;color: red;' />
+		<td style='width:20%;' colspan="2">
+			<input id="password" name="password" class="mini-password" errorMode="none" onvalidation="onPwdValidation" vtype="minLength:8" required="true" minLengthErrorText="密码不能少于8个字符"  style='width:100%;color: red;' />
 		</td>
+		<td id="password_error" class="errorText"></td>
 	</tr>
 	<tr>
 		<td style='width:10%;'>
@@ -137,6 +132,19 @@ $(document).ready(function(){
 });
 
 function submitForm() {
+	alert("------1------");
+	
+// 	alert(mini.value('password'));
+	
+// 	var regLower = /[a-z]/;
+// 	 if (!regLower.test(str)) {
+// 		 alert("密码至少含有一个字母！");
+// 	 }
+
+ 	form.validate();
+
+    if (form.isValid() == false) return;
+	
 	//提交表单数据
     var formData = form.getData();      //获取表单多个控件的数据
     //formData.dutyId = ${dutyId};
@@ -165,6 +173,21 @@ function submitForm() {
         }
     });
     
+}
+
+//////////////////////////////////////////
+function updateError(e) {
+    var id = e.sender.name + "_error";
+    var el = document.getElementById(id);
+    if (el) {
+        el.innerHTML = e.errorText;
+    }
+}
+function onUserNameValidation(e) {                  
+    updateError(e);
+}
+function onPwdValidation(e) {        
+    updateError(e);
 }
 
 

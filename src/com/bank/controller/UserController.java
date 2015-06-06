@@ -1,5 +1,6 @@
 package com.bank.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +39,7 @@ import com.common.tools.StringUtil;
 @RequestMapping(value = "/user")
 public class UserController {
 	private static Logger log = LoggerFactory.getLogger(UserController.class);
+	private static final String UNIT = "UNIT";
 	private static final String SUPERADMIN = "bank.superadmin";
 	@Resource
 	private IUserService userSerivce;
@@ -79,8 +81,12 @@ public class UserController {
 		if (StringUtils.isNotEmpty(user.getOrganId())) {
 			Organ organ = organSerivce.loadOrgan(user.getOrganId());
 			if (organ != null) {
-				String unitId = StringUtils.isNotEmpty(organ.getOrganPid()) ? organ.getOrganPid() : organ.getOrganId();
-				user.setUnitId(unitId);
+				if (UNIT.equals(organ.getOrganType())) {
+					user.setUnitId(organ.getOrganId());
+				} else {
+					String unitId = StringUtils.isNotEmpty(organ.getOrganPid()) ? organ.getOrganPid() : organ.getOrganId();
+					user.setUnitId(unitId);
+				}
 			}
 		}
 		
@@ -101,9 +107,10 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
-	public boolean deleteUser(@RequestParam("userId") String userId){
+	public String deleteUser(@RequestParam("userId") String userId, HttpServletResponse response) throws Exception{
 		boolean flag = userSerivce.deleteUser(userId);
-		return flag;
+		response.getWriter().write("1");
+		return null;
 	}
 	
 	@RequestMapping(value = "/loadAllUsers", method = RequestMethod.POST)

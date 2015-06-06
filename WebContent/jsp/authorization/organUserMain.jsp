@@ -127,8 +127,9 @@
 	            function (action) {
 	                if (action == "ok") {
 	                	$.ajax({
-	            		    url: "${pageContext.request.contextPath}/user/deleteUser.do?userId="+userId+"",
+	            		    url: "${pageContext.request.contextPath}/user/deleteUser.do",
 	            		    type: "post",
+	            		    data: { userId: userId},
 	            		    success: function (text) {
 	            		        mini.alert('删除成功');
 	            		        tree.removeNode(node);
@@ -139,7 +140,6 @@
 	                }
 	            }
 	        );
-			iframe.src = "${pageContext.request.contextPath}/user/deleteUser.do?userId="+userId+"";
 		}
 		
 		//维护用户组
