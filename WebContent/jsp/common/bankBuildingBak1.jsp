@@ -1,16 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ include file="../common/CurrentTime.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>农户基本信息</title>
+<title>Insert title here</title>
 <script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/jsp/farmer/farmer.js" type="text/javascript"></script>
 <style type="text/css">
 	*{margin:0;padding:0;text-decoration:none}
+	body{
+overflow-x:hidden
+}
     .active{font-size: 15px;font-family: YouYuan;font-weight: bold;color:darkgreen}
      .inactive{font-size: 15px;font-family: YouYuan;font-weight:bold;color:gray}
     .display{display:block;}
@@ -38,11 +40,69 @@
 		background:url(/bank/images/back.png) no-repeat
 	}
 	.addBtn{width:100px;height:25px;border:0;background:url(/bank/images/add.png) no-repeat}
+	.delBtn{width:100px;height:25px;border:0;background:url(/bank/images/delete.png) no-repeat}
 	.labelName{font-size:15px;font-weight:bold;color:darkgreen;}
 	.labelValue{font-size:15px;font-weight:bold;color:red;}
+	 li{
+ border-bottom:2px solid green;
+ float:left;
+ width:124px;
+ list-style-type:none;
+ height:31px;
+ text-align:center;
+ line-height:28px;
+ font-weight:bold;
+ color:black;
+ background-repeat:no-repeat
+ }
+.active{
+ float:left;
+ width:123px;
+ list-style-type:none;
+ text-align:center;
+ border-bottom:2px solid #6DC8E3;
+ border-top:1px solid gray;
+ border-left:1px solid gray;
+ border-right:1px solid white;
+ 	filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0 , startColorstr = 'white', 
+	endColorstr = '#6DC8E3' ); 
+	/* IE8 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType = 0,startColorstr = 'white', 
+	endColorstr = '#6DC8E3' )";  
+ height:31px;
+
+ background-repeat:no-repeat
+}
  </style>
 </head>
 <body>
+<div class="topMenu">
+<ul>
+	<li class="active">
+		基本信息
+	</li>
+	<li >
+			<a href="/bank/loan/queryLoan1.do?fid=${farmer.id}">贷款信息</a>
+	</li>
+	<li >
+			<a href="/bank/farmer/queryBalance.do?fid=${farmer.id}">收支信息</a>
+	</li>
+	<li >
+			<a href="/bank/farmer/queryCapital.do?fid=${farmer.id}">资产信息</a>
+	</li>
+	
+	<li >
+			<a href="/bank/farmer/queryCompunish.do?fid=${farmer.id}">奖惩信息</a>
+	</li>
+	<li >
+			<a href="/bank/farmer/queryInsured.do?fid=${farmer.id}">参保信息</a>
+	</li>
+
+		<li >
+			<a href="/bank/jsp/common/bankBuilding.jsp?form=other">其他信息</a>
+		</li>
+</ul>
+</div>
 <div class="topMenu" style="background:linear-gradient(#6DC8E3,white)">
 <table width ="100%" height="60px">
 	<tr>
@@ -55,9 +115,6 @@
 		<td width="1%"></td>
     	<td width="50px" align="right">
        	 <input type="button" id="saveBtn" onclick="save()"/>
-        </td>
-        <td width="50px"  >
-         <input type="button" id="backBtn" onclick="back()"/>
         </td>
 	</tr>
 </table>
@@ -161,22 +218,28 @@
 <c:forEach items="${members}" var="member" varStatus="status">
 <tr><td>
 <form id ="farmerMember${status.index}" class="farmerMember" method="POST">
-<input class="mini-hidden" name="id" value="${member.id}"/>
+<input class="mini-hidden" id="member_id${status.index}" name="id" value="${member.id}"/>
 <input class="mini-hidden" name="farmerId" value="${member.farmerId}"/>
 <table border="0" cellpadding="1" cellspacing="15" width="100%" >
 <tr>
 <td colspan="4" style="width:100%">
 <table width="100%">
-
 <tr>
-	
+	<c:choose>
+	<c:when test="${status.index ==0}">
+		<td rowspan="5" style="width:2%"></td>
+	</c:when>
+	<c:otherwise>
+		<td rowspan="5" style="width:2%"><input type="button" value="×" onclick="delMember(${status.index})"/></td>
+	</c:otherwise>
+	</c:choose>
 	<td style="width:10%"><label for="textbox1$text"><font color="red">*</font>家庭成员姓名:</label></td>
-    <td style="width:40%">
+    <td style="width:39%">
     	<input name="name" class="mini-textbox" value="${member.name }"
          	required="true" requiredErrorText="家庭成员姓名不能为空" style="width:90%"/>
     </td>
     <td style="width:10%"><label for="textbox2$text"><font color="red">*</font>与户主关系:</label></td>
-    <td style="width:40%" >
+    <td style="width:39%" >
        <input name="relation" class="mini-combobox"  value="${member.relation }"
             required="true" requiredErrorText="与户主关系不能为空"  style="width:90%"
         	url="/bank/dic/Relation.txt" emptyText="请选择..."/>
@@ -184,47 +247,47 @@
 </tr>
 <tr>
 	<td style="width:10%"><label for="textbox1$text"><font color="red">*</font>身份证号:</label></td>
-    <td style="width:40%">
+    <td style="width:39%">
     	<input name="idNum" class="mini-textbox" value="${member.idNum }"
         	required="true"	 requiredErrorText="身份证号不能为空" style="width:90%"/>
     </td>
     <td style="width:10%"><label for="textbox2$text"><font color="red">*</font>文化程度:</label></td>
-    <td style="width:40%" >
+    <td style="width:39%" >
     	<input name="education" class="mini-combobox" value="${member.education}" style="width:90%"
         	url="/bank/dic/Education.txt" emptyText="请选择..."/>
     </td>
 </tr>
 <tr>
 	<td style="width:10%"><label for="textbox2$text"><font color="red">*</font>性别:</label></td>
-    <td style="width:40%" >
+    <td style="width:39%" >
     	<input name="sex" class="mini-combobox" value="${member.sex }" style="width:90%"
         	required="true"  requiredErrorText="性别不能为空" url="/bank/dic/Sex.txt" emptyText="请选择..."/>
    </td>
 	<td style="width:10%"><label for="textbox1$text"><font color="red">*</font>婚姻状况:</label></td>
-    <td style="width:40%">
+    <td style="width:39%">
 	    <input name="marryStatus" class="mini-combobox" value="${member.marryStatus}" style="width:90%"
 	    	required="true" requiredErrorText="婚姻状况不能为空" url="/bank/dic/MarryStatus.txt" emptyText="请选择..."/>
    </td>
 </tr>
 <tr>
    <td style="width:10%"><label for="textbox2$text">&nbsp;&nbsp;职业:</label></td>
-   <td style="width:40%" >
+   <td style="width:39%" >
    		<input name="occupation" class="mini-textbox" value="${member.occupation}" style="width:90%"/>
    </td>
 	<td style="width:10%"><label for="textbox1$text">&nbsp;&nbsp;职务:</label></td>
-    <td style="width:40%">
+    <td style="width:39%">
     	<input name="job" class="mini-textbox" value="${member.job }" style="width:90%"/>
     </td>
     
 </tr>
 <tr>
 	<td style="width:10%"><label for="textbox1$text"><font color="red">*</font>联系电话:</label></td>
-	<td style="width:40%">
+	<td style="width:39%">
     	<input  name="phone" class="mini-textbox" value="${member.phone}" style="width:90%"
         	required="true"  requiredErrorText="联系电话不能为空" />
     </td>
     <td style="width:10%"><label for="textbox1$text">&nbsp;&nbsp;地址:</label></td>
-	<td style="width:40%">
+	<td style="width:39%">
     	<input  name="address" class="mini-textarea" value="${member.address}" style="width:90%"/>
     </td>
 </tr>
@@ -238,7 +301,8 @@
 </c:forEach> 
 <tr>
    <td align="center" >
-       <button class="addBtn" onclick="addMember()" ></button>
+     <button class="addBtn" onclick="addMember()" ></button>
+     <button class="delBtn" onclick="delMember()" ></button>
    </td>
 </tr>
 </table>
@@ -296,6 +360,15 @@
   function addMember(){
 	  $(".farmerMember").last().after(FarmerMember($(".farmerMember").length));
 	  mini.parse(); 
+  }
+  function delMember(index){
+	  var memberId = $("#member_id"+index).val(); 
+	if(memberId==''){
+		$("#farmerMember"+index).remove();
+	}else{
+		$("#farmerMember"+index).remove();
+	}
+	
   }
   function addHouse(){
 	  $(".farmerHouse").last().after(FarmerHouse($(".farmerHouse").length));

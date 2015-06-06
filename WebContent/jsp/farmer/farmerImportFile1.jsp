@@ -87,7 +87,7 @@
 </head>
 <body>
 <div class="file-box">
-<form action="/bank/loan/loadFile.do" method="post" enctype="multipart/form-data">
+<form action="/bank/loan/loadFile1.do" method="post" enctype="multipart/form-data">
 <table width="100%" height ="60px" style="border:1px solid #8AD3E9">
  	<tr>
  		<td class="labelName" width="30%" align="right">

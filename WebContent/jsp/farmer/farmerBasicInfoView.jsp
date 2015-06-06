@@ -12,7 +12,7 @@
 *{margin:0;padding:0}
 body{scrollbar-base-color:#90D5EA;line-height:120%;font-family:"仿宋_GB2312";font-size:13pt;}
 .queryPane{
-background:linear-gradient(white,#6DC8E3,white);
+background:linear-gradient(#6DC8E3,white);
 /* IE6 & IE7 */
 filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0 , startColorstr = '#6DC8E3', 
 endColorstr = 'white' ); 
@@ -20,18 +20,39 @@ endColorstr = 'white' );
 -ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType = 0,startColorstr = '#6DC8E3', 
 endColorstr = 'white' )"; 
 }
-.labelName{font-family:"仿宋_GB2312";font-size:16pt;line-height:150%;font-weight:bold;color:darkgreen;}
+.labelName{font-family:"仿宋_GB2312";font-size:14pt;line-height:150%;font-weight:bold;color:darkgreen;}
 input{border:1px solid #8AD3E9;background-color:#F5F7CF;height:20px;}
 .table_m{width:98%;height:250px;margin:auto auto;overflow-y:auto;overflow-x:hidden;}
 .table_m table{width:100%;border-bottom:1px dotted gray}
 .table_m tr:hover{background:#90D5EA}
 .table_m table td{height:30px;line-height:30px;border-top:1px dotted gray;}
+.mini-panel-border{
+border-color:#D2D2D2;
+}
+.mini-grid-headerCell-nowrap{
+background:white
+}
+.mini-grid-headerCell{
+background:white;
+border-top:0px;
+border-color:#D2D2D2
+}
+.mini-grid-headerCell-inner{
+font-family:"仿宋_GB2312";
+font-size:12pt;
+}
+.mini-grid-column-splitter{
+background:white
+}
+.mini-grid-pager{
+background:white
+}
 </style>
 </head>
 <body>
 <div class="queryPane" style="padding-top:10px;width:100%;height:80px">
 <form id="farmer" action="" method="POST">
-<table width="100%" height="60px" style="vertical-align:middle;border:1px solid #8AD3E9">
+<table width="100%" height="60px" style="vertical-align:middle;">
 	<tr>
 		<td  width="5%"align="right" >
 		</td>
@@ -39,14 +60,14 @@ input{border:1px solid #8AD3E9;background-color:#F5F7CF;height:20px;}
 			<font color="red">*</font>农户姓名:&nbsp;&nbsp;&nbsp; 
 		</td>
 		<td width="10%" align=center>
-			<input name="farmerName" type="text" value="${farmerName}"/>
+			<input id="farmerName" name="farmerName" value="${farmerName}"/>
 		</td>
 		<td width="1%" ></td>
 		<td class="labelName"  width="15%">
 			<font color="red">*</font>农户身份证号:
 		</td>
 		<td width="10%">
-			<input name="farmerIdNum" type="text" value="${farmerIdNum}"></td>
+			<input  id="farmerIdNum" name="farmerIdNum" type="text" value="${farmerIdNum}"></td>
 		<td width="1%"></td>
 		<td width="10%" align="left">
 			<input type="button" value=""  onclick="ChaXun()"style="width:100px;height:25px;border:0;background:url(/bank/images/query.png) no-repeat">
@@ -58,67 +79,38 @@ input{border:1px solid #8AD3E9;background-color:#F5F7CF;height:20px;}
 </table>
 </form>
 </div>
-<c:choose>
-<c:when test="${empty farmers}">
-<div>
-<fieldset style="width:90%;margin:auto auto">
-	 <legend style="width:310px;height:74px;background:url(/bank/images/tips.png) no-repeat"></legend>
-	 <div style="padding:8px 5px 10px 35px">
-	 	<p style="font-size:15px;font-family:黑体;font-weight:bold;color:darkgreen;margin-bottom:10px">农户基本信息录入功能:</p>
-	 	<ol>
-	 		<li>如果系统中存在该农户的基本信息，则跳转至基本信息录入界面，对该农户户的信息进行修改。</li>
-	 		<li>如果系统中不存在该农户的基本信息，则跳转至基本信息录入界面，增加新的农户的信息。</li>
-	 		<c:if test="${!empty msg}">
-	 		<li style="color:red;font-weight:bold">${msg}</li>
-	 		</c:if>
-	 	</ol>
-	 
-	 </div>
-</fieldset>
+<div id="datagrid1" class="mini-datagrid" style="width:98%;margin:auto auto;height:340px;background-color:white" 
+            url="${pageContext.request.contextPath}/farmer/queryFarmer.do" idField="id"
+            sizeList="[5,10,20,50]" pageSize="10" showReloadButton="false">
+	        <div property="columns">
+	             <div type="indexcolumn" width="5%" headerAlign="center">编号</div>
+	             <div field="farmerName" width="10%" headerAlign="center" allowSort="true"  >姓名</div>
+	             <div field="farmerIdnum" width="15%" headerAlign="center" allowSort="true" >身份证号码</div>   
+	             <div field="phone" width="25%" headerAlign="center" allowSort="true" >联系电话</div>     
+	             <div field="address" width="40%" headerAlign="center" allowSort="true" >住址</div>                                         
+	        	 <div name="action" width="5%" headerAlign="center" align="center" renderer="onActionRenderer1" cellStyle="padding:0;"></div>
+	         </div>
 </div>
-</c:when>
-<c:otherwise>
-<div>
-<fieldset style="width:90%;margin:auto auto">
-<legend style="width:310px;height:74px;background:url(/bank/images/ChaXunJieGuo.png) no-repeat"></legend>
-<div class="table_m">
-	<table width="100%" cellspacing="0" cellpadding="0">
-	<tr style="font-weight:bold;color:black">
-		<td align="center" width="8%">编号</td>
-		<td align="center" width="10%">姓名</td>
-		<td align="center" width="15%">身份证号码</td>
-		<td align="center" width="15%">联系电话</td>
-		<td align="center" width="50%">住址</td>
-	</tr>
-	<c:forEach items="${farmers}" var="farmer" varStatus="status">
-	<tr onclick="detail(${farmer.id})">
-		<td align="center">${status.index+1}</td>
-		<td align="center">${farmer.farmerName}</td>
-		<td align="center">${farmer.farmerIdnum}</td>
-		<td align="center">${farmer.phone}</td>
-		<td align="left">${farmer.address}</td>
-	</tr>	
-	</c:forEach>
-</table>
-</div>
-</fieldset>
-</div>
-</c:otherwise>
-</c:choose>
 <script type="text/javascript">
-function ChaXun(){
-	var form = document.getElementById("farmer");
-	form.action="/bank/farmer/queryFarmer.do";
-	form.submit();
-}
-function LuRu(){
-	var form = document.getElementById("farmer");
-	form.action="/bank/farmer/typeInFarmer.do";
-	form.submit();
-}
-function detail(id){
-	window.location.href="/bank/farmer/loadFarmer.do?id="+id;
-};
+	mini.parse();
+	var grid = mini.get("datagrid1");
+	grid.load();
+	function ChaXun() {
+    	var farmerName = $("#farmerName").val();
+		var farmerIdNum = $("#farmerIdNum").val();
+	    grid.load({farmerName:farmerName,farmerIdNum:farmerIdNum});
+	}
+	function LuRu(){
+		var form = document.getElementById("farmer");
+		form.action="/bank/farmer/typeInFarmer.do";
+		form.submit();
+	}
+	function onActionRenderer1(e) {
+	    var record = e.record;
+	    var id = record.id;
+	    var s = '<a class="New_Button" target="_self" href="/bank/farmer/loadFarmer1.do?id='+id+'">[查看]</a>';      
+	    return s;
+	}
 </script>
 </body>
 </html>
