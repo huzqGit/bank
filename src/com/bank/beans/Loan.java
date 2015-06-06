@@ -47,6 +47,8 @@ public class Loan extends BaseEntity<Long> {
 	private String adjustType;
 	private String runType;
 	private String frequeency;
+	private String runitId;
+	private String runitName;
 	
 	public String getFarmerName() {
 		return farmerName;
@@ -360,6 +362,22 @@ public class Loan extends BaseEntity<Long> {
 
 	public void setFrequeency(String frequeency) {
 		this.frequeency = frequeency;
+	}
+
+	public String getRunitId() {
+		return runitId;
+	}
+
+	public void setRunitId(String runitId) {
+		this.runitId = runitId;
+	}
+
+	public String getRunitName() {
+		return runitName;
+	}
+
+	public void setRunitName(String runitName) {
+		this.runitName = runitName;
 	}
 
 	@Override

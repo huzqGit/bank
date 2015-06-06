@@ -1,6 +1,7 @@
 package com.bank.beans;
 
 import java.util.Date;
+import java.util.List;
 
 import com.common.bean.BaseEntity;
 
@@ -27,6 +28,7 @@ public class FarmerHouse extends BaseEntity<Long> {
 	private String floorArea;
 	//当前评估价格
 	private String assessPrice;
+	
 	
 
 	public Long getFarmerId() {
@@ -110,5 +112,6 @@ public class FarmerHouse extends BaseEntity<Long> {
 	public int hashCodeIfIdNull() {
 		return 0;
 	}
+
 
 }

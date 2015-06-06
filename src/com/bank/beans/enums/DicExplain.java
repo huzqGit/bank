@@ -60,6 +60,10 @@ public class DicExplain {
 		}else if(DicExplain.$IDTYPE== name){
 			if("公民身份证".equals(value)){
 				return "0";
+			}else if("居民身份证".equals(value)){
+				return "0";
+			}else if("临时居民身份证".equals(value)){
+				return "0";
 			}else if("营业执照".equals(value)){
 				return "9";
 			}else{

@@ -2,6 +2,8 @@ package com.bank.beans;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.common.bean.BaseEntity;
 
 public class FarmerInsured extends BaseEntity<Long> {
@@ -19,12 +21,15 @@ public class FarmerInsured extends BaseEntity<Long> {
 	//参保金额
 	private Double amount;
 	//参保时间
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date insureTime;
 	//参保到期日
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date limitTime;
 	//记录人
 	private String recorder;
 	//记录时间
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
 	private Date recordTime;
 	
 

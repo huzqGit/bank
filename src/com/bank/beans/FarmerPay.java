@@ -1,8 +1,10 @@
 package com.bank.beans;
 
 import java.util.Date;
+import java.util.List;
 
-import com.common.bean.BaseEntity;
+import org.springframework.format.annotation.DateTimeFormat;
+
 
 public class FarmerPay implements java.io.Serializable {
 	/**
@@ -35,9 +37,11 @@ public class FarmerPay implements java.io.Serializable {
 	private Double otherPay;
 	//家庭年度总支出合计
 	private Double totalPay;
+	private List<FarmerIncome> incomes;
 	//记录人
 	private String recorder;
 	//记录时间
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date recordTime;
 	
 	public Long getId() {
@@ -174,6 +178,14 @@ public class FarmerPay implements java.io.Serializable {
 
 	public void setTotalPay(Double totalPay) {
 		this.totalPay = totalPay;
+	}
+
+	public List<FarmerIncome> getIncomes() {
+		return incomes;
+	}
+
+	public void setIncomes(List<FarmerIncome> incomes) {
+		this.incomes = incomes;
 	}
 
 	public String getRecorder() {

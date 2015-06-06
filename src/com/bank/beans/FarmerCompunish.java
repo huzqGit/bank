@@ -2,6 +2,11 @@ package com.bank.beans;
 
 import java.util.Date;
 
+
+
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.common.bean.BaseEntity;
 
 public class FarmerCompunish extends BaseEntity<Long> {
@@ -22,6 +27,7 @@ public class FarmerCompunish extends BaseEntity<Long> {
 	//表彰或处罚内容
 	private String detail;
 	//表彰或处罚时间
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date occurTime;
 
 	public Long getFarmerId() {

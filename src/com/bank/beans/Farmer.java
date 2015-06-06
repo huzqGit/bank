@@ -1,8 +1,9 @@
 package com.bank.beans;
 
 import java.util.Date;
+import java.util.List;
 
-import com.common.bean.BaseEntity;
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class Farmer implements java.io.Serializable {
 	
@@ -25,7 +26,11 @@ public class Farmer implements java.io.Serializable {
 	private String occupation;
 	private Integer laborNum;
 	private Integer postCode;
+	private String runitId;
+	private String runitName;
+	private List<FarmerMember> members;
 	private String recorder;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date recordTime;
 	
 	public Long getId() {
@@ -148,6 +153,29 @@ public class Farmer implements java.io.Serializable {
 
 	public void setPostCode(Integer postCode) {
 		this.postCode = postCode;
+	}
+	
+	public String getRunitId() {
+		return runitId;
+	}
+
+	public void setRunitId(String runitId) {
+		this.runitId = runitId;
+	}
+
+	public String getRunitName() {
+		return runitName;
+	}
+
+	public void setRunitName(String runitName) {
+		this.runitName = runitName;
+	}
+	public List<FarmerMember> getMembers() {
+		return members;
+	}
+
+	public void setMembers(List<FarmerMember> members) {
+		this.members = members;
 	}
 
 	public String getRecorder() {
