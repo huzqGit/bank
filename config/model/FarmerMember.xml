@@ -88,6 +88,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    </if>
 	</trim>
 </insert>
+<delete id="delete" parameterType="list">
+	delete from t_farmer_member  
+	where memberId in
+	<foreach item="item" index="index" collection="list" 
+			open="(" separator="," close=")">
+	#{item}
+	</foreach>
+</delete>
 <update id="update">
 update t_farmer_member set 
 name = #{name, jdbcType = VARCHAR},

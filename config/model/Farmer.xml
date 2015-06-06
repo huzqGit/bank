@@ -4,8 +4,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="farmer">
 <sql id="Farmer_Column_List" >
- farmerId, farmerName, farmerIdnum, politicStatus, familyNum, phone, villages,
- address,sex,education,marryStatus, laborNum, postCode,  recorder, recordTime
+ farmerId, farmerName, farmerIdnum, politicStatus, familyNum, phone, villages,address,sex,
+ education,marryStatus, laborNum, postCode, runitId, runitName, recorder, recordTime
 </sql>
 <insert id="save" useGeneratedKeys="true" keyProperty="id" 
 	parameterType="com.bank.beans.Farmer">
@@ -46,6 +46,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  </if>
 	  <if test="postCode != null">
 	   	postCode,
+	  </if>
+	  <if test="runitId != null">
+	   runitId,
+	  </if>
+	  <if test="runitName != null">
+		runitName
 	  </if>
 	  <if test="recorder != null">
 	   recorder,
@@ -90,6 +96,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  </if>
 	  <if test="postCode != null">
 	   	#{postCode,jdbcType=INTEGER},
+	  </if>
+	   <if test="runitId != null">
+	    #{runitId,jdbcType=VARCHAR},
+	  </if>
+	  <if test="runitName != null">
+		#{runitName,jdbcType=VARCHAR},
 	  </if>
 	  <if test="recorder != null">
 	    #{recorder,jdbcType=VARCHAR},
@@ -156,7 +168,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  	education = #{education,jdbcType = INTEGER},
  	marryStatus = #{marryStatus,jdbcType = VARCHAR},
  	laborNum = #{laborNum,jdbcType = VARCHAR},
- 	postCode = #{postCode,jdbcType = VARCHAR}
+ 	postCode = #{postCode,jdbcType = VARCHAR},
+ 	runitId = #{runitId,jdbcType = VARCHAR},
+	runitName = #{runitName,jdbcType = VARCHAR},
+	recorder = #{recorder,jdbcType=VARCHAR},
+	recordTime = #{recordTime,jdbcType=DATE}
  	where farmerId = #{id,jdbcType=BIGINT}
 </update>
 <resultMap id="farmerList" type="com.bank.beans.Farmer">
@@ -172,6 +188,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <result column="marryStatus" property="marryStatus" jdbcType="VARCHAR" />
     <result column="laborNum" property="laborNum" jdbcType="INTEGER" />
     <result column="postCode" property="postCode" jdbcType="INTEGER" />
+    <result column="runitId" property="runitId" jdbcType="VARCHAR" />
+    <result column="runitName" property="runitName" jdbcType="VARCHAR" />
     <result column="recorder" property="recorder" jdbcType="VARCHAR" />
     <result column="recordTime" property="recordTime" jdbcType="DATE" />
 </resultMap>
@@ -206,10 +224,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</foreach>
 	</where>
 </select>
-<select id="findByID" parameterType="String" resultMap="farmerList">
+<select id="findByID" parameterType="Map" resultMap="farmerList">
 	select 
 	<include refid="Farmer_Column_List" />
-	from t_Farmer where farmerIdNum = #{farmerIdNum,jdbcType=VARCHAR}
+	from t_Farmer 
+	where farmerIdNum = #{farmerIdNum,jdbcType=VARCHAR}
+	and runitId =  #{runitId,jdbcType=VARCHAR}
+	
 </select>
 <select id="findByIDAndName" parameterType="String" resultMap="farmerList">
 	select 
@@ -245,26 +266,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 </where>
 </select>
 
-<select id="pageing" parameterType="Map" resultMap="farmerList">
+<select id="findPagingByIDAndName" parameterType="Map" resultMap="farmerList">
 	select 
 	<include refid="Farmer_Column_List" />
 	from 
-	(select t.*,rownumber() over(order by recordtime desc) as rn from t_farmer t
+	(select t.*,rownumber() over() as rn from t_farmer t
 	<where>
-		<if test="farmerName != null and farmerName != '' ">
+		<if test="farmerName != null">
 			t.farmername like CONCAT(CONCAT('%',#{farmerName}),'%') 
 		</if>
-		<if test="farmerIdNum != null and farmerIdNum != ''">
+		<if test="farmerIdNum != null">
 		   	and t.farmeridnum like CONCAT(CONCAT('%',#{farmerIdNum}),'%')  
 		</if>
-		<if test="recorder != null and recorder != '' ">
-		    and t.recoder like CONCAT(CONCAT('%',#{recoder}),'%')  
-		</if>
-		<if test="recordTimeBegin !=null and recordTimeBegin != ''">
-		   	<![CDATA[and t.recordtime >=to_date('#{recordTimeBegin}','yyyy-mm-dd')]]>
-		</if>
-		<if test="recordTimeEnd !=null and recordTimeEnd != ''">
-		   	<![CDATA[and t.recordtime <=to_date('#{recordTimeEnd}','yyyy-mm-dd')]]>
+		<if test="runitId != null">
+		   	and t.runitId = #{runitId} 
 		</if>
 	 </where>
 	 )

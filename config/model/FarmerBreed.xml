@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="farmerbreed">
 <sql id="Breed_Column_List" >
-	breedId,variety, outputValue,floorArea, assessPrice
+	breedId,farmerId,variety, outputValue,floorArea, assessPrice
 </sql>
 <insert id="save" useGeneratedKeys="true" keyProperty="id" 
 		parameterType="com.bank.beans.FarmerBreed">
@@ -62,6 +62,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    		</if>
 	</trim>
 </insert>
+<delete id="delete" parameterType="Long">
+	delete from t_farmer_breed where breedId = #{id,jdbcType=BIGINT}
+</delete>
 <update id="update" >
 	update t_farmer_breed
 	set farmerId = #{farmerId,jdbcType=BIGINT},
@@ -72,8 +75,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	assessPrice = #{assessPrice,jdbcType = DOUBLE}
 	where breedId = #{id,jdbcType = BIGINT}
 </update>
-<select id="findByPK" parameterType="Long" 
-	resultType="com.bank.beans.FarmerBreed">
+<resultMap id="farmerBreedList" type="com.bank.beans.FarmerBreed">
+    <id column="breedId" property="id" jdbcType="BIGINT"/>
+    <result column="farmerId" property="farmerId" jdbcType="BIGINT" />
+    <result column="variety" property="variety" jdbcType="VARCHAR" />
+    <result column="output" property="output" jdbcType="VARCHAR" />
+	<result column="floorArea" property="floorArea" jdbcType="VARCHAR"/>
+	<result column="outputValue" property="outputValue" jdbcType="DOUBLE"/>
+	<result column="assessPrice" property="assessPrice" jdbcType="DOUBLE"/>
+    <result column="recorder" property="recorder" jdbcType="VARCHAR"/>
+    <result column="recordTime" property="recordTime" jdbcType="DATE" />
+</resultMap>
+<select id="findByPK" parameterType="Long" resultMap="farmerBreedList">
 	select 
 	<include refid="Breed_Column_List" />
 	from t_farmer_breed where breedId = #{id,jdbcType=INTEGER}
@@ -84,17 +97,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<include refid="Breed_Column_List" />
 	from t_farmer_breed where farmerId = #{farmerId,jdbcType=BIGINT}
 </select>
-<resultMap id="farmerBreedList" type="com.bank.beans.FarmerBreed">
-    <result column="breedId" property="id" jdbcType="BIGINT"/>
-    <result column="farmerId" property="farmerId" jdbcType="BIGINT" />
-    <result column="variety" property="variety" jdbcType="VARCHAR" />
-    <result column="output" property="output" jdbcType="VARCHAR" />
-	<result column="floorArea" property="floorArea" jdbcType="VARCHAR"/>
-	<result column="outputValue" property="outputValue" jdbcType="DOUBLE"/>
-	<result column="assessPrice" property="assessPrice" jdbcType="DOUBLE"/>
-    <result column="recorder" property="recorder" jdbcType="VARCHAR"/>
-    <result column="recordTime" property="recordTime" jdbcType="DATE" />
-</resultMap>
+
 <select id="pageing" parameterType="Map" resultMap="farmerBreedList">
 	select 
 	<include refid="Breed_Column_List" />

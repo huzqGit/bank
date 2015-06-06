@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="farmerdevice">
 <sql id="Device_Column_List" >
-	deviceId,name, brand, buyingPrice,buyingDate, assessPrice
+	deviceId,farmerId,name, brand, buyingPrice,buyingDate, assessPrice
 </sql>
 <insert id="save" useGeneratedKeys="true" keyProperty="id" 
 	parameterType="com.bank.beans.FarmerDevice">
@@ -62,6 +62,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   		</if>
 	</trim>
 </insert>
+<delete id="delete" parameterType="Long">
+	delete from t_farmer_device where deviceId = #{id,jdbcType=BIGINT}
+</delete>
 <update id="update">
  update t_farmer_device
  set farmerId = #{farmerId,jdbcType=BIGINT},
@@ -72,7 +75,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  assessPrice = #{assessPrice,jdbcType = VARCHAR}
  where deviceId = #{id,jdbcType = BIGINT}
 </update>
-<select id="findByPK" parameterType="Long" resultType="com.bank.beans.FarmerDevice">
+<select id="findByPK" parameterType="Long" resultMap="farmerDeviceList">
 	select 
 	<include refid="Device_Column_List" />
 	from t_farmer_device where deviceId = #{id,jdbcType=INTEGER}

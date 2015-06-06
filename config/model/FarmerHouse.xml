@@ -69,6 +69,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	        </if>
 		</trim>
 </insert>
+<delete id="delete" parameterType="Long">
+	delete from t_farmer_house where houseId = #{id,jdbcType=BIGINT}
+</delete>
 <update id="update" parameterType="com.bank.beans.FarmerHouse">
 	update t_farmer_house
 	set farmerId = #{farmerId,jdbcType=BIGINT},
@@ -82,10 +85,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	assessPrice = #{assessPrice,jdbcType=VARCHAR}
 	where houseId =#{id,jdbcType=BIGINT}
 </update>
-<select id="findByPK" parameterType="Long" resultType="com.bank.beans.FarmerHouse">
-		select 
-		<include refid="House_Column_List" />
-		from t_farmer_house where houseId = #{id,jdbcType=BIGINT}
+<select id="findByPK" parameterType="Long" resultMap="farmerHouseList">
+	select 
+	<include refid="House_Column_List" />
+	from t_farmer_house where houseId = #{id,jdbcType=BIGINT}
 </select>
 <select id="findByFarmerId" parameterType="Long" 
 	resultMap="farmerHouseList">

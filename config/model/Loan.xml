@@ -11,7 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
      loanUse,  guaranteeType,  grade,   grade1,   settleType,   chargePerson,
      organCode,   organName,  businessType,   businessBody,   provideType,
      invest,   termType,   guaranteeType1,   floatScope,   adjustType,
-     runType,  frequeency
+     runType,  frequeency, runitId, runitName
 </sql>
 <resultMap id="loanResultMap" type="com.bank.beans.Loan" >
   <id column="loanid" property="id" jdbcType="BIGINT" />
@@ -48,6 +48,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <result column="adjustType" property="adjustType" jdbcType="VARCHAR" />
   <result column="runType" property="runType" jdbcType="VARCHAR" />
   <result column="frequeency" property="frequeency" jdbcType="VARCHAR" />
+  <result column="runitId" property="runitId" jdbcType="VARCHAR" />
+  <result column="runitName" property="runitName" jdbcType="VARCHAR" />
 </resultMap>
 <resultMap id="loanResultMap1" type="com.bank.beans.Loan" >
   <id column="loanid" property="id" jdbcType="BIGINT" />
@@ -86,6 +88,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <result column="adjustType" property="adjustType" jdbcType="VARCHAR" />
   <result column="runType" property="runType" jdbcType="VARCHAR" />
   <result column="frequeency" property="frequeency" jdbcType="VARCHAR" />
+  <result column="runitId" property="runitId" jdbcType="VARCHAR" />
+  <result column="runitName" property="runitName" jdbcType="VARCHAR" />
 </resultMap>
 <insert id="save" useGeneratedKeys="true" keyProperty="id" 
 	parameterType="com.bank.beans.Loan">
@@ -195,7 +199,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	   		runType,
 	   </if>
 	   <if test="frequeency != null ">
-	   		frequeency
+	   		frequeency,
+	   </if>
+	   <if test="runitId != null ">
+	   		runitId,
+	   </if>
+	   <if test="runitName != null ">
+	   		runitName
 	   </if>
 	 </trim>
 	 <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -302,10 +312,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	   		#{runType,jdbcType=VARCHAR},
 	   </if>
 	   <if test="frequeency != null ">
-	   		#{frequeency,jdbcType=VARCHAR}
+	   		#{frequeency,jdbcType=VARCHAR},
+	   </if>
+	    <if test="runitId != null ">
+	   		#{runitId,jdbcType=VARCHAR},
+	   </if>
+	   <if test="runitName != null ">
+	   		#{runitName,jdbcType=VARCHAR}
 	   </if>
 	 </trim>
 </insert>
+<delete id="delete" parameterType="Long">
+	delete from t_loan where loanId = #{id,jdbcType=BIGINT}
+</delete>
 <update id="update" parameterType="com.bank.beans.Loan">
 	update t_loan set clientNum = #{clientNum,jdbcType=VARCHAR},
 	noteNum = #{noteNum,jdbcType=VARCHAR},
@@ -341,7 +360,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	floatScope = #{floatScope,jdbcType=VARCHAR},
 	adjustType = #{adjustType,jdbcType=VARCHAR},
 	runType = #{runType,jdbcType=VARCHAR},
-	frequeency = #{frequeency,jdbcType=VARCHAR}
+	frequeency = #{frequeency,jdbcType=VARCHAR},
+	runitId = #{runitId,jdbcType=VARCHAR},
+	runitName = #{runitName,jdbcType=VARCHAR}
 	where loanId= #{id,jdbcType=BIGINT}
 </update>
 <select id="findByPK" parameterType="Long" resultMap="loanResultMap">

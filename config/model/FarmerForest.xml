@@ -69,6 +69,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    </if>
 	</trim>
 </insert>
+<delete id="delete" parameterType="Long">
+	delete from t_farmer_forest where forestId = #{id,jdbcType=BIGINT}
+</delete>
 <update id="update" parameterType="com.bank.beans.FarmerForest">
 	update t_farmer_forest
 	set farmerId = #{farmerId,jdbcType=VARCHAR},
@@ -82,7 +85,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	assessPrice = #{assessPrice,jdbcType=VARCHAR}
 	where forestId = #{id,jdbcType=BIGINT}
 </update>
-<select id="findByPK" parameterType="Long" resultType="com.bank.beans.FarmerForest">
+<select id="findByPK" parameterType="Long" resultMap="farmerForestList">
 	select 
 	<include refid="Forest_Column_List" />
 	from t_farmer_forest where forestId = #{id,jdbcType=INTEGER}

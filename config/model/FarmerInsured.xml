@@ -63,6 +63,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</if>
 	</trim>
 </insert>
+<delete id="delete" parameterType="Long">
+	delete from t_farmer_insured where insuredId = #{id,jdbcType=BIGINT}
+</delete>
 <update id="update" parameterType="com.bank.beans.FarmerInsured">
 	update t_farmer_insured
 	set farmerId = #{farmerId,jdbcType=BIGINT},
@@ -104,6 +107,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <result column="recorder" property="recorder" jdbcType="VARCHAR" />
     <result column="recordTime" property="recordTime" jdbcType="DATE" />
 </resultMap>
+<select id="findPagingByFarmerId" parameterType="Map" 
+		resultMap="farmerInsuredList">
+	select 
+	<include refid="Insured_Column_List" />
+	from 
+	(select t.*,rownumber() over() as rn 
+	from t_farmer_insured t
+	<where>
+		<if test="farmerId != null">
+		   	and t.farmerId = #{farmerId,jdbcType=BIGINT}
+		</if>
+	 </where>
+	 )
+	 <where>
+	 	<if test="start != null">
+	    	rn between #{start} and #{end}
+	   	</if>
+	 </where>
+</select>
 <select id="pageing" parameterType="Map" resultMap="farmerInsuredList">
 	select 
 	<include refid="Insured_Column_List" />
