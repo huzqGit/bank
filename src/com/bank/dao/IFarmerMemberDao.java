@@ -8,5 +8,6 @@ import com.common.dao.GenericDAO;
 public interface IFarmerMemberDao extends GenericDAO<FarmerMember, Long> {
 	
 	public List<FarmerMember> getMembersByFarmerId(Long farmerId);
+	public void deleteMembers(List<Long> memberIds);
 
 }

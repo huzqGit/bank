@@ -9,4 +9,6 @@ public interface IFarmerCompunishDao extends GenericDAO<FarmerCompunish, Long> {
 	
 	public List<FarmerCompunish> getCompunishByFarmerId(Long farmerId);
 	public List<FarmerCompunish> findByFarmers(List<Long> farmerIds);
+	public List<FarmerCompunish> findPagingByFarmerId(int pageIndex,int pageSize,
+			String sortField,String sortOrder,Long farmerId);
 }

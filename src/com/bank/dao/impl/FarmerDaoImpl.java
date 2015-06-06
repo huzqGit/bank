@@ -26,9 +26,12 @@ public class FarmerDaoImpl extends GenericMyBatisDAOSupport<Farmer, Long>
 	}
 
 	@Override
-	public Farmer findByID(String farmerIdNum) {
+	public Farmer findByID(String farmerIdNum,String organId) {
 		
-		Farmer farmer = this.getSqlSession().selectOne("farmer.findByID",farmerIdNum);
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("farmerIdNum", farmerIdNum);
+		map.put("runitId", organId);
+		Farmer farmer = this.getSqlSession().selectOne("farmer.findByID",map);
 		return farmer;
 	}
 
@@ -49,6 +52,25 @@ public class FarmerDaoImpl extends GenericMyBatisDAOSupport<Farmer, Long>
 		return farmers;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public List<Farmer> findPagingByIDAndName(String pageIndex, String pageSize,
+			String sortField, String sortOrder, String farmerIdNum,
+			String farmerName, String organId) {
+		// TODO Auto-generated method stub
+		Map map = new HashMap();
+		int start =Integer.valueOf(pageIndex) * Integer.valueOf(pageSize);
+		int end = start + Integer.valueOf(pageSize);
+		map.put("farmerIdNum",farmerIdNum);
+		map.put("farmerName", farmerName);
+		map.put("organId", organId);
+		map.put("start",start);
+		map.put("end",end);
+		map.put("sortOrder",sortOrder);
+		List<Farmer> farmers = this.getSqlSession().selectList("farmer.findPagingByIDAndName",map);
+		return farmers;
+	}
+
 	@Override
 	public List<Farmer> findByNames(List<String> farmerNames) {
 		List<Farmer> farmers = this.getSqlSession().selectList("farmer.findByNames",farmerNames);
@@ -66,5 +88,6 @@ public class FarmerDaoImpl extends GenericMyBatisDAOSupport<Farmer, Long>
 		List<Apply> applys = this.getSqlSession().selectList("farmer.findApplyByUser",userId);
 		return applys;
 	}
+
 	
 }

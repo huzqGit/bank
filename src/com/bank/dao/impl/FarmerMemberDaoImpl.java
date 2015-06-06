@@ -17,6 +17,12 @@ public class FarmerMemberDaoImpl extends GenericMyBatisDAOSupport<FarmerMember, 
 		List<FarmerMember> members = this.getSqlSession().selectList("farmermember.findByFarmerId",farmerId);
 		return members;
 	}
+
+	@Override
+	public void deleteMembers(List<Long> memberIds) {
+		// TODO Auto-generated method stub
+		this.getSqlSession().delete("farmermember.delete", memberIds);
+	}
 	
 
 }

@@ -11,9 +11,13 @@ public interface IFarmerDao extends GenericDAO<Farmer, Long> {
 	public void saveApply(Apply apply);
 	public List<Apply> findApplyByUser(String userId);
 	public List<Farmer> findByFarmerIds(List<Long> farmerIds);
-	public Farmer findByID(String farmerIdNum);
+	public Farmer findByID(String farmerIdNum,String organId);
 	@SuppressWarnings("rawtypes")
 	public List<Farmer> findFarmer(Map map);
 	public List<Farmer> findByIDAndName(String farmerIdNum,String farmerName);
+	public List<Farmer> findPagingByIDAndName(String pageIndex,String pageSize,
+			String sortField,String sortOrder,String farmerIdNum,String farmerName,
+			String organId);
 	public List<Farmer> findByNames(List<String> farmerNames);
+
 }

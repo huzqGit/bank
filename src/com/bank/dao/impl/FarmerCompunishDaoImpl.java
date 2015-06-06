@@ -1,6 +1,8 @@
 package com.bank.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -22,6 +24,22 @@ public class FarmerCompunishDaoImpl extends GenericMyBatisDAOSupport<FarmerCompu
 	@Override
 	public List<FarmerCompunish> findByFarmers(List<Long> farmerIds) {
 		List<FarmerCompunish> compunishs = this.getSqlSession().selectList("farmercompunish.findByFarmers", farmerIds);
+		return compunishs;
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public List<FarmerCompunish> findPagingByFarmerId(int pageIndex,int pageSize,
+			String sortField, String sortOrder, Long farmerId) {
+		// TODO Auto-generated method stub
+		Map map = new HashMap();
+		int start =pageIndex * pageSize;
+		int end = start + pageSize;
+		map.put("farmerId",farmerId);
+		map.put("start",start);
+		map.put("end",end);
+		map.put("sortOrder",sortOrder);
+		List<FarmerCompunish> compunishs = this.getSqlSession().selectList("farmercompunish.findPagingByFarmerId",map);
 		return compunishs;
 	}
 	
