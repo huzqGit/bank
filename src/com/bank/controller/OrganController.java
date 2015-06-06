@@ -58,13 +58,20 @@ public class OrganController {
 		String actionType = request.getParameter("actionType");
 		//Object obj = JSON.toJSONStringWithDateFormat(formData, formData, arg2);
 		JSONObject jsb = JSONObject.parseObject(formData); //将json串转成JSONObject
-		Organ Organ = (Organ) JSONObject.toJavaObject(jsb, Organ.class);
+		Organ organ = (Organ) JSONObject.toJavaObject(jsb, Organ.class);
+		
+		//seq
+		if (organ != null) {
+			int count = organSerivce.getCountByOrganPId(organ.getOrganPid());
+			organ.setSeq(count + 1);
+		}
+		
 		String organId = "";
 		if ("add".equals(actionType)) {//organId为空，做新增操作
-			organId = organSerivce.saveOrgan(Organ);
+			organId = organSerivce.saveOrgan(organ);
 		} else {//organId不为空，做更新操作
-			organSerivce.updateOrgan(Organ);
-			organId = Organ.getOrganId();
+			organSerivce.updateOrgan(organ);
+			organId = organ.getOrganId();
 		}
 		response.setContentType("text/html;charset=UTF-8");
 	    response.getWriter().write(organId);

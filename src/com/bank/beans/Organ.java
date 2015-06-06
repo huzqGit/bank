@@ -14,6 +14,7 @@ public class Organ extends BaseEntity<Integer> {
 	private String organShort;// 机构简称
 	private String organType; // 机构类别：UNIT, DEPT
 	private String organNo; // 机构编码
+	private int seq;
 
 	public String getOrganId() {
 		return organId;
@@ -61,6 +62,14 @@ public class Organ extends BaseEntity<Integer> {
 
 	public void setOrganNo(String organNo) {
 		this.organNo = organNo;
+	}
+
+	public int getSeq() {
+		return seq;
+	}
+
+	public void setSeq(int seq) {
+		this.seq = seq;
 	}
 
 	@Override

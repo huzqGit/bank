@@ -65,4 +65,8 @@ public class OrganDaoImpl extends BaseDaoImpl implements IOrganDao {
 		return super.getSqlSession().selectList("organ.getSubOrgansByUnitId", unitId);
 	}
 
+	public int getCountByOrganPId(String organPId) throws DAOException {
+		return super.getSqlSession().selectOne("organ.getCountByOrganPId", organPId);
+	}
+
 }

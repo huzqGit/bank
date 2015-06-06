@@ -26,8 +26,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </select>
 
 <insert id="organ.insert" parameterType="com.bank.beans.Organ">
-  insert into T_ORGAN(organ_id, organ_name, organ_pid, organ_short,organ_no, organ_type) 
-  values(#{organId}, #{organName}, #{organPid}, #{organShort}, #{organNo}, #{organType})
+  insert into T_ORGAN(organ_id, organ_name, organ_pid, organ_short,organ_no, organ_type, seq) 
+  values(#{organId}, #{organName}, #{organPid}, #{organShort}, #{organNo}, #{organType}, #{seq})
 </insert>
 
 <insert id="organ.insertSelective" parameterType="com.bank.beans.Organ" >
@@ -51,6 +51,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <if test="organNo != null" >
         organ_no,
       </if>
+      <if test="seq != null" >
+        seq,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="organId != null" >
@@ -71,6 +74,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <if test="organNo != null" >
         #{organNo,jdbcType=VARCHAR},
       </if>
+      <if test="seq != null" >
+        #{seq,jdbcType=INTEGER},
+      </if>
     </trim>
 </insert>
 <update id="organ.update" parameterType="com.bank.beans.Organ">
@@ -79,7 +85,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	organ_pid = #{organPid}, 
 	organ_short = #{organShort},
 	organ_no = #{organNo}, 
-	organ_type = #{organType}
+	organ_type = #{organType},
+	seq = #{seq}
 	where organ_id = #{organId}
 </update>
   <update id="organ.updateByPrimaryKeySelective" parameterType="com.bank.beans.Organ" >
@@ -99,6 +106,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       </if>
       <if test="organType != null" >
         organ_type = #{organType,jdbcType=VARCHAR},
+      </if>
+      <if test="seq != null" >
+        seq = #{seq,jdbcType=INTEGER},
       </if>
     </set>
     where organ_id = #{organId,jdbcType=VARCHAR}
@@ -169,5 +179,8 @@ FROM RPL
 ORDER BY organ_id
 </select>
 
+<select id="organ.getCountByOrganPId" resultType="java.lang.Integer" parameterType="String" >
+	select count(*) from T_ORGAN where ORGAN_PID = #{organPId}
+</select>
 
 </mapper>

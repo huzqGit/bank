@@ -60,5 +60,9 @@ public class OrganServiceImpl implements IOrganService {
 	public List<String> getSubOrgansByUnitId(String unitId) throws DAOException {
 		return organDao.getSubOrgansByUnitId(unitId);
 	}
+	
+	public int getCountByOrganPId(String organPId) throws DAOException {
+		return organDao.getCountByOrganPId(organPId);
+	}
 
 }
