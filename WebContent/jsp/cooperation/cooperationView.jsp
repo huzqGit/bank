@@ -51,7 +51,7 @@ background:url(${pageContext.request.contextPath}/jsp/main/leftmenu/images/icon-
        		<tr>
        			<td><a class="mini-button" iconCls="icon-add" plain="true" onclick="add()">新增</a>
             		<span class="separator"></span>
-            		<a class="mini-button" iconCls="icon-goto" plain="true" href="">导入</a>
+            		<a class="mini-button" iconCls="icon-goto" plain="true" href="/bank/common/viewView.do?dest=cooperation/cooperationImportFile">导入</a>
        			<span class="separator"></span>
        			<a class="mini-button" iconCls="icon-redo" plain="true" onclick="reset()">重置</a>
        			<span class="separator"></span>
