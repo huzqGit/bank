@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.bank.beans.FarmerCooperation;
@@ -17,7 +19,9 @@ import com.common.exception.UpdateException;
 
 @Repository("cooperationDao")
 public class CooperationImpl extends GenericMyBatisDAOSupport<FarmerCooperation,Long> implements ICooperationDao {
-
+	
+	private static Logger log = LoggerFactory.getLogger(CooperationImpl.class);
+	
 	@Override
 	public void save(FarmerCooperation entity) throws DAOException,
 			CreateException {
@@ -73,5 +77,14 @@ public class CooperationImpl extends GenericMyBatisDAOSupport<FarmerCooperation,
 		list.add(pMap);
 		return list;
 	}
-
+	
+	@Override
+	public Long getUnitId(Map<String,Object> map){
+		try {
+			return getSqlSession().selectOne("cooperation.getUnitId",map);
+		} catch (Exception e) {
+			log.info(e.getMessage());
+		}
+		return null;
+	}
 }

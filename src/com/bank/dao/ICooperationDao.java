@@ -11,4 +11,6 @@ public interface ICooperationDao extends GenericDAO<FarmerCooperation, Long>{
 	public long getTotal(Map<String,String> map);
 	
 	public List<Map<String,Object>> getCooperationTree(Map<String,Object> map);
+	
+	public Long getUnitId(Map<String,Object> map);
 }

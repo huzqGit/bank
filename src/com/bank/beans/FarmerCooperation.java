@@ -8,9 +8,7 @@ public class FarmerCooperation extends BaseEntity<Long>{
 
 	private static final long serialVersionUID = -4348831173556795845L;
 	
-	private String sortField;
-	  
-	private String sortOrder;
+	private String organ_id;	//session获取组织机构id
 	
 	private Long cooperationId;
 	/**
@@ -50,6 +48,7 @@ public class FarmerCooperation extends BaseEntity<Long>{
 	private String recorder;
 	private Date recordTime;
 	
+	private String error_label;
 	
 	@Override
 	public boolean equalsIfIdNull(Object o) {
@@ -212,21 +211,21 @@ public class FarmerCooperation extends BaseEntity<Long>{
 	public void setOrgaCode(String orgaCode) {
 		this.orgaCode = orgaCode;
 	}
-	
-	public String getSortField() {
-		return sortField;
+
+	public String getOrgan_id() {
+		return organ_id;
 	}
-	
-	public void setSortField(String sortField) {
-		this.sortField = sortField;
+
+	public void setOrgan_id(String organ_id) {
+		this.organ_id = organ_id;
 	}
-	
-	public String getSortOrder() {
-		return sortOrder;
+
+	public String getError_label() {
+		return error_label;
 	}
-	
-	public void setSortOrder(String sortOrder) {
-		this.sortOrder = sortOrder;
+
+	public void setError_label(String error_label) {
+		this.error_label = error_label;
 	}
 	
 }

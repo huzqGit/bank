@@ -22,11 +22,17 @@ if (document.documentElement && document.documentElement.clientHeight){
 //alert(winHeight);
 </script>
 <style type="text/css">
-body{scrollbar-base-color:#90D5EA;line-height:120%;font-family:"仿宋_GB2312";font-size:13pt;}
+body{
+	scrollbar-base-color:#90D5EA;
+	line-height:100%;
+	font-family:"仿宋_GB2312";
+	overfolw:hidden;
+	font-size:13pt;
+}
 *{
 	margin:0px;
 	padding:0px;
-	text-decoration:none
+	text-decoration:none;
 }
 .mini-toolbar{
 	background:url(/bank/jsp/main/leftmenu/images/icon-bg.jpg) repeat-x center;
@@ -84,6 +90,9 @@ body{scrollbar-base-color:#90D5EA;line-height:120%;font-family:"仿宋_GB2312";f
 		          <div field="cooperationname" width="120" headerAlign="center" allowSort="true" >合作组织名称
 		          </div>
 		          <div field="organcode" width="120" headerAlign="center" allowSort="true" >组织机构编码
+		          </div>
+		          <div field="yearmonth" width="120" headerAlign="center" allowSort="true" >年月
+		          	<input property="editor" class="mini-textbox" style="width:100%;" minWidth="150" />
 		          </div>
 		          <div field="accountspayable" width="120" headerAlign="center" allowSort="true" >应付账款
 		          	<input property="editor" class="mini-textbox" style="width:100%;" minWidth="150" />
@@ -306,7 +315,47 @@ body{scrollbar-base-color:#90D5EA;line-height:120%;font-family:"仿宋_GB2312";f
 	          grid.frozenColumns(0, 3);
 	      }	 
 	);
+	
+	 function add(){
+		 mini.open({
+			 url:'${pageContext.request.contextPath}/common/addForm.do?dest=cooperation/cooperationForm&sys_key=cname&sys_value='+cname,
+			 title: "编辑", width: 800, height: 500,
+	           onload: function () {
+	                 
+	           },
+	           ondestroy: function (action) {
+	               grid.reload();
+	               tree.reload();
+	           }
+		 });
+	 }
+	 function edit(cooperationId){
+		 mini.open({
+             url: '${pageContext.request.contextPath}/common/editForm.do?dest=cooperation/cooperationForm&sys_key=cooperationId&sys_value='+cooperationId,
+             title: "编辑", width: 800, height: 500,
+             onload: function () {
+                 
+             },
+             ondestroy: function (action) {
+                 grid.reload();
+                 tree.reload();
+             }
+         });
+	 }
 	 
+	 function view(cooperationId){
+		 mini.open({
+             url: '${pageContext.request.contextPath}/common/viewForm.do?dest=cooperation/cooperationForm&sys_key=cooperationId&sys_value='+cooperationId,
+             title: "查阅", width: 800, height: 500,
+             onload: function () {
+                 
+             },
+             ondestroy: function (action) {
+                 grid.reload();
+                 tree.reload();
+             }
+         });
+	 }
 
    </script>
 </body>

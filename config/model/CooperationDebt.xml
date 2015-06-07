@@ -2,26 +2,38 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cooperationDebt">
 	<sql id="Cooperation_Column_List">
-		debtid,yearmonth,accountspayable,assetall,bankloan,buildingproject,businessprofit,capitalreserve,cashcapital,
-		cooperationname,depositreceived,deprecication,financialcost,fixedasset,fixedassetall,floatasset,
+		debtid,yearmonth,cooperationname,organcode,recorder,recordtime,
+		accountspayable,assetall,bankloan,buildingproject,businessprofit,capitalreserve,cashcapital,
+		depositreceived,deprecication,financialcost,fixedasset,fixedassetall,floatasset,
 		floatassetall,floatdebt,floatdebtall,handingcost,interestexpense,inventory,investincome,invisibleasset,
-		longdebtall,netprofit,netvalue,organcode,paidaddedtax,payableaddedtax,payableincometax,prepayment,profitloss,
-		realcapital,receivables,recorder,recordtime,registercapital,shortinvest,shortloan,subsidyincome,surplusreserve,
-		totalequity,totalequity1,totalprofit,unallotprofit,unbusinessexpense,unbusinessincome,unpaidtax
+		longdebtall,netprofit,netvalue,paidaddedtax,payableaddedtax,payableincometax,prepayment,profitloss,
+		realcapital,receivables,registercapital,shortinvest,shortloan,subsidyincome,surplusreserve,
+		totalequity,totalequity1,totalprofit,unallotprofit,unbusinessexpense,unbusinessincome,unpaidtax,
+		
+		accountspayable2,assetall2,bankloan2,buildingproject2,businessprofit2,capitalreserve2,cashcapital2,
+		depositreceived2,deprecication2,financialcost2,fixedasset2,fixedassetall2,floatasset2,
+		floatassetall2,floatdebt2,floatdebtall2,handingcost2,interestexpense2,inventory2,investincome2,invisibleasset2,
+		longdebtall2,netprofit2,netvalue2,paidaddedtax2,payableaddedtax2,payableincometax2,prepayment2,profitloss2,
+		realcapital2,receivables2,registercapital2,shortinvest2,shortloan2,subsidyincome2,surplusreserve2,
+		totalequity2,totalequity12,totalprofit2,unallotprofit2,unbusinessexpense2,unbusinessincome2,unpaidtax2
 	</sql>
 	<insert id="save" useGeneratedKeys="true" keyProperty="debtid"
 		parameterType="com.bank.beans.FarmerCooperationDebt">
 		insert into t_cooperation_debt
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="accountspayable != null">accountspayable,</if>
 			<if test="yearmonth != null">yearmonth,</if>
+			<if test="cooperationname != null">cooperationname,</if>
+			<if test="organcode != null">organcode,</if>
+			<if test="recorder != null">recorder,</if>
+			<if test="recordtime != null">recordtime,</if>
+			
+			<if test="accountspayable != null">accountspayable,</if>
 			<if test="assetall != null">assetall,</if>
 			<if test="bankloan != null">bankloan,</if>
 			<if test="buildingproject != null">buildingproject,</if>
 			<if test="businessprofit != null">businessprofit,</if>
 			<if test="capitalreserve != null">capitalreserve,</if>
 			<if test="cashcapital != null">cashcapital,</if>
-			<if test="cooperationname != null">cooperationname,</if>
 			<if test="depositreceived != null">depositreceived,</if>
 			<if test="deprecication != null">deprecication,</if>
 			<if test="financialcost != null">financialcost,</if>
@@ -39,7 +51,6 @@
 			<if test="longdebtall != null">longdebtall,</if>
 			<if test="netprofit != null">netprofit,</if>
 			<if test="netvalue != null">netvalue,</if>
-			<if test="organcode != null">organcode,</if>
 			<if test="paidaddedtax != null">paidaddedtax,</if>
 			<if test="payableaddedtax != null">payableaddedtax,</if>
 			<if test="payableincometax != null">payableincometax,</if>
@@ -47,8 +58,6 @@
 			<if test="profitloss != null">profitloss,</if>
 			<if test="realcapital != null">realcapital,</if>
 			<if test="receivables != null">receivables,</if>
-			<if test="recorder != null">recorder,</if>
-			<if test="recordtime != null">recordtime,</if>
 			<if test="registercapital != null">registercapital,</if>
 			<if test="shortinvest != null">shortinvest,</if>
 			<if test="shortloan != null">shortloan,</if>
@@ -60,18 +69,66 @@
 			<if test="unallotprofit != null">unallotprofit,</if>
 			<if test="unbusinessexpense != null">unbusinessexpense,</if>
 			<if test="unbusinessincome != null">unbusinessincome,</if>
-			<if test="unpaidtax != null">unpaidtax</if>
+			<if test="unpaidtax != null">unpaidtax,</if>
+			
+			<if test="accountspayable2 != null">accountspayable2,</if>
+			<if test="assetall2 != null">assetall2,</if>
+			<if test="bankloan2 != null">bankloan2,</if>
+			<if test="buildingproject2 != null">buildingproject2,</if>
+			<if test="businessprofit2 != null">businessprofit2,</if>
+			<if test="capitalreserve2 != null">capitalreserve2,</if>
+			<if test="cashcapital2 != null">cashcapital2,</if>
+			<if test="depositreceived2 != null">depositreceived2,</if>
+			<if test="deprecication2 != null">deprecication2,</if>
+			<if test="financialcost2 != null">financialcost2,</if>
+			<if test="fixedasset2 != null">fixedasset2,</if>
+			<if test="fixedassetall2 != null">fixedassetall2,</if>
+			<if test="floatasset2 != null">floatasset2,</if>
+			<if test="floatassetall2 != null">floatassetall2,</if>
+			<if test="floatdebt2 != null">floatdebt2,</if>
+			<if test="floatdebtall2 != null">floatdebtall2,</if>
+			<if test="handingcost2 != null">handingcost2,</if>
+			<if test="interestexpense2 != null">interestexpense2,</if>
+			<if test="inventory2 != null">inventory2,</if>
+			<if test="investincome2 != null">investincome2,</if>
+			<if test="invisibleasset2 != null">invisibleasset2,</if>
+			<if test="longdebtall2 != null">longdebtall2,</if>
+			<if test="netprofit2 != null">netprofit2,</if>
+			<if test="netvalue2 != null">netvalue2,</if>
+			<if test="paidaddedtax2 != null">paidaddedtax2,</if>
+			<if test="payableaddedtax2 != null">payableaddedtax2,</if>
+			<if test="payableincometax2 != null">payableincometax2,</if>
+			<if test="prepayment2 != null">prepayment2,</if>
+			<if test="profitloss2 != null">profitloss2,</if>
+			<if test="realcapital2 != null">realcapital2,</if>
+			<if test="receivables2 != null">receivables2,</if>
+			<if test="registercapital2 != null">registercapital2,</if>
+			<if test="shortinvest2 != null">shortinvest2,</if>
+			<if test="shortloan2 != null">shortloan2,</if>
+			<if test="subsidyincome2 != null">subsidyincome2,</if>
+			<if test="surplusreserve2 != null">surplusreserve2,</if>
+			<if test="totalequity2 != null">totalequity2,</if>
+			<if test="totalequity12 != null">totalequity12,</if>
+			<if test="totalprofit2 != null">totalprofit2,</if>
+			<if test="unallotprofit2 != null">unallotprofit2,</if>
+			<if test="unbusinessexpense2 != null">unbusinessexpense2,</if>
+			<if test="unbusinessincome2 != null">unbusinessincome2,</if>
+			<if test="unpaidtax2 != null">unpaidtax2</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="accountspayable != null">#{accountspayable,jdbcType=VARCHAR},</if>
 			<if test="yearmonth != null">#{yearmonth,jdbcType=VARCHAR},</if>
+			<if test="cooperationname != null">#{cooperationname,jdbcType=VARCHAR},</if>
+			<if test="organcode != null">#{organcode,jdbcType=VARCHAR},</if>
+			<if test="recorder != null">#{recorder,jdbcType=VARCHAR},</if>
+			<if test="recordtime != null">#{recordtime,jdbcType=TIMESTAMP},</if>
+			
+			<if test="accountspayable != null">#{accountspayable,jdbcType=VARCHAR},</if>
 			<if test="assetall != null">#{assetall,jdbcType=VARCHAR},</if>
 			<if test="bankloan != null">#{bankloan,jdbcType=VARCHAR},</if>
 			<if test="buildingproject != null">#{buildingproject,jdbcType=VARCHAR},</if>
 			<if test="businessprofit != null">#{businessprofit,jdbcType=VARCHAR},</if>
 			<if test="capitalreserve != null">#{capitalreserve,jdbcType=VARCHAR},</if>
 			<if test="cashcapital != null">#{cashcapital,jdbcType=VARCHAR},</if>
-			<if test="cooperationname != null">#{cooperationname,jdbcType=VARCHAR},</if>
 			<if test="depositreceived != null">#{depositreceived,jdbcType=VARCHAR},</if>
 			<if test="deprecication != null">#{deprecication,jdbcType=VARCHAR},</if>
 			<if test="financialcost != null">#{financialcost,jdbcType=VARCHAR},</if>
@@ -89,7 +146,6 @@
 			<if test="longdebtall != null">#{longdebtall,jdbcType=VARCHAR},</if>
 			<if test="netprofit != null">#{netprofit,jdbcType=VARCHAR},</if>
 			<if test="netvalue != null">#{netvalue,jdbcType=VARCHAR},</if>
-			<if test="organcode != null">#{organcode,jdbcType=VARCHAR},</if>
 			<if test="paidaddedtax != null">#{paidaddedtax,jdbcType=VARCHAR},</if>
 			<if test="payableaddedtax != null">#{payableaddedtax,jdbcType=VARCHAR},</if>
 			<if test="payableincometax != null">#{payableincometax,jdbcType=VARCHAR},</if>
@@ -97,8 +153,6 @@
 			<if test="profitloss != null">#{profitloss,jdbcType=VARCHAR},</if>
 			<if test="realcapital != null">#{realcapital,jdbcType=VARCHAR},</if>
 			<if test="receivables != null">#{receivables,jdbcType=VARCHAR},</if>
-			<if test="recorder != null">#{recorder,jdbcType=VARCHAR},</if>
-			<if test="recordtime != null">#{recordtime,jdbcType=TIMESTAMP},</if>
 			<if test="registercapital != null">#{registercapital,jdbcType=VARCHAR},</if>
 			<if test="shortinvest != null">#{shortinvest,jdbcType=VARCHAR},</if>
 			<if test="shortloan != null">#{shortloan,jdbcType=VARCHAR},</if>
@@ -110,13 +164,62 @@
 			<if test="unallotprofit != null">#{unallotprofit,jdbcType=VARCHAR},</if>
 			<if test="unbusinessexpense != null">#{unbusinessexpense,jdbcType=VARCHAR},</if>
 			<if test="unbusinessincome != null">#{unbusinessincome,jdbcType=VARCHAR},</if>
-			<if test="unpaidtax != null">#{unpaidtax,jdbcType=VARCHAR}</if>
+			<if test="unpaidtax != null">#{unpaidtax,jdbcType=VARCHAR},</if>
+			
+			<if test="accountspayable2 != null">#{accountspayable2,jdbcType=VARCHAR},</if>
+			<if test="assetall2 != null">#{assetall2,jdbcType=VARCHAR},</if>
+			<if test="bankloan2 != null">#{bankloan2,jdbcType=VARCHAR},</if>
+			<if test="buildingproject2 != null">#{buildingproject2,jdbcType=VARCHAR},</if>
+			<if test="businessprofit2 != null">#{businessprofit2,jdbcType=VARCHAR},</if>
+			<if test="capitalreserve2 != null">#{capitalreserve2,jdbcType=VARCHAR},</if>
+			<if test="cashcapital2 != null">#{cashcapital2,jdbcType=VARCHAR},</if>
+			<if test="depositreceived2 != null">#{depositreceived2,jdbcType=VARCHAR},</if>
+			<if test="deprecication2 != null">#{deprecication2,jdbcType=VARCHAR},</if>
+			<if test="financialcost2 != null">#{financialcost2,jdbcType=VARCHAR},</if>
+			<if test="fixedasset2 != null">#{fixedasset2,jdbcType=VARCHAR},</if>
+			<if test="fixedassetall2 != null">#{fixedassetall2,jdbcType=VARCHAR},</if>
+			<if test="floatasset2 != null">#{floatasset2,jdbcType=VARCHAR},</if>
+			<if test="floatassetall2 != null">#{floatassetall2,jdbcType=VARCHAR},</if>
+			<if test="floatdebt2 != null">#{floatdebt2,jdbcType=VARCHAR},</if>
+			<if test="floatdebtall2 != null">#{floatdebtall2,jdbcType=VARCHAR},</if>
+			<if test="handingcost2 != null">#{handingcost2,jdbcType=VARCHAR},</if>
+			<if test="interestexpense2 != null">#{interestexpense2,jdbcType=VARCHAR},</if>
+			<if test="inventory2 != null">#{inventory2,jdbcType=VARCHAR},</if>
+			<if test="investincome2 != null">#{investincome,jdbcType=VARCHAR},</if>
+			<if test="invisibleasset2 != null">#{invisibleasset2,jdbcType=VARCHAR},</if>
+			<if test="longdebtall2 != null">#{longdebtall2,jdbcType=VARCHAR},</if>
+			<if test="netprofit2 != null">#{netprofit2,jdbcType=VARCHAR},</if>
+			<if test="netvalue2 != null">#{netvalue2,jdbcType=VARCHAR},</if>
+			<if test="paidaddedtax2 != null">#{paidaddedtax2,jdbcType=VARCHAR},</if>
+			<if test="payableaddedtax2 != null">#{payableaddedtax2,jdbcType=VARCHAR},</if>
+			<if test="payableincometax2 != null">#{payableincometax2,jdbcType=VARCHAR},</if>
+			<if test="prepayment2 != null">#{prepayment2,jdbcType=VARCHAR},</if>
+			<if test="profitloss2 != null">#{profitloss2,jdbcType=VARCHAR},</if>
+			<if test="realcapital2 != null">#{realcapital2,jdbcType=VARCHAR},</if>
+			<if test="receivables2 != null">#{receivables2,jdbcType=VARCHAR},</if>
+			<if test="registercapital2 != null">#{registercapital2,jdbcType=VARCHAR},</if>
+			<if test="shortinvest2 != null">#{shortinvest2,jdbcType=VARCHAR},</if>
+			<if test="shortloan2 != null">#{shortloan2,jdbcType=VARCHAR},</if>
+			<if test="subsidyincome2 != null">#{subsidyincome2,jdbcType=VARCHAR},</if>
+			<if test="surplusreserve2 != null">#{surplusreserve2,jdbcType=VARCHAR},</if>
+			<if test="totalequity2 != null">#{totalequity2,jdbcType=VARCHAR},</if>
+			<if test="totalequity12 != null">#{totalequity12,jdbcType=VARCHAR},</if>
+			<if test="totalprofit2 != null">#{totalprofit2,jdbcType=VARCHAR},</if>
+			<if test="unallotprofit2 != null">#{unallotprofit2,jdbcType=VARCHAR},</if>
+			<if test="unbusinessexpense2 != null">#{unbusinessexpense2,jdbcType=VARCHAR},</if>
+			<if test="unbusinessincome2 != null">#{unbusinessincome2,jdbcType=VARCHAR},</if>
+			<if test="unpaidtax2 != null">#{unpaidtax2,jdbcType=VARCHAR},</if>
 		</trim>
 	</insert>
 	<update id="update" parameterType="com.bank.beans.FarmerCooperationDebt">
 		update t_cooperation_debt
 		<set>
 			 <if test="yearmonth != null and yearmonth != ''">yearmonth=#{yearmonth},</if>
+			 <if test="cooperationname!=null and cooperationname!=''">cooperationname=#{cooperationname},</if>
+			 <if test="organcode!=null and organcode!=''">organcode=#{organcode},</if>
+			 <if test="recorder!=null and recorder!=''">recorder=#{recorder},</if>
+			 <if test="recordtime!=null and recordtime!=''">recordtime=#{recordtime},</if>
+			 
 			 <if test="accountspayable!=null and accountspayable!=''">accountspayable=#{accountspayable},</if>
 			 <if test="assetall!=null and assetall!=''">assetall=#{assetall},</if>
 			 <if test="bankloan!=null and bankloan!=''">bankloan=#{bankloan},</if>
@@ -124,7 +227,6 @@
 			 <if test="businessprofit!=null and businessprofit!=''">businessprofit=#{businessprofit},</if>
 			 <if test="capitalreserve!=null and capitalreserve!=''">capitalreserve=#{capitalreserve},</if>
 			 <if test="cashcapital!=null and cashcapital!=''">cashcapital=#{cashcapital},</if>
-			 <if test="cooperationname!=null and cooperationname!=''">cooperationname=#{cooperationname},</if>
 			 <if test="depositreceived!=null and depositreceived!=''">depositreceived=#{depositreceived},</if>
 			 <if test="deprecication!=null and deprecication!=''">deprecication=#{deprecication},</if>
 			 <if test="financialcost!=null and financialcost!=''">financialcost=#{financialcost},</if>
@@ -142,7 +244,6 @@
 			 <if test="longdebtall!=null and longdebtall!=''">longdebtall=#{longdebtall},</if>
 			 <if test="netprofit!=null and netprofit!=''">netprofit=#{netprofit},</if>
 			 <if test="netvalue!=null and netvalue!=''">netvalue=#{netvalue},</if>
-			 <if test="organcode!=null and organcode!=''">organcode=#{organcode},</if>
 			 <if test="paidaddedtax!=null and paidaddedtax!=''">paidaddedtax=#{paidaddedtax},</if>
 			 <if test="payableaddedtax!=null and payableaddedtax!=''">payableaddedtax=#{payableaddedtax},</if>
 			 <if test="payableincometax!=null and payableincometax!=''">payableincometax=#{payableincometax},</if>
@@ -150,8 +251,6 @@
 			 <if test="profitloss!=null and profitloss!=''">profitloss=#{profitloss},</if>
 			 <if test="realcapital!=null and realcapital!=''">realcapital=#{realcapital},</if>
 			 <if test="receivables!=null and receivables!=''">receivables=#{receivables},</if>
-			 <if test="recorder!=null and recorder!=''">recorder=#{recorder},</if>
-			 <if test="recordtime!=null and recordtime!=''">recordtime=#{recordtime},</if>
 			 <if test="registercapital!=null and registercapital!=''">registercapital=#{registercapital},</if>
 			 <if test="shortinvest!=null and shortinvest!=''">shortinvest=#{shortinvest},</if>
 			 <if test="shortloan!=null and shortloan!=''">shortloan=#{shortloan},</if>
@@ -164,6 +263,50 @@
 			 <if test="unbusinessexpense!=null and unbusinessexpense!=''">unbusinessexpense=#{unbusinessexpense},</if>
 			 <if test="unbusinessincome!=null and unbusinessincome!=''">unbusinessincome=#{unbusinessincome},</if>
 			 <if test="unpaidtax!=null and unpaidtax!=''">unpaidtax=#{unpaidtax},</if>
+			 
+			 <if test="accountspayable2!=null and accountspayable2!=''">accountspayable2=#{accountspayable2},</if>
+			 <if test="assetall2!=null and assetall2!=''">assetall2=#{assetall2},</if>
+			 <if test="bankloan2!=null and bankloan2!=''">bankloan2=#{bankloan2},</if>
+			 <if test="buildingproject2!=null and buildingproject2!=''">buildingproject2=#{buildingproject2},</if>
+			 <if test="businessprofit2!=null and businessprofit2!=''">businessprofit2=#{businessprofit2},</if>
+			 <if test="capitalreserve2!=null and capitalreserve2!=''">capitalreserve2=#{capitalreserve2},</if>
+			 <if test="cashcapital2!=null and cashcapital2!=''">cashcapital2=#{cashcapital2},</if>
+			 <if test="depositreceived2!=null and depositreceived2!=''">depositreceived2=#{depositreceived2},</if>
+			 <if test="deprecication2!=null and deprecication2!=''">deprecication2=#{deprecication2},</if>
+			 <if test="financialcost2!=null and financialcost2!=''">financialcost2=#{financialcost2},</if>
+			 <if test="fixedasset2!=null and fixedasset2!=''">fixedasset2=#{fixedasset2},</if>
+			 <if test="fixedassetall2!=null and fixedassetall2!=''">fixedassetall2=#{fixedassetall2},</if>
+			 <if test="floatasset2!=null and floatasset2!=''">floatasset2=#{floatasset2},</if>
+			 <if test="floatassetall2!=null and floatassetall2!=''">floatassetall2=#{floatassetall2},</if>
+			 <if test="floatdebt2!=null and floatdebt2!=''">floatdebt2=#{floatdebt2},</if>
+			 <if test="floatdebtall2!=null and floatdebtall2!=''">floatdebtall2=#{floatdebtall2},</if>
+			 <if test="handingcost2!=null and handingcost2!=''">handingcost2=#{handingcost2},</if>
+			 <if test="interestexpense2!=null and interestexpense2!=''">interestexpense2=#{interestexpense2},</if>
+			 <if test="inventory2!=null and inventory2!=''">inventory2=#{inventory2},</if>
+			 <if test="investincome2!=null and investincome2!=''">investincome2=#{investincome2},</if>
+			 <if test="invisibleasset2!=null and invisibleasset2!=''">invisibleasset2=#{invisibleasset2},</if>
+			 <if test="longdebtall2!=null and longdebtall2!=''">longdebtall2=#{longdebtall2},</if>
+			 <if test="netprofit2!=null and netprofit2!=''">netprofit2=#{netprofit2},</if>
+			 <if test="netvalue2!=null and netvalue2!=''">netvalue2=#{netvalue2},</if>
+			 <if test="paidaddedtax2!=null and paidaddedtax2!=''">paidaddedtax2=#{paidaddedtax2},</if>
+			 <if test="payableaddedtax2!=null and payableaddedtax2!=''">payableaddedtax2=#{payableaddedtax2},</if>
+			 <if test="payableincometax2!=null and payableincometax2!=''">payableincometax2=#{payableincometax2},</if>
+			 <if test="prepayment2!=null and prepayment2!=''">prepayment2=#{prepayment2},</if>
+			 <if test="profitloss2!=null and profitloss2!=''">profitloss2=#{profitloss2},</if>
+			 <if test="realcapital2!=null and realcapital2!=''">realcapital2=#{realcapital2},</if>
+			 <if test="receivables2!=null and receivables2!=''">receivables2=#{receivables2},</if>
+			 <if test="registercapital2!=null and registercapital2!=''">registercapital2=#{registercapital2},</if>
+			 <if test="shortinvest2!=null and shortinvest2!=''">shortinvest2=#{shortinvest2},</if>
+			 <if test="shortloan2!=null and shortloan2!=''">shortloan2=#{shortloan2},</if>
+			 <if test="subsidyincome2!=null and subsidyincome2!=''">subsidyincome2=#{subsidyincome2},</if>
+			 <if test="surplusreserve2!=null and surplusreserve2!=''">surplusreserve2=#{surplusreserve2},</if>
+			 <if test="totalequity2!=null and totalequity2!=''">totalequity2=#{totalequity2},</if>
+			 <if test="totalequity12!=null and totalequity12!=''">totalequity12=#{totalequity12},</if>
+			 <if test="totalprofit2!=null and totalprofit2!=''">totalprofit2=#{totalprofit2},</if>
+			 <if test="unallotprofit2!=null and unallotprofit2!=''">unallotprofit2=#{unallotprofit2},</if>
+			 <if test="unbusinessexpense2!=null and unbusinessexpense2!=''">unbusinessexpense2=#{unbusinessexpense2},</if>
+			 <if test="unbusinessincome2!=null and unbusinessincome2!=''">unbusinessincome2=#{unbusinessincome2},</if>
+			 <if test="unpaidtax2!=null and unpaidtax2!=''">unpaidtax2=#{unpaidtax2},</if>
 		</set>
 			where debtid=#{debtid,jdbcType=INTEGER}
 	</update>

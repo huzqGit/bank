@@ -1,5 +1,7 @@
 package com.bank.controller.economy;
 
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -14,15 +16,23 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.bank.Constants;
 import com.bank.beans.FarmerCooperation;
+import com.bank.beans.User;
 import com.bank.common.util.JsonUtil;
 import com.bank.service.ICooperationService;
 import com.bank.utils.HttpUtils;
+import com.bank.utils.excel.ExcelExplorer;
+import com.bank.utils.excel.ImportResult;
+import com.bank.utils.excel.importer.CooperationImporter;
 
 @Controller
 @RequestMapping("economy")
@@ -32,6 +42,11 @@ public class CooperationController {
 	
 	@Resource
 	private ICooperationService cooperationService;
+	
+	@Resource(name="cooperationImporter")
+	private CooperationImporter cooperationImporter;
+	
+	private List<Map<String, String>> list = new ArrayList<Map<String,String>>();
 	
 	@RequestMapping(value="saveCooperation",method = RequestMethod.POST)
 	public ModelAndView save(HttpServletRequest request, 
@@ -140,4 +155,69 @@ public class CooperationController {
 		}
 		return;
 	}
+	
+	@RequestMapping(value="loadFileResult",method = RequestMethod.POST)
+	public void loadFileResult(HttpServletRequest request, 
+			HttpServletResponse response) throws Exception{
+		HashMap<String,Object> result = new HashMap<String,Object>();
+        result.put("data", list);
+        result.put("total", list.size());
+        String json = JSON.toJSONStringWithDateFormat(result,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
+	    response.setContentType("text/html;charset=UTF-8");
+	    response.getWriter().write(json);
+	}
+	
+	@RequestMapping("loadFile")
+	public ModelAndView loadFile(@RequestParam("mufile") MultipartFile muFile,
+			HttpServletRequest request,HttpServletResponse response)throws Exception{
+		ModelAndView model = new ModelAndView("cooperation/cooperationImportFile");
+		User user = (User) request.getSession().getAttribute(Constants.SESSION_AUTH_USER);
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<Map<String, String>> list = new ArrayList<Map<String,String>>();
+		try{
+			map.put("organ_id", user.getOrganId());
+			map.put("recorder", user.getUserName());
+			
+			InputStream in = muFile.getInputStream();
+			ImportResult result = ExcelExplorer.importExcel(cooperationImporter.setMapValues(map), in);
+			List<Map<String, String>> list2 = result.getResult();
+			if (list2 != null) {
+				String array = JSONArray.toJSONString(list2);
+				Map<String,String> msg = new HashMap<String,String>();
+				if("[]".equals(array)){
+					msg.put("row", "1");
+					msg.put("tip", "info");
+					msg.put("msg", "成功");
+					list.add(msg);
+					model.addObject("msgs",list);
+					return model;
+				}
+				msg.put("row", "1");
+				msg.put("tip", "info");
+				msg.put("msg", result.getMessage());
+				list.add(msg);
+				model.addObject("msgs",list);
+				model.addObject("importError","importError");
+				this.list = list2;
+				return model;
+			} else {
+				Map<String,String> msg = new HashMap<String,String>();
+				msg.put("row", "1");
+				msg.put("tip", "info");
+				msg.put("msg", "无数据");
+				list.add(msg);
+				model.addObject("msgs",list);
+				return model;
+			}
+		}catch(Exception e){
+			Map<String,String> msg = new HashMap<String,String>();
+			msg.put("row", String.valueOf(1));
+			msg.put("tip", "error");
+			msg.put("msg", "不支持的");
+			list.add(msg);
+			model.addObject("msgs",list);
+			return model;
+		}
+	}
+	
 }

@@ -5,6 +5,9 @@ import java.util.Date;
 import com.common.bean.BaseEntity;
 
 public class Cooperation extends BaseEntity<Long> {
+
+	private static final long serialVersionUID = 6572454173068901580L;
+	
 	private String cooperationName;
 	private String organCode;
 	private String taxCode;
@@ -180,5 +183,6 @@ public class Cooperation extends BaseEntity<Long> {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
 
 }

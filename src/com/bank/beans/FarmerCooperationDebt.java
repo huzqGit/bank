@@ -16,6 +16,12 @@ public class FarmerCooperationDebt extends BaseEntity<Long>{
 	
 	private Long debtid;
 	private String yearmonth;     //	年月
+	private String recorder;     //	记录人
+	private Date recordtime;     //	记录时间
+	private String cooperationname;     //	农村经济合作组织名称
+	private String organcode;     //	组织机构编码
+	
+	//以下字段为期初值
 	private String accountspayable;     //	应付账款
 	private String assetall;     //	资产合计
 	private String bankloan;     //	银行借款
@@ -23,7 +29,6 @@ public class FarmerCooperationDebt extends BaseEntity<Long>{
 	private String businessprofit;     //	营业利润
 	private String capitalreserve;     //	资本公积
 	private String cashcapital;     //	货币资金
-	private String cooperationname;     //	农村经济合作组织名称
 	private String depositreceived;     //	预收账款
 	private String deprecication;     //	其中折旧
 	private String financialcost;     //	财务费用
@@ -41,7 +46,6 @@ public class FarmerCooperationDebt extends BaseEntity<Long>{
 	private String longdebtall;     //	长期负债合计
 	private String netprofit;     //	利润净额
 	private String netvalue;     //	固定资产净值
-	private String organcode;     //	组织机构编码
 	private String paidaddedtax;     //	实交增值税
 	private String payableaddedtax;     //	应交增值税
 	private String payableincometax;     //	应交所得税
@@ -49,8 +53,6 @@ public class FarmerCooperationDebt extends BaseEntity<Long>{
 	private String profitloss;     //	以前年度损益调整
 	private String realcapital;     //	实收资本
 	private String receivables;     //	应收账款
-	private String recorder;     //	记录人
-	private Date recordtime;     //	记录时间
 	private String registercapital;     //	注册资本
 	private String shortinvest;     //	短期投资
 	private String shortloan;     //	短期借款
@@ -63,6 +65,51 @@ public class FarmerCooperationDebt extends BaseEntity<Long>{
 	private String unbusinessexpense;     //	营业外支出
 	private String unbusinessincome;     //	营业外收入
 	private String unpaidtax;     //	未缴税金
+	
+	//以下字段为期末值
+	private String accountspayable2;     //	应付账款
+	private String assetall2;     //	资产合计
+	private String bankloan2;     //	银行借款
+	private String buildingproject2;     //	在建项目
+	private String businessprofit2;     //	营业利润
+	private String capitalreserve2;     //	资本公积
+	private String cashcapital2;     //	货币资金
+	private String depositreceived2;     //	预收账款
+	private String deprecication2;     //	其中折旧
+	private String financialcost2;     //	财务费用
+	private String fixedasset2;     //	固定资产原价
+	private String fixedassetall2;     //	固定资产合计
+	private String floatasset2;     //	其他流动资产
+	private String floatassetall2;     //	流动资产合计
+	private String floatdebt2;     //	其他流动负债
+	private String floatdebtall2;     //	流动负债合计
+	private String handingcost2;     //	管理费用
+	private String interestexpense2;     //	其中利息支出
+	private String inventory2;     //	存货
+	private String investincome2;     //	投资收益
+	private String invisibleasset2;     //	无形及递延资产合计
+	private String longdebtall2;     //	长期负债合计
+	private String netprofit2;     //	利润净额
+	private String netvalue2;     //	固定资产净值
+	private String paidaddedtax2;     //	实交增值税
+	private String payableaddedtax2;     //	应交增值税
+	private String payableincometax2;     //	应交所得税
+	private String prepayment2;     //	预付账款
+	private String profitloss2;     //	以前年度损益调整
+	private String realcapital2;     //	实收资本
+	private String receivables2;     //	应收账款
+	private String registercapital2;     //	注册资本
+	private String shortinvest2;     //	短期投资
+	private String shortloan2;     //	短期借款
+	private String subsidyincome2;     //	国家补贴收入
+	private String surplusreserve2;     //	盈余公积
+	private String totalequity2;     //	所有者权益合计
+	private String totalequity12;     //	负债和所有者权益合计
+	private String totalprofit2;     //	利润总和
+	private String unallotprofit2;     //	未分配利润
+	private String unbusinessexpense2;     //	营业外支出
+	private String unbusinessincome2;     //	营业外收入
+	private String unpaidtax2;     //	未缴税金
 	  
 	@Override
 	public boolean equalsIfIdNull(Object o) {
@@ -464,6 +511,350 @@ public class FarmerCooperationDebt extends BaseEntity<Long>{
 
 	public void setYearmonth(String yearmonth) {
 		this.yearmonth = yearmonth;
+	}
+
+	public String getAccountspayable2() {
+		return accountspayable2;
+	}
+
+	public void setAccountspayable2(String accountspayable2) {
+		this.accountspayable2 = accountspayable2;
+	}
+
+	public String getAssetall2() {
+		return assetall2;
+	}
+
+	public void setAssetall2(String assetall2) {
+		this.assetall2 = assetall2;
+	}
+
+	public String getBankloan2() {
+		return bankloan2;
+	}
+
+	public void setBankloan2(String bankloan2) {
+		this.bankloan2 = bankloan2;
+	}
+
+	public String getBuildingproject2() {
+		return buildingproject2;
+	}
+
+	public void setBuildingproject2(String buildingproject2) {
+		this.buildingproject2 = buildingproject2;
+	}
+
+	public String getBusinessprofit2() {
+		return businessprofit2;
+	}
+
+	public void setBusinessprofit2(String businessprofit2) {
+		this.businessprofit2 = businessprofit2;
+	}
+
+	public String getCapitalreserve2() {
+		return capitalreserve2;
+	}
+
+	public void setCapitalreserve2(String capitalreserve2) {
+		this.capitalreserve2 = capitalreserve2;
+	}
+
+	public String getCashcapital2() {
+		return cashcapital2;
+	}
+
+	public void setCashcapital2(String cashcapital2) {
+		this.cashcapital2 = cashcapital2;
+	}
+
+	public String getDepositreceived2() {
+		return depositreceived2;
+	}
+
+	public void setDepositreceived2(String depositreceived2) {
+		this.depositreceived2 = depositreceived2;
+	}
+
+	public String getDeprecication2() {
+		return deprecication2;
+	}
+
+	public void setDeprecication2(String deprecication2) {
+		this.deprecication2 = deprecication2;
+	}
+
+	public String getFinancialcost2() {
+		return financialcost2;
+	}
+
+	public void setFinancialcost2(String financialcost2) {
+		this.financialcost2 = financialcost2;
+	}
+
+	public String getFixedasset2() {
+		return fixedasset2;
+	}
+
+	public void setFixedasset2(String fixedasset2) {
+		this.fixedasset2 = fixedasset2;
+	}
+
+	public String getFixedassetall2() {
+		return fixedassetall2;
+	}
+
+	public void setFixedassetall2(String fixedassetall2) {
+		this.fixedassetall2 = fixedassetall2;
+	}
+
+	public String getFloatasset2() {
+		return floatasset2;
+	}
+
+	public void setFloatasset2(String floatasset2) {
+		this.floatasset2 = floatasset2;
+	}
+
+	public String getFloatassetall2() {
+		return floatassetall2;
+	}
+
+	public void setFloatassetall2(String floatassetall2) {
+		this.floatassetall2 = floatassetall2;
+	}
+
+	public String getFloatdebt2() {
+		return floatdebt2;
+	}
+
+	public void setFloatdebt2(String floatdebt2) {
+		this.floatdebt2 = floatdebt2;
+	}
+
+	public String getFloatdebtall2() {
+		return floatdebtall2;
+	}
+
+	public void setFloatdebtall2(String floatdebtall2) {
+		this.floatdebtall2 = floatdebtall2;
+	}
+
+	public String getHandingcost2() {
+		return handingcost2;
+	}
+
+	public void setHandingcost2(String handingcost2) {
+		this.handingcost2 = handingcost2;
+	}
+
+	public String getInterestexpense2() {
+		return interestexpense2;
+	}
+
+	public void setInterestexpense2(String interestexpense2) {
+		this.interestexpense2 = interestexpense2;
+	}
+
+	public String getInventory2() {
+		return inventory2;
+	}
+
+	public void setInventory2(String inventory2) {
+		this.inventory2 = inventory2;
+	}
+
+	public String getInvestincome2() {
+		return investincome2;
+	}
+
+	public void setInvestincome2(String investincome2) {
+		this.investincome2 = investincome2;
+	}
+
+	public String getInvisibleasset2() {
+		return invisibleasset2;
+	}
+
+	public void setInvisibleasset2(String invisibleasset2) {
+		this.invisibleasset2 = invisibleasset2;
+	}
+
+	public String getLongdebtall2() {
+		return longdebtall2;
+	}
+
+	public void setLongdebtall2(String longdebtall2) {
+		this.longdebtall2 = longdebtall2;
+	}
+
+	public String getNetprofit2() {
+		return netprofit2;
+	}
+
+	public void setNetprofit2(String netprofit2) {
+		this.netprofit2 = netprofit2;
+	}
+
+	public String getNetvalue2() {
+		return netvalue2;
+	}
+
+	public void setNetvalue2(String netvalue2) {
+		this.netvalue2 = netvalue2;
+	}
+
+	public String getPaidaddedtax2() {
+		return paidaddedtax2;
+	}
+
+	public void setPaidaddedtax2(String paidaddedtax2) {
+		this.paidaddedtax2 = paidaddedtax2;
+	}
+
+	public String getPayableaddedtax2() {
+		return payableaddedtax2;
+	}
+
+	public void setPayableaddedtax2(String payableaddedtax2) {
+		this.payableaddedtax2 = payableaddedtax2;
+	}
+
+	public String getPayableincometax2() {
+		return payableincometax2;
+	}
+
+	public void setPayableincometax2(String payableincometax2) {
+		this.payableincometax2 = payableincometax2;
+	}
+
+	public String getPrepayment2() {
+		return prepayment2;
+	}
+
+	public void setPrepayment2(String prepayment2) {
+		this.prepayment2 = prepayment2;
+	}
+
+	public String getProfitloss2() {
+		return profitloss2;
+	}
+
+	public void setProfitloss2(String profitloss2) {
+		this.profitloss2 = profitloss2;
+	}
+
+	public String getRealcapital2() {
+		return realcapital2;
+	}
+
+	public void setRealcapital2(String realcapital2) {
+		this.realcapital2 = realcapital2;
+	}
+
+	public String getReceivables2() {
+		return receivables2;
+	}
+
+	public void setReceivables2(String receivables2) {
+		this.receivables2 = receivables2;
+	}
+
+	public String getRegistercapital2() {
+		return registercapital2;
+	}
+
+	public void setRegistercapital2(String registercapital2) {
+		this.registercapital2 = registercapital2;
+	}
+
+	public String getShortinvest2() {
+		return shortinvest2;
+	}
+
+	public void setShortinvest2(String shortinvest2) {
+		this.shortinvest2 = shortinvest2;
+	}
+
+	public String getShortloan2() {
+		return shortloan2;
+	}
+
+	public void setShortloan2(String shortloan2) {
+		this.shortloan2 = shortloan2;
+	}
+
+	public String getSubsidyincome2() {
+		return subsidyincome2;
+	}
+
+	public void setSubsidyincome2(String subsidyincome2) {
+		this.subsidyincome2 = subsidyincome2;
+	}
+
+	public String getSurplusreserve2() {
+		return surplusreserve2;
+	}
+
+	public void setSurplusreserve2(String surplusreserve2) {
+		this.surplusreserve2 = surplusreserve2;
+	}
+
+	public String getTotalequity2() {
+		return totalequity2;
+	}
+
+	public void setTotalequity2(String totalequity2) {
+		this.totalequity2 = totalequity2;
+	}
+
+	public String getTotalequity12() {
+		return totalequity12;
+	}
+
+	public void setTotalequity12(String totalequity12) {
+		this.totalequity12 = totalequity12;
+	}
+
+	public String getTotalprofit2() {
+		return totalprofit2;
+	}
+
+	public void setTotalprofit2(String totalprofit2) {
+		this.totalprofit2 = totalprofit2;
+	}
+
+	public String getUnallotprofit2() {
+		return unallotprofit2;
+	}
+
+	public void setUnallotprofit2(String unallotprofit2) {
+		this.unallotprofit2 = unallotprofit2;
+	}
+
+	public String getUnbusinessexpense2() {
+		return unbusinessexpense2;
+	}
+
+	public void setUnbusinessexpense2(String unbusinessexpense2) {
+		this.unbusinessexpense2 = unbusinessexpense2;
+	}
+
+	public String getUnbusinessincome2() {
+		return unbusinessincome2;
+	}
+
+	public void setUnbusinessincome2(String unbusinessincome2) {
+		this.unbusinessincome2 = unbusinessincome2;
+	}
+
+	public String getUnpaidtax2() {
+		return unpaidtax2;
+	}
+
+	public void setUnpaidtax2(String unpaidtax2) {
+		this.unpaidtax2 = unpaidtax2;
 	}
 	
 }
