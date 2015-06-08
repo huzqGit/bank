@@ -129,7 +129,7 @@ public class CooperationImporter extends ExcelImporter<FarmerCooperation> {
 				if (flag)
 					continue;
 				Object o = m.invoke(p);
-				if(o == null){
+				if(o == null || "".equals(o)){
 					String s = StringUtil.toLowerCaseFirstOne(name.replace("get",""));
 					s = En_labels.get(s);
 					throw new Exception("Excel单元格数据("+s+")异常,获取数据的方法:"+name);
@@ -159,9 +159,18 @@ public class CooperationImporter extends ExcelImporter<FarmerCooperation> {
 				}else
 					cooperationDao.save(fc);
 			} catch (Exception e) {
+				String s = e.getMessage();
+				try {
+					if(s.startsWith("###") || s.startsWith("\r\n###") || s.startsWith("\n###")){
+						s = s.replaceAll("\r\n", "").replaceAll("\n", "");
+						s = s.substring(0,s.indexOf("###",1));
+						if(s.contains("DB2 SQL Error"))
+							s = s.substring(s.indexOf("DB2 SQL Error"));
+					}
+				} catch (Exception e1) {}
 				Map<String,String> map2 = new HashMap<String, String>();
-				map.put(error_label, e.getMessage());
-				log.info("error_label"+e.getMessage());
+				map.put(error_label, s);
+				log.info("error_label"+s);
 				for(Map.Entry<String, String> entry : map.entrySet())
 					map2.put(labels_En.get(entry.getKey()), entry.getValue());
 				map2.put("cooperationId", (i++)+"");

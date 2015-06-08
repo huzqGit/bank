@@ -7,8 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import com.bank.beans.FarmerCooperationDebt;
-import com.bank.dao.ICooperationDebtDao;
+import com.bank.beans.CooperationProfit;
+import com.bank.dao.ICooperationProfitDao;
 import com.common.dao.impl.GenericMyBatisDAOSupport;
 import com.common.exception.CreateException;
 import com.common.exception.DAOException;
@@ -16,41 +16,41 @@ import com.common.exception.DataNotFoundException;
 import com.common.exception.DeleteException;
 import com.common.exception.UpdateException;
 
-@Repository("cooperationDebtDao")
-public class CooperationDebtImpl extends GenericMyBatisDAOSupport<FarmerCooperationDebt,Long> implements ICooperationDebtDao {
+@Repository("cooperationProfitDao")
+public class CooperationProfitImpl extends GenericMyBatisDAOSupport<CooperationProfit,Long> implements ICooperationProfitDao {
 	
-	private static Logger log = LoggerFactory.getLogger(CooperationDebtImpl.class);
+	private static Logger log = LoggerFactory.getLogger(CooperationProfitImpl.class);
 	
 	@Override
-	public void save(FarmerCooperationDebt entity) throws DAOException,
+	public void save(CooperationProfit entity) throws DAOException,
 			CreateException {
-		this.getSqlSession().insert("cooperationDebt.save", entity);
+		this.getSqlSession().insert("cooperationProfit.save", entity);
 	}
 
 	@Override
-	public void update(FarmerCooperationDebt entity) throws DAOException,
+	public void update(CooperationProfit entity) throws DAOException,
 			UpdateException {
-		this.getSqlSession().update("cooperationDebt.update", entity);
+		this.getSqlSession().update("cooperationProfit.update", entity);
 	}
 
 	@Override
 	public void delete(Long pk) throws DAOException, DeleteException{
-		this.getSqlSession().update("cooperationDebt.delete", pk);
+		this.getSqlSession().update("cooperationProfit.delete", pk);
 	}
 
 	@Override
-	public FarmerCooperationDebt findByPK(Long pk) throws DAOException,
+	public CooperationProfit findByPK(Long pk) throws DAOException,
 			DataNotFoundException {
-		return getSqlSession().selectOne("cooperationDebt.findByPK", pk);
+		return getSqlSession().selectOne("cooperationProfit.findByPK", pk);
 	}
 
 	@Override
-	public List<FarmerCooperationDebt> getAllEntities() throws DAOException {
+	public List<CooperationProfit> getAllEntities() throws DAOException {
 		return null;
 	}
 
 	@Override
-	public List<FarmerCooperationDebt> getPageingEntities(int pageIndex,
+	public List<CooperationProfit> getPageingEntities(int pageIndex,
 			int pageSize, String sortField, String sortOrder,Map map)
 			throws DAOException {
 		int start = pageIndex * pageSize, end = start + pageSize;
@@ -60,17 +60,17 @@ public class CooperationDebtImpl extends GenericMyBatisDAOSupport<FarmerCooperat
 		map.put("end", end);
 		map.put("sortOrder", sortOrder);
 		map.put("sortField", sortField);
-		return getSqlSession().selectList("cooperationDebt.getPageingEntities", map);
+		return getSqlSession().selectList("cooperationProfit.getPageingEntities", map);
 	}
 	
 	public long getTotal(Map<String,String> map){
-		return getSqlSession().selectOne("cooperationDebt.getTotal",map);
+		return getSqlSession().selectOne("cooperationProfit.getTotal",map);
 	}
 	
 	@Override
 	public Long getUnitId(Map<String,Object> map){
 		try {
-			return getSqlSession().selectOne("cooperationDebt.getUnitId",map);
+			return getSqlSession().selectOne("cooperationProfit.getUnitId",map);
 		} catch (Exception e) {
 			log.info(e.getMessage());
 		}

@@ -1,6 +1,8 @@
 package com.bank.beans;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.common.bean.BaseEntity;
 
@@ -10,10 +12,26 @@ import com.common.bean.BaseEntity;
  * @author zkongbai
  * @date 2015年5月27日  下午2:46:30
  */
+/**
+ *
+ * @author zkongbai
+ * @date 2015年6月8日  上午9:54:22
+ */
 public class FarmerCooperationDebt extends BaseEntity<Long>{
 
 	private static final long serialVersionUID = 3563675816402829802L;
 	
+	/**
+	 * 字段与备注映射
+	 */
+	public static Map<String,String> field_remark = new HashMap<String, String>();
+	/**
+	 * 备注与字段映射
+	 */
+	public static Map<String,String> remark_field = new HashMap<String, String>();
+	
+	
+	private String organ_id;
 	private Long debtid;
 	private String yearmonth;     //	年月
 	private String recorder;     //	记录人
@@ -110,6 +128,8 @@ public class FarmerCooperationDebt extends BaseEntity<Long>{
 	private String unbusinessexpense2;     //	营业外支出
 	private String unbusinessincome2;     //	营业外收入
 	private String unpaidtax2;     //	未缴税金
+	
+	private String error_label;
 	  
 	@Override
 	public boolean equalsIfIdNull(Object o) {
@@ -855,6 +875,127 @@ public class FarmerCooperationDebt extends BaseEntity<Long>{
 
 	public void setUnpaidtax2(String unpaidtax2) {
 		this.unpaidtax2 = unpaidtax2;
+	}
+	
+	static {
+//		select 'field_remark.put("'||lower(name)||'","'||t.remarks||'");'
+//		from sysibm.syscolumns t where TBNAME='T_COOPERATION_PROFIT'
+//		order by t.COLNO
+		
+		field_remark.put("organ_id","组织机构id");
+		field_remark.put("accountspayable","应付账款");
+		field_remark.put("accountspayable2","应付账款(期末值)");
+		field_remark.put("assetall","资产合计");
+		field_remark.put("assetall2","资产合计(期末值)");
+		field_remark.put("bankloan","银行借款");
+		field_remark.put("bankloan2","银行借款(期末值)");
+		field_remark.put("buildingproject","在建项目");
+		field_remark.put("buildingproject2","在建项目(期末值)");
+		field_remark.put("businessprofit","营业利润");
+		field_remark.put("businessprofit2","营业利润(期末值)");
+		field_remark.put("capitalreserve","资本公积");
+		field_remark.put("capitalreserve2","资本公积(期末值)");
+		field_remark.put("cashcapital","货币资金");
+		field_remark.put("cashcapital2","货币资金(期末值)");
+		field_remark.put("cooperationname","合作社名称");
+		field_remark.put("debtid","农村经济合作组织资产负债表主键");
+		field_remark.put("depositreceived","预收账款");
+		field_remark.put("depositreceived2","预收账款(期末值)");
+		field_remark.put("deprecication","其中折旧");
+		field_remark.put("deprecication2","其中折旧(期末值)");
+		field_remark.put("financialcost","财务费用");
+		field_remark.put("financialcost2","财务费用(期末值)");
+		field_remark.put("fixedasset","固定资产原价");
+		field_remark.put("fixedasset2","固定资产原价(期末值)");
+		field_remark.put("fixedassetall","固定资产合计");
+		field_remark.put("fixedassetall2","固定资产合计(期末值)");
+		field_remark.put("floatasset","其他流动资产");
+		field_remark.put("floatasset2","其他流动资产(期末值)");
+		field_remark.put("floatassetall","流动资产合计");
+		field_remark.put("floatassetall2","流动资产合计(期末值)");
+		field_remark.put("floatdebt","其他流动负债");
+		field_remark.put("floatdebt2","其他流动负债(期末值)");
+		field_remark.put("floatdebtall","流动负债合计");
+		field_remark.put("floatdebtall2","流动负债合计(期末值)");
+		field_remark.put("handingcost","管理费用");
+		field_remark.put("handingcost2","管理费用(期末值)");
+		field_remark.put("interestexpense","其中利息支出");
+		field_remark.put("interestexpense2","其中利息支出(期末值)");
+		field_remark.put("inventory","存货");
+		field_remark.put("inventory2","存货(期末值)");
+		field_remark.put("investincome","投资收益");
+		field_remark.put("investincome2","投资收益(期末值)");
+		field_remark.put("invisibleasset","无形及递延资产合计");
+		field_remark.put("invisibleasset2","无形及递延资产合计(期末值)");
+		field_remark.put("longdebtall","长期负债合计");
+		field_remark.put("longdebtall2","长期负债合计(期末值)");
+		field_remark.put("netprofit","利润净额");
+		field_remark.put("netprofit2","利润净额(期末值)");
+		field_remark.put("netvalue","固定资产净值");
+		field_remark.put("netvalue2","固定资产净值(期末值)");
+		field_remark.put("organcode","组织机构编码");
+		field_remark.put("paidaddedtax","实交增值税");
+		field_remark.put("paidaddedtax2","实交增值税(期末值)");
+		field_remark.put("payableaddedtax","应交增值税");
+		field_remark.put("payableaddedtax2","应交增值税(期末值)");
+		field_remark.put("payableincometax","应交所得税");
+		field_remark.put("payableincometax2","应交所得税(期末值)");
+		field_remark.put("prepayment","预付账款");
+		field_remark.put("prepayment2","预付账款(期末值)");
+		field_remark.put("profitloss","以前年度损益调整");
+		field_remark.put("profitloss2","以前年度损益调整(期末值)");
+		field_remark.put("realcapital","实收资本");
+		field_remark.put("realcapital2","实收资本(期末值)");
+		field_remark.put("receivables","应收账款净额");
+		field_remark.put("receivables2","应收账款净额(期末值)");
+		field_remark.put("recorder","记录人");
+		field_remark.put("recordtime","记录时间");
+		field_remark.put("registercapital","注册资本");
+		field_remark.put("registercapital2","注册资本(期末值)");
+		field_remark.put("shortinvest","短期投资");
+		field_remark.put("shortinvest2","短期投资(期末值)");
+		field_remark.put("shortloan","短期借款");
+		field_remark.put("shortloan2","短期借款(期末值)");
+		field_remark.put("subsidyincome","国家补贴收入");
+		field_remark.put("subsidyincome2","国家补贴收入(期末值)");
+		field_remark.put("surplusreserve","盈余公积");
+		field_remark.put("surplusreserve2","盈余公积(期末值)");
+		field_remark.put("totalequity","所有者权益合计");
+		field_remark.put("totalequity1","负债和所有者权益合计");
+		field_remark.put("totalequity12","负债和所有者权益合计(期末值)");
+		field_remark.put("totalequity2","所有者权益合计(期末值)");
+		field_remark.put("totalprofit","利润总和");
+		field_remark.put("totalprofit2","利润总和(期末值)");
+		field_remark.put("unallotprofit","未分配利润");
+		field_remark.put("unallotprofit2","未分配利润(期末值)");
+		field_remark.put("unbusinessexpense","营业外支出");
+		field_remark.put("unbusinessexpense2","营业外支出(期末值)");
+		field_remark.put("unbusinessincome","营业外收入");
+		field_remark.put("unbusinessincome2","营业外收入(期末值)");
+		field_remark.put("unpaidtax","未缴税金");
+		field_remark.put("unpaidtax2","未缴税金(期末值)");
+		field_remark.put("yearmonth","年月");
+		field_remark.put("error_label", "错误描述");
+		
+		for(Map.Entry<String, String> entry : field_remark.entrySet()){
+			remark_field.put(entry.getValue(), entry.getKey());
+		}
+	}
+
+	public String getError_label() {
+		return error_label;
+	}
+
+	public void setError_label(String error_label) {
+		this.error_label = error_label;
+	}
+
+	public String getOrgan_id() {
+		return organ_id;
+	}
+
+	public void setOrgan_id(String organ_id) {
+		this.organ_id = organ_id;
 	}
 	
 }

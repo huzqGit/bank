@@ -1,6 +1,8 @@
 package com.bank.vo;
 
-public class MenuPrivilegeVO {
+public class MenuPrivilegeVO implements java.io.Serializable{
+	
+	private static final long serialVersionUID = -8135161673478500452L;
 	private long menuId;
 	private String menuDescr;
 	private String menuUrl;

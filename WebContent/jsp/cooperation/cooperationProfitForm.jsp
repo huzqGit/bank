@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>农民专业合作经济组织基本概况信息</title>
+<title>农民专业合作经济组织利润及利润分配</title>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
 <style>
@@ -40,16 +40,16 @@ body{
       </table>
 </div>
 <div id="form1" style="width:100%;margin:auto auto;">
-	<form action="${pageContext.request.contextPath}/economy/debt/saveCooperationDebt.do" method="POST">
-	<input name="debtid" class="mini-hidden" value="${debtid}"/>
+	<form action="${pageContext.request.contextPath}/economy/profit/saveCooperationProfit.do" method="POST">
+	<input name="profitid" class="mini-hidden" value="${profitid}"/>
 	<input name="organ_id" class="mini-hidden" value="<%=user.getOrganId()%>"/>
-	<input name="recorder" class="mini-hidden" value="<%=user.getUserName()%>"/>
-	<input name="recordTime" class="mini-hidden" value="${currentTime}"/>
+	<input name="recoder" class="mini-hidden" value="<%=user.getUserName()%>"/>
+	<input name="recodertime" class="mini-hidden" value="${currentTime}"/>
 	<table border="0" cellpadding="1" cellspacing="15" width="97%" >
 	<tr>
 	<td colspan="4" style="width:100%">
 	<fieldset id="fd2" style="width:100%;margin:auto auto;">
-	<legend><label>农民专业合作经济组织主要财务指标数</label></legend>
+	<legend><label>农民专业合作经济组织利润及利润分配表</label></legend>
 	<div class="fieldset-body" >
 	<table width="100%">
 		<tr>
@@ -57,11 +57,6 @@ body{
 			<td style="width:23%">
 			<input id="textbox1"  name="yearmonth" class="mini-textbox" required="true" 
 				requiredErrorText="年月不能为空" style="width:90%"/>
-			</td>
-			<td style="width:10%"><label for="textbox1$text">合作社名称:</label></td>
-			<td style="width:20%">
-			<input id="textbox1"  name="cooperationname" class="mini-textbox" required="true" 
-				requiredErrorText="合作社名称不能为空" style="width:90%"/>
 			</td>
 			<td style="width:10%"><label for="textbox2$text">组织机构编码:</label></td>
 			<td style="width:20%" >

@@ -26,29 +26,30 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.bank.Constants;
 import com.bank.beans.FarmerCooperation;
+import com.bank.beans.CooperationProfit;
 import com.bank.beans.User;
 import com.bank.common.util.JsonUtil;
-import com.bank.service.ICooperationService;
+import com.bank.service.ICooperationProfitService;
 import com.bank.utils.HttpUtils;
 import com.bank.utils.excel.ExcelExplorer;
 import com.bank.utils.excel.ImportResult;
-import com.bank.utils.excel.importer.CooperationImporter;
+import com.bank.utils.excel.importer.CooperationDebtImporter;
 
 @Controller
-@RequestMapping("economy")
-public class CooperationController {
+@RequestMapping("economy/profit")
+public class CooperationProfitController {
 	
-	private static Logger log = LoggerFactory.getLogger(CooperationController.class);
+	private static Logger log = LoggerFactory.getLogger(CooperationProfitController.class);
 	
 	@Resource
-	private ICooperationService cooperationService;
+	private ICooperationProfitService cooperationProfitService;
 	
-	@Resource(name="cooperationImporter")
-	private CooperationImporter cooperationImporter;
+	@Resource(name="cooperationDebtImporter")
+	private CooperationDebtImporter cooperationDebtImporter;
 	
 	private List<Map<String, String>> list = new ArrayList<Map<String,String>>();
 	
-	@RequestMapping(value="saveCooperation",method = RequestMethod.POST)
+	@RequestMapping(value="saveCooperationProfit",method = RequestMethod.POST)
 	public ModelAndView save(HttpServletRequest request, 
 			HttpServletResponse response) throws Exception{
 		
@@ -56,65 +57,73 @@ public class CooperationController {
 		
 		Object decodeJsonData = JsonUtil.Decode(formData);
 		String formatdata = JSON.toJSONStringWithDateFormat(decodeJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
-		JSONObject jsb = JSONObject.parseObject(formatdata);
-		FarmerCooperation coo = (FarmerCooperation) JSON.toJavaObject(jsb, FarmerCooperation.class);
-		try{
-			if(coo.getRecordTime() == null)
-				coo.setRecordTime(new Date());
-			if(coo.getCooperationId()==null){
-				cooperationService.save(coo);
-			}else{
-				cooperationService.update(coo);
+		JSONArray jsa = null;
+		JSONObject[] jsons = new JSONObject[1];
+		CooperationProfit coo = null;
+		if(formData != null && formData.startsWith("[")){
+			jsa = JSONArray.parseArray(formatdata);
+			jsons = new JSONObject[jsa.size()];
+			for(int i = 0;i<jsa.size();i++){
+				jsons[i] = jsa.getJSONObject(i);
 			}
-		}catch(Exception e){
-			log.error(e.getMessage());
-			throw e;
+		}else{
+			jsons[0] = JSONObject.parseObject(formatdata);
 		}
-		log.info("保存成功");
-		String json = JSON.toJSONString(coo);
-		response.setContentType("text/html;charset=UTF-8");
-	    response.getWriter().write(json);
+		for (JSONObject jsb : jsons){
+			coo = (CooperationProfit) JSON.toJavaObject(jsb, CooperationProfit.class);
+			try{
+				if(coo.getProfitid()==null){
+					if(coo.getRecodertime() == null)
+						coo.setRecodertime(new Date());
+					cooperationProfitService.save(coo);
+				}else{
+					cooperationProfitService.update(coo);
+				}
+			}catch(Exception e){
+				log.error(e.getMessage());
+				throw e;
+			}
+			log.info("保存成功");
+			String json = JSON.toJSONString(coo);
+			response.setContentType("text/html;charset=UTF-8");
+		    response.getWriter().write(json);
+		}
 		return null;
 	}
 	
-	@RequestMapping(value="findCooperation",method = RequestMethod.POST)
+	
+	@RequestMapping(value="findCooperationProfit",method = RequestMethod.POST)
 	public FarmerCooperation findByPK(HttpServletRequest request, 
 			HttpServletResponse response) throws Exception{
-		String pk = HttpUtils.getParameter(request,"cooperationId");
+		String pk = HttpUtils.getParameter(request,"profitid");
 		if(pk != null){
-			FarmerCooperation entity = cooperationService.findByPK(Long.parseLong(pk));
+			CooperationProfit entity = cooperationProfitService.findByPK(Long.parseLong(pk));
 			String json = JSON.toJSONStringWithDateFormat(entity,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
 		    response.setContentType("text/html;charset=UTF-8");
 		    response.getWriter().write(json);
 		}
 		return null;
 	}
-	@RequestMapping(value="loadAllFarmerCooperation",method = RequestMethod.POST)
+	@RequestMapping(value="loadAllCooperationProfit",method = RequestMethod.POST)
 	public void loadAllFarmerCooperation(HttpServletRequest request, 
 			HttpServletResponse response) throws Exception{
 		
 		//查询条件
-	    String cooperationName = HttpUtils.getParameter(request,"cooperationName");
-	    String orgaCode = HttpUtils.getParameter(request,"orgaCode");
-	    String recorder = HttpUtils.getParameter(request,"recorder");
-	    String recordTimeBegin = HttpUtils.getParameter(request,"recordTimeBegin");
-	    String recordTimeEnd = HttpUtils.getParameter(request,"recordTimeEnd");
-
+	    String queryStr = HttpUtils.getParameter(request,"queryStr");
+	    JSONObject jsonobj = JSON.parseObject(queryStr);
 	    Map<String,String> map = new HashMap<String,String>();
-	    map.put("cooperationName", cooperationName);
-	    map.put("orgaCode", orgaCode);
-	    map.put("recorder", recorder);
-	    map.put("recordTimeBegin", recordTimeBegin);
-	    map.put("recordTimeEnd", recordTimeEnd);
-	    
+	    if(jsonobj != null)
+		    for(String s : jsonobj.keySet()){
+		    	map.put(s, jsonobj.getString(s));
+		    }
 	    int pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
 	    int pageSize = Integer.parseInt(request.getParameter("pageSize"));        
 	    //字段排序
 	    String sortField = request.getParameter("sortField");
 	    String sortOrder = request.getParameter("sortOrder");
 	    
-	    List<FarmerCooperation> data = cooperationService.getPageingEntities(pageIndex, pageSize, sortField, sortOrder,map);
-	    long size = cooperationService.getTotal(map);
+	    List<CooperationProfit> data = cooperationProfitService.getPageingEntities(pageIndex, pageSize, sortField, sortOrder,map);
+	    long size = cooperationProfitService.getTotal(map);
 	    
 	    HashMap<String,Object> result = new HashMap<String,Object>();
         result.put("data", data);
@@ -125,30 +134,12 @@ public class CooperationController {
 	    response.getWriter().write(json);
 	}
 	
-	@RequestMapping(value="getCooperationTree",method = RequestMethod.POST)
-	public void getCooperationTree(HttpServletRequest request, 
-			HttpServletResponse response) throws Exception{
-		
-		//查询条件
-	    String cooperationName = HttpUtils.getParameter(request,"cooperationName");
-	    Map<String,Object> map = new HashMap<String,Object>();
-	    map.put("cooperationName", cooperationName);
-	    
-	    List<Map<String,Object>> data = cooperationService.getCooperationTree(map);
-//	    HashMap<String,Object> result = new HashMap<String,Object>();
-//      result.put("data", data);
-	    String json = JSON.toJSONString(data);
-//	    System.out.println(json);
-	    response.setContentType("text/html;charset=UTF-8");
-	    response.getWriter().write(json);
-	}
-	
 	@RequestMapping(value="deleteByKey")
 	public void deleteByKey(HttpServletRequest request,HttpServletResponse response)throws Exception{
 		String id = HttpUtils.getParameter(request, "id");
 		response.setContentType("text/html;charset=UTF-8");
 		try {
-			cooperationService.delete(Long.parseLong(id));
+			cooperationProfitService.delete(Long.parseLong(id));
 			response.getWriter().write("{\"success\":\"删除成功\"}");
 		} catch (Exception e) {
 			response.getWriter().write("{\"success\":\"删除失败\"}");
@@ -156,35 +147,10 @@ public class CooperationController {
 		return;
 	}
 	
-	@RequestMapping(value="loadFileResult",method = RequestMethod.POST)
-	public void loadFileResult(HttpServletRequest request, 
-			HttpServletResponse response) throws Exception{
-		HashMap<String,Object> result = new HashMap<String,Object>();
-		
-		int pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
-	    int pageSize = Integer.parseInt(request.getParameter("pageSize"));   
-	    List<Map<String,String>> pageList = new ArrayList<Map<String,String>>();
-	    int l = 0;
-	    try {
-			for(Map<String,String> map : list){
-				l = Integer.parseInt(map.get("cooperationId"));
-				if(l>= (pageIndex * pageSize) && l < (pageIndex * pageSize + pageSize))
-					pageList.add(map);
-			}
-		} catch (Exception e) {
-		}
-	    
-        result.put("data", pageList);
-        result.put("total", list.size());
-        String json = JSON.toJSONStringWithDateFormat(result,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
-	    response.setContentType("text/html;charset=UTF-8");
-	    response.getWriter().write(json);
-	}
-	
 	@RequestMapping("loadFile")
 	public ModelAndView loadFile(@RequestParam("mufile") MultipartFile muFile,
 			HttpServletRequest request,HttpServletResponse response)throws Exception{
-		ModelAndView model = new ModelAndView("cooperation/cooperationImportFile");
+		ModelAndView model = new ModelAndView("cooperation/cooperationDebtImportFile");
 		User user = (User) request.getSession().getAttribute(Constants.SESSION_AUTH_USER);
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<Map<String, String>> list = new ArrayList<Map<String,String>>();
@@ -193,7 +159,7 @@ public class CooperationController {
 			map.put("recorder", user.getUserName());
 			
 			InputStream in = muFile.getInputStream();
-			ImportResult result = ExcelExplorer.importExcel(cooperationImporter.setMapValues(map), in);
+			ImportResult result = ExcelExplorer.importExcel(cooperationDebtImporter.setMapValues(map), in);
 			List<Map<String, String>> list2 = result.getResult();
 			if (list2 != null) {
 				String array = JSONArray.toJSONString(list2);
@@ -234,4 +200,28 @@ public class CooperationController {
 		}
 	}
 	
+	@RequestMapping(value="loadFileResult",method = RequestMethod.POST)
+	public void loadFileResult(HttpServletRequest request, 
+			HttpServletResponse response) throws Exception{
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		
+		int pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
+	    int pageSize = Integer.parseInt(request.getParameter("pageSize"));   
+	    List<Map<String,String>> pageList = new ArrayList<Map<String,String>>();
+	    int l = 0;
+	    try {
+			for(Map<String,String> map : list){
+				l = Integer.parseInt(map.get("debtid"));
+				if(l>= (pageIndex * pageSize) && l < (pageIndex * pageSize + pageSize))
+					pageList.add(map);
+			}
+		} catch (Exception e) {
+		}
+	    
+        result.put("data", pageList);
+        result.put("total", list.size());
+        String json = JSON.toJSONStringWithDateFormat(result,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
+	    response.setContentType("text/html;charset=UTF-8");
+	    response.getWriter().write(json);
+	}
 }
