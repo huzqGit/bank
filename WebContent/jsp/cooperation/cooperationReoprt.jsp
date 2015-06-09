@@ -19,7 +19,7 @@ td{
 </style>
 <body>
 	<div style='padding-left: 0; padding-right: 0'>
-		<div style="font-size:20px; margin-left: auto; margin-righ:auto ;width: 520px;"><b>农民专业合作经济组织信用报告</b></div>
+		<div align="center" style="font-size:20px;"><b>农民专业合作经济组织信用报告</b></div>
 		<div style='margin-left: auto; margin-right: auto; width: 200px;'>报告时间： <%=DateUtil.format(new java.util.Date(),"yyyy年MM月dd日") %></div>
 		<div style='margin-left: auto; margin-right: auto; width: 130px;'>一、基本状况</div>
 	</div>

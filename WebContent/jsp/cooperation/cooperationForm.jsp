@@ -19,44 +19,8 @@ body{
 	overfolw-x:hidden;
 	margin-top:-2px;
 	margin-left:-2px;
-	scrollbar-base-color:#90D5EA;line-height:120%;font-family:"仿宋_GB2312";font-size:13pt;
 }
-.queryPane{
-background:linear-gradient(#6DC8E3,white);
-/* IE6 & IE7 */
-filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0 , startColorstr = '#6DC8E3', 
-endColorstr = 'white' ); 
-/* IE8 */
--ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType = 0,startColorstr = '#6DC8E3', 
-endColorstr = 'white' )"; 
-}
-.labelName{font-family:"仿宋_GB2312";font-size:14pt;line-height:150%;font-weight:bold;color:darkgreen;}
-input{border:1px solid #8AD3E9;background-color:#F5F7CF;height:20px;}
-.table_m{width:98%;height:250px;margin:auto auto;overflow-y:auto;overflow-x:hidden;}
-.table_m table{width:100%;border-bottom:1px dotted gray}
-.table_m tr:hover{background:#90D5EA}
-.table_m table td{height:30px;line-height:30px;border-top:1px dotted gray;}
-.mini-panel-border{
-border-color:#D2D2D2;
-}
-.mini-grid-headerCell-nowrap{
-background:white
-}
-.mini-grid-headerCell{
-background:white;
-border-top:0px;
-border-color:#D2D2D2
-}
-.mini-grid-headerCell-inner{
-font-family:"仿宋_GB2312";
-font-size:12pt;
-}
-.mini-grid-column-splitter{
-background:white
-}
-.mini-grid-pager{
-background:white
-}
+
 </style>
 </head>
 <body style="overflow-y:scroll">
@@ -68,7 +32,9 @@ background:white
 		        	<a class="mini-button" iconCls="icon-save" plain="true" onclick="submitForm()">保存</a>
 		           	<span class="separator"></span>
 	            </span>
-	            <a class="mini-button" iconCls="icon-remove" plain="true" onclick="close()">关闭</a>
+	            <a style="display:none" class="mini-button" iconCls="icon-remove" plain="true" onclick="close()">关闭</a>
+                <span style="display:none" class="separator"></span>
+                <a class="mini-button" iconCls="icon-upgrade" plain="true" onclick="back()">返回</a>
                 <span class="separator"></span>
             </td>
          </tr>
@@ -230,7 +196,6 @@ background:white
       	if (!form.isValid())
       		return;
 	    var json = mini.encode(formData);   //序列化成JSON
-	    alert(json);
 	    var re = $.ajax({
 	        url: "${pageContext.request.contextPath}/economy/saveCooperation.do",
 	        type: "post",
@@ -252,6 +217,7 @@ background:white
 	        },
 	        complete:function(){
 	        	if(this.canClose){
+		    		setTimeout("back()",1500);
 		    		setTimeout("close()",1500);
 		    }
 	        }
