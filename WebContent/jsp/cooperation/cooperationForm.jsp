@@ -20,22 +20,39 @@ body{
 	margin-top:-2px;
 	margin-left:-2px;
 }
-
+.bg{
+	background:url(images/toolbar/toolbar.png) #e7eaee repeat-x 0px 0px
+}
+.topmenu{
+	width:100%;
+	height:40px;
+	background:linear-gradient(#6DC8E3,white);
+	/* IE6 & IE7 */
+	filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0 , startColorstr = '#6DC8E3', 
+	endColorstr = 'white' ); 
+	/* IE8 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType = 0,startColorstr = '#6DC8E3', 
+	endColorstr = 'white' )"; 
+}
 </style>
 </head>
-<body style="overflow-y:scroll">
-<div class="mini-toolbar" style="padding-top:5px;border-bottom:0;">
+<body style="overflow-x:hidden">
+<div class="mini-toolbar mini-panel-header bg topmenu" style="padding-top:5px;border-bottom:0;">
 	<table style="width:100%;">
     	<tr>
-        	<td style="white-space:nowrap;">
+        	<td style="white-space:nowrap;" align="right">
         		<span style="${display}">
 		        	<a class="mini-button" iconCls="icon-save" plain="true" onclick="submitForm()">保存</a>
 		           	<span class="separator"></span>
 	            </span>
-	            <a style="display:none" class="mini-button" iconCls="icon-remove" plain="true" onclick="close()">关闭</a>
-                <span style="display:none" class="separator"></span>
-                <a class="mini-button" iconCls="icon-upgrade" plain="true" onclick="back()">返回</a>
-                <span class="separator"></span>
+	            <c:if test="${!empty rightClick}">
+	            	<a class="mini-button" iconCls="icon-remove" plain="true" onclick="close()">关闭</a>
+                	<span  class="separator"></span>
+                 </c:if>
+                 <c:if test="${empty rightClick}">
+                	<a class="mini-button" iconCls="icon-upgrade" plain="true" onclick="back()">返回</a>
+                	<span class="separator"></span>
+                 </c:if>
             </td>
          </tr>
       </table>
@@ -162,6 +179,14 @@ body{
 	var canClose = false;
 	mini.parse();
 	var form = new mini.Form("#form1");
+	if('${accessMethod}'=='viewForm'){
+		document.write('<link href="${pageContext.request.contextPath}/miniui/themes/stategrid-skin/skin.css" rel="stylesheet" type="text/css" />');
+		form.setEnabled(false);
+	}
+	if('${accessMethod}' != 'addForm'){
+		mini.getbyName("orgaCode").setEnabled(false);
+	}
+	
 	//查询表单数据
 	$(document).ready(function(){
 		$.ajax({

@@ -47,9 +47,33 @@ background:white
 .mini-grid-pager{
 background:white
 }
+.bg{
+	background:url(images/toolbar/toolbar.png) #e7eaee repeat-x 0px 0px
+}
+.topmenu{
+	width:100%;
+	height:30px;
+	background:linear-gradient(#6DC8E3,white);
+	/* IE6 & IE7 */
+	filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0 , startColorstr = '#6DC8E3', 
+	endColorstr = 'white' ); 
+	/* IE8 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType = 0,startColorstr = '#6DC8E3', 
+	endColorstr = 'white' )"; 
+}
+.zero{
+	height:1px;
+}
 </style>
 </head>
 <body>
+
+<ul id="treeMenu" class="mini-contextmenu"  onbeforeopen="onBeforeOpen">        
+     <li name="add" iconCls="icon-add" onclick="add">新增</li>
+    	<li class="separator"></li>
+    	<li name="remove" iconCls="icon-edit" onclick="edit">编辑</li>
+	<li name="remove" iconCls="icon-remove" onclick="remove">删除</li>
+</ul>
 <div class="queryPane" style="padding-top:10px;width:100%;height:80px">
 <form id="farmer" action="" method="POST">
 <table width="100%" height="60px" style="vertical-align:middle;">
@@ -82,7 +106,7 @@ background:white
 <div id="datagrid1" class="mini-datagrid" style="width:98%;margin:auto auto;height:340px;background-color:white" 
            url="${pageContext.request.contextPath}/economy/loadAllFarmerCooperation.do" idField="cooperationId"
             sizeList="[5,10,20,50]" pageSize="20"allowCellSelect="true" allowCellEdit="true"
-            frozenStartColumn="0" frozenEndColumn="1">
+            frozenStartColumn="0" frozenEndColumn="1" contextMenu="#treeMenu">
 	        <div property="columns">
 	             <div type="indexcolumn" ></div>
 	             <div field=cooperationName width="120" headerAlign="center" allowSort="true" >合作社名称</div>
@@ -98,6 +122,19 @@ background:white
 	             <div name="action" width="150" headerAlign="center" align="center" renderer="onActionRenderer" cellStyle="padding:0;"></div> 
 	          </div>
   </div>
+<!-- 
+<div id="win1" class="mini-window" title="Window" style="width:400px;height:250px;" 
+    showMaxButton="true" showCollapseButton="true" showShadow="true"
+    showToolbar="true" showFooter="true" showModal="false" allowResize="true" allowDrag="true">
+    <div property="toolbar" style="padding:5px;">
+        <input type='button' value='Hide' onclick="hideWindow()" style='vertical-align:middle;'/>
+    </div>
+    <div property="footer" style="text-align:right;padding:5px;padding-right:15px;">
+        <input type='button' value='Hide' onclick="hideWindow()" style='vertical-align:middle;'/>
+    </div>
+</div>
+mini.get("win1").show();
+ -->
 <script type="text/javascript">
 	mini.parse();
 	var grid = mini.get("datagrid1");
@@ -127,7 +164,7 @@ background:white
         var cooperationId = record.cooperationId;
         var s = '<a class="New_Button" href="${pageContext.request.contextPath}/common/viewForm.do?dest=cooperation/cooperationForm&sys_key=cooperationId&sys_value='+cooperationId+'">[查看]</a>';      
         s += '<a class="New_Button" href="${pageContext.request.contextPath}/common/editForm.do?dest=cooperation/cooperationForm&sys_key=cooperationId&sys_value='+cooperationId+'">[编辑]</a>';      
-        s += '<a class="New_Button" href="${pageContext.request.contextPath}/common/viewForm.do?dest=cooperation/cooperationReoprt&sys_key=cooperationId&sys_value='+cooperationId+'"> [报表展示]</a>';
+        s += '<a class="New_Button" href="javascript:void(0)" onclick="showReport('+cooperationId+')"> [报表展示]</a>';
         return s;
     }
 	  
@@ -141,7 +178,6 @@ background:white
                     url: "${pageContext.request.contextPath}/economy/deleteByKey.do?id=" +id,
                     success: function (text) {
                         grid.reload();
-                        tree.reload();
                     },
                     error: function () {
                   	  alert("删除失败");
@@ -155,30 +191,57 @@ background:white
     }
 	  
 	 function add(){
-		 mini.open({
-			 url:'${pageContext.request.contextPath}/common/addForm.do?dest=cooperation/cooperationForm&sys_key=cname&sys_value='+cname,
-			 title: "编辑", width: 800, height: 500,
+		var win =  mini.open({
+			 url:'${pageContext.request.contextPath}/common/addForm.do?dest=cooperation/cooperationForm&sys_key=rightClick&sys_value=rightClick',
+			 title: "新增", width: 800, height: 500,
 	           onload: function () {
 	                 
 	           },
 	           ondestroy: function (action) {
 	               grid.reload();
-	               tree.reload();
 	           }
 		 });
+		win.setHeaderCls("bg topmenu zero ");
+		win.max();
 	 }
+	 
+	 function showReport(cooperationId){
+		var rows = grid.getSelecteds();
+		if(typeof cooperationId == 'object'){
+			cooperationId = rows[0].cooperationId;
+		}
+		var win =  mini.open({
+           url: '${pageContext.request.contextPath}/common/viewForm.do?dest=cooperation/cooperationReoprt&sys_key=cooperationId;rightClick&sys_value='+cooperationId+';rightClick',
+           title: "", width: 800, height: 500,
+           onload: function () {
+               
+           },
+           ondestroy: function (action) {
+               //grid.reload();
+           }
+         });
+		win.setHeaderCls("bg topmenu");
+		win.max();
+	}
+	 
 	 function edit(cooperationId){
-		 mini.open({
-           url: '${pageContext.request.contextPath}/common/editForm.do?dest=cooperation/cooperationForm&sys_key=cooperationId&sys_value='+cooperationId,
+		var rows = grid.getSelecteds();
+		if(typeof cooperationId == 'object'){
+			cooperationId = rows[0].cooperationId;
+		}
+		var win =  mini.open({
+           url: '${pageContext.request.contextPath}/common/editForm.do?dest=cooperation/cooperationForm&sys_key=cooperationId;rightClick&sys_value='+cooperationId+';rightClick',
            title: "编辑", width: 800, height: 500,
            onload: function () {
                
            },
            ondestroy: function (action) {
                grid.reload();
-               tree.reload();
+               
            }
-       });
+         });
+		win.setHeaderCls("bg topmenu zero");
+		win.max();
 	 }
 	 
 	 function view(cooperationId){
@@ -195,24 +258,19 @@ background:white
        });
 	 }
 	  
-	 function showReport(cooperationId) {
-        var row = grid.getSelected();
+	
+ function onBeforeOpen(e) {
+	   var menu = e.sender;
+	   var row = grid.getSelected();
         if (row) {
-            mini.open({
-                url: '${pageContext.request.contextPath}/common/viewForm.do?dest=cooperation/cooperationReoprt&sys_key=cooperationId&sys_value='+cooperationId,
-                title: "", width: 800, height: 500,
-                onload: function () {
-                    
-                },
-                ondestroy: function (action) {
-                    grid.reload();
-                    tree.reload();
-                }
-            });
-        } else {
-            alert("请选中一条记录");
+             //e.cancel = true;
+	        e.htmlEvent.preventDefault();
+	        //var addItem = mini.getbyName("add", menu);
+	        //var removeItem = mini.getbyName("remove", menu);
+	        //addItem.show();
+	        //removeItem.enable();
         }
-    }
+	}
 </script>
 </body>
 </html>

@@ -11,36 +11,78 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
 <style>
-body{
-	height:100%;width:100%;
-	overfolw-x:hidden;
-	margin-top:-2px;
-	margin-left:-2px;
+body {
+	height: 100%;
+	width: 100%;
+	overfolw-x: hidden;
+	margin-top: -2px;
+	margin-left: -2px;
+}
+
+.saveBtn {
+	width: 100px;
+	height: 25px;
+	border: 0;
+	background: url(/bank/images/save.png) no-repeat
+}
+
+.backBtn {
+	width: 100px;
+	height: 25px;
+	border: 0;
+	background: url(/bank/images/back.png) no-repeat
+}
+
+.addBtn {
+	width: 100px;
+	height: 25px;
+	border: 0;
+	background: url(/bank/images/add.png) no-repeat
+}
+.bg{
+	background:url(images/toolbar/toolbar.png) #e7eaee repeat-x 0px 0px
+}
+.topmenu{
+	width:100%;
+	height:60px;
+	background:linear-gradient(#6DC8E3,white);
+	/* IE6 & IE7 */
+	filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0 , startColorstr = '#6DC8E3', 
+	endColorstr = 'white' ); 
+	/* IE8 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType = 0,startColorstr = '#6DC8E3', 
+	endColorstr = 'white' )"; 
 }
 </style>
 <%
 	User user = (User) request.getSession().getAttribute(Constants.SESSION_AUTH_USER);
-	//System.out.println(user.getUserName());
+	//System.out.println(request.getRequestURI());
 %>
 </head>
 <body>
 <div  id="sss">
-<div class="mini-toolbar" style="padding-top:5px;border-bottom:0;">
+<div class="mini-toolbar mini-panel-header bg topmenu" style="height:27px;padding-top:5px;border-bottom:0;position: fixed;z-index: 20">
 	<table style="width:100%;">
     	<tr>
-        	<td style="white-space:nowrap;">
+        	<td style="white-space:nowrap;" align="right">
         		<span style="${display}">
 		        	<a class="mini-button" iconCls="icon-save" plain="true" onclick="submitForm()">保存</a>
 		           	<span class="separator"></span>
 	            </span>
-	            <a class="mini-button" iconCls="icon-upgrade" plain="true" onclick="back()">返回</a>
-                <span class="separator"></span>
+	            <c:if test="${!empty rightClick}">
+	            	<a class="mini-button" iconCls="icon-remove" plain="true" onclick="close()">关闭</a>
+                	<span  class="separator"></span>
+                 </c:if>
+                 <c:if test="${empty rightClick}">
+                	<a class="mini-button" iconCls="icon-upgrade" plain="true" onclick="back()">返回</a>
+                	<span class="separator"></span>
+                 </c:if>
             </td>
          </tr>
       </table>
 </div>
 <div id="form1" style="width:100%;margin:auto auto;">
-	<form action="${pageContext.request.contextPath}/economy/debt/saveCooperationDebt.do" method="POST">
+	<form style="margin-top:30px;" action="${pageContext.request.contextPath}/economy/debt/saveCooperationDebt.do" method="POST">
 	<input name="debtid" class="mini-hidden" value="${debtid}"/>
 	<input name="organ_id" class="mini-hidden" value="<%=user.getOrganId()%>"/>
 	<input name="recorder" class="mini-hidden" value="<%=user.getUserName()%>"/>
@@ -48,9 +90,10 @@ body{
 	<table border="0" cellpadding="1" cellspacing="15" width="97%" >
 	<tr>
 	<td colspan="4" style="width:100%">
-	<fieldset id="fd2" style="width:100%;margin:auto auto;">
+	<fieldset id="fd2" style="width:100%;">
 	<legend><label>农民专业合作经济组织主要财务指标数</label></legend>
 	<div class="fieldset-body" >
+	<div >
 	<table width="100%">
 		<tr>
 			<td style="width:10%"><label for="textbox1$text">年月:</label></td>
@@ -71,12 +114,13 @@ body{
 			
 		</tr>
 	</table>
-	<table width="100%" style="margin-bottom:-10px; margin-top:10px">
+	<table width="100%" style="margin-bottom:-10px; margin-top:10px ;">
 		<tr>
 			<th  style="width:10%">&nbsp;</th><th  style="width:20%">期初值</th><th  style="width:20%">期末值</th><th  style="width:10%">&nbsp;</th><th  style="width:20%">期初值</th><th  style="width:20%">期末值</th>
 		</tr>
 	</table>
 	<hr />
+	</div>
 	<div >
 	<table width="100%" >
 		<tr>
@@ -178,55 +222,68 @@ body{
 </div>
 </body>
 <script type="text/javascript">
-		mini.parse();
-		var form = new mini.Form("#form1");
-		//查询表单数据
-		$(document).ready(function(){
-			$.ajax({
-			    url: "${pageContext.request.contextPath}/economy/debt/findCooperationDebt.do",
-			    type: "post",
-			    data:{debtid:"${debtid}"},
-			    success: function (text) {
-			        var data = mini.decode(text);   //反序列化成对象
-			        if(data.debtid!=null){
-			       	 	form.setData(data);  //设置多个控件数据   
-			        }
-			    },
-			    error:function(text,arg2){
-			    }
-			});
-			
+	mini.parse();
+	var form = new mini.Form("#form1");
+	if('${accessMethod}'=='viewForm'){
+		document.write('<link href="${pageContext.request.contextPath}/miniui/themes/stategrid-skin/skin.css" rel="stylesheet" type="text/css" />');
+		form.setEnabled(false);
+	}
+	if('${accessMethod}' != 'addForm'){
+		mini.getbyName("organcode").setEnabled(false);
+	}
+	
+	//查询表单数据
+	$(document).ready(function(){
+		$.ajax({
+		    url: "${pageContext.request.contextPath}/economy/debt/findCooperationDebt.do",
+		    type: "post",
+		    data:{debtid:"${debtid}"},
+		    success: function (text) {
+		        var data = mini.decode(text);   //反序列化成对象
+		        if(data.debtid!=null){
+		       	 	form.setData(data);  //设置多个控件数据   
+		        }
+		    },
+		    error:function(text,arg2){
+		    }
 		});
 		
-		function back(){
-			history.go(-1);
-		}
-		
-		function submitForm(){
-			//提交表单数据
-		    var formData = form.getData();      //获取表单多个控件的数据
-		   	form.validate();
-	      	if (!form.isValid())
-	      		return;
-		    var json = mini.encode(formData);   //序列化成JSON
-		    $.ajax({
-		        url: "${pageContext.request.contextPath}/economy/debt/saveCooperationDebt.do",
-		        type: "post",
-		        data: { formData: json},
-		        contentType: "application/x-www-form-urlencoded; charset=utf-8",
-		        success: function (text) {
-		        	var data = mini.decode(text);   //反序列化成对象
-			        if(data.cooperationId!=null){
-			       	 	form.setData(data);
-			        }
-			      mini.alert('保存成功！');
-		        	 setTimeout("back()",1500);
-		        },
-		        error: function (jqXHR, textStatus, errorThrown) {
-		            mini.alert('系统异常！');
+	});
+	
+	function close(){
+		//window.close();
+		window.CloseOwnerWindow();
+	}
+	
+	function back(){
+		history.go(-1);
+	}
+	
+	function submitForm(){
+		//提交表单数据
+	    var formData = form.getData();      //获取表单多个控件的数据
+	   	form.validate();
+      	if (!form.isValid())
+      		return;
+	    var json = mini.encode(formData);   //序列化成JSON
+	    $.ajax({
+	        url: "${pageContext.request.contextPath}/economy/debt/saveCooperationDebt.do",
+	        type: "post",
+	        data: { formData: json},
+	        contentType: "application/x-www-form-urlencoded; charset=utf-8",
+	        success: function (text) {
+	        	var data = mini.decode(text);   //反序列化成对象
+		        if(data.cooperationId!=null){
+		       	 	form.setData(data);
 		        }
-			});
-		}
-	$("#sss").height(20);
-	  </script>
+		      mini.alert('保存成功！');
+	        	 setTimeout("back()",1500);
+	        },
+	        error: function (jqXHR, textStatus, errorThrown) {
+	            mini.alert('系统异常！');
+	        }
+		});
+	}
+  $("#sss").height(20);
+  </script>
 </html>
