@@ -16,8 +16,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.bank.Constants;
@@ -108,14 +110,23 @@ public class UserController {
 	
 	@RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
 	public String deleteUser(@RequestParam("userId") String userId, HttpServletResponse response) throws Exception{
-		boolean flag = userSerivce.deleteUser(userId);
+		
+		if (userId.contains(",")) {
+			for (String tempUserId : userId.split(",")) {
+				boolean flag = userSerivce.deleteUser(tempUserId);
+			}
+		} else {
+			boolean flag = userSerivce.deleteUser(userId);
+		}
+		
 		response.getWriter().write("1");
 		return null;
 	}
 	
 	@RequestMapping(value = "/loadAllUsers", method = RequestMethod.POST)
-	public User loadAllUsers(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public User loadAllUsers(@RequestParam("selectOrganId") String selectOrganId, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		User user = (User) request.getSession().getAttribute(Constants.SESSION_AUTH_USER);
+		
 		//查询条件
 	    String key = request.getParameter("key");
 	    //分页
@@ -133,21 +144,25 @@ public class UserController {
 	  	} 
 	  	
 	  	List<User> data = new ArrayList<User>();
-	  	if ("1".equals(isSuperAdmin)) {
-	  		data = userSerivce.loadAllUsers(key, pageIndex, pageSize, sortField, sortOrder);
+	  	
+	  	if (StringUtils.isNotEmpty(selectOrganId)) {
+	  		data = userSerivce.loadAllUsersByOrganId(key, pageIndex, pageSize, sortField, sortOrder, selectOrganId);
 	  	} else {
-	  		Organ unit = (Organ) request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
-			if (unit != null) {
-				List<String> organIds = organSerivce.getSubOrgansByUnitId(unit.getOrganId());
-				
-				String tempOrganIds = "";
-				for (String organId : organIds) {
-					tempOrganIds = StringUtil.connectBySplit(tempOrganIds, "'" + organId + "'", ",");
+		  	if ("1".equals(isSuperAdmin)) {
+		  		data = userSerivce.loadAllUsers(key, pageIndex, pageSize, sortField, sortOrder);
+		  	} else {
+		  		Organ unit = (Organ) request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
+				if (unit != null) {
+					List<String> organIds = organSerivce.getSubOrgansByUnitId(unit.getOrganId());
+					
+					String tempOrganIds = "";
+					for (String organId : organIds) {
+						tempOrganIds = StringUtil.connectBySplit(tempOrganIds, "'" + organId + "'", ",");
+					}
+					
+					data = userSerivce.loadAllUsersByOrganIds(key, pageIndex, pageSize, sortField, sortOrder, tempOrganIds);
 				}
-				
-				data = userSerivce.loadAllUsersByOrganIds(key, pageIndex, pageSize, sortField, sortOrder, tempOrganIds);
-			}
-	  		
+		  	}
 	  	}
 	    
 	    HashMap result = new HashMap();
@@ -159,4 +174,34 @@ public class UserController {
 	    response.getWriter().write(json);
 		return null;
 	}
+	
+	@RequestMapping(value = "/organUserView", method = RequestMethod.GET)
+	public ModelAndView organUserView(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		Organ organ = (Organ) request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
+		if (organ == null) throw new DAOException("当前用户所在的单位为空，请检查！");
+		
+		List<Organ> organs = organSerivce.getOrganTreeByUnitId(organ.getOrganId());
+		
+		String datas = JSON.toJSONString(organs);
+		
+		ModelAndView mav = new ModelAndView("authorization/organUserView");  
+        //将参数返回给页面  
+        mav.addObject("datas", JSON.parseArray(datas));  
+        
+        return mav;
+	}
+	
+	@RequestMapping(value = "/organTree", method = RequestMethod.POST)
+	public Organ organTree(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		Organ organ = (Organ) request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
+		List<Organ> organs = organSerivce.getOrganTreeByUnitId(organ.getOrganId());
+		
+		JSONArray arr = (JSONArray) JSONArray.toJSON(organs);
+		response.setContentType("text/html;charset=UTF-8");
+		response.getWriter().write(arr.toString());
+		return null;
+	}
+	
 }

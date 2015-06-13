@@ -19,6 +19,8 @@ public interface IUserDao {
 	public void updateUser(User user);
 
 	public boolean deleteUser(String userId);
+	
+	public boolean deleteUsers(String userIds);
 
 	public List<User> loadAllUsers(String key, int pageIndex, int pageSize,
 			String sortField, String sortOrder);
@@ -26,5 +28,7 @@ public interface IUserDao {
 	public List<User> loadAllUsersByOrganIds(String key, int pageIndex, int pageSize,
 			String sortField, String sortOrder, String organIds);
 
+	public List<User> loadAllUsersByOrganId(String key, int pageIndex, int pageSize,
+			String sortField, String sortOrder, String organId);
 
 }

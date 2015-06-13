@@ -52,5 +52,9 @@ public class RoleDaoImpl extends GenericMyBatisDAOSupport<Role, String> implemen
 		return data.size() > 0 ? (HashMap)data.get(0) : null;
 	}
 
+	public List<Role> getRoleTree() throws DAOException {
+		return super.getSqlSession().selectList("role.allRoleTree");
+	}
+
 
 }

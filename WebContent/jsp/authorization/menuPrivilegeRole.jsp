@@ -7,6 +7,7 @@ request.setAttribute("roleId", roleId);
 %>
 <html>
 <head>
+<script src="<c:url value="/framework/mask/loadmask.js"/>" type="text/javascript"></script>
     <title>CheckBoxTree</title>
     <style type="text/css">
 	    body{
@@ -19,9 +20,9 @@ request.setAttribute("roleId", roleId);
 <body style="">
     <div id="layout1" class="mini-layout" style="width:100%;height:100%;"  borderStyle="border:solid 1px #aaa;">
     <div title="菜单" showProxyText="true" region="west" width="200" expanded="true" showSplitIcon="false">
-        <ul id="tree2" class="mini-tree" url="${pageContext.request.contextPath}/menu/loadMenuTree.do" style="width:100%;height:100%;" 
+        <ul id="tree2" class="mini-tree" url="${pageContext.request.contextPath}/menu/menuTree.do" style="width:100%;height:100%;" 
 	        showTreeIcon="true" onnodeclick="onNodeClick" textField="menuName" idField="menuId" parentField="menuPid" resultAsTree="false"  expandOnLoad="true"
-	        onbeforenodecheck="onBeforeNodeCheck" allowSelect="false" enableHotTrack="false" iconField="iconCls">
+	        onbeforenodecheck="onBeforeNodeCheck" allowSelect="true" enableHotTrack="false" iconField="iconCls">
 	    </ul>
     </div>
     <div title="center" region="center" style="height:70%;border-bottom:0;padding:0px;">
@@ -34,7 +35,7 @@ request.setAttribute("roleId", roleId);
 	        <div property="columns">
 	            <div type="indexcolumn"></div>       
 <!-- 	            <div type="checkcolumn" ></div> -->
-	            <div type="checkboxcolumn" field="checked" trueValue="true" falseValue="false" width="60" headerAlign="center">授权</div>         
+	            <div type="checkboxcolumn" field="checked" trueValue="true" falseValue="false" width="60" headerAlign="center" onclick="saveCheck()">授权</div>         
 	            <div field="privilegeType" width="120" headerAlign="center" allowSort="true">资源名称</div>    
 	        </div>
 	 	</div>	
@@ -43,9 +44,10 @@ request.setAttribute("roleId", roleId);
     
     <script type="text/javascript">
 		mini.parse();
+		var form = new mini.Form("#layout1");
 		var grid = mini.get("datagrid1");
 		
-		var menuId;
+		var menuId = '';
         function onNodeClick(e) {
             var node = e.node;
 		    menuId = node.menuId;
@@ -68,15 +70,24 @@ request.setAttribute("roleId", roleId);
         function save() {
         	var data = grid.data;
         	var json = mini.encode(data);
-        	alert(data);
         	$.ajax({
                 url: "${pageContext.request.contextPath}/menuPrivilege/updateMenuPrivilege.do",
                 data: { data: json, roleId: '${roleId}', menuId: menuId},
                 type: "post",
+                beforeSend : function() {
+                	form.mask("正在保存中...", null, true);
+                },
                 success: function (text) {
+                	form.unmask();
+                	form.mask("保存成功...", null, false);
+                	window.setTimeout(function() {
+                	   form.unmask();
+                	   window.close();
+                	}, 500);
                 	grid.load();
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
+                	form.unmask();
                     alert(jqXHR.responseText);
                 }
             });

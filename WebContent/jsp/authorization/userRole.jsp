@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ include file="/jsp/taglibsCommon.jspf"%>
 <%
 String roleId = request.getParameter("roleId");
 request.setAttribute("roleId", roleId);
@@ -9,12 +9,12 @@ request.setAttribute("roleId", roleId);
 <head>
     <title>CheckBoxTree</title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-    <script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
+<%--     <script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script> --%>
 </head>
 <body style="">
-    <h1></h1>
+<div id="div" style="margin-left: 20px ;margin-right: 20px">
     <div>
-    <ul id="tree2" class="mini-tree" url="${pageContext.request.contextPath}/organ/userCheckTree.do?roleId=${roleId}" style="width:200px;padding:5px;height: 300px;" 
+    <ul id="tree2" class="mini-tree" url="${pageContext.request.contextPath}/organ/userCheckTree.do?roleId=${roleId}" style="width:auto;padding:5px;height: auto;" 
         showTreeIcon="true" textField="TEXT" idField="ID" parentField="PID" resultAsTree="false"  expandOnLoad="true"
         showCheckBox="true" checkRecursive="true" 
         onbeforenodecheck="onBeforeNodeCheck" allowSelect="false" enableHotTrack="false" iconField="ICONCLS" 
@@ -22,12 +22,11 @@ request.setAttribute("roleId", roleId);
         >
     </ul>
     </div>
-	<div style="" align="center">   		 
+	<div style="text-align:center;padding:10px;">   		 
     <a class="mini-button" iconCls="icon-add" onclick="checkAll">选择所有</a>
-    <a class="mini-button" iconCls="icon-add" onclick="uncheckAll">取消选择所有</a>
+    <a class="mini-button" iconCls="icon-remove" onclick="uncheckAll">取消选择所有</a>
 	<a class="mini-button" iconCls="icon-save" onclick="getCheckedNodes">确定</a>
-	<a class="mini-button" iconCls="icon-remove" onclick="onCancel">取消</a>
-    <br />
+    </div>
     </div>
     <script type="text/javascript">
 		mini.parse();
@@ -38,7 +37,7 @@ request.setAttribute("roleId", roleId);
             var nodes = tree.getCheckedNodes();
             var nodeStr = "";
             for (var i = 0; i < nodes.length; i++) {
-				if (nodes[i].ICONCLS == 'icon-edit') {
+				if (nodes[i].ICONCLS == 'icon-user') {
 					if (i == (nodes.length - 1)) {
 						nodeStr += nodes[i].ID;
 					} else {
@@ -47,12 +46,13 @@ request.setAttribute("roleId", roleId);
 				}
 			}
             $.ajax({
-                url: "${pageContext.request.contextPath}/userRole/saveUserRoles.do?roleId=${roleId}",
+                url: "${pageContext.request.contextPath}/userRole/saveUserRoles.do?roleId=${roleId}&data="+nodeStr,
                 data: { data: nodeStr},
                 type: "post",
                 success: function (text) {
-                	CloseWindow("save");
-                    window.parent.getGrid().load();
+                	mini.alert("保存成功！");
+                	//CloseWindow("save");
+                    //window.parent.getGrid().load();
                     
                 },
                 error: function (jqXHR, textStatus, errorThrown) {

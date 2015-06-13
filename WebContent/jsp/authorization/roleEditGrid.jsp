@@ -52,8 +52,8 @@
                 <div field="roleDescr" allowResize="false" width="120" headerAlign="center" allowSort="true">用户组描述
 	                <input property="editor" class="mini-textbox" style="width:100%;" required="true" requiredErrorText="不能为空"/>
 	            </div>
-                <div name="action" width="120" headerAlign="center" align="center" renderer="onActionRenderer" cellStyle="padding:0;">维护人员
-                </div>
+<!--                 <div name="action" width="120" headerAlign="center" align="center" renderer="onActionRenderer" cellStyle="padding:0;">维护人员 -->
+<!--                 </div> -->
             </div>
         </div> 
 

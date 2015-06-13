@@ -24,4 +24,6 @@ public interface IMenuDao extends GenericDAO<Menu, Long> {
 
 	public List<Map> privilegeCheckTree(String roleId, String menuId);
 	
+	public List<?> getMenuTreeByFilterSystem() throws DAOException;
+	
 }

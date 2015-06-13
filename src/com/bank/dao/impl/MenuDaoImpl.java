@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 
 import com.bank.beans.Menu;
@@ -43,10 +44,7 @@ public class MenuDaoImpl extends GenericMyBatisDAOSupport<Menu, Long> implements
 
 	@Override
 	public List<?> loadMenuTree() {
-		long t1 = System.currentTimeMillis();
 		List<?> menuTree = getSqlSession().selectList("menu.menutree");
-		long t2 = System.currentTimeMillis();
-		System.out.println("loadMenuTree：" + (t2 - t1) + ".ms");
 		return menuTree;
 	}
 
@@ -54,9 +52,15 @@ public class MenuDaoImpl extends GenericMyBatisDAOSupport<Menu, Long> implements
 	public List<Map> privilegeCheckTree(String roleId, String menuId) {
 		Map<String, Object> map = new HashMap();
 		map.put("roleId", roleId);
-		map.put("menuId", Integer.parseInt(menuId));
+		
+		map.put("menuId", StringUtils.isNotEmpty(menuId) ? Integer.parseInt(menuId) : 0);
 		List<Map> privilegeCheckTree = getSqlSession().selectList("menu.privilegeCheckTree", map);
 		return privilegeCheckTree;
+	}
+	
+	public List<?> getMenuTreeByFilterSystem() {
+		List<?> menuTree = getSqlSession().selectList("menu.getMenuTreeByFilterSystem");
+		return menuTree;
 	}
 	
 }

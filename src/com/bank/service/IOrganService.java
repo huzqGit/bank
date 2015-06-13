@@ -27,5 +27,9 @@ public interface IOrganService {
 	List<String> getSubOrgansByUnitId(String unitId) throws DAOException;
 	
 	int getCountByOrganPId(String organPId) throws DAOException;
+	
+	List<Organ> getOrganTreeByUnitId(String unitId) throws DAOException;
+	
+	List<?> getOrganCheckedUserByCondition(String organId, String roleId) throws DAOException;
 
 }

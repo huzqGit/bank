@@ -14,6 +14,11 @@
        body{
         margin:0;padding:0;border:0;width:100%;height:100%;overflow:hidden;
     }    
+    
+    .errorText
+    {
+        color:red;
+    }
    
 </style> 
 </head>
@@ -28,87 +33,82 @@ request.setAttribute("organId", organId);
 request.setAttribute("actionType", actionType);
 %>
 <body style="width: 100%;height: 100%;overflow-x:hidden;overflow-y:auto;" >
-<!-- 工具栏信息 -->
-<div id="toolbar1" class="mini-toolbar" style="padding:2px;">
-    <table style="width:100%;">
-        <tr>
-        	<!-- 按钮 -->
-	        <td style="width:100%;">
-                    <a style="cursor:default;padding:2px;padding-left:5px;">人员维护</a>
-                </td>
-	        
-        	<!-- 链接界面 -->
-	       	<td style="white-space:nowrap;">
-	        	<a id='sysSubmitBtn' class='mini-button' iconCls='icon-save' plain='true' onclick='javascript:submitForm()' enabled='true'>保存</a>
-				<a id='sysBackBtn' class='mini-button' iconCls='icon-upgrade' plain='true' onclick='javascript:history.go(-1);' enabled='true'>返回</a>
-	        </td>
-        </tr>
-    </table>
-</div>
- 
 <div id="form1" style="margin-left: 20px ;margin-right: 20px">
 <input name="organId" class="mini-hidden" value="${organId}"/>
 <!-- 获取表单控件 -->
 <table style="width: 100%;" cellpadding="0" cellspacing="3px" border="0" >
 	<tr>
-		<td style='width:10%;'>
-			<label>*用户名：</label>
+		<td style='width:15%;' align="right">
+			<label style="color:red">*</label>用户名：
 		</td>
-		<td style='width:20%;'>
-			<input name="userId" class='mini-textbox' vtype='maxLength:40' style='width:100%;color: red;' emptyText='' required='true' allowInput='true' />
-		</td>
+		<td>
 		
-		<td style='width:10%;'>
-		<label>*姓名：</label>
+			<c:set var="allowInput" value="true"/>
+			<c:if test="${actionType == 'edit'}">
+				<c:set var="allowInput" value="false"/>
+			</c:if>
+			<input name="userId" class='mini-textbox' onvalidation="onValidation" errorMode="none" vtype='maxLength:40' style='width:300px;' emptyText='' required='true' requiredErrorText="用户名不能为空" allowInput='${allowInput}' />
 		</td>
-		<td style='width:20%;'>
-			<input name="userName" class='mini-textbox' vtype='maxLength:40' style='width:100%;color: red;' emptyText='' required='true' allowInput='true' />
+		<td id="userId_error" class="errorText"></td>
+		</tr>
+	<tr>
+		<td style='width:15%;' align="right">
+		<label style="color:red">*</label>姓名：
 		</td>
+		<td>
+			<input name="userName" class='mini-textbox' onvalidation="onValidation" errorMode="none" vtype='maxLength:40' style='width:300px;' emptyText='' required='true' requiredErrorText="姓名不能为空" allowInput='true' />
+		</td>
+		<td id="userName_error" class="errorText"></td>
 	</tr>
 	<tr>
-		<td style='width:10%;'>
-		<label>*密码：</label>
+		<td style='width:15%;' align="right">
+		<label style="color:red">*</label>密码：
 		</td>
-		<td style='width:20%;' colspan="2">
-			<input id="password" name="password" class="mini-password" errorMode="none" onvalidation="onPwdValidation" vtype="minLength:8" required="true" minLengthErrorText="密码不能少于8个字符"  style='width:100%;color: red;' />
+		<td>
+			<input id="password" name="password" class="mini-password" errorMode="none" onvalidation="onValidation" vtype="minLength:8" required="true" minLengthErrorText="密码不能少于8个字符" requiredErrorText="密码不能为空"  style='width:300px;' />
 		</td>
 		<td id="password_error" class="errorText"></td>
 	</tr>
 	<tr>
-		<td style='width:10%;'>
+		<td style='width:15%;' align="right">
 		<label>性别：</label>
 		</td>
-		<td style='width:40%;padding:10px;'>
-			<input name="sex" class="mini-radiobuttonlist" data="[{id: 1, text: '男'}, {id: 2, text: '女'}]" value="1" style='width:100%;'/>
+		<td style='padding:10px;' colspan="2">
+			<input name="sex" class="mini-radiobuttonlist" data="[{id: 1, text: '男'}, {id: 2, text: '女'}]" value="1" style='width:300px;'/>
 		</td>
-		
-		<td style='width:10%;'>
-		<label>*生日：</label>
+		</tr>
+	<tr>
+		<td style='width:15%;' align="right">
+		<label>生日：</label>
 		</td>
-		<td style='width:40%;'>
-		<input name='birthday' class='mini-datepicker' format='yyyy-MM-dd' style='width:100%;' />
+		<td colspan="2">
+		<input name='birthday' class='mini-datepicker' style='width:300px;' format='yyyy-MM-dd' />
 		</td>
 	</tr>
 	<tr>
-		<td style='width:120px;'>
+		<td style='width:15%;' align="right">
 		<label>地址：</label>
 		</td>
 		
-		<td style='width:100%;' colspan='3'>
-			<input name='address' class='mini-textarea' style='width:100%;height: 40px;' emptyText='' allowInput='true' enabled='true'/>
+		<td colspan="2">
+			<input name='address' class='mini-textarea' style='width:300px;height: 40px;' emptyText='' allowInput='true' enabled='true'/>
 		</td>
 	</tr>
 	<c:if test="${user.userId == 'admin'}">
 		<tr>
-			<td style='width:210px;'>
+			<td style='width:15%;' align="right">
 			<label>是否为管理员：</label>
 			</td>
-				<td style='width:100%;' colspan='3'>
-					<input name="isAdmin" class="mini-checkbox" checked="true" readOnly="true" />
+				<td colspan="2">
+					<input name="isAdmin" class="mini-checkbox" style='width:300px;' checked="true" readOnly="true" />
 				</td>
 		</tr>
 	</c:if>
 </table>
+<div style="text-align:center;padding:10px;">               
+    <a class="mini-button" onclick="javascript:submitForm()" style="width:60px;margin-right:20px;">确定</a>       
+    <a class="mini-button" onclick="onCancel" style="width:60px;">取消</a>       
+</div>   
 
 </div>
 <script type="text/javascript">
@@ -131,8 +131,11 @@ $(document).ready(function(){
 	
 });
 
+function onCancel() {
+	 window.CloseOwnerWindow();
+}
+
 function submitForm() {
-	alert("------1------");
 	
 // 	alert(mini.value('password'));
 	
@@ -161,11 +164,8 @@ function submitForm() {
         	if (userId == "false") {
         		mini.alert('用户名已存在！');
         	} else {
-	        	window.location.href = "${pageContext.request.contextPath}/jsp/authorization/userForm.jsp?actionType=edit&userId=" + userId;
 	            mini.alert('提交成功!');
-	            var parentTree = window.parent.getTree();
-	            parentTree.load();
-        		
+	            window.CloseOwnerWindow();
         	}
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -187,6 +187,9 @@ function onUserNameValidation(e) {
     updateError(e);
 }
 function onPwdValidation(e) {        
+    updateError(e);
+}
+function onValidation(e) {        
     updateError(e);
 }
 

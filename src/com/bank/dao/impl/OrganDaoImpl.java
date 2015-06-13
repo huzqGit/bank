@@ -1,6 +1,8 @@
 package com.bank.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.stereotype.Repository;
@@ -67,6 +69,17 @@ public class OrganDaoImpl extends BaseDaoImpl implements IOrganDao {
 
 	public int getCountByOrganPId(String organPId) throws DAOException {
 		return super.getSqlSession().selectOne("organ.getCountByOrganPId", organPId);
+	}
+	
+	public List<Organ> getOrganTreeByUnitId(String unitId) throws DAOException {
+		return super.getSqlSession().selectList("organ.organTreeByUnitId", unitId);
+	}
+	
+	public List<?> getOrganCheckedUserByCondition(String organId, String roleId) throws DAOException {
+		Map paramMap = new HashMap();
+		paramMap.put("organId", organId);
+		paramMap.put("roleId", roleId);
+		return super.getSqlSession().selectList("organ.organCheckedUserByCondition", paramMap);
 	}
 
 }

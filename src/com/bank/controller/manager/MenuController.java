@@ -3,6 +3,7 @@ package com.bank.controller.manager;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +25,7 @@ import com.bank.beans.Menu;
 import com.bank.beans.User;
 import com.bank.common.util.JsonUtil;
 import com.bank.service.IMenuService;
+import com.common.config.SystemConfig;
 import com.common.exception.CreateException;
 import com.common.exception.DAOException;
 import com.common.exception.DataNotFoundException;
@@ -41,7 +43,7 @@ public class MenuController {
 	private static Logger log = LoggerFactory.getLogger(MenuController.class);
 	private static String ADD = "add";
 	
-	@Resource
+	@Resource(name="menuService")
 	private IMenuService menuSerivce;
 	
 	@RequestMapping(value = "/loadMenus", method = RequestMethod.POST)
@@ -52,7 +54,7 @@ public class MenuController {
 		} catch (DAOException e) {
 			log.error("get menus occurs error . ", e);
 		}
-	    
+		
 	    String arr = JsonUtil.Encode(data);
 	    response.setContentType("text/html;charset=UTF-8");
 	    try {
@@ -161,7 +163,29 @@ public class MenuController {
 	
 	@RequestMapping(value = "/loadMenuTree", method = RequestMethod.POST)
 	public Menu loadMenuTree(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		long t1 = System.currentTimeMillis();
+//		System.out.println("---1---" + menuSerivce);
 		List<?> data = menuSerivce.loadMenuTree();
+//		System.out.println("----2-----");
+//		long t2 = System.currentTimeMillis();
+//		System.out.println("----3-----");
+//		System.out.println("获取菜单花费：" + (t2 - t1) + ".ms");
+//		System.out.println("----4-----");
+		
+		JSONArray arr = (JSONArray) JSONArray.toJSON(data);
+	    response.setContentType("text/html;charset=UTF-8");
+	    try {
+			response.getWriter().write(arr.toString());
+		} catch (IOException e) {
+			log.error("", e);
+			throw new IOException("", e);
+		}
+		return null;
+	}
+	
+	@RequestMapping(value = "/menuTree", method = RequestMethod.POST)
+	public Menu loadMenuTreeByFilterSystem(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		List<?> data = menuSerivce.getMenuTreeByFilterSystem();
 		
 		JSONArray arr = (JSONArray) JSONArray.toJSON(data);
 	    response.setContentType("text/html;charset=UTF-8");
@@ -178,7 +202,7 @@ public class MenuController {
 	public Menu loadCheckedPrivileges(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String roleId = request.getParameter("roleId");
 		String menuId = request.getParameter("menuId");
-		List<?> data = menuSerivce.privilegeCheckTree(roleId, menuId);
+		List<Map> data = menuSerivce.privilegeCheckTree(roleId, menuId);
 		
 		JSONArray arr = (JSONArray) JSONArray.toJSON(data);
 	    response.setContentType("text/html;charset=UTF-8");

@@ -110,6 +110,11 @@ resultMap="BaseResultMap">
    SELECT menu_id, menu_name, menu_descr, menu_url, menu_pid, isleaf, decode(isleaf, '0', 'icon-add', '1', 'icon-edit') iconCls FROM T_SYS_MENU 
 </select>
 
+<select id="menu.getMenuTreeByFilterSystem" resultMap="menutreeList">
+   SELECT menu_id, menu_name, menu_descr, menu_url, menu_pid, isleaf FROM T_SYS_MENU
+   where ISSYSTEM = '0' 
+</select>
+
 <select id="getTopMenusByUserId" resultMap="MenuResultMap">
    SELECT distinct m.menu_id,m.menu_descr,m.menu_url,m.isleaf,
    m.menu_pid,p.privilege_id,p.privilege_type 

@@ -144,6 +144,28 @@ SELECT organ_id ID, organ_name TEXT, organ_pid PID, ICONCLS, checked FROM
    SELECT user_id, user_name, organ_id, 'icon-user' iconCls, (select 'true' as checked from T_USER_ROLE where T_USER_ROLE.USER_ID = T_USER.USER_ID and T_USER_ROLE.ROLE_ID=#{roleId})  FROM T_USER)
 </select>
 
+<select id="organ.organCheckedUserByCondition" resultMap="organCheckedUserList" parameterType="string">
+	WITH RPL (ID, TEXT, PID, ICONCLS, checked, SEQ) AS        
+	(        
+	SELECT ROOT.organ_id ID, ROOT.organ_name TEXT, ROOT.organ_pid PID, '' ICONCLS, 'false' as checked, ROOT.SEQ       
+	FROM t_organ ROOT        
+	WHERE ROOT.organ_id = #{organId}
+	UNION ALL       
+	SELECT CHILD.organ_id ID , CHILD.organ_name TEXT, CHILD.organ_pid PID, '' ICONCLS, 'false' as checked, CHILD.SEQ  
+	FROM RPL PARENT, t_organ CHILD
+	WHERE PARENT.ID = CHILD.organ_pid
+	UNION ALL       
+	SELECT CHILD.user_id ID, CHILD.user_name TEXT, CHILD.organ_id PID, 'icon-user' ICONCLS,
+	(select 'true' as checked from T_USER_ROLE where T_USER_ROLE.USER_ID = CHILD.USER_ID and T_USER_ROLE.ROLE_ID=#{roleId}),
+    '1' SEQ 
+	FROM RPL PARENT, t_user CHILD
+	WHERE PARENT.ID = CHILD.organ_id and CHILD.isadmin = '0'
+	)
+	SELECT DISTINCT ID, TEXT, PID , ICONCLS, checked, SEQ     
+	FROM RPL
+	ORDER BY SEQ
+</select>
+
 <select id="organ.organUserByCondition" resultMap="organUserList" parameterType="string">
 WITH RPL (ID, TEXT, PID, ICONCLS) AS        
 (        
@@ -182,5 +204,24 @@ ORDER BY organ_id
 <select id="organ.getCountByOrganPId" resultType="java.lang.Integer" parameterType="String" >
 	select count(*) from T_ORGAN where ORGAN_PID = #{organPId}
 </select>
+
+
+
+<select id="organ.organTreeByUnitId" resultMap="organUserList" parameterType="string">
+	WITH RPL (ID, TEXT, PID, SEQ) AS        
+	(        
+	SELECT ROOT.organ_id ID, ROOT.organ_name TEXT, ROOT.organ_pid PID, ROOT.SEQ        
+	FROM t_organ ROOT        
+	WHERE ROOT.organ_id = #{unitId}
+	UNION ALL       
+	SELECT CHILD.organ_id ID , CHILD.organ_name TEXT, CHILD.organ_pid PID, CHILD.SEQ
+	FROM RPL PARENT, t_organ CHILD
+	WHERE PARENT.ID = CHILD.organ_pid
+	)
+	SELECT DISTINCT ID, TEXT, PID, SEQ     
+	FROM RPL
+	ORDER BY SEQ
+</select>
+
 
 </mapper>

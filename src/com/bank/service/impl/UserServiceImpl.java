@@ -39,6 +39,12 @@ public class UserServiceImpl implements IUserService {
 		boolean flag = userDao.deleteUser(userId);
 		return flag;
 	}
+	
+	public boolean deleteUsers(String userIds) {
+		boolean flag = userDao.deleteUsers(userIds);
+		return flag;
+	}
+	
 	@Override
 	public List<User> loadAllUsers(String key, int pageIndex, int pageSize,
 			String sortField, String sortOrder) {
@@ -50,6 +56,12 @@ public class UserServiceImpl implements IUserService {
 			int pageSize, String sortField, String sortOrder,
 			String organIds) {
 		return userDao.loadAllUsersByOrganIds(key, pageIndex, pageSize, sortField, sortOrder, organIds);
+	}
+	
+	public List<User> loadAllUsersByOrganId(String key, int pageIndex,
+			int pageSize, String sortField, String sortOrder,
+			String organId) {
+		return userDao.loadAllUsersByOrganId(key, pageIndex, pageSize, sortField, sortOrder, organId);
 	}
 	
 }

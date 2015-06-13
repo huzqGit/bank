@@ -17,14 +17,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.bank.beans.Privilege;
+import com.bank.beans.Role;
 import com.bank.common.util.JsonUtil;
 import com.bank.controller.base.BaseController;
 import com.bank.service.IPrivilegeService;
+import com.bank.service.IRoleService;
 import com.common.exception.CreateException;
 import com.common.exception.DAOException;
 import com.common.exception.DataNotFoundException;
@@ -43,6 +47,9 @@ public class PrivilegeController extends BaseController {
 	
 	@Resource
 	private IPrivilegeService privilegeSerivce;
+	
+	@Resource
+	private IRoleService roleService;
 	
 	@RequestMapping(value = "/loadPrivileges", method = RequestMethod.POST)
 	public Privilege loadPrivileges(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -166,4 +173,43 @@ public class PrivilegeController extends BaseController {
 	    }
 		return null;
 	}
+	
+	@RequestMapping(value = "/privilegeView", method = RequestMethod.GET)
+	public ModelAndView privilegeView(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		ModelAndView mav = new ModelAndView("authorization/privilege");  
+        //将参数返回给页面  
+//        mav.addObject("datas", JSON.parseArray(datas));  
+        
+        return mav;
+	}
+	
+	@RequestMapping(value = "/roleTree", method = RequestMethod.POST)
+	public Role roleTree(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		List<Role> roles = new ArrayList<Role>();
+		try {
+			roles = roleService.getRoleTree();
+		} catch (DAOException e) {
+			String msg = "get role occur DAO errors. ";
+			log.error(msg, e);
+			throw new DAOException(msg);
+		}
+		
+		JSONArray roleArray = new JSONArray();
+		if (!roles.isEmpty()) {
+			roleArray = (JSONArray) JSONArray.toJSON(roles);
+		}
+		
+		JSONObject obj = new JSONObject();
+		obj.put("ID", "1");
+		obj.put("TEXT", "所有用户组");
+		obj.put("PID", "");
+		roleArray.add(obj);
+		
+		response.setContentType("text/html;charset=UTF-8");
+		response.getWriter().write(roleArray.toString());
+		return null;
+	}
+	
+	
 }

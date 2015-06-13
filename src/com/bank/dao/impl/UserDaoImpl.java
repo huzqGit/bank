@@ -75,6 +75,11 @@ public class UserDaoImpl extends BaseDaoImpl implements IUserDao {
 		int flag = getSqlSession().delete("user.delete", userId);
 		return false;
 	}
+	
+	public boolean deleteUsers(String userIds) {
+		int flag = getSqlSession().delete("user.deleteUsers", userIds);
+		return false;
+	}
 
 	@Override
 	public List<User> loadAllUsers(String key, int pageIndex, int pageSize, String sortField, String sortOrder) {
@@ -102,6 +107,21 @@ public class UserDaoImpl extends BaseDaoImpl implements IUserDao {
 		map.put("key", key);
 		map.put("organIds", organIds);
 		List<User> users = getSqlSession().selectList("user.loadAllUsersByorganIds", map);
+		return users;
+	}
+	
+	public List<User> loadAllUsersByOrganId(String key, int pageIndex, int pageSize, 
+			String sortField, String sortOrder, String organId) {
+		Map<String, Object> map = new HashMap();
+		int start = pageIndex * pageSize, end = start + pageSize;
+		if ("desc".equals(sortOrder) == false) sortOrder = "asc";
+		map.put("start", start);
+		map.put("end", end);
+		map.put("sortOrder", sortOrder);
+		map.put("sortField", sortField);
+		map.put("key", key);
+		map.put("organId", organId);
+		List<User> users = getSqlSession().selectList("user.loadAllUsersByorganId", map);
 		return users;
 	}
 

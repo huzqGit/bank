@@ -64,5 +64,14 @@ public class OrganServiceImpl implements IOrganService {
 	public int getCountByOrganPId(String organPId) throws DAOException {
 		return organDao.getCountByOrganPId(organPId);
 	}
+	
+	public List<Organ> getOrganTreeByUnitId(String unitId) throws DAOException {
+		return organDao.getOrganTreeByUnitId(unitId);
+	}
+	
+	public List<?> getOrganCheckedUserByCondition(String organId, String roleId)
+			throws DAOException {
+		return organDao.getOrganCheckedUserByCondition(organId, roleId);
+	}
 
 }

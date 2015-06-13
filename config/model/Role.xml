@@ -9,6 +9,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <result column="role_name" property="roleName" jdbcType="VARCHAR" />
   <result column="role_descr" property="roleDescr" jdbcType="VARCHAR" />
 </resultMap>
+<resultMap id="roleList" type="java.util.HashMap">
+    <result column="ID" property="ID" jdbcType="VARCHAR" />
+    <result column="TEXT" property="TEXT" jdbcType="VARCHAR" />
+    <result column="PID" property="PID" jdbcType="VARCHAR" />
+</resultMap>
 <sql id="Base_Column_List" >
   role_id, role_name, role_descr
 </sql>
@@ -64,5 +69,9 @@ resultMap="BaseResultMap">
 </select>									
 <select id="role.allByRoleId" resultType="java.util.HashMap" parameterType="string">
    SELECT role_id, role_name, role_descr FROM T_ROLE where role_id = #{roleId}
+</select>
+
+<select id="role.allRoleTree" resultMap="roleList">
+SELECT role_id ID, role_name TEXT, '1' PID FROM T_ROLE 
 </select>
 </mapper>
