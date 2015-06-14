@@ -45,7 +45,10 @@ public class MenuServiceImpl extends GenericServiceImpl<Menu, Long> implements I
 	public List<?> getMenuTreeByFilterSystem() throws DAOException {
 		return menuDao.getMenuTreeByFilterSystem();
 	}
-	
-	
+
+	public List<Menu> getParMenusByCondition(String childMenuId)
+			throws DAOException {
+		return menuDao.getParMenusByCondition(childMenuId);
+	}
 
 }

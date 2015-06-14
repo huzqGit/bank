@@ -202,4 +202,15 @@ with rpl(menu_id,menu_descr,menu_url,menu_pid,menu_name,isleaf,issystem,seq) as 
  ) checked from T_PRIVILEGE a
 </select>
 
+<select id="getParMenusByCondition" resultMap="BaseResultMap">
+with rpl(menu_id,menu_name,menu_pid) as (
+  select menu_id,menu_name,menu_pid from T_SYS_MENU root where menu_id=#{childMenuId}
+  union all
+  select parent.menu_id,parent.menu_name,parent.menu_pid from rpl child,t_sys_menu parent
+  where child.menu_pid=parent.menu_id
+  )
+  SELECT DISTINCT menu_id,menu_name 
+FROM RPL
+</select>
+
 </mapper>

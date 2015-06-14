@@ -2,7 +2,6 @@ package com.bank.controller.manager;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,13 +18,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.bank.Constants;
+import com.bank.beans.Menu;
 import com.bank.beans.MenuPrivilege;
-import com.bank.beans.User;
 import com.bank.common.util.JsonUtil;
 import com.bank.service.IMenuPrivilegeService;
+import com.bank.service.IMenuService;
 import com.common.exception.CreateException;
 import com.common.exception.DAOException;
 import com.common.exception.DataNotFoundException;
@@ -45,6 +43,9 @@ public class MenuPrivilegeController {
 	
 	@Resource
 	private IMenuPrivilegeService menuPrivilegeSerivce;
+	
+	@Resource
+	private IMenuService menuService;
 	
 	@RequestMapping(value = "/loadMenuPrivileges", method = RequestMethod.POST)
 	public MenuPrivilege loadMenuPrivileges(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -164,7 +165,12 @@ public class MenuPrivilegeController {
 		String roleId  = request.getParameter("roleId");
 		String menuId  = request.getParameter("menuId");
 		ArrayList rows = (ArrayList)JsonUtil.Decode(data);
-		menuPrivilegeSerivce.updateMenuPrivilege(rows, roleId, menuId);
+		
+		if (StringUtils.isEmpty(menuId)) throw new DAOException("菜单ID不能为空!");
+		
+		List<Menu> parMenus = menuService.getParMenusByCondition(menuId);
+		
+		menuPrivilegeSerivce.updateMenuPrivilege(rows, roleId, parMenus);
 		
 	    response.setContentType("text/html;charset=UTF-8");
 	    try {

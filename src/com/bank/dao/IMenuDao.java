@@ -26,4 +26,6 @@ public interface IMenuDao extends GenericDAO<Menu, Long> {
 	
 	public List<?> getMenuTreeByFilterSystem() throws DAOException;
 	
+	List<Menu> getParMenusByCondition(String childMenuId) throws DAOException;
+	
 }

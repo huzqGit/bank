@@ -14,6 +14,7 @@ import com.bank.dao.IMenuPrivilegeDao;
 import com.bank.service.IMenuPrivilegeService;
 import com.bank.service.IMenuService;
 import com.common.dao.GenericDAO;
+import com.common.exception.DAOException;
 import com.common.service.impl.GenericServiceImpl;
 
 @Service("menuPrivilegeService")
@@ -34,9 +35,10 @@ public class MenuPrivilegeServiceImpl extends GenericServiceImpl<MenuPrivilege, 
 	@Override
 	public void updateMenuPrivilege(ArrayList rows, String roleId, String menuId) {
 		menuPrivilegeDao.updateMenuPrivilege(rows, roleId, menuId);
-		
 	}
 
-	
+	public void updateMenuPrivilege(List rows, String roleId, List<Menu> menus) throws DAOException {
+		menuPrivilegeDao.updateMenuPrivilege(rows, roleId, menus);
+	}
 
 }

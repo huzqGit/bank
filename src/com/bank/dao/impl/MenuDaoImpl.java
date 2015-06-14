@@ -54,13 +54,18 @@ public class MenuDaoImpl extends GenericMyBatisDAOSupport<Menu, Long> implements
 		map.put("roleId", roleId);
 		
 		map.put("menuId", StringUtils.isNotEmpty(menuId) ? Integer.parseInt(menuId) : 0);
-		List<Map> privilegeCheckTree = getSqlSession().selectList("menu.privilegeCheckTree", map);
+		List<Map> privilegeCheckTree = super.getSqlSession().selectList("menu.privilegeCheckTree", map);
 		return privilegeCheckTree;
 	}
 	
 	public List<?> getMenuTreeByFilterSystem() {
-		List<?> menuTree = getSqlSession().selectList("menu.getMenuTreeByFilterSystem");
+		List<?> menuTree = super.getSqlSession().selectList("menu.getMenuTreeByFilterSystem");
 		return menuTree;
+	}
+
+	public List<Menu> getParMenusByCondition(String childMenuId)
+			throws DAOException {
+		return super.getSqlSession().selectList("menu.getParMenusByCondition", childMenuId);
 	}
 	
 }
