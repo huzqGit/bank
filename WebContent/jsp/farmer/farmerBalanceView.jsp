@@ -126,7 +126,7 @@ background:white
 		<a href="/bank/jsp/common/bankBuilding.jsp?form=insured">参保信息</a>
 	</li>
 	<li >
-		<a href="/bank/jsp/common/bankBuilding.jsp?form=other">其他信息</a>
+		<a href="/bank/farmer/queryEvaluate.do?fid=${farmer.id}">其他信息</a>
 	</li>
 </ul>
 </div>
@@ -153,7 +153,7 @@ background:white
             		<td align="center">编号</td>
 	        <div property="columns">
 	             <div type="indexcolumn" width="5%" headerAlign="center">编号</div>
-	             <div field="compactNum" width="15%" headerAlign="center" allowSort="true">年份</div>
+	             <div field="year" width="15%" headerAlign="center" allowSort="true">年份</div>
 	             <div field="totalIncome" width="35%" headerAlign="center" allowSort="true" >家庭年度总收入合计</div>   
 	             <div field="totalPay" width="35%" headerAlign="center" allowSort="true" >家庭年度总支出合计</div>                                           
 	        	 <div width="5%" headerAlign="center" align="center" renderer="editRenderer" cellStyle="padding:0;"></div>

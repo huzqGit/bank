@@ -73,23 +73,25 @@ color:red
 	<tr>
 		<td class="required_text" width="2%" align="right">*</td>
 		<td width="12%">机构名称:</td>
-		<td colspan="4" width="87%"><input type="text" id="organName" name="organName" value="${loan.organName}" style="width:96%"/></td>
+		<td colspan="4" width="87%"><input name="organName" class="mini-textbox" value="${loan.organName}" style="width:96%"/></td>
 	</tr>
 	<tr>
-		<td></td>
-		<td colspan="5" id="organName_validate"></td>
+		<td width="2%"></td>
+		<td colspan="5" id="organName_error" class="errorText" ></td>
 	</tr>
 	<tr>
 		<td class="required_text" width="2%" align="right">*</td>
 		<td width="12%">机构号:</td>
-		<td width="36%"><input type="text" id="organCode" name="organCode" value="${loan.organCode}" style="width:90%"/></td>
+		<td width="36%"><input name="organCode" class="mini-textbox" value="${loan.organCode}" style="width:90%"/></td>
 		<td class="required_text" width="2%" align="right">*</td>
 		<td width="12%">合同号:</td>
-		<td width="36%"><input type="text" id="compactNum"  name="compactNum" value="${loan.compactNum}"  style="width:90%"/></td>	
+		<td width="36%"><input name="compactNum"class="mini-textbox"  value="${loan.compactNum}"  style="width:90%"/></td>	
 	</tr>
 	<tr>
-		<td colspan="3" id="organCode_validate"></td>
-		<td colspan="3" id="compactNum_validate"></td>
+		<td width="2%"></td>
+		<td colspan="2" id="organCode_error" class="errorText"></td>
+		<td width="2%"></td>
+		<td colspan="2" id="compactNum_error" class="errorText"></td>
 	</tr>
 	<tr>
 		<td class="required_text" width="2%" align="right">*</td>
@@ -135,7 +137,7 @@ color:red
 		<td width="12%">币种:</td>
 		<td width="36%"><input name="currency" class="mini-combobox" value="${loan.currency}" style="width:90%" url="/bank/dic/Currency.txt" emptyText="请选择"/></td>
 		<td class="required_text" width="1%" align="right">*</td>
-		<td width="12%">贷款金额:</td>
+		<td width="12%">贷款金额(元):</td>
 		<td width="36%"><input type="text" id="amount" name="amount"  style="width:90%" value="${loan.amount}"/></td>
 	</tr>
 	<tr>
@@ -144,7 +146,7 @@ color:red
 	</tr>
 	<tr>
 		<td class="required_text" width="2%" align="right">*</td>
-		<td width="12%">贷款余额:</td>
+		<td width="12%">贷款余额(元):</td>
 		<td width="36%"><input type="text" id="balance" name="balance" value="${loan.balance}" style="width:90%"/></td>
 		<td class="required_text" width="2%" align="right"></td>
 		<td width="12%">结欠利息:</td>

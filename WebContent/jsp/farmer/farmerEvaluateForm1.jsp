@@ -44,7 +44,7 @@ overflow-x:hidden
 	.labelName{font-size:15px;font-weight:bold;color:darkgreen;}
 	.labelValue{font-size:15px;font-weight:bold;color:red;}
 	 li{
- border-bottom:2px solid green;
+ border-bottom:1px solid lightgray;
  float:left;
  width:85px;
  list-style-type:none;
@@ -55,12 +55,15 @@ overflow-x:hidden
  color:black;
  background-repeat:no-repeat
  }
+ li a{
+ color:black
+ }
 .active{
  float:left;
  width:100px;
  list-style-type:none;
  text-align:center;
- border-bottom:2px solid #6DC8E3;
+ border-bottom:none;
  border-top:1px solid gray;
  border-left:1px solid gray;
  border-right:1px solid white;
@@ -78,20 +81,20 @@ overflow-x:hidden
 <body>
 <div class="topMenu">
 <ul>
-	<li>
+	<li >
 		<a href="/bank/farmer/loadFarmer1.do?id=${farmer.id}">基本信息</a>
 	</li>
 	<li >
-			<a href="/bank/loan/queryLoan1.do?fid=${farmer.id}">贷款信息</a>
+		<a href="/bank/loan/queryLoan1.do?fid=${farmer.id}">贷款信息</a>
 	</li>
 	<li >
-			<a href="/bank/farmer/queryBalance.do?fid=${farmer.id}">收支信息</a>
+		<a href="/bank/farmer/queryBalance.do?fid=${farmer.id}">收支信息</a>
 	</li>
 	<li >
 		<a href="/bank/farmer/queryHouse.do?fid=${farmer.id}">房产信息</a>
 	</li>
-	<li class="active">
-			林权信息
+	<li >
+		<a href="/bank/farmer/queryForest.do?fid=${farmer.id}">林权信息</a>
 	</li>
 	<li >
 		<a href="/bank/farmer/queryBreed.do?fid=${farmer.id}">种养殖信息</a>
@@ -105,11 +108,14 @@ overflow-x:hidden
 	<li >
 		<a href="/bank/farmer/queryInsured.do?fid=${farmer.id}">参保信息</a>
 	</li>
-	<li >
-		<a href="/bank/farmer/queryEvaluate.do?fid=${farmer.id}">其他信息</a>
+	<li class="active">
+		其他信息
 	</li>
 </ul>
 </div>
+<form action="/bank/farmer/saveEvaluate1.do" id="farmerEvaluate" name="farmerEvaluate" method="POST">
+<input type="hidden" id="deleteMember" name="deleteMember" value=""/>
+<input type="hidden" id="farmerId" name="farmerId" value="${farmer.id}"/>
 <div class="topMenu" style="background:linear-gradient(#6DC8E3,white)">
 <table width ="100%" height="60px">
 	<tr>
@@ -120,51 +126,74 @@ overflow-x:hidden
 		<td class="labelValue" width="1%">:</td>
 		<td class="labelValue" align="left">${farmer.farmerIdnum}</td>
 		<td width="1%"></td>
-		 <td width="50px" align="right">
-       	 <input type="button" class="addBtn" onclick="add(${farmer.id})"/>
+    	<td width="50px" align="right">
+       	 <input type="submit" id="saveBtn" value=""/>
         </td>
-       
 	</tr>
 </table>
 </div>
-<div id="datagrid1" class="mini-datagrid" style="width:98%;margin:auto auto;height:320px;background-color:white" 
-            url="${pageContext.request.contextPath}/farmer/loadForest.do?fid=${farmer.id}"
-            sizeList="[5,10,20,50]" pageSize="10" showReloadButton="false">
-            		<td align="center">编号</td>
-	        <div property="columns">
-	             <div type="indexcolumn" width="5%" headerAlign="center">编号</div>
-	             <div field="cardNum" width="10%" headerAlign="center" allowSort="true" >林权证编号</div>   
-	             <div field="wordNum" width="10%" headerAlign="center" allowSort="true">林权证字号</div>
-	             <div field="user" width="10%" headerAlign="center" allowSort="true" >使用人</div>   
-	             <div field="useType" width="10%" headerAlign="center" allowSort="true" >使用种类</div>   
-	             <div field="area" width="10%" headerAlign="center" allowSort="true" >占地面积</div>                                              
-	        	 <div field="timeLimit" width="35%" headerAlign="center" allowSort="true" >使用权期限</div>
-	        	 <div name="action" width="5%" headerAlign="center" align="center" renderer="editRenderer" cellStyle="padding:0;"></div>
-	        	 <div name="action" width="5%" headerAlign="center" align="center" renderer="deleteRenderer" cellStyle="padding:0;"></div>
-	         </div>
+<fieldset id="fd2" style="width:90%;margin:auto auto">
+<legend><label>村民委员会对农户家庭评价情况基本信情况</label></legend>
+<div class="fieldset-body">
+<input name="id" class="mini-hidden" value ="${evaluate.id}"/>
+<input name="recorder" class="mini-hidden" value="管理员"/>
+<input name="recordTime" class="mini-hidden" value="${currentTime}"/>
+<table border="0" cellpadding="1" cellspacing="5" width="100%" >
+<tr><td>
+<table width="100%">
+<tr>
+    <td style="width:15%"><label for="textbox2$text">家庭和睦情况:</label></td>
+    <td style="width:35%" >
+    	<input name="harmonyStatus" class="mini-combobox" value ="${evaluate.harmonyStatus}" style="width:90%"
+    	url="/bank/dic/Evaluate.txt" emptyText="请选择..."/>
+    </td>
+    <td style="width:10%"><label for="textbox1$text">敬老爱幼情况:</label></td>
+    <td style="width:40%">
+    	<input name="respectStatus" class="mini-combobox" value ="${evaluate.respectStatus}"style="width:90%"
+    	url="/bank/dic/Evaluate.txt" emptyText="请选择..."/>
+    </td>
+</tr>
+<tr>
+    <td style="width:15%"><label for="textbox1$text">邻里团结情况:</label></td>
+    <td style="width:35%">
+    	<input name="neighborStatus" class="mini-combobox" value ="${evaluate.neighborStatus}" style="width:90%"
+    	url="/bank/dic/Evaluate.txt" emptyText="请选择..."/>
+    </td>
+    <td style="width:10%"><label for="textbox1$text">是否遵纪守法:</label></td>
+    <td style="width:40%">
+    	<input name="legalStatus" class="mini-combobox" value ="${evaluate.legalStatus}" required="true"
+        	requiredErrorText="是否遵纪守法不能为空" style="width:90%"
+            url="/bank/dic/YesOrNoStatus.txt" emptyText="请选择..."/>
+    </td>
+</tr>
+<tr>
+    <td style="width:15%"><label for="textbox1$text">对公益事业关心程度:</label></td>
+    <td style="width:35%">
+    	<input name="welfareStatus" class="mini-combobox" value ="${evaluate.welfareStatus}" style="width:90%"
+    		url="/bank/dic/Evaluate.txt" emptyText="请选择..."/>
+    </td>
+    <td style="width:10%"><label for="textbox1$text">是否诚实守信:</label></td>
+    <td style="width:40%">
+    	<input name="honestStatus" class="mini-combobox" value ="${evaluate.honestStatus}"  style="width:90%"
+    		required="true" requiredErrorText="不能为空"
+        	url="/bank/dic/YesOrNoStatus.txt" emptyText="请选择..."/>
+   </td>
+</tr>
+<tr>
+   <td style="width:15%"><label for="textbox1$text">其他:</label></td>
+   <td style="width:35%">
+	   <input name="otherStatus" class="mini-textarea" value ="${evaluate.otherStatus}" style="width:90%">
+   </td>
+</tr>
+</table>
+</td></tr></table>
 </div>
+</fieldset>
+</form>
 <script type="text/javascript">
-	mini.parse();
-	var grid = mini.get("datagrid1");
-	grid.load();
-	
-	function add(fid){
-		window.location.href="/bank/farmer/typeInForest.do?fid="+fid;
-	}
-	function editRenderer(e) {
-	    var record = e.record;
-	    var id = record.id;
-	    var fid = record.farmerId;
-	    var s = '<a class="Edit_Button" target="_self" href="/bank/farmer/editForest.do?id='+id+'&fid='+fid+'">[编辑]</a>';      
-	    return s;
-	};
-	function deleteRenderer(e) {
-	    var record = e.record;
-	    var id = record.id;
-	    var fid = record.farmerId;
-	    var s = '<a class="New_Button" target="_self" href="/bank/farmer/deleteForest.do?id='+id+'&fid='+fid+'">[删除]</a>';      
-	    return s;
-	};
+  function back(){
+	  window.history.go(-1);
+  }
 </script>
 </body>
 </html>

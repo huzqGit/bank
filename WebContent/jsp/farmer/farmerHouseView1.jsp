@@ -106,7 +106,7 @@ overflow-x:hidden
 		<a href="/bank/farmer/queryInsured.do?fid=${farmer.id}">参保信息</a>
 	</li>
 	<li >
-		<a href="/bank/jsp/common/bankBuilding.jsp?form=other">其他信息</a>
+		<a href="/bank/farmer/queryEvaluate.do?fid=${farmer.id}">其他信息</a>
 	</li>
 </ul>
 </div>

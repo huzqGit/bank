@@ -27,6 +27,9 @@
 #backBtn{width:100px;height:25px;border:0;background:url(/bank/images/back.png) no-repeat}
 .addBtn{width:100px;height:25px;border:0;background:url(/bank/images/add.png) no-repeat}
 .small_delbtn{width:20px;height:20px;border:0;background:url(/bank/images/s_delbtn.png) no-repeat}
+.required_text,.errorText{
+color:red
+}
 </style>
 </head>
 <body>
@@ -54,7 +57,6 @@
 <div id="form2" style="width:90%;margin:auto auto">
 <input name="deleteIncome" id="deleteIncome" class="mini-hidden"/>
 <input name="id" class="mini-hidden" value="${balance.id}" />
-<input name="year" class="mini-hidden" value="${balance.year}"/>
 <input name="recorder" class="mini-hidden" value="管理员"/>
 <input name="recordTime" class="mini-hidden" value="${currentTime}"/>
 <fieldset id="fd2" style="width:100%;margin:auto auto">
@@ -62,78 +64,145 @@
 <div class="fieldset-body">
 <table width="100%">
 <tr>
-	<td rowspan="6" style="width:2%"></td>
-	<td style="width:18%"><label for="textbox1$text">主要农业年度净收入合计(元):</label></td>
-    <td style="width:27%">
-		<input  name="farmingIncome" class="mini-spinner" value="${balance.farmingIncome}" style="width:90%"
-	    	minValue="0" maxValue="999999999" format="n"/>
+	<td class="required_text" width="2%" align="right">*</td>
+	<td style="width:18%">年份:</td>
+	<td width="30%">
+		<input  name="year" class="mini-datepicker" value="${balance.year}" format="yyyy" style="width:90%"
+			errorMode="none" vtype="date:yyyy" required="true" requiredErrorText="年份不能为空" onvalidation="onValidation"/>
+	</td>
+	<td class="required_text" width="2%" align="right"></td>
+	<td style="width:18%">主要农业年度净收入合计(元):</td>
+    <td width="30%">
+		<input  name="farmingIncome" class="mini-textbox" value="${balance.farmingIncome}" style="width:90%"
+	   	 errorMode="none" vtype="float"  onvalidation="onValidation"/>
     </td>
+</tr>
+<tr>
+		<td width="2%"></td>
+		<td id="year_error" class="errorText" colspan="2"></td>
+		<td width="2%"></td>
+		<td id="farmingIncome_error" class="errorText" colspan="2"></td>
+</tr>
+<tr>
+	<td class="required_text" width="2%" align="right"></td>
     <td style="width:22%"><label for="textbox2$text">林、牧、副、渔业年度净收入合计(元):</label></td>
     <td style="width:27%" >
-	    <input name="avocationIncome" class="mini-spinner" value ="${balance.avocationIncome}" style="width:90%" 
-	 		minValue="0" maxValue="999999999" format="n"/>
+	    <input name="avocationIncome" class="mini-textbox" value ="${balance.avocationIncome}" style="width:90%" 
+	 		/>
     </td>
+    <td class="required_text" width="2%" align="right"></td>
+    <td style="width:18%"><label for="textbox2$text">家庭工商业年度净收入合计(元):</label></td>
+    <td style="width:27%" >
+    	<input name="businessIncome" class="mini-textbox" value ="${balance.businessIncome}" style="width:90%"
+        	/>
+    </td>  
 </tr>
 <tr>
-	<td style="width:18%"><label for="textbox2$text">家庭工商业年度净收入合计(元):</label></td>
+		<td width="2%"></td>
+		<td id="year_error" class="errorText" colspan="2"></td>
+		<td width="2%"></td>
+		<td id="farmingIncome_error" class="errorText" colspan="2"></td>
+	</tr>
+<tr>
+<td class="required_text" width="2%" align="right"></td>
+	 <td style="width:22%"><label for="textbox2$text">外出务工年度净收入合计(元):</label></td>
     <td style="width:27%" >
-    	<input name="businessIncome" class="mini-spinner" value ="${balance.businessIncome}" style="width:90%"
-        	minValue="0" maxValue="999999999" format="n"/>
-    </td>                                   
+    	<input name="otherIncome" class="mini-textbox" value ="${balance.otherIncome}" style="width:90%"
+        />
+    </td>  
+    <td class="required_text" width="2%" align="right"></td>                              
     <td style="width:22%"><label for="textbox2$text">其他收入年度净收入合计(元):</label></td>
     <td style="width:27%" >
-    	<input name="otherIncome" class="mini-spinner" value ="${balance.otherIncome}" style="width:90%"
-        minValue="0" maxValue="999999999" format="n"/>
+    	<input name="otherIncome" class="mini-textbox" value ="${balance.otherIncome}" style="width:90%"
+        />
     </td>
 </tr>
 <tr>
+		<td width="2%"></td>
+		<td id="year_error" class="errorText" colspan="2"></td>
+		<td width="2%"></td>
+		<td id="farmingIncome_error" class="errorText" colspan="2"></td>
+	</tr>
+<tr>
+<td class="required_text" width="2%" align="right"></td>
 	<td style="width:18%"><label for="textbox1$text">生产支出(元):</label></td>
     <td style="width:27%">
-    	<input  name="productPay" class="mini-spinner" value ="${balance.productPay}" style="width:90%"
-        	minValue="0" maxValue="999999999" format="n"/>
+    	<input  name="productPay" class="mini-textbox" value ="${balance.productPay}" style="width:90%"
+        	/>
     </td>
+    <td class="required_text" width="2%" align="right"></td>
     <td style="width:22%"><label for="textbox2$text">生活支出(元):</label></td>
     <td style="width:27%" >
-    	<input name="livingPay" class="mini-spinner" value ="${balance.livingPay}" style="width:90%"
-        	minValue="0" maxValue="999999999" format="n"/>
+    	<input name="livingPay" class="mini-textbox" value ="${balance.livingPay}" style="width:90%"
+        	/>
     </td>
 </tr>
 <tr>
+		<td width="2%"></td>
+		<td id="year_error" class="errorText" colspan="2"></td>
+		<td width="2%"></td>
+		<td id="farmingIncome_error" class="errorText" colspan="2"></td>
+	</tr>
+<tr>
+<td class="required_text" width="2%" align="right"></td>
 	<td style="width:18%"><label for="textbox1$text">医疗支出(元):</label></td>
     <td style="width:27%">
-    	<input  name="medicalPay" class="mini-spinner" value ="${balance.medicalPay}"  style="width:90%"
-        	minValue="0" maxValue="999999999" format="n"/>
+    	<input  name="medicalPay" class="mini-textbox" value ="${balance.medicalPay}"  style="width:90%"
+        	/>
     </td>
+    <td class="required_text" width="2%" align="right"></td>
     <td style="width:22%"><label for="textbox1$text">教育支出(元):</label></td>
     <td style="width:27%">
-    	<input  name="educatePay" class="mini-spinner" value ="${balance.educatePay}" style="width:90%"
-        	minValue="0" maxValue="999999999" format="n"/>
+    	<input  name="educatePay" class="mini-textbox" value ="${balance.educatePay}" style="width:90%"
+        	/>
     </td>
 </tr>
 <tr>
+		<td width="2%"></td>
+		<td id="year_error" class="errorText" colspan="2"></td>
+		<td width="2%"></td>
+		<td id="farmingIncome_error" class="errorText" colspan="2"></td>
+	</tr>
+<tr>
+<td class="required_text" width="2%" align="right"></td>
 	<td style="width:18%"><label for="textbox1$text">参保支出(元):</label></td>
     <td style="width:27%">
-    	<input  name="insuredPay" class="mini-spinner" value ="${balance.insuredPay}" style="width:90%"
-        	minValue="0" maxValue="999999999" format="n"/>
+    	<input  name="insuredPay" class="mini-textbox" value ="${balance.insuredPay}" style="width:90%"
+        	/>
     </td>
+    <td class="required_text" width="2%" align="right"></td>
     <td style="width:22%"><label for="textbox1$text">其他支出(元):</label></td>
     <td style="width:27%">
-    	<input  name="otherPay" class="mini-spinner" value ="${balance.otherPay}" style="width:90%"
-        	minValue="0" maxValue="999999999" format="n"/>
+    	<input  name="otherPay" class="mini-textbox" value ="${balance.otherPay}" style="width:90%"
+        	/>
     </td>
 </tr>
 <tr>
-	<td style="width:18%"><label for="textbox2$text"><font color="red">*</font>家庭年度总收入合计(元):</label></td>
+		<td width="2%"></td>
+		<td id="year_error" class="errorText" colspan="2"></td>
+		<td width="2%"></td>
+		<td id="farmingIncome_error" class="errorText" colspan="2"></td>
+	</tr>
+<tr>
+<td class="required_text" width="2%" align="right">*</td>
+	<td style="width:18%">家庭年度总收入合计(元):</td>
     <td style="width:27%" >
-    	<input name="totalIncome" class="mini-spinner" value ="${balance.totalIncome}" style="width:90%"
-        	minValue="0" maxValue="999999999" format="n"/>
+    	<input name="totalIncome" class="mini-textbox" value ="${balance.totalIncome}" style="width:90%"
+        	errorMode="none" vtype="float" required="true" requiredErrorText="家庭年度总收入合计不能为空" onvalidation="onValidation"	/>
     </td>
-	<td style="width:22%"><label for="textbox1$text"><font color="red">*</font>家庭年度支出总合计(元):</label></td>
+    <td class="required_text" width="2%" align="right">*</td>
+	<td style="width:22%">家庭年度支出总合计(元):</td>
 	<td style="width:27%">
-    	<input  name="totalPay" class="mini-spinner" value ="${balance.totalPay}" style="width:90%"
-        	minValue="0" maxValue="999999999" format="n"/>
+    	<input  name="totalPay" class="mini-textbox" value ="${balance.totalPay}" style="width:90%"
+        errorMode="none" vtype="float" required="true" requiredErrorText="家庭年度支出总合计不能为空" onvalidation="onValidation"		/>
     </td>
 </tr>
+<tr>
+		<td width="2%"></td>
+		<td id="totalIncome_error" class="errorText" colspan="2"></td>
+		<td width="2%"></td>
+		<td id="totalPay_error" class="errorText" colspan="2"></td>
+	</tr>
 </table>
 </div>
 </fieldset>
@@ -204,6 +273,7 @@ function delIncome(index,fid){
 	var incomeId = $("input[name^='incomes["+index+"].id'").val();
 	$("#farmerIncome"+index).remove();
 	deleteIncome.push(incomeId);
+	$("#deleteIncome"). val(deleteIncome.join(","));
 	var next = index+1;
 	$(".farmerIncome").each(function(){
 		var name = $(this).attr("id");
@@ -219,6 +289,22 @@ function delIncome(index,fid){
 		};
 		
 	});
+}
+function submitForm() {           
+	var form = new mini.Form("#form1");
+    form.validate();
+	if (form.isValid() == false) return;
+	$("#farmerLoan").submit();
+}
+function updateError(e) {
+	var id = e.sender.name + "_error";
+    var el = document.getElementById(id);
+    if (el) {
+        el.innerHTML = e.errorText;
+    }
+}
+function onValidation(e) {                  
+    updateError(e);
 }
 </script>
 </body>

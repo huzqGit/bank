@@ -40,7 +40,6 @@ overflow-x:hidden
 		background:url(/bank/images/back.png) no-repeat
 	}
 	.addBtn{width:100px;height:25px;border:0;background:url(/bank/images/add.png) no-repeat}
-	.delBtn{width:100px;height:25px;border:0;background:url(/bank/images/delete.png) no-repeat}
 	.labelName{font-size:15px;font-weight:bold;color:darkgreen;}
 	.labelValue{font-size:15px;font-weight:bold;color:red;}
 	 li{
@@ -73,25 +72,49 @@ overflow-x:hidden
 
  background-repeat:no-repeat
 }
+.mini-panel-border{
+border-color:#D2D2D2;
+}
+.mini-grid-headerCell-nowrap{
+background:white
+}
+.mini-grid-headerCell{
+background:white;
+border-top:0px;
+border-color:#D2D2D2
+}
+.mini-grid-headerCell-inner{
+font-family:"仿宋_GB2312";
+font-size:12pt;
+}
+.mini-grid-column-splitter{
+background:white
+}
+.mini-grid-pager{
+background:white
+}
  </style>
 </head>
 <body>
 <div class="topMenu">
 <ul>
-	<li>
+	<li >
 		<a href="/bank/farmer/loadFarmer1.do?id=${farmer.id}">基本信息</a>
 	</li>
 	<li >
-			<a href="/bank/loan/queryLoan1.do?fid=${farmer.id}">贷款信息</a>
+		<a href="/bank/loan/queryLoan1.do?fid=${farmer.id}">贷款信息</a>
+	</li>
+	<li class="active">
+		民间借贷信息
 	</li>
 	<li >
-			<a href="/bank/farmer/queryBalance.do?fid=${farmer.id}">收支信息</a>
+		<a href="/bank/farmer/queryBalance.do?fid=${farmer.id}">收支信息</a>
 	</li>
 	<li >
 		<a href="/bank/farmer/queryHouse.do?fid=${farmer.id}">房产信息</a>
 	</li>
-	<li class="active">
-			林权信息
+	<li >
+		<a href="/bank/farmer/queryForest.do?fid=${farmer.id}">林权信息</a>
 	</li>
 	<li >
 		<a href="/bank/farmer/queryBreed.do?fid=${farmer.id}">种养殖信息</a>
@@ -106,7 +129,7 @@ overflow-x:hidden
 		<a href="/bank/farmer/queryInsured.do?fid=${farmer.id}">参保信息</a>
 	</li>
 	<li >
-		<a href="/bank/farmer/queryEvaluate.do?fid=${farmer.id}">其他信息</a>
+		<a href="/bank/farmer/queryEvaluate1.do?fid=${farmer.id}">其他信息</a>
 	</li>
 </ul>
 </div>
@@ -127,20 +150,17 @@ overflow-x:hidden
 	</tr>
 </table>
 </div>
-<div id="datagrid1" class="mini-datagrid" style="width:98%;margin:auto auto;height:320px;background-color:white" 
-            url="${pageContext.request.contextPath}/farmer/loadForest.do?fid=${farmer.id}"
+<div id="datagrid1" class="mini-datagrid" style="width:98%;margin:auto auto;height:340px;background-color:white" 
+            url="${pageContext.request.contextPath}/farmer/queryPrivateLendingByPaging.do?fid=${farmer.id}" idField="id"
             sizeList="[5,10,20,50]" pageSize="10" showReloadButton="false">
-            		<td align="center">编号</td>
 	        <div property="columns">
 	             <div type="indexcolumn" width="5%" headerAlign="center">编号</div>
-	             <div field="cardNum" width="10%" headerAlign="center" allowSort="true" >林权证编号</div>   
-	             <div field="wordNum" width="10%" headerAlign="center" allowSort="true">林权证字号</div>
-	             <div field="user" width="10%" headerAlign="center" allowSort="true" >使用人</div>   
-	             <div field="useType" width="10%" headerAlign="center" allowSort="true" >使用种类</div>   
-	             <div field="area" width="10%" headerAlign="center" allowSort="true" >占地面积</div>                                              
-	        	 <div field="timeLimit" width="35%" headerAlign="center" allowSort="true" >使用权期限</div>
-	        	 <div name="action" width="5%" headerAlign="center" align="center" renderer="editRenderer" cellStyle="padding:0;"></div>
-	        	 <div name="action" width="5%" headerAlign="center" align="center" renderer="deleteRenderer" cellStyle="padding:0;"></div>
+	             <div field="amount" width="15%" headerAlign="center" allowSort="true">贷款金额</div>
+	             <div field="rate" width="15%" headerAlign="center" allowSort="true" >利率</div>   
+	             <div field="lendingTime" width="30%" headerAlign="center" allowSort="true" dateFormat="yyyy-MM-dd">贷款时间 </div>     
+	             <div field="limtTime" width="10%" headerAlign="center" allowSort="true" dateFormat="yyyy-MM-dd">到期时间</div>                                    
+	        	 <div width="5%" headerAlign="center" align="center" renderer="editRenderer" cellStyle="padding:0;"></div>
+	         	 <div width="5%" headerAlign="center" align="center" renderer="deleteRenderer" cellStyle="padding:0;"></div>
 	         </div>
 </div>
 <script type="text/javascript">
@@ -149,20 +169,20 @@ overflow-x:hidden
 	grid.load();
 	
 	function add(fid){
-		window.location.href="/bank/farmer/typeInForest.do?fid="+fid;
+		window.location.href="/bank/farmer/typeInPrivateLending.do?fid="+fid;
 	}
 	function editRenderer(e) {
 	    var record = e.record;
 	    var id = record.id;
 	    var fid = record.farmerId;
-	    var s = '<a class="Edit_Button" target="_self" href="/bank/farmer/editForest.do?id='+id+'&fid='+fid+'">[编辑]</a>';      
+	    var s = '<a class="Edit_Button" target="_self" href="/bank/farmer/editPrivateLending.do?id='+id+'&fid='+fid+'">[编辑]</a>';      
 	    return s;
 	};
 	function deleteRenderer(e) {
 	    var record = e.record;
 	    var id = record.id;
 	    var fid = record.farmerId;
-	    var s = '<a class="New_Button" target="_self" href="/bank/farmer/deleteForest.do?id='+id+'&fid='+fid+'">[删除]</a>';      
+	    var s = '<a class="New_Button" target="_self" href="/bank/farmer/deletePrivateLending.do?id='+id+'&fid='+fid+'">[删除]</a>';      
 	    return s;
 	};
 </script>

@@ -39,44 +39,17 @@ overflow-x:hidden
 		border:0;
 		background:url(/bank/images/back.png) no-repeat
 	}
-	.addBtn{width:100px;height:25px;border:0;background:url(/bank/images/add.png) no-repeat}
-	.delBtn{width:100px;height:25px;border:0;background:url(/bank/images/delete.png) no-repeat}
-	.labelName{font-size:15px;font-weight:bold;color:darkgreen;}
-	.labelValue{font-size:15px;font-weight:bold;color:red;}
-	 li{
- border-bottom:2px solid green;
- float:left;
- width:185px;
- list-style-type:none;
- height:31px;
- text-align:center;
- line-height:28px;
- font-weight:bold;
- color:black;
- background-repeat:no-repeat
- }
-.active{
- float:left;
- width:100px;
- list-style-type:none;
- text-align:center;
- border-bottom:2px solid #6DC8E3;
- border-top:1px solid gray;
- border-left:1px solid gray;
- border-right:1px solid white;
- 	filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0 , startColorstr = 'white', 
-	endColorstr = '#6DC8E3' ); 
-	/* IE8 */
-	-ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType = 0,startColorstr = 'white', 
-	endColorstr = '#6DC8E3' )";  
- height:31px;
-
- background-repeat:no-repeat
-}
+.addBtn{width:100px;height:25px;border:0;background:url(/bank/images/add.png) no-repeat}
+.delBtn{width:100px;height:25px;border:0;background:url(/bank/images/delete.png) no-repeat}
+.labelName{font-size:15px;font-weight:bold;color:darkgreen;}
+.labelValue{font-size:15px;font-weight:bold;color:red;}
+.required_text,.errorText{color:red}
+.required_text{text-align:right}
  </style>
 </head>
 <body>
-<form  action="/bank/farmer/saveBreed1.do" class="farmerBreed" method="POST">
+<div id="form1">
+<form  action="/bank/farmer/saveBreed1.do" method="POST">
 <div class="topMenu" style="background:linear-gradient(#6DC8E3,white)">
 <table cellpadding="0" cellspacing="0"  height="60px">
     <tr>
@@ -87,7 +60,7 @@ overflow-x:hidden
     	<td width="2%"></td>
     	<td class="labelValue" width ="20%">${farmer.farmerIdnum }</td>
     	<td width="50px" align="right">
-       	 	<input type="submit" id="saveBtn"  value=""/>
+       	 	<input type="button" id="saveBtn" onclick="submitForm()" value=""/>
         </td>
         <td width="50px"  >
          	<input type="button" id="backBtn" onclick="back()" value=""/>
@@ -106,39 +79,57 @@ overflow-x:hidden
 <tr><td style="width:100%">
 <table width="100%">
 <tr>
-	<td style="width:15%"><label for="textbox1$text"><font color="red">*</font>种养殖品种:</label></td>
-    <td style="width:35%">
+	<td class="required_text" width="2%">*</td>
+	<td style="width:15%">种养殖品种:</td>
+    <td style="width:33%">
     	<input name="variety" class="mini-combobox" value="${breed.variety}" style="width:90%"
-    	 	required="true"  requiredErrorText="不能为空" url="/bank/dic/BreedType.txt" emptyText="请选择..."/>
+    	 	errorMode="none" required="true"  requiredErrorText="种养殖品种不能为空" url="/bank/dic/BreedType.txt"
+    	 	 emptyText="请选择..." onvalidation="onValidation"/>
     </td>
-    <td style="width:15%"><label for="textbox2$text"><font color="red">*</font>年产量(或出栏量):</label></td>
-    <td style="width:35%" >
-    	<input  name="output" class="mini-textbox"  value="${breed.output}"
-    		required="true"  requiredErrorText="不能为空" style="width:90%"/>
+    <td class="required_text" width="2%">*</td>
+    <td style="width:15%">年产量(或出栏量):</td>
+    <td style="width:33%" >
+    	<input  name="output" class="mini-textbox"  value="${breed.output}" style="width:90%"
+    		errorMode="none"  vtype="float" required="true"  requiredErrorText="年产量(或年出栏量)不能为空" onvalidation="onValidation" />
     </td>
 </tr>
 <tr>
+	<td></td>
 	<td id="variety_error" class="errorText" colspan="2"></td>
+	<td></td>
 	<td id="output_error" class="errorText" colspan="2"></td>
 </tr>
 <tr>
-	<td style="width:15%"><label for="textbox1$text"><font color="red">*</font>占地面积(平方米 )</label></td>
-    <td style="width:35%">
-    	<input name="floorArea" class="mini-textbox" value="${breed.floorArea}"
-    		required="true" requiredErrorText="不能为空" style="width:90%"/>
+	<td class="required_text">*</td>
+	<td>占地面积(平方米 )</td>
+    <td >
+    	<input name="floorArea" class="mini-textbox" value="${breed.floorArea}" style="width:90%"
+    		errorMode="none"  vtype="float" required="true" requiredErrorText="占地不能为空!" onvalidation="onValidation"/>
     </td>
-    <td style="width:15%"><font color="red">*</font>年平均产值(元)</td>
-    <td style="width:35%">
-    	<input  name="outputValue" class="mini-spinner" value="${breed.outputValue}" style="width:90%"
-    		required="true" requiredErrorText="不能为空" minValue="0" maxValue="999999999999" format="n"/>
+    <td class="required_text">*</td>
+    <td>年平均产值(元)</td>
+    <td >
+    	<input  name="outputValue" class="mini-textbox" value="${breed.outputValue}" style="width:90%"
+    		errorMode="none"  vtype="float" required="true" requiredErrorText="年平均产值不能为空!" onvalidation="onValidation"/>
     </td>
 </tr>
 <tr>
-    <td style="width:15%"><font color="red">*</font>当前评估价格(元):</td>
-    <td style="width:35%">
-    	<input name="assessPrice" class="mini-spinner" value="${breed.assessPrice}" style="width:90%"
-    		required="true" requiredErrorText="不能为空" minValue="0" maxValue="999999999999" format="n"/>
+	<td></td>
+	<td id="floorArea_error" class="errorText" colspan="2"></td>
+	<td></td>
+	<td id="outputValue_error" class="errorText" colspan="2"></td>
+</tr>
+<tr>
+	<td class="required_text"></td>
+    <td>当前评估价格(元):</td>
+    <td >
+    	<input name="assessPrice" class="mini-textbox" value="${breed.assessPrice}" style="width:90%"
+    		errorMode="none" vtype="float" onvalidation="onValidation"/>
     </td>
+</tr>
+<tr>
+	<td></td>
+	<td id="assessPrice_error" class="errorText" colspan="2"></td>
 </tr>
 </table>
 </td></tr></table>
@@ -146,9 +137,27 @@ overflow-x:hidden
 </div>
 </fieldset>
 </form>
+</div>
 <script type="text/javascript">
+	mini.parse();
 	function back(){
 		history.go(-1);
+	}
+	function submitForm() {           
+		var form = new mini.Form("#form1");
+	    form.validate();
+		if (form.isValid() == false) return;
+		$("form").submit();
+	}
+	function updateError(e) {
+		var id = e.sender.name + "_error";
+	    var el = document.getElementById(id);
+	    if (el) {
+	        el.innerHTML = e.errorText;
+	    }
+	}
+	function onValidation(e) {                  
+	    updateError(e);
 	}
 </script>
 </body>

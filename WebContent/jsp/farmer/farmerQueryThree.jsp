@@ -12,7 +12,7 @@
 *{margin:0;padding:0}
 body{scrollbar-base-color:#90D5EA;line-height:120%;font-family:"仿宋_GB2312";font-size:13pt;}
 .queryPane{
-background:linear-gradient(white,#6DC8E3,white);
+background:linear-gradient(#6DC8E3,white);
 /* IE6 & IE7 */
 filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0 , startColorstr = '#6DC8E3', 
 endColorstr = 'white' ); 
@@ -37,86 +37,91 @@ margin-top:5px
 .table_m table{width:100%;border-bottom:1px dotted gray}
 .table_m tr:hover{background:#90D5EA}
 .table_m table td{height:30px;line-height:30px;border-top:1px dotted gray;}
+.mini-panel-border{
+border-color:#D2D2D2;
+}
+.mini-grid-headerCell-nowrap{
+background:white
+}
+.mini-grid-headerCell{
+background:white;
+border-top:0px;
+border-color:#D2D2D2
+}
+.mini-grid-headerCell-inner{
+font-family:"仿宋_GB2312";
+font-size:12pt;
+}
+.mini-grid-column-splitter{
+background:white
+}
+.mini-grid-pager{
+background:white
+}
 </style>
 </head>
 <body>
 <div class="queryPane" style="padding-top:10px;width:100%">
 <form action="/bank/farmer/loadFarmerThree.do" method="POST">
-<table width="100%" style="vertical-align:middle;border:1px solid #8AD3E9">
+<table width="100%"  style="vertical-align:middle;">
 	<tr>
 		<td class="labelName"  width="30%" align="right">贷款金融机构名称:</td>
 		<td width="2%" ></td>
-		<td align="left" colspan="3"><input  type="text" name="organName"></td>
+		<td align="left" ><input  type="text" id="organName" name="organName"></td>
+		<td width="2%" ></td>
+		<td class="labelName"  width="30%" align="right">贷款金融机构名称:</td>
+		
+		<td align="left"><input  type="text" id="organName1" name="organName"></td>
+		<td rowspan="3" align="center" style="vertical-align:middle;">
+			<input type="button" value=""  onclick="search()"style="width:100px;height:25px;margin-top:auto;margin-bottom:auto;border:0;background:url(/bank/images/query.png) no-repeat">
+		</td>
 	</tr>
 	<tr>
 		<td class="labelName" width="30%"align="right" >贷款时间从:</td> 
 		<td width="2%" ></td>
-		<td><input type="text" name="loanDate1"/></td>
+		<td><input type="text" id="loanDate1" name="loanDate1"/></td>
 		<td width="2%" ></td>
 		<td class="labelName"  width="10%" align="right">到:</td>
-		<td><input  type="text" name="loandDate2"></td>
+		<td><input  type="text" id="loandDate2" name="loandDate2"></td>
 	</tr>
 	<tr>
 		<td class="labelName" width="30%"align="right" >贷款余额范围从:</td> 
 		<td width="2%" ></td>
-		<td><input type="text" name="balance1"/></td>
+		<td><input type="text" id="balance1" name="balance1"/></td>
 		<td width="2%" ></td>
 		<td class="labelName"  width="10%" align="right">到:</td>
 		<td><input  type="text" name="balance2"></td>
-	</tr>
-	<tr>
-		<td colspan="5">
-		<td  align="center">
-			<input type="submit" value="" style="width:100px;height:25px;margin-top:10px;border:0;background:url(/bank/images/query.png) no-repeat">
-		</td>
+		
 	</tr>
 </table>
 </form>
 </div>
-<c:choose>
-<c:when test="${empty farmers}">
-<div>
-<fieldset style="width:90%;margin:auto auto">
-	 <legend style="width:310px;height:74px;background:url(/bank/images/threetips.png) no-repeat"></legend>
-	 <div style="padding:8px 5px 10px 35px">
-	 	<p style="font-size:15px;font-family:黑体;font-weight:bold;color:darkgreen;margin-bottom:10px">用户输入农户姓名、身份证号码可以实现二类查询功能:</p>
-	 	<ol>
-	 		<li>按农户身份证号精确查询、按客户姓名精确查询。</li>
-	 		<li>其中按身份证号查询方式跳转至农户概况信息页面，展示农户的概况信息。</li>
-	 		<li>其中按姓名查询方式跳转至农户列表信息展示页面，展示负荷条件的多个农户的摘要信息，选择其中的某条记录（通过"详细"按钮）跳转至农户概况信息页面。</li>
-	 	</ol>
-	 
-	 </div>
-</fieldset>
-</div>
-</c:when>
-<c:otherwise>
-<div>
-<fieldset style="width:90%;margin:auto auto">
-<legend style="width:310px;height:74px;background:url(/bank/images/tips.png) no-repeat"></legend>
-<div class="table_m">
-<table class="table_m" border="0" cellspacing="0" cellpadding="0">
-	<tr style="font-weight:bold;color:black">
-		<td align="center" width="8%">编号</td>
-		<td align="center" width="10%">姓名</td>
-		<td align="center" width="15%">身份证号码</td>
-		<td align="center" width="15%">联系电话</td>
-		<td align="center" width="50%">住址</td>
-	</tr>
-	<c:forEach items="${farmers}" var="farmer" varStatus="status">
-	<tr onclick="detail(${farmer.id})">
-		<td align="center">${status.index+1}</td>
-		<td align="center">${farmer.farmerName}</td>
-		<td align="center">${farmer.farmerIdnum}</td>
-		<td align="center">${farmer.phone}</td>
-		<td align="center">${farmer.address}</td>
-	</tr>	
-	</c:forEach>
-</table>
-</div>
-</fieldset>
-</div>
-</c:otherwise>
-</c:choose>
+<div id="datagrid1" class="mini-datagrid" style="width:98%;height:300px;margin:auto auto" 
+    url="/bank/farmer/loadFarmerThree.do"  idField="id" allowResize="true"
+    sizeList="[20,30,50,100]" pageSize="10"
+>
+    <div property="columns">
+        <div type="indexcolumn" ></div>
+        <div field="farmerName" width="10%" headerAlign="center" allowSort="true">姓名</div>    
+        <div field="frmerIdnum" width="20%" headerAlign="center" allowSort="true">身份证号码</div>                            
+        <div field="sex" width="10%" renderer="onGenderRenderer" align="center" headerAlign="center">性别</div>
+        <div field="phone" width="20%" align="right" width="100" allowSort="true">联系方式</div>                                
+        <div field="address" width="40%" allowSort="true" decimalPlaces="2" dataType="float">地址</div>
+    </div>
+</div>   
+ <script type="text/javascript">
+ mini.parse();
+ var grid = mini.get("datagrid1");
+ function search() {
+     var organName = $("#organName").val();
+     var loanDate1 = $("#loanDate1").val();
+     var loanDate2 = $("#loanDate2").val();
+     var balance1 = $("#balance1").val();
+     var balance2 = $("#balance2").val()
+     grid.load({organName:organName,loanDate1:loanDate1,loanDate2:loanDate2,
+    	 balance1:balance1,balance2:balance2});
+ }
+ 
+ </script>
 </body>
 </html>

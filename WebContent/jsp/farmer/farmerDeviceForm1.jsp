@@ -39,40 +39,12 @@ overflow-x:hidden
 		border:0;
 		background:url(/bank/images/back.png) no-repeat
 	}
-	.addBtn{width:100px;height:25px;border:0;background:url(/bank/images/add.png) no-repeat}
-	.delBtn{width:100px;height:25px;border:0;background:url(/bank/images/delete.png) no-repeat}
-	.labelName{font-size:15px;font-weight:bold;color:darkgreen;}
-	.labelValue{font-size:15px;font-weight:bold;color:red;}
-	 li{
- border-bottom:2px solid green;
- float:left;
- width:85px;
- list-style-type:none;
- height:31px;
- text-align:center;
- line-height:28px;
- font-weight:bold;
- color:black;
- background-repeat:no-repeat
- }
-.active{
- float:left;
- width:100px;
- list-style-type:none;
- text-align:center;
- border-bottom:2px solid #6DC8E3;
- border-top:1px solid gray;
- border-left:1px solid gray;
- border-right:1px solid white;
- 	filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0 , startColorstr = 'white', 
-	endColorstr = '#6DC8E3' ); 
-	/* IE8 */
-	-ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType = 0,startColorstr = 'white', 
-	endColorstr = '#6DC8E3' )";  
- height:31px;
-
- background-repeat:no-repeat
-}
+.addBtn{width:100px;height:25px;border:0;background:url(/bank/images/add.png) no-repeat}
+.delBtn{width:100px;height:25px;border:0;background:url(/bank/images/delete.png) no-repeat}
+.labelName{font-size:15px;font-weight:bold;color:darkgreen;}
+.labelValue{font-size:15px;font-weight:bold;color:red;}
+.required_text,.errorText{color:red}
+.required_text{text-align:right}
  </style>
 </head>
 <body>
@@ -106,34 +78,55 @@ overflow-x:hidden
 <tr><td>
 <table width="100%">
 <tr>
-	<td style="width:15%"><label for="textbox1$text"><font color="red">*</font>设备名称:</label></td>
-    <td style="width:30%">
+	<td class="required_text" width="2%">*</td>
+	<td style="width:15%">设备名称:</td>
+    <td style="width:33%">
 	    <input name="name" class="mini-textbox"  value="${device.name}" required="true"
 	           requiredErrorText="不能为空" style="width:90%"/>
     </td>
-    <td style="width:15%"><label for="textbox2$text"><font color="red">*</font>品牌型号:</label></td>
-    <td style="width:30%" >
-        <input id="textbox2"  name="brand" class="mini-textbox" value="${device.brand}" style="width:90%"/>
+    <td class="required_text" width="2%">*</td>
+    <td style="width:15%">品牌型号:</td>
+    <td style="width:33%" >
+        <input name="brand" class="mini-textbox" value="${device.brand}" style="width:90%"/>
     </td>
 </tr>
 <tr>
-    <td style="width:15%"><label for="textbox1$text"><font color="red">*</font>构建价格(元):</label></td>
-    <td style="width:30%">
-    	<input name="buyingPrice" class="mini-spinner" value="${device.buyingPrice}" required="true"
+	<td></td>
+	<td colspan="2" id="name_error" class="errorText"></td>
+	<td></td>
+	<td colspan="2" id="brand_error" class="errorText"></td>
+</tr>
+<tr>
+	<td class="required_text">*</td>
+    <td >构建价格(元):</td>
+    <td >
+    	<input name="buyingPrice" class="mini-textbox" value="${device.buyingPrice}" required="true"
         	requiredErrorText="购建价格不能为空" style="width:90%" minValue="0" />
     </td>
-    <td style="width:15%"><label for="textbox1$text"><font color="red">*</font>购进年份:</label></td>
-    <td style="width:30%">
+    <td class="required_text">*</td>
+    <td >购进年份:</td>
+    <td >
     	<input name="buyingDate" class="mini-textbox" value="${device.buyingDate}" required="true"
         	requiredErrorText="购进年份不能为空" style="width:90%" />
     </td>
 </tr>
 <tr>
-	<td style="width:15%"><label for="textbox1$text"><font color="red">*</font>当前评估价格(元):</label></td>
-    <td style="width:30%">
-   		<input id="textbox1"  name="assessPrice" class="mini-spinner" value="${device.assessPrice}" style="width:90%"
+	<td></td>
+	<td colspan="2" id="buyingPrice_error" class="errorText"></td>
+	<td></td>
+	<td colspan="2" id="buyingDate_error" class="errorText"></td>
+</tr>
+<tr>
+	<td class="required_text"></td>
+	<td >当前评估价格(元):</td>
+    <td >
+   		<input id="textbox1"  name="assessPrice" class="mini-textbox" value="${device.assessPrice}" style="width:90%"
    			required="true" requiredErrorText="当前评估价格不能为空" minValue="0" />
     </td>
+</tr>
+<tr>
+	<td></td>
+	<td colspan="2" id="assessPrice_error" class="errorText"></td>
 </tr>
 </table>
 </td></tr></table>

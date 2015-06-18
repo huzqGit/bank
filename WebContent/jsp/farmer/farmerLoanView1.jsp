@@ -126,7 +126,7 @@ background:white
 		<a href="/bank/farmer/queryInsured.do?fid=${farmer.id}">参保信息</a>
 	</li>
 	<li >
-		<a href="/bank/jsp/common/bankBuilding.jsp?form=other">其他信息</a>
+		<a href="/bank/farmer/queryEvaluate1.do?fid=${farmer.id}">其他信息</a>
 	</li>
 </ul>
 </div>
@@ -149,7 +149,7 @@ background:white
 </div>
 <div id="datagrid1" class="mini-datagrid" style="width:98%;margin:auto auto;height:340px;background-color:white" 
             url="${pageContext.request.contextPath}/loan/loadLoan1.do?fid=${farmer.id}" idField="id"
-            sizeList="[5,10,20,50]" pageSize="10" showReloadButton="false">
+            pageSize="10" showReloadButton="false">
 	        <div property="columns">
 	             <div type="indexcolumn" width="5%" headerAlign="center">编号</div>
 	             <div field="compactNum" width="15%" headerAlign="center" allowSort="true">合同号</div>

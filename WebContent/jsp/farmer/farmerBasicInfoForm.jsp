@@ -81,8 +81,7 @@
     </td>
     <td style="width:10%"><label for="textbox2$text"><font color="red">*</font>户主身份证号:</label></td>
     <td style="width:40%" >
-    	<input name="farmerIdnum" class="mini-textbox"  value="${farmer.farmerIdnum}" style="width:90%"
-        	enabled="false" required="true" requiredErrorText="户主身份证号不能为空" />
+    	<input type="text" id="farmerIdNum" name="farmerIdnum"  value="${farmer.farmerIdnum}" style="width:90%" />
    </td>
 </tr>
 <tr>
@@ -122,12 +121,12 @@
  <tr>
  	<td style="width:10%"><label for="textbox2$text"><font color="red">*</font>家庭人数:</label></td>
     <td style="width:40%" >
-    	<input name="familyNum" class="mini-spinner"  value="${farmer.familyNum}"
+    	<input name="familyNum" class="mini-textbox"  value="${farmer.familyNum}"
         	minValue="1" maxValue="10" style="width:90%"/>
     </td>
     <td style="width:10%"><label for="textbox2$text">&nbsp;&nbsp;劳动力人数:</label></td>
     <td style="width:40%" >
-    	<input name="laborNum" class="mini-spinner" value="${farmer.laborNum}" style="width:90%"
+    	<input name="laborNum" class="mini-textbox" value="${farmer.laborNum}" style="width:90%"
         	minValue="1" maxValue="20"/>
 
     </td>

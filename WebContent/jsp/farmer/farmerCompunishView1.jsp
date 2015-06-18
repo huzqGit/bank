@@ -106,7 +106,7 @@ overflow-x:hidden
 		<a href="/bank/farmer/queryInsured.do?fid=${farmer.id}">参保信息</a>
 	</li>
 	<li >
-		<a href="/bank/jsp/common/bankBuilding.jsp?form=other">其他信息</a>
+		<a href="/bank/farmer/queryEvaluate1.do?fid=${farmer.id}">其他信息</a>
 	</li>
 </ul>
 </div>
@@ -135,7 +135,7 @@ overflow-x:hidden
 	             <div type="indexcolumn" width="5%" headerAlign="center">编号</div>
 	             <div field="type" width="15%" headerAlign="center" allowSort="true">表彰或处罚</div>
 	             <div field="organ" width="25%" headerAlign="center" allowSort="true" >表彰或处罚部门</div>   
-	             <div field="occurTime" width="15%" headerAlign="center" allowSort="true" >表彰或处罚时间</div>                                           
+	             <div field="occurTime" width="15%" headerAlign="center" allowSort="true" format="yyyy-MM-dd">表彰或处罚时间</div>                                           
 	        	 <div field="detail" width="30%" headerAlign="center" allowSort="true" >表彰或处罚内容</div>   
 	        	 <div name="action" width="5%" headerAlign="center" align="center" renderer="editRenderer" cellStyle="padding:0;"></div>
 	        	 <div name="action" width="5%" headerAlign="center" align="center" renderer="deleteRenderer" cellStyle="padding:0;"></div>

@@ -106,7 +106,7 @@ overflow-x:hidden
 		参保信息
 	</li>
 	<li >
-		<a href="/bank/jsp/common/bankBuilding.jsp?form=other">其他信息</a>
+		<a href="/bank/farmer/queryEvaluate.do?fid=${farmer.id}">其他信息</a>
 	</li>
 </ul>
 </div>
@@ -135,8 +135,8 @@ overflow-x:hidden
 	             <div type="indexcolumn" width="5%" headerAlign="center">编号</div>
 	             <div field="type" width="15%" headerAlign="center" allowSort="true">参加保险种类</div>
 	             <div field="amount" width="15%" headerAlign="center" allowSort="true" >参保金额</div>   
-	             <div field="insureTime" width="20%" headerAlign="center" allowSort="true" >参保时间</div>  
-	             <div field="limitTime" width="25%" headerAlign="center" allowSort="true" >参保到期日</div>                                                                       
+	             <div field="insureTime" width="20%" headerAlign="center" allowSort="true" dateFormat="yyyy-MM-dd">参保时间</div>  
+	             <div field="limitTime" width="25%" headerAlign="center" allowSort="true" dateFormat="yyyy-MM-dd">参保到期日</div>                                                                       
 	        	 <div width="5%" headerAlign="center" align="center" renderer="editRenderer" cellStyle="padding:0;"></div>
 	        	 <div width="5%" headerAlign="center" align="center" renderer="deleteRenderer" cellStyle="padding:0;"></div>
 	         </div>
