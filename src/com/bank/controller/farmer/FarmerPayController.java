@@ -23,16 +23,21 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.bank.Constants;
 import com.bank.beans.Farmer;
 import com.bank.beans.FarmerIncome;
 import com.bank.beans.FarmerPay;
+import com.bank.beans.Organ;
 import com.bank.common.util.JsonUtil;
 import com.bank.service.IFarmerIncomeService;
 import com.bank.service.IFarmerPayService;
 import com.bank.service.IFarmerService;
+import com.common.exception.CreateException;
 import com.common.exception.DAOException;
 import com.common.exception.DataNotFoundException;
+import com.common.exception.UpdateException;
 
+@SuppressWarnings("unused")
 @Controller
 @RequestMapping(value = "/farmer")
 public class FarmerPayController {
@@ -98,20 +103,45 @@ public class FarmerPayController {
 	}
 	@RequestMapping(value="/saveBalance1",method=RequestMethod.POST)
 	public ModelAndView saveBalance1(@ModelAttribute(value="balance") FarmerPay balance,
-			HttpServletRequest request,HttpServletResponse response) throws Exception{
+			HttpServletRequest request,HttpServletResponse response)  {
 		
+		String delIncomes = request.getParameter("deleteIncome");
+		if(!StringUtils.isEmpty(delIncomes)){
+			String[] incomes = delIncomes.split(",");
+			List<Long> incomeIds = new ArrayList<Long>(incomes.length);
+			for(String income:incomes){
+				incomeIds.add(Long.valueOf(income));
+			}
+			farmerPayService.deleteIncomes(incomeIds);
+		}
 		if(balance.getId()==null){
-			farmerPayService.save(balance);
+			try {
+				farmerPayService.save(balance);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				e.printStackTrace();
+			}
 		}else{
-			farmerPayService.update(balance);
+			try {
+				farmerPayService.update(balance);
+			}catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				e.printStackTrace();
+			}
 		}
 		List<FarmerIncome> incomes = balance.getIncomes();
 		for(FarmerIncome income : incomes){
 			income.setPayId(balance.getId());
-			if(income.getId()==null){
-				farmerIncomeService.save(income);
-			}else{
-				farmerIncomeService.update(income);
+			try{
+				if(income.getId()==null){
+					farmerIncomeService.save(income);
+				}else{
+					farmerIncomeService.update(income);
+				}
+			}catch(Exception e){
+				e.printStackTrace();
 			}
 		}
 		Farmer farmer = null;
@@ -218,15 +248,26 @@ public class FarmerPayController {
 		return null;
 		
 	}
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/loadBalance1", method = RequestMethod.POST)
-	public ModelAndView loadBalance1(@RequestParam(value="fid",required=true) String fid, 
-			HttpServletResponse response){
-		Long farmerId = Long.valueOf(fid);
-		List<FarmerPay> balances = farmerService.findBalanceByFarmer(farmerId);
-	    String json = JSON.toJSONStringWithDateFormat(balances,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
+	public ModelAndView loadBalance1(@RequestParam(value="fid") Long fid, 
+			@RequestParam(value="pageIndex") int pageIndex,
+			@RequestParam(value="pageSize") int pageSize,
+			@RequestParam(value="sortField") String sortField,
+			@RequestParam(value="sortOrder") String sortOrder,
+			HttpServletRequest request,HttpServletResponse response){
+		int totalNumber = farmerPayService.findTotalNumberByFarmerId(fid);
+		List<FarmerPay> balances = farmerPayService.findPagingByFarmerId(pageIndex, pageSize, sortField, sortOrder, fid);
+		Map map= new HashMap();
+		map.put("total", totalNumber);
+		map.put("data", balances);
+	    String json = JSON.toJSONStringWithDateFormat(map,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
 	    response.setContentType("text/html;charset=UTF-8");
+	    PrintWriter writer = null;
 	    try {
-			response.getWriter().write(json);
+			writer = response.getWriter();
+			writer.write(json);
+			writer.flush();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

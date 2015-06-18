@@ -255,16 +255,25 @@ public class FarmerHouseController {
 	   view.addObject("devices",devices);
 	   return view;
 	}
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/loadHouse", method = RequestMethod.POST)
-	public ModelAndView loadHouse(@RequestParam(value="fid",required=true) String fid, 
-			HttpServletResponse response) {
+	public ModelAndView loadHouse(@RequestParam(value="fid") Long fid, 
+			@RequestParam(value="pageIndex") int pageIndex,
+			@RequestParam(value="pageSize") int pageSize,
+			@RequestParam(value="sortField") String sortField,
+			@RequestParam(value="sortOrder") String sortOrder,
+			HttpServletRequest request,HttpServletResponse response) {
 	
-			Long farmerId=Long.valueOf(fid);
-			List<FarmerHouse> houses = farmerHouseService.findHouseByFarmer(farmerId);
-			 String json = JSON.toJSONStringWithDateFormat(houses,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
+			int totalNumber = farmerHouseService.findTotalNumberByFarmerId(fid);
+			List<FarmerHouse> houses = farmerHouseService.findPagingByFarmerId(pageIndex, pageSize, sortField, sortOrder, fid);
+			Map map = new HashMap();
+			map.put("total", totalNumber);
+			map.put("data", houses);
+			String json = JSON.toJSONStringWithDateFormat(map,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
 			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter writer = null;
 			try {
-				PrintWriter writer = response.getWriter();
+				writer = response.getWriter();
 				writer.write(json);
 				writer.flush();
 			} catch (IOException e) {
@@ -275,43 +284,6 @@ public class FarmerHouseController {
 
 	}
 	
-	@RequestMapping(value="/loadAllHouse",method=RequestMethod.POST)
-	public ModelAndView loadAllCompany(HttpServletRequest request, 
-			HttpServletResponse response) throws Exception{
-		//查询条件
-		String farmerName = request.getParameter("farmerName");
-	    String farmerIdNum=request.getParameter("farmerIdNum");
-	    String recorder=request.getParameter("recorder");
-	    String houseProperty=request.getParameter("houseProperty");
-	    String houseType=request.getParameter("houseType");
-	    String recordTimeBegin=request.getParameter("recordTimeBegin");
-	    String recordTimeEnd=request.getParameter("recordTimeEnd");
-	    
-	    Map<String,String> query = new HashMap<String,String>();
-	    query.put("farmerName", farmerName);
-	    query.put("farmerIdNum", farmerIdNum);
-	    query.put("houseProperty", houseProperty);
-	    query.put("houseType", houseType);
-	    query.put("recorder", recorder);
-	    query.put("recordTimeBegin", recordTimeBegin);
-	    query.put("recordTimeEnd", recordTimeEnd);
-	    //分页
-	    int pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
-	    int pageSize = Integer.parseInt(request.getParameter("pageSize"));        
-	    //字段排序
-	    String sortField = request.getParameter("sortField");
-	    String sortOrder = request.getParameter("sortOrder");
-	    List<FarmerHouse> data = farmerHouseService.getPageingEntities(pageIndex, pageSize, sortField, sortOrder, query);
-	    
-	    HashMap result = new HashMap();
-        result.put("data", data);
-        result.put("total", data.size());
-        
-	    String json = JSON.toJSONStringWithDateFormat(result,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
-	    response.setContentType("text/html;charset=UTF-8");
-	    response.getWriter().write(json);
-		return null;
-	}
 	@RequestMapping(value="/typeInChanQuan",method=RequestMethod.POST)
 	public ModelAndView typeInChanQuan(HttpServletRequest request, 
 			HttpServletResponse response) throws Exception{

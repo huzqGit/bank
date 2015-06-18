@@ -22,7 +22,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.bank.beans.Farmer;
 import com.bank.beans.FarmerDevice;
-import com.bank.beans.FarmerForest;
 import com.bank.common.util.JsonUtil;
 import com.bank.service.IFarmerDeviceService;
 import com.bank.service.IFarmerService;
@@ -144,16 +143,25 @@ public class FarmerDeviceController {
 		return view;
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/loadDevice", method = RequestMethod.POST)
-	public ModelAndView loadDevice(@RequestParam(value="fid",required=true) String fid, 
-			HttpServletResponse response) {
+	public ModelAndView loadDevice(@RequestParam(value="fid") Long fid, 
+			@RequestParam(value="pageIndex") int pageIndex,
+			@RequestParam(value="pageSize") int pageSize,
+			@RequestParam(value="sortField") String sortField,
+			@RequestParam(value="sortOrder") String sortOrder,
+			HttpServletRequest request,HttpServletResponse response) {
 	
-			Long farmerId=Long.valueOf(fid);
-			List<FarmerDevice> devices = farmerDeviceService.findDeviceByFarmer(farmerId);
-			String json = JSON.toJSONStringWithDateFormat(devices,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
+			int totalNumber = farmerDeviceService.findTotalNumberByFarmerId(fid);
+			List<FarmerDevice> devices = farmerDeviceService.findPagingByFarmerId(pageIndex, pageSize, sortField, sortOrder, fid);
+			Map map = new HashMap();
+			map.put("total", totalNumber);
+			map.put("data", devices);
+			String json = JSON.toJSONStringWithDateFormat(map,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
 			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter writer = null;
 			try {
-				PrintWriter writer = response.getWriter();
+				writer = response.getWriter();
 				writer.write(json);
 				writer.flush();
 			} catch (IOException e) {
@@ -162,42 +170,6 @@ public class FarmerDeviceController {
 			}
 		    return null;
 
-	}
-	
-	@RequestMapping(value="/loadAllDevice",method=RequestMethod.POST)
-	public ModelAndView loadAllCompany(HttpServletRequest request, 
-			HttpServletResponse response) throws Exception{
-		//查询条件
-		String farmerName = request.getParameter("farmerName");
-	    String farmerIdNum=request.getParameter("farmerIdNum");
-	    String name=request.getParameter("name");
-	    String recorder=request.getParameter("recorder");
-	    String recordTimeBegin=request.getParameter("recordTimeBegin");
-	    String recordTimeEnd=request.getParameter("recordTimeEnd");
-	    
-	    Map<String,String> query = new HashMap<String,String>();
-	    query.put("farmerName", farmerName);
-	    query.put("farmerIdNum", farmerIdNum);
-	    query.put("name", name);
-	    query.put("recorder", recorder);
-	    query.put("recordTimeBegin", recordTimeBegin);
-	    query.put("recordTimeEnd", recordTimeEnd);
-	    //分页
-	    int pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
-	    int pageSize = Integer.parseInt(request.getParameter("pageSize"));        
-	    //字段排序
-	    String sortField = request.getParameter("sortField");
-	    String sortOrder = request.getParameter("sortOrder");
-	    List<FarmerDevice> data = farmerDeviceService.getPageingEntities(pageIndex, pageSize, sortField, sortOrder, query);
-	    
-	    HashMap result = new HashMap();
-        result.put("data", data);
-        result.put("total", data.size());
-        
-	    String json = JSON.toJSONStringWithDateFormat(result,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
-	    response.setContentType("text/html;charset=UTF-8");
-	    response.getWriter().write(json);
-		return null;
 	}
 	@RequestMapping(value="/typeInDevice",method=RequestMethod.GET)
 	public ModelAndView typeInDevice(@RequestParam(value="fid") String fid, 

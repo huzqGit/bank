@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,6 +23,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.bank.beans.Farmer;
 import com.bank.beans.FarmerEvaluate;
+import com.bank.beans.FarmerHouse;
 import com.bank.common.util.JsonUtil;
 import com.bank.service.IFarmerEvaluateService;
 import com.bank.service.IFarmerService;
@@ -63,23 +65,47 @@ public class FarmerEvaluateController {
 		return null;	
 	
 }
+	@RequestMapping(value = "/saveEvaluate1",method = RequestMethod.POST)
+	public ModelAndView saveEvaluate1(@ModelAttribute(value="evaluate") FarmerEvaluate evaluate,
+			HttpServletRequest request,HttpServletResponse response){
+		
+		try{
+			if(evaluate.getId() == null){
+					farmerEvaluateService.save(evaluate);
+			}else{
+				farmerEvaluateService.update(evaluate);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		Farmer farmer = null;
+		try {
+			farmer = farmerService.findByPK(evaluate.getFarmerId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		ModelAndView view = new ModelAndView("/farmer/farmerEvaluateForm1");
+		view.addObject("farmer",farmer);
+		view.addObject("evaluate",evaluate);
+		return view;
+	}
 @RequestMapping(value="/queryEvaluate",method=RequestMethod.GET)
-public ModelAndView queryCompunish(@RequestParam(value="fid") String fid, 
+public ModelAndView queryEvaluate(@RequestParam(value="fid") String fid, 
 			HttpServletRequest request,HttpServletResponse response){
 		
 		Long farmerId = Long.valueOf(fid);
-		ModelAndView view = new ModelAndView("/farmer/farmerEvaluateView1");
+		ModelAndView view = new ModelAndView("/farmer/farmerEvaluateForm1");
 		Farmer farmer = null;
+		FarmerEvaluate evaluate = null;
 		try {
 			 farmer = farmerService.findByPK(farmerId);
-		} catch (DAOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (DataNotFoundException e) {
+			 evaluate = farmerEvaluateService.findByID(farmerId);
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		view.addObject("farmer",farmer);
+		view.addObject("evaluate",evaluate);
 		return view;
 }
 @RequestMapping(value="/loadEvaluate",method=RequestMethod.POST)
@@ -201,6 +227,28 @@ public ModelAndView typeInEvaluate(@RequestParam(value="farmerName") String farm
 	    response.setContentType("text/html;charset=UTF-8");
 	    response.getWriter().write(json);
 		return null;
+	}
+	@RequestMapping(value="/typeInEvaluate",method=RequestMethod.GET)
+	public ModelAndView typeInEvaluate(@RequestParam(value="fid") String fid, 
+			HttpServletRequest request,HttpServletResponse response){
+		
+		Long farmerId = Long.valueOf(fid);
+		Farmer farmer = null;
+		FarmerEvaluate evaluate = null;
+		try {
+			farmer = farmerService.findByPK(farmerId);
+			evaluate = farmerEvaluateService.findByID(farmerId);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DataNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ModelAndView view = new ModelAndView("/farmer/farmerEvaluateForm1");
+		view.addObject("farmer",farmer);
+		view.addObject("evaluate",evaluate);
+		return view;
 	}
 	
 }
