@@ -72,6 +72,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="model/Cooperation.xml" />
 		<mapper resource="model/CooperationDebt.xml" />
 		<mapper resource="model/CooperationProfit.xml" />
+		<mapper resource="model/FarmerStatistics.xml" />
+		<mapper resource="model/FarmerPrivateLending.xml"/>
 	</mappers> 
 
 
