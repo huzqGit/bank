@@ -82,7 +82,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	otherStatus = #{otherStatus,jdbcType=VARCHAR}
 	where evaluateId = #{id,jdbcType=BIGINT}
 </update>
-<select id="findByPK" parameterType="Long" resultType="com.bank.beans.FarmerEvaluate">
+<select id="findByPK" parameterType="Long" resultMap="farmerEvaluateList">
 		select 
 		<include refid="Evaluate_Column_List" />
 		from t_farmer_evaluate where evaluateId = #{id,jdbcType=BIGINT}

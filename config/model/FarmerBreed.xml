@@ -97,7 +97,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<include refid="Breed_Column_List" />
 	from t_farmer_breed where farmerId = #{farmerId,jdbcType=BIGINT}
 </select>
-
+<select id="findTotalNumberByFarmerId" parameterType="Long" resultType="INTEGER">
+	select count(1) from t_farmer_breed
+	where farmerId = #{farmerId,jdbcType=BIGINT}
+</select>
+<select id="findPagingByFarmerId" parameterType="Map" resultMap="farmerBreedList">
+	select 
+	<include refid="Breed_Column_List" />
+	from 
+	(select t.*,rowNumber() over() as rn from t_farmer_breed t
+	<where>
+		<if test="farmerId != null">
+			t.farmerId = #{farmerId,jdbcType=BIGINT} 
+		</if>
+	 </where>
+	 )
+	 <where>
+	 	<if test="start != null">
+	    	rn between #{start} and #{end}
+	   	</if>
+	 </where>
+</select> 
 <select id="pageing" parameterType="Map" resultMap="farmerBreedList">
 	select 
 	<include refid="Breed_Column_List" />

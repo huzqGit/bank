@@ -45,6 +45,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    			</if>
 		</trim>
 </insert>
+<delete id="delete" parameterType="list">
+	delete from t_farmer_income  
+	<where>
+	 incomeId in
+	<foreach item="item" index="index" collection="list" 
+			open="(" separator="," close=")">
+	#{item}
+	</foreach>
+	</where>
+</delete>
 <update id="update">
 	update t_farmer_income
 	set payId = #{payId,jdbcType=BIGINT},

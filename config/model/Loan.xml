@@ -385,6 +385,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	where a.farmerId = b.clientId
 	and a.farmerId = #{farmerId,jdbcType=BIGINT}
 </select>
+<select id="findTotalNummberByFarmerId" parameterType="Long" resultType="Integer">
+	select count(*) from t_loan t
+	where t.clientId = #{farmerId,jdbcType=BIGINT} 
+</select>
+<select id="findByPaging" parameterType="Map" resultMap="loanResultMap">
+	select 
+	<include refid="Loan_Column_List" />
+	from 
+	(select t.*,rowNumber() over() as rn from t_loan t
+	<where>
+		<if test="farmerId != null">
+			t.clientId = #{farmerId,jdbcType=BIGINT} 
+		</if>
+	 </where>
+	 )
+	 <where>
+	 	<if test="start != null">
+	    	rn between #{start} and #{end}
+	   	</if>
+	 </where>
+</select>
 <select id="findByFarmers" parameterType="list" resultMap="loanResultMap1">
 	select a.farmerName,a.farmerIdNum,b.*
 	from t_farmer a,t_loan b

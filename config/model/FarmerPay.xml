@@ -162,11 +162,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</if>
 </select>
 <select id="findByFarmer" parameterType="Map" resultMap="farmerPayList">
-		select 
-		<include refid="Pay_Column_List" />
-		from t_farmer_pay 
-		where farmerId = #{farmerId,jdbcType=BIGINT}
+	select 
+	<include refid="Pay_Column_List" />
+	from t_farmer_pay 
+	where farmerId = #{farmerId,jdbcType=BIGINT}
 </select>
+<select id="findTotalNumberByFarmerId" parameterType="Long" resultType="INTEGER">
+	select count(1) from t_farmer_pay
+	where farmerId = #{farmerId,jdbcType=BIGINT}
+</select>
+<select id="findPagingByFarmerId" parameterType="Map" resultMap="farmerPayList">
+	select 
+	<include refid="Pay_Column_List" />
+	from 
+	(select t.*,rowNumber() over() as rn from t_farmer_pay t
+	<where>
+		<if test="farmerId != null">
+			t.farmerId = #{farmerId,jdbcType=BIGINT} 
+		</if>
+	 </where>
+	 )
+	 <where>
+	 	<if test="start != null">
+	    	rn between #{start} and #{end}
+	   	</if>
+	 </where>
+</select> 
 <select id="findLatestByFarmer" parameterType="Map" resultMap="farmerPayList">
 		select 
 		<include refid="Pay_Column_List" />

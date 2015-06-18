@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="farmerprivatelending">
+<sql id="PrivateLending_Column_List" >
+	lendingId, farmerId, amount, rate,lendingTime, limitTime, recorder, recordTime
+</sql>
+<resultMap id="farmerPrivateLendingList" type="com.bank.beans.FarmerPrivateLending">
+    <id column="lendingId" property="id" jdbcType="BIGINT"/>
+    <result column="farmerId" property="farmerId" jdbcType="BIGINT" />
+    <result column="amount" property="amount" jdbcType="DOUBLE" />
+    <result column="rate" property="rate" jdbcType="DOUBLE" />
+	<result column="lendingTime" property="lendingTime" jdbcType="DATE" />
+	<result column="limitTime" property="limitTime" jdbcType="DATE" />
+    <result column="recorder" property="recorder" jdbcType="VARCHAR" />
+    <result column="recordTime" property="recordTime" jdbcType="DATE" />
+</resultMap>
+<insert id="save" useGeneratedKeys="true" keyProperty="id" 
+		parameterType="com.bank.beans.FarmerPrivateLending">
+	insert into t_farmer_privatelending
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+   			<if test="farmerId != null">
+   				farmerId,
+   			</if>
+   			<if test="amount != null">
+   				amount,
+   			</if>
+   			<if test="rate != null">
+   				rate,
+   			</if>
+   			<if test="lendingTime != null">
+   				lendingTime,
+   			</if>
+   			<if test="limitTime != null">
+   				limitTime,
+   			</if>
+   			<if test="recorder != null">
+   				recorder,
+   			</if>
+   			<if test="recordTime != null">
+   				recordTime,
+   			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+   			<if test="farmerId != null">
+   				#{farmerId,jdbcType=BIGINT},
+   			</if>
+   			<if test="amount != null">
+   				#{amount,jdbcType=DOUBLE},
+   			</if>
+   			<if test="rate != null">
+   				#{rate,jdbcType=DOUBLE},
+   			</if>
+   			<if test="lendingTime != null">
+   				#{lendingTime,jdbcType=DATE},
+   			</if>
+   			<if test="limitTime != null">
+   				#{limitTime,jdbcType=DATE},
+   			</if>
+   			<if test="recorder != null">
+   				#{recorder,jdbcType=VARCHAR},
+   			</if>
+   			<if test="recordTime != null">
+   				#{recordTime,jdbcType=DATE}
+   			</if>
+		</trim>	
+</insert>
+<delete id="delete">
+	delete from t_farmer_privatelending where lendingId = #{id,jdbcType=BIGINT}
+</delete>
+<update id="update" parameterType="com.bank.beans.FarmerPrivateLending">
+	update t_farmer_privatelending
+	set farmerId = #{farmerId,jdbcType=BIGINT}, 
+	amount = #{amount,jdbcType=DOUBLE},
+ 	rate = #{rate,jdbcType=DOUBLE} ,
+ 	lendingTime = #{lendingTime,jdbcType=DATE} ,
+ 	limitTime = #{limitTime,jdbcType=DATE} ,
+  	recorder = #{recorder,jdbcType=VARCHAR},
+ 	recordTime = #{recordTime,jdbcType=DATE}
+	where lendingId=#{id,jdbcType=BIGINT}
+</update>
+<select id="findByPK" parameterType="Long" resultMap="farmerPrivateLendingList">
+	select 
+	<include refid="PrivateLending_Column_List" />
+	from t_farmer_privatelending where lendingId = #{id,jdbcType=BIGINT}
+</select>
+<select id="findTotalNumber" parameterType="Long" resultType="INTEGER">
+	select count(1) from t_farmer_privatelending
+	where farmerId = #{farmerId,jdbcType=BIGINT}
+</select>
+<select id="findByPaging" parameterType="Map" resultMap="farmerPrivateLendingList">
+	select 
+	<include refid="PrivateLending_Column_List" />
+	from 
+	(select t.*,rowNumber() over() as rn from t_farmer_privatelending t
+	<where>
+		<if test="farmerId != null">
+			t.farmerId = #{farmerId,jdbcType=VARCHAR} 
+		</if>
+	 </where>
+	 )
+	 <where>
+	 	<if test="start != null">
+	    	rn between #{start} and #{end}
+	   	</if>
+	 </where>
+</select> 
+
+</mapper>

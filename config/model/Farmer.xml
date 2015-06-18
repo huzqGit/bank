@@ -212,6 +212,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<include refid="Farmer_Column_List" />
 	from t_Farmer where farmerId = #{id,jdbcType=INTEGER}
 </select>
+<select id="findTotalNumber" parameterType="String" resultType="Integer">
+	select count(1) from t_Farmer where runitId =  #{runitId,jdbcType=VARCHAR}
+</select>
 <select id="findByPKM" parameterType="list" resultMap="farmerList">
 	select 
 	<include refid="Farmer_Column_List" />
@@ -223,6 +226,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			#{item}
 		</foreach>
 	</where>
+</select>
+<select id="findPagingByPKs" parameterType="Map" resultMap="farmerList">
+select 
+	<include refid="Farmer_Column_List" />
+	from 
+	(select t.*,rownumber() over() as rn from t_farmer t
+	<where>
+		farmerId in
+		<foreach item="item" index="index" collection="farmerIds" 
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		</where>
+	 )
+	 <where>
+	 	<if test="start != null">
+	    	rn between #{start} and #{end}
+	   	</if>
+	 </where>
 </select>
 <select id="findByID" parameterType="Map" resultMap="farmerList">
 	select 

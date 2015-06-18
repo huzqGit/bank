@@ -90,11 +90,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </insert>
 <delete id="delete" parameterType="list">
 	delete from t_farmer_member  
-	where memberId in
+	<where>
+	 memberId in
 	<foreach item="item" index="index" collection="list" 
 			open="(" separator="," close=")">
 	#{item}
 	</foreach>
+	</where>
 </delete>
 <update id="update">
 update t_farmer_member set 
