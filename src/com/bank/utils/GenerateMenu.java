@@ -170,7 +170,6 @@ public class GenerateMenu {
 						sb.append("<ul>\n");
 						isFirst = false;
 						sb.append("<li>\n<span>\n<a href=\"javascript:void(0)\" "+needcount+" onclick=\"linkurl(")
-						.append("<span>\n<a href=\"javascript:void(0)\" "+needcount+" onclick=\"linkurl(")
 						.append("'" + vo.getIsLeaf() + "'").append(",")
 						.append("'" + vo.getMenuUrl() + "'").append(",")
 						.append("'" + vo.getMenuId() + "'")
