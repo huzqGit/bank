@@ -15,6 +15,9 @@ import com.common.service.GenericService;
 
 public interface IFarmerHouseService extends
 		GenericService<FarmerHouse, Long> {
+	public int findTotalNumberByFarmerId(Long farmerId);
+	public List<FarmerHouse> findPagingByFarmerId(int pageIndex,int pageSize,String sortField,
+			String sortOrder,Long farmerId);
 	public List<FarmerHouse> findHouseByFarmer(Long farmerId);
 	public List<FarmerForest> findForestByFarmer(Long farmerId);
 	public List<FarmerBreed> findBreedByFarmer(Long farmerId);

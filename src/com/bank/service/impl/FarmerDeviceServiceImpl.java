@@ -27,6 +27,21 @@ public class FarmerDeviceServiceImpl extends GenericServiceImpl<FarmerDevice, Lo
 	}
 
 	@Override
+	public int findTotalNumberByFarmerId(Long farmerId) {
+		// TODO Auto-generated method stub
+		int totalNumber = farmerDeviceDao.findTotalNumberByFarmerId(farmerId);
+		return totalNumber;
+	}
+
+	@Override
+	public List<FarmerDevice> findPagingByFarmerId(int pageIndex, int pageSize,
+			String sortField, String sortOrder, Long farmerId) {
+		// TODO Auto-generated method stub
+		List<FarmerDevice> devices = farmerDeviceDao.findPagingByFarmerId(pageIndex, pageSize, sortField, sortOrder, farmerId);
+		return devices;
+	}
+
+	@Override
 	public GenericDAO<FarmerDevice, Long> getGenericDAO() {
 		
 		return this.farmerDeviceDao;

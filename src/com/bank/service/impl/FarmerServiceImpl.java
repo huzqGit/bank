@@ -87,6 +87,14 @@ public class FarmerServiceImpl extends GenericServiceImpl<Farmer, Long>
 	}
 
 	
+	@Override
+	public int findTotalNumber(String organId) {
+		// TODO Auto-generated method stub
+		int totalNumber = farmerDao.findTotalNumber(organId);
+		return totalNumber;
+	}
+
+
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor={DAOException.class, DeleteException.class, DataNotFoundException.class})
 	@Override
@@ -225,6 +233,15 @@ public class FarmerServiceImpl extends GenericServiceImpl<Farmer, Long>
 	@Override
 	public List<Farmer> findByFarmerIds(List<Long> farmerIds) {
 		List<Farmer> farmers = farmerDao.findByFarmerIds(farmerIds);
+		return farmers;
+	}
+
+
+	@Override
+	public List<Farmer> findPagingByPK(int pageIndex, int pageSize,
+			String sortField, String sortOrder, List<Long> farmerIds) {
+		// TODO Auto-generated method stub
+		List<Farmer> farmers = farmerDao.findPagingByPK(pageIndex, pageSize, sortField, sortOrder, farmerIds);
 		return farmers;
 	}
 

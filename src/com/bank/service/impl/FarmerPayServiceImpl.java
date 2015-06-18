@@ -1,22 +1,7 @@
 package com.bank.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-
-
-
-
-
-
-
-
-
-
-
-
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
@@ -51,6 +36,22 @@ public class FarmerPayServiceImpl extends GenericServiceImpl<FarmerPay, Long>
 		
 		return this.farmerPayDao;
 	}
+	
+	@Override
+	public int findTotalNumberByFarmerId(Long farmerId) {
+		// TODO Auto-generated method stub
+		int totalNumber = farmerPayDao.findTotalNumberByFarmerId(farmerId);
+		return totalNumber;
+	}
+
+	@Override
+	public List<FarmerPay> findPagingByFarmerId(int pageIndex, int pageSize,
+			String sortField, String sortOrder, Long farmerId) {
+		// TODO Auto-generated method stub
+		List<FarmerPay> balances = farmerPayDao.findPagingByFarmerId(pageIndex, pageSize, sortField, sortOrder, farmerId);
+		return balances;
+	}
+
 	@Override
 	public void saveBalance(Farmer farmer,FarmerPay balance, List<FarmerIncome> incomes) 
 				throws DAOException, DataNotFoundException, 
@@ -99,6 +100,11 @@ public class FarmerPayServiceImpl extends GenericServiceImpl<FarmerPay, Long>
 			String year) {
 		List<FarmerPay> balances = farmerPayDao.findByFarmersAndYear(farmerIds, year);
 		return balances;
+	}
+	@Override
+	public void deleteIncomes(List<Long> incomes) {
+		// TODO Auto-generated method stub
+		farmerPayDao.deleteIncomes(incomes);
 	}
 
 	

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import com.bank.beans.Company;
 import com.bank.beans.Farmer;
-import com.bank.beans.FarmerPay;
 import com.bank.beans.Loan;
 import com.bank.dao.ILoanDao;
 import com.common.dao.impl.GenericMyBatisDAOSupport;
@@ -66,8 +65,31 @@ public class LoanDaoImpl extends GenericMyBatisDAOSupport<Loan, Long> implements
 	}
 
 	@Override
-	public List<Loan> findByFarmerId(long farmerId) {
+	public List<Loan> findByFarmerId(Long farmerId) {
 		List<Loan> loans = this.getSqlSession().selectList("loan.findByFarmerId",farmerId);
+		return loans;
+	}
+
+	@Override
+	public int findTotalNumberByFarmerId(Long farmerId) {
+		// TODO Auto-generated method stub
+		int totalNumber = this.getSqlSession().selectOne("loan.findTotalNummberByFarmerId",farmerId);
+		return totalNumber;
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public List<Loan> findByPaging(int pageIndex, int pageSize,
+			String sortField, String sortOrder, Long farmerId) {
+		// TODO Auto-generated method stub
+		Map map = new HashMap();
+		int start = pageIndex * pageSize;
+		int end = start + pageSize;
+		map.put("start",start);
+		map.put("end",end);
+		map.put("sortOrder",sortOrder);
+		map.put("farmerId", farmerId);
+		List<Loan> loans = this.getSqlSession().selectList("loan.findByPaging",map);
 		return loans;
 	}
 

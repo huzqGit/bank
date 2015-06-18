@@ -23,6 +23,7 @@ import com.common.service.GenericService;
 
 public interface IFarmerService extends
 		GenericService<Farmer, Long> {
+	public int findTotalNumber(String organId);
 	@SuppressWarnings("rawtypes")
 	public Map saveFarmer(Farmer farmer,List<FarmerMember> member)
             throws DAOException, UpdateException, DataNotFoundException,
@@ -34,6 +35,8 @@ public interface IFarmerService extends
 	@SuppressWarnings("rawtypes")
 	public Map loadTotalFarmer(Long farmerId) throws Exception ;
 	public List<Farmer> findByFarmerIds(List<Long> farmerIds);
+	public List<Farmer> findPagingByPK(int pageIndex,int pageSize,
+			String sortField,String sortOrder,List<Long> farmerIds);
 	public List<Farmer>  loadFarmers(Map condition)throws DAOException, DataNotFoundException ;
 	public Farmer findById(String idNum,String organId);
 	public List<Farmer> findByIDAndName(String farmerIdNum, String farmerName);

@@ -1,18 +1,7 @@
 package com.bank.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-
-
-
-
-
-
-
-import java.util.Map;
-
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -56,6 +45,22 @@ public class FarmerHouseServiceImpl extends GenericServiceImpl<FarmerHouse, Long
 	@Override
 	public List<FarmerHouse> findHouseByFarmer(Long farmerId) {
 		List<FarmerHouse> houses = farmerHouseDao.getHousesByFarmerId(farmerId);
+		return houses;
+	}
+	
+
+	@Override
+	public int findTotalNumberByFarmerId(Long farmerId) {
+		// TODO Auto-generated method stub
+		int totalNumber = farmerHouseDao.findTotalNumberByFarmerId(farmerId);
+		return totalNumber;
+	}
+
+	@Override
+	public List<FarmerHouse> findPagingByFarmerId(int pageIndex, int pageSize,
+			String sortField, String sortOrder, Long farmerId) {
+		// TODO Auto-generated method stub
+		List<FarmerHouse> houses = farmerHouseDao.findPagingByFarmerId(pageIndex, pageSize, sortField, sortOrder, farmerId);
 		return houses;
 	}
 

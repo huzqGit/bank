@@ -16,6 +16,13 @@ public class FarmerDaoImpl extends GenericMyBatisDAOSupport<Farmer, Long>
 	implements IFarmerDao {
 
 	@Override
+	public int findTotalNumber(String organId) {
+		// TODO Auto-generated method stub
+		int totalNumber = this.getSqlSession().selectOne("farmer.findTotalNumber",organId);
+		return totalNumber;
+	}
+
+	@Override
 	public List<Farmer> findByFarmerIds(List<Long> farmerIds) {
 		if(farmerIds.size() >0 ){
 			List<Farmer> farmers = this.getSqlSession().selectList("farmer.findByPKM",farmerIds);
@@ -23,6 +30,22 @@ public class FarmerDaoImpl extends GenericMyBatisDAOSupport<Farmer, Long>
 		}else{
 			return null;
 		}
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public List<Farmer> findPagingByPK(int pageIndex, int pageSize,
+			String sortField, String sortOrder, List<Long> farmerIds) {
+		// TODO Auto-generated method stub
+		Map map = new HashMap();
+		int start = pageIndex * pageSize;
+		int end = start + pageSize;
+		map.put("farmerIds",farmerIds);
+		map.put("start",start);
+		map.put("end",end);
+		map.put("sortOrder",sortOrder);
+		List<Farmer> farmers = this.getSqlSession().selectList("farmer.findPagingByPKs",map);
+		return farmers;
 	}
 
 	@Override

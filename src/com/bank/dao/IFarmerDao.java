@@ -8,9 +8,12 @@ import com.bank.beans.Farmer;
 import com.common.dao.GenericDAO;
 
 public interface IFarmerDao extends GenericDAO<Farmer, Long> {
+	public int findTotalNumber(String organId);
 	public void saveApply(Apply apply);
 	public List<Apply> findApplyByUser(String userId);
 	public List<Farmer> findByFarmerIds(List<Long> farmerIds);
+	public List<Farmer> findPagingByPK(int pageIndex, int pageSize,
+			String sortField, String sortOrder, List<Long> farmerIds);
 	public Farmer findByID(String farmerIdNum,String organId);
 	@SuppressWarnings("rawtypes")
 	public List<Farmer> findFarmer(Map map);

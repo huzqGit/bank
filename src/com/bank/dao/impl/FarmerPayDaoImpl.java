@@ -36,6 +36,29 @@ public class FarmerPayDaoImpl extends GenericMyBatisDAOSupport<FarmerPay, Long>
 		return balance;
 	}
 
+	@Override
+	public int findTotalNumberByFarmerId(Long farmerId) {
+		// TODO Auto-generated method stub
+		int totalNumber = this.getSqlSession().selectOne("farmerpay.findTotalNumberByFarmerId",farmerId);
+		return totalNumber;
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public List<FarmerPay> findPagingByFarmerId(int pageIndex, int pageSize,
+			String sortField, String sortOrder, Long farmerId) {
+		// TODO Auto-generated method stub
+		Map map = new HashMap();
+		int start = pageIndex * pageSize;
+		int end = start + pageSize;
+		map.put("start",start+1);
+		map.put("end",end);
+		map.put("sortOrder",sortOrder);
+		map.put("farmerId", farmerId);
+		List<FarmerPay> balances = this.getSqlSession().selectList("farmerpay.findPagingByFarmerId",map);
+		return balances;
+	}
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public List<FarmerPay> findByFarmersAndYear(List<Long> farmerIds,
@@ -45,6 +68,12 @@ public class FarmerPayDaoImpl extends GenericMyBatisDAOSupport<FarmerPay, Long>
 		map.put("year", year);
 		List<FarmerPay> balances = this.getSqlSession().selectList("farmerpay.findByFarmersAndYear", map);
 		return balances;
+	}
+
+	@Override
+	public void deleteIncomes(List<Long> incomes) {
+		// TODO Auto-generated method stub
+		this.getSqlSession().delete("farmerincome.delete",incomes);
 	}
 	
 }

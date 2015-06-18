@@ -94,8 +94,21 @@ public class LoanService extends GenericServiceImpl<Loan, Long>
 		return loan;
 	}
 	@Override
-	public List<Loan> findByFarmerId(long farmerId) {
+	public List<Loan> findByFarmerId(Long farmerId) {
 		List<Loan>  loans =loanDao.findByFarmerId(farmerId);
+		return loans;
+	}
+	
+	@Override
+	public int findTotalNumberByFarmerId(Long farmerId) {
+		// TODO Auto-generated method stub
+		int totalNumber = loanDao.findTotalNumberByFarmerId(farmerId);
+		return totalNumber;
+	}
+	@Override
+	public List<Loan> findByPaging(int pageIndex,int pageSize,String sortField,
+			String sortOrder,Long farmerId) {
+		List<Loan>  loans =loanDao.findByPaging(pageIndex,pageSize,sortField,sortOrder,farmerId);
 		return loans;
 	}
 	@Override
