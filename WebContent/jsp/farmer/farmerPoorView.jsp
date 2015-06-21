@@ -80,7 +80,7 @@ background:white
 </form>
 </div>
 <div id="datagrid1" class="mini-datagrid" style="width:98%;margin:auto auto;height:340px;background-color:white" 
-            url="${pageContext.request.contextPath}/farmer/queryFarmer.do" idField="id"
+            url="${pageContext.request.contextPath}/farmer/queryPoorFarmer.do" idField="id"
             sizeList="[5,10,20,50]" pageSize="10" showReloadButton="false">
 	        <div property="columns">
 	             <div type="indexcolumn" width="5%" headerAlign="center">编号</div>
@@ -107,7 +107,7 @@ background:white
 	function onActionRenderer1(e) {
 	    var record = e.record;
 	    var id = record.id;
-	    var s = '<a class="New_Button" target="_self" href="/bank/farmer/loadFarmer1.do?id='+id+'">[查看]</a>';      
+	    var s = '<a class="New_Button" target="_self" href="/bank/farmer/loadPoorFarmer.do?id='+id+'">[查看]</a>';      
 	    return s;
 	}
 </script>

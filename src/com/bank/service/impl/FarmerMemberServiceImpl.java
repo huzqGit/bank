@@ -1,5 +1,7 @@
 package com.bank.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -21,6 +23,21 @@ public class FarmerMemberServiceImpl extends GenericServiceImpl<FarmerMember, Lo
 	public GenericDAO<FarmerMember, Long> getGenericDAO() {
 		
 		return this.farmerMemberDao;
+	}
+
+	@Override
+	public int findTotalNumberByFarmerId(Long farmerId) {
+		// TODO Auto-generated method stub
+		int totalNumber = farmerMemberDao.findTotalNumberByFarmerId(farmerId);
+		return totalNumber;
+	}
+
+	@Override
+	public List<FarmerMember> findPagingByFarmerId(int pageIndex, int pageSize,
+			String sortField, String sortOrder, Long farmerId) {
+		// TODO Auto-generated method stub
+		List<FarmerMember> members = farmerMemberDao.findPagingByFarmerId(pageIndex, pageSize, sortField, sortOrder, farmerId);
+		return members;
 	}
 
 }

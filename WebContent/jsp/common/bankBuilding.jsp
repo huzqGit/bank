@@ -123,13 +123,13 @@ overflow-x:hidden
 	<tr>
 		<td class="labelName" width="30%" align="right">姓名</td>
 		<td class="labelValue" width="1%" align="center">:</td>
-		<td class="labelValue" width="10%">${farmer.farmerName }</td>
+		<td class="labelValue" width="10%">${farmer.farmername }</td>
 		<td class="labelName" width="10%" align="center">身份证号码</td>
 		<td class="labelValue" width="1%">:</td>
-		<td class="labelValue" align="left">${farmer.farmerIdnum}</td>
+		<td class="labelValue" align="left">${farmer.farmeridnum}</td>
 		<td width="1%"></td>
     	<td width="50px" align="right">
-       	 <input type="submit" id="saveBtn" value=""/>
+       	 <input type="button" id="saveBtn" onclick="submitForm()" value=""/>
         </td>
 	</tr>
 </table>
@@ -146,14 +146,14 @@ overflow-x:hidden
 <table width="100%">
 <tr>
 	<td style="width:10%"><label for="farmerName$text"><font color="red">*</font>户主姓名:</label></td>
-    <td style="width:40%"><input type="text" id="farmerName" name="farmerName" value="${farmer.farmerName}" style="width:90%"/></td>
+    <td style="width:40%"><input type="text" id="farmername" name="farmername" value="${farmer.farmername}" style="width:90%"/></td>
     <td style="width:10%"><label for="textbox2$text"><font color="red">*</font>户主身份证号:</label></td>
-    <td style="width:40%" ><input type="text" id="farmerIdNum" name="farmerIdnum" value="${farmer.farmerIdnum}" style="width:90%"/></td>
+    <td style="width:40%" ><input type="text" id="farmeridnum" name="farmeridnum" value="${farmer.farmeridnum}" style="width:90%"/></td>
 </tr>
 <tr>
-	<td style="width:10%" id="farmerName_validate"></td>
+	<td style="width:10%" id="farmername_validate"></td>
 	<td style="width:40%" ></td>
-	<td style="width:10%" id="farmerIdNum_validate"></td>
+	<td style="width:10%" id="farmeridnum_validate"></td>
 	<td style="width:40%" id=></td>
 </tr>
 <tr>
@@ -165,7 +165,7 @@ overflow-x:hidden
 	</td>
 	<td style="width:10%"><label for="textbox1$text"><font color="red">*</font>婚姻状况:</label></td>
 	    <td style="width:40%">
-	    	<input  name="marryStatus" class="mini-combobox" value="${farmer.marryStatus}" 
+	    	<input  name="marryStatus" class="mini-combobox" value="${farmer.marrystatus}" 
 	        	style="width:90%" required="true" requiredErrorText="婚姻状况不能为空" 
 	        	url="/bank/dic/MarryStatus.txt" emptyText="请选择..."/>
 	</td>
@@ -187,18 +187,18 @@ overflow-x:hidden
     <td style="width:10%"><label for="textbox2$text"><font color="red">*</font>住址:</label></td>
     <td style="width:40%" >
     	<input name="address" class="mini-textarea"  value="${farmer.address}" style="width:90%"
-   			required="true"  requiredErrorText="现住址不能为空"  />
+   			 />
    </td>
  </tr>
  <tr>
  	<td style="width:10%"><label for="textbox2$text"><font color="red">*</font>家庭人数:</label></td>
     <td style="width:40%" >
-    	<input name="familyNum" class="mini-textbox"  value="${farmer.familyNum}"
+    	<input name="familynum" class="mini-textbox"  value="${farmer.familynum}"
         	minValue="1" maxValue="10" style="width:90%"/>
     </td>
     <td style="width:10%"><label for="textbox2$text">&nbsp;&nbsp;劳动力人数:</label></td>
     <td style="width:40%" >
-    	<input name="laborNum" class="mini-textbox" value="${farmer.laborNum}" style="width:90%"
+    	<input name="labornum" class="mini-textbox" value="${farmer.labornum}" style="width:90%"
         	minValue="1" maxValue="20"/>
 
     </td>
@@ -206,12 +206,12 @@ overflow-x:hidden
 <tr>
 	<td style="width:10%"><label for="textbox1$text">&nbsp;&nbsp;政治面貌:</label></td>
     <td style="width:40%">
-    	<input name="politicStatus" class="mini-combobox"  value="${farmer.politicStatus}" style="width:90%"
+    	<input name="politicstatus" class="mini-combobox"  value="${farmer.politicstatus}" style="width:90%"
             url="/bank/dic/PoliticStatus.txt" emptyText="请选择..."/>
     </td>
 	<td style="width:10%"><label for="textbox1$text">&nbsp;&nbsp;邮政编码:</label></td>
     <td style="width:40%">
-    	<input name="postCode" class="mini-textbox"  value="${farmer.postCode}" style="width:90%"
+    	<input name="postcode" class="mini-textbox"  value="${farmer.postcode}" style="width:90%"
         	minValue="100000" maxValue="99999"/>
     </td>
 </tr>
@@ -355,76 +355,10 @@ overflow-x:hidden
 	function back(){
 		history.go(-1);
 	}
-	$(document).ready(function(){
-		function _valid_farmerName(value){
-			return  notBlankValid("#farmerName",value,"姓名不能为空!");
-		}
-		function _valid_farmerIdNum(value){
-			return  notBlankValid("#farmerIdNum",value,"不能为空!")&&lengthValid("#farmerIdNum",value,18,"身份证号码必须为18位");
-		}
-		function _valid_form(){
-			var v1 = _valid_farmerName($("#farmerName").val());
-			var v2 = _valid_farmerIdNum($("#farmerIdNum").val());
-			return v1&&v2;
-		}
-		$("#farmer").submit(function(){
-			if(_valid_form()){
-				return true;
-			}else{
-				return false;
-			}
-		});
-		$("#farmerIdNum").keyup(function(){
-			_valid_farmerIdNum($(this).val());
-		});
+	function submitForm(){
+		$("#farmer").submit();
 
-	});
-	function notBlankValid(name,value,msg){
-		if(value == '' || value == null){
-			showMsg(name,false,msg);
-			return false;
-		}else{
-			showMsg(name,true,null);
-			return true;
-		}
-	}
-	function numberValid(name,input,msg){
-		var reg = /^[0-9]+?[0-9]*$/;
-		if(!reg.test(input)){
-			showMsg(name,false,msg);
-			return false;
-		}else{
-			showMsg(name,true,null);
-			return true;
-		}
-	}
-	function notZeroStartNumberValid(name,value,msg){
-		if(value.substr(0,1) =='0'){
-			showMsg(name,false,msg);
-			return false;
-		}else{
-			showMsg(name,true,null);
-			return true;
-		}
-	}
-	function lengthValid(name,value,len,msg){
-		if(value.length != len){
-			showMsg(name,false,msg);
-			return false;
-		}else{
-			showMsg(name,true,null);
-			return true;
-		}
 	};
-	function showMsg(name,valid,msg){
-		if(valid){
-			$(name+"_validate").html("");
-		}else{
-			$(name+"_validate").css("color","red");
-			$(name+"_validate").html(msg);
-		}
-	}
-
 </script>
 </body>
 </html>

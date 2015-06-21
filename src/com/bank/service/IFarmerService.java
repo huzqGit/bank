@@ -3,6 +3,8 @@ package com.bank.service;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.bank.beans.Apply;
 import com.bank.beans.Farmer;
 import com.bank.beans.FarmerBreed;
@@ -23,7 +25,9 @@ import com.common.service.GenericService;
 
 public interface IFarmerService extends
 		GenericService<Farmer, Long> {
-	public int findTotalNumber(String organId);
+	public void updateBySelective(Farmer farmer);
+	@SuppressWarnings("rawtypes")
+	public int findTotalNumber(Map paramMap);
 	@SuppressWarnings("rawtypes")
 	public Map saveFarmer(Farmer farmer,List<FarmerMember> member)
             throws DAOException, UpdateException, DataNotFoundException,
@@ -56,5 +60,8 @@ public interface IFarmerService extends
 	public FarmerPay findLatestBalanceByFarmer(Long farmerId);
 	public List<FarmerInsured> findInsuredByFarmer(Long farmerId);
 	public void deleteMembers(List<Long> memberIds);
-
+	@SuppressWarnings("rawtypes")
+	public Farmer findSignalByWhereClause(@Param("example")Map param);
+	@SuppressWarnings("rawtypes")
+	public List<Farmer> findMultiByWhereClause(@Param("example")Map param);
 }

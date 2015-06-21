@@ -23,6 +23,19 @@ public class FarmerMemberDaoImpl extends GenericMyBatisDAOSupport<FarmerMember, 
 		// TODO Auto-generated method stub
 		this.getSqlSession().delete("farmermember.delete", memberIds);
 	}
+
+	@Override
+	public int findTotalNumberByFarmerId(Long farmerId) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public List<FarmerMember> findPagingByFarmerId(int pageIndex, int pageSize,
+			String sortField, String sortOrder, Long farmerId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 
 }

@@ -65,7 +65,7 @@ color:red
 	<fieldset id="fd2" style="width:100%;margin:auto auto">
 	<legend><label>农户民间借贷信息</label></legend>
 	<div class="fieldset-body">
-	<table width="100%">
+	<table width="100%" >
 	<tr>
 		<td class="required_text" width="2%" align="right">*</td>
 		<td width="12%">贷款金额:</td>

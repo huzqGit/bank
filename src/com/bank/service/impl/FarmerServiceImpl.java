@@ -14,6 +14,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -85,12 +86,18 @@ public class FarmerServiceImpl extends GenericServiceImpl<Farmer, Long>
 		
 		return this.farmerDao;
 	}
-
 	
 	@Override
-	public int findTotalNumber(String organId) {
+	public void updateBySelective(Farmer farmer) {
 		// TODO Auto-generated method stub
-		int totalNumber = farmerDao.findTotalNumber(organId);
+		farmerDao.updateBySelective(farmer);
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public int findTotalNumber(Map paramMap) {
+		// TODO Auto-generated method stub
+		int totalNumber = farmerDao.findTotalNumber(paramMap);
 		return totalNumber;
 	}
 
@@ -105,11 +112,11 @@ public class FarmerServiceImpl extends GenericServiceImpl<Farmer, Long>
 		Map map = new HashMap();
 		List<FarmerMember> farmerMember = new ArrayList<FarmerMember>();
 		//农户身份证不能为空
-		if(StringUtils.isEmpty(farmer.getFarmerIdnum())){
+		if(StringUtils.isEmpty(farmer.getFarmeridnum())){
 			return null;
 		}
 		if(farmer.getId() == null){
-			Farmer dbFarmer = farmerDao.findByID(farmer.getFarmerIdnum(),farmer.getRunitId());
+			Farmer dbFarmer = farmerDao.findByID(farmer.getFarmeridnum(),farmer.getRunitid());
 			if(dbFarmer != null){
 				 farmer.setId(dbFarmer.getId());
 				 farmerDao.update(farmer);
@@ -367,6 +374,20 @@ public class FarmerServiceImpl extends GenericServiceImpl<Farmer, Long>
 		// TODO Auto-generated method stub
 		farmerMemberDao.deleteMembers(memberIds);
 	}
-	
-	
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public Farmer findSignalByWhereClause(@Param("example")Map param) {
+		// TODO Auto-generated method stub
+		Farmer farmer = farmerDao.findSignalByWhereClause(param);
+		return farmer;
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public List<Farmer> findMultiByWhereClause(@Param("example")Map param) {
+		// TODO Auto-generated method stub
+		List<Farmer> farmers = farmerDao.findMultiByWhereClause(param);
+		return farmers;
+	}	
 }

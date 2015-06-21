@@ -30,7 +30,7 @@ public class LoanDaoImpl extends GenericMyBatisDAOSupport<Loan, Long> implements
 		Map map = new HashMap();
 		map.put("clientType", 1);
 		map.put("idType", 0);
-		map.put("idNum", farmer.getFarmerIdnum());
+		map.put("idNum", farmer.getFarmeridnum());
 		List<Loan> loans = this.getSqlSession().selectList("loan.relateLoan",map);
 		return loans;
 	}
