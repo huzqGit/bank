@@ -28,7 +28,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.bank.Constants;
 import com.bank.beans.Farmer;
-import com.bank.beans.Loan;
+import com.bank.beans.FarmerExample;
+import com.bank.beans.FarmerLoan;
+import com.bank.beans.FarmerLoanExample;
 import com.bank.beans.Organ;
 import com.bank.beans.User;
 import com.bank.beans.enums.DicExplain;
@@ -39,7 +41,7 @@ import com.bank.beans.enums.LoanNSEnum;
 import com.bank.beans.enums.LoanNYEnum;
 import com.bank.common.util.JsonUtil;
 import com.bank.service.IFarmerService;
-import com.bank.service.ILoanService;
+import com.bank.service.IFarmerLoanService;
 import com.bank.utils.ParseDataUtils;
 import com.common.exception.CreateException;
 import com.common.exception.DAOException;
@@ -54,36 +56,17 @@ public class FarmerLoanController {
 private IFarmerService farmerService;
 
 @Resource
-private ILoanService loanService;
+private IFarmerLoanService loanService;
 
-@RequestMapping(value="/saveLoan",method=RequestMethod.POST)
-public ModelAndView saveLoan(HttpServletRequest request, 
-		HttpServletResponse response) throws Exception{
-	String loanData = request.getParameter("loan");
-	Object loanJsonData = JsonUtil.Decode(loanData);
-	loanData = JSON.toJSONStringWithDateFormat(loanJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
-	JSONObject loanJson = JSONObject.parseObject(loanData);
-	Loan loan = (Loan) JSON.toJavaObject(loanJson, Loan.class);
-	if(loan.getId()==null){
-		loanService.save(loan);
-	}else{
-		loanService.update(loan);
-	}
-
-	response.setContentType("text/html;charset=UTF-8");
-	String json = JSON.toJSONString(loan);
-    response.getWriter().write(json);
-	return null;
-}
 @RequestMapping(value="/saveLoan1",method=RequestMethod.POST)
-public ModelAndView saveLoan1(@ModelAttribute(value="loan") Loan loan,
+public ModelAndView saveLoan1(@ModelAttribute(value="loan") FarmerLoan loan,
 		HttpServletRequest request,HttpServletResponse response) throws Exception{
 	
 	Organ organ = (Organ)request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
 	String organId = organ.getOrganId();
 	String organName = organ.getOrganName();
-	loan.setRunitId(organId);
-	loan.setRunitName(organName);
+	loan.setRunitid(organId);
+	loan.setRunitname(organName);
 	if(loan.getId()==null){
 		loanService.save(loan);
 	}else{
@@ -92,7 +75,7 @@ public ModelAndView saveLoan1(@ModelAttribute(value="loan") Loan loan,
 	ModelAndView view = new ModelAndView("/farmer/farmerLoanView1");
 	Farmer farmer = null;
 	try {
-		 farmer = farmerService.findByPK(loan.getClientId());
+		 farmer = farmerService.findByPK(loan.getFarmerid());
 	} catch (DAOException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
@@ -137,7 +120,7 @@ public ModelAndView editLoan(@RequestParam(value="id") String id,@RequestParam(v
 	Long houseId = Long.valueOf(id);
 	Long farmerId = Long.valueOf(fid);
 	Farmer farmer = null;
-	Loan loan = null;
+	FarmerLoan loan = null;
 	try {
 		farmer = farmerService.findByPK(farmerId);
 		loan = loanService.findByPK(houseId);
@@ -149,45 +132,6 @@ public ModelAndView editLoan(@RequestParam(value="id") String id,@RequestParam(v
 	view.addObject("farmer",farmer);
 	view.addObject("loan",loan);
 	return view;
-}
-@RequestMapping(value="/queryLoan",method=RequestMethod.POST)
-public ModelAndView queryLoan(@RequestParam(value="farmerName") String farmerName, 
-		@RequestParam(value="farmerIdNum") String farmerIdNum, 
-		HttpServletResponse response) throws Exception{
-
-	if(StringUtils.isEmpty(farmerName) && StringUtils.isEmpty(farmerIdNum)){
-		ModelAndView view = new ModelAndView("/farmer/farmerLoanView");
-		return view;
-	}
-	List<Farmer> farmers = farmerService.findByIDAndName(farmerIdNum, farmerName);
-	//不存在客户信息需要先录入客户信息
-	if(farmers.size() == 0){
-		ModelAndView  view = new ModelAndView("/farmer/farmerLoanView");
-		view.addObject("farmerName",farmerName);
-		view.addObject("farmerIdNum", farmerIdNum);
-		view.addObject("msg","未找到匹配的农户信息!您可以到【农户】-【数据采集】-【基本信息】模块中录入农户信息后再录入农户的资产信息!");
-		return view;
-	}else{
-		List<Long> farmerIds = new ArrayList<Long>();
-		for(Iterator<Farmer> it = farmers.iterator();it.hasNext();){
-			Farmer farmer = it.next();
-			farmerIds.add(farmer.getId());
-		}
-		List<Loan> aloans = loanService.findByFarmers(farmerIds);
-		if(aloans.size()==0){
-			ModelAndView view = new ModelAndView("/farmer/farmerLoanView");
-			view.addObject("farmerName",farmerName);
-			view.addObject("farmerIdNum", farmerIdNum);
-			view.addObject("msg","未找到符合条件的贷款信息!");
-			return view;
-		}else{
-			ModelAndView view = new ModelAndView("/farmer/farmerLoanView");
-			view.addObject("farmerName",farmerName);
-			view.addObject("farmerIdNum", farmerIdNum);
-			view.addObject("loans",aloans);
-			return view;
-		}
-	}
 }
 @RequestMapping(value="/queryLoan1",method=RequestMethod.GET)
 public ModelAndView queryLoan1(@RequestParam(value="fid") String fid, 
@@ -216,8 +160,8 @@ public ModelAndView loadLoan(@RequestParam(value="id") String id,
 		return view;
 	}
 	Long loanId = Long.valueOf(id);
-	Loan loan = loanService.findByPK(loanId);
-	Long farmerId = loan.getClientId();
+	FarmerLoan loan = loanService.findByPK(loanId);
+	Long farmerId = loan.getFarmerid();
 	Farmer farmer = farmerService.findByPK(farmerId);
 	ModelAndView view = new ModelAndView("/farmer/farmerLoanForm");
 	view.addObject("farmer", farmer);
@@ -233,7 +177,7 @@ public ModelAndView loadLoan1(@RequestParam(value="fid") Long fid,
 		@RequestParam(value="sortOrder") String sortOrder,
 		HttpServletRequest request,HttpServletResponse response){
 	int totalNumber = loanService.findTotalNumberByFarmerId(fid);
-	List<Loan> loans =loanService.findByPaging(pageIndex, pageSize, sortField, sortOrder, fid);
+	List<FarmerLoan> loans =loanService.findByPaging(pageIndex, pageSize, sortField, sortOrder, fid);
     Map map = new HashMap();
     map.put("total", totalNumber);
     map.put("data", loans);
@@ -398,7 +342,7 @@ public ModelAndView loadFile1(MultipartFile myfile,HttpServletRequest request,
 				farmer.setAddress(data[row][FarmerNYEnum.ADDRESS.getIndex()]);
 				farmerService.save(farmer);
 				//关联农户信贷信息
-				List<Loan> loans = loanService.findByID("1","0",farmer.getFarmeridnum());
+				List<FarmerLoan> loans = loanService.findByID("1","0",farmer.getFarmeridnum());
 				if(loans == null || loans.size()==0){
 				//未匹配信贷信息提示未匹配
 					msg.put("row", String.valueOf(row));
@@ -408,9 +352,9 @@ public ModelAndView loadFile1(MultipartFile myfile,HttpServletRequest request,
 					msgs.add(msg);
 				}else{
 				//匹配信贷信息提示匹配数量
-					for(Iterator<Loan> it = loans.iterator();it.hasNext();){
-						Loan loan = it.next();
-						loan.setClientId(farmer.getId());
+					for(Iterator<FarmerLoan> it = loans.iterator();it.hasNext();){
+						FarmerLoan loan = it.next();
+						loan.setFarmerid(farmer.getId());
 						loanService.update(loan);
 					}
 					msg.put("row", String.valueOf(row));
@@ -424,8 +368,8 @@ public ModelAndView loadFile1(MultipartFile myfile,HttpServletRequest request,
 		}else if(data[0][0].contains("个人借款合同查询")){
 			for(int row=3;row<data.length;row++){
 				Map<String,String> msg = new HashMap<String,String>();
-				Loan loan = new Loan();
-				loan.setClientNum(data[row][LoanNYEnum.CLIENTNUM.getIndex()]);
+				FarmerLoan loan = new FarmerLoan();
+				loan.setClientnum(data[row][LoanNYEnum.CLIENTNUM.getIndex()]);
 				String noteNum = data[row][LoanNYEnum.NOTENUM.getIndex()];
 				if(StringUtils.isEmpty(noteNum)){
 					msg.put("row", String.valueOf(row));
@@ -434,8 +378,8 @@ public ModelAndView loadFile1(MultipartFile myfile,HttpServletRequest request,
 					msgs.add(msg);
 					continue;
 				}
-				loan.setNoteNum(noteNum);
-				Loan dbloan = loanService.findByNoteNum(noteNum);
+				loan.setNotenum(noteNum);
+				FarmerLoan dbloan = loanService.findByNoteNum(noteNum);
 				if(dbloan != null){
 					msg.put("row", String.valueOf(row));
 					msg.put("tip", "info");
@@ -452,24 +396,24 @@ public ModelAndView loadFile1(MultipartFile myfile,HttpServletRequest request,
 					msgs.add(msg);
 					continue;
 				}
-				loan.setCompactNum(compactNum);
-				loan.setLoanDate(data[row][LoanNYEnum.LOANDATE.getIndex()]);
-				loan.setLimitDate(data[row][LoanNYEnum.LIMITDATE.getIndex()]);
+				loan.setCompactnum(compactNum);
+				loan.setLoandate(data[row][LoanNYEnum.LOANDATE.getIndex()]);
+				loan.setLimitdate(data[row][LoanNYEnum.LIMITDATE.getIndex()]);
 				String currency =DicExplain.explain(DicExplain.$CURRENCY, data[row][LoanNYEnum.CURRENCY.getIndex()]);
 				loan.setCurrency(currency);
 				loan.setAmount(data[row][LoanNYEnum.AMOUNT.getIndex()]);
 				loan.setBalance(data[row][LoanNYEnum.BALANCE.getIndex()]);
-				loan.setClientType("1");
-				loan.setClientName(data[row][LoanNYEnum.CLIENTNAME.getIndex()]);
+				loan.setClienttype("1");
+				loan.setClientname(data[row][LoanNYEnum.CLIENTNAME.getIndex()]);
 				String idType = DicExplain.explain(DicExplain.$IDTYPE,data[row][LoanNYEnum.IDTYPE.getIndex()]);
-				loan.setIdType(idType);
-				loan.setIdNum(data[row][LoanNYEnum.IDNUM.getIndex()]);
-				loan.setGuaranteeType(data[row][LoanNYEnum.GUARANTEETYPE.getIndex()]);
-				loan.setOrganCode(data[row][LoanNYEnum.ORGANCODE.getIndex()]);
-				loan.setGuaranteeType1(data[row][LoanNYEnum.GUARANTEETYPE1.getIndex()]);
-				loan.setRunitId(organId);
-				loan.setRunitName(organName);
-				Farmer farmer = farmerService.findById(loan.getIdNum(),organId);
+				loan.setIdtype(idType);
+				loan.setIdnum(data[row][LoanNYEnum.IDNUM.getIndex()]);
+				loan.setGuaranteetype(data[row][LoanNYEnum.GUARANTEETYPE.getIndex()]);
+				loan.setOrgancode(data[row][LoanNYEnum.ORGANCODE.getIndex()]);
+				loan.setGuaranteetype1(data[row][LoanNYEnum.GUARANTEETYPE1.getIndex()]);
+				loan.setRunitid(organId);
+				loan.setRunitname(organName);
+				Farmer farmer = farmerService.findById(loan.getIdnum(),organId);
 				if(farmer == null ){
 				//未匹配农户信息提示未匹配
 					loanService.findByNoteNum(noteNum);
@@ -477,7 +421,7 @@ public ModelAndView loadFile1(MultipartFile myfile,HttpServletRequest request,
 						loanService.save(loan);
 					}catch(Exception e){
 						System.err.println(row);
-						System.err.println(loan.getNoteNum());
+						System.err.println(loan.getNotenum());
 					}
 					msg.put("row", String.valueOf(row));
 					msg.put("tip", "success");
@@ -486,7 +430,7 @@ public ModelAndView loadFile1(MultipartFile myfile,HttpServletRequest request,
 				}else{
 				//匹配农户信息提示匹配数量
 					msg.put("row", String.valueOf(row));
-					loan.setClientId(farmer.getId());
+					loan.setFarmerid(farmer.getId());
 					loanService.save(loan);
 					msg.put("tip", "success");	
 					msg.put("msg", "导入成功且匹配到相应的农户信息！");
@@ -532,11 +476,11 @@ public ModelAndView loadLoan(MultipartFile myfile,HttpServletRequest request,
 		 }
 		for(int row=1;row<data.length;row++){
 				Map<String,String> msg = new HashMap<String,String>();
-				Loan loan = new Loan();
-				loan.setClientNum(data[row][LoanNSEnum.CLIENTNUM.getIndex()]);
+				FarmerLoan loan = new FarmerLoan();
+				loan.setClientnum(data[row][LoanNSEnum.CLIENTNUM.getIndex()]);
 				String noteNum = data[row][LoanNSEnum.NOTENUM.getIndex()];
-				loan.setNoteNum(noteNum);
-				Loan dbloan = loanService.findByNoteNum(noteNum);
+				loan.setNotenum(noteNum);
+				FarmerLoan dbloan = loanService.findByNoteNum(noteNum);
 				if(dbloan != null){
 					msg.put("row", String.valueOf(row));
 					msg.put("tip", "info");
@@ -553,46 +497,46 @@ public ModelAndView loadLoan(MultipartFile myfile,HttpServletRequest request,
 					msgs.add(msg);
 					continue;
 				}
-				loan.setCompactNum(compactNum);
-				loan.setLoanDate(data[row][LoanNSEnum.LOANDATE.getIndex()]);
-				loan.setLimitDate(data[row][LoanNSEnum.LIMITDATE.getIndex()]);
-				loan.setLimitDate1(data[row][LoanNSEnum.LIMITDATE1.getIndex()]);
-				loan.setClientName(data[row][LoanNSEnum.CLIENTNAME.getIndex()]);
+				loan.setCompactnum(compactNum);
+				loan.setLoandate(data[row][LoanNSEnum.LOANDATE.getIndex()]);
+				loan.setLimitdate(data[row][LoanNSEnum.LIMITDATE.getIndex()]);
+				loan.setLimitdate1(data[row][LoanNSEnum.LIMITDATE1.getIndex()]);
+				loan.setClientname(data[row][LoanNSEnum.CLIENTNAME.getIndex()]);
 				String currency =DicExplain.explain(DicExplain.$CURRENCY, data[row][LoanNSEnum.CURRENCY.getIndex()]);
 				loan.setCurrency(currency);
 				loan.setAmount(data[row][LoanNSEnum.AMOUNT.getIndex()]);
 				loan.setBalance(data[row][LoanNSEnum.BALANCE.getIndex()]);
-				loan.setOweInterest(data[row][LoanNSEnum.OWEINTEREST.getIndex()]);
-				loan.setCurrentRate(data[row][LoanNSEnum.CURRENTRATE.getIndex()]);
-				loan.setRateType(data[row][LoanNSEnum.RATETYPE.getIndex()]);
+				loan.setOweinterest(data[row][LoanNSEnum.OWEINTEREST.getIndex()]);
+				loan.setCurrentrate(data[row][LoanNSEnum.CURRENTRATE.getIndex()]);
+				loan.setRatetype(data[row][LoanNSEnum.RATETYPE.getIndex()]);
 				String clientType = DicExplain.explain(DicExplain.$CLIENTTYPE,data[row][LoanNSEnum.CLIENTTYPE.getIndex()]);
-				loan.setClientType(clientType);
+				loan.setClienttype(clientType);
 				String idType = DicExplain.explain(DicExplain.$IDTYPE,data[row][LoanNSEnum.IDTYPE.getIndex()]);
-				loan.setIdType(idType);
-				loan.setIdNum(data[row][LoanNSEnum.IDNUM.getIndex()]);
+				loan.setIdtype(idType);
+				loan.setIdnum(data[row][LoanNSEnum.IDNUM.getIndex()]);
 				loan.setPhone(data[row][LoanNSEnum.PHONE.getIndex()]);
 				loan.setAddress(data[row][LoanNSEnum.ADDRESS.getIndex()]);
-				loan.setLoanUse(data[row][LoanNSEnum.LOANUSE.getIndex()]);
-				loan.setGuaranteeType(data[row][LoanNSEnum.GUARANTEETYPE.getIndex()]);
+				loan.setLoanuse(data[row][LoanNSEnum.LOANUSE.getIndex()]);
+				loan.setGuaranteetype(data[row][LoanNSEnum.GUARANTEETYPE.getIndex()]);
 				loan.setGrade(data[row][LoanNSEnum.GRADE.getIndex()]);
 				loan.setGrade1(data[row][LoanNSEnum.GRADE1.getIndex()]);
-				loan.setSettleType(data[row][LoanNSEnum.SETTLETYPE.getIndex()]);
-				loan.setChargePerson(data[row][LoanNSEnum.CHARGEPERSON.getIndex()]);
-				loan.setOrganCode(data[row][LoanNSEnum.ORGANCODE.getIndex()]);
-				loan.setOrganName(data[row][LoanNSEnum.ORGANNAME.getIndex()]);
-				loan.setBusinessType(data[row][LoanNSEnum.BUSINESSTYPE.getIndex()]);
-				loan.setBusinessBody(data[row][LoanNSEnum.BUSINESSBODY.getIndex()]);
-				loan.setProvideType(data[row][LoanNSEnum.PROVIDETYPE.getIndex()]);
+				loan.setSettletype(data[row][LoanNSEnum.SETTLETYPE.getIndex()]);
+				loan.setChargeperson(data[row][LoanNSEnum.CHARGEPERSON.getIndex()]);
+				loan.setOrgancode(data[row][LoanNSEnum.ORGANCODE.getIndex()]);
+				loan.setOrganname(data[row][LoanNSEnum.ORGANNAME.getIndex()]);
+				loan.setBusinesstype(data[row][LoanNSEnum.BUSINESSTYPE.getIndex()]);
+				loan.setBusinessbody(data[row][LoanNSEnum.BUSINESSBODY.getIndex()]);
+				loan.setProvidetype(data[row][LoanNSEnum.PROVIDETYPE.getIndex()]);
 				loan.setInvest(data[row][LoanNSEnum.INVEST.getIndex()]);
-				loan.setTermType(data[row][LoanNSEnum.TERMTYPE.getIndex()]);
-				loan.setGuaranteeType1(data[row][LoanNSEnum.GUARANTEETYPE1.getIndex()]);
-				loan.setFloatScope(data[row][LoanNSEnum.FLOATSCOPE.getIndex()]);
-				loan.setAdjustType(data[row][LoanNSEnum.ADJUSTTYPE.getIndex()]);
-				loan.setRunType(data[row][LoanNSEnum.RUNTYPE.getIndex()]);
+				loan.setTermtype(data[row][LoanNSEnum.TERMTYPE.getIndex()]);
+				loan.setGuaranteetype1(data[row][LoanNSEnum.GUARANTEETYPE1.getIndex()]);
+				loan.setFloatscope(data[row][LoanNSEnum.FLOATSCOPE.getIndex()]);
+				loan.setAdjusttype(data[row][LoanNSEnum.ADJUSTTYPE.getIndex()]);
+				loan.setRuntype(data[row][LoanNSEnum.RUNTYPE.getIndex()]);
 				loan.setFrequeency(data[row][LoanNSEnum.FREQUEENCY.getIndex()]);
-				loan.setRunitId(organId);
-				loan.setRunitName(organName);
-				Farmer farmer = farmerService.findById(loan.getIdNum(),organId);
+				loan.setRunitid(organId);
+				loan.setRunitname(organName);
+				Farmer farmer = farmerService.findById(loan.getIdnum(),organId);
 				if(farmer == null ){
 				//未匹配农户信息提示未匹配
 					loanService.findByNoteNum(noteNum);
@@ -604,7 +548,7 @@ public ModelAndView loadLoan(MultipartFile myfile,HttpServletRequest request,
 				}else{
 				//匹配农户信息提示匹配数量
 					msg.put("row", String.valueOf(row));
-					loan.setClientId(farmer.getId());
+					loan.setFarmerid(farmer.getId());
 					loanService.save(loan);
 					msg.put("tip", "success");	
 					msg.put("msg", "导入成功且匹配到相应的农户信息！");
@@ -669,7 +613,7 @@ public List<Map<String,String>> importFarmerNS(String organId,String organName,
 			e.printStackTrace();
 		}
 		//关联农户信贷信息
-		List<Loan> loans = loanService.findByID("1","0",farmer.getFarmeridnum());
+		List<FarmerLoan> loans = loanService.findByID("1","0",farmer.getFarmeridnum());
 		if(loans == null || loans.size()==0){
 		//未匹配信贷信息提示未匹配
 			msg.put("row", String.valueOf(row));
@@ -679,9 +623,9 @@ public List<Map<String,String>> importFarmerNS(String organId,String organName,
 			msgs.add(msg);
 		}else{
 		//匹配信贷信息提示匹配数量
-			for(Iterator<Loan> it = loans.iterator();it.hasNext();){
-				Loan loan = it.next();
-				loan.setClientId(farmer.getId());
+			for(Iterator<FarmerLoan> it = loans.iterator();it.hasNext();){
+				FarmerLoan loan = it.next();
+				loan.setFarmerid(farmer.getId());
 				try {
 					loanService.update(loan);
 				} catch (Exception e) {
@@ -767,7 +711,8 @@ public List<Map<String,String>> importFarmerPoor(String organId,String organName
 	
 }
 public List<Map<String,String>> importFarmerNY(String organId,String organName,
-		String recorder,Date recordTime,String[][] data){
+		String recorder,Date recordTime,String[][] data)
+{
 	
 	List<Map<String,String>> msgs = new ArrayList<Map<String,String>>();
 	for(int row =3;row<data.length;row++){
@@ -810,20 +755,30 @@ public List<Map<String,String>> importFarmerNY(String organId,String organName,
 		}catch(NumberFormatException e){
 		}
 		farmer.setPostcode(postCode);
-		Farmer dbFarmer = farmerService.findById(farmer.getFarmeridnum(),"C1010336005158");
+		FarmerExample example = new FarmerExample();
+		FarmerExample.Criteria criteria = example.createCriteria();
+		criteria.andFarmeridnumEqualTo(farmer.getFarmeridnum());
+		criteria.andSourcecodeEqualTo("C1010336005158");
+		List<Farmer> dbFarmers = farmerService.selectByExample(example);
 		try {
-			if(dbFarmer == null){
+			if(dbFarmers == null){
 				farmerService.save(farmer);
-			}else{
+			}else if(dbFarmers.size() == 1){
+				Farmer dbFarmer = dbFarmers.get(0);
 				farmer.setId(dbFarmer.getId());
 				farmerService.updateBySelective(farmer);
+			}else{
+				msg.put("row", String.valueOf(row));
+				msg.put("tip", "info");
+				msg.put("msg", "存在多条记录。");
+				continue;
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		//关联农户信贷信息
-		List<Loan> loans = loanService.findByID("1","0",farmer.getFarmeridnum());
+		List<FarmerLoan> loans = loanService.findByID("1","0",farmer.getFarmeridnum());
 		if(loans == null || loans.size()==0){
 		//未匹配信贷信息提示未匹配
 			msg.put("row", String.valueOf(row));
@@ -833,9 +788,9 @@ public List<Map<String,String>> importFarmerNY(String organId,String organName,
 			msgs.add(msg);
 		}else{
 		//匹配信贷信息提示匹配数量
-			for(Iterator<Loan> it = loans.iterator();it.hasNext();){
-				Loan loan = it.next();
-				loan.setClientId(farmer.getId());
+			for(Iterator<FarmerLoan> it = loans.iterator();it.hasNext();){
+				FarmerLoan loan = it.next();
+				loan.setFarmerid(farmer.getId());
 				try {
 					loanService.update(loan);
 				} catch (Exception e) {
@@ -859,11 +814,11 @@ public List<Map<String,String>> importFarmerNY(String organId,String organName,
 		List<Map<String,String>> msgs = new ArrayList<Map<String,String>>();
 		for(int row=1;row<data.length;row++){
 			Map<String,String> msg = new HashMap<String,String>();
-			Loan loan = new Loan();
-			loan.setClientNum(data[row][LoanNSEnum.CLIENTNUM.getIndex()]);
+			FarmerLoan loan = new FarmerLoan();
+			loan.setClientnum(data[row][LoanNSEnum.CLIENTNUM.getIndex()]);
 			String noteNum = data[row][LoanNSEnum.NOTENUM.getIndex()];
-			loan.setNoteNum(noteNum);
-			Loan dbloan = loanService.findByNoteNum(noteNum);
+			loan.setNotenum(noteNum);
+			FarmerLoan dbloan = loanService.findByNoteNum(noteNum);
 			if(dbloan != null){
 				msg.put("row", String.valueOf(row));
 				msg.put("tip", "info");
@@ -880,46 +835,46 @@ public List<Map<String,String>> importFarmerNY(String organId,String organName,
 				msgs.add(msg);
 				continue;
 			}
-			loan.setCompactNum(compactNum);
-			loan.setLoanDate(data[row][LoanNSEnum.LOANDATE.getIndex()]);
-			loan.setLimitDate(data[row][LoanNSEnum.LIMITDATE.getIndex()]);
-			loan.setLimitDate1(data[row][LoanNSEnum.LIMITDATE1.getIndex()]);
-			loan.setClientName(data[row][LoanNSEnum.CLIENTNAME.getIndex()]);
+			loan.setCompactnum(compactNum);
+			loan.setLoandate(data[row][LoanNSEnum.LOANDATE.getIndex()]);
+			loan.setLimitdate(data[row][LoanNSEnum.LIMITDATE.getIndex()]);
+			loan.setLimitdate1(data[row][LoanNSEnum.LIMITDATE1.getIndex()]);
+			loan.setClientname(data[row][LoanNSEnum.CLIENTNAME.getIndex()]);
 			String currency =DicExplain.explain(DicExplain.$CURRENCY, data[row][LoanNSEnum.CURRENCY.getIndex()]);
 			loan.setCurrency(currency);
 			loan.setAmount(data[row][LoanNSEnum.AMOUNT.getIndex()]);
 			loan.setBalance(data[row][LoanNSEnum.BALANCE.getIndex()]);
-			loan.setOweInterest(data[row][LoanNSEnum.OWEINTEREST.getIndex()]);
-			loan.setCurrentRate(data[row][LoanNSEnum.CURRENTRATE.getIndex()]);
-			loan.setRateType(data[row][LoanNSEnum.RATETYPE.getIndex()]);
+			loan.setOweinterest(data[row][LoanNSEnum.OWEINTEREST.getIndex()]);
+			loan.setCurrentrate(data[row][LoanNSEnum.CURRENTRATE.getIndex()]);
+			loan.setRatetype(data[row][LoanNSEnum.RATETYPE.getIndex()]);
 			String clientType = DicExplain.explain(DicExplain.$CLIENTTYPE,data[row][LoanNSEnum.CLIENTTYPE.getIndex()]);
-			loan.setClientType(clientType);
+			loan.setClienttype(clientType);
 			String idType = DicExplain.explain(DicExplain.$IDTYPE,data[row][LoanNSEnum.IDTYPE.getIndex()]);
-			loan.setIdType(idType);
-			loan.setIdNum(data[row][LoanNSEnum.IDNUM.getIndex()]);
+			loan.setIdtype(idType);
+			loan.setIdnum(data[row][LoanNSEnum.IDNUM.getIndex()]);
 			loan.setPhone(data[row][LoanNSEnum.PHONE.getIndex()]);
 			loan.setAddress(data[row][LoanNSEnum.ADDRESS.getIndex()]);
-			loan.setLoanUse(data[row][LoanNSEnum.LOANUSE.getIndex()]);
-			loan.setGuaranteeType(data[row][LoanNSEnum.GUARANTEETYPE.getIndex()]);
+			loan.setLoanuse(data[row][LoanNSEnum.LOANUSE.getIndex()]);
+			loan.setGuaranteetype(data[row][LoanNSEnum.GUARANTEETYPE.getIndex()]);
 			loan.setGrade(data[row][LoanNSEnum.GRADE.getIndex()]);
 			loan.setGrade1(data[row][LoanNSEnum.GRADE1.getIndex()]);
-			loan.setSettleType(data[row][LoanNSEnum.SETTLETYPE.getIndex()]);
-			loan.setChargePerson(data[row][LoanNSEnum.CHARGEPERSON.getIndex()]);
-			loan.setOrganCode(data[row][LoanNSEnum.ORGANCODE.getIndex()]);
-			loan.setOrganName(data[row][LoanNSEnum.ORGANNAME.getIndex()]);
-			loan.setBusinessType(data[row][LoanNSEnum.BUSINESSTYPE.getIndex()]);
-			loan.setBusinessBody(data[row][LoanNSEnum.BUSINESSBODY.getIndex()]);
-			loan.setProvideType(data[row][LoanNSEnum.PROVIDETYPE.getIndex()]);
+			loan.setSettletype(data[row][LoanNSEnum.SETTLETYPE.getIndex()]);
+			loan.setChargeperson(data[row][LoanNSEnum.CHARGEPERSON.getIndex()]);
+			loan.setOrgancode(data[row][LoanNSEnum.ORGANCODE.getIndex()]);
+			loan.setOrganname(data[row][LoanNSEnum.ORGANNAME.getIndex()]);
+			loan.setBusinesstype(data[row][LoanNSEnum.BUSINESSTYPE.getIndex()]);
+			loan.setBusinessbody(data[row][LoanNSEnum.BUSINESSBODY.getIndex()]);
+			loan.setProvidetype(data[row][LoanNSEnum.PROVIDETYPE.getIndex()]);
 			loan.setInvest(data[row][LoanNSEnum.INVEST.getIndex()]);
-			loan.setTermType(data[row][LoanNSEnum.TERMTYPE.getIndex()]);
-			loan.setGuaranteeType1(data[row][LoanNSEnum.GUARANTEETYPE1.getIndex()]);
-			loan.setFloatScope(data[row][LoanNSEnum.FLOATSCOPE.getIndex()]);
-			loan.setAdjustType(data[row][LoanNSEnum.ADJUSTTYPE.getIndex()]);
-			loan.setRunType(data[row][LoanNSEnum.RUNTYPE.getIndex()]);
+			loan.setTermtype(data[row][LoanNSEnum.TERMTYPE.getIndex()]);
+			loan.setGuaranteetype1(data[row][LoanNSEnum.GUARANTEETYPE1.getIndex()]);
+			loan.setFloatscope(data[row][LoanNSEnum.FLOATSCOPE.getIndex()]);
+			loan.setAdjusttype(data[row][LoanNSEnum.ADJUSTTYPE.getIndex()]);
+			loan.setRuntype(data[row][LoanNSEnum.RUNTYPE.getIndex()]);
 			loan.setFrequeency(data[row][LoanNSEnum.FREQUEENCY.getIndex()]);
-			loan.setRunitId(organId);
-			loan.setRunitName(organName);
-			Farmer farmer = farmerService.findById(loan.getIdNum(),organId);
+			loan.setRunitid(organId);
+			loan.setRunitname(organName);
+			Farmer farmer = farmerService.findById(loan.getIdnum(),organId);
 			if(farmer == null ){
 			//未匹配农户信息提示未匹配
 				loanService.findByNoteNum(noteNum);
@@ -936,7 +891,7 @@ public List<Map<String,String>> importFarmerNY(String organId,String organName,
 			}else{
 			//匹配农户信息提示匹配数量
 				msg.put("row", String.valueOf(row));
-				loan.setClientId(farmer.getId());
+				loan.setFarmerid(farmer.getId());
 				try {
 					loanService.save(loan);
 				} catch (Exception e) {
@@ -956,8 +911,14 @@ public List<Map<String,String>> importFarmerNY(String organId,String organName,
 		List<Map<String,String>> msgs = new ArrayList<Map<String,String>>();
 		for(int row=3;row<data.length;row++){
 			Map<String,String> msg = new HashMap<String,String>();
-			Loan loan = new Loan();
-			loan.setClientNum(data[row][LoanNYEnum.CLIENTNUM.getIndex()]);
+			FarmerLoan loan = new FarmerLoan();
+			loan.setSourcecode("C1010336005158");
+			loan.setSourcename("中国农业银行新干县支行");
+			loan.setRunitid(organId);
+			loan.setRunitname(organName);
+			loan.setRecorder(recorder);
+			loan.setRecordtime(recordTime);
+			loan.setClientnum(data[row][LoanNYEnum.CLIENTNUM.getIndex()]);
 			String noteNum = data[row][LoanNYEnum.NOTENUM.getIndex()];
 			if(StringUtils.isEmpty(noteNum)){
 				msg.put("row", String.valueOf(row));
@@ -966,15 +927,7 @@ public List<Map<String,String>> importFarmerNY(String organId,String organName,
 				msgs.add(msg);
 				continue;
 			}
-			loan.setNoteNum(noteNum);
-			Loan dbloan = loanService.findByNoteNum(noteNum);
-			if(dbloan != null){
-				msg.put("row", String.valueOf(row));
-				msg.put("tip", "info");
-				msg.put("msg", "该信贷信息已经存在、不再导入！");
-				msgs.add(msg);
-				continue;
-			}
+			loan.setNotenum(noteNum);
 			String compactNum =data[row][LoanNYEnum.COMPACTNUM.getIndex()];
 			if(StringUtils.isEmpty(compactNum)){
 				//如果合同号为空提示合同号不能为空
@@ -984,53 +937,66 @@ public List<Map<String,String>> importFarmerNY(String organId,String organName,
 				msgs.add(msg);
 				continue;
 			}
-			loan.setCompactNum(compactNum);
-			loan.setLoanDate(data[row][LoanNYEnum.LOANDATE.getIndex()]);
-			loan.setLimitDate(data[row][LoanNYEnum.LIMITDATE.getIndex()]);
+			loan.setCompactnum(compactNum);
+			loan.setLoandate(data[row][LoanNYEnum.LOANDATE.getIndex()]);
+			loan.setLimitdate(data[row][LoanNYEnum.LIMITDATE.getIndex()]);
 			String currency =DicExplain.explain(DicExplain.$CURRENCY, data[row][LoanNYEnum.CURRENCY.getIndex()]);
 			loan.setCurrency(currency);
 			loan.setAmount(data[row][LoanNYEnum.AMOUNT.getIndex()]);
 			loan.setBalance(data[row][LoanNYEnum.BALANCE.getIndex()]);
-			loan.setClientType("1");
-			loan.setClientName(data[row][LoanNYEnum.CLIENTNAME.getIndex()]);
+			loan.setClienttype("1");
+			loan.setClientname(data[row][LoanNYEnum.CLIENTNAME.getIndex()]);
 			String idType = DicExplain.explain(DicExplain.$IDTYPE,data[row][LoanNYEnum.IDTYPE.getIndex()]);
-			loan.setIdType(idType);
-			loan.setIdNum(data[row][LoanNYEnum.IDNUM.getIndex()]);
-			loan.setGuaranteeType(data[row][LoanNYEnum.GUARANTEETYPE.getIndex()]);
-			loan.setOrganCode(data[row][LoanNYEnum.ORGANCODE.getIndex()]);
-			loan.setGuaranteeType1(data[row][LoanNYEnum.GUARANTEETYPE1.getIndex()]);
-			loan.setRunitId(organId);
-			loan.setRunitName(organName);
-			Farmer farmer = farmerService.findById(loan.getIdNum(),organId);
-			if(farmer == null ){
-			//未匹配农户信息提示未匹配
-				loanService.findByNoteNum(noteNum);
-				try{
-					loanService.save(loan);
-				}catch(Exception e){
-					System.err.println(row);
-					System.err.println(loan.getNoteNum());
-				}
+			loan.setIdtype(idType);
+			loan.setIdnum(data[row][LoanNYEnum.IDNUM.getIndex()]);
+			loan.setGuaranteetype(data[row][LoanNYEnum.GUARANTEETYPE.getIndex()]);
+			loan.setOrgancode(data[row][LoanNYEnum.ORGANCODE.getIndex()]);
+			loan.setGuaranteetype1(data[row][LoanNYEnum.GUARANTEETYPE1.getIndex()]);
+			
+			
+			FarmerExample fe = new FarmerExample();
+			FarmerExample.Criteria fc = fe.createCriteria();
+			fc.andFarmeridnumEqualTo(loan.getIdnum());
+			fc.andSourcecodeEqualTo("C1010336005158");
+			
+			FarmerLoanExample le = new FarmerLoanExample();
+			FarmerLoanExample.Criteria lc = le.createCriteria();
+			lc.andNotenumEqualTo(loan.getNotenum());
+			lc.andSourcecodeEqualTo("C1010336005158");
+			
+			
+			List<Farmer> farmers = farmerService.selectByExample(fe);
+			List<FarmerLoan> loans = loanService.selectByExample(le);
+			if(farmers.size() == 1){
+				Farmer farmer = farmers.get(0);
+				loan.setFarmerid(farmer.getId());
+			}else if(farmers.size()>1){
 				msg.put("row", String.valueOf(row));
 				msg.put("tip", "success");
-				msg.put("msg", "导入成功但未匹配农户信息，请稍后导入农户信息！");
+				msg.put("msg", "存在多条从中国农业银行新干县支行导入的农户信息");
 				msgs.add(msg);
-			}else{
-			//匹配农户信息提示匹配数量
-				msg.put("row", String.valueOf(row));
-				loan.setClientId(farmer.getId());
-				try {
-					loanService.save(loan);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				msg.put("tip", "success");	
-				msg.put("msg", "导入成功且匹配到相应的农户信息！");
-				msgs.add(msg);
+				continue;
 			}
+			try{
+				if(loans.size() == 0){
+					loanService.save(loan);
+					msg.put("row", String.valueOf(row));
+					msg.put("tip", "success");
+					msg.put("msg", "导入成功但未匹配农户信息，请稍后导入农户信息！");
+					msgs.add(msg);
+				}else if(loans.size() == 1){
+					loanService.update(loan);
+					msg.put("tip", "success");	
+					msg.put("msg", "导入成功且匹配到相应的农户信息！");
+					msgs.add(msg);
+				}else{
+					
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		
 		}
-	
 		return msgs;
 	}
 }

@@ -3,48 +3,163 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="farmerincome">
-<sql id="Income_Column_List" >
-		incomeId, payId, incomeName, incomeType, netIncome
-</sql>
-<resultMap id="farmerIncomeList" type="com.bank.beans.FarmerIncome">
-    <id column="incomeId" property="id" jdbcType="BIGINT"/>
-    <result column="payId" property="payId" jdbcType="BIGINT" />
-    <result column="incomeName" property="incomeName" jdbcType="VARCHAR" />
-    <result column="incomeType" property="incomeType" jdbcType="INTEGER" />
-	<result column="netIncome" property="netIncome" jdbcType="VARCHAR" />
-</resultMap>
-<insert id="save" useGeneratedKeys="true" keyProperty="id" 
+<resultMap id="BaseResultMap" type="com.bank.beans.FarmerIncome" >
+    <id column="INCOMEID" property="id" jdbcType="BIGINT" />
+    <result column="PAYID" property="payid" jdbcType="BIGINT" />
+    <result column="INCOMENAME" property="incomename" jdbcType="VARCHAR" />
+    <result column="INCOMETYPE" property="incometype" jdbcType="INTEGER" />
+    <result column="NETINCOME" property="netincome" jdbcType="VARCHAR" />
+    <result column="SOURCECODE" property="sourcecode" jdbcType="VARCHAR" />
+    <result column="SOURCENAME" property="sourcename" jdbcType="VARCHAR" />
+    <result column="RUNITID" property="runitid" jdbcType="VARCHAR" />
+    <result column="RUNITNAME" property="runitname" jdbcType="VARCHAR" />
+    <result column="RECORDER" property="recorder" jdbcType="VARCHAR" />
+    <result column="RECORDTIME" property="recordtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    INCOMEID, PAYID, INCOMENAME, INCOMETYPE, NETINCOME, SOURCECODE, SOURCENAME, RUNITID, 
+    RUNITNAME, RECORDER, RECORDTIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.bank.beans.FarmerIncomeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_FARMER_INCOME
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <insert id="save" useGeneratedKeys="true" keyProperty="id" 
 		parameterType="com.bank.beans.FarmerIncome">
-		insert into t_farmer_income
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="payId != null">
-				payId,
-			</if>
-   			<if test="incomeName != null">
-   				incomeName,
-   			</if>
-   			<if test="incomeType != null">
-   				incomeType,
-   			</if>
-   			<if test="netIncome != null">
-   				netIncome,
-   			</if>
-		</trim>
-		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="payId != null">
-        		#{payId,jdbcType=BIGINT},
-      		</if>
-	        <if test="incomeName != null">
-	           #{incomeName,jdbcType=VARCHAR},
-	        </if>
-	        <if test="incomeType != null">
-	           #{incomeType,jdbcType=INTEGER},
-	        </if>
-	        <if test="netIncome != null">
-   				#{netIncome,jdbcType=VARCHAR},
-   			</if>
-		</trim>
-</insert>
+		insert into T_FARMER_INCOME
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="payid != null" >
+        PAYID,
+      </if>
+      <if test="incomename != null" >
+        INCOMENAME,
+      </if>
+      <if test="incometype != null" >
+        INCOMETYPE,
+      </if>
+      <if test="netincome != null" >
+        NETINCOME,
+      </if>
+      <if test="sourcecode != null" >
+        SOURCECODE,
+      </if>
+      <if test="sourcename != null" >
+        SOURCENAME,
+      </if>
+      <if test="runitid != null" >
+        RUNITID,
+      </if>
+      <if test="runitname != null" >
+        RUNITNAME,
+      </if>
+      <if test="recorder != null" >
+        RECORDER,
+      </if>
+      <if test="recordtime != null" >
+        RECORDTIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="payid != null" >
+        #{payid,jdbcType=BIGINT},
+      </if>
+      <if test="incomename != null" >
+        #{incomename,jdbcType=VARCHAR},
+      </if>
+      <if test="incometype != null" >
+        #{incometype,jdbcType=INTEGER},
+      </if>
+      <if test="netincome != null" >
+        #{netincome,jdbcType=VARCHAR},
+      </if>
+      <if test="sourcecode != null" >
+        #{sourcecode,jdbcType=VARCHAR},
+      </if>
+      <if test="sourcename != null" >
+        #{sourcename,jdbcType=VARCHAR},
+      </if>
+      <if test="runitid != null" >
+        #{runitid,jdbcType=VARCHAR},
+      </if>
+      <if test="runitname != null" >
+        #{runitname,jdbcType=VARCHAR},
+      </if>
+      <if test="recorder != null" >
+        #{recorder,jdbcType=VARCHAR},
+      </if>
+      <if test="recordtime != null" >
+        #{recordtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
 <delete id="delete" parameterType="list">
 	delete from t_farmer_income  
 	<where>
@@ -56,28 +171,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</where>
 </delete>
 <update id="update">
-	update t_farmer_income
-	set payId = #{payId,jdbcType=BIGINT},
-	incomeName = #{incomeName,jdbcType=VARCHAR},
-	incomeType = #{incomeType,jdbcType=INTEGER},
-	netIncome = #{netIncome,jdbcType=VARCHAR}
-	where incomeId = #{id,jdbcType=BIGINT}
+	update T_FARMER_INCOME
+    set PAYID = #{payid,jdbcType=BIGINT},
+      INCOMENAME = #{incomename,jdbcType=VARCHAR},
+      INCOMETYPE = #{incometype,jdbcType=INTEGER},
+      NETINCOME = #{netincome,jdbcType=VARCHAR},
+      SOURCECODE = #{sourcecode,jdbcType=VARCHAR},
+      SOURCENAME = #{sourcename,jdbcType=VARCHAR},
+      RUNITID = #{runitid,jdbcType=VARCHAR},
+      RUNITNAME = #{runitname,jdbcType=VARCHAR},
+      RECORDER = #{recorder,jdbcType=VARCHAR},
+      RECORDTIME = #{recordtime,jdbcType=TIMESTAMP}
+	where INCOMEID = #{id,jdbcType=BIGINT}
 </update>
-<select id="findByPK" parameterType="Long" resultType="com.bank.beans.FarmerIncome">
+<select id="findByPK" parameterType="Long" resultMap="BaseResultMap">
 		select 
-		<include refid="Income_Column_List" />
-		from t_farmer_income where incomeid = #{id,jdbcType=INTEGER}
+		<include refid="Base_Column_List" />
+		from T_FARMER_INCOME where incomeid = #{id,jdbcType=INTEGER}
 </select>
-<select id="findAll" parameterType="Long" resultMap="farmerIncomeList">
+<select id="findAll" parameterType="Long" resultMap="BaseResultMap">
 		select 
-		<include refid="Income_Column_List" />
-		from t_farmer_income where payId = #{payId,jdbcType=BIGINT}
+		<include refid="Base_Column_List" />
+		from T_FARMER_INCOME where payId = #{payId,jdbcType=BIGINT}
 </select>
-<select id="pageing" parameterType="Map" resultMap="farmerIncomeList">
+<select id="pageing" parameterType="Map" resultMap="BaseResultMap">
 	select 
-	<include refid="Income_Column_List" />
+	<include refid="Base_Column_List" />
 	from 
-	(select t.*,rownumber() over(order by recordtime desc) as rn from t_farmer_income t
+	(select t.*,rownumber() over(order by recordtime desc) as rn from T_FARMER_INCOME t
 	<where>
 		<if test="farmerName != null and farmerName != '' ">
 			t.farmername like CONCAT(CONCAT('%',#{farmerName}),'%') 

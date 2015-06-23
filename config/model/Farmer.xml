@@ -127,6 +127,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     ROADDISTANCE, ROADTYPE, HOUSEAREA, UNSAFEHOUSE, LOWINSURE, AGEDINSURE, ECOAMOUNT, 
     SOURCECODE,SOURCENAME,RUNITID, RUNITNAME, RECORDER, RECORDTIME
 </sql>
+<select id="selectByExample" resultMap="BaseResultMap" parameterType="com.bank.beans.FarmerExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_FARMER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+</select>
 <insert id="save" useGeneratedKeys="true" keyProperty="id" parameterType="com.bank.beans.Farmer">
 	insert into T_FARMER
     <trim prefix="(" suffix=")" suffixOverrides="," >

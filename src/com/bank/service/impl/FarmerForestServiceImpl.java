@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.bank.beans.FarmerForest;
+import com.bank.beans.FarmerForestExample;
 import com.bank.dao.IFarmerForestDao;
 import com.bank.service.IFarmerForestService;
 import com.common.dao.GenericDAO;
@@ -49,6 +50,14 @@ public class FarmerForestServiceImpl extends GenericServiceImpl<FarmerForest, Lo
 	public GenericDAO<FarmerForest, Long> getGenericDAO() {
 		
 		return this.farmerForestDao;
+	}
+
+
+	@Override
+	public List<FarmerForest> selectByExample(FarmerForestExample example) {
+		// TODO Auto-generated method stub
+		List<FarmerForest> forests = farmerForestDao.selectByExample(example);
+		return forests;
 	}
 	
 }

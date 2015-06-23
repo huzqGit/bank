@@ -3,179 +3,319 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="farmerpay">
-<sql id="Pay_Column_List" >
-	payId, farmerId, farmingIncome, avocationIncome, businessIncome,
-	otherIncome, totalIncome,productPay, livingPay, medicalPay, educatePay,
-	insuredPay,otherPay, totalPay,year, recorder, recordTime
-</sql>
+<resultMap id="BaseResultMap" type="com.bank.beans.FarmerPay" >
+    <id column="PAYID" property="id" jdbcType="BIGINT" />
+    <result column="FARMERID" property="farmerid" jdbcType="BIGINT" />
+    <result column="YEAR" property="year" jdbcType="TIMESTAMP" />
+    <result column="FARMINGINCOME" property="farmingincome" jdbcType="DOUBLE" />
+    <result column="AVOCATIONINCOME" property="avocationincome" jdbcType="DOUBLE" />
+    <result column="BUSINESSINCOME" property="businessincome" jdbcType="DOUBLE" />
+    <result column="WORKINCOME" property="workincome" jdbcType="DOUBLE" />
+    <result column="OTHERINCOME" property="otherincome" jdbcType="DOUBLE" />
+    <result column="TOTALINCOME" property="totalincome" jdbcType="DOUBLE" />
+    <result column="PRODUCTPAY" property="productpay" jdbcType="DOUBLE" />
+    <result column="LIVINGPAY" property="livingpay" jdbcType="DOUBLE" />
+    <result column="MEDICALPAY" property="medicalpay" jdbcType="DOUBLE" />
+    <result column="EDUCATEPAY" property="educatepay" jdbcType="DOUBLE" />
+    <result column="INSUREDPAY" property="insuredpay" jdbcType="DOUBLE" />
+    <result column="OTHERPAY" property="otherpay" jdbcType="DOUBLE" />
+    <result column="TOTALPAY" property="totalpay" jdbcType="DOUBLE" />
+    <result column="SOURCECODE" property="sourcecode" jdbcType="VARCHAR" />
+    <result column="SOURCENAME" property="sourcename" jdbcType="VARCHAR" />
+    <result column="RUNITID" property="runitid" jdbcType="VARCHAR" />
+    <result column="RUNITNAME" property="runitname" jdbcType="VARCHAR" />
+    <result column="RECORDER" property="recorder" jdbcType="VARCHAR" />
+    <result column="RECORDTIME" property="recordtime" jdbcType="TIMESTAMP" />
+     <collection property="incomes" column="PAYID" ofType="com.bank.beans.FarmerIncome"
+      select="farmerincome.findByPK">
+    </collection>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    PAYID, FARMERID, YEAR, FARMINGINCOME, AVOCATIONINCOME, BUSINESSINCOME, WORKINCOME, 
+    OTHERINCOME, TOTALINCOME, PRODUCTPAY, LIVINGPAY, MEDICALPAY, EDUCATEPAY, INSUREDPAY, 
+    OTHERPAY, TOTALPAY, SOURCECODE, SOURCENAME, RUNITID, RUNITNAME, RECORDER, RECORDTIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.bank.beans.FarmerPayExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_FARMER_PAY
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
 <insert id="save" useGeneratedKeys="true" keyProperty="id" 
 		parameterType="com.bank.beans.FarmerPay">
-		insert into t_farmer_pay
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-		   <if test="farmerId != null">
-		   	   farmerId,
-		   </if>
-		   <if test="farmingIncome != null">
-		   	   farmingIncome,
-		   </if>
-		   <if test="avocationIncome != null">
-		       avocationIncome,
-		   </if>
-		   <if test="businessIncome != null">
-		   	   businessIncome,
-		   </if>
-		   <if test="otherIncome != null">
-		       otherIncome,
-		   </if>
-		   <if test="totalIncome != null">
-		   	   totalIncome,
-		   </if>
-	  	   <if test="productPay != null">
-	  		   productPay,
-	  	   </if>
-	  	   <if test="livingPay != null">
-	  		   livingPay,
-	  	   </if>
-	   	   <if test="medicalPay != null">
-	   		   medicalPay,
-	   	   </if>
-	   	   <if test="educatePay != null">
-	   		   educatePay,
-	   	   </if>
-	   	   <if test="insuredPay != null">
-	   		   insuredPay,
-	   	   </if>
-		   <if test="otherPay != null">
-			   otherPay,
-		   </if>
-		   <if test="totalPay != null">
-			   totalPay,
-		   </if>
-		    <if test="year != null">
-			   year,
-		   </if>
-	   	   <if test="recorder != null">
-	   		   recorder,
-	   	   </if>
-	  	   <if test="recordTime != null">
-	  		   recordTime
-	  	   </if>
-		</trim>
-		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="farmerId != null">
-		   	   #{farmerId,jdbcType=VARCHAR},
-		   </if>
-	       <if test="farmingIncome != null">
-		   	   #{farmingIncome,jdbcType=DOUBLE},
-		   </if>
-		   <if test="avocationIncome != null">
-		       #{avocationIncome,jdbcType=DOUBLE},
-		   </if>
-		   <if test="businessIncome != null">
-		   	   #{businessIncome,jdbcType=DOUBLE},
-		   </if>
-		   <if test="otherIncome != null">
-		       #{otherIncome,jdbcType=DOUBLE},
-		   </if>
-		   <if test="totalIncome != null">
-		   	   #{totalIncome,jdbcType=DOUBLE},
-		   </if>
-	       <if test="productPay != null">
-	           #{productPay,jdbcType=DOUBLE},
-	       </if>
-           <if test="livingPay != null">
-           	   #{livingPay,jdbcType=DOUBLE},
-           </if>
-           <if test="medicalPay != null">
-               #{medicalPay,jdbcType=DOUBLE},
-           </if>
-           <if test="educatePay != null">
-           	   #{educatePay,jdbcType=DOUBLE},
-           </if>
-           <if test="insuredPay != null">
-          	   #{insuredPay,jdbcType=DOUBLE},
-          </if>
-	      <if test="otherPay != null">
-	           #{otherPay,jdbcType=DOUBLE},
-	      </if>
-	      <if test="totalPay != null">
-	      	   #{totalPay,jdbcType=DOUBLE},
-	      </if>
-	      <if test="year != null">
-	      	   #{year,jdbcType=VARCHAR},
-	      </if>
-          <if test="recorder != null">
-          	   #{recorder,jdbcType=VARCHAR},
-          </if>
-         <if test="recordTime != null">
-              #{recordTime,jdbcType=TIMESTAMP}
-         </if>
-		</trim>
+		 insert into T_FARMER_PAY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="farmerid != null" >
+        FARMERID,
+      </if>
+      <if test="year != null" >
+        YEAR,
+      </if>
+      <if test="farmingincome != null" >
+        FARMINGINCOME,
+      </if>
+      <if test="avocationincome != null" >
+        AVOCATIONINCOME,
+      </if>
+      <if test="businessincome != null" >
+        BUSINESSINCOME,
+      </if>
+      <if test="workincome != null" >
+        WORKINCOME,
+      </if>
+      <if test="otherincome != null" >
+        OTHERINCOME,
+      </if>
+      <if test="totalincome != null" >
+        TOTALINCOME,
+      </if>
+      <if test="productpay != null" >
+        PRODUCTPAY,
+      </if>
+      <if test="livingpay != null" >
+        LIVINGPAY,
+      </if>
+      <if test="medicalpay != null" >
+        MEDICALPAY,
+      </if>
+      <if test="educatepay != null" >
+        EDUCATEPAY,
+      </if>
+      <if test="insuredpay != null" >
+        INSUREDPAY,
+      </if>
+      <if test="otherpay != null" >
+        OTHERPAY,
+      </if>
+      <if test="totalpay != null" >
+        TOTALPAY,
+      </if>
+      <if test="sourcecode != null" >
+        SOURCECODE,
+      </if>
+      <if test="sourcename != null" >
+        SOURCENAME,
+      </if>
+      <if test="runitid != null" >
+        RUNITID,
+      </if>
+      <if test="runitname != null" >
+        RUNITNAME,
+      </if>
+      <if test="recorder != null" >
+        RECORDER,
+      </if>
+      <if test="recordtime != null" >
+        RECORDTIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="farmerid != null" >
+        #{farmerid,jdbcType=BIGINT},
+      </if>
+      <if test="year != null" >
+        #{year,jdbcType=VARCHAR},
+      </if>
+      <if test="farmingincome != null" >
+        #{farmingincome,jdbcType=DOUBLE},
+      </if>
+      <if test="avocationincome != null" >
+        #{avocationincome,jdbcType=DOUBLE},
+      </if>
+      <if test="businessincome != null" >
+        #{businessincome,jdbcType=DOUBLE},
+      </if>
+      <if test="workincome != null" >
+        #{workincome,jdbcType=DOUBLE},
+      </if>
+      <if test="otherincome != null" >
+        #{otherincome,jdbcType=DOUBLE},
+      </if>
+      <if test="totalincome != null" >
+        #{totalincome,jdbcType=DOUBLE},
+      </if>
+      <if test="productpay != null" >
+        #{productpay,jdbcType=DOUBLE},
+      </if>
+      <if test="livingpay != null" >
+        #{livingpay,jdbcType=DOUBLE},
+      </if>
+      <if test="medicalpay != null" >
+        #{medicalpay,jdbcType=DOUBLE},
+      </if>
+      <if test="educatepay != null" >
+        #{educatepay,jdbcType=DOUBLE},
+      </if>
+      <if test="insuredpay != null" >
+        #{insuredpay,jdbcType=DOUBLE},
+      </if>
+      <if test="otherpay != null" >
+        #{otherpay,jdbcType=DOUBLE},
+      </if>
+      <if test="totalpay != null" >
+        #{totalpay,jdbcType=DOUBLE},
+      </if>
+      <if test="sourcecode != null" >
+        #{sourcecode,jdbcType=VARCHAR},
+      </if>
+      <if test="sourcename != null" >
+        #{sourcename,jdbcType=VARCHAR},
+      </if>
+      <if test="runitid != null" >
+        #{runitid,jdbcType=VARCHAR},
+      </if>
+      <if test="runitname != null" >
+        #{runitname,jdbcType=VARCHAR},
+      </if>
+      <if test="recorder != null" >
+        #{recorder,jdbcType=VARCHAR},
+      </if>
+      <if test="recordtime != null" >
+        #{recordtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
 </insert>
 <update id="update" parameterType="com.bank.beans.FarmerPay">
-	update t_farmer_pay
-	set farmerId = #{farmerId,jdbcType=BIGINT}, 
-	farmingIncome = #{farmingIncome,jdbcType=DOUBLE},
- 	avocationIncome = #{avocationIncome,jdbcType=DOUBLE} ,
- 	businessIncome = #{ businessIncome,jdbcType=DOUBLE} ,
- 	otherIncome = #{otherIncome,jdbcType=DOUBLE} ,
-  	totalIncome = #{ totalIncome,jdbcType=DOUBLE},
- 	productPay = #{productPay,jdbcType=DOUBLE},
- 	livingPay = #{ livingPay,jdbcType=DOUBLE},
- 	medicalPay = #{ medicalPay,jdbcType=DOUBLE},
-  	educatePay = #{ educatePay,jdbcType=DOUBLE}, 
- 	insuredPay = #{ insuredPay,jdbcType=DOUBLE},
-	otherPay = #{ otherPay,jdbcType=DOUBLE},
-	totalPay = #{ totalPay,jdbcType=DOUBLE}, 
-	year = #{year,jdbcType=VARCHAR}
-	where payId=#{id,jdbcType=BIGINT}
+	 update T_FARMER_PAY
+    set FARMERID = #{farmerid,jdbcType=BIGINT},
+      YEAR = #{year,jdbcType=VARCHAR},
+      FARMINGINCOME = #{farmingincome,jdbcType=DOUBLE},
+      AVOCATIONINCOME = #{avocationincome,jdbcType=DOUBLE},
+      BUSINESSINCOME = #{businessincome,jdbcType=DOUBLE},
+      WORKINCOME = #{workincome,jdbcType=DOUBLE},
+      OTHERINCOME = #{otherincome,jdbcType=DOUBLE},
+      TOTALINCOME = #{totalincome,jdbcType=DOUBLE},
+      PRODUCTPAY = #{productpay,jdbcType=DOUBLE},
+      LIVINGPAY = #{livingpay,jdbcType=DOUBLE},
+      MEDICALPAY = #{medicalpay,jdbcType=DOUBLE},
+      EDUCATEPAY = #{educatepay,jdbcType=DOUBLE},
+      INSUREDPAY = #{insuredpay,jdbcType=DOUBLE},
+      OTHERPAY = #{otherpay,jdbcType=DOUBLE},
+      TOTALPAY = #{totalpay,jdbcType=DOUBLE},
+      SOURCECODE = #{sourcecode,jdbcType=VARCHAR},
+      SOURCENAME = #{sourcename,jdbcType=VARCHAR},
+      RUNITID = #{runitid,jdbcType=VARCHAR},
+      RUNITNAME = #{runitname,jdbcType=VARCHAR},
+      RECORDER = #{recorder,jdbcType=VARCHAR},
+      RECORDTIME = #{recordtime,jdbcType=TIMESTAMP}
+	where PAYID=#{id,jdbcType=BIGINT}
 </update>
-<select id="findByPK" parameterType="Long" resultMap="farmerPayList">
+<select id="findByPK" parameterType="Long" resultMap="BaseResultMap">
 		select 
-		<include refid="Pay_Column_List" />
-		from t_farmer_pay where payId = #{id,jdbcType=INTEGER}
+		<include refid="Base_Column_List" />
+		from T_FARMER_PAY where payId = #{id,jdbcType=INTEGER}
 </select>
-<select id="findByFarmerAndYear" parameterType="Map" resultMap="farmerPayList">
-	select a.farmerIdNum,a.farmerName,b.*
-	from t_farmer a,t_farmer_pay b
-	where a.farmerId = b.farmerId
-	<if test="year != null and year != ''">
-		and b.year = #{year,jdbcType=VARCHAR}
-	</if> 
-	<if test="farmerId != null and farmerId !=''"> 
-		and a.farmerId = #{farmerId,jdbcType=BIGINT}
-	</if>
-</select>
-<select id="findByFarmersAndYear" parameterType="Map" resultMap="farmerPayList">
-	select a.farmerIdNum,a.farmerName,b.*
-	from t_farmer a,t_farmer_pay b
-	where a.farmerId = b.farmerId
-	<if test="year != null and year != ''">
-		and b.year = #{year,jdbcType=VARCHAR}
-	</if> 
-	<if test="farmerIds != null"> 
-		and a.farmerId in
-		<foreach item="item" index="index" collection="farmerIds" 
-			open="(" separator="," close=")">
-		#{item}
-		</foreach>
-	</if>
-</select>
-<select id="findByFarmer" parameterType="Map" resultMap="farmerPayList">
+<select id="findByFarmerAndYear" parameterType="Map" resultMap="BaseResultMap">
 	select 
-	<include refid="Pay_Column_List" />
-	from t_farmer_pay 
-	where farmerId = #{farmerId,jdbcType=BIGINT}
+	<include refid="Base_Column_List" />
+	from T_FARMER_PAY b
+	<where>
+		<if test="year != null and year != ''">
+			and YEAR = #{year,jdbcType=VARCHAR}
+		</if> 
+		<if test="farmerId != null and farmerId !=''"> 
+			and FARMERID = #{farmerId,jdbcType=BIGINT}
+		</if>
+	</where>
+</select>
+<select id="findByFarmersAndYear" parameterType="Map" resultMap="BaseResultMap">
+	select
+	<include refid="Base_Column_List" />
+	from T_FARMER_PAY 
+	<where>
+		<if test="year != null and year != ''">
+		and YEAR = #{year,jdbcType=VARCHAR}
+		</if> 
+		<if test="farmerIds != null"> 
+			and FARMERID in
+			<foreach item="item" index="index" collection="farmerIds" 
+				open="(" separator="," close=")">
+			#{item}
+			</foreach>
+		</if>
+	</where>
+	
+</select>
+<select id="findByFarmer" parameterType="Map" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Column_List" />
+	from T_FARMER_PAY 
+	where FARMERID = #{farmerId,jdbcType=BIGINT}
 </select>
 <select id="findTotalNumberByFarmerId" parameterType="Long" resultType="INTEGER">
-	select count(1) from t_farmer_pay
-	where farmerId = #{farmerId,jdbcType=BIGINT}
+	select count(1) from T_FARMER_PAY where FARMERID = #{farmerId,jdbcType=BIGINT}
 </select>
-<select id="findPagingByFarmerId" parameterType="Map" resultMap="farmerPayList">
+<select id="findPagingByFarmerId" parameterType="Map" resultMap="BaseResultMap">
 	select 
-	<include refid="Pay_Column_List" />
+	<include refid="Base_Column_List" />
 	from 
-	(select t.*,rowNumber() over() as rn from t_farmer_pay t
+	(select t.*,rowNumber() over() as rn from T_FARMER_PAY t
 	<where>
 		<if test="farmerId != null">
 			t.farmerId = #{farmerId,jdbcType=BIGINT} 
@@ -188,53 +328,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	   	</if>
 	 </where>
 </select> 
-<select id="findLatestByFarmer" parameterType="Map" resultMap="farmerPayList">
+<select id="findLatestByFarmer" parameterType="Map" resultMap="BaseResultMap">
 		select 
-		<include refid="Pay_Column_List" />
-		from t_farmer_pay 
-		where farmerId = #{farmerId,jdbcType=BIGINT}
-		and year=(select max(year) from t_farmer_pay
-		where farmerId =#{farmerId,jdbcType=BIGINT})
+		<include refid="Base_Column_List" />
+		from T_FARMER_PAY 
+		where FARMERID = #{farmerId,jdbcType=BIGINT}
+		and YEAR=(select max(year) from T_FARMER_PAY
+		where FARMERID =#{farmerId,jdbcType=BIGINT})
 </select>
-<resultMap id="farmerPayList" type="com.bank.beans.FarmerPay">
-    <id column="payId" property="id" jdbcType="BIGINT"/>
-    <result column="farmerId" property="farmerId" jdbcType="BIGINT" />
-    <result column="farmingIncome" property="farmingIncome" jdbcType="DOUBLE" />
-    <result column="avocationIncome" property="avocationIncome" jdbcType="DOUBLE" />
-	<result column="businessIncome" property="businessIncome" jdbcType="DOUBLE" />
-	<result column="otherIncome" property="otherIncome" jdbcType="DOUBLE" />
-    <result column="totalIncome" property="totalIncome" jdbcType="DOUBLE" />
-    <result column="productPay" property="productPay" jdbcType="DOUBLE" />
-    <result column="livingPay" property="livingPay" jdbcType="DOUBLE" />
-	<result column="medicalPay" property="medicalPay" jdbcType="DOUBLE" />
-	<result column="educatePay" property="educatePay" jdbcType="DOUBLE" />
-    <result column="insuredPay" property="insuredPay" jdbcType="DOUBLE" />
-    <result column="otherPay" property="otherPay" jdbcType="DOUBLE" />
-    <result column="totalPay" property="totalPay" jdbcType="DOUBLE" />
-	<result column="year" property="year" jdbcType="VARCHAR" />
-    <result column="recorder" property="recorder" jdbcType="VARCHAR" />
-    <result column="recordTime" property="recordTime" jdbcType="DATE" />
-</resultMap>
-<select id="pageing" parameterType="Map" resultMap="farmerPayList">
+<select id="pageing" parameterType="Map" resultMap="BaseResultMap">
 	select 
-	<include refid="Pay_Column_List" />
+	<include refid="Base_Column_List" />
 	from 
-	(select t.*,rownumber() over(order by recordtime desc) as rn from t_farmer_pay t
+	(select t.*,rowNumber() over() as rn from T_FARMER_PAY t
 	<where>
-		<if test="farmerName != null and farmerName != '' ">
-			t.farmername like CONCAT(CONCAT('%',#{farmerName}),'%') 
-		</if>
-		<if test="farmerIdNum != null and farmerIdNum != ''">
-		   	and t.farmeridnum like CONCAT(CONCAT('%',#{farmerIdNum}),'%')  
-		</if>
-		<if test="recorder != null and recorder != '' ">
-		    and t.recoder like CONCAT(CONCAT('%',#{recoder}),'%')  
-		</if>
-		<if test="recordTimeBegin !=null and recordTimeBegin != ''">
-		   	<![CDATA[and t.recordtime >=to_date('#{recordTimeBegin}','yyyy-mm-dd')]]>
-		</if>
-		<if test="recordTimeEnd !=null and recordTimeEnd != ''">
-		   	<![CDATA[and t.recordtime <=to_date('#{recordTimeEnd}','yyyy-mm-dd')]]>
+		<if test="farmerId != null">
+			t.farmerId = #{farmerId,jdbcType=BIGINT} 
 		</if>
 	 </where>
 	 )
@@ -242,6 +351,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 	<if test="start != null">
 	    	rn between #{start} and #{end}
 	   	</if>
-	</where>
+	 </where>
 </select>
 </mapper>

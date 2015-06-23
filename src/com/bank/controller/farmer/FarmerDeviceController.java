@@ -75,7 +75,7 @@ public class FarmerDeviceController {
 		}
 		Farmer farmer = null;
 		try {
-			farmer = farmerService.findByPK(device.getFarmerId());
+			farmer = farmerService.findByPK(device.getFarmerid());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();}

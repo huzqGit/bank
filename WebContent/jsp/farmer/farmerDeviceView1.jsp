@@ -82,6 +82,9 @@ overflow-x:hidden
 		<a href="/bank/farmer/loadFarmer1.do?id=${farmer.id}">基本信息</a>
 	</li>
 	<li >
+		<a href="/bank/farmer/queryMember.do?fid=${farmer.id}">家庭成员信息</a>
+	</li>
+	<li >
 		<a href="/bank/loan/queryLoan1.do?fid=${farmer.id}">贷款信息</a>
 	</li>
 	<li >
@@ -115,10 +118,10 @@ overflow-x:hidden
 	<tr>
 		<td class="labelName" width="30%" align="right">姓名</td>
 		<td class="labelValue" width="1%" align="center">:</td>
-		<td class="labelValue" width="10%">${farmer.farmerName }</td>
+		<td class="labelValue" width="10%">${farmer.farmername }</td>
 		<td class="labelName" width="10%" align="center">身份证号码</td>
 		<td class="labelValue" width="1%">:</td>
-		<td class="labelValue" align="left">${farmer.farmerIdnum}</td>
+		<td class="labelValue" align="left">${farmer.farmeridnum}</td>
 		<td width="1%"></td>
 		 <td width="50px" align="right">
        	 <input type="button" class="addBtn" onclick="add(${farmer.id})"/>
@@ -135,9 +138,9 @@ overflow-x:hidden
 	             <div type="indexcolumn" width="5%" headerAlign="center">编号</div>
 	             <div field="name" width="20%" headerAlign="center" allowSort="true" >设备名称</div>   
 	             <div field="brand" width="20%" headerAlign="center" allowSort="true">设备型号</div>
-	             <div field="buyingPrice" width="15%" headerAlign="center" allowSort="true" >购买价格</div>   
-	             <div field="buyingDate" width="15%" headerAlign="center" allowSort="true" >购买日期</div>   
-	             <div field="assessPrice" width="15%" headerAlign="center" allowSort="true" >当期评估价格</div>                                              
+	             <div field="buyingprice" width="15%" headerAlign="center" allowSort="true" >购买价格</div>   
+	             <div field="buyingdate" width="15%" headerAlign="center" allowSort="true" >购买日期</div>   
+	             <div field="assessprice" width="15%" headerAlign="center" allowSort="true" >当期评估价格</div>                                              
 	        	 <div name="action" width="5%" headerAlign="center" align="center" renderer="editRenderer" cellStyle="padding:0;"></div>
 	        	 <div name="action" width="5%" headerAlign="center" align="center" renderer="deleteRenderer" cellStyle="padding:0;"></div>
 	         </div>
@@ -153,14 +156,14 @@ overflow-x:hidden
 	function editRenderer(e) {
 	    var record = e.record;
 	    var id = record.id;
-	    var fid = record.farmerId;
+	    var fid = record.farmerid;
 	    var s = '<a class="Edit_Button" target="_self" href="/bank/farmer/editDevice.do?id='+id+'&fid='+fid+'">[编辑]</a>';      
 	    return s;
 	};
 	function deleteRenderer(e) {
 	    var record = e.record;
 	    var id = record.id;
-	    var fid = record.farmerId;
+	    var fid = record.farmerid;
 	    var s = '<a class="New_Button" target="_self" href="/bank/farmer/deleteDevice.do?id='+id+'&fid='+fid+'">[删除]</a>';      
 	    return s;
 	};

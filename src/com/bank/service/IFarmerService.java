@@ -11,12 +11,13 @@ import com.bank.beans.FarmerBreed;
 import com.bank.beans.FarmerCompunish;
 import com.bank.beans.FarmerDevice;
 import com.bank.beans.FarmerEvaluate;
+import com.bank.beans.FarmerExample;
 import com.bank.beans.FarmerForest;
 import com.bank.beans.FarmerHouse;
 import com.bank.beans.FarmerInsured;
 import com.bank.beans.FarmerMember;
 import com.bank.beans.FarmerPay;
-import com.bank.beans.Loan;
+import com.bank.beans.FarmerLoan;
 import com.common.exception.CreateException;
 import com.common.exception.DAOException;
 import com.common.exception.DataNotFoundException;
@@ -28,10 +29,6 @@ public interface IFarmerService extends
 	public void updateBySelective(Farmer farmer);
 	@SuppressWarnings("rawtypes")
 	public int findTotalNumber(Map paramMap);
-	@SuppressWarnings("rawtypes")
-	public Map saveFarmer(Farmer farmer,List<FarmerMember> member)
-            throws DAOException, UpdateException, DataNotFoundException,
-            CreateException;
 	public void saveAapply(Apply apply);
 	public List<Apply> findApplyByUser(String userId);
 	@SuppressWarnings("rawtypes")
@@ -55,7 +52,7 @@ public interface IFarmerService extends
 	public List<FarmerDevice> findDeviceByFarmer(Long farmerId);
 	public FarmerEvaluate findEvaluateByFarmer(Long farmerId);
 	public List<FarmerCompunish> findCompunishByFarmer(Long farmerId);
-	public List<Loan> findLoanByFarmer(Long farmerId);
+	public List<FarmerLoan> findLoanByFarmer(Long farmerId);
 	public List<FarmerPay> findBalanceByFarmer(Long farmerId);
 	public FarmerPay findLatestBalanceByFarmer(Long farmerId);
 	public List<FarmerInsured> findInsuredByFarmer(Long farmerId);
@@ -64,4 +61,5 @@ public interface IFarmerService extends
 	public Farmer findSignalByWhereClause(@Param("example")Map param);
 	@SuppressWarnings("rawtypes")
 	public List<Farmer> findMultiByWhereClause(@Param("example")Map param);
+	public List<Farmer> selectByExample(FarmerExample example); 
 }

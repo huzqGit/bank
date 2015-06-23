@@ -13,6 +13,7 @@ import com.bank.beans.FarmerDevice;
 import com.bank.beans.FarmerForest;
 import com.bank.beans.FarmerHouse;
 import com.bank.beans.FarmerInsured;
+import com.bank.beans.FarmerInsuredExample;
 import com.bank.dao.IFarmerInsuredDao;
 import com.bank.service.IFarmerInsuredService;
 import com.common.dao.GenericDAO;
@@ -50,8 +51,8 @@ public class FarmerInsuredServiceImpl extends GenericServiceImpl<FarmerInsured, 
 		}else{
 			for(Iterator<FarmerInsured> it = insureds.iterator();it.hasNext();){
 				FarmerInsured insured = it.next();
-				if(insured.getFarmerId() == null){
-					insured.setFarmerId(farmer.getId());
+				if(insured.getFarmerid() == null){
+					insured.setFarmerid(farmer.getId());
 				}
 				if(insured.getId() == null){
 					farmerInsuredDao.save(insured);
@@ -73,6 +74,13 @@ public class FarmerInsuredServiceImpl extends GenericServiceImpl<FarmerInsured, 
 			int pageSize, String sortField, String sortOrder, Long farmerId) {
 		// TODO Auto-generated method stub
 		List<FarmerInsured> insureds = farmerInsuredDao.findPagingByFarmerId(pageIndex, pageSize, sortField, sortOrder, farmerId);
+		return insureds;
+	}
+
+	@Override
+	public List<FarmerInsured> selectByExample(FarmerInsuredExample example) {
+		// TODO Auto-generated method stub
+		List<FarmerInsured> insureds = farmerInsuredDao.selectByExample(example);
 		return insureds;
 	}
 	

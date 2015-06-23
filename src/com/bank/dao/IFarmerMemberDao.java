@@ -3,6 +3,7 @@ package com.bank.dao;
 import java.util.List;
 
 import com.bank.beans.FarmerMember;
+import com.bank.beans.FarmerMemberExample;
 import com.common.dao.GenericDAO;
 
 public interface IFarmerMemberDao extends GenericDAO<FarmerMember, Long> {
@@ -12,4 +13,5 @@ public interface IFarmerMemberDao extends GenericDAO<FarmerMember, Long> {
 	public int findTotalNumberByFarmerId(Long farmerId);
 	public List<FarmerMember> findPagingByFarmerId(int pageIndex,int pageSize,String sortField,
 			String sortOrder,Long farmerId);
+	public List<FarmerMember> selectByExample(FarmerMemberExample example);
 }

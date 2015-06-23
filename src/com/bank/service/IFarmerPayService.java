@@ -5,6 +5,7 @@ import java.util.List;
 import com.bank.beans.Farmer;
 import com.bank.beans.FarmerIncome;
 import com.bank.beans.FarmerPay;
+import com.bank.beans.FarmerPayExample;
 import com.common.exception.CreateException;
 import com.common.exception.DAOException;
 import com.common.exception.DataNotFoundException;
@@ -27,4 +28,5 @@ public interface IFarmerPayService extends
 	public List<FarmerPay> findByFarmerAndYear(Long farmerId,String year);
 	public List<FarmerPay> findByFarmersAndYear(List<Long> farmerIds,String year);
 	public void deleteIncomes(List<Long> incomes);
+	public List<FarmerPay> selectByExample(FarmerPayExample example);
 }

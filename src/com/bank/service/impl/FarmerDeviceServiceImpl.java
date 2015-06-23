@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.bank.beans.FarmerDevice;
+import com.bank.beans.FarmerDeviceExample;
 import com.bank.dao.IFarmerDeviceDao;
 import com.bank.service.IFarmerDeviceService;
 import com.common.dao.GenericDAO;
@@ -46,5 +47,13 @@ public class FarmerDeviceServiceImpl extends GenericServiceImpl<FarmerDevice, Lo
 		
 		return this.farmerDeviceDao;
 	}
+
+	@Override
+	public List<FarmerDevice> selectByExample(FarmerDeviceExample example) {
+		// TODO Auto-generated method stub
+		List<FarmerDevice> devices = farmerDeviceDao.selectByExample(example);
+		return devices;
+	}
+	
 
 }

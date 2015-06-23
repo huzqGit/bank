@@ -83,10 +83,10 @@ overflow-x:hidden
     <tr>
     	<td class="labelName" width="25%" align="right">姓名:</td>
     	<td width="2%"></td>
-    	<td class="labelValue" width="8%">${farmer.farmerName }</td>
+    	<td class="labelValue" width="8%">${farmer.farmername }</td>
     	<td class="labelName" width="12%" align="right">证件号码:</td>
     	<td width="2%"></td>
-    	<td class="labelValue" width ="20%">${farmer.farmerIdnum }</td>
+    	<td class="labelValue" width ="20%">${farmer.farmeridnum }</td>
     	<td width="50px" align="right">
        	 <input type="submit" id="saveBtn"  value=""/>
         </td>
@@ -104,15 +104,15 @@ overflow-x:hidden
 <tr>
 <td>
 <input name="id" class="mini-hidden" value="${compunish.id}"/>
-<input name="farmerId" class="mini-hidden" value="${compunish.farmerId}"/>
-<input name="recorder" class="mini-hidden" value="管理员"/>
-<input name="recordTime" class="mini-hidden" value="${currentTime}"/>
+<input name="farmerid" class="mini-hidden" value="${farmer.id}"/>
+<input name="recorder" class="mini-hidden" value="${recorder}"/>
+<input name="recordtime" class="mini-hidden" value="${currentTime}"/>
 <table border="0" cellpadding="1" cellspacing="5" width="100%" ><tr><td width="100%">
 <table width="100%">
 <tr>
 	<td style="width:15%"><label for="textbox1$text"><font color="red">*</font>表彰或处罚:</label></td>
     <td style="width:35%">
-    	<input name="type" class="mini-combobox"  value="" style="width:90%" 
+    	<input name="type" class="mini-combobox"  value="${compunish.type}" style="width:90%" 
     		required="true" requiredErrorText="表彰或处罚类型不能为空" 
     		url="/bank/dic/CompunishType.txt" emptyText="请选择..."/>
     </td>
@@ -125,7 +125,7 @@ overflow-x:hidden
 <tr>
 	<td style="width:15%"><label for="textbox1$text"><font color="red">*</font>表彰或处罚时间:</label></td>
     <td style="width:35%">
-        	<input  name="occurTime" class="mini-datepicker" value="${compunish.occurTime}" style="width:90%"/>
+        	<input  name="occurtime" class="mini-datepicker" value="${compunish.occurtime}" style="width:90%"/>
     </td>
 	<td style="width:15%"><label for="textbox2$text"><font color="red">*</font>表彰或处罚内容:</label></td>
     <td style="width:35%" >
@@ -145,6 +145,22 @@ overflow-x:hidden
 <script type="text/javascript">
 	function back(){
 		history.go(-1);
+	}
+	function submitForm() {           
+		var form = new mini.Form("#form1");
+	    form.validate();
+		if (form.isValid() == false) return;
+		$("form").submit();
+	}
+	function updateError(e) {
+		var id = e.sender.name + "_error";
+	    var el = document.getElementById(id);
+	    if (el) {
+	        el.innerHTML = e.errorText;
+	    }
+	}
+	function onValidation(e) {                  
+	    updateError(e);
 	}
 </script>
 </body>

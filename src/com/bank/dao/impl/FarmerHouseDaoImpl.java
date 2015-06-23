@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.bank.beans.Farmer;
 import com.bank.beans.FarmerHouse;
+import com.bank.beans.FarmerHouseExample;
 import com.bank.dao.IFarmerHouseDao;
 import com.common.dao.impl.GenericMyBatisDAOSupport;
 
@@ -49,4 +50,12 @@ public class FarmerHouseDaoImpl extends GenericMyBatisDAOSupport<FarmerHouse, Lo
 		List<Farmer> farmers = this.getSqlSession().selectList("farmerhouse.findByFarmers", farmerIds);
 		return farmers;
 	}
+
+	@Override
+	public List<FarmerHouse> selectByExample(FarmerHouseExample example) {
+		// TODO Auto-generated method stub
+		List<FarmerHouse> houses = this.getSqlSession().selectList("farmerhouse.selectByExample",example);
+		return houses;
+	}
+	
 }

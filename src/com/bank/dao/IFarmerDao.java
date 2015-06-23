@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.bank.beans.Apply;
 import com.bank.beans.Farmer;
+import com.bank.beans.FarmerExample;
 import com.common.dao.GenericDAO;
 
 public interface IFarmerDao extends GenericDAO<Farmer, Long> {
@@ -30,4 +31,5 @@ public interface IFarmerDao extends GenericDAO<Farmer, Long> {
 	public Farmer findSignalByWhereClause(@Param("example")Map param);
 	@SuppressWarnings("rawtypes")
 	public List<Farmer> findMultiByWhereClause(@Param("example")Map param);
+	public List<Farmer> selectByExample(FarmerExample example);
 }

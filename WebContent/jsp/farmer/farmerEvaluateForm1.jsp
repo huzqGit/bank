@@ -121,10 +121,10 @@ overflow-x:hidden
 	<tr>
 		<td class="labelName" width="30%" align="right">姓名</td>
 		<td class="labelValue" width="1%" align="center">:</td>
-		<td class="labelValue" width="10%">${farmer.farmerName }</td>
+		<td class="labelValue" width="10%">${farmer.farmername }</td>
 		<td class="labelName" width="10%" align="center">身份证号码</td>
 		<td class="labelValue" width="1%">:</td>
-		<td class="labelValue" align="left">${farmer.farmerIdnum}</td>
+		<td class="labelValue" align="left">${farmer.farmeridnum}</td>
 		<td width="1%"></td>
     	<td width="50px" align="right">
        	 <input type="submit" id="saveBtn" value=""/>
@@ -144,24 +144,24 @@ overflow-x:hidden
 <tr>
     <td style="width:15%"><label for="textbox2$text">家庭和睦情况:</label></td>
     <td style="width:35%" >
-    	<input name="harmonyStatus" class="mini-combobox" value ="${evaluate.harmonyStatus}" style="width:90%"
+    	<input name="harmonystatus" class="mini-combobox" value ="${evaluate.harmonystatus}" style="width:90%"
     	url="/bank/dic/Evaluate.txt" emptyText="请选择..."/>
     </td>
     <td style="width:10%"><label for="textbox1$text">敬老爱幼情况:</label></td>
     <td style="width:40%">
-    	<input name="respectStatus" class="mini-combobox" value ="${evaluate.respectStatus}"style="width:90%"
+    	<input name="respectstatus" class="mini-combobox" value ="${evaluate.respectstatus}"style="width:90%"
     	url="/bank/dic/Evaluate.txt" emptyText="请选择..."/>
     </td>
 </tr>
 <tr>
     <td style="width:15%"><label for="textbox1$text">邻里团结情况:</label></td>
     <td style="width:35%">
-    	<input name="neighborStatus" class="mini-combobox" value ="${evaluate.neighborStatus}" style="width:90%"
+    	<input name="neighborstatus" class="mini-combobox" value ="${evaluate.neighborstatus}" style="width:90%"
     	url="/bank/dic/Evaluate.txt" emptyText="请选择..."/>
     </td>
     <td style="width:10%"><label for="textbox1$text">是否遵纪守法:</label></td>
     <td style="width:40%">
-    	<input name="legalStatus" class="mini-combobox" value ="${evaluate.legalStatus}" required="true"
+    	<input name="legalstatus" class="mini-combobox" value ="${evaluate.legalstatus}" required="true"
         	requiredErrorText="是否遵纪守法不能为空" style="width:90%"
             url="/bank/dic/YesOrNoStatus.txt" emptyText="请选择..."/>
     </td>
@@ -169,12 +169,12 @@ overflow-x:hidden
 <tr>
     <td style="width:15%"><label for="textbox1$text">对公益事业关心程度:</label></td>
     <td style="width:35%">
-    	<input name="welfareStatus" class="mini-combobox" value ="${evaluate.welfareStatus}" style="width:90%"
+    	<input name="welfarestatus" class="mini-combobox" value ="${evaluate.welfarestatus}" style="width:90%"
     		url="/bank/dic/Evaluate.txt" emptyText="请选择..."/>
     </td>
     <td style="width:10%"><label for="textbox1$text">是否诚实守信:</label></td>
     <td style="width:40%">
-    	<input name="honestStatus" class="mini-combobox" value ="${evaluate.honestStatus}"  style="width:90%"
+    	<input name="honeststatus" class="mini-combobox" value ="${evaluate.honeststatus}"  style="width:90%"
     		required="true" requiredErrorText="不能为空"
         	url="/bank/dic/YesOrNoStatus.txt" emptyText="请选择..."/>
    </td>
@@ -182,7 +182,7 @@ overflow-x:hidden
 <tr>
    <td style="width:15%"><label for="textbox1$text">其他:</label></td>
    <td style="width:35%">
-	   <input name="otherStatus" class="mini-textarea" value ="${evaluate.otherStatus}" style="width:90%">
+	   <input name="otherstatus" class="mini-textarea" value ="${evaluate.otherstatus}" style="width:90%">
    </td>
 </tr>
 </table>

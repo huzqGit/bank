@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.bank.beans.FarmerMember;
+import com.bank.beans.FarmerMemberExample;
 import com.bank.dao.IFarmerMemberDao;
 import com.bank.service.IFarmerMemberService;
 import com.common.dao.GenericDAO;
@@ -39,5 +40,13 @@ public class FarmerMemberServiceImpl extends GenericServiceImpl<FarmerMember, Lo
 		List<FarmerMember> members = farmerMemberDao.findPagingByFarmerId(pageIndex, pageSize, sortField, sortOrder, farmerId);
 		return members;
 	}
+
+	@Override
+	public List<FarmerMember> selectByExample(FarmerMemberExample example) {
+		// TODO Auto-generated method stub
+		List<FarmerMember> members = farmerMemberDao.selectByExample(example);
+		return members;
+	}
+	
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.bank.beans.FarmerMember;
+import com.bank.beans.FarmerMemberExample;
 import com.bank.dao.IFarmerMemberDao;
 import com.common.dao.impl.GenericMyBatisDAOSupport;
 
@@ -35,6 +36,13 @@ public class FarmerMemberDaoImpl extends GenericMyBatisDAOSupport<FarmerMember, 
 			String sortField, String sortOrder, Long farmerId) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public List<FarmerMember> selectByExample(FarmerMemberExample example) {
+		// TODO Auto-generated method stub
+		List<FarmerMember> members = this.getSqlSession().selectList("farmermember.selectByExample",example);
+		return members;
 	}
 	
 

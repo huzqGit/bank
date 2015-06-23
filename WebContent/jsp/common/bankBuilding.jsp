@@ -85,6 +85,9 @@ overflow-x:hidden
 		基本信息
 	</li>
 	<li >
+		<a href="/bank/farmer/queryMember.do?fid=${farmer.id}">家庭成员信息</a>
+	</li>
+	<li >
 		<a href="/bank/loan/queryLoan1.do?fid=${farmer.id}">贷款信息</a>
 	</li>
 	<li >
@@ -220,106 +223,6 @@ overflow-x:hidden
 </fieldset>
 </td></tr>
 </table>
-</div>
-<div style="width:90%;margin:auto auto">
-<table border="0" cellpadding="1" cellspacing="15" width="100%" >
-<tr><td colspan="4" style="width:100%">
-<fieldset style="width:100%;margin:auto auto">
-<legend><label>家庭成员基本情况</label></legend>
-<div class="fieldset-body">
-<table width="100%" >
-<c:forEach items="${members}" var="member" varStatus="status">
-<tr><td>
-<div id ="farmerMember${status.index}" class="farmerMember" >
-<input class="mini-hidden" id="member_id${status.index}" name="members[${status.index}].id" value="${member.id}"/>
-<input class="mini-hidden" name="members[${status.index}].farmerId" value="${member.farmerId}"/>
-<table border="0" cellpadding="1" cellspacing="15" width="100%" >
-<tr>
-<td colspan="4" style="width:100%">
-<table width="100%">
-<tr>
-	<c:choose>
-	<c:when test="${status.index ==0}">
-		<td rowspan="5" style="width:2%"></td>
-	</c:when>
-	<c:otherwise>
-		<td rowspan="5" style="width:2%"><input type="button" value="×" onclick="delMember(${status.index},${farmer.id})"/></td>
-	</c:otherwise>
-	</c:choose>
-	<td style="width:10%"><label for="textbox1$text"><font color="red">*</font>家庭成员姓名:</label></td>
-    <td style="width:39%">
-    	<input name="members[${status.index}].name" class="mini-textbox" value="${member.name }"
-         	required="true" requiredErrorText="家庭成员姓名不能为空" style="width:90%"/>
-    </td>
-    <td style="width:10%"><label for="textbox2$text"><font color="red">*</font>与户主关系:</label></td>
-    <td style="width:39%" >
-       <input name="members[${status.index}].relation" class="mini-combobox"  value="${member.relation }"
-  			style="width:90%" url="/bank/dic/Relation.txt" emptyText="请选择..."/>
-    </td>
-</tr>
-<tr>
-	<td style="width:10%"><label for="textbox1$text"><font color="red">*</font>身份证号:</label></td>
-    <td style="width:39%">
-    	<input name="members[${status.index}].idNum" class="mini-textbox" value="${member.idNum }"
-        	required="true"	 requiredErrorText="身份证号不能为空" style="width:90%"/>
-    </td>
-    <td style="width:10%"><label for="textbox2$text"><font color="red">*</font>文化程度:</label></td>
-    <td style="width:39%" >
-    	<input name="members[${status.index}].education" class="mini-combobox" value="${member.education}" style="width:90%"
-        	url="/bank/dic/Education.txt" emptyText="请选择..."/>
-    </td>
-</tr>
-<tr>
-	<td style="width:10%"><label for="textbox2$text"><font color="red">*</font>性别:</label></td>
-    <td style="width:39%" >
-    	<input name="members[${status.index}].sex" class="mini-combobox" value="${member.sex }" style="width:90%"
-        	required="true"  requiredErrorText="性别不能为空" url="/bank/dic/Sex.txt" emptyText="请选择..."/>
-   </td>
-	<td style="width:10%"><label for="textbox1$text"><font color="red">*</font>婚姻状况:</label></td>
-    <td style="width:39%">
-	    <input name="members[${status.index}].marryStatus" class="mini-combobox" value="${member.marryStatus}" style="width:90%"
-	    	required="true" requiredErrorText="婚姻状况不能为空" url="/bank/dic/MarryStatus.txt" emptyText="请选择..."/>
-   </td>
-</tr>
-<tr>
-   <td style="width:10%"><label for="textbox2$text">&nbsp;&nbsp;职业:</label></td>
-   <td style="width:39%" >
-   		<input name="members[${status.index}].occupation" class="mini-textbox" value="${member.occupation}" style="width:90%"/>
-   </td>
-	<td style="width:10%"><label for="textbox1$text">&nbsp;&nbsp;职务:</label></td>
-    <td style="width:39%">
-    	<input name="members[${status.index}].job" class="mini-textbox" value="${member.job }" style="width:90%"/>
-    </td>
-    
-</tr>
-<tr>
-	<td style="width:10%"><label for="textbox1$text"><font color="red">*</font>联系电话:</label></td>
-	<td style="width:39%">
-    	<input  name="members[${status.index}].phone" class="mini-textbox" value="${member.phone}" style="width:90%"
-        	required="true"  requiredErrorText="联系电话不能为空" />
-    </td>
-    <td style="width:10%"><label for="textbox1$text">&nbsp;&nbsp;地址:</label></td>
-	<td style="width:39%">
-    	<input  name="members[${status.index}].address" class="mini-textarea" value="${member.address}" style="width:90%"/>
-    </td>
-</tr>
-</table>
-</td>
-</tr>
-</table>
-</div>
-</td>
-</tr>
-</c:forEach> 
-<tr>
-   <td align="center" >
-     <input type="button" class="addBtn" onclick="addMember(${farmer.id})"/>
-   </td>
-</tr>
-</table>
-</div>
-</fieldset>
-</td></tr></table>
 </div>
 </form>
 <script type="text/javascript">

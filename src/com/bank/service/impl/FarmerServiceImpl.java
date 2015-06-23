@@ -25,13 +25,14 @@ import com.bank.beans.FarmerBreed;
 import com.bank.beans.FarmerCompunish;
 import com.bank.beans.FarmerDevice;
 import com.bank.beans.FarmerEvaluate;
+import com.bank.beans.FarmerExample;
 import com.bank.beans.FarmerForest;
 import com.bank.beans.FarmerHouse;
 import com.bank.beans.FarmerIncome;
 import com.bank.beans.FarmerInsured;
 import com.bank.beans.FarmerMember;
 import com.bank.beans.FarmerPay;
-import com.bank.beans.Loan;
+import com.bank.beans.FarmerLoan;
 import com.bank.dao.IFarmerBreedDao;
 import com.bank.dao.IFarmerCompunishDao;
 import com.bank.dao.IFarmerDao;
@@ -43,7 +44,7 @@ import com.bank.dao.IFarmerIncomeDao;
 import com.bank.dao.IFarmerInsuredDao;
 import com.bank.dao.IFarmerMemberDao;
 import com.bank.dao.IFarmerPayDao;
-import com.bank.dao.ILoanDao;
+import com.bank.dao.IFarmerLoanDao;
 import com.bank.service.IFarmerService;
 import com.common.dao.GenericDAO;
 import com.common.exception.CreateException;
@@ -78,7 +79,7 @@ public class FarmerServiceImpl extends GenericServiceImpl<Farmer, Long>
 	@Resource
 	private IFarmerCompunishDao farmerCompunishDao;
 	@Resource
-	private ILoanDao loanDao;
+	private IFarmerLoanDao loanDao;
 	@Resource
 	private IFarmerInsuredDao farmerInsuredDao;
 	@Override
@@ -100,63 +101,6 @@ public class FarmerServiceImpl extends GenericServiceImpl<Farmer, Long>
 		int totalNumber = farmerDao.findTotalNumber(paramMap);
 		return totalNumber;
 	}
-
-
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@Transactional(propagation = Propagation.REQUIRED, rollbackFor={DAOException.class, DeleteException.class, DataNotFoundException.class})
-	@Override
-	public Map saveFarmer(Farmer farmer, List<FarmerMember> members) 
-					throws DAOException, UpdateException, DataNotFoundException, CreateException {
-		
-		
-		Map map = new HashMap();
-		List<FarmerMember> farmerMember = new ArrayList<FarmerMember>();
-		//农户身份证不能为空
-		if(StringUtils.isEmpty(farmer.getFarmeridnum())){
-			return null;
-		}
-		if(farmer.getId() == null){
-			Farmer dbFarmer = farmerDao.findByID(farmer.getFarmeridnum(),farmer.getRunitid());
-			if(dbFarmer != null){
-				 farmer.setId(dbFarmer.getId());
-				 farmerDao.update(farmer);
-				 //保存农户家庭成员情况
-				 for(Iterator<FarmerMember> it =members.iterator();it.hasNext();){
-					 	FarmerMember member =it.next();
-					 	member.setFarmerId(farmer.getId());
-					 	farmerMemberDao.save(member);
-					 	farmerMember.add(member);
-				 }
-			}else{
-				 farmerDao.save(farmer);
-				 //保存农户家庭成员情况
-				 for(Iterator<FarmerMember> it =members.iterator();it.hasNext();){
-					 	FarmerMember member =it.next();
-					 	member.setFarmerId(farmer.getId());
-					 	farmerMemberDao.save(member);
-					 	farmerMember.add(member);
-				 }
-			}
-		}else if(farmer.getId() != null){
-			 farmerDao.update(farmer);
-			 //保存农户家庭成员情况
-			 for(Iterator<FarmerMember> it =members.iterator();it.hasNext();){
-				 	FarmerMember member =it.next();
-				 	if(member.getId() == null){
-				 		Long farmerId= Long.valueOf(farmer.getId());
-				 		member.setFarmerId(farmerId);
-					 	farmerMemberDao.save(member);
-					 	farmerMember.add(member);
-				 	}else{
-				 		farmerMemberDao.update(member);
-				 		farmerMember.add(member);
-				 	}
-			 }
-		}
-		map.put("farmer", farmer);
-		map.put("member", farmerMember);
-		return map;
-	}
 	
 	@Override
 	public void saveAapply(Apply apply) {
@@ -177,7 +121,7 @@ public class FarmerServiceImpl extends GenericServiceImpl<Farmer, Long>
 		Map map = new HashMap();
 		Farmer farmer =farmerDao.findByPK(farmerId);
 		List<FarmerMember> members = farmerMemberDao.getMembersByFarmerId(farmerId);
-		List<Loan> loans = loanDao.findByFarmerId(farmerId);
+		List<FarmerLoan> loans = loanDao.findByFarmerId(farmerId);
 		List<FarmerHouse> houses = farmerHouseDao.getHousesByFarmerId(farmerId);
 		List<FarmerForest> forests = farmerForestDao.getForestsByFarmerId(farmerId);
 		List<FarmerBreed> breeds = farmerBreedDao.getBreedsByFarmerId(farmerId);
@@ -207,7 +151,7 @@ public class FarmerServiceImpl extends GenericServiceImpl<Farmer, Long>
 		Map map = new HashMap();
 		Farmer farmer =farmerDao.findByPK(farmerId);
 		List<FarmerMember> members = farmerMemberDao.getMembersByFarmerId(farmerId);
-		List<Loan> loans = loanDao.findByFarmerId(farmerId);
+		List<FarmerLoan> loans = loanDao.findByFarmerId(farmerId);
 		List<FarmerHouse> houses = farmerHouseDao.getHousesByFarmerId(farmerId);
 		List<FarmerForest> forests = farmerForestDao.getForestsByFarmerId(farmerId);
 		List<FarmerBreed> breeds = farmerBreedDao.getBreedsByFarmerId(farmerId);
@@ -342,8 +286,8 @@ public class FarmerServiceImpl extends GenericServiceImpl<Farmer, Long>
 
 
 	@Override
-	public List<Loan> findLoanByFarmer(Long farmerId) {
-		List<Loan> loans = loanDao.findByFarmerId(farmerId);
+	public List<FarmerLoan> findLoanByFarmer(Long farmerId) {
+		List<FarmerLoan> loans = loanDao.findByFarmerId(farmerId);
 		return loans;
 	}
 
@@ -389,5 +333,13 @@ public class FarmerServiceImpl extends GenericServiceImpl<Farmer, Long>
 		// TODO Auto-generated method stub
 		List<Farmer> farmers = farmerDao.findMultiByWhereClause(param);
 		return farmers;
+	}
+
+	@Override
+	public List<Farmer> selectByExample(FarmerExample example) {
+		// TODO Auto-generated method stub
+		List<Farmer> farmers = farmerDao.selectByExample(example);
+		return farmers;
 	}	
+	
 }

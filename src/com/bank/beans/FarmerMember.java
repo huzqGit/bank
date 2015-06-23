@@ -2,6 +2,8 @@ package com.bank.beans;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.common.bean.BaseEntity;
 
 public class FarmerMember extends BaseEntity<Long> {
@@ -9,49 +11,56 @@ public class FarmerMember extends BaseEntity<Long> {
 	 * 
 	 */
 	private static final long serialVersionUID = -1550305454462009720L;
-	//农户表主键
-	private Long farmerId;
-	//农户的身份证号
-	private String farmerIdNum;
-	//家庭成员姓名
-	private String name;
-	//家庭成员与户主关系
-	private String relation;
-	//家庭成员的身份证号
-	private String idNum;
-	//家庭成员的文化程度
-	private Integer education;
-	//家庭成员的婚姻状况
-	private String marryStatus;
-	//家庭成员的职业
-	private String occupation;
-	//家庭成员的职务
-	private String job;
-	//家庭成员的性别
-	private Integer sex;
-	//家庭成员的联系电话
-	private String phone;
-	//家庭成员地址
-	private String address;
-	//记录人
-	private String recorder;
-	//记录时间
-	private Date recordTime;
 	
-	public Long getFarmerId() {
-		return farmerId;
+    private Long farmerid;
+
+    private String name;
+
+    private String relation;
+
+    private String idnum;
+
+    private Integer education;
+
+    private String marrystatus;
+
+    private String occupation;
+
+    private String job;
+
+    private Integer sex;
+
+    private String phone;
+
+    private String address;
+
+    private String healthstate;
+
+    private Integer labourstate;
+
+    private Integer usingmedical;
+
+    private Integer usinginuse;
+
+    private String sourcecode;
+
+    private String sourcename;
+
+    private String runitid;
+
+    private String runitname;
+
+    private String recorder;
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date recordtime;
+
+	public Long getFarmerid() {
+		return farmerid;
 	}
 
-	public void setFarmerId(Long farmerId) {
-		this.farmerId = farmerId;
-	}
-
-	public String getFarmerIdNum() {
-		return farmerIdNum;
-	}
-
-	public void setFarmerIdNum(String farmerIdNum) {
-		this.farmerIdNum = farmerIdNum;
+	public void setFarmerid(Long farmerid) {
+		this.farmerid = farmerid;
 	}
 
 	public String getName() {
@@ -70,12 +79,12 @@ public class FarmerMember extends BaseEntity<Long> {
 		this.relation = relation;
 	}
 
-	public String getIdNum() {
-		return idNum;
+	public String getIdnum() {
+		return idnum;
 	}
 
-	public void setIdNum(String idNum) {
-		this.idNum = idNum;
+	public void setIdnum(String idnum) {
+		this.idnum = idnum;
 	}
 
 	public Integer getEducation() {
@@ -86,12 +95,12 @@ public class FarmerMember extends BaseEntity<Long> {
 		this.education = education;
 	}
 
-	public String getMarryStatus() {
-		return marryStatus;
+	public String getMarrystatus() {
+		return marrystatus;
 	}
 
-	public void setMarryStatus(String marryStatus) {
-		this.marryStatus = marryStatus;
+	public void setMarrystatus(String marrystatus) {
+		this.marrystatus = marrystatus;
 	}
 
 	public String getOccupation() {
@@ -126,10 +135,6 @@ public class FarmerMember extends BaseEntity<Long> {
 		this.phone = phone;
 	}
 
-	public String getRecorder() {
-		return recorder;
-	}
-	
 	public String getAddress() {
 		return address;
 	}
@@ -138,25 +143,95 @@ public class FarmerMember extends BaseEntity<Long> {
 		this.address = address;
 	}
 
+	public String getHealthstate() {
+		return healthstate;
+	}
+
+	public void setHealthstate(String healthstate) {
+		this.healthstate = healthstate;
+	}
+
+	public Integer getLabourstate() {
+		return labourstate;
+	}
+
+	public void setLabourstate(Integer labourstate) {
+		this.labourstate = labourstate;
+	}
+
+	public Integer getUsingmedical() {
+		return usingmedical;
+	}
+
+	public void setUsingmedical(Integer usingmedical) {
+		this.usingmedical = usingmedical;
+	}
+
+	public Integer getUsinginuse() {
+		return usinginuse;
+	}
+
+	public void setUsinginuse(Integer usinginuse) {
+		this.usinginuse = usinginuse;
+	}
+
+	public String getSourcecode() {
+		return sourcecode;
+	}
+
+	public void setSourcecode(String sourcecode) {
+		this.sourcecode = sourcecode;
+	}
+
+	public String getSourcename() {
+		return sourcename;
+	}
+
+	public void setSourcename(String sourcename) {
+		this.sourcename = sourcename;
+	}
+
+	public String getRunitid() {
+		return runitid;
+	}
+
+	public void setRunitid(String runitid) {
+		this.runitid = runitid;
+	}
+
+	public String getRunitname() {
+		return runitname;
+	}
+
+	public void setRunitname(String runitname) {
+		this.runitname = runitname;
+	}
+
+	public String getRecorder() {
+		return recorder;
+	}
+
 	public void setRecorder(String recorder) {
 		this.recorder = recorder;
 	}
 
-	public Date getRecordTime() {
-		return recordTime;
+	public Date getRecordtime() {
+		return recordtime;
 	}
 
-	public void setRecordTime(Date recordTime) {
-		this.recordTime = recordTime;
+	public void setRecordtime(Date recordtime) {
+		this.recordtime = recordtime;
 	}
 
 	@Override
 	public boolean equalsIfIdNull(Object o) {
+		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public int hashCodeIfIdNull() {
+		// TODO Auto-generated method stub
 		return 0;
 	}
 	

@@ -34,20 +34,20 @@ color:red
 </head>
 <body>
 <div id ="form1">
-<form  id="farmerLoan" name="farmerLoan" action="/bank/farmer/savePrivateLending.do" method="POST">
-<input name="id" class="mini-hidden" value="${privateLending.id}"/>
-<input name="farmerId" class="mini-hidden"  value="${farmer.id}" />
-<input name="recorder" class="mini-hidden" value="管理员"/>
-<input name="recordTime" class="mini-hidden" value="${currentTime}"/>
+<form action="/bank/farmer/saveMember.do" method="POST">
+<input name="id" class="mini-hidden" value="${member.id}"/>
+<input name="farmerid" class="mini-hidden"  value="${farmer.id}" />
+<input name="recorder" class="mini-hidden" value="${recorder}"/>
+<input name="recordtime" class="mini-hidden" value="${currentTime}"/>
 <div class="topMenu" style="background:linear-gradient(#6DC8E3,white)">
 <table cellpadding="0" cellspacing="0"  height="60px">
     <tr>
     	<td class="labelName" width="25%" align="right">姓名:</td>
     	<td width="2%"></td>
-    	<td class="labelValue" width="8%">${farmer.farmerName }</td>
+    	<td class="labelValue" width="8%">${farmer.farmername }</td>
     	<td class="labelName" width="12%" align="right">证件号码:</td>
     	<td width="2%"></td>
-    	<td class="labelValue" width ="20%">${farmer.farmerIdnum }</td>
+    	<td class="labelValue" width ="20%">${farmer.farmeridnum }</td>
     	<td width="50px" align="right">
        	 <input type="button" id="saveBtn" onclick="submitForm()" value=""/>
         </td>
@@ -69,59 +69,59 @@ color:red
 	<tr>
 	<td style="width:10%"><label for="textbox1$text"><font color="red">*</font>家庭成员姓名:</label></td>
     <td style="width:39%">
-    	<input name="members[${status.index}].name" class="mini-textbox" value="${member.name }"
+    	<input name="name" class="mini-textbox" value="${member.name }"
          	required="true" requiredErrorText="家庭成员姓名不能为空" style="width:90%"/>
     </td>
     <td style="width:10%"><label for="textbox2$text"><font color="red">*</font>与户主关系:</label></td>
     <td style="width:39%" >
-       <input name="members[${status.index}].relation" class="mini-combobox"  value="${member.relation }"
+       <input name="relation" class="mini-combobox"  value="${member.relation }"
   			style="width:90%" url="/bank/dic/Relation.txt" emptyText="请选择..."/>
     </td>
 </tr>
 <tr>
 	<td style="width:10%"><label for="textbox1$text"><font color="red">*</font>身份证号:</label></td>
     <td style="width:39%">
-    	<input name="members[${status.index}].idNum" class="mini-textbox" value="${member.idNum }"
+    	<input name="idnum" class="mini-textbox" value="${member.idnum }"
         	required="true"	 requiredErrorText="身份证号不能为空" style="width:90%"/>
     </td>
     <td style="width:10%"><label for="textbox2$text"><font color="red">*</font>文化程度:</label></td>
     <td style="width:39%" >
-    	<input name="members[${status.index}].education" class="mini-combobox" value="${member.education}" style="width:90%"
+    	<input name="education" class="mini-combobox" value="${member.education}" style="width:90%"
         	url="/bank/dic/Education.txt" emptyText="请选择..."/>
     </td>
 </tr>
 <tr>
 	<td style="width:10%"><label for="textbox2$text"><font color="red">*</font>性别:</label></td>
     <td style="width:39%" >
-    	<input name="members[${status.index}].sex" class="mini-combobox" value="${member.sex }" style="width:90%"
+    	<input name="sex" class="mini-combobox" value="${member.sex }" style="width:90%"
         	required="true"  requiredErrorText="性别不能为空" url="/bank/dic/Sex.txt" emptyText="请选择..."/>
    </td>
 	<td style="width:10%"><label for="textbox1$text"><font color="red">*</font>婚姻状况:</label></td>
     <td style="width:39%">
-	    <input name="members[${status.index}].marryStatus" class="mini-combobox" value="${member.marryStatus}" style="width:90%"
+	    <input name="marrystatus" class="mini-combobox" value="${member.marrystatus}" style="width:90%"
 	    	required="true" requiredErrorText="婚姻状况不能为空" url="/bank/dic/MarryStatus.txt" emptyText="请选择..."/>
    </td>
 </tr>
 <tr>
    <td style="width:10%"><label for="textbox2$text">&nbsp;&nbsp;职业:</label></td>
    <td style="width:39%" >
-   		<input name="members[${status.index}].occupation" class="mini-textbox" value="${member.occupation}" style="width:90%"/>
+   		<input name="occupation" class="mini-textbox" value="${member.occupation}" style="width:90%"/>
    </td>
 	<td style="width:10%"><label for="textbox1$text">&nbsp;&nbsp;职务:</label></td>
     <td style="width:39%">
-    	<input name="members[${status.index}].job" class="mini-textbox" value="${member.job }" style="width:90%"/>
+    	<input name="job" class="mini-textbox" value="${member.job }" style="width:90%"/>
     </td>
     
 </tr>
 <tr>
 	<td style="width:10%"><label for="textbox1$text"><font color="red">*</font>联系电话:</label></td>
 	<td style="width:39%">
-    	<input  name="members[${status.index}].phone" class="mini-textbox" value="${member.phone}" style="width:90%"
+    	<input  name="phone" class="mini-textbox" value="${member.phone}" style="width:90%"
         	required="true"  requiredErrorText="联系电话不能为空" />
     </td>
     <td style="width:10%"><label for="textbox1$text">&nbsp;&nbsp;地址:</label></td>
 	<td style="width:39%">
-    	<input  name="members[${status.index}].address" class="mini-textarea" value="${member.address}" style="width:90%"/>
+    	<input  name="address" class="mini-textarea" value="${member.address}" style="width:90%"/>
     </td>
 </tr>
 	</table>
@@ -139,10 +139,7 @@ color:red
 		history.go(-1);
 	}
     function submitForm() {           
-    	var form = new mini.Form("#form1");
-        form.validate();
-		if (form.isValid() == false) return;
-		$("#farmerLoan").submit();
+		$("form").submit();
     }
     function updateError(e) {
     	var id = e.sender.name + "_error";

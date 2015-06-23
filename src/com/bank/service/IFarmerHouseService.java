@@ -7,6 +7,7 @@ import com.bank.beans.FarmerBreed;
 import com.bank.beans.FarmerDevice;
 import com.bank.beans.FarmerForest;
 import com.bank.beans.FarmerHouse;
+import com.bank.beans.FarmerHouseExample;
 import com.common.exception.CreateException;
 import com.common.exception.DAOException;
 import com.common.exception.DataNotFoundException;
@@ -22,10 +23,7 @@ public interface IFarmerHouseService extends
 	public List<FarmerForest> findForestByFarmer(Long farmerId);
 	public List<FarmerBreed> findBreedByFarmer(Long farmerId);
 	public List<FarmerDevice> findDeviceByFarmer(Long farmerId);
-	public void saveChanQuan(Farmer farmer,List<FarmerHouse> houses,
-			List<FarmerForest> forests,List<FarmerBreed> breeds,
-			List<FarmerDevice> devices)throws DAOException, CreateException,
-			UpdateException, DataNotFoundException ;
 	public  List<Farmer> findByFarmers(List<Long> farmerIds);
+	public List<FarmerHouse> selectByExample(FarmerHouseExample example);
 
 }

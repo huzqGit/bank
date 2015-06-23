@@ -3,80 +3,208 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="farmercompunish">
-<sql id="Compunish_Column_List" >
-	compunishId, farmerId, type, organ, detail, occurTime
+<resultMap id="BaseResultMap" type="com.bank.beans.FarmerCompunish" >
+    <id column="COMPUNISHID" property="id" jdbcType="BIGINT" />
+    <result column="FARMERID" property="farmerid" jdbcType="BIGINT" />
+    <result column="ORGAN" property="organ" jdbcType="VARCHAR" />
+    <result column="DETAIL" property="detail" jdbcType="VARCHAR" />
+    <result column="OCCURTIME" property="occurtime" jdbcType="TIMESTAMP" />
+    <result column="TYPE" property="type" jdbcType="INTEGER" />
+    <result column="SOURCECODE" property="sourcecode" jdbcType="VARCHAR" />
+    <result column="SOURCENAME" property="sourcename" jdbcType="VARCHAR" />
+    <result column="RUNITID" property="runitid" jdbcType="VARCHAR" />
+    <result column="RUNITNAME" property="runitname" jdbcType="VARCHAR" />
+    <result column="RECORDER" property="recorder" jdbcType="VARCHAR" />
+    <result column="RECORDTIME" property="recordtime" jdbcType="TIMESTAMP" />
+</resultMap>
+<sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
 </sql>
+<sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+</sql>
+<sql id="Base_Column_List" >
+    COMPUNISHID, FARMERID, ORGAN, DETAIL, OCCURTIME, TYPE, SOURCECODE, SOURCENAME, RUNITID, 
+    RUNITNAME, RECORDER, RECORDTIME
+</sql>
+<select id="selectByExample" resultMap="BaseResultMap" parameterType="com.bank.beans.FarmerCompunishExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_FARMER_COMPUNISH
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+</select>
 <insert id="save" useGeneratedKeys="true" keyProperty="id" 
 		parameterType="com.bank.beans.FarmerCompunish">
-	insert into t_farmer_compunish
-	<trim prefix="(" suffix=")" suffixOverrides=",">
-		<if test="farmerId != null">
-			farmerId,
-		</if>
-		<if test="type != null">
-			type,	
-		</if>
-		<if test ="organ != null">
-			organ,
-		</if>
-		<if test="detail != null">
-			detail,
-		</if>	
-		<if test="occurTime != null">
-			occurTime,
-		</if>
-	</trim>
-	<trim prefix="values (" suffix=")" suffixOverrides=",">
-		<if test="farmerId != null">
-			#{farmerId,jdbcType=VARCHAR},
-		</if>
-		<if test="type != null">
-			#{type,jdbcType=VARCHAR},	
-		</if>
-		<if test ="organ != null">
-			#{organ,jdbcType=VARCHAR},
-		</if>
-		<if test="detail != null">
-			#{detail,jdbcType=VARCHAR},
-		</if>	
-		<if test="occurTime != null">
-			#{occurTime,jdbcType=DATE},
-		</if>
-	</trim>
+	insert into T_FARMER_COMPUNISH
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="farmerid != null" >
+        FARMERID,
+      </if>
+      <if test="organ != null" >
+        ORGAN,
+      </if>
+      <if test="detail != null" >
+        DETAIL,
+      </if>
+      <if test="occurtime != null" >
+        OCCURTIME,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="sourcecode != null" >
+        SOURCECODE,
+      </if>
+      <if test="sourcename != null" >
+        SOURCENAME,
+      </if>
+      <if test="runitid != null" >
+        RUNITID,
+      </if>
+      <if test="runitname != null" >
+        RUNITNAME,
+      </if>
+      <if test="recorder != null" >
+        RECORDER,
+      </if>
+      <if test="recordtime != null" >
+        RECORDTIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="farmerid != null" >
+        #{farmerid,jdbcType=BIGINT},
+      </if>
+      <if test="organ != null" >
+        #{organ,jdbcType=VARCHAR},
+      </if>
+      <if test="detail != null" >
+        #{detail,jdbcType=VARCHAR},
+      </if>
+      <if test="occurtime != null" >
+        #{occurtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="sourcecode != null" >
+        #{sourcecode,jdbcType=VARCHAR},
+      </if>
+      <if test="sourcename != null" >
+        #{sourcename,jdbcType=VARCHAR},
+      </if>
+      <if test="runitid != null" >
+        #{runitid,jdbcType=VARCHAR},
+      </if>
+      <if test="runitname != null" >
+        #{runitname,jdbcType=VARCHAR},
+      </if>
+      <if test="recorder != null" >
+        #{recorder,jdbcType=VARCHAR},
+      </if>
+      <if test="recordtime != null" >
+        #{recordtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
 </insert>
 <delete id="delete" parameterType="Long">
-	delete from t_farmer_compunish where compunishId = #{id,jdbcType=BIGINT}
+	delete from T_FARMER_COMPUNISH where COMPUNISHID = #{id,jdbcType=BIGINT}
 </delete>
 <update id="update">
-	update t_farmer_compunish
-	set farmerId = #{farmerId,jdbcType=BIGINT},
-	type = #{ type,jdbcType=INTEGER},
-	organ = #{ organ,jdbcType=VARCHAR},
-	detail = #{ detail,jdbcType=VARCHAR},
-	occurTime = #{ occurTime,jdbcType=DATE}
-	where compunishId = #{id,jdbcType=BIGINT}
+	update T_FARMER_COMPUNISH
+    set COMPUNISHID = #{compunishid,jdbcType=BIGINT},
+      FARMERID = #{farmerid,jdbcType=BIGINT},
+      ORGAN = #{organ,jdbcType=VARCHAR},
+      DETAIL = #{detail,jdbcType=VARCHAR},
+      OCCURTIME = #{occurtime,jdbcType=TIMESTAMP},
+      TYPE = #{type,jdbcType=INTEGER},
+      SOURCECODE = #{sourcecode,jdbcType=VARCHAR},
+      SOURCENAME = #{sourcename,jdbcType=VARCHAR},
+      RUNITID = #{runitid,jdbcType=VARCHAR},
+      RUNITNAME = #{runitname,jdbcType=VARCHAR},
+      RECORDER = #{recorder,jdbcType=VARCHAR},
+      RECORDTIME = #{recordtime,jdbcType=TIMESTAMP}
+	where COMPUNISHID = #{id,jdbcType=BIGINT}
 </update>
-<select id="findByPK" parameterType="Long" resultMap="farmerCompunishList">
+<select id="findByPK" parameterType="Long" resultMap="BaseResultMap">
 	select 
-	<include refid="Compunish_Column_List" />
-	from t_farmer_compunish where compunishId = #{id,jdbcType=BIGINT}
+	<include refid="Base_Column_List" />
+	from T_FARMER_COMPUNISH where COMPUNISHID = #{id,jdbcType=BIGINT}
 </select>
-<select id="findByFarmerId" parameterType="Long" 
-		resultMap="farmerCompunishList">
+<select id="findByFarmerId" parameterType="Long" resultMap="BaseResultMap">
 	select 
-	<include refid="Compunish_Column_List" />
-	from t_farmer_compunish where farmerId = #{id,jdbcType=BIGINT}
+	<include refid="Base_Column_List" />
+	from T_FARMER_COMPUNISH where FARMERID = #{id,jdbcType=BIGINT}
 </select>
-<select id="findPagingByFarmerId" parameterType="Map" 
-		resultMap="farmerCompunishList">
+<select id="findPagingByFarmerId" parameterType="Map" resultMap="BaseResultMap">
 	select 
-	<include refid="Compunish_Column_List" />
+	<include refid="Base_Column_List" />
 	from 
 	(select t.*,rownumber() over() as rn 
-	from t_farmer_compunish t
+	from T_FARMER_COMPUNISH t
 	<where>
 		<if test="farmerId != null">
-		   	and t.farmerId = #{farmerId,jdbcType=BIGINT}
+		   	and t.FARMERID = #{farmerId,jdbcType=BIGINT}
 		</if>
 	 </where>
 	 )
@@ -86,42 +214,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	   	</if>
 	 </where>
 </select>
-<select id="findByFarmers" parameterType="list" resultMap="farmerCompunishList1">
+<select id="findByFarmers" parameterType="list" resultMap="BaseResultMap">
 	select 
-	a.farmerName,a.farmerIdNum,b.*
-	from t_farmer a,t_farmer_compunish b
-	where a.farmerId = b.farmerId
-	and a.farmerId in
+	<include refid="Base_Column_List" />
+	from T_FARMER_COMPUNISH 
+	where FARMERID in
 	<foreach item="item" index="index" collection="list" 
 			open="(" separator="," close=")">
 	#{item}
 	</foreach>
 </select>
-<resultMap id="farmerCompunishList" type="com.bank.beans.FarmerCompunish">
-    <result column="compunishId" property="id" jdbcType="BIGINT"/>
-    <result column="farmerId" property="farmerId" jdbcType="BIGINT" />
-    <result column="type" property="type" jdbcType="INTEGER" />
-    <result column="organ" property="organ" jdbcType="VARCHAR" />
-	<result column="detail" property="detail" jdbcType="VARCHAR" />
-	<result column="occurTime" property="occurTime" jdbcType="DATE" />
-    <result column="recorder" property="recorder" jdbcType="VARCHAR" />
-    <result column="recordTime" property="recordTime" jdbcType="DATE" />
-</resultMap>
-<resultMap id="farmerCompunishList1" type="com.bank.beans.FarmerCompunish">
-    <result column="compunishId" property="id" jdbcType="BIGINT"/>
-    <result column="farmerId" property="farmerId" jdbcType="BIGINT" />
-    <result column="farmerName" property="farmerName" jdbcType="VARCHAR" />
-    <result column="farmerIdNum" property="farmerIdNum" jdbcType="VARCHAR" />
-    <result column="type" property="type" jdbcType="INTEGER" />
-    <result column="organ" property="organ" jdbcType="VARCHAR" />
-	<result column="detail" property="detail" jdbcType="VARCHAR" />
-	<result column="occurTime" property="occurTime" jdbcType="DATE" />
-    <result column="recorder" property="recorder" jdbcType="VARCHAR" />
-    <result column="recordTime" property="recordTime" jdbcType="DATE" />
-</resultMap>
-<select id="pageing" parameterType="Map" resultMap="farmerCompunishList">
+<select id="pageing" parameterType="Map" resultMap="BaseResultMap">
 	select 
-	<include refid="Compunish_Column_List" />
+	<include refid="Base_Column_List" />
 	from 
 	(select t.*,rownumber() over(order by recordtime desc) as rn from t_farmer_compunish t
 	<where>

@@ -114,26 +114,20 @@ public class FarmerPayController {
 			}
 			farmerPayService.deleteIncomes(incomeIds);
 		}
-		if(balance.getId()==null){
-			try {
-				farmerPayService.save(balance);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				e.printStackTrace();
-			}
-		}else{
-			try {
+	
+		try {
+			if(balance.getId()==null){
+			farmerPayService.save(balance);
+			}else{
 				farmerPayService.update(balance);
-			}catch (Exception e) {
+			}
+		} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				e.printStackTrace();
-			}
 		}
 		List<FarmerIncome> incomes = balance.getIncomes();
 		for(FarmerIncome income : incomes){
-			income.setPayId(balance.getId());
+			income.setPayid(balance.getId());
 			try{
 				if(income.getId()==null){
 					farmerIncomeService.save(income);
@@ -146,7 +140,7 @@ public class FarmerPayController {
 		}
 		Farmer farmer = null;
 		try {
-			 farmer = farmerService.findByPK(balance.getFarmerId());
+			 farmer = farmerService.findByPK(balance.getFarmerid());
 		} catch (DAOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -234,7 +228,7 @@ public class FarmerPayController {
 		if(!StringUtils.isEmpty(id)){
 			Long payId=Long.valueOf(id);
 			FarmerPay balance = farmerPayService.findByPK(payId);
-			Farmer farmer = farmerService.findByPK(balance.getFarmerId());
+			Farmer farmer = farmerService.findByPK(balance.getFarmerid());
 			List<FarmerIncome> incomes = farmerPayService.loadTotalIncome(payId);
 			if(incomes.size() ==0 ){
 				incomes.add(new FarmerIncome());
@@ -274,71 +268,6 @@ public class FarmerPayController {
 		}
 		return null;
 		
-	}
-	@RequestMapping(value = "/typeInBalance", method = RequestMethod.POST)
-	public ModelAndView TypeinBalance(@RequestParam(value="year") String year, 
-			@RequestParam(value="farmerName") String farmerName,
-			@RequestParam(value="farmerIdNum") String farmerIdNum,
-			HttpServletResponse response) throws Exception {
-		
-		if(StringUtils.isEmpty(year) && StringUtils.isEmpty(farmerName) && StringUtils.isEmpty(farmerIdNum)){
-			//身份证号码不能为空
-			ModelAndView view = new ModelAndView("/farmer/farmerBalanceInfoView");
-			view.addObject("msg","请您填写完农户姓名和身份证号码后录入收支信息!");
-			return view;
-		}
-		if(StringUtils.isEmpty(farmerName) && StringUtils.isEmpty(farmerIdNum) && !StringUtils.isEmpty(year)){
-			List<FarmerPay> balances = farmerPayService.findByFarmerAndYear(null,year);
-			ModelAndView view = new ModelAndView("/farmer/farmerBalanceInfoView");
-			view.addObject("balances",balances);
-			return view;
-		}
-		List<Farmer> farmers = farmerService.findByIDAndName(farmerIdNum, farmerName);
-		if(farmers.size() == 0){
-			ModelAndView view = new ModelAndView("/farmer/farmerBalanceInfoView");
-			view.addObject("msg","未找到匹配的农户信息!您可以到【农户】-【数据采集】-【基本信息】模块中录入农户信息后再录入农户的资产信息!");
-			return view;
-		}else if(farmers.size() == 1){
-			Farmer farmer = farmers.get(0);
-			List<FarmerPay> balances=farmerPayService.loadPayByDateAndFarmer(farmer.getId(), year);
-			if(balances.size() == 0){
-				if(StringUtils.isEmpty(year)){
-					ModelAndView view = new ModelAndView("/farmer/farmerBalanceInfoView");
-					view.addObject("year",year);
-					view.addObject("farmerIdNum",farmerIdNum);
-					view.addObject("farmerName",farmerName);
-					view.addObject("msg", "未找到对应的收支信息!您可以填写完年份后再录入收支信息");
-					return view;	
-				}else{
-					FarmerPay balance = new FarmerPay();
-					balance.setFarmerId(farmer.getId());
-					balance.setYear(year);
-					List<FarmerIncome> incomes =new ArrayList<FarmerIncome>();
-					incomes.add(new FarmerIncome());
-					ModelAndView view = new ModelAndView("/farmer/farmerBalanceForm");
-					view.addObject("farmer",farmer);
-					view.addObject("balance",balance);
-					view.addObject("incomes",incomes);
-					return view;	
-				}
-			
-			}else{
-				ModelAndView view = new ModelAndView("/farmer/farmerBalanceInfoView");
-				view.addObject("balances",balances);
-				return view;
-			}
-		}else{
-			List<Long> farmerIds = new ArrayList<Long>();
-			for(Iterator<Farmer> it = farmers.iterator();it.hasNext();){
-				Farmer farmer = it.next();
-				farmerIds.add(farmer.getId());
-			}
-			List<FarmerPay> balances=farmerPayService.findByFarmersAndYear(farmerIds, year);
-			ModelAndView view = new ModelAndView("/farmer/farmerBalanceInfoView");
-			view.addObject("balances", balances);
-			return view;
-			
-		}
 	}
 	@RequestMapping(value="/typeinBalance1",method=RequestMethod.GET)
 	public ModelAndView TypeinBalance1(@RequestParam(value="fid") String fid, 

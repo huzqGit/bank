@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import com.bank.beans.FarmerCompunish;
+import com.bank.beans.FarmerCompunishExample;
 import com.bank.dao.IFarmerCompunishDao;
 import com.common.dao.impl.GenericMyBatisDAOSupport;
 
@@ -40,6 +41,13 @@ public class FarmerCompunishDaoImpl extends GenericMyBatisDAOSupport<FarmerCompu
 		map.put("end",end);
 		map.put("sortOrder",sortOrder);
 		List<FarmerCompunish> compunishs = this.getSqlSession().selectList("farmercompunish.findPagingByFarmerId",map);
+		return compunishs;
+	}
+
+	@Override
+	public List<FarmerCompunish> selectByExample(FarmerCompunishExample example) {
+		// TODO Auto-generated method stub
+		List<FarmerCompunish> compunishs = this.getSqlSession().selectList("farmercompunish.selectByExample",example);
 		return compunishs;
 	}
 	

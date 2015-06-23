@@ -41,57 +41,6 @@ public class FarmerHouseController {
 	@Resource
 	private IFarmerHouseService farmerHouseService;
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value = "/saveChanQuan",method = RequestMethod.POST)
-	public ModelAndView save(HttpServletRequest request, 
-			HttpServletResponse response) throws Exception{
-
-		String farmerData = request.getParameter("farmer");
-		String houseData = request.getParameter("house");
-		String forestData = request.getParameter("forest");
-		String breedData = request.getParameter("breed");
-		String deviceData = request.getParameter("device");
-		//這裡做了時間格式的處理
-		Object decodeJsonData = JsonUtil.Decode(farmerData);
-		String formatdata = JSON.toJSONStringWithDateFormat(decodeJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
-		JSONObject jsb = JSONObject.parseObject(formatdata);
-		Farmer farmer = (Farmer) JSON.toJavaObject(jsb, Farmer.class);
-		
-		Object houseJsonData = JsonUtil.Decode(houseData);
-		houseData = JSON.toJSONStringWithDateFormat(houseJsonData, "yyyy", SerializerFeature.WriteDateUseDateFormat);	
-		List<FarmerHouse> house = (List<FarmerHouse>)JSON.parseArray(houseData, FarmerHouse.class);
-		
-		Object forestJsonData = JsonUtil.Decode(forestData);
-		forestData = JSON.toJSONStringWithDateFormat(forestJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);	
-		List<FarmerForest> forest = (List<FarmerForest>)JSON.parseArray(forestData, FarmerForest.class);
-		
-		Object breedJsonData = JsonUtil.Decode(breedData);
-		breedData = JSON.toJSONStringWithDateFormat(breedJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);	
-		List<FarmerBreed> breed = (List<FarmerBreed>)JSON.parseArray(breedData, FarmerBreed.class);
-		
-		Object deviceJsonData = JsonUtil.Decode(deviceData);
-		deviceData = JSON.toJSONStringWithDateFormat(deviceJsonData, "yyyy", SerializerFeature.WriteDateUseDateFormat);	
-		List<FarmerDevice> device = (List<FarmerDevice>)JSON.parseArray(deviceData, FarmerDevice.class);
-		
-		if(farmer.getId() == null){
-			return null;
-		}else{
-			farmerHouseService.saveChanQuan(farmer, house, forest, breed, device);
-		}
-		Map map = new HashMap();
-		map.put("farmer",farmer);
-		map.put("house",house);
-		map.put("forest",forest);
-		map.put("breed",breed);
-		map.put("device",device);
-		String json =JSON.toJSONString(map);
-		System.out.println(json);
-		PrintWriter writer = response.getWriter();
-		writer.write(json);
-		writer.flush();
-		return null;
-		
-	}
 	@RequestMapping(value = "/saveHouse",method = RequestMethod.POST)
 	public ModelAndView saveHouse(@ModelAttribute(value="house") FarmerHouse house,
 			HttpServletRequest request,HttpServletResponse response){
@@ -107,7 +56,7 @@ public class FarmerHouseController {
 		}
 		Farmer farmer = null;
 		try {
-			farmer = farmerService.findByPK(house.getFarmerId());
+			farmer = farmerService.findByPK(house.getFarmerid());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

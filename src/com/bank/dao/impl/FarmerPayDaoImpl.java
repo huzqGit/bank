@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import com.bank.beans.FarmerPay;
+import com.bank.beans.FarmerPayExample;
 import com.bank.dao.IFarmerPayDao;
 import com.common.dao.impl.GenericMyBatisDAOSupport;
 
@@ -74,6 +75,13 @@ public class FarmerPayDaoImpl extends GenericMyBatisDAOSupport<FarmerPay, Long>
 	public void deleteIncomes(List<Long> incomes) {
 		// TODO Auto-generated method stub
 		this.getSqlSession().delete("farmerincome.delete",incomes);
+	}
+
+	@Override
+	public List<FarmerPay> selectByExample(FarmerPayExample example) {
+		// TODO Auto-generated method stub
+		List<FarmerPay> balances = this.getSqlSession().selectList("farmerpay.selectByExample",example);
+		return balances;
 	}
 	
 }

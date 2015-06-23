@@ -74,7 +74,7 @@ public class FarmerBreedController {
 		}
 		Farmer farmer = null;
 		try {
-			farmer = farmerService.findByPK(breed.getFarmerId());
+			farmer = farmerService.findByPK(breed.getFarmerid());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

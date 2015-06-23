@@ -29,16 +29,17 @@
 <body>
 <div>
 <form action="/bank/farmer/saveInsured1.do" method="POST">
-<input name="farmerId" class="mini-hidden" value="${farmer.id}"/>
+<input name="id" class="mini-hidden" value="${insured.id}"/>
+<input name="farmerid" class="mini-hidden" value="${farmer.id}"/>
 <div class="topMenu" style="background:linear-gradient(#6DC8E3,white)">
 <table cellpadding="0" cellspacing="0"  height="60px">
     <tr>
     	<td class="labelName" width="25%" align="right">姓名:</td>
     	<td width="2%"></td>
-    	<td class="labelValue" width="8%">${farmer.farmerName }</td>
+    	<td class="labelValue" width="8%">${farmer.farmername }</td>
     	<td class="labelName" width="12%" align="right">证件号码:</td>
     	<td width="2%"></td>
-    	<td class="labelValue" width ="20%">${farmer.farmerIdnum }</td>
+    	<td class="labelValue" width ="20%">${farmer.farmeridnum }</td>
     	<td width="50px" align="right">
        	 <input type="submit" id="saveBtn"  value=""/>
         </td>
@@ -55,7 +56,7 @@
 <div class="fieldset-body">
 <table width="100%" >
 <tr><td>
-<input name="id" class="mini-hidden" value="${insured.id}"/>
+
 <table border="0" cellpadding="1" cellspacing="15" width="100%">
 <tr><td>
 <table width="100%">
@@ -66,7 +67,7 @@
 			required="true" requiredErrorText="参加保险种类不能为空" style="width:90%"
 			url="/bank/dic/InsuredType.txt" emptyText="请选择..."/>
 	</td>
-	<td style="width:10%"><label for="textbox1$text">保险金额:</label></td>
+	<td style="width:10%"><label for="textbox1$text">保险金额(元):</label></td>
 	<td style="width:40%">
 		<input name="amount" class="mini-textbox"  value="${insured.amount}" style="width:90%" 
 			required="true" requiredErrorText="保险金额不能为空" minValue="0"/>
@@ -75,12 +76,12 @@
 <tr>	
 	<td style="width:10%"><label for="textbox1$text">参保时间:</label></td>
 	<td style="width:40%">
-		<input name="insureTime" class="mini-datepicker" value="${insured.insureTime}" style="width:90%"
+		<input name="insuretime" class="mini-datepicker" value="${insured.insuretime}" style="width:90%"
 			required="true" requiredErrorText="参保时间不能为空" />
 	</td>
 	<td style="width:10%"><label for="textbox1$text">参保到期日:</label></td>
 	<td style="width:40%">
-		<input name="limitTime" class="mini-datepicker" value="${insured.limitTime}" style="width:90%"
+		<input name="limittime" class="mini-datepicker" value="${insured.limittime}" style="width:90%"
 			required="true" requiredErrorText="参保到期日不能为空"/>
 	</td>
 </tr>

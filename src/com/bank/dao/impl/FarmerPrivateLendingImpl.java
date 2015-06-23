@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import com.bank.beans.FarmerPrivateLending;
+import com.bank.beans.FarmerPrivateLendingExample;
 import com.bank.dao.IFarmerPrivateLendingDao;
 import com.common.dao.impl.GenericMyBatisDAOSupport;
 
@@ -34,6 +35,14 @@ public class FarmerPrivateLendingImpl extends GenericMyBatisDAOSupport<FarmerPri
 		map.put("sortOrder",sortOrder);
 		map.put("farmerId", farmerId);
 		List<FarmerPrivateLending> lendings = this.getSqlSession().selectList("farmerprivatelending.findByPaging",map);
+		return lendings;
+	}
+
+	@Override
+	public List<FarmerPrivateLending> selectByExample(
+			FarmerPrivateLendingExample example) {
+		// TODO Auto-generated method stub
+		List<FarmerPrivateLending> lendings = this.getSqlSession().selectList("farmerprivatelending.selectByExample",example);
 		return lendings;
 	}
 

@@ -55,10 +55,10 @@ overflow-x:hidden
     <tr>
     	<td class="labelName" width="25%" align="right">姓名:</td>
     	<td width="2%"></td>
-    	<td class="labelValue" width="8%">${farmer.farmerName }</td>
+    	<td class="labelValue" width="8%">${farmer.farmername }</td>
     	<td class="labelName" width="12%" align="right">证件号码:</td>
     	<td width="2%"></td>
-    	<td class="labelValue" width ="20%">${farmer.farmerIdnum }</td>
+    	<td class="labelValue" width ="20%">${farmer.farmeridnum }</td>
     	<td width="50px" align="right">
        	 	<input type="button" id="saveBtn" onclick="submitForm()" value=""/>
         </td>
@@ -74,7 +74,7 @@ overflow-x:hidden
 <table width="100%" >
 <tr><td style="width:100%">
 <input name="id" class="mini-hidden" value="${breed.id}"/>
-<input name="farmerId" class="mini-hidden" value="${farmer.id}" />
+<input name="farmerid" class="mini-hidden" value="${farmer.id}" />
 <table border="0" cellpadding="1" cellspacing="15" width="100%" >
 <tr><td style="width:100%">
 <table width="100%">
@@ -103,33 +103,33 @@ overflow-x:hidden
 	<td class="required_text">*</td>
 	<td>占地面积(平方米 )</td>
     <td >
-    	<input name="floorArea" class="mini-textbox" value="${breed.floorArea}" style="width:90%"
+    	<input name="floorarea" class="mini-textbox" value="${breed.floorarea}" style="width:90%"
     		errorMode="none"  vtype="float" required="true" requiredErrorText="占地不能为空!" onvalidation="onValidation"/>
     </td>
     <td class="required_text">*</td>
     <td>年平均产值(元)</td>
     <td >
-    	<input  name="outputValue" class="mini-textbox" value="${breed.outputValue}" style="width:90%"
+    	<input  name="outputvalue" class="mini-textbox" value="${breed.outputvalue}" style="width:90%"
     		errorMode="none"  vtype="float" required="true" requiredErrorText="年平均产值不能为空!" onvalidation="onValidation"/>
     </td>
 </tr>
 <tr>
 	<td></td>
-	<td id="floorArea_error" class="errorText" colspan="2"></td>
+	<td id="floorarea_error" class="errorText" colspan="2"></td>
 	<td></td>
-	<td id="outputValue_error" class="errorText" colspan="2"></td>
+	<td id="outputvalue_error" class="errorText" colspan="2"></td>
 </tr>
 <tr>
 	<td class="required_text"></td>
     <td>当前评估价格(元):</td>
     <td >
-    	<input name="assessPrice" class="mini-textbox" value="${breed.assessPrice}" style="width:90%"
+    	<input name="assessprice" class="mini-textbox" value="${breed.assessprice}" style="width:90%"
     		errorMode="none" vtype="float" onvalidation="onValidation"/>
     </td>
 </tr>
 <tr>
 	<td></td>
-	<td id="assessPrice_error" class="errorText" colspan="2"></td>
+	<td id="assessprice_error" class="errorText" colspan="2"></td>
 </tr>
 </table>
 </td></tr></table>

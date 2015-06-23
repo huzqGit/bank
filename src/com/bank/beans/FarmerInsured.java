@@ -12,90 +12,129 @@ public class FarmerInsured extends BaseEntity<Long> {
 	 * 
 	 */
 	private static final long serialVersionUID = -4718082476820104198L;
-	//户主身份证号
-	private Long farmerId;
-	//参保人姓名
-	private String name;
-	//被参加保险种类
-	private String type;
-	//参保金额
-	private Double amount;
-	//参保时间
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date insureTime;
-	//参保到期日
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date limitTime;
-	//记录人
-	private String recorder;
-	//记录时间
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-	private Date recordTime;
 	
+	    private Long farmerid;
 
-	public Long getFarmerId() {
-		return farmerId;
-	}
+	    private String name;
 
-	public void setFarmerId(Long farmerId) {
-		this.farmerId = farmerId;
-	}
+	    private Integer type;
 
-	public String getName() {
-		return name;
-	}
+	    private Double amount;
+	    
+	    @DateTimeFormat(pattern = "yyyy-MM-dd")
+	    private Date insuretime;
+	    
+	    @DateTimeFormat(pattern = "yyyy-MM-dd")
+	    private Date limittime;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+	    private String sourcecode;
 
-	public String getType() {
-		return type;
-	}
+	    private String sourcename;
 
-	public void setType(String type) {
-		this.type = type;
-	}
+	    private String runitid;
 
-	public Double getAmount() {
-		return amount;
-	}
+	    private String runitname;
 
-	public void setAmount(Double amount) {
-		this.amount = amount;
-	}
+	    private String recorder;
+	    
+	    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	    private Date recordtime;
+	    
+	    public Long getFarmerid() {
+			return farmerid;
+		}
 
-	public Date getInsureTime() {
-		return insureTime;
-	}
+		public void setFarmerid(Long farmerid) {
+			this.farmerid = farmerid;
+		}
 
-	public void setInsureTime(Date insureTime) {
-		this.insureTime = insureTime;
-	}
+		public String getName() {
+			return name;
+		}
 
-	public Date getLimitTime() {
-		return limitTime;
-	}
+		public void setName(String name) {
+			this.name = name;
+		}
 
-	public void setLimitTime(Date limitTime) {
-		this.limitTime = limitTime;
-	}
+		public Integer getType() {
+			return type;
+		}
 
-	public String getRecorder() {
-		return recorder;
-	}
+		public void setType(Integer type) {
+			this.type = type;
+		}
 
-	public void setRecorder(String recorder) {
-		this.recorder = recorder;
-	}
+		public Double getAmount() {
+			return amount;
+		}
 
-	public Date getRecordTime() {
-		return recordTime;
-	}
+		public void setAmount(Double amount) {
+			this.amount = amount;
+		}
 
-	public void setRecordTime(Date recordTime) {
-		this.recordTime = recordTime;
-	}
+		public Date getInsuretime() {
+			return insuretime;
+		}
+
+		public void setInsuretime(Date insuretime) {
+			this.insuretime = insuretime;
+		}
+
+		public Date getLimittime() {
+			return limittime;
+		}
+
+		public void setLimittime(Date limittime) {
+			this.limittime = limittime;
+		}
+
+		public String getSourcecode() {
+			return sourcecode;
+		}
+
+		public void setSourcecode(String sourcecode) {
+			this.sourcecode = sourcecode;
+		}
+
+		public String getSourcename() {
+			return sourcename;
+		}
+
+		public void setSourcename(String sourcename) {
+			this.sourcename = sourcename;
+		}
+
+		public String getRunitid() {
+			return runitid;
+		}
+
+		public void setRunitid(String runitid) {
+			this.runitid = runitid;
+		}
+
+		public String getRunitname() {
+			return runitname;
+		}
+
+		public void setRunitname(String runitname) {
+			this.runitname = runitname;
+		}
+
+		public String getRecorder() {
+			return recorder;
+		}
+
+		public void setRecorder(String recorder) {
+			this.recorder = recorder;
+		}
+
+		public Date getRecordtime() {
+			return recordtime;
+		}
+
+		public void setRecordtime(Date recordtime) {
+			this.recordtime = recordtime;
+		}
 
 	@Override
 	public boolean equalsIfIdNull(Object o) {

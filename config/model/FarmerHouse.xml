@@ -3,108 +3,239 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="farmerhouse">
-<sql id="House_Column_List" >
-	houseId, farmerId, houseProperty, houseType, houseAddress,
-	buildArea, buildDate, buildPrice, floorArea, assessPrice
-</sql>
-<insert id="save" useGeneratedKeys="true" keyProperty="id" 
+  <resultMap id="BaseResultMap" type="com.bank.beans.FarmerHouse" >
+    <id column="HOUSEID" property="id" jdbcType="BIGINT" />
+    <result column="FARMERID" property="farmerid" jdbcType="BIGINT" />
+    <result column="HOUSEPROPERTY" property="houseproperty" jdbcType="VARCHAR" />
+    <result column="HOUSETYPE" property="housetype" jdbcType="VARCHAR" />
+    <result column="HOUSEADDRESS" property="houseaddress" jdbcType="VARCHAR" />
+    <result column="BUILDAREA" property="buildarea" jdbcType="VARCHAR" />
+    <result column="BUILDDATE" property="builddate" jdbcType="VARCHAR" />
+    <result column="BUILDPRICE" property="buildprice" jdbcType="VARCHAR" />
+    <result column="FLOORAREA" property="floorarea" jdbcType="VARCHAR" />
+    <result column="ASSESSPRICE" property="assessprice" jdbcType="VARCHAR" />
+    <result column="SOURCECODE" property="sourcecode" jdbcType="VARCHAR" />
+    <result column="SOURCENAME" property="sourcename" jdbcType="VARCHAR" />
+    <result column="RUNITID" property="runitid" jdbcType="VARCHAR" />
+    <result column="RUNITNAME" property="runitname" jdbcType="VARCHAR" />
+    <result column="RECORDER" property="recorder" jdbcType="VARCHAR" />
+    <result column="RECORDTIME" property="recordtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    HOUSEID, FARMERID, HOUSEPROPERTY, HOUSETYPE, HOUSEADDRESS, BUILDAREA, BUILDDATE, 
+    BUILDPRICE, FLOORAREA, ASSESSPRICE, SOURCECODE, SOURCENAME, RUNITID, RUNITNAME, RECORDER, 
+    RECORDTIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.bank.beans.FarmerHouseExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_FARMER_HOUSE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <insert id="save" useGeneratedKeys="true" keyProperty="id" 
 	parameterType="com.bank.beans.FarmerHouse">
-		insert into t_farmer_house
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-			 <if test="farmerId != null">
-			 	farmerId,
-			 </if>
-			 <if test="houseProperty != null">
-				houseProperty,
-			 </if>
-			 <if test="houseType != null">
-				houseType,
-			 </if>
-			 <if test="houseAddress != null">
-			    houseAddress,
-			 </if>
-	  		 <if test="buildArea != null">
-	  		    buildArea,
-	  		 </if>
-			<if test="buildDate != null">
-				buildDate,
-			</if>
-	  		<if test="buildPrice != null">
-	  		    buildPrice,
-	  		</if>
-	  		<if test="floorArea != null">
-	  			floorArea,
-	  		</if>
-	  		<if test="assessPrice != null">
-	  			assessPrice
-	  		</if>
-		</trim>
-		<trim prefix="values (" suffix=")" suffixOverrides=",">
-	        <if test="farmerId != null">
-	         	#{farmerId,jdbcType=BIGINT},
-	        </if>
-	        <if test="houseProperty != null">
-	        	#{houseProperty,jdbcType=VARCHAR},
-	        </if>
-	        <if test="houseType != null">
-	        	#{houseType,jdbcType=VARCHAR},
-	        </if>
-	        <if test="houseAddress != null">
-	          	#{houseAddress,jdbcType=VARCHAR},
-	        </if>
-	        <if test="buildArea != null">
-	            #{buildArea,jdbcType=VARCHAR},
-	        </if>
-	        <if test="buildDate != null">
-	            #{buildDate,jdbcType=VARCHAR},
-	        </if>
-	        <if test="buildPrice != null">
-	            #{buildPrice,jdbcType=VARCHAR},
-	        </if>
-	        <if test="floorArea != null">
-	           #{floorArea,jdbcType=VARCHAR},
-	        </if>
-	        <if test="assessPrice != null">
-	           #{assessPrice,jdbcType=VARCHAR}
-	        </if>
-		</trim>
+		insert into T_FARMER_HOUSE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="farmerid != null" >
+        FARMERID,
+      </if>
+      <if test="houseproperty != null" >
+        HOUSEPROPERTY,
+      </if>
+      <if test="housetype != null" >
+        HOUSETYPE,
+      </if>
+      <if test="houseaddress != null" >
+        HOUSEADDRESS,
+      </if>
+      <if test="buildarea != null" >
+        BUILDAREA,
+      </if>
+      <if test="builddate != null" >
+        BUILDDATE,
+      </if>
+      <if test="buildprice != null" >
+        BUILDPRICE,
+      </if>
+      <if test="floorarea != null" >
+        FLOORAREA,
+      </if>
+      <if test="assessprice != null" >
+        ASSESSPRICE,
+      </if>
+      <if test="sourcecode != null" >
+        SOURCECODE,
+      </if>
+      <if test="sourcename != null" >
+        SOURCENAME,
+      </if>
+      <if test="runitid != null" >
+        RUNITID,
+      </if>
+      <if test="runitname != null" >
+        RUNITNAME,
+      </if>
+      <if test="recorder != null" >
+        RECORDER,
+      </if>
+      <if test="recordtime != null" >
+        RECORDTIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="farmerid != null" >
+        #{farmerid,jdbcType=BIGINT},
+      </if>
+      <if test="houseproperty != null" >
+        #{houseproperty,jdbcType=VARCHAR},
+      </if>
+      <if test="housetype != null" >
+        #{housetype,jdbcType=VARCHAR},
+      </if>
+      <if test="houseaddress != null" >
+        #{houseaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="buildarea != null" >
+        #{buildarea,jdbcType=VARCHAR},
+      </if>
+      <if test="builddate != null" >
+        #{builddate,jdbcType=VARCHAR},
+      </if>
+      <if test="buildprice != null" >
+        #{buildprice,jdbcType=VARCHAR},
+      </if>
+      <if test="floorarea != null" >
+        #{floorarea,jdbcType=VARCHAR},
+      </if>
+      <if test="assessprice != null" >
+        #{assessprice,jdbcType=VARCHAR},
+      </if>
+      <if test="sourcecode != null" >
+        #{sourcecode,jdbcType=VARCHAR},
+      </if>
+      <if test="sourcename != null" >
+        #{sourcename,jdbcType=VARCHAR},
+      </if>
+      <if test="runitid != null" >
+        #{runitid,jdbcType=VARCHAR},
+      </if>
+      <if test="runitname != null" >
+        #{runitname,jdbcType=VARCHAR},
+      </if>
+      <if test="recorder != null" >
+        #{recorder,jdbcType=VARCHAR},
+      </if>
+      <if test="recordtime != null" >
+        #{recordtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
 </insert>
 <delete id="delete" parameterType="Long">
-	delete from t_farmer_house where houseId = #{id,jdbcType=BIGINT}
+	delete from T_FARMER_HOUSE where HOUSEID = #{id,jdbcType=BIGINT}
 </delete>
 <update id="update" parameterType="com.bank.beans.FarmerHouse">
-	update t_farmer_house
-	set farmerId = #{farmerId,jdbcType=BIGINT},
-	houseProperty = #{houseProperty,jdbcType=VARCHAR},
-	houseType = #{houseType,jdbcType=VARCHAR},
-	houseAddress = #{houseAddress,jdbcType=VARCHAR},
-	buildArea = #{buildArea,jdbcType=VARCHAR},
-	buildDate = #{buildDate,jdbcType=VARCHAR},
-	buildPrice = #{buildPrice,jdbcType=VARCHAR},
-	floorArea = #{floorArea,jdbcType=VARCHAR},
-	assessPrice = #{assessPrice,jdbcType=VARCHAR}
-	where houseId =#{id,jdbcType=BIGINT}
+	update T_FARMER_HOUSE
+    set FARMERID = #{farmerid,jdbcType=BIGINT},
+      HOUSEPROPERTY = #{houseproperty,jdbcType=VARCHAR},
+      HOUSETYPE = #{housetype,jdbcType=VARCHAR},
+      HOUSEADDRESS = #{houseaddress,jdbcType=VARCHAR},
+      BUILDAREA = #{buildarea,jdbcType=VARCHAR},
+      BUILDDATE = #{builddate,jdbcType=VARCHAR},
+      BUILDPRICE = #{buildprice,jdbcType=VARCHAR},
+      FLOORAREA = #{floorarea,jdbcType=VARCHAR},
+      ASSESSPRICE = #{assessprice,jdbcType=VARCHAR},
+      SOURCECODE = #{sourcecode,jdbcType=VARCHAR},
+      SOURCENAME = #{sourcename,jdbcType=VARCHAR},
+      RUNITID = #{runitid,jdbcType=VARCHAR},
+      RUNITNAME = #{runitname,jdbcType=VARCHAR},
+      RECORDER = #{recorder,jdbcType=VARCHAR},
+      RECORDTIME = #{recordtime,jdbcType=TIMESTAMP}
+	where HOUSEID =#{id,jdbcType=BIGINT}
 </update>
-<select id="findByPK" parameterType="Long" resultMap="farmerHouseList">
+<select id="findByPK" parameterType="Long" resultMap="BaseResultMap">
 	select 
-	<include refid="House_Column_List" />
-	from t_farmer_house where houseId = #{id,jdbcType=BIGINT}
+	<include refid="Base_Column_List" />
+	from T_FARMER_HOUSE where HOUSEID = #{id,jdbcType=BIGINT}
 </select>
-<select id="findByFarmerId" parameterType="Long" 
-	resultMap="farmerHouseList">
+<select id="findByFarmerId" parameterType="Long" resultMap="BaseResultMap">
 	select 
-	<include refid="House_Column_List" />
-	from t_farmer_house where farmerId = #{id,jdbcType=BIGINT}
+	<include refid="Base_Column_List" />
+	from T_FARMER_HOUSE where FARMERID = #{id,jdbcType=BIGINT}
 </select>
 <select id="findTotalNumberByFarmerId" parameterType="Long" resultType="INTEGER">
-	select count(1) from t_farmer_house
-	where farmerId = #{farmerId,jdbcType=BIGINT}
+	select count(1) from T_FARMER_HOUSE where FARMERID = #{farmerId,jdbcType=BIGINT}
 </select>
-<select id="findPagingByFarmerId" parameterType="Map" resultMap="farmerHouseList">
+<select id="findPagingByFarmerId" parameterType="Map" resultMap="BaseResultMap">
 	select 
-	<include refid="House_Column_List" />
+	<include refid="Base_Column_List" />
 	from 
-	(select t.*,rowNumber() over() as rn from t_farmer_house t
+	(select t.*,rowNumber() over() as rn from T_FARMER_HOUSE t
 	<where>
 		<if test="farmerId != null">
 			t.farmerId = #{farmerId,jdbcType=BIGINT} 
@@ -117,20 +248,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	   	</if>
 	 </where>
 </select> 
-<select id="findByFarmers" parameterType="list" resultMap="farmer.farmerList">
+<select id="findByFarmers" parameterType="list" resultMap="farmer.BaseResultMap">
 	select a.*
-	from t_farmer a
+	from T_FARMER a
 	where a.farmerId in 
 	(
 	select distinct farmerId from
 		(
-		select farmerId from t_farmer_house
+		select farmerId from T_FARMER_HOUSE
 		union all
-		select farmerId from t_farmer_forest
+		select farmerId from T_FARMER_FOREST
 		union all
-		select farmerId from t_farmer_breed
+		select farmerId from T_FARMER_BREED
 		union all
-		select farmerId from t_farmer_device
+		select farmerId from T_FARMER_DEVICE
 		)
 	)
 	and a.farmerId in
@@ -139,23 +270,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	#{item}
 	</foreach>
 </select>
-<resultMap id="farmerHouseList" type="com.bank.beans.FarmerHouse">
-    <id column="houseId" property="id" jdbcType="BIGINT"/>
-    <result column="farmerId" property="farmerId" jdbcType="BIGINT" />
-    <result column="houseProperty" property="houseProperty" jdbcType="VARCHAR" />
-    <result column="houseType" property="houseType" jdbcType="VARCHAR" />
-	<result column="houseAddress" property="houseAddress" jdbcType="VARCHAR"/>
-	<result column="buildArea" property="buildArea" jdbcType="VARCHAR"/>
-    <result column="buildDate" property="buildDate" jdbcType="DATE"/>
-    <result column="buildPrice" property="buildPrice" jdbcType="DOUBLE"/>
-	<result column="floorArea" property="floorArea" jdbcType="VARCHAR" />
-	<result column="assessPrice" property="assessPrice" jdbcType="VARCHAR"/>
-</resultMap>
-<select id="pageing" parameterType="Map" resultMap="farmerHouseList">
+<select id="pageing" parameterType="Map" resultMap="BaseResultMap">
 	select 
-	<include refid="House_Column_List" />
+	<include refid="Base_Column_List" />
 	from 
-	(select t.*,rownumber() over(order by recordtime desc) as rn from t_farmer_house t
+	(select t.*,rownumber() over(order by recordtime desc) as rn from T_FARMER_HOUSE t
 	<where>
 		<if test="farmerName != null and farmerName != '' ">
 			t.farmername like CONCAT(CONCAT('%',#{farmerName}),'%') 

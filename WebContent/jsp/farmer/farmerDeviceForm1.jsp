@@ -48,18 +48,19 @@ overflow-x:hidden
  </style>
 </head>
 <body>
+<div id="form1">
 <form  action="/bank/farmer/saveDevice1.do"  class="farmerDevice" method="POST">
 <div class="topMenu" style="background:linear-gradient(#6DC8E3,white)">
 <table cellpadding="0" cellspacing="0"  height="60px">
     <tr>
     	<td class="labelName" width="25%" align="right">姓名:</td>
     	<td width="2%"></td>
-    	<td class="labelValue" width="8%">${farmer.farmerName }</td>
+    	<td class="labelValue" width="8%">${farmer.farmername }</td>
     	<td class="labelName" width="12%" align="right">证件号码:</td>
     	<td width="2%"></td>
-    	<td class="labelValue" width ="20%">${farmer.farmerIdnum }</td>
+    	<td class="labelValue" width ="20%">${farmer.farmeridnum }</td>
     	<td width="50px" align="right">
-       	 <input type="submit" id="saveBtn"  value=""/>
+       	 <input type="button" id="saveBtn" onclick="submitForm()"  value=""/>
         </td>
         <td width="50px"  >
          <input type="button" id="backBtn" onclick="back()" value=""/>
@@ -73,7 +74,7 @@ overflow-x:hidden
 <div class="fieldset-body">
 <table width="100%"><tr><td>
 <input name="id" class="mini-hidden" value="${device.id}"/>
-<input name="farmerId" class="mini-hidden" value="${farmer.id}" />
+<input name="farmerid" class="mini-hidden" value="${farmer.id}" />
 <table border="0" cellpadding="1" cellspacing="10" width="100%" >
 <tr><td>
 <table width="100%">
@@ -81,13 +82,13 @@ overflow-x:hidden
 	<td class="required_text" width="2%">*</td>
 	<td style="width:15%">设备名称:</td>
     <td style="width:33%">
-	    <input name="name" class="mini-textbox"  value="${device.name}" required="true"
-	           requiredErrorText="不能为空" style="width:90%"/>
+	    <input name="name" class="mini-textbox"  value="${device.name}" style="width:90%"
+	    errorMode="none" required="true" requiredErrorText="设备名称不能为空!" onvalidation="onValidation" />
     </td>
     <td class="required_text" width="2%">*</td>
     <td style="width:15%">品牌型号:</td>
     <td style="width:33%" >
-        <input name="brand" class="mini-textbox" value="${device.brand}" style="width:90%"/>
+        <input name="brand" class="mini-textbox" value="${device.brand}" style="width:90%" />
     </td>
 </tr>
 <tr>
@@ -100,42 +101,58 @@ overflow-x:hidden
 	<td class="required_text">*</td>
     <td >构建价格(元):</td>
     <td >
-    	<input name="buyingPrice" class="mini-textbox" value="${device.buyingPrice}" required="true"
-        	requiredErrorText="购建价格不能为空" style="width:90%" minValue="0" />
+    	<input name="buyingprice" class="mini-textbox" value="${device.buyingprice}" style="width:90%" 
+    	errorMode="none" vtype="float" required="true" requiredErrorText="构建价格不能为空!" onvalidation="onValidation"  />
     </td>
     <td class="required_text">*</td>
     <td >购进年份:</td>
     <td >
-    	<input name="buyingDate" class="mini-textbox" value="${device.buyingDate}" required="true"
-        	requiredErrorText="购进年份不能为空" style="width:90%" />
+    	<input name="buyingdate" class="mini-textbox" value="${device.buyingdate}" style="width:90%"
+    	errorMode="none" vtype="float" required="true" requiredErrorText="购进年份不能为空!" onvalidation="onValidation" />
     </td>
 </tr>
 <tr>
 	<td></td>
-	<td colspan="2" id="buyingPrice_error" class="errorText"></td>
+	<td colspan="2" id="buyingprice_error" class="errorText"></td>
 	<td></td>
-	<td colspan="2" id="buyingDate_error" class="errorText"></td>
+	<td colspan="2" id="buyingdate_error" class="errorText"></td>
 </tr>
 <tr>
 	<td class="required_text"></td>
 	<td >当前评估价格(元):</td>
     <td >
-   		<input id="textbox1"  name="assessPrice" class="mini-textbox" value="${device.assessPrice}" style="width:90%"
-   			required="true" requiredErrorText="当前评估价格不能为空" minValue="0" />
+   		<input id="textbox1"  name="assessprice" class="mini-textbox" value="${device.assessprice}" style="width:90%"/>
     </td>
 </tr>
 <tr>
 	<td></td>
-	<td colspan="2" id="assessPrice_error" class="errorText"></td>
+	<td colspan="2" id="assessprice_error" class="errorText"></td>
 </tr>
 </table>
 </td></tr></table>
 </table>
 </div>
 </fieldset>
+</div>
 <script type="text/javascript">
 	function back(){
 		history.go(-1);
+	}
+	function submitForm() {           
+		var form = new mini.Form("#form1");
+	    form.validate();
+		if (form.isValid() == false) return;
+		$("form").submit();
+	}
+	function updateError(e) {
+		var id = e.sender.name + "_error";
+	    var el = document.getElementById(id);
+	    if (el) {
+	        el.innerHTML = e.errorText;
+	    }
+	}
+	function onValidation(e) {                  
+	    updateError(e);
 	}
 </script>
 </form>

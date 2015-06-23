@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.bank.beans.FarmerPrivateLending;
+import com.bank.beans.FarmerPrivateLendingExample;
 import com.bank.dao.IFarmerPrivateLendingDao;
 import com.bank.service.IFarmerPrivateLendingService;
 import com.common.dao.GenericDAO;
@@ -37,6 +38,14 @@ public class FarmerPrivateLendingServiceImpl extends GenericServiceImpl<FarmerPr
 			String sortField, String sortOrder, Long farmerId) {
 		// TODO Auto-generated method stub
 		List<FarmerPrivateLending> lendings = farmerPrivateLendingDao.findByPaging(pageIndex, pageSize, sortField, sortOrder, farmerId);
+		return lendings;
+	}
+
+	@Override
+	public List<FarmerPrivateLending> selectByExample(
+			FarmerPrivateLendingExample example) {
+		// TODO Auto-generated method stub
+		List<FarmerPrivateLending> lendings = farmerPrivateLendingDao.selectByExample(example);
 		return lendings;
 	}
 

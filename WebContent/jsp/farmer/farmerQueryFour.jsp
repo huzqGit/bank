@@ -44,8 +44,6 @@ margin-top:5px
 <form action="/bank/farmer/loadFarmerFour.do" method="POST">
 <table width="100%" height="60px" style="vertical-align:middle">
 	<tr>
-		<td class="labelName" width="30%"align="right" >农户姓名:&nbsp;&nbsp;&nbsp; <input type="text" name="farmerName"/></td>
-		<td width="5%" ></td>
 		<td class="labelName"  width="20%">农户身份证号:&nbsp;&nbsp;&nbsp;<input type="text" name="farmerIdNum"></td>
 		<td width="1%"></td>
 		<td width="20%" align="left">
@@ -88,8 +86,8 @@ margin-top:5px
 	<c:forEach items="${farmers}" var="farmer" varStatus="status">
 	<tr onclick="detail(${farmer.id})">
 		<td align="center">${status.index+1}</td>
-		<td align="center">${farmer.farmerName}</td>
-		<td align="center">${farmer.farmerIdnum}</td>
+		<td align="center">${farmer.farmername}</td>
+		<td align="center">${farmer.farmeridnum}</td>
 		<td align="center">${farmer.phone}</td>
 		<td align="center">${farmer.address}</td>
 	</tr>	

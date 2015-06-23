@@ -74,7 +74,7 @@ public class FarmerInsuredController {
 		ModelAndView view = new ModelAndView("/farmer/farmerInsuredView1");
 		Farmer farmer = null;
 		try {
-			 farmer = farmerService.findByPK(insured.getFarmerId());
+			 farmer = farmerService.findByPK(insured.getFarmerid());
 		} catch (DAOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -112,16 +112,14 @@ public class FarmerInsuredController {
 		return view;
 	}
 	@RequestMapping(value="/editInsured",method=RequestMethod.GET)
-	public ModelAndView editInsured(@RequestParam(value="id") String id,@RequestParam(value="fid") String fid,
+	public ModelAndView editInsured(@RequestParam(value="id") Long id,@RequestParam(value="fid") Long fid,
 			HttpServletRequest request,HttpServletResponse response){
-		
-		Long insuredId = Long.valueOf(id);
-		Long farmerId = Long.valueOf(fid);
+
 		Farmer farmer = null;
 		FarmerInsured insured = null;
 		try {
-			farmer = farmerService.findByPK(farmerId);
-			insured = farmerInsuredService.findByPK(insuredId);
+			farmer = farmerService.findByPK(fid);
+			insured = farmerInsuredService.findByPK(id);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

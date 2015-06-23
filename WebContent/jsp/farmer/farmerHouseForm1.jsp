@@ -47,10 +47,10 @@
     <tr>
     	<td class="labelName" width="25%" align="right">姓名:</td>
     	<td width="2%"></td>
-    	<td class="labelValue" width="8%">${farmer.farmerName }</td>
+    	<td class="labelValue" width="8%">${farmer.farmername }</td>
     	<td class="labelName" width="12%" align="right">证件号码:</td>
     	<td width="2%"></td>
-    	<td class="labelValue" width ="20%">${farmer.farmerIdnum }</td>
+    	<td class="labelValue" width ="20%">${farmer.farmeridnum }</td>
     	<td width="50px" align="right">
        	 <input type="button" id="saveBtn" onclick="submitForm()" value=""/>
         </td>
@@ -65,7 +65,9 @@
 <div class="fieldset-body">
 <table width="100%"><tr><td>
 <input name="id" class="mini-hidden" value="${house.id}" />
-<input name="farmerId" class="mini-hidden" value="${farmer.id}" />
+<input name="farmerid" class="mini-hidden" value="${farmer.id}" />
+<input name="recorder" class="mini-hidden" value="${recorder}"/>
+<input name="recordtime" class="mini-hidden" value="${currentTime}"/>
 <table border="0" cellpadding="1" cellspacing="15" width="100%" >
 <tr><td style="width:100%">
 <table width="100%">
@@ -73,21 +75,21 @@
 	<td class="required_text" width="2%">*</td>
 	<td width="15%">房产性质:</td>
     <td width="33%">
-    	<input name="houseProperty" class="mini-combobox" value="${house.houseProperty}" style="width:90%"
+    	<input name="houseproperty" class="mini-combobox" value="${house.houseproperty}" style="width:90%"
     	 	errorMode="none" required="true"  requiredErrorText="房产性质不能为空" url="/bank/dic/HouseProperty.txt" emptyText="请选择..."
     	 	onvalidation="onValidation"/>
     </td>
     <td class="required_text" width="2%">*</td>
    	<td width="15%">房屋类型:</td>
     <td width="33%">
-   		<input name="houseType" class="mini-combobox" value="${house.houseType}" style="width:90%"
+   		<input name="housetype" class="mini-combobox" value="${house.housetype}" style="width:90%"
     	 	errorMode="none" required="true"  requiredErrorText="房屋类型不能为空" url="/bank/dic/HouseType.txt" emptyText="请选择..."
     	 	onvalidation="onValidation"/>
     </td>
 </tr>
 <tr>
 	<td></td>
-	<td colspan="2" id="houseProperty_error" class="errorText"></td>
+	<td colspan="2" id="houseproperty_error" class="errorText"></td>
 	<td></td>
 	<td colspan="2" id="houseType_error" class="errorText"></td>
 </tr>
@@ -95,61 +97,61 @@
 	<td class="required_text">*</td>
 	<td>房屋地址:</td>
     <td>
-    	<input name="houseAddress" class="mini-textbox" class="bank_text" value ="${house.houseAddress}" style="width:90%"
+    	<input name="houseaddress" class="mini-textbox" class="bank_text" value ="${house.houseaddress}" style="width:90%"
     		errorMode="none" required="true" requiredErrorText="房屋地址不能为空!" onvalidation="onValidation"/>
     </td>
     <td class="required_text">*</td>
     <td>购建年份(年):</td>
     <td>
-    	<input name="buildDate" class="mini-textbox"  value="${house.buildDate}" style="width:90%"
+    	<input name="builddate" class="mini-textbox"  value="${house.builddate}" style="width:90%"
     		errorMode="none" required="true" requiredErrorText="构建年份不能为空!" onvalidation="onValidation"/>
 	</td>
 </tr>
 <tr>
 	<td></td>
-	<td colspan="2" id="houseAddress_error" class="errorText"></td>
+	<td colspan="2" id="houseaddress_error" class="errorText"></td>
 	<td></td>
-	<td colspan="2" id="buildDate_error" class="errorText"></td>
+	<td colspan="2" id="builddate_error" class="errorText"></td>
 </tr>
 <tr>
 	 <td class="required_text">*</td>
 	 <td >建筑面积(平方米):</td>
      <td>
-    	<input name="buildArea" class="mini-textbox" value ="${house.buildArea}" style="width:90%"
+    	<input name="buildarea" class="mini-textbox" value ="${house.buildarea}" style="width:90%"
     		errorMode="none" vtype="float" required="true" requiredErrorText="建筑面积不能为空!" onvalidation="onValidation"/>
      </td>
      <td class="required_text">*</td>
 	 <td>占地面积(平方米):</td>
      <td>
-     	<input name="floorArea" class="mini-textbox"  value="${house.floorArea}" style="width:90%"
+     	<input name="floorarea" class="mini-textbox"  value="${house.floorarea}" style="width:90%"
      		errorMode="none" vtype="float" required="true" requiredErrorText="建筑面积不能为空!" onvalidation="onValidation"/>
 	 </td>
 </tr>
 <tr>
 	<td></td>
-	<td colspan="2" id="buildArea_error" class="errorText"></td>
+	<td colspan="2" id="buildarea_error" class="errorText"></td>
 	<td></td>
-	<td colspan="2" id="floorArea_error" class="errorText"></td>
+	<td colspan="2" id="floorarea_error" class="errorText"></td>
 </tr>
 <tr>
 	 <td class="required_text">*</td>
 	<td>购建价格(元):</td>
     <td>
-    	<input name="buildPrice" class="mini-textbox" value="${house.buildPrice}" style="width:90%"
+    	<input name="buildprice" class="mini-textbox" value="${house.buildprice}" style="width:90%"
     		errorMode="none" vtype="float" required="true" requiredErrorText="购建价格不能为空!" onvalidation="onValidation"/>
     </td>
     <td class="required_text">*</td>
     <td>当前评估价格(元):</td>
     <td>
-     	<input name="assessPrice" class="mini-textbox" value="${house.assessPrice}" style="width:90%"
+     	<input name="assessprice" class="mini-textbox" value="${house.assessprice}" style="width:90%"
      		errorMode="none" vtype="float" required="true" requiredErrorText="当前评估价格不能为空!" onvalidation="onValidation"/>
     </td>
 </tr>
 <tr>
 	<td></td>
-	<td colspan="2" id="buildPrice_error" class="errorText"></td>
+	<td colspan="2" id="buildprice_error" class="errorText"></td>
 	<td></td>
-	<td colspan="2" id="assessPrice_error" class="errorText"></td>
+	<td colspan="2" id="assessprice_error" class="errorText"></td>
 </tr>
 </table>
 </td></tr>

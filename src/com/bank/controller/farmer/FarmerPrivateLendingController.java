@@ -69,7 +69,7 @@ public class FarmerPrivateLendingController {
 		}
 		Farmer farmer = null;
 		try {
-			farmer = farmerService.findByPK(privateLending.getFarmerId());
+			farmer = farmerService.findByPK(privateLending.getFarmerid());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

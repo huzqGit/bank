@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.bank.beans.Apply;
 import com.bank.beans.Farmer;
+import com.bank.beans.FarmerExample;
 import com.bank.dao.IFarmerDao;
 import com.common.dao.impl.GenericMyBatisDAOSupport;
 
@@ -131,6 +132,13 @@ public class FarmerDaoImpl extends GenericMyBatisDAOSupport<Farmer, Long>
 	public List<Farmer> findMultiByWhereClause(@Param("example")Map param) {
 		// TODO Auto-generated method stub
 		List<Farmer> farmers = this.getSqlSession().selectList("farmer.findByWhereClause", param);
+		return farmers;
+	}
+
+	@Override
+	public List<Farmer> selectByExample(FarmerExample example) {
+		// TODO Auto-generated method stub
+		List<Farmer> farmers = this.getSqlSession().selectList("farmer.selectByExample",example);
 		return farmers;
 	}
 	

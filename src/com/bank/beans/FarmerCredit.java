@@ -2,6 +2,8 @@ package com.bank.beans;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.common.bean.BaseEntity;
 
 public class FarmerCredit extends BaseEntity<Long> {
@@ -10,70 +12,120 @@ public class FarmerCredit extends BaseEntity<Long> {
 	 * 
 	 */
 	private static final long serialVersionUID = 447074825679634280L;
-	//农户姓名
-	private String farmerName;
-	//农户身份证号
-	private String farmerIdNum;
-	//信用户评定时间
-	private Date assessDate;
-	//信用户评定部门
-	private String assessOrgan;
-	//信用户级别
-	private String assessRank;
-	//有效期期限
-	private String timeLimit;
-	//记录人
-	private String recorder;
-	//记录时间
-	private Date recordTime;
+	
+	private Long farmerid;
+	
+	private String farmername;
 
-	public String getFarmerName() {
-		return farmerName;
+    private String farmeridnum;
+
+    private Date assessdate;
+
+    private String assessrank;
+
+    private String assessorgan;
+
+    private String timelimit;
+
+    private String sourcecode;
+
+    private String sourcename;
+
+    private String runitid;
+
+    private String runitname;
+
+    private String recorder;
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date recordtime;
+	
+	public Long getFarmerid() {
+		return farmerid;
 	}
 
-	public void setFarmerName(String farmerName) {
-		this.farmerName = farmerName;
+	public void setFarmerid(Long farmerid) {
+		this.farmerid = farmerid;
 	}
 
-	public String getFarmerIdNum() {
-		return farmerIdNum;
+	public String getFarmername() {
+		return farmername;
 	}
 
-	public void setFarmerIdNum(String farmerIdNum) {
-		this.farmerIdNum = farmerIdNum;
+	public void setFarmername(String farmername) {
+		this.farmername = farmername;
 	}
 
-
-	public Date getAssessDate() {
-		return assessDate;
+	public String getFarmeridnum() {
+		return farmeridnum;
 	}
 
-	public void setAssessDate(Date assessDate) {
-		this.assessDate = assessDate;
+	public void setFarmeridnum(String farmeridnum) {
+		this.farmeridnum = farmeridnum;
 	}
 
-	public String getAssessOrgan() {
-		return assessOrgan;
+	public Date getAssessdate() {
+		return assessdate;
 	}
 
-	public void setAssessOrgan(String assessOrgan) {
-		this.assessOrgan = assessOrgan;
+	public void setAssessdate(Date assessdate) {
+		this.assessdate = assessdate;
 	}
 
-	public String getAssessRank() {
-		return assessRank;
+	public String getAssessrank() {
+		return assessrank;
 	}
 
-	public void setAssessRank(String assessRank) {
-		this.assessRank = assessRank;
+	public void setAssessrank(String assessrank) {
+		this.assessrank = assessrank;
 	}
 
-	public String getTimeLimit() {
-		return timeLimit;
+	public String getAssessorgan() {
+		return assessorgan;
 	}
 
-	public void setTimeLimit(String timeLimit) {
-		this.timeLimit = timeLimit;
+	public void setAssessorgan(String assessorgan) {
+		this.assessorgan = assessorgan;
+	}
+
+	public String getTimelimit() {
+		return timelimit;
+	}
+
+	public void setTimelimit(String timelimit) {
+		this.timelimit = timelimit;
+	}
+
+	public String getSourcecode() {
+		return sourcecode;
+	}
+
+	public void setSourcecode(String sourcecode) {
+		this.sourcecode = sourcecode;
+	}
+
+	public String getSourcename() {
+		return sourcename;
+	}
+
+	public void setSourcename(String sourcename) {
+		this.sourcename = sourcename;
+	}
+
+	public String getRunitid() {
+		return runitid;
+	}
+
+	public void setRunitid(String runitid) {
+		this.runitid = runitid;
+	}
+
+	public String getRunitname() {
+		return runitname;
+	}
+
+	public void setRunitname(String runitname) {
+		this.runitname = runitname;
 	}
 
 	public String getRecorder() {
@@ -84,12 +136,12 @@ public class FarmerCredit extends BaseEntity<Long> {
 		this.recorder = recorder;
 	}
 
-	public Date getRecordTime() {
-		return recordTime;
+	public Date getRecordtime() {
+		return recordtime;
 	}
 
-	public void setRecordTime(Date recordTime) {
-		this.recordTime = recordTime;
+	public void setRecordtime(Date recordtime) {
+		this.recordtime = recordtime;
 	}
 
 	@Override

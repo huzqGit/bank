@@ -3,112 +3,225 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="farmerbreed">
-<sql id="Breed_Column_List" >
-	breedId,farmerId,variety, outputValue,floorArea, assessPrice
+<resultMap id="BaseResultMap" type="com.bank.beans.FarmerBreed" >
+    <id column="BREEDID" property="id" jdbcType="BIGINT" />
+    <result column="FARMERID" property="farmerid" jdbcType="BIGINT" />
+    <result column="VARIETY" property="variety" jdbcType="VARCHAR" />
+    <result column="FLOORAREA" property="floorarea" jdbcType="VARCHAR" />
+    <result column="OUTPUT" property="output" jdbcType="VARCHAR" />
+    <result column="OUTPUTVALUE" property="outputvalue" jdbcType="DOUBLE" />
+    <result column="ASSESSPRICE" property="assessprice" jdbcType="DOUBLE" />
+    <result column="SOURCECODE" property="sourcecode" jdbcType="VARCHAR" />
+    <result column="SOURCENAME" property="sourcename" jdbcType="VARCHAR" />
+    <result column="RUNITID" property="runitid" jdbcType="VARCHAR" />
+    <result column="RUNITNAME" property="runitname" jdbcType="VARCHAR" />
+    <result column="RECORDER" property="recorder" jdbcType="VARCHAR" />
+    <result column="RECORDTIME" property="recordtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+<sql id="Base_Column_List" >
+    BREEDID, FARMERID, VARIETY, FLOORAREA, OUTPUT, OUTPUTVALUE, ASSESSPRICE, SOURCECODE, 
+    SOURCENAME, RUNITID, RUNITNAME, RECORDER, RECORDTIME
 </sql>
+<select id="selectByExample" resultMap="BaseResultMap" parameterType="com.bank.beans.FarmerBreedExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_FARMER_BREED
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+ </select>
 <insert id="save" useGeneratedKeys="true" keyProperty="id" 
 		parameterType="com.bank.beans.FarmerBreed">
-		insert into t_farmer_breed
-	<trim prefix="(" suffix=")" suffixOverrides=",">
-		<if test="farmerId != null">
-			farmerId,
-		</if>
-		<if test="variety != null">
-			variety,
-		</if>
-		<if test="output != null">
-			output,
-		</if>
-		<if test="outputValue != null">
-			outputValue,
-		</if>
-		<if test="floorArea != null">
-			floorArea,
-		</if>
-		<if test="assessPrice != null">
-			assessPrice,
-		</if>
-   		<if test="recorder != null">
-   			recorder,
-   		</if>
-   		<if test="recordTime != null">
-   			recordTime
-   		</if>
-	</trim>
-	<trim prefix="values (" suffix=")" suffixOverrides=",">
-		<if test="farmerId != null">
-			#{farmerId,jdbcType=BIGINT},
-		</if>
-		<if test="variety != null">
-			#{variety,jdbcType=VARCHAR},
-		</if>
-		<if test="output != null">
-			#{output,jdbcType=VARCHAR},
-		</if>
-		<if test="outputValue != null">
-			#{outputValue,jdbcType=DOUBLE},
-		</if>
-		<if test="floorArea != null">
-			#{floorArea,jdbcType=VARCHAR},
-		</if>
-		<if test="assessPrice != null">
-			#{assessPrice,jdbcType=DOUBLE},
-		</if>
-   		<if test="recorder != null">
-   			#{recorder,jdbcType=VARCHAR},
-   		</if>
-   		<if test="recordTime != null">
-   			#{recordTime,jdbcType=TIMESTAMP}
-   		</if>
-	</trim>
+	 insert into T_FARMER_BREED
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="farmerid != null" >
+        FARMERID,
+      </if>
+      <if test="variety != null" >
+        VARIETY,
+      </if>
+      <if test="floorarea != null" >
+        FLOORAREA,
+      </if>
+      <if test="output != null" >
+        OUTPUT,
+      </if>
+      <if test="outputvalue != null" >
+        OUTPUTVALUE,
+      </if>
+      <if test="assessprice != null" >
+        ASSESSPRICE,
+      </if>
+      <if test="sourcecode != null" >
+        SOURCECODE,
+      </if>
+      <if test="sourcename != null" >
+        SOURCENAME,
+      </if>
+      <if test="runitid != null" >
+        RUNITID,
+      </if>
+      <if test="runitname != null" >
+        RUNITNAME,
+      </if>
+      <if test="recorder != null" >
+        RECORDER,
+      </if>
+      <if test="recordtime != null" >
+        RECORDTIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="farmerid != null" >
+        #{farmerid,jdbcType=BIGINT},
+      </if>
+      <if test="variety != null" >
+        #{variety,jdbcType=VARCHAR},
+      </if>
+      <if test="floorarea != null" >
+        #{floorarea,jdbcType=VARCHAR},
+      </if>
+      <if test="output != null" >
+        #{output,jdbcType=VARCHAR},
+      </if>
+      <if test="outputvalue != null" >
+        #{outputvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="assessprice != null" >
+        #{assessprice,jdbcType=DOUBLE},
+      </if>
+      <if test="sourcecode != null" >
+        #{sourcecode,jdbcType=VARCHAR},
+      </if>
+      <if test="sourcename != null" >
+        #{sourcename,jdbcType=VARCHAR},
+      </if>
+      <if test="runitid != null" >
+        #{runitid,jdbcType=VARCHAR},
+      </if>
+      <if test="runitname != null" >
+        #{runitname,jdbcType=VARCHAR},
+      </if>
+      <if test="recorder != null" >
+        #{recorder,jdbcType=VARCHAR},
+      </if>
+      <if test="recordtime != null" >
+        #{recordtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
 </insert>
 <delete id="delete" parameterType="Long">
-	delete from t_farmer_breed where breedId = #{id,jdbcType=BIGINT}
+	delete from T_FARMER_BREED where BREEDID = #{id,jdbcType=BIGINT}
 </delete>
 <update id="update" >
-	update t_farmer_breed
-	set farmerId = #{farmerId,jdbcType=BIGINT},
-	variety = #{variety,jdbcType = VARCHAR},
-	output = #{output,jdbcType = VARCHAR},
-	outputValue = #{outputValue,jdbcType = DOUBLE},
-	floorArea = #{floorArea,jdbcType = VARCHAR},
-	assessPrice = #{assessPrice,jdbcType = DOUBLE}
-	where breedId = #{id,jdbcType = BIGINT}
+	update T_FARMER_BREED
+    set BREEDID = #{breedid,jdbcType=BIGINT},
+      FARMERID = #{farmerid,jdbcType=BIGINT},
+      VARIETY = #{variety,jdbcType=VARCHAR},
+      FLOORAREA = #{floorarea,jdbcType=VARCHAR},
+      OUTPUT = #{output,jdbcType=VARCHAR},
+      OUTPUTVALUE = #{outputvalue,jdbcType=DOUBLE},
+      ASSESSPRICE = #{assessprice,jdbcType=DOUBLE},
+      SOURCECODE = #{sourcecode,jdbcType=VARCHAR},
+      SOURCENAME = #{sourcename,jdbcType=VARCHAR},
+      RUNITID = #{runitid,jdbcType=VARCHAR},
+      RUNITNAME = #{runitname,jdbcType=VARCHAR},
+      RECORDER = #{recorder,jdbcType=VARCHAR},
+      RECORDTIME = #{recordtime,jdbcType=TIMESTAMP}
+	where BREEDID = #{id,jdbcType = BIGINT}
 </update>
-<resultMap id="farmerBreedList" type="com.bank.beans.FarmerBreed">
-    <id column="breedId" property="id" jdbcType="BIGINT"/>
-    <result column="farmerId" property="farmerId" jdbcType="BIGINT" />
-    <result column="variety" property="variety" jdbcType="VARCHAR" />
-    <result column="output" property="output" jdbcType="VARCHAR" />
-	<result column="floorArea" property="floorArea" jdbcType="VARCHAR"/>
-	<result column="outputValue" property="outputValue" jdbcType="DOUBLE"/>
-	<result column="assessPrice" property="assessPrice" jdbcType="DOUBLE"/>
-    <result column="recorder" property="recorder" jdbcType="VARCHAR"/>
-    <result column="recordTime" property="recordTime" jdbcType="DATE" />
-</resultMap>
-<select id="findByPK" parameterType="Long" resultMap="farmerBreedList">
+<select id="countByExample" parameterType="com.bank.beans.FarmerBreedExample" resultType="java.lang.Integer" >
+    select count(*) from T_FARMER_BREED
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+</select>
+<select id="findByPK" parameterType="Long" resultMap="BaseResultMap">
 	select 
-	<include refid="Breed_Column_List" />
+	<include refid="Base_Column_List" />
 	from t_farmer_breed where breedId = #{id,jdbcType=INTEGER}
 </select>
-<select id="findByID" parameterType="Long" 
-	resultMap="farmerBreedList">
+<select id="findByID" parameterType="Long" resultMap="BaseResultMap">
 	select 
-	<include refid="Breed_Column_List" />
+	<include refid="Base_Column_List" />
 	from t_farmer_breed where farmerId = #{farmerId,jdbcType=BIGINT}
 </select>
 <select id="findTotalNumberByFarmerId" parameterType="Long" resultType="INTEGER">
-	select count(1) from t_farmer_breed
-	where farmerId = #{farmerId,jdbcType=BIGINT}
+	select count(1) from T_FARMER_BREED
+	where FARMERID = #{farmerid,jdbcType=BIGINT}
 </select>
-<select id="findPagingByFarmerId" parameterType="Map" resultMap="farmerBreedList">
+<select id="findPagingByFarmerId" parameterType="Map" resultMap="BaseResultMap">
 	select 
-	<include refid="Breed_Column_List" />
+	<include refid="Base_Column_List" />
 	from 
-	(select t.*,rowNumber() over() as rn from t_farmer_breed t
+	(select t.*,rowNumber() over() as rn from T_FARMER_BREED t
 	<where>
 		<if test="farmerId != null">
-			t.farmerId = #{farmerId,jdbcType=BIGINT} 
+			t.FARMERID = #{farmerId,jdbcType=BIGINT} 
 		</if>
 	 </where>
 	 )
@@ -118,9 +231,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	   	</if>
 	 </where>
 </select> 
-<select id="pageing" parameterType="Map" resultMap="farmerBreedList">
+<select id="pageing" parameterType="Map" resultMap="BaseResultMap">
 	select 
-	<include refid="Breed_Column_List" />
+	<include refid="Base_Column_List" />
 	from 
 	(select t.*,rownumber() over(order by recordtime desc) as rn from t_farmer_breed t
 	<where>
@@ -150,4 +263,70 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	   	</if>
 	</where>
 </select>
+ <update id="updateByExampleSelective" parameterType="map" >
+    update T_FARMER_BREED
+    <set >
+      <if test="record.breedid != null" >
+        BREEDID = #{record.breedid,jdbcType=BIGINT},
+      </if>
+      <if test="record.farmerid != null" >
+        FARMERID = #{record.farmerid,jdbcType=BIGINT},
+      </if>
+      <if test="record.variety != null" >
+        VARIETY = #{record.variety,jdbcType=VARCHAR},
+      </if>
+      <if test="record.floorarea != null" >
+        FLOORAREA = #{record.floorarea,jdbcType=VARCHAR},
+      </if>
+      <if test="record.output != null" >
+        OUTPUT = #{record.output,jdbcType=VARCHAR},
+      </if>
+      <if test="record.outputvalue != null" >
+        OUTPUTVALUE = #{record.outputvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="record.assessprice != null" >
+        ASSESSPRICE = #{record.assessprice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.sourcecode != null" >
+        SOURCECODE = #{record.sourcecode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sourcename != null" >
+        SOURCENAME = #{record.sourcename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.runitid != null" >
+        RUNITID = #{record.runitid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.runitname != null" >
+        RUNITNAME = #{record.runitname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recorder != null" >
+        RECORDER = #{record.recorder,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recordtime != null" >
+        RECORDTIME = #{record.recordtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_FARMER_BREED
+    set BREEDID = #{record.breedid,jdbcType=BIGINT},
+      FARMERID = #{record.farmerid,jdbcType=BIGINT},
+      VARIETY = #{record.variety,jdbcType=VARCHAR},
+      FLOORAREA = #{record.floorarea,jdbcType=VARCHAR},
+      OUTPUT = #{record.output,jdbcType=VARCHAR},
+      OUTPUTVALUE = #{record.outputvalue,jdbcType=DOUBLE},
+      ASSESSPRICE = #{record.assessprice,jdbcType=DOUBLE},
+      SOURCECODE = #{record.sourcecode,jdbcType=VARCHAR},
+      SOURCENAME = #{record.sourcename,jdbcType=VARCHAR},
+      RUNITID = #{record.runitid,jdbcType=VARCHAR},
+      RUNITNAME = #{record.runitname,jdbcType=VARCHAR},
+      RECORDER = #{record.recorder,jdbcType=VARCHAR},
+      RECORDTIME = #{record.recordtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
 </mapper>

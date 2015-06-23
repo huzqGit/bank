@@ -8,73 +8,116 @@ import com.common.bean.BaseEntity;
 
 @SuppressWarnings("serial")
 public class FarmerPrivateLending extends BaseEntity<Long> {
-	private Long farmerId;
-	private Double amount;
-	private Double rate;
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date lendingTime;
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date limitTime;
-	private String recorder;
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date recordTime;
+	 	
+		private Long farmerid;
 
+	    private Double amount;
 
-	public Long getFarmerId() {
-		return farmerId;
-	}
+	    private Date lendingtime;
 
-	public void setFarmerId(Long farmerId) {
-		this.farmerId = farmerId;
-	}
+	    private Date limittime;
 
-	public Double getAmount() {
-		return amount;
-	}
+	    private Double rate;
 
-	public void setAmount(Double amount) {
-		this.amount = amount;
-	}
+	    private String sourcecode;
 
-	public Double getRate() {
-		return rate;
-	}
+	    private String sourcename;
 
-	public void setRate(Double rate) {
-		this.rate = rate;
-	}
+	    private String runitid;
 
-	public Date getLendingTime() {
-		return lendingTime;
-	}
+	    private String runitname;
 
-	public void setLendingTime(Date lendingTime) {
-		this.lendingTime = lendingTime;
-	}
+	    private String recorder;
 
-	public Date getLimitTime() {
-		return limitTime;
-	}
+	    private Date recordtime;
 
-	public void setLimitTime(Date limitTime) {
-		this.limitTime = limitTime;
-	}
+	    public Long getFarmerid() {
+			return farmerid;
+		}
 
-	public String getRecorder() {
-		return recorder;
-	}
+		public void setFarmerid(Long farmerid) {
+			this.farmerid = farmerid;
+		}
 
-	public void setRecorder(String recorder) {
-		this.recorder = recorder;
-	}
+		public Double getAmount() {
+			return amount;
+		}
 
-	public Date getRecordTime() {
-		return recordTime;
-	}
+		public void setAmount(Double amount) {
+			this.amount = amount;
+		}
 
-	public void setRecordTime(Date recordTime) {
-		this.recordTime = recordTime;
-	}
+		public Date getLendingtime() {
+			return lendingtime;
+		}
+
+		public void setLendingtime(Date lendingtime) {
+			this.lendingtime = lendingtime;
+		}
+
+		public Date getLimittime() {
+			return limittime;
+		}
+
+		public void setLimittime(Date limittime) {
+			this.limittime = limittime;
+		}
+
+		public Double getRate() {
+			return rate;
+		}
+
+		public void setRate(Double rate) {
+			this.rate = rate;
+		}
+
+		public String getSourcecode() {
+			return sourcecode;
+		}
+
+		public void setSourcecode(String sourcecode) {
+			this.sourcecode = sourcecode;
+		}
+
+		public String getSourcename() {
+			return sourcename;
+		}
+
+		public void setSourcename(String sourcename) {
+			this.sourcename = sourcename;
+		}
+
+		public String getRunitid() {
+			return runitid;
+		}
+
+		public void setRunitid(String runitid) {
+			this.runitid = runitid;
+		}
+
+		public String getRunitname() {
+			return runitname;
+		}
+
+		public void setRunitname(String runitname) {
+			this.runitname = runitname;
+		}
+
+		public String getRecorder() {
+			return recorder;
+		}
+
+		public void setRecorder(String recorder) {
+			this.recorder = recorder;
+		}
+
+		public Date getRecordtime() {
+			return recordtime;
+		}
+
+		public void setRecordtime(Date recordtime) {
+			this.recordtime = recordtime;
+		}
 
 	@Override
 	public boolean equalsIfIdNull(Object o) {

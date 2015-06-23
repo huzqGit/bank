@@ -2,6 +2,7 @@ package com.bank.service.impl;
 
 import java.util.Iterator;
 import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.bank.beans.Farmer;
 import com.bank.beans.FarmerIncome;
 import com.bank.beans.FarmerPay;
+import com.bank.beans.FarmerPayExample;
 import com.bank.dao.IFarmerDao;
 import com.bank.dao.IFarmerIncomeDao;
 import com.bank.dao.IFarmerPayDao;
@@ -57,11 +59,11 @@ public class FarmerPayServiceImpl extends GenericServiceImpl<FarmerPay, Long>
 				throws DAOException, DataNotFoundException, 
 				CreateException, UpdateException {
 		
-		if(balance == null || StringUtils.isEmpty(balance.getYear())){
+		if(balance == null ||balance.getYear() == null){
 		//保存时年度收支信息不能为空
 			return ;
 		}
-		balance.setFarmerId(farmer.getId());
+		balance.setFarmerid(farmer.getId());
 		if(balance.getId() == null){
 			farmerPayDao.save(balance);
 		}else{
@@ -69,7 +71,7 @@ public class FarmerPayServiceImpl extends GenericServiceImpl<FarmerPay, Long>
 		}
 		for(Iterator<FarmerIncome> it = incomes.iterator();it.hasNext();){
 			FarmerIncome income = it.next();
-			income.setPayId(balance.getId());
+			income.setPayid(balance.getId());
 			if(income.getId() == null){
 				farmerIncomeDao.save(income);
 			}else{
@@ -105,6 +107,13 @@ public class FarmerPayServiceImpl extends GenericServiceImpl<FarmerPay, Long>
 	public void deleteIncomes(List<Long> incomes) {
 		// TODO Auto-generated method stub
 		farmerPayDao.deleteIncomes(incomes);
+	}
+
+	@Override
+	public List<FarmerPay> selectByExample(FarmerPayExample example) {
+		// TODO Auto-generated method stub
+		List<FarmerPay> balances = farmerPayDao.selectByExample(example);
+		return balances;
 	}
 
 	

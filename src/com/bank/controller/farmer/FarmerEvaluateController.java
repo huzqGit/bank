@@ -80,7 +80,7 @@ public class FarmerEvaluateController {
 		}
 		Farmer farmer = null;
 		try {
-			farmer = farmerService.findByPK(evaluate.getFarmerId());
+			farmer = farmerService.findByPK(evaluate.getFarmerid());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

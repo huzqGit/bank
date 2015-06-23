@@ -3,6 +3,7 @@ package com.bank.dao;
 import java.util.List;
 
 import com.bank.beans.FarmerPay;
+import com.bank.beans.FarmerPayExample;
 import com.common.dao.GenericDAO;
 
 public interface IFarmerPayDao extends GenericDAO<FarmerPay, Long> {
@@ -15,4 +16,5 @@ public interface IFarmerPayDao extends GenericDAO<FarmerPay, Long> {
 			String sortOrder,Long farmerId);
 	public List<FarmerPay> findByFarmersAndYear(List<Long> farmerIds,String year);
 	public void deleteIncomes(List<Long> incomes);
+	public List<FarmerPay> selectByExample(FarmerPayExample example);
 }

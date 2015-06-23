@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import com.bank.beans.FarmerDevice;
+import com.bank.beans.FarmerDeviceExample;
 import com.bank.dao.IFarmerDeviceDao;
 import com.common.dao.impl.GenericMyBatisDAOSupport;
 
@@ -40,6 +41,13 @@ public class FarmerDeviceDaoImpl extends GenericMyBatisDAOSupport<FarmerDevice, 
 		map.put("sortOrder",sortOrder);
 		map.put("farmerId", farmerId);
 		List<FarmerDevice> devices = this.getSqlSession().selectList("farmerdevice.findPagingByFarmerId",map);
+		return devices;
+	}
+
+	@Override
+	public List<FarmerDevice> selectByExample(FarmerDeviceExample example) {
+		// TODO Auto-generated method stub
+		List<FarmerDevice> devices = this.getSqlSession().selectList("farmerdevice.selectByExample",example);
 		return devices;
 	}
 	

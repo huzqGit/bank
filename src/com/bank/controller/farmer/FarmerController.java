@@ -40,32 +40,47 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.bank.Constants;
 import com.bank.beans.Apply;
 import com.bank.beans.Dictionary;
 import com.bank.beans.Farmer;
 import com.bank.beans.FarmerBreed;
+import com.bank.beans.FarmerBreedExample;
 import com.bank.beans.FarmerCompunish;
+import com.bank.beans.FarmerCompunishExample;
 import com.bank.beans.FarmerDevice;
+import com.bank.beans.FarmerDeviceExample;
 import com.bank.beans.FarmerEvaluate;
+import com.bank.beans.FarmerEvaluateExample;
+import com.bank.beans.FarmerExample;
 import com.bank.beans.FarmerForest;
+import com.bank.beans.FarmerForestExample;
 import com.bank.beans.FarmerHouse;
+import com.bank.beans.FarmerHouseExample;
 import com.bank.beans.FarmerIncome;
 import com.bank.beans.FarmerInsured;
+import com.bank.beans.FarmerInsuredExample;
+import com.bank.beans.FarmerLoanExample;
 import com.bank.beans.FarmerMember;
+import com.bank.beans.FarmerMemberExample;
 import com.bank.beans.FarmerPay;
-import com.bank.beans.Loan;
+import com.bank.beans.FarmerLoan;
+import com.bank.beans.FarmerPayExample;
 import com.bank.beans.Organ;
 import com.bank.beans.User;
-import com.bank.common.util.JsonUtil;
+import com.bank.service.IFarmerBreedService;
+import com.bank.service.IFarmerCompunishService;
+import com.bank.service.IFarmerDeviceService;
+import com.bank.service.IFarmerEvaluateService;
+import com.bank.service.IFarmerForestService;
+import com.bank.service.IFarmerHouseService;
+import com.bank.service.IFarmerInsuredService;
+import com.bank.service.IFarmerMemberService;
 import com.bank.service.IFarmerPayService;
 import com.bank.service.IFarmerService;
-import com.bank.service.ILoanService;
+import com.bank.service.IFarmerLoanService;
 import com.bank.utils.ParseDataUtils;
-import com.common.exception.CreateException;
-import com.common.exception.DAOException;
 
 @Controller
 @RequestMapping(value = "/farmer")
@@ -74,43 +89,26 @@ public class FarmerController   {
 	@Resource
 	private IFarmerService farmerService;
 	@Resource
-	private IFarmerPayService farmerBalanceService;
+	private IFarmerMemberService memberService;
 	@Resource
-	private ILoanService loanService;
+	private IFarmerHouseService houseService;
+	@Resource
+	private IFarmerForestService forestService;
+	@Resource
+	private IFarmerBreedService breedService;
+	@Resource
+	private IFarmerDeviceService deviceService;
+	@Resource
+	private IFarmerPayService balanceService;
+	@Resource
+	private IFarmerLoanService loanService;
+	@Resource
+	private IFarmerInsuredService insuredService;
+	@Resource
+	private IFarmerEvaluateService evaluateService;
+	@Resource
+	private IFarmerCompunishService compunishService;
 	
-	@RequestMapping(value = "/saveFarmer",method = RequestMethod.POST)
-	public ModelAndView save(HttpServletRequest request, 
-			HttpServletResponse response) throws Exception{
-
-		String basicData = request.getParameter("farmer");
-		String memberData=request.getParameter("member");
-		User user = (User)request.getSession().getAttribute(Constants.SESSION_AUTH_USER);
-		Organ organ =(Organ)request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
-		if(StringUtils.isEmpty(basicData)){
-			return null;
-		}
-		
-		//閫欒！鍋氫簡鏅傞枔鏍煎紡鐨勮檿鐞�
-		Object basicJsonData = JsonUtil.Decode(basicData);
-		basicData = JSON.toJSONStringWithDateFormat(basicJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
-		JSONObject basic = JSONObject.parseObject(basicData);
-		Farmer farmer = (Farmer) JSON.toJavaObject(basic, Farmer.class);
-		farmer.setRunitid(organ.getOrganId());
-		farmer.setRunitname(organ.getOrganName());
-		farmer.setRecorder(user.getUserName());
-		//鍐滄埛瀹跺涵鎴愬憳鎯呭喌
-		Object memberJsonData = JsonUtil.Decode(memberData);
-		memberData = JSON.toJSONStringWithDateFormat(memberJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
-		List<FarmerMember> members = (List<FarmerMember>) JSON.parseArray(memberData, FarmerMember.class);
-		@SuppressWarnings("rawtypes")
-		Map farmerInfo = farmerService.saveFarmer(farmer, members);
-		String json = JSON.toJSONString(farmerInfo);
-		System.out.println(json);
-		response.setContentType("text/html;charset=UTF-8");
-	    response.getWriter().write(json);
-		return null;
-		
-	}
 	@RequestMapping(value = "/saveFarmer1",method = RequestMethod.POST)
 	public ModelAndView saveFarmer1(@ModelAttribute(value="farmer") Farmer farmer,
 			HttpServletRequest request,HttpServletResponse response){
@@ -142,34 +140,10 @@ public class FarmerController   {
 		return view;
 		
 	}
-	@RequestMapping(value = "/deleteMember",method = RequestMethod.GET)
-	public ModelAndView deleteMember(HttpServletRequest request,HttpServletResponse response){
-
-		String id = request.getParameter("id");
-		String fid = request.getParameter("fid");
-		Long memberId = Long.valueOf(id);
-		Long farmerId = Long.valueOf(fid);
-		List<Long> memberIds = new ArrayList<Long>();
-		memberIds.add(memberId);
-		Farmer farmer = null;
-		List<FarmerMember> members = null;
-		farmerService.deleteMembers(memberIds);
-		try {
-		 farmer = farmerService.findByPK(farmerId);
-		 members = farmerService.findMemberByFarmer(farmerId);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		ModelAndView  view = new ModelAndView("/common/bankBuilding");
-		view.addObject("farmer", farmer);
-		view.addObject("members", members);
-		return view;
-		
-	}
 	@RequestMapping(value = "/loadFarmer", method = RequestMethod.GET)
 	public ModelAndView loadFarmer(@RequestParam(value="id") String id,
 			HttpServletResponse response) throws Exception {
-		/*鏌ヨ绉嶇被1銆佹寜涓婚敭鏌ヨ 2銆佹寜濮撳悕鏌ヨ 3銆佹寜韬唤璇佹煡璇� 4銆佹寜濮撳悕鍜岃韩浠借瘉鏌ヨ*/
+		/*閺屻儴顕楃粔宥囪1閵嗕焦瀵滄稉濠氭暛閺屻儴顕� 2閵嗕焦瀵滄慨鎾虫倳閺屻儴顕� 3閵嗕焦瀵滈煬顐″敜鐠囦焦鐓＄拠锟� 4閵嗕焦瀵滄慨鎾虫倳閸滃矁闊╂禒鍊熺槈閺屻儴顕�*/
 		if(StringUtils.isEmpty(id)){
 			return null;
 		}
@@ -187,7 +161,7 @@ public class FarmerController   {
 	@RequestMapping(value = "/loadFarmer1", method = RequestMethod.GET)
 	public ModelAndView loadFarmer1(@RequestParam(value="id") String id,
 			HttpServletResponse response){
-		/*鏌ヨ绉嶇被1銆佹寜涓婚敭鏌ヨ 2銆佹寜濮撳悕鏌ヨ 3銆佹寜韬唤璇佹煡璇� 4銆佹寜濮撳悕鍜岃韩浠借瘉鏌ヨ*/
+		/*閺屻儴顕楃粔宥囪1閵嗕焦瀵滄稉濠氭暛閺屻儴顕� 2閵嗕焦瀵滄慨鎾虫倳閺屻儴顕� 3閵嗕焦瀵滈煬顐″敜鐠囦焦鐓＄拠锟� 4閵嗕焦瀵滄慨鎾虫倳閸滃矁闊╂禒鍊熺槈閺屻儴顕�*/
 		if(StringUtils.isEmpty(id)){
 			return null;
 		}
@@ -240,8 +214,8 @@ public class FarmerController   {
 		List<FarmerIncome> incomes = (List<FarmerIncome>) map.get("incomes");
 		FarmerEvaluate evaluate = (FarmerEvaluate) map.get("evaluate");
 		List<FarmerCompunish> compunishs = farmerService.findCompunishByFarmer(farmer.getId());
-		List<Loan> unBalances = loanService.findUnBalanceByFarmer(farmer.getId());
-		List<Loan> badBalances = loanService.findBadBalanceByFarmer(farmer.getId());
+		List<FarmerLoan> unBalances = loanService.findUnBalanceByFarmer(farmer.getId());
+		List<FarmerLoan> badBalances = loanService.findBadBalanceByFarmer(farmer.getId());
 		if(members.size() == 0){
 			members.add(new FarmerMember());
 		}
@@ -258,10 +232,10 @@ public class FarmerController   {
 			compunishs.add(new FarmerCompunish());
 		}
 		if(unBalances.size() == 0){
-			unBalances.add(new Loan());
+			unBalances.add(new FarmerLoan());
 		}
 		if(badBalances.size() == 0){
-			badBalances.add(new Loan());
+			badBalances.add(new FarmerLoan());
 		}
 		ModelAndView  view = new ModelAndView("/farmer/farmerTotalInfo");
 		view.addObject("farmer", farmer);
@@ -281,16 +255,16 @@ public class FarmerController   {
 			@RequestParam(value="farmerIdNum") String farmerIdNum,
 			HttpServletResponse response) throws Exception {
 		
-		/*鏌ヨ绉嶇被1銆佹寜涓婚敭鏌ヨ 2銆佹寜濮撳悕鏌ヨ 3銆佹寜韬唤璇佹煡璇� 4銆佹寜濮撳悕鍜岃韩浠借瘉鏌ヨ*/
+		/*閺屻儴顕楃粔宥囪1閵嗕焦瀵滄稉濠氭暛閺屻儴顕� 2閵嗕焦瀵滄慨鎾虫倳閺屻儴顕� 3閵嗕焦瀵滈煬顐″敜鐠囦焦鐓＄拠锟� 4閵嗕焦瀵滄慨鎾虫倳閸滃矁闊╂禒鍊熺槈閺屻儴顕�*/
 		if(StringUtils.isEmpty(farmerName) && StringUtils.isEmpty(farmerIdNum)){
 			ModelAndView  view = new ModelAndView("/farmer/farmerQueryOne");
-			view.addObject("msg","璇峰～鍐欐煡璇㈡潯浠�!");
+			view.addObject("msg","鐠囧嘲锝為崘娆愮叀鐠囥垺娼禒锟�!");
 			return view;
 		}
 		List<Farmer> farmers =farmerService.findByIDAndName(farmerIdNum, farmerName);
 		if(farmers.size() == 0){
 			ModelAndView view =  new ModelAndView();
-			view.addObject("msg", "鏈壘鍒板尮閰嶇殑鍐滄埛淇℃伅!鎮ㄥ彲浠ュ埌銆愬啘鎴枫��-銆愭暟鎹噰闆嗐��-銆愬熀鏈俊鎭�戞ā鍧椾腑褰曞叆鍐滄埛淇℃伅鍚庡啀褰曞叆鍐滄埛鐨勮祫浜т俊鎭�!");
+			view.addObject("msg", "閺堫亝澹橀崚鏉垮爱闁板秶娈戦崘婊勫煕娣団剝浼�!閹劌褰叉禒銉ュ煂閵嗘劕鍟橀幋鏋拷锟�-閵嗘劖鏆熼幑顕�鍣伴梿鍡愶拷锟�-閵嗘劕鐔�閺堫兛淇婇幁顖橈拷鎴災侀崸妞捐厬瑜版洖鍙嗛崘婊勫煕娣団剝浼呴崥搴″晙瑜版洖鍙嗛崘婊勫煕閻ㄥ嫯绁禍褌淇婇幁锟�!");
 			return view;
 		}else if(farmers.size()==1){
 			Farmer farmer =farmers.get(0);
@@ -299,10 +273,10 @@ public class FarmerController   {
 			List<FarmerForest> forests = farmerService.findForestByFarmer(farmer.getId());
 			FarmerPay balance = farmerService.findLatestBalanceByFarmer(farmer.getId());
 			List<FarmerIncome> incomes = new ArrayList<FarmerIncome>();
-			List<Loan> unBalances = loanService.findUnBalanceByFarmer(farmer.getId());
-			List<Loan> badBalances = loanService.findBadBalanceByFarmer(farmer.getId());
+			List<FarmerLoan> unBalances = loanService.findUnBalanceByFarmer(farmer.getId());
+			List<FarmerLoan> badBalances = loanService.findBadBalanceByFarmer(farmer.getId());
 			if(balance != null){
-				incomes = farmerBalanceService.loadTotalIncome(balance.getId());
+				incomes = balanceService.loadTotalIncome(balance.getId());
 			}
 			FarmerEvaluate evaluate = farmerService.findEvaluateByFarmer(farmer.getId());
 			List<FarmerCompunish> compunishs = farmerService.findCompunishByFarmer(farmer.getId());
@@ -326,10 +300,10 @@ public class FarmerController   {
 				insureds.add(new FarmerInsured());
 			}
 			if(unBalances.size() == 0){
-				unBalances.add(new Loan());
+				unBalances.add(new FarmerLoan());
 			}
 			if(badBalances.size() == 0){
-				badBalances.add(new Loan());
+				badBalances.add(new FarmerLoan());
 			}
 			ModelAndView  view = new ModelAndView("/farmer/farmerTotalInfo");
 			view.addObject("farmer", farmer);
@@ -393,11 +367,11 @@ public class FarmerController   {
 		 map.put("loanDate2", loanDate2);
 		 map.put("balance1", balance1);
 		 map.put("balance2", balance2);
-		 List<Loan> loans = loanService.loadSpecialLoan(map);
+		 List<FarmerLoan> loans = loanService.loadSpecialLoan(map);
 		 List<Long> farmerIds = new ArrayList<Long>();
-		 for(Iterator<Loan> it = loans.iterator();it.hasNext();){
-			 Loan loan = it.next();
-			 farmerIds.add(loan.getClientId());
+		 for(Iterator<FarmerLoan> it = loans.iterator();it.hasNext();){
+			 FarmerLoan loan = it.next();
+			 farmerIds.add(loan.getFarmerid());
 		 }
 		 List<Farmer> farmers  = null;
 		 if(farmerIds.size()>0){
@@ -417,32 +391,11 @@ public class FarmerController   {
 		writer.flush();
 		return null;
 	}
-	@RequestMapping(value = "/loadFarmerFour", method = RequestMethod.POST)
-	public ModelAndView loadFarmerFour(@RequestParam(value="farmerName") String farmerName,
-			@RequestParam(value="farmerIdNum") String farmerIdNum,
-			HttpServletResponse response) throws Exception{
-		if(StringUtils.isEmpty(farmerName) && StringUtils.isEmpty(farmerIdNum)){
-			ModelAndView view = new ModelAndView("/farmer/farmerQueryFour");
-			view.addObject("msg", "蹇呴』杈撳叆鍐滄埛韬唤璇佸彿鐮�!");
-			return view;
-		}
-		List<Farmer> farmers = farmerService.findByIDAndName(farmerIdNum, farmerName);
-		if(farmers.size() ==0){
-			ModelAndView view = new ModelAndView("/farmer/farmerQueryFour");
-			return view;
-		}else{
-			ModelAndView view = new ModelAndView("/farmer/farmerQueryFour");
-			view.addObject("farmerName",farmerName);
-			view.addObject("farmerIdNum",farmerIdNum);
-			view.addObject("farmers",farmers);
-			return view;
-		}
-	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value="/loadFarmerFive",method=RequestMethod.POST)
 	public ModelAndView loadFarmerFive(MultipartFile myfile,HttpServletRequest request, 
 			HttpServletResponse response){
-		//鐢ㄦ埛鍚嶅崟鏌ヨ
+		//閻€劍鍩涢崥宥呭礋閺屻儴顕�
 		 InputStream in;String[][] datas;
 		 List<String> farmerNames = new ArrayList<String>();
 		 List<Long> farmerIdsByNames = new ArrayList<Long>();
@@ -461,7 +414,7 @@ public class FarmerController   {
 		 } catch (IOException e) {
 			e.printStackTrace();
 		  }
-		 //璐锋淇℃伅鏌ヨ
+		 //鐠愰攱顑欐穱鈩冧紖閺屻儴顕�
 		 String organName = request.getParameter("organName");
 		 String loanDate1 = request.getParameter("loanDate1");
 		 String loanDate2 = request.getParameter("loanDate2");
@@ -473,22 +426,22 @@ public class FarmerController   {
 		 map.put("loanDate2", loanDate2);
 		 map.put("balance1", balance1);
 		 map.put("balance2", balance2);
-		 List<Loan> loans = loanService.loadSpecialLoan(map);
-		 //鍚堝苟鏌ヨ缁撴灉
+		 List<FarmerLoan> loans = loanService.loadSpecialLoan(map);
+		 //閸氬牆鑻熼弻銉嚄缂佹挻鐏�
 		 List<Long> farmerIds = new ArrayList<Long>();
-		 for(Iterator<Loan> it = loans.iterator();it.hasNext();){
-			 Loan loan = it.next();
+		 for(Iterator<FarmerLoan> it = loans.iterator();it.hasNext();){
+			 FarmerLoan loan = it.next();
 			 if(farmerNames.size() >0){
 				 if(farmerIdsByNames.size() >0){
 					 if(farmerIdsByNames.contains(loan.getId())){
-						 farmerIds.add(loan.getClientId());
+						 farmerIds.add(loan.getFarmerid());
 					 }
 				 }else{
 					 
 				 }
 			 }else{
-				 if(loan.getClientId()!=null){
-					 farmerIds.add(loan.getClientId());
+				 if(loan.getFarmerid()!=null){
+					 farmerIds.add(loan.getFarmerid());
 				 }
 			 }
 		 }
@@ -505,28 +458,77 @@ public class FarmerController   {
 		return view;
 	}
 	
-	@RequestMapping(value = "/loadFarmerReport", method = RequestMethod.GET)
-	public ModelAndView loadFarmerReport(@RequestParam(value="id") String id,
-			HttpServletResponse response) throws Exception{
-	
-			Long  farmerId = Long.valueOf(id);
-			Farmer farmer = farmerService.findByPK(farmerId);
-			List<FarmerMember> members = farmerService.findMemberByFarmer(farmerId);
-			List<Loan> loans = farmerService.findLoanByFarmer(farmerId);
-			List<FarmerHouse> houses = farmerService.findHouseByFarmer(farmerId);
-			List<FarmerForest> forests = farmerService.findForestByFarmer(farmerId);
-			List<FarmerBreed> breeds = farmerService.findBreedByFarmer(farmerId);
-			List<FarmerDevice> devices = farmerService.findDeviceByFarmer(farmerId);
-			List<FarmerPay> balances = farmerService.findBalanceByFarmer(farmerId);
-			FarmerEvaluate evaluate = farmerService.findEvaluateByFarmer(farmerId);
+	@RequestMapping(value = "/loadFarmerFour", method = RequestMethod.POST)
+	public ModelAndView loadFarmerFour(@RequestParam(value="farmerIdNum") String farmerIdNum,
+			HttpServletResponse response){
+		
+			FarmerExample fe = new FarmerExample();
+			FarmerExample.Criteria fc = fe.createCriteria();
+			fc.andFarmeridnumEqualTo(farmerIdNum);
+		
+			List<Farmer> farmers = farmerService.selectByExample(fe);
+			List<Long> farmerIds = new ArrayList<Long>(farmers.size());
+			if(farmers.size() == 0){
+				return null;
+			}
+			for(Farmer farmer:farmers){
+				farmerIds.add(farmer.getId());
+			}
+			FarmerMemberExample ee = new FarmerMemberExample();
+			FarmerMemberExample.Criteria ec = ee.createCriteria();
+			ec.andFarmeridIn(farmerIds);
+			List<FarmerMember> members = memberService.selectByExample(ee);
 			
-			List<FarmerCompunish> compunishs = farmerService.findCompunishByFarmer(farmerId);
-			List<FarmerInsured> insureds = farmerService.findInsuredByFarmer(farmerId);
+			FarmerLoanExample le = new FarmerLoanExample();
+			FarmerLoanExample.Criteria lc = le.createCriteria();
+			lc.andFarmeridIn(farmerIds);
+			List<FarmerLoan> loans = loanService.selectByExample(le);
+
+			FarmerHouseExample he = new FarmerHouseExample();
+			FarmerHouseExample.Criteria hc = he.createCriteria();
+			hc.andFarmeridIn(farmerIds);
+			List<FarmerHouse> houses =  houseService.selectByExample(he);
+			
+			FarmerForestExample ffe = new FarmerForestExample();
+			FarmerForestExample.Criteria ffc = ffe.createCriteria();
+			ffc.andFarmeridIn(farmerIds);
+			List<FarmerForest> forests = forestService.selectByExample(ffe);
+			
+			FarmerBreedExample be = new FarmerBreedExample();
+			FarmerBreedExample.Criteria bc = be.createCriteria();
+			bc.andFarmeridIn(farmerIds);
+			List<FarmerBreed> breeds = breedService.selectByExample(be);
+			
+			FarmerDeviceExample de = new FarmerDeviceExample();
+			FarmerDeviceExample.Criteria dc = de.createCriteria();
+			dc.andFarmeridIn(farmerIds);
+			List<FarmerDevice> devices = deviceService.selectByExample(de);
+		
+			FarmerPayExample pe = new FarmerPayExample();
+			FarmerPayExample.Criteria pc = pe.createCriteria();
+			pc.andFarmeridIn(farmerIds);
+			List<FarmerPay> balances = balanceService.selectByExample(pe);
+			
+			FarmerCompunishExample ce = new FarmerCompunishExample();
+			FarmerCompunishExample.Criteria cc = ce.createCriteria();
+			cc.andFarmeridIn(farmerIds);
+			List<FarmerCompunish> compunishs = compunishService.selectByExample(ce);
+			
+			FarmerInsuredExample ie = new FarmerInsuredExample();
+			FarmerInsuredExample.Criteria ic = ie.createCriteria();
+			ic.andFarmeridIn(farmerIds);
+			List<FarmerInsured> insureds = insuredService.selectByExample(ie);
+			
+			FarmerEvaluateExample fee = new FarmerEvaluateExample();
+			FarmerEvaluateExample.Criteria fec = fee.createCriteria();
+			fec.andFarmeridIn(farmerIds);
+			List<FarmerEvaluate> evaluates = evaluateService.selectByExample(fee);
+			
 			if(members.size() == 0){
 				members.add(new FarmerMember());
 			}
 			if(loans.size() == 0){
-				loans.add(new Loan());
+				loans.add(new FarmerLoan());
 			}
 			if(houses.size() ==0){
 				houses.add(new FarmerHouse());
@@ -549,8 +551,11 @@ public class FarmerController   {
 			if(insureds.size() ==0){
 				insureds.add(new FarmerInsured());
 			}
+			if(evaluates.size() == 0){
+				evaluates.add(new FarmerEvaluate());
+			}
 			ModelAndView  view = new ModelAndView("/farmer/farmerCreditReport");
-			view.addObject("farmer", farmer);
+			view.addObject("farmers", farmers);
 			view.addObject("members", members);
 			view.addObject("loans", loans);
 			view.addObject("houses", houses);
@@ -558,7 +563,7 @@ public class FarmerController   {
 			view.addObject("breeds",breeds);
 			view.addObject("devices",devices);
 			view.addObject("balances", balances);
-			view.addObject("evaluate", evaluate);
+			view.addObject("evaluates", evaluates);
 			view.addObject("compunishs", compunishs);
 			view.addObject("insureds", insureds);
 			return view;
@@ -581,14 +586,14 @@ public class FarmerController   {
 		Apply apply = new Apply();
 		apply.setUserId(user.getUserId());
 		apply.setUserName(user.getUserName());
-		apply.setApplyType("鍐滄埛淇＄敤鎶ュ憡");
-		String applyName =new SimpleDateFormat("yyyyMMddHHmmddss").format(new Date())+"鍐滄埛淇＄敤鎶ュ憡";
+		apply.setApplyType("閸愭粍鍩涙穱锛勬暏閹躲儱鎲�");
+		String applyName =new SimpleDateFormat("yyyyMMddHHmmddss").format(new Date())+"閸愭粍鍩涙穱锛勬暏閹躲儱鎲�";
 		apply.setApplyName(applyName);
 		apply.setApplyInfo(ids);
 		apply.setApplyTime(new Date());
 		farmerService.saveAapply(apply);
 		ModelAndView view = new ModelAndView("/farmer/farmerQueryFive");
-		view.addObject("msg", "鐢宠鎴愬姛!");
+		view.addObject("msg", "閻㈠疇顕幋鎰!");
 		return view;
 	}
 	
@@ -596,10 +601,10 @@ public class FarmerController   {
 	@RequestMapping(value="/offlineDownload",method=RequestMethod.GET)
 	public ModelAndView offLineDownload(HttpServletRequest request, 
 			HttpServletResponse response) throws Exception{
-		
+		SimpleDateFormat yf = new SimpleDateFormat("yyyy");
 		String ids = request.getParameter("farmerIds");
 		response.setContentType("application/zip"); 
-		String fileName = URLEncoder.encode("鍐滄埛淇＄敤鎶ュ憡","UTF-8");
+		String fileName = URLEncoder.encode("閸愭粍鍩涙穱锛勬暏閹躲儱鎲�","UTF-8");
 		response.setHeader("Location",fileName);
 		response.setHeader("Content-Disposition", "attachment; filename="+fileName+".zip");
 		ByteArrayOutputStream bout = new ByteArrayOutputStream();
@@ -617,7 +622,7 @@ public class FarmerController   {
 				List<FarmerBreed> breeds = (List<FarmerBreed>)map.get("breeds");
 				List<FarmerForest> forests =(List<FarmerForest>) map.get("forests");
 				List<FarmerDevice> devices = (List<FarmerDevice>) map.get("devices");
-				List<Loan> loans = (List<Loan>) map.get("loans");
+				List<FarmerLoan> loans = (List<FarmerLoan>) map.get("loans");
 				List<FarmerCompunish> compunishs = (List<FarmerCompunish>)map.get("compunishs");
 				List<FarmerInsured> insureds = (List<FarmerInsured>)map.get("insureds");
 				FarmerEvaluate evaluate = (FarmerEvaluate)map.get("evaluate");
@@ -637,18 +642,18 @@ public class FarmerController   {
 					devices.add(new FarmerDevice());
 				}
 				if(loans.size() ==0){
-					loans.add(new Loan());
+					loans.add(new FarmerLoan());
 				}
 				if(evaluate == null){
 					evaluate = new FarmerEvaluate();
 				}
-				String tplPath = "/template/鍐滄埛淇＄敤鎶ュ憡.docx";
+				String tplPath = "/template/閸愭粍鍩涙穱锛勬暏閹躲儱鎲�.docx";
 				InputStream in =FarmerController.class.getResourceAsStream(tplPath);
 				XWPFDocument doc = new XWPFDocument(in);
 				List<XWPFTable> tables  = doc.getTables();
 				XWPFTable t0 = tables.get(0);
 				XWPFTableRow r1 = t0.createRow();
-				addTableCell(r1,0,"鎴蜂富");
+				addTableCell(r1,0,"閹磋渹瀵�");
 				addTableCell(r1,1,farmer.getFarmername());
 				addTableCell(r1,2,Dictionary.translate("sex",String.valueOf(farmer.getSex())));
 				addTableCell(r1,3,farmer.getFarmeridnum());
@@ -663,7 +668,7 @@ public class FarmerController   {
 					addTableCell(r,1,member.getName());
 					addTableCell(r,2,Dictionary.translate("sex",String.valueOf(member.getSex())));
 					addTableCell(r,3,farmer.getFarmeridnum());
-					addTableCell(r,4,Dictionary.translate("marrystatus",member.getMarryStatus()));
+					addTableCell(r,4,Dictionary.translate("marrystatus",member.getMarrystatus()));
 					addTableCell(r,5,Dictionary.translate("education",String.valueOf(member.getEducation())));
 					addTableCell(r,6,member.getPhone());
 					addTableCell(r,7,member.getAddress());
@@ -672,9 +677,9 @@ public class FarmerController   {
 				for(Iterator<FarmerPay> it = balances.iterator();it.hasNext();){
 					FarmerPay balance = it.next();
 					XWPFTableRow r = t1.createRow();
-					addTableCell(r,0,balance.getYear());
-					addTableCell(r,1,String.valueOf(balance.getTotalIncome()));
-					addTableCell(r,2,String.valueOf(balance.getTotalPay()));
+					addTableCell(r,0,yf.format(balance.getYear()));
+					addTableCell(r,1,String.valueOf(balance.getTotalincome()));
+					addTableCell(r,2,String.valueOf(balance.getTotalpay()));
 				}
 				XWPFTable t2= tables.get(2);
 				for(int i=0;i<houses.size();i++){
@@ -682,11 +687,11 @@ public class FarmerController   {
 					FarmerHouse house = houses.get(i);
 					XWPFTableRow r = t2.createRow();
 					addTableCell(r,0,house.getId()==null?"":index);
-					addTableCell(r,0,house.getHouseProperty());
-					addTableCell(r,1,house.getHouseType());
-					addTableCell(r,2,house.getHouseAddress());
-					addTableCell(r,3,house.getBuildDate());
-					addTableCell(r,4,house.getBuildArea());
+					addTableCell(r,0,house.getHouseproperty());
+					addTableCell(r,1,house.getHousetype());
+					addTableCell(r,2,house.getHouseaddress());
+					addTableCell(r,3,house.getBuilddate());
+					addTableCell(r,4,house.getBuildarea());
 				}
 				XWPFTable t3= tables.get(3);
 				for(int i = 0;i<breeds.size();i++){
@@ -695,17 +700,17 @@ public class FarmerController   {
 					XWPFTableRow r = t3.createRow();
 					addTableCell(r,0,breed.getId() ==null?"":index);
 					addTableCell(r,0,breed.getVariety());
-					addTableCell(r,1,breed.getFloorArea());
+					addTableCell(r,1,breed.getFloorarea());
 					addTableCell(r,2,breed.getOutput());
-					addTableCell(r,3,breed.getAssessPrice());
+					addTableCell(r,3,String.valueOf(breed.getAssessprice()));
 				}
 				XWPFTable t4= tables.get(4);
 				for(Iterator<FarmerForest> it = forests.iterator();it.hasNext();){
 					FarmerForest forest = it.next();
 					XWPFTableRow r = t4.createRow();
-					addTableCell(r,0,forest.getId() == null?"":"鏋楁潈");
+					addTableCell(r,0,forest.getId() == null?"":"閺嬫娼�");
 					addTableCell(r,1,forest.getArea());
-					addTableCell(r,2,forest.getStoreNum());
+					addTableCell(r,2,forest.getStorenum());
 					addTableCell(r,3,forest.getArea());
 				}
 				XWPFTable t5= tables.get(5);
@@ -715,33 +720,33 @@ public class FarmerController   {
 					addTableCell(r,0,device.getId() == null?"":"1");
 					addTableCell(r,1,device.getName());
 					addTableCell(r,2,device.getBrand());
-					addTableCell(r,3,device.getBuyingDate());
-					addTableCell(r,4,device.getBuyingPrice());
-					addTableCell(r,4,device.getAssessPrice());
+					addTableCell(r,3,device.getBuyingdate());
+					addTableCell(r,4,device.getBuyingprice());
+					addTableCell(r,4,device.getAssessprice());
 				}
 				XWPFTable t6=tables.get(6);
 				XWPFTable t7=tables.get(7);
 				XWPFTable t8=tables.get(8);
 				for(int i=0;i<loans.size();i++){
-					Loan loan = loans.get(i);
+					FarmerLoan loan = loans.get(i);
 					XWPFTableRow r6 = t6.createRow();
 					XWPFTableRow r7 = t7.createRow();
 					XWPFTableRow r8 = t8.createRow();
 					addTableCell(r6,0,loan.getId() == null?"":"1");
-					addTableCell(r6,1,loan.getOrganName());
-					addTableCell(r6,2,loan.getBusinessType());
-					addTableCell(r6,3,loan.getLoanUse());
+					addTableCell(r6,1,loan.getOrganname());
+					addTableCell(r6,2,loan.getBusinesstype());
+					addTableCell(r6,3,loan.getLoanuse());
 					addTableCell(r6,4,"");
-					addTableCell(r6,5,loan.getLoanDate());
-					addTableCell(r6,6,loan.getLimitDate());
+					addTableCell(r6,5,loan.getLoandate());
+					addTableCell(r6,6,loan.getLimitdate());
 					
 					addTableCell(r7,0,loan.getId() == null?"":"1");
 					addTableCell(r7,1,loan.getBalance());
-					addTableCell(r7,2,loan.getGuaranteeType());
+					addTableCell(r7,2,loan.getGuaranteetype());
 					
 					addTableCell(r8,0,loan.getId() == null?"":"1");
-					addTableCell(r8,1,loan.getClientName());
-					addTableCell(r8,2,loan.getClientNum());
+					addTableCell(r8,1,loan.getClientname());
+					addTableCell(r8,2,loan.getClientnum());
 				}
 				XWPFTable t9=tables.get(9);
 				for(int i = 0;i<compunishs.size();i++){
@@ -756,28 +761,28 @@ public class FarmerController   {
 					 FarmerInsured insured  =insureds.get(0);
 					 XWPFTableRow r10 = t10.createRow();
 					 addTableCell(r10,0,insured.getId() == null?"":"1");
-					 addTableCell(r10,1,insured.getType());
+					 addTableCell(r10,1,String.valueOf(insured.getType()));
 					 addTableCell(r10,2,String.valueOf(insured.getAmount()));
-					 String date = new SimpleDateFormat("yyyy-mm-dd").format(insured.getInsureTime());
+					 String date = new SimpleDateFormat("yyyy-mm-dd").format(insured.getInsuretime());
 					 addTableCell(r10,3,date);
 				}
 				XWPFTable t12=tables.get(12);
 				XWPFTableRow r12 = t12.createRow();
-				addTableCell(r12,0,Dictionary.translate("evaluate",evaluate.getHarmonyStatus()));
-				addTableCell(r12,1,Dictionary.translate("evaluate",evaluate.getRespectStatus()));
-				addTableCell(r12,2,Dictionary.translate("evaluate",evaluate.getNeighborStatus()));
-				addTableCell(r12,3,Dictionary.translate("yesorno",String.valueOf(evaluate.getLegalStatus())));
-				addTableCell(r12,4,Dictionary.translate("evaluate",evaluate.getWelfareStatus()));
-				addTableCell(r12,5,Dictionary.translate("yesorno",String.valueOf(evaluate.getHonestStatus())));
+				addTableCell(r12,0,Dictionary.translate("evaluate",evaluate.getHarmonystatus()));
+				addTableCell(r12,1,Dictionary.translate("evaluate",evaluate.getRespectstatus()));
+				addTableCell(r12,2,Dictionary.translate("evaluate",evaluate.getNeighborstatus()));
+				addTableCell(r12,3,Dictionary.translate("yesorno",String.valueOf(evaluate.getLegalstatus())));
+				addTableCell(r12,4,Dictionary.translate("evaluate",evaluate.getWelfarestatus()));
+				addTableCell(r12,5,Dictionary.translate("yesorno",String.valueOf(evaluate.getHoneststatus())));
 				File f = new File(FarmerController.class.getResource("/temp").getPath()
-						+"/淇＄敤鎶ュ憡/"+farmer.getFarmername()+".docx");
+						+"/娣囷紕鏁ら幎銉ユ啞/"+farmer.getFarmername()+".docx");
 				OutputStream fout = new FileOutputStream(f);
 				doc.write(fout);
 				fout.flush();
 				fout.close();
 				fout = null;
 			}
-			File f = new File(FarmerController.class.getResource("/temp").getPath()+"/淇＄敤鎶ュ憡/");
+			File f = new File(FarmerController.class.getResource("/temp").getPath()+"/娣囷紕鏁ら幎銉ユ啞/");
 			File[] files =f.listFiles();
 			for(File file:files){
 				zop.putNextEntry(new ZipEntry(file.getName()));
@@ -871,11 +876,11 @@ public class FarmerController   {
 	@RequestMapping(value="/queryFarmer1",method=RequestMethod.POST)
 	public ModelAndView queryFarmer1(HttpServletRequest request,
 			HttpServletResponse response) throws Exception{
-		/*鏌ヨ鏉′欢
+		/*閺屻儴顕楅弶鈥叉
 		
 		if(StringUtils.isEmpty(farmerIdNum) && StringUtils.isEmpty(farmerName)){
 			ModelAndView view = new ModelAndView("/farmer/farmerBasicInfoView");
-			view.addObject("msg", "璇锋偍濉啓瀹屽啘鎴峰鍚嶅拰韬唤璇佸彿鐮佸悗鏌ヨ!");
+			view.addObject("msg", "鐠囬攱鍋嶆繅顐㈠晸鐎瑰苯鍟橀幋宄邦潣閸氬秴鎷伴煬顐″敜鐠囦礁褰块惍浣告倵閺屻儴顕�!");
 			return  view;
 		}*/
 	    String pageIndex = request.getParameter("pageIndex");
@@ -892,7 +897,7 @@ public class FarmerController   {
 	    	ModelAndView view = new ModelAndView("/farmer/farmerBasicInfoView1");
 	    	view.addObject("farmerName",farmerName);
 		    view.addObject("farmerIdNum",farmerIdNum);
-			view.addObject("msg", "鏈壘鍒扮鍚堟潯浠剁殑鍐滄埛淇℃伅!");
+			view.addObject("msg", "閺堫亝澹橀崚鎵儊閸氬牊娼禒鍓佹畱閸愭粍鍩涙穱鈩冧紖!");
 			return  view;
 	    }else{
 		    ModelAndView view = new ModelAndView("/farmer/farmerBasicInfoView1");
@@ -906,7 +911,7 @@ public class FarmerController   {
 	public ModelAndView typeInFarmer(@RequestParam(value="farmerName") String farmerName,
 			@RequestParam(value="farmerIdNum") String farmerIdNum, HttpServletRequest request,
 			HttpServletResponse response){
-		//鏌ヨ鏉′欢
+		//閺屻儴顕楅弶鈥叉
 		if(StringUtils.isEmpty(farmerIdNum) || StringUtils.isEmpty(farmerName)){
 			ModelAndView view = new ModelAndView("/farmer/farmerBasicInfoView");
 			return  view;
@@ -940,10 +945,10 @@ public class FarmerController   {
 	public ModelAndView typeInFarmer1(@RequestParam(value="farmerName") String farmerName,
 			@RequestParam(value="farmerIdNum") String farmerIdNum,  HttpServletRequest request,
 			HttpServletResponse response){
-		//鏌ヨ鏉′欢
+		//閺屻儴顕楅弶鈥叉
 		if(StringUtils.isEmpty(farmerIdNum) || StringUtils.isEmpty(farmerName)){
 			ModelAndView view = new ModelAndView("/farmer/farmerBasicInfoView");
-			view.addObject("msg", "璇锋偍濉啓瀹屽啘鎴峰鍚嶅拰韬唤璇佸彿鐮佸悗褰曞叆鍐滄埛淇℃伅!");
+			view.addObject("msg", "鐠囬攱鍋嶆繅顐㈠晸鐎瑰苯鍟橀幋宄邦潣閸氬秴鎷伴煬顐″敜鐠囦礁褰块惍浣告倵瑜版洖鍙嗛崘婊勫煕娣団剝浼�!");
 			return  view;
 		}
 		Organ organ =(Organ)request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
@@ -962,7 +967,7 @@ public class FarmerController   {
 			}
 	    }else{
 	    	ModelAndView view = new ModelAndView("/farmer/farmerBasicInfoView");
-			view.addObject("msg", "璇锋偍濉啓瀹屽啘鎴峰鍚嶅拰韬唤璇佸彿鐮佸悗褰曞叆鍐滄埛淇℃伅!");
+			view.addObject("msg", "鐠囬攱鍋嶆繅顐㈠晸鐎瑰苯鍟橀幋宄邦潣閸氬秴鎷伴煬顐″敜鐠囦礁褰块惍浣告倵瑜版洖鍙嗛崘婊勫煕娣団剝浼�!");
 			return  view;
 	    }
 	    if(members.size() == 0 ){

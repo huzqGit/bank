@@ -73,7 +73,7 @@ public class FarmerForestController {
 		}
 		Farmer farmer = null;
 		try {
-			farmer = farmerService.findByPK(forest.getFarmerId());
+			farmer = farmerService.findByPK(forest.getFarmerid());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -122,16 +122,13 @@ public class FarmerForestController {
 		return view;
 	}
 	@RequestMapping(value="/editForest",method=RequestMethod.GET)
-	public ModelAndView editForest(@RequestParam(value="id") String id,@RequestParam(value="fid") String fid,
+	public ModelAndView editForest(@RequestParam(value="id") Long id,@RequestParam(value="fid") Long fid,
 			HttpServletRequest request,HttpServletResponse response){
-		
-		Long forestId = Long.valueOf(id);
-		Long farmerId = Long.valueOf(fid);
 		Farmer farmer = null;
 		FarmerForest forest = null;
 		try {
-			farmer = farmerService.findByPK(farmerId);
-			forest = farmerForestService.findByPK(forestId);
+			farmer = farmerService.findByPK(fid);
+			forest = farmerForestService.findByPK(id);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
