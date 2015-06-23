@@ -1,101 +1,194 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
 <title>Insert title here</title>
+<script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/jsp/farmer/farmer.js" type="text/javascript"></script>
 <style type="text/css">
-.mini-toolbar{
-background:url(/bank/jsp/main/leftmenu/images/icon-bg.jpg) repeat-x center;
+	*{margin:0;padding:0;text-decoration:none}
+	body{
+overflow-x:hidden
+}
+    .active{font-size: 15px;font-family: YouYuan;font-weight: bold;color:darkgreen}
+     .inactive{font-size: 15px;font-family: YouYuan;font-weight:bold;color:gray}
+    .display{display:block;}
+    .hidden{display:none;}
+    .line{background-color:#CCECF5;}
+    .topMenu{
+    border:1px solid #8AD3E9;
+    /* IE6 & IE7 */
+	filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0 , startColorstr = '#6DC8E3', 
+	endColorstr = 'white' ); 
+	/* IE8 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType = 0,startColorstr = '#6DC8E3', 
+	endColorstr = 'white' )"; 
+    }
+	#saveBtn{
+		width:100px;
+		height:25px;
+		border:0;
+		background:url(/bank/images/save.png) no-repeat
+	}
+	#backBtn{
+		width:100px;
+		height:25px;
+		border:0;
+		background:url(/bank/images/back.png) no-repeat
+	}
+	.addBtn{width:100px;height:25px;border:0;background:url(/bank/images/add.png) no-repeat}
+	.labelName{font-size:15px;font-weight:bold;color:darkgreen;}
+	.labelValue{font-size:15px;font-weight:bold;color:red;}
+	 li{
+ border-bottom:2px solid green;
+ float:left;
+ width:85px;
+ list-style-type:none;
+ height:31px;
+ text-align:center;
+ line-height:28px;
+ font-weight:bold;
+ color:black;
+ background-repeat:no-repeat
+ }
+.active{
+ float:left;
+ width:100px;
+ list-style-type:none;
+ text-align:center;
+ border-bottom:2px solid #6DC8E3;
+ border-top:1px solid gray;
+ border-left:1px solid gray;
+ border-right:1px solid white;
+ 	filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0 , startColorstr = 'white', 
+	endColorstr = '#6DC8E3' ); 
+	/* IE8 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType = 0,startColorstr = 'white', 
+	endColorstr = '#6DC8E3' )";  
+ height:31px;
+
+ background-repeat:no-repeat
+}
+.mini-panel-border{
+border-color:#D2D2D2;
 }
 .mini-grid-headerCell-nowrap{
-background:url(/bank/jsp/main/leftmenu/images/icon-bg.jpg) repeat-x center;
-} 
-</style>
+background:white
+}
+.mini-grid-headerCell{
+background:white;
+border-top:0px;
+border-color:#D2D2D2
+}
+.mini-grid-headerCell-inner{
+font-family:"仿宋_GB2312";
+font-size:12pt;
+}
+.mini-grid-column-splitter{
+background:white
+}
+.mini-grid-pager{
+background:white
+}
+ </style>
 </head>
 <body>
-<div class="mini-toolbar" style="padding-top:5px;border-bottom:0;">
-        <table style="width:100%;">
-        
-       		
-       		<tr>
-       			<td>
-       			<a class="mini-button" iconCls="icon-add" plain="true"  target ="_self" href="/bank/jsp/farmer/farmerMemberForm.jsp">新增</a>
-            	<span class="separator"></span>
-            	<a class="mini-button" iconCls="icon-goto" plain="true" href="">导入</a>
-       			<span class="separator"></span>
-       			<a class="mini-button" iconCls="icon-redo" plain="true" onclick="reset()">重置</a>
-       			<span class="separator"></span>
-       			<a class="mini-button" iconCls="icon-search" plain="true" onclick="onSearch()">查询</a>
-       			</td>
-       		</tr>
-           <tr>
-                <td style="white-space:nowrap;">
-                <form id="query">
-	            	<span>户主姓名：</span><input id="farmerName" emptyText="请输入户主姓名" class="mini-textbox" />
-	            	<span>身份证号：</span><input id="farmerIdNUm" emptyText="请输入身份证号" class="mini-textbox">
-	            	<span>姓名：</span><input id="name" emptyText="请输入身份证号" class="mini-textbox">
-	             	<span>创建人：</span><input id="recorder" emptyText="请输入创建人" class="mini-textbox" />
-	             	<span>创建时间从：</span><input id="recordTimeBegin" emptyText="请输入时间" class="mini-datepicker" />
-	             	<span>到：</span><input id="recordTimeEnd" emptyText="请输入时间" class="mini-datepicker" />
-                </form>
-                </td>
-            </tr>
-        </table>
-  </div>
-   <div id="datagrid1" class="mini-datagrid" style="width:100%;height:420px" 
-            url="${pageContext.request.contextPath}/farmer/loadAllMember.do" idField="id"
-            sizeList="[5,10,20,50]" pageSize="10"
-        >
+<div class="topMenu">
+<ul>
+	<li >
+		<a href="/bank/farmer/loadFarmer1.do?id=${farmer.id}">基本信息</a>
+	</li>
+	<li class="active">
+		家庭成员信息
+	</li>
+	<li >
+		<a href="/bank/loan/queryLoan1.do?fid=${farmer.id}">贷款信息</a>
+	</li>
+	<li >
+		<a href="/bank/loan/queryPrivateLending.do?fid=${farmer.id}">民间借贷信息</a>
+	</li>
+	<li >
+		<a href="/bank/farmer/queryBalance.do?fid=${farmer.id}">收支信息</a>
+	</li>
+	<li >
+		<a href="/bank/farmer/queryHouse.do?fid=${farmer.id}">房产信息</a>
+	</li>
+	<li >
+		<a href="/bank/farmer/queryForest.do?fid=${farmer.id}">林权信息</a>
+	</li>
+	<li >
+		<a href="/bank/farmer/queryBreed.do?fid=${farmer.id}">种养殖信息</a>
+	</li>
+	<li >
+		<a href="/bank/farmer/queryDevice.do?fid=${farmer.id}">设备信息</a>
+	</li>
+	<li >
+		<a href="/bank/farmer/queryCompunish.do?fid=${farmer.id}">奖惩信息</a>
+	</li>
+	<li >
+		<a href="/bank/farmer/queryInsured.do?fid=${farmer.id}">参保信息</a>
+	</li>
+	<li >
+		<a href="/bank/farmer/queryEvaluate1.do?fid=${farmer.id}">其他信息</a>
+	</li>
+</ul>
+</div>
+<div class="topMenu" style="background:linear-gradient(#6DC8E3,white)">
+<table width ="100%" height="60px">
+	<tr>
+		<td class="labelName" width="30%" align="right">姓名</td>
+		<td class="labelValue" width="1%" align="center">:</td>
+		<td class="labelValue" width="10%">${farmer.farmername }</td>
+		<td class="labelName" width="10%" align="center">身份证号码</td>
+		<td class="labelValue" width="1%">:</td>
+		<td class="labelValue" align="left">${farmer.farmeridnum}</td>
+		<td width="1%"></td>
+		 <td width="50px" align="right">
+       	 <input type="button" class="addBtn" onclick="add(${farmer.id})"/>
+        </td>
+       
+	</tr>
+</table>
+</div>
+<div id="datagrid1" class="mini-datagrid" style="width:98%;margin:auto auto;height:340px;background-color:white" 
+            url="${pageContext.request.contextPath}/farmer/loadMember.do?fid=${farmer.id}" idField="id"
+            sizeList="[5,10,20,50]" pageSize="10" showReloadButton="false">
 	        <div property="columns">
-	             <div type="indexcolumn" ></div>
-	             <div field="farmerName" width="60" headerAlign="center" allowSort="true" >户主姓名</div>
-	             <div field="farmerIdNUm" width="120" headerAlign="center" allowSort="true"  >户主身份证号</div>
-	             <div field="name" width="60" headerAlign="center" allowSort="true" >姓名</div>   
-	              <div field="relation" width="80" headerAlign="center" allowSort="true" >与户主关系</div>     
-	             <div field="idNum" width="120" headerAlign="center" allowSort="true" >身份证号</div>                            
-	             <div field="education" width="60" headerAlign="center" allowSort="true" >文化程度</div>    
-	             <div field="marryStatus" width="60" headerAlign="center" allowSort="true" >婚姻状况</div>
-	             <div field="occupation" width="80" headerAlign="center" allowSort="true">职业</div>   
-	               <div field="job" width="80" headerAlign="center" allowSort="true" >职务</div>
-	              <div field="sex" width="50" headerAlign="center" allowSort="true">性别</div>     
-	             <div field="phone" width="120" headerAlign="center" allowSort="true">联系电话</div>      
-	             <div field="recorder" width="50" align="center" headerAlign="center">创建人</div>
-	             <div field="recordTime" width="100" headerAlign="center" dateFormat="yyyy-MM-dd" allowSort="true">创建时间</div>                
-	        	 <div name="action" width="50" headerAlign="center" align="center" renderer="onActionRenderer" cellStyle="padding:0;"></div>
+	             <div type="indexcolumn" width="5%" headerAlign="center"></div>
+	             <div field="name" width="15%" headerAlign="center" allowSort="true">姓名</div>
+	             <div field="relation" width="15%" headerAlign="center" allowSort="true" >与户主关系</div>   
+	             <div field="idnum" width="30%" headerAlign="center" allowSort="true">身份证号码 </div>     
+	             <div field="marrystatus" width="10%" headerAlign="center" allowSort="true" >婚姻状况</div>
+	             <div field="sex" width="10%" headerAlign="center" allowSort="true">性别</div>                                       
+	        	 <div width="5%" headerAlign="center" align="center" renderer="editRenderer" cellStyle="padding:0;"></div>
+	         	 <div width="5%" headerAlign="center" align="center" renderer="deleteRenderer" cellStyle="padding:0;"></div>
 	         </div>
-  		</div>
-  <script type="text/javascript">
-   
-	  mini.parse();
-	  
-	  var grid = mini.get("datagrid1");
-
-	  grid.load();
-	  function reset(){
-		  var query = new mini.Form("#query");
-		  query.clear();
-	  }
-	  function onSearch() {
-		  var farmerName = mini.get("farmerName").getValue();
-		  var farmerIdNum =mini.get("farmerIdNum").getValue();
-		  var name=mini.get("name").getValue();
-		  var recorder=mini.get("recorder").getValue();
-		  var recordTimeBegin=mini.get("recordTimeBegin").getValue();
-		  var recordTimeEnd=mini.get("recordTimeEnd").getValue();
-		  
-          grid.load({farmerName:farmerName,farmerIdNum:farmerIdNum,
-          name:name,recorder:recorder,recordTimeBegin:recordTimeBegin,
-          recordTimeEnd:recordTimeEnd});
-       }
-	  function onActionRenderer(e) {
-          var record = e.record;
-          var id = record.id;
-          var s = '<a class="New_Button" target="_self" href="/bank/jsp/farmer/farmerMemberForm.jsp?id='+id+'">[查看]</a>';      
-          return s;
-      }
-   </script> 
+</div>
+<script type="text/javascript">
+	mini.parse();
+	var grid = mini.get("datagrid1");
+	grid.load();
+	
+	function add(fid){
+		window.location.href="/bank/farmer/insertMember.do?fid="+fid;
+	}
+	function editRenderer(e) {
+	    var record = e.record;
+	    var id = record.id;
+	    var fid = record.farmerid;
+	    var s = '<a class="Edit_Button" target="_self" href="/bank/farmer/editMember.do?id='+id+'&fid='+fid+'">[编辑]</a>';      
+	    return s;
+	};
+	function deleteRenderer(e) {
+	    var record = e.record;
+	    var id = record.id;
+	    var fid = record.farmerid;
+	    var s = '<a class="New_Button" target="_self" href="/bank/farmer/deleteMember.do?id='+id+'&fid='+fid+'">[删除]</a>';      
+	    return s;
+	};
+</script>
 </body>
 </html>
