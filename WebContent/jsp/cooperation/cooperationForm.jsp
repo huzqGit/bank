@@ -34,10 +34,20 @@ body{
 	-ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType = 0,startColorstr = '#6DC8E3', 
 	endColorstr = 'white' )"; 
 }
+html{
+	height:90%
+}
+body{
+	height:100%;width:100%;
+	overfolw-x:hidden;
+	margin-top:-2px;
+	margin-left:-2px;
+}
 </style>
 </head>
-<body style="overflow-x:hidden">
-<div class="mini-toolbar mini-panel-header bg topmenu" style="padding-top:5px;border-bottom:0;">
+<body>
+<div  id="sss">
+<div class="mini-toolbar mini-panel-header bg topmenu" style="border-bottom:0;position: fixed;z-index: 20">
 	<table style="width:100%;">
     	<tr>
         	<td style="white-space:nowrap;" align="right">
@@ -57,7 +67,7 @@ body{
          </tr>
       </table>
 </div>
-<div id="form1" style="width:90%;margin:auto auto">
+<div id="form1" style="width:97%;margin:auto auto;padding-top:25px">
 	<form action="/bank/economy/saveCooperation.do" method="POST">
 	<input name="organ_id" class="mini-hidden" value="<%=user.getOrganId()%>"/>
 	<input name="cooperationId" class="mini-hidden" value="${cooperationId}"/>
@@ -85,84 +95,84 @@ body{
 	<tr>
 	<td style="width:10%"><label for="textbox1$text">税务登记号:</label></td>
 	<td style="width:40%">
-	<input id="textbox1"  name="taxCode" class="mini-textbox" required="true" 
+	<input id="textbox1"  name="taxCode" class="mini-textbox" required="false" 
 		requiredErrorText="税务登记号不能为空"style="width:90%"/>
 	</td>
 	<td style="width:10%"><label for="textbox1$text">注册时间:</label></td>
 	<td style="width:40%">
-	<input id="textbox1"  name="registerDate" class="mini-datepicker" required="true" 
+	<input id="textbox1"  name="registerDate" class="mini-datepicker" required="false" 
 		requiredErrorText="注册时间不能为空" style="width:90%"/>
 	</td>
 	</tr>
 	<tr>
 	<td style="width:10%"><label for="textbox2$text">注册地址:</label></td>
 	<td style="width:40%" >
-	<input id="textbox2"  name="registerAddress" class="mini-textarea" required="true" 
+	<input id="textbox2"  name="registerAddress" class="mini-textarea" required="false" 
 		requiredErrorText="注册地址不能为空" style="width:90%"/>
 	</td>
 	<td style="width:10%"><label for="textbox1$text">通信地址:</label></td>
 	<td style="width:40%">
-	<input id="textbox1"  name="mailAddress" class="mini-textarea" required="true" 
+	<input id="textbox1"  name="mailAddress" class="mini-textarea" required="false" 
 		requiredErrorText="通信地址不能为空" style="width:90%"/>
 	</td>
 	</tr>
 	<tr>
 	<td style="width:10%"><label for="textbox1$text">注册资金:</label></td>
 	<td style="width:40%">
-	<input id="textbox1"  name="registerCapital" class="mini-textbox" required="true"  vtype="float"
+	<input id="textbox1"  name="registerCapital" class="mini-textbox" required="false"  vtype="float"
 		requiredErrorText="注册资金不能为空" style="width:90%"/>
 	</td>
 	<td style="width:10%"><label for="textbox1$text">实收资金:</label></td>
 	<td style="width:40%">
-	<input id="textbox1"  name="realCapital" class="mini-textbox" required="true"  vtype="float"
+	<input id="textbox1"  name="realCapital" class="mini-textbox" required="false"  vtype="float"
 		requiredErrorText="实收资金不能为空" style="width:90%"/>
 	</td>
 	</tr>
 	<tr>
 	<td style="width:10%"><label for="textbox1$text">法定代表人:</label></td>
 	<td style="width:40%">
-	<input id="textbox1"  name="legalPerson" class="mini-textbox" required="true" 
+	<input id="textbox1"  name="legalPerson" class="mini-textbox" required="false" 
 		requiredErrorText="法定代表人不能为空" style="width:90%"/>
 	</td>
 	<td style="width:10%"><label for="textbox1$text">身份证号:</label></td>
 	<td style="width:40%">
-	<input id="textbox1"  name="idNum" class="mini-textbox" required="true" 
+	<input id="textbox1"  name="idNum" class="mini-textbox" required="false" 
 		requiredErrorText="身份证号不能为空" style="width:90%"/>
 	</td>
 	</tr>
 	<tr>
 	<td style="width:10%"><label for="textbox1$text">联系电话号码:</label></td> 
 	<td style="width:40%">
-	<input id="textbox1"  name="phone" class="mini-textbox" required="true" 
+	<input id="textbox1"  name="phone" class="mini-textbox" required="false" 
 		requiredErrorText="联系电话号码不能为空" style="width:90%"/>
 	</td>
 	<td style="width:10%"><label for="textbox1$text">社员人数:</label></td>
 	<td style="width:40%">
-	<input id="textbox1"  name="members" class="mini-textbox" required="true" 
+	<input id="textbox1"  name="members" class="mini-textbox" required="false" 
 		requiredErrorText="社员人数不能为空" style="width:90%"/>
 	</td>
 	</tr>
 	<tr>
 	<td style="width:10%"><label for="textbox1$text">经营范围:</label></td>
 	<td style="width:40%">
-	<input id="textbox1"  name="businesScope" class="mini-textbox" required="true" 
+	<input id="textbox1"  name="businesScope" class="mini-textbox" required="false" 
 		requiredErrorText="经营范围不能为空" style="width:90%"/>
 	</td>
 	<td style="width:10%"><label for="textbox1$text">经营场地面积:</label></td>
 	<td style="width:40%">
-	<input id="textbox1"  name="businessArea" class="mini-textbox" required="true" 
+	<input id="textbox1"  name="businessArea" class="mini-textbox" required="false" 
 		requiredErrorText="社员人数不能为空" style="width:90%"/>
 	</td>
 	</tr>
 	<tr>
 	<td style="width:10%"><label for="textbox1$text">带动农户（户）:</label></td>
 	<td style="width:40%">
-	<input id="textbox1"  name="farmers" class="mini-textbox" required="true" vtype="float"
+	<input id="textbox1"  name="farmers" class="mini-textbox" required="false" vtype="float"
 		requiredErrorText="带动农户不能为空" style="width:90%"/>
 	</td>
 	<td style="width:10%"><label for="textbox1$text">联接基地（亩）:</label></td>
 	<td style="width:40%">
-	<input id="textbox1"  name="connectionBase" class="mini-textbox" required="true" vtype="float"
+	<input id="textbox1"  name="connectionBase" class="mini-textbox" required="false" vtype="float"
 		requiredErrorText="联接基地不能为空" style="width:90%"/>
 	</td>
 	</tr>
@@ -173,6 +183,7 @@ body{
 	</tr>
 	</table>
 	</form>
+</div>
 </div>
 </body>
 <script type="text/javascript">
@@ -242,8 +253,13 @@ body{
 	        },
 	        complete:function(){
 	        	if(this.canClose){
-		    		setTimeout("back()",1500);
-		    		setTimeout("close()",1500);
+	        		setTimeout(function(){
+     				try{
+     					close();
+     				}catch(e){
+     	      			back();
+     	      		}
+     			},1500);
 		    }
 	        }
 	        

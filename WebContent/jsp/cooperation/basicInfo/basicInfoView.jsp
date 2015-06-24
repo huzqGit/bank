@@ -9,60 +9,117 @@
 <script src="${pageContext.request.contextPath}/miniui/json2.js" type="text/javascript"></script>
 <title>经济合作组织基本信息</title>
 <style type="text/css">
-*{margin:0;padding:0}
-body{scrollbar-base-color:#90D5EA;line-height:120%;font-family:"仿宋_GB2312";font-size:13pt;}
-.queryPane{
-background:linear-gradient(#6DC8E3,white);
-/* IE6 & IE7 */
-filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0 , startColorstr = '#6DC8E3', 
-endColorstr = 'white' ); 
-/* IE8 */
--ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType = 0,startColorstr = '#6DC8E3', 
-endColorstr = 'white' )"; 
+* {
+	margin: 0;
+	padding: 0
 }
-.labelName{font-family:"仿宋_GB2312";font-size:14pt;line-height:150%;font-weight:bold;color:darkgreen;}
-input{border:1px solid #8AD3E9;background-color:#F5F7CF;height:20px;}
-.table_m{width:98%;height:250px;margin:auto auto;overflow-y:auto;overflow-x:hidden;}
-.table_m table{width:100%;border-bottom:1px dotted gray}
-.table_m tr:hover{background:#90D5EA}
-.table_m table td{height:30px;line-height:30px;border-top:1px dotted gray;}
-.mini-panel-border{
-border-color:#D2D2D2;
+
+body {
+	scrollbar-base-color: #90D5EA;
+	line-height: 120%;
+	font-family: "仿宋_GB2312";
+	font-size: 13pt;
 }
-.mini-grid-headerCell-nowrap{
-background:white
-}
-.mini-grid-headerCell{
-background:white;
-border-top:0px;
-border-color:#D2D2D2
-}
-.mini-grid-headerCell-inner{
-font-family:"仿宋_GB2312";
-font-size:12pt;
-}
-.mini-grid-column-splitter{
-background:white
-}
-.mini-grid-pager{
-background:white
-}
-.bg{
-	background:url(images/toolbar/toolbar.png) #e7eaee repeat-x 0px 0px
-}
-.topmenu{
-	width:100%;
-	height:30px;
-	background:linear-gradient(#6DC8E3,white);
+
+.queryPane {
+	background: linear-gradient(#6DC8E3, white);
 	/* IE6 & IE7 */
-	filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0 , startColorstr = '#6DC8E3', 
-	endColorstr = 'white' ); 
+	filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0,
+		startColorstr= '#6DC8E3', endColorstr= 'white');
 	/* IE8 */
-	-ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType = 0,startColorstr = '#6DC8E3', 
-	endColorstr = 'white' )"; 
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType= 0,
+		startColorstr= '#6DC8E3', endColorstr= 'white')";
 }
-.zero{
-	height:1px;
+
+.labelName {
+	font-family: "仿宋_GB2312";
+	font-size: 14pt;
+	line-height: 150%;
+	font-weight: bold;
+	color: darkgreen;
+}
+
+input {
+	border: 1px solid #8AD3E9;
+	background-color: #F5F7CF;
+	height: 20px;
+}
+
+.table_m {
+	width: 98%;
+	height: 250px;
+	margin: auto auto;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.table_m table {
+	width: 100%;
+	border-bottom: 1px dotted gray
+}
+
+.table_m tr:hover {
+	background: #90D5EA
+}
+
+.table_m table td {
+	height: 30px;
+	line-height: 30px;
+	border-top: 1px dotted gray;
+}
+
+.mini-panel-border {
+	border-color: #D2D2D2;
+}
+
+.mini-grid-headerCell-nowrap {
+	background: white
+}
+
+.mini-grid-headerCell {
+	background: white;
+	border-top: 0px;
+	border-color: #D2D2D2
+}
+
+.mini-grid-headerCell-inner {
+	font-family: "仿宋_GB2312";
+	font-size: 12pt;
+}
+
+.mini-grid-column-splitter {
+	background: white
+}
+
+.mini-grid-pager {
+	background: white
+}
+
+.bg {
+	background: url(images/toolbar/toolbar.png) #e7eaee repeat-x 0px 0px
+}
+.btn {
+	background-color: #FFF;
+	border: 1px solid #CDCDCD;
+	height: 24px;
+	width: 70px;
+	display: inline-block;
+	cursor: hand;
+}
+.topmenu {
+	width: 100%;
+	height: 30px;
+	background: linear-gradient(#6DC8E3, white);
+	/* IE6 & IE7 */
+	filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0,
+		startColorstr= '#6DC8E3', endColorstr= 'white');
+	/* IE8 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType= 0,
+		startColorstr= '#6DC8E3', endColorstr= 'white')";
+}
+
+.zero {
+	height: 1px;
 }
 </style>
 </head>
@@ -94,10 +151,10 @@ background:white
 			<input  id="orgaCode" name="orgaCode" class="mini-textbox"  emptyText="请输入机构编码" style="font-size:9pt"></td>
 		<td width="5%"></td>
 		<td width="10%" align="left">
-			<input type="button" value=""  onclick="onSearch()"style="width:100px;height:25px;border:0;background:url(/bank/images/query.png) no-repeat">
+			<input type="button" value=""  onclick="onSearch()"style="width:100px;height:25px;border:0;background:url(/bank/images/query.png) no-repeat" class="btn">
 		</td>
 		<td width="10%" align="left">
-			<input type="button" value=""  onclick="add()" style="width:100px;height:25px;border:0;background:url(/bank/images/LuRu.png) no-repeat">
+			<input type="button" value=""  onclick="add()" style="width:100px;height:25px;border:0;background:url(/bank/images/LuRu.png) no-repeat" class="btn">
 		</td>
 	</tr>
 </table>
@@ -115,10 +172,10 @@ background:white
 	             <div field="registerDate" width="120" headerAlign="center" dateFormat="yyyy-MM-dd" allowSort="true" >注册日期</div>    
 	             <div field="registerAddress" width="120" headerAlign="center" allowSort="true">注册地址</div>                            
 	             <div field="mailAddress" width="120" headerAlign="center" allowSort="true">通信地址</div>                            
-	             <div field="registerCapital" width="100" align="center" headerAlign="center">注册资金</div>
-	             <div field="realCapital" width="100" align="center" headerAlign="center">实收资金</div>
-	             <div field="recorder" width="100" align="center" headerAlign="center">创建人</div>
-	             <div field="recordTime" width="130" headerAlign="center" dateFormat="yyyy-MM-dd hh:mm:ss" allowSort="true">创建时间</div>
+	             <div field="registerCapital" width="100" align="center" headerAlign="center" allowSort="true" >注册资金</div>
+	             <div field="realCapital" width="100" align="center" headerAlign="center" allowSort="true" >实收资金</div>
+	             <div field="recorder" width="100" align="center" headerAlign="center" allowSort="true" >创建人</div>
+	             <div field="recordTime" width="130" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm:ss" allowSort="true">创建时间</div>
 	             <div name="action" width="150" headerAlign="center" align="center" renderer="onActionRenderer" cellStyle="padding:0;"></div> 
 	          </div>
   </div>
@@ -171,22 +228,24 @@ mini.get("win1").show();
 	  function remove() {
         var rows = grid.getSelecteds();
         if (rows.length == 1) {
-            if (confirm("确定删除选中记录？")) {
-                var id = rows[0].cooperationId;
-                grid.loading("操作中，请稍后......");
-                $.ajax({
-                    url: "${pageContext.request.contextPath}/economy/deleteByKey.do?id=" +id,
-                    success: function (text) {
-                        grid.reload();
-                    },
-                    error: function () {
-                  	  alert("删除失败");
-                  	  grid.reload();
-                    }
-                });
-            }
+            mini.confirm("确定删除选中记录？","删除",function(action){
+            	if(action=='ok'){
+            		var id = rows[0].cooperationId;
+                    grid.loading("操作中，请稍后......");
+                    $.ajax({
+                        url: "${pageContext.request.contextPath}/economy/deleteByKey.do?id=" +id,
+                        success: function (text) {
+                            grid.reload();
+                        },
+                        error: function () {
+                      	  mini.alert("删除失败");
+                      	  grid.reload();
+                        }
+                    });
+            	}
+            });
         } else {
-            alert("请选中一条记录");
+        		mini.alert("请选择数据后操作!");
         }
     }
 	  
@@ -207,41 +266,49 @@ mini.get("win1").show();
 	 
 	 function showReport(cooperationId){
 		var rows = grid.getSelecteds();
-		if(typeof cooperationId == 'object'){
-			cooperationId = rows[0].cooperationId;
+		if (rows.length == 1) {
+			if(typeof cooperationId == 'object'){
+				cooperationId = rows[0].cooperationId;
+			}
+			var win =  mini.open({
+	           url: '${pageContext.request.contextPath}/common/viewForm.do?dest=cooperation/cooperationReoprt&sys_key=cooperationId;rightClick&sys_value='+cooperationId+';rightClick',
+	           title: "", width: 800, height: 500,
+	           onload: function () {
+	               
+	           },
+	           ondestroy: function (action) {
+	               //grid.reload();
+	           }
+	         });
+			win.setHeaderCls("bg topmenu");
+			win.max();
+		}else{
+			mini.alert("请选择数据后操作!");
 		}
-		var win =  mini.open({
-           url: '${pageContext.request.contextPath}/common/viewForm.do?dest=cooperation/cooperationReoprt&sys_key=cooperationId;rightClick&sys_value='+cooperationId+';rightClick',
-           title: "", width: 800, height: 500,
-           onload: function () {
-               
-           },
-           ondestroy: function (action) {
-               //grid.reload();
-           }
-         });
-		win.setHeaderCls("bg topmenu");
-		win.max();
 	}
 	 
 	 function edit(cooperationId){
 		var rows = grid.getSelecteds();
-		if(typeof cooperationId == 'object'){
-			cooperationId = rows[0].cooperationId;
+		if (rows.length == 1) {
+			if(typeof cooperationId == 'object'){
+				cooperationId = rows[0].cooperationId;
+			}
+			var win =  mini.open({
+	           url: '${pageContext.request.contextPath}/common/editForm.do?dest=cooperation/cooperationForm&sys_key=cooperationId;rightClick&sys_value='+cooperationId+';rightClick',
+	           title: "编辑", width: 800, height: 500,
+	           onload: function () {
+	               
+	           },
+	           ondestroy: function (action) {
+	               grid.reload();
+	               
+	           }
+	         });
+			win.setHeaderCls("bg topmenu zero");
+			win.max();
+	 	}else{
+			mini.alert("请选择数据后操作!");
 		}
-		var win =  mini.open({
-           url: '${pageContext.request.contextPath}/common/editForm.do?dest=cooperation/cooperationForm&sys_key=cooperationId;rightClick&sys_value='+cooperationId+';rightClick',
-           title: "编辑", width: 800, height: 500,
-           onload: function () {
-               
-           },
-           ondestroy: function (action) {
-               grid.reload();
-               
-           }
-         });
-		win.setHeaderCls("bg topmenu zero");
-		win.max();
 	 }
 	 
 	 function view(cooperationId){
@@ -249,11 +316,9 @@ mini.get("win1").show();
            url: '${pageContext.request.contextPath}/common/viewForm.do?dest=cooperation/cooperationForm&sys_key=cooperationId&sys_value='+cooperationId,
            title: "查阅", width: 800, height: 500,
            onload: function () {
-               
            },
            ondestroy: function (action) {
                grid.reload();
-               tree.reload();
            }
        });
 	 }

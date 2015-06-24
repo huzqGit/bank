@@ -46,8 +46,8 @@ public class CooperationController {
 	@Resource(name="cooperationImporter")
 	private CooperationImporter cooperationImporter;
 	
-	private List<Map<String, String>> list = new ArrayList<Map<String,String>>();
-	
+	public static Map<String,List<Map<String, String>>> uMap = new HashMap<String, List<Map<String,String>>>();
+			
 	@RequestMapping(value="saveCooperation",method = RequestMethod.POST)
 	public ModelAndView save(HttpServletRequest request, 
 			HttpServletResponse response) throws Exception{
@@ -160,11 +160,13 @@ public class CooperationController {
 	public void loadFileResult(HttpServletRequest request, 
 			HttpServletResponse response) throws Exception{
 		HashMap<String,Object> result = new HashMap<String,Object>();
+		User user = (User) request.getSession().getAttribute(Constants.SESSION_AUTH_USER);
 		
 		int pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
 	    int pageSize = Integer.parseInt(request.getParameter("pageSize"));   
 	    List<Map<String,String>> pageList = new ArrayList<Map<String,String>>();
 	    int l = 0;
+	    List<Map<String, String>> list = uMap.get(user.getOrganId()+"$"+user.getUserId());
 	    try {
 			for(Map<String,String> map : list){
 				l = Integer.parseInt(map.get("cooperationId"));
@@ -175,7 +177,7 @@ public class CooperationController {
 		}
 	    
         result.put("data", pageList);
-        result.put("total", list.size());
+        result.put("total", list==null?0:list.size());
         String json = JSON.toJSONStringWithDateFormat(result,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
 	    response.setContentType("text/html;charset=UTF-8");
 	    response.getWriter().write(json);
@@ -201,7 +203,7 @@ public class CooperationController {
 				if("[]".equals(array)){
 					msg.put("row", "1");
 					msg.put("tip", "info");
-					msg.put("msg", "操作完成...,无数据需要导入");
+					msg.put("msg", "操作完成...");
 					list.add(msg);
 					model.addObject("msgs",list);
 					return model;
@@ -212,7 +214,8 @@ public class CooperationController {
 				list.add(msg);
 				model.addObject("msgs",list);
 				model.addObject("importError","importError");
-				this.list = list2;
+				//this.list = list2;
+				uMap.put(user.getOrganId()+"$"+user.getUserId(), list2);
 				return model;
 			} else {
 				Map<String,String> msg = new HashMap<String,String>();

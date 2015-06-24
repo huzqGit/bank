@@ -10,120 +10,120 @@
 	parameterType="com.bank.beans.FarmerCooperation">
 	insert into t_cooperation
 	<trim prefix="(" suffix=")" suffixOverrides=",">
-		<if test="organ_id != null">
+		<if test="organ_id != null and organ_id != ''">
 			organ_id,
 		</if>
-		<if test="cooperationName != null">
+		<if test="cooperationName != null and cooperationName !='' ">
 			cooperationName,
 		</if>
-		<if test="orgaCode != null">
+		<if test="orgaCode != null and orgaCode != '' ">
 			orgaCode,
 		</if>
-   		<if test="taxCode != null">
+   		<if test="taxCode != null and taxCode != '' ">
    			taxCode,
    		</if>
-		<if test="registerAddress != null">
+		<if test="registerAddress != null and registerAddress != ''">
 			registerAddress,
 		</if>
-   		<if test="mailAddress != null">
+   		<if test="mailAddress != null and mailAddress != '' ">
    			mailAddress,
    		</if>
-   		<if test ="registerDate != null">
+   		<if test ="registerDate != null and registerDate != '' ">
    			registerDate,
    		</if>
-   		<if test="registerCapital != null">
+   		<if test="registerCapital != null and registerCapital != ''">
    			registerCapital,
    		</if>
-   		<if test="realCapital != null">
+   		<if test="realCapital != null and realCapital != ''">
    			realCapital,
    		</if>
-  		<if test="legalPerson != null">
+  		<if test="legalPerson != null and legalPerson != ''">
   			legalPerson,
   		</if>
-		<if test="idNum != null">
+		<if test="idNum != null and idNum != ''">
 			idNum,
 		</if>
-   		<if test="phone != null">
+   		<if test="phone != null and phone != '' ">
    			phone,
    		</if>
-		<if test="members != null">
+		<if test="members != null and members != ''">
 			members,
 		</if>
-		<if test="businesScope != null">
+		<if test="businesScope != null and businesScope != '' ">
 			businesScope,
 		</if>
-		<if test="businessArea != null">
+		<if test="businessArea != null and businessArea != ''">
 			businessArea,
 		</if>
-		<if test="farmers != null">
+		<if test="farmers != null and farmers != '' ">
 			farmers,
 		</if>
-		<if test="connectionBase != null">
+		<if test="connectionBase != null and connectionBase != '' ">
 			connectionBase,
 		</if>
-   		<if test="recorder != null">
+   		<if test="recorder != null and recorder != ''">
    			recorder,
    		</if>
-  		<if test="recordTime != null">
+  		<if test="recordTime != null and recordTime != ''">
   			recordTime
   		</if>
 	</trim>
 	<trim prefix="values (" suffix=")" suffixOverrides=",">
-		<if test="organ_id != null">
+		<if test="organ_id != null and organ_id != ''">
 			#{organ_id,jdbcType=VARCHAR},
 		</if>
-		<if test="cooperationName != null">
+		<if test="cooperationName != null and cooperationName !='' ">
 			#{cooperationName,jdbcType=VARCHAR},
 		</if>
-		<if test="orgaCode != null">
+		<if test="orgaCode != null and orgaCode != '' ">
 			#{orgaCode,jdbcType=VARCHAR},
 		</if>
-   		<if test="taxCode != null">
+   		<if test="taxCode != null and taxCode != '' ">
    			#{taxCode,jdbcType=VARCHAR},
    		</if>
-		<if test="registerAddress != null">
+		<if test="registerAddress != null and registerAddress != ''">
 			#{registerAddress,jdbcType=VARCHAR},
 		</if>
-   		<if test="mailAddress != null">
+   		<if test="mailAddress != null and mailAddress != '' ">
    			#{mailAddress,jdbcType=VARCHAR},
    		</if>
-   		<if test ="registerDate != null">
+   		<if test ="registerDate != null and registerDate != '' ">
    			#{registerDate,jdbcType=DATE},
    		</if>
-   		<if test="registerCapital != null">
+   		<if test="registerCapital != null and registerCapital != ''">
    			#{registerCapital,jdbcType=VARCHAR},
    		</if>
-   		<if test="realCapital != null">
+   		<if test="realCapital != null and realCapital != ''">
    			#{realCapital,jdbcType=VARCHAR},
    		</if>
-  		<if test="legalPerson != null">
+  		<if test="legalPerson != null and legalPerson != ''">
   			#{legalPerson,jdbcType=VARCHAR},
   		</if>
-		<if test="idNum != null">
+		<if test="idNum != null and idNum != ''">
 			#{idNum,jdbcType=VARCHAR},
 		</if>
-   		<if test="phone != null">
+   		<if test="phone != null and phone != '' ">
    			#{phone,jdbcType=VARCHAR},
    		</if>
-		<if test="members != null">
+		<if test="members != null and members != ''">
 			#{members,jdbcType=INTEGER},
 		</if>
-		<if test="businesScope != null">
+		<if test="businesScope != null and businesScope != '' ">
 			#{businesScope,jdbcType=VARCHAR},
 		</if>
-		<if test="businessArea != null">
+		<if test="businessArea != null and businessArea != ''">
 			#{businessArea,jdbcType=INTEGER},
 		</if>
-		<if test="farmers != null">
+		<if test="farmers != null and farmers != '' ">
 			#{farmers,jdbcType=INTEGER},
 		</if>
-		<if test="connectionBase != null">
+		<if test="connectionBase != null and connectionBase != '' ">
 			#{connectionBase,jdbcType=VARCHAR},
 		</if>
-   		<if test="recorder != null">
+   		<if test="recorder != null and recorder != ''">
    			#{recorder,jdbcType=VARCHAR},
    		</if>
-  		<if test="recordTime != null">
+  		<if test="recordTime != null and recordTime != ''">
   			#{recordTime,jdbcType=TIMESTAMP}
   		</if>
 	</trim>

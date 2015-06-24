@@ -53,9 +53,29 @@ a img {	border:none; }
 <!--[if lt IE 7]>
 <script type="text/javascript" src="js/unitpngfix.js"></script>
 <![endif]-->
+<script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
 <script type='text/javascript'>
+	window.onbeforeunload = function(){
+		outAction();
+		//var warning="===========确认离开该页面?=================";
+		//return warning;
+	}
+	/* window.onunload = function(){
+		var warning="谢谢光临";
+		alert(warning);
+	}; */
 	function go2Login(){
+		outAction();
 		window.parent.location.href="/bank/jsp/login/login.jsp";
+	}
+	function outAction(){
+		$.ajax({
+			url: "/bank/user/logoutAction.do",
+			type:'post',
+			async:false,
+			error:function(){},
+			success:function(){}
+		});
 	}
 	//左侧链接方法
 	function linkToLeft(url,menuid){

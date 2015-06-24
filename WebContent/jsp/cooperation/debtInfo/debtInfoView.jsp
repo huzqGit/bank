@@ -9,60 +9,119 @@
 <script src="${pageContext.request.contextPath}/miniui/json2.js" type="text/javascript"></script>
 <title>企业主要财务指标</title>
 <style type="text/css">
-*{margin:0;padding:0}
-body{scrollbar-base-color:#90D5EA;line-height:120%;font-family:"仿宋_GB2312";font-size:13pt;}
-.queryPane{
-background:linear-gradient(#6DC8E3,white);
-/* IE6 & IE7 */
-filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0 , startColorstr = '#6DC8E3', 
-endColorstr = 'white' ); 
-/* IE8 */
--ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType = 0,startColorstr = '#6DC8E3', 
-endColorstr = 'white' )"; 
+* {
+	margin: 0;
+	padding: 0
 }
-.labelName{font-family:"仿宋_GB2312";font-size:14pt;line-height:150%;font-weight:bold;color:darkgreen;}
-input{border:1px solid #8AD3E9;background-color:#F5F7CF;height:20px;}
-.table_m{width:98%;height:250px;margin:auto auto;overflow-y:auto;overflow-x:hidden;}
-.table_m table{width:100%;border-bottom:1px dotted gray}
-.table_m tr:hover{background:#90D5EA}
-.table_m table td{height:30px;line-height:30px;border-top:1px dotted gray;}
-.mini-panel-border{
-	border-color:#D2D2D2;
+
+body {
+	scrollbar-base-color: #90D5EA;
+	line-height: 120%;
+	font-family: "仿宋_GB2312";
+	font-size: 13pt;
 }
-.mini-grid-headerCell-nowrap{
-	background:white
-}
-.mini-grid-headerCell{
-	background:white;
-	border-top:0px;
-	border-color:#D2D2D2
-}
-.mini-grid-headerCell-inner{
-font-family:"仿宋_GB2312";
-font-size:12pt;
-}
-.mini-grid-column-splitter{
-background:white
-}
-.mini-grid-pager{
-background:white
-}
-.bg{
-	background:url(images/toolbar/toolbar.png) #e7eaee repeat-x 0px 0px
-}
-.topmenu{
-	width:100%;
-	height:30px;
-	background:linear-gradient(#6DC8E3,white);
+
+.queryPane {
+	background: linear-gradient(#6DC8E3, white);
 	/* IE6 & IE7 */
-	filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0 , startColorstr = '#6DC8E3', 
-	endColorstr = 'white' ); 
+	filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0,
+		startColorstr= '#6DC8E3', endColorstr= 'white');
 	/* IE8 */
-	-ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType = 0,startColorstr = '#6DC8E3', 
-	endColorstr = 'white' )"; 
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType= 0,
+		startColorstr= '#6DC8E3', endColorstr= 'white')";
 }
-.zero{
-	height:1px;
+
+.labelName {
+	font-family: "仿宋_GB2312";
+	font-size: 14pt;
+	line-height: 150%;
+	font-weight: bold;
+	color: darkgreen;
+}
+
+input {
+	border: 1px solid #8AD3E9;
+	background-color: #F5F7CF;
+	height: 20px;
+}
+
+.table_m {
+	width: 98%;
+	height: 250px;
+	margin: auto auto;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.table_m table {
+	width: 100%;
+	border-bottom: 1px dotted gray
+}
+
+.table_m tr:hover {
+	background: #90D5EA
+}
+
+.table_m table td {
+	height: 30px;
+	line-height: 30px;
+	border-top: 1px dotted gray;
+}
+
+.mini-panel-border {
+	border-color: #D2D2D2;
+}
+
+.mini-grid-headerCell-nowrap {
+	background: white
+}
+
+.mini-grid-headerCell {
+	background: white;
+	border-top: 0px;
+	border-color: #D2D2D2
+}
+
+.mini-grid-headerCell-inner {
+	font-family: "仿宋_GB2312";
+	font-size: 12pt;
+}
+
+.mini-grid-column-splitter {
+	background: white
+}
+
+.mini-grid-pager {
+	background: white
+}
+
+.bg {
+	background: url(images/toolbar/toolbar.png) #e7eaee repeat-x 0px 0px
+}
+
+.topmenu {
+	width: 100%;
+	height: 30px;
+	background: linear-gradient(#6DC8E3, white);
+	/* IE6 & IE7 */
+	filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0,
+		startColorstr= '#6DC8E3', endColorstr= 'white');
+	/* IE8 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType= 0,
+		startColorstr= '#6DC8E3', endColorstr= 'white')";
+}
+
+.btn {
+	background-color: #FFF;
+	border: 1px solid #CDCDCD;
+	height: 24px;
+	width: 70px;
+	display: inline-block;
+	cursor: hand;
+}
+
+.zero {
+	height: 1px;
 }
 </style>
 </head>
@@ -70,7 +129,7 @@ background:white
 <ul id="treeMenu" class="mini-contextmenu"  onbeforeopen="onBeforeOpen">        
      <li name="add" iconCls="icon-add" onclick="add">新增</li>
     	<li class="separator"></li>
-    	<li name="save" iconCls="icon-save" onclick="save">保存</li>
+    	<!-- <li name="save" iconCls="icon-save" onclick="save">保存</li> -->
     	<li name="remove" iconCls="icon-edit" onclick="edit">编辑</li>
 	<li name="remove" iconCls="icon-remove" onclick="remove">删除</li>
 </ul>
@@ -78,8 +137,7 @@ background:white
 <form id="farmer" action="" method="POST">
 <table width="100%" height="60px" style="vertical-align:middle;">
 	<tr>
-		<td  width="5%"align="right" >
-		</td>
+		<td width="3%" ></td>
 		<td class="labelName" width="11%">
 			<font color="red"></font>合作社名称:&nbsp;
 		</td>
@@ -94,10 +152,10 @@ background:white
 			<input  id="organcode" name="organcode" class="mini-textbox"  emptyText="请输入机构编码" style="font-size:9pt"></td>
 		<td width="5%"></td>
 		<td width="10%" align="left">
-			<input type="button" value=""  onclick="onSearch()"style="width:100px;height:25px;border:0;background:url(/bank/images/query.png) no-repeat">
+			<input type="button" value=""  onclick="onSearch()"style="width:100px;height:25px;border:0;background:url(/bank/images/query.png) no-repeat" class="btn">
 		</td>
 		<td width="10%" align="left">
-			<input type="button" value=""  onclick="add()" style="width:100px;height:25px;border:0;background:url(/bank/images/LuRu.png) no-repeat">
+			<input type="button" value=""  onclick="add()" style="width:100px;height:25px;border:0;background:url(/bank/images/LuRu.png) no-repeat" class="btn">
 		</td>
 	</tr>
 </table>
@@ -106,7 +164,7 @@ background:white
 <div id="datagrid1" class="mini-datagrid" style="width:98%;margin:auto auto;height:340px;background-color:white" 
            url="${pageContext.request.contextPath}/economy/debt/loadAllFarmerCooperationDebt.do" idField="debtid"
             sizeList="[5,10,20,50]" pageSize="20" frozenStartColumn="0" frozenEndColumn="1"
-            allowCellEdit="true" allowCellSelect="true" multiSelect="true" allowResize="true"
+            allowCellEdit="false" allowCellSelect="true" multiSelect="false" allowResize="true"
         	  editNextOnEnterKey="true"  editNextRowCell="true" contextMenu="#treeMenu">
        <div property="columns">
           <div type="indexcolumn" >
@@ -162,7 +220,7 @@ background:white
 		<div field="paidaddedtax" width="120" headerAlign="center" allowSort="true" >实交增值税<input property="editor" class="mini-textbox" style="width:100%;" minWidth="150" /></div>	<div field="paidaddedtax2" width="120" headerAlign="center" allowSort="true" >实交增值税(期望值)<input property="editor" class="mini-textbox" style="width:100%;" minWidth="150" /></div>
 		<div field="netprofit" width="120" headerAlign="center" allowSort="true" >利润净额<input property="editor" class="mini-textbox" style="width:100%;" minWidth="150" /></div>	<div field="netprofit2" width="120" headerAlign="center" allowSort="true" >利润净额(期望值)<input property="editor" class="mini-textbox" style="width:100%;" minWidth="150" /></div>
 		<div field="recorder" width="120" headerAlign="center" allowSort="true" >记录人</div>
-          <div field="recordtime" width="150" headerAlign="center" dateFormat="yyyy-MM-dd hh:mm:ss" allowSort="true">创建时间</div>                
+          <div field="recordtime" width="150" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm:ss" allowSort="true">创建时间</div>                
         	<div name="action" width="70" headerAlign="center" align="center" renderer="onActionRenderer" cellStyle="padding:0;"></div>
         </div>
   </div>
@@ -196,7 +254,6 @@ background:white
 		            }
 		        });
 		  }else{
-			  showTips("数据没有改变");
 		  }
      }
 	  function showTips(msg) {
@@ -228,7 +285,8 @@ background:white
 	  function remove() {
         var rows = grid.getSelecteds();
         if (rows.length == 1) {
-            if (confirm("确定删除选中记录？")) {
+        	 mini.confirm("确定删除选中记录？","删除",function(action){
+             	if(action=='ok'){
                 var id = rows[0].debtid;
                 grid.loading("操作中，请稍后......");
                 $.ajax({
@@ -241,9 +299,9 @@ background:white
                   	  grid.reload();
                     }
                 });
-            }
+             	}});
         } else {
-            alert("请选中一条记录");
+        		mini.alert("请选择数据后操作!");
         }
     }
 	 $("#fixColumn").toggle(
@@ -272,22 +330,26 @@ background:white
 		 });*/
 	 }
 	 function edit(cooperationId){
-		 var rows = grid.getSelecteds();
+		var rows = grid.getSelecteds();
+		if (rows.length == 1) {
 			if(typeof cooperationId == 'object'){
 				cooperationId = rows[0].debtid;
 			}
-		 var win =  mini.open({
-	           url: '${pageContext.request.contextPath}/common/editForm.do?dest=cooperation/cooperationDebtForm&sys_key=debtid;rightClick&sys_value='+cooperationId+';rightClick',
-	           title: "编辑", width: 800, height: 500,
-	           onload: function () {
-	               
-	           },
-	           ondestroy: function (action) {
-	               grid.reload();
-	           }
-       	});
-		win.setHeaderCls("bg topmenu zero ");
-		win.max();
+			 var win =  mini.open({
+		           url: '${pageContext.request.contextPath}/common/editForm.do?dest=cooperation/cooperationDebtForm&sys_key=debtid;rightClick&sys_value='+cooperationId+';rightClick',
+		           title: "编辑", width: 800, height: 500,
+		           onload: function () {
+		               
+		           },
+		           ondestroy: function (action) {
+		               grid.reload();
+		           }
+	       	});
+			win.setHeaderCls("bg topmenu zero ");
+			win.max();
+		} else {
+    			mini.alert("请选择数据后操作!");
+    		}
 	 }
 	 
 	 function view(cooperationId){

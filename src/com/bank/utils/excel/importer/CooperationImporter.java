@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import com.bank.beans.FarmerCooperation;
 import com.bank.dao.ICooperationDao;
+import com.bank.utils.PropConfig;
 import com.bank.utils.excel.ImportResult;
 import com.common.tools.DateUtils;
 import com.common.tools.StringUtil;
@@ -79,8 +80,7 @@ public class CooperationImporter extends ExcelImporter<FarmerCooperation> {
 
 	@Override
 	protected FarmerCooperation convert(Map<String, String> map) throws Exception {
-		//过滤可以为空的数据
-		String[] canNullMethod = {"getCooperationId","getId","getError_label"};
+		String[] notNullField = PropConfig.getPropValue("CooperationImporter_NotNull_Field").split(";");
 		FarmerCooperation p = new FarmerCooperation();
 		try {
 			p.setOrgan_id((String)defaultValues.get("organ_id"));
@@ -109,9 +109,9 @@ public class CooperationImporter extends ExcelImporter<FarmerCooperation> {
 			p.setConnectionBase(map.get(getLabels()[labelIndex++]));
 		} catch (Exception e) {
 			if (e.getMessage() != null && !"".equals(e.getMessage()) && !"null".equals(e.getMessage()))
-				throw new Exception(getLabels()[labelIndex]+" 格式不正确 "+e.getMessage());
+				throw new Exception("【"+getLabels()[--labelIndex]+"】为空 或 格式不正确 "+e.getMessage());
 			else
-				throw new Exception(getLabels()[labelIndex]+" 格式不正确 ");
+				throw new Exception("【"+getLabels()[--labelIndex]+"】为空 或 格式不正确 ");
 		}
 		Method[] methods = p.getClass().getDeclaredMethods();
 		String name = null;
@@ -120,20 +120,23 @@ public class CooperationImporter extends ExcelImporter<FarmerCooperation> {
 			flag = false;
 			name = m.getName();
 			if(name.startsWith("get")){
-				for(String s : canNullMethod){
+				for(String s : notNullField){
+					s = "get"+StringUtil.toUpperCaseFirstOne(s);
 					if(name.equalsIgnoreCase(s)){
 						flag = true;
 						break;
 					}
 				}
-				if (flag)
-					continue;
-				Object o = m.invoke(p);
-				if(o == null || "".equals(o)){
-					String s = StringUtil.toLowerCaseFirstOne(name.replace("get",""));
-					s = En_labels.get(s);
-					throw new Exception("Excel单元格数据("+s+")异常,获取数据的方法:"+name);
+				//判断数据是否不为空
+				if (flag){
+					Object o = m.invoke(p);
+					if(o == null || "".equals(o)){
+						String s = StringUtil.toLowerCaseFirstOne(name.replace("get",""));
+						s = En_labels.get(s);
+						throw new Exception("【"+s+"】为空 或 格式不正确,获取数据的方法:"+name);
+					}
 				}
+				
 			}
 		}
 		return p;
@@ -166,6 +169,7 @@ public class CooperationImporter extends ExcelImporter<FarmerCooperation> {
 						s = s.substring(0,s.indexOf("###",1));
 						if(s.contains("DB2 SQL Error"))
 							s = s.substring(s.indexOf("DB2 SQL Error"));
+						s="【数据长度过长 或 格式不正确】"+s;
 					}
 				} catch (Exception e1) {}
 				Map<String,String> map2 = new HashMap<String, String>();

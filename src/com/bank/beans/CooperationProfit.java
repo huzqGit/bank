@@ -776,6 +776,7 @@ public class CooperationProfit extends BaseEntity<Long>{
 		field_remark.put("zzzbptgglother","其他");
 		field_remark.put("zzzbptgglundisbute","未分配利润");
 		field_remark.put("zzzbptgglundisbute_before","未分配利润应由以后年度税前利润弥补的亏损");
+		field_remark.put("error_label", "错误描述");
 		
 		for(Map.Entry<String, String> entry : field_remark.entrySet()){
 			remark_field.put(entry.getValue(), entry.getKey());

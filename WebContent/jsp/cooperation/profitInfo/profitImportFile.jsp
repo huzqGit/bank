@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="com.bank.controller.economy.CooperationController" %>
+<%@ page import="com.bank.controller.economy.CooperationProfitController" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -22,7 +22,7 @@ function judgeFile(htmlEl){
 }
 
 function downLoadExcel(){
-	window.location.href = '/bank/jsp/cooperation/model/BasicInfoModel.xlsx';
+	window.location.href = '/bank/jsp/cooperation/model/ProfitInfoModel.xlsx';
 }
 function validate(){
 	var s = document.getElementById('textfield').value;
@@ -157,7 +157,7 @@ input {
 </head>
 <body>
 <div class="file-box">
-<form action="/bank/economy/loadFile.do" method="post" enctype="multipart/form-data" onsubmit="return validate();">
+<form action="/bank/economy/profit/loadFile.do" method="post" enctype="multipart/form-data" onsubmit="return validate();">
 <table width="100%" height ="60px" style="border:1px solid #8AD3E9">
  	<tr>
  		<td class="labelName" width="30%" align="right">
@@ -190,7 +190,7 @@ input {
             <div >
                 <ol>
                 	<li>
-                        	请先<a href="/bank/jsp/cooperation/model/BasicInfoModel.xlsx"><font color="red">下载模板</font></a>后,在模板内进行操作
+                        	请先<a href="/bank/jsp/cooperation/model/ProfitInfoModel.xlsx"><font color="red">下载模板</font></a>后,在模板内进行操作
                     </li>
                     <li>
                         	支持EXCEL格式导入[Excel2003,Excel2007 等],本模板为07,需要其余版本请在Excel另存为...
@@ -271,13 +271,13 @@ input {
 </c:if>
 <%
 com.bank.beans.User user = (com.bank.beans.User) request.getSession().getAttribute("user");
-java.util.List<java.util.Map<String,String>> list = CooperationController.uMap.get(user.getOrganId()+"$"+user.getUserId());
+java.util.List<java.util.Map<String,String>> list = CooperationProfitController.uMap.get(user.getOrganId()+"$"+user.getUserId());
 %>
 <c:if test="<%=((list!=null && list.size()>0) || request.getAttribute(\"importError\") != null) %>">
 <div align="center">
-    <iframe src="/bank/common/viewView.do?dest=cooperation/cooperationImportResult" scrolling="no" 
-    			width="95%" title="错误记录及原因" frameborder="0" align="center" style="margin-top:-10px">
-    </iframe>
+<iframe src="/bank/common/viewView.do?dest=cooperation/profitInfo/profitImportResult" scrolling="no" 
+   			width="95%" title="错误记录及原因" frameborder="0" align="center" style="margin-top:-10px">
+   </iframe>
 </div>
 </c:if>
  </div>

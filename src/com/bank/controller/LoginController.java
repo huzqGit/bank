@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.bank.Constants;
 import com.bank.beans.Organ;
 import com.bank.beans.User;
+import com.bank.controller.economy.CooperationController;
+import com.bank.controller.economy.CooperationDebtController;
+import com.bank.controller.economy.CooperationProfitController;
 import com.bank.dao.IMenuDao;
 import com.bank.service.IOrganService;
 import com.bank.service.IUserService;
@@ -112,5 +116,23 @@ public class LoginController {
 		return retrunUser;
 		
 	}
+	
+	/**
+	 * 用户退出进行额外操作
+	 * @author zkongbai
+	 * @date 2015年6月23日  下午4:28:03
+	 * @version 1.0
+	 * @param response
+	 * @param request
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/logoutAction", method = RequestMethod.POST)
+    public void logoutAction(HttpServletResponse response, HttpServletRequest request) throws Exception{
+		User user = (User) request.getSession().getAttribute(Constants.SESSION_AUTH_USER);
+		String key = user.getOrganId()+"$"+user.getUserId();
+		CooperationController.uMap.remove(key);
+		CooperationDebtController.uMap.remove(key);
+		CooperationProfitController.uMap.remove(key);
+    }
 
 }
