@@ -114,8 +114,10 @@ overflow-x:hidden
 </ul>
 </div>
 <form action="/bank/farmer/saveEvaluate1.do" id="farmerEvaluate" name="farmerEvaluate" method="POST">
-<input type="hidden" id="deleteMember" name="deleteMember" value=""/>
-<input type="hidden" id="farmerId" name="farmerId" value="${farmer.id}"/>
+<input name="id" class="mini-hidden" value ="${evaluate.id}"/>
+<input name="farmerid" class="mini-hidden" value="${farmer.id}"/>
+<input name="recorder" class="mini-hidden" value="${recorder}"/>
+<input name="recordtime" class="mini-hidden" value="${currentTime}"/>
 <div class="topMenu" style="background:linear-gradient(#6DC8E3,white)">
 <table width ="100%" height="60px">
 	<tr>
@@ -135,31 +137,32 @@ overflow-x:hidden
 <fieldset id="fd2" style="width:90%;margin:auto auto">
 <legend><label>村民委员会对农户家庭评价情况基本信情况</label></legend>
 <div class="fieldset-body">
-<input name="id" class="mini-hidden" value ="${evaluate.id}"/>
-<input name="recorder" class="mini-hidden" value="管理员"/>
-<input name="recordTime" class="mini-hidden" value="${currentTime}"/>
 <table border="0" cellpadding="1" cellspacing="5" width="100%" >
 <tr><td>
 <table width="100%">
 <tr>
-    <td style="width:15%"><label for="textbox2$text">家庭和睦情况:</label></td>
-    <td style="width:35%" >
+	<td class="required_text" width="2%"></td>
+    <td style="width:15%">家庭和睦情况:</td>
+    <td style="width:33%" >
     	<input name="harmonystatus" class="mini-combobox" value ="${evaluate.harmonystatus}" style="width:90%"
     	url="/bank/dic/Evaluate.txt" emptyText="请选择..."/>
     </td>
-    <td style="width:10%"><label for="textbox1$text">敬老爱幼情况:</label></td>
-    <td style="width:40%">
+    <td class="required_text" width="2%"></td>
+    <td style="width:15%">敬老爱幼情况:</td>
+    <td style="width:33%">
     	<input name="respectstatus" class="mini-combobox" value ="${evaluate.respectstatus}"style="width:90%"
     	url="/bank/dic/Evaluate.txt" emptyText="请选择..."/>
     </td>
 </tr>
 <tr>
-    <td style="width:15%"><label for="textbox1$text">邻里团结情况:</label></td>
-    <td style="width:35%">
+	<td class="required_text" width="2%"></td>
+    <td>邻里团结情况:</td>
+    <td>
     	<input name="neighborstatus" class="mini-combobox" value ="${evaluate.neighborstatus}" style="width:90%"
     	url="/bank/dic/Evaluate.txt" emptyText="请选择..."/>
     </td>
-    <td style="width:10%"><label for="textbox1$text">是否遵纪守法:</label></td>
+    <td class="required_text" width="2%"></td>
+    <td style="width:10%">是否遵纪守法</td>
     <td style="width:40%">
     	<input name="legalstatus" class="mini-combobox" value ="${evaluate.legalstatus}" required="true"
         	requiredErrorText="是否遵纪守法不能为空" style="width:90%"
@@ -167,12 +170,14 @@ overflow-x:hidden
     </td>
 </tr>
 <tr>
-    <td style="width:15%"><label for="textbox1$text">对公益事业关心程度:</label></td>
-    <td style="width:35%">
+	<td class="required_text" width="2%"></td>
+    <td>对公益事业关心程度:</td>
+    <td>
     	<input name="welfarestatus" class="mini-combobox" value ="${evaluate.welfarestatus}" style="width:90%"
     		url="/bank/dic/Evaluate.txt" emptyText="请选择..."/>
     </td>
-    <td style="width:10%"><label for="textbox1$text">是否诚实守信:</label></td>
+    <td class="required_text" width="2%"></td>
+    <td style="width:10%">是否诚实守信:</td>
     <td style="width:40%">
     	<input name="honeststatus" class="mini-combobox" value ="${evaluate.honeststatus}"  style="width:90%"
     		required="true" requiredErrorText="不能为空"
@@ -180,7 +185,8 @@ overflow-x:hidden
    </td>
 </tr>
 <tr>
-   <td style="width:15%"><label for="textbox1$text">其他:</label></td>
+   <td class="required_text" width="2%"></td>
+   <td style="width:15%">其他:</td>
    <td style="width:35%">
 	   <input name="otherstatus" class="mini-textarea" value ="${evaluate.otherstatus}" style="width:90%">
    </td>
@@ -191,9 +197,25 @@ overflow-x:hidden
 </fieldset>
 </form>
 <script type="text/javascript">
-  function back(){
-	  window.history.go(-1);
-  }
+  	function back(){
+		  window.history.go(-1);
+  	}
+	function submitForm() {           
+		var form = new mini.Form("#form1");
+	    form.validate();
+		if (form.isValid() == false) return;
+		$("form").submit();
+	}
+	function updateError(e) {
+		var id = e.sender.name + "_error";
+	    var el = document.getElementById(id);
+	    if (el) {
+	        el.innerHTML = e.errorText;
+	    }
+	}
+	function onValidation(e) {                  
+	    updateError(e);
+	}
 </script>
 </body>
 </html>

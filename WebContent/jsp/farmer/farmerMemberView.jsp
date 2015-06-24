@@ -6,94 +6,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<link href="${pageContext.request.contextPath}/jsp/farmer/form.css"  rel="stylesheet" type="text/css"/>
 <script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/jsp/farmer/farmer.js" type="text/javascript"></script>
-<style type="text/css">
-	*{margin:0;padding:0;text-decoration:none}
-	body{
-overflow-x:hidden
-}
-    .active{font-size: 15px;font-family: YouYuan;font-weight: bold;color:darkgreen}
-     .inactive{font-size: 15px;font-family: YouYuan;font-weight:bold;color:gray}
-    .display{display:block;}
-    .hidden{display:none;}
-    .line{background-color:#CCECF5;}
-    .topMenu{
-    border:1px solid #8AD3E9;
-    /* IE6 & IE7 */
-	filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0 , startColorstr = '#6DC8E3', 
-	endColorstr = 'white' ); 
-	/* IE8 */
-	-ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType = 0,startColorstr = '#6DC8E3', 
-	endColorstr = 'white' )"; 
-    }
-	#saveBtn{
-		width:100px;
-		height:25px;
-		border:0;
-		background:url(/bank/images/save.png) no-repeat
-	}
-	#backBtn{
-		width:100px;
-		height:25px;
-		border:0;
-		background:url(/bank/images/back.png) no-repeat
-	}
-	.addBtn{width:100px;height:25px;border:0;background:url(/bank/images/add.png) no-repeat}
-	.labelName{font-size:15px;font-weight:bold;color:darkgreen;}
-	.labelValue{font-size:15px;font-weight:bold;color:red;}
-	 li{
- border-bottom:2px solid green;
- float:left;
- width:85px;
- list-style-type:none;
- height:31px;
- text-align:center;
- line-height:28px;
- font-weight:bold;
- color:black;
- background-repeat:no-repeat
- }
-.active{
- float:left;
- width:100px;
- list-style-type:none;
- text-align:center;
- border-bottom:2px solid #6DC8E3;
- border-top:1px solid gray;
- border-left:1px solid gray;
- border-right:1px solid white;
- 	filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0 , startColorstr = 'white', 
-	endColorstr = '#6DC8E3' ); 
-	/* IE8 */
-	-ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType = 0,startColorstr = 'white', 
-	endColorstr = '#6DC8E3' )";  
- height:31px;
-
- background-repeat:no-repeat
-}
-.mini-panel-border{
-border-color:#D2D2D2;
-}
-.mini-grid-headerCell-nowrap{
-background:white
-}
-.mini-grid-headerCell{
-background:white;
-border-top:0px;
-border-color:#D2D2D2
-}
-.mini-grid-headerCell-inner{
-font-family:"仿宋_GB2312";
-font-size:12pt;
-}
-.mini-grid-column-splitter{
-background:white
-}
-.mini-grid-pager{
-background:white
-}
- </style>
 </head>
 <body>
 <div class="topMenu">

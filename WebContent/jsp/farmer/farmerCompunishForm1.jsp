@@ -76,8 +76,12 @@ overflow-x:hidden
  </style>
 </head>
 <body>
+<div id="form1">
 <form action="/bank/farmer/saveCompunish1.do" method="POST">
-<input type="hidden" name="farmerId" value="${farmer.id}"/>
+<input name="id" class="mini-hidden" value="${compunish.id}"/>
+<input name="farmerid" class="mini-hidden" value="${farmer.id}"/>
+<input name="recorder" class="mini-hidden" value="${recorder}"/>
+<input name="recordtime" class="mini-hidden" value="${currentTime}"/>
 <div class="topMenu" style="background:linear-gradient(#6DC8E3,white)">
 <table cellpadding="0" cellspacing="0"  height="60px">
     <tr>
@@ -88,7 +92,7 @@ overflow-x:hidden
     	<td width="2%"></td>
     	<td class="labelValue" width ="20%">${farmer.farmeridnum }</td>
     	<td width="50px" align="right">
-       	 <input type="submit" id="saveBtn"  value=""/>
+       	 <input type="button" id="saveBtn" onclick="submitForm()" value=""/>
         </td>
         <td width="50px"  >
          <input type="button" id="backBtn" onclick="back()" value=""/>
@@ -103,35 +107,48 @@ overflow-x:hidden
 <table width="100%">
 <tr>
 <td>
-<input name="id" class="mini-hidden" value="${compunish.id}"/>
-<input name="farmerid" class="mini-hidden" value="${farmer.id}"/>
-<input name="recorder" class="mini-hidden" value="${recorder}"/>
-<input name="recordtime" class="mini-hidden" value="${currentTime}"/>
 <table border="0" cellpadding="1" cellspacing="5" width="100%" ><tr><td width="100%">
 <table width="100%">
 <tr>
-	<td style="width:15%"><label for="textbox1$text"><font color="red">*</font>表彰或处罚:</label></td>
-    <td style="width:35%">
+	<td class="required_text" width="2%">*</td>
+	<td style="width:15%">表彰或处罚:</td>
+    <td style="width:33%">
     	<input name="type" class="mini-combobox"  value="${compunish.type}" style="width:90%" 
-    		required="true" requiredErrorText="表彰或处罚类型不能为空" 
+    		 errorMode="none" required="true" requiredErrorText="表彰或处罚类型不能为空" onvalidation="onValidation"
     		url="/bank/dic/CompunishType.txt" emptyText="请选择..."/>
     </td>
-	<td style="width:15%"><label for="textbox1$text"><font color="red">*</font>表彰或处罚部门:</label></td>
+    <td class="required_text" width="2%">*</td>
+	<td style="width:15%">表彰或处罚部门:</td>
     <td style="width:35%">
     	<input name="organ" class="mini-textbox"  value="${compunish.organ}" required="true"
-        	requiredErrorText="信用户评定时间不能为空"style="width:90%"/>
+        	 errorMode="none" requiredErrorText="表彰或处罚部门不能为空"style="width:90%"onvalidation="onValidation"/>
     </td>
 </tr>
 <tr>
-	<td style="width:15%"><label for="textbox1$text"><font color="red">*</font>表彰或处罚时间:</label></td>
-    <td style="width:35%">
-        	<input  name="occurtime" class="mini-datepicker" value="${compunish.occurtime}" style="width:90%"/>
+	<td></td>
+	<td id="type_error" class="errorText" colspan="2"></td>
+	<td></td>
+	<td id="organ_error" class="errorText" colspan="2"></td>
+</tr>
+<tr>
+	<td class="required_text" width="2%">*</td>
+	<td>表彰或处罚时间:</td>
+    <td>
+       <input  name="occurtime" class="mini-datepicker" value="${compunish.occurtime}" style="width:90%"
+       errorMode="none" required="true" requiredErrorText="表彰或处罚时间不能为空" onvalidation="onValidation"/>
     </td>
-	<td style="width:15%"><label for="textbox2$text"><font color="red">*</font>表彰或处罚内容:</label></td>
-    <td style="width:35%" >
-    <input name="detail" class="mini-textarea" value="${compunish.detail}" required="true"
-    	 requiredErrorText="表彰或处罚内容不能为空" style="width:90%"/>
+    <td class="required_text" width="2%">*</td>
+	<td>表彰或处罚内容:</td>
+    <td>
+    <input name="detail" class="mini-textarea" value="${compunish.detail}"style="width:90%"
+     errorMode="none" required="true" requiredErrorText="表彰或处罚内容不能为空" onvalidation="onValidation"/>
    </td>          
+</tr>
+<tr>
+	<td></td>
+	<td id="occurtime_error" class="errorText" colspan="2"></td>
+	<td></td>
+	<td id="detail_error" class="errorText" colspan="2"></td>
 </tr>
 </table>
 </td></tr></table>
@@ -142,6 +159,7 @@ overflow-x:hidden
  </div>
 </fieldset>
 </form>
+</div>
 <script type="text/javascript">
 	function back(){
 		history.go(-1);

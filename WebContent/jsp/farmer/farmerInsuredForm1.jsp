@@ -27,10 +27,12 @@
 </style>
 </head>
 <body>
-<div>
+<div id="form1">
 <form action="/bank/farmer/saveInsured1.do" method="POST">
 <input name="id" class="mini-hidden" value="${insured.id}"/>
 <input name="farmerid" class="mini-hidden" value="${farmer.id}"/>
+<input name="recorder" class="mini-hidden" value="${recorder}"/>
+<input name="recordtime" class="mini-hidden" value="${currentTime}"/>
 <div class="topMenu" style="background:linear-gradient(#6DC8E3,white)">
 <table cellpadding="0" cellspacing="0"  height="60px">
     <tr>
@@ -41,7 +43,7 @@
     	<td width="2%"></td>
     	<td class="labelValue" width ="20%">${farmer.farmeridnum }</td>
     	<td width="50px" align="right">
-       	 <input type="submit" id="saveBtn"  value=""/>
+       	 <input type="button" id="saveBtn" onclick="submitForm()" value=""/>
         </td>
         <td width="50px"  >
          <input type="button" id="backBtn" onclick="back()" value=""/>
@@ -56,34 +58,49 @@
 <div class="fieldset-body">
 <table width="100%" >
 <tr><td>
-
 <table border="0" cellpadding="1" cellspacing="15" width="100%">
 <tr><td>
 <table width="100%">
 <tr>
-	<td style="width:10%"><label for="textbox2$text">参加保险种类:</label></td>
-	<td style="width:40%" >
-		<input name="type" class="mini-combobox"  value="${insured.type}"
-			required="true" requiredErrorText="参加保险种类不能为空" style="width:90%"
+	<td class="required_text" width="2%">*</td>
+	<td style="width:10%">参加保险种类:</td>
+	<td style="width:38%" >
+		<input name="type" class="mini-combobox"  value="${insured.type}" style="width:90%"
+			errorMode="none" required="true" requiredErrorText="参加保险种类不能为空" onvalidation="onValidation"
 			url="/bank/dic/InsuredType.txt" emptyText="请选择..."/>
 	</td>
-	<td style="width:10%"><label for="textbox1$text">保险金额(元):</label></td>
-	<td style="width:40%">
+	<td class="required_text" width="2%">*</td>
+	<td style="width:10%">保险金额(元):</td>
+	<td style="width:38%">
 		<input name="amount" class="mini-textbox"  value="${insured.amount}" style="width:90%" 
-			required="true" requiredErrorText="保险金额不能为空" minValue="0"/>
+		errorMode="none" vtype="float" required="true" requiredErrorText="保险金额不能为空" onvalidation="onValidation">
 	</td>
 </tr>
-<tr>	
-	<td style="width:10%"><label for="textbox1$text">参保时间:</label></td>
-	<td style="width:40%">
+<tr>
+	<td></td>
+	<td id="type_error" class="errorText" colspan="2"></td>
+	<td></td>
+	<td id="amount_error" class="errorText" colspan="2"></td>
+</tr>
+<tr>
+	<td class="required_text" width="2%">*</td>	
+	<td style="width:10%">参保时间:</td>
+	<td style="width:38%">
 		<input name="insuretime" class="mini-datepicker" value="${insured.insuretime}" style="width:90%"
-			required="true" requiredErrorText="参保时间不能为空" />
+			errorMode="none" required="true" requiredErrorText="参保时间不能为空"onvalidation="onValidation" />
 	</td>
-	<td style="width:10%"><label for="textbox1$text">参保到期日:</label></td>
-	<td style="width:40%">
+	<td class="required_text" width="2%">*</td>
+	<td>参保到期日:</td>
+	<td>
 		<input name="limittime" class="mini-datepicker" value="${insured.limittime}" style="width:90%"
-			required="true" requiredErrorText="参保到期日不能为空"/>
+			errorMode="none" required="true" requiredErrorText="参保到期日不能为空" onvalidation="onValidation"/>
 	</td>
+</tr>
+<tr>
+	<td></td>
+	<td id="insuretime_error" class="errorText" colspan="2"></td>
+	<td></td>
+	<td id="limittime_error" class="errorText" colspan="2"></td>
 </tr>
 </table>
 </td></tr>
@@ -99,7 +116,23 @@
 <script type="text/javascript">
 	function back(){
 		history.go(-1);
-}
+	}
+	function submitForm() {           
+		var form = new mini.Form("#form1");
+	    form.validate();
+		if (form.isValid() == false) return;
+		$("form").submit();
+	}
+	function updateError(e) {
+		var id = e.sender.name + "_error";
+	    var el = document.getElementById(id);
+	    if (el) {
+	        el.innerHTML = e.errorText;
+	    }
+	}
+	function onValidation(e) {                  
+	    updateError(e);
+	}
 </script>
 </body>
 </html>

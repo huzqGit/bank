@@ -7,33 +7,14 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>农户基本贷款信息</title>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<link href="${pageContext.request.contextPath}/jsp/farmer/form.css"  rel="stylesheet" type="text/css"/>
 <script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
-<style type="text/css">
-*{margin:0;padding:0;text-decoration:none}
-.labelName{font-size:15px;font-weight:bold;color:darkgreen;}
-.labelValue{font-size:15px;font-weight:bold;color:red;}
-.topMenu{
-	border:1px solid #8AD3E9;
-    /* IE6 & IE7 */
-	filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0 , startColorstr = '#6DC8E3', 
-	endColorstr = 'white' ); 
-	/* IE8 */
-	-ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType = 0,startColorstr = '#6DC8E3', 
-	endColorstr = 'white' )"; 
-}
-#saveBtn{width:100px;height:25px;border:0;background:url(/bank/images/save.png) no-repeat}
-#backBtn{width:100px;height:25px;border:0;background:url(/bank/images/back.png) no-repeat}
-.required_text{
-color:red
-}
-</style>
 </head>
 <body>
 <div id ="form1">
 <form  id="farmerLoan" name="farmerLoan" action="/bank/loan/saveLoan1.do" method="POST">
 <input name="id" class="mini-hidden" value="${loan.id}"/>
-<input name="clientIid" class="mini-hidden"  value="${farmer.id}" />
+<input name="farmerid" class="mini-hidden"  value="${farmer.id}" />
 <input name="clientname" class="mini-hidden" value="${farmer.farmername}"/>
 <input name="idnum" class="mini-hidden" value="${farmer.farmeridnum}"/>
 <input name="clientnum" class="mini-hidden" value="${clientnum}"/>
@@ -43,17 +24,17 @@ color:red
 <input name="recorder" class="mini-hidden" value="${recorder}"/>
 <input name="idtype" class="mini-hidden" value="${loan.idtype}">
 <input name="recordtime" class="mini-hidden" value="${currentTime}"/>
-<div class="topMenu" style="background:linear-gradient(#6DC8E3,white)">
-<table cellpadding="0" cellspacing="0"  height="60px">
+<div class="topMenu">
+<table cellpadding="0" cellspacing="0">
     <tr>
-    	<td class="labelName" width="25%" align="right">姓名:</td>
+    	<td class="labelName" width="50px" align="right">姓名:</td>
     	<td width="2%"></td>
-    	<td class="labelValue" width="8%">${farmer.farmername }</td>
-    	<td class="labelName" width="12%" align="right">证件号码:</td>
+    	<td class="labelValue" width="100px">${farmer.farmername }</td>
+    	<td class="labelName" width="100px" align="right">证件号码:</td>
     	<td width="2%"></td>
-    	<td class="labelValue" width ="20%">${farmer.farmeridnum }</td>
-    	<td width="50px" align="right">
-       	 <input type="submit" id="saveBtn"  value=""/>
+    	<td class="labelValue" width ="100px">${farmer.farmeridnum }</td>
+    	<td width="150px" align="right">
+       	 <input type="button" id="saveBtn" onclick="submitForm()" value=""/>
         </td>
         <td width="50px"  >
          <input type="button" id="backBtn" onclick="back()" value=""/>
