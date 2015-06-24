@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.bank.beans.Farmer;
 import com.bank.beans.FarmerEvaluate;
+import com.bank.beans.FarmerEvaluateExample;
 import com.common.exception.CreateException;
 import com.common.exception.DAOException;
 import com.common.exception.DataNotFoundException;
@@ -19,4 +20,5 @@ public interface IFarmerEvaluateService extends
 	public FarmerEvaluate findByID(Long farmerId);
 	public List<FarmerEvaluate> findPagingByFarmerId(int pageIndex,int pageSize,
 			String sortField,String sortOrder,Long farmerId);
+	public List<FarmerEvaluate> selectByExample(FarmerEvaluateExample example);
 }

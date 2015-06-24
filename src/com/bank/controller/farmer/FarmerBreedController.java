@@ -1,5 +1,6 @@
 package com.bank.controller.farmer;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
@@ -73,7 +74,7 @@ public class FarmerBreedController {
 		}
 		Farmer farmer = null;
 		try {
-			farmer = farmerService.findByPK(breed.getFarmerId());
+			farmer = farmerService.findByPK(breed.getFarmerid());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -142,17 +143,31 @@ public class FarmerBreedController {
 		return view;
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/loadBreed", method = RequestMethod.POST)
-	public ModelAndView loadBreed(@RequestParam(value="fid",required=true) String fid, 
-			HttpServletResponse response) throws Exception {
+	public ModelAndView loadBreed(@RequestParam(value="fid") Long fid, 
+			@RequestParam(value="pageIndex") int pageIndex,
+			@RequestParam(value="pageSize") int pageSize,
+			@RequestParam(value="sortField") String sortField,
+			@RequestParam(value="sortOrder") String sortOrder,
+			HttpServletRequest request,HttpServletResponse response) {
 
-		Long farmerId=Long.valueOf(fid);
-		List<FarmerBreed> breeds = farmerBreedService.findBreedByFarmer(farmerId);
-		String json = JSON.toJSONStringWithDateFormat(breeds,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
+		int totalNumber = farmerBreedService.findTotalNumberByFarmerId(fid);
+		List<FarmerBreed> breeds = farmerBreedService.findPagingByFarmerId(pageIndex, pageSize, sortField, sortOrder, fid);
+		Map map = new HashMap();
+		map.put("total", totalNumber);
+		map.put("data", breeds);
+		String json = JSON.toJSONStringWithDateFormat(map,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
 		response.setContentType("text/html;charset=UTF-8");
-		PrintWriter writer = response.getWriter();
-		writer.write(json);
-		writer.flush();
+		PrintWriter writer;
+		try {
+			writer = response.getWriter();
+			writer.write(json);
+			writer.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 		
 	}

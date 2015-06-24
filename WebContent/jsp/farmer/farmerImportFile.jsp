@@ -6,26 +6,14 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-    <style type="text/css">
-        *{
-         margin:0;
-         padding:0;
-        }
-        body{
-            font-size: 14px;
-        }
-        legend{
+<style type="text/css">
+ *{ margin:0;padding:0;}
+body{font-size: 14px; }
+legend{
 
             font-weight: bold;
             color: seagreen;
             font-family:"圆幼","宋体" ;
-        }
-        table{
-            margin-top: 10px;
-            margin-bottom: 10px;
-            width:100%;
-
-
         }
         li{
             margin-top: 5px;

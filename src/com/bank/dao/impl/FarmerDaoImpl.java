@@ -4,16 +4,32 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.bank.beans.Apply;
 import com.bank.beans.Farmer;
+import com.bank.beans.FarmerExample;
 import com.bank.dao.IFarmerDao;
 import com.common.dao.impl.GenericMyBatisDAOSupport;
 
 @Repository("farmerDao")
 public class FarmerDaoImpl extends GenericMyBatisDAOSupport<Farmer, Long>
 	implements IFarmerDao {
+
+	@Override
+	public void updateBySelective(Farmer farmer) {
+		// TODO Auto-generated method stub
+		this.getSqlSession().update("farmer.updateBySelective",farmer);
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public int findTotalNumber(Map paramMap) {
+		// TODO Auto-generated method stub
+		int totalNumber = this.getSqlSession().selectOne("farmer.findTotalNumber",paramMap);
+		return totalNumber;
+	}
 
 	@Override
 	public List<Farmer> findByFarmerIds(List<Long> farmerIds) {
@@ -25,12 +41,28 @@ public class FarmerDaoImpl extends GenericMyBatisDAOSupport<Farmer, Long>
 		}
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public List<Farmer> findPagingByPK(int pageIndex, int pageSize,
+			String sortField, String sortOrder, List<Long> farmerIds) {
+		// TODO Auto-generated method stub
+		Map map = new HashMap();
+		int start = pageIndex * pageSize;
+		int end = start + pageSize;
+		map.put("farmerIds",farmerIds);
+		map.put("start",start);
+		map.put("end",end);
+		map.put("sortOrder",sortOrder);
+		List<Farmer> farmers = this.getSqlSession().selectList("farmer.findPagingByPKs",map);
+		return farmers;
+	}
+
 	@Override
 	public Farmer findByID(String farmerIdNum,String organId) {
 		
 		Map<String,String> map = new HashMap<String,String>();
-		map.put("farmerIdNum", farmerIdNum);
-		map.put("runitId", organId);
+		map.put("farmeridnum", farmerIdNum);
+		map.put("sourcecode", organId);
 		Farmer farmer = this.getSqlSession().selectOne("farmer.findByID",map);
 		return farmer;
 	}
@@ -89,5 +121,25 @@ public class FarmerDaoImpl extends GenericMyBatisDAOSupport<Farmer, Long>
 		return applys;
 	}
 
+	@Override
+	public Farmer findSignalByWhereClause(@Param("example")Map param) {
+		// TODO Auto-generated method stub
+		Farmer farmer = this.getSqlSession().selectOne("farmer.findByWhereClause",param);
+		return farmer;
+	}
+
+	@Override
+	public List<Farmer> findMultiByWhereClause(@Param("example")Map param) {
+		// TODO Auto-generated method stub
+		List<Farmer> farmers = this.getSqlSession().selectList("farmer.findByWhereClause", param);
+		return farmers;
+	}
+
+	@Override
+	public List<Farmer> selectByExample(FarmerExample example) {
+		// TODO Auto-generated method stub
+		List<Farmer> farmers = this.getSqlSession().selectList("farmer.selectByExample",example);
+		return farmers;
+	}
 	
 }

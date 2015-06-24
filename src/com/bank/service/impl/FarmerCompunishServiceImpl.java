@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.bank.beans.Farmer;
 import com.bank.beans.FarmerCompunish;
+import com.bank.beans.FarmerCompunishExample;
 import com.bank.beans.FarmerEvaluate;
 import com.bank.dao.IFarmerCompunishDao;
 import com.bank.dao.IFarmerEvaluateDao;
@@ -55,7 +56,7 @@ public class FarmerCompunishServiceImpl extends GenericServiceImpl<FarmerCompuni
 		}
 		for(Iterator<FarmerCompunish> it = compunishs.iterator();it.hasNext();){
 			FarmerCompunish compunish = it.next();
-			compunish.setFarmerId(farmer.getId());
+			compunish.setFarmerid(farmer.getId());
 			if(compunish.getId() == null){
 				farmerCompunishDao.save(compunish);
 			}else{
@@ -76,6 +77,13 @@ public class FarmerCompunishServiceImpl extends GenericServiceImpl<FarmerCompuni
 			int pageSize, String sortField, String sortOrder, Long farmerId) {
 		// TODO Auto-generated method stub
 		List<FarmerCompunish> compunishs = farmerCompunishDao.findPagingByFarmerId(pageIndex, pageSize, sortField, sortOrder, farmerId);
+		return compunishs;
+	}
+
+	@Override
+	public List<FarmerCompunish> selectByExample(FarmerCompunishExample example) {
+		// TODO Auto-generated method stub
+		List<FarmerCompunish> compunishs = farmerCompunishDao.selectByExample(example);
 		return compunishs;
 	}
 	

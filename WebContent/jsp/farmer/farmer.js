@@ -101,6 +101,7 @@ function FarmerMember(index,fid){
 	    +"<td colspan=\"4\" style=\"width:100%\">"
 	    +"<table width=\"100%\">"
 	    +"<tr>"
+	    +"<td rowspan=\"2\" width=\"2%\" align=\"center\"><input id=\"delMember"+index+"\" type=\"button\" onclick=\"delMember("+index+","+fid+")\" value=\"×\"/></td>"
 	    +"<td rowspan=\"5\" width=\"2%\" align=\"center\"><input type=\"button\" onclick=\"delMember("+index+","+fid+")\" value=\"×\"/></td>"
 	    +"<td style=\"width:10%\"><label for=\"textbox1$text\"><font color=\"red\">*</font>家庭成员姓名:</label></td>"
 	    +"<td style=\"width:39%\">"

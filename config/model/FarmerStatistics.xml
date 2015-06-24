@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="farmerstatistics"> 
+<select id="queryVillages" parameterType="String" resultType="java.util.Map">
+	select * from t_sys_dic t
+	where t.dictype ='villages' order by t.dicid asc
+</select>
+<select id="queryTotalFarmer" parameterType="String" resultType="java.lang.Integer">
+	select count(distinct(a.farmeridnum))as total
+	from  t_farmer a 
+	<where>
+		<if test="_parameter != null">
+		 a.villages = #{_parameter,jdbcType=VARCHAR}
+		</if>
+	</where>
+</select>
+<select id="queryLendFarmer" parameterType="String" resultType="java.lang.Integer">
+	select count(distinct(a.farmeridnum))as total
+	from  t_farmer a ,t_loan b
+  	where a.farmerid= b.clientid
+  	<if test="_parameter != null">
+  	  	and a.villages= #{_parameter,jdbcType=VARCHAR}
+  	</if>
+</select>
+<select id="queryBalanceFarmer" parameterType="String" resultType="java.lang.Integer">
+	select count(distinct(a.farmeridnum))as total
+	from  t_farmer a ,t_loan b
+  	where a.farmerid= b.clientid
+    and b.BALANCE>0
+   <if test="_parameter != null">
+   		and a.villages= #{_parameter,jdbcType=VARCHAR}
+    </if>
+</select>
+<select id="queryBadLoanFarmer" parameterType="String" resultType="java.lang.Integer">
+	select count(distinct(a.farmeridnum))as total
+	from  t_farmer a ,t_loan b
+  	where a.farmerid= b.clientid
+    and b.grade in('3','4','5')
+    <if test="_parameter != null">
+    	and a.villages= #{_parameter,jdbcType=VARCHAR}
+    </if>
+</select>
+<select id="queryBigLenderByBalance" parameterType="Map" resultType="java.util.Map">
+select c.no,a.farmerId,a.farmerName,a.farmerIdNum,a.address,c.total 
+from t_farmer a,(select row_number() over(order by sum(a.balance) desc) as no,b.farmerId,sum(a.balance) as total 
+from t_loan a,t_farmer b
+<where>
+	a.clientid = b.farmerId
+	<if test="village != null">
+		and b.villages = #{village,jdbcType=VARCHAR}
+	</if>
+</where> 
+group by b.farmerId) c
+<where>
+	a.farmerId = c.farmerId
+	<if test="no != null">
+	<![CDATA[and c.no < #{no,jdbcType =INTEGER}]]>
+	</if>
+</where>
+order by c.total desc
+</select>
+<select id="queryBigLenderByAmount" parameterType="Map" resultType="java.util.Map">
+select c.no,a.farmerId,a.farmerName,a.farmerIdNum,a.address,c.total 
+from t_farmer a,(select row_number() over(order by sum(a.amount) desc) as no,b.farmerId,sum(a.amount) as total 
+from t_loan a,t_farmer b
+<where>
+	a.clientid = b.farmerId
+	<if test="village != null">
+		and b.villages = #{village,jdbcType=VARCHAR}
+	</if>
+</where> 
+group by b.farmerId) c
+<where>
+	a.farmerId = c.farmerId
+	<if test="no != null">
+	<![CDATA[and c.no < #{no,jdbcType =INTEGER}]]>
+	</if>
+</where>
+order by c.total desc
+</select>
+<select id="queryIncome" parameterType="String" resultType="java.util.Map">
+	select e.*,e.farmingIncome+e.avocationIncome+e.businessIncome+e.workIncome+e.otherIncome as totalIncome
+	from(select a.dicvalue as village,nvl(sum(d.farmingIncome)/10000,0) as farmingIncome,nvl(sum(d.avocationIncome)/10000,0) as avocationIncome,
+  nvl(sum(d.businessIncome)/10000,0) as businessIncome,nvl(sum(d.workIncome)/10000,0) as workIncome ,nvl(sum(d.otherIncome)/10000,0) as otherIncome
+	from t_sys_dic a left join(select * from  t_farmer b,
+	t_farmer_pay c 
+	where b.farmerid = c.farmerid
+	and c.year = #{year,jdbcType=VARCHAR}) d
+	on a.dicvalue=d.villages
+	group by a.dicvalue) e
+	order  by e.village asc
+</select>
+<select id="queryPayment" parameterType="String" resultType="java.util.Map">
+	select e.*,e.productPay+e.livingPay+e.medicalPay+e.educatePay+e.insuredPay+e.otherpay as totalPay
+	from(select a.dicvalue as village,nvl(sum(d.productPay)/10000,0) as productPay,nvl(sum(d.livingpay)/10000,0) as livingPay,nvl(sum(d.medicalpay)/10000,0) as medicalPay,
+	nvl(sum(d.educatepay)/10000,0) as educatePay ,nvl(sum(d.insuredpay)/10000,0) as insuredPay,nvl(sum(d.otherpay)/10000,0) as otherPay
+	from t_sys_dic a left join(select * from  t_farmer b,
+	t_farmer_pay c 
+	where b.farmerid = c.farmerid
+	and c.year = #{year,jdbcType=VARCHAR}) d
+	on a.dicvalue=d.villages
+	group by a.dicvalue) e
+	order  by e.village asc
+</select>
+</mapper>

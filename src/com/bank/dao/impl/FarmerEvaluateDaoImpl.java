@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.bank.beans.Farmer;
 import com.bank.beans.FarmerEvaluate;
+import com.bank.beans.FarmerEvaluateExample;
 import com.bank.beans.FarmerInsured;
 import com.bank.dao.IFarmerEvaluateDao;
 import com.common.dao.impl.GenericMyBatisDAOSupport;
@@ -47,6 +48,13 @@ public class FarmerEvaluateDaoImpl extends GenericMyBatisDAOSupport<FarmerEvalua
 		map.put("end",end);
 		map.put("sortOrder",sortOrder);
 		List<FarmerEvaluate> evaluates = this.getSqlSession().selectList("farmerevaluate.findPagingByFarmerId",map);
+		return evaluates;
+	}
+
+	@Override
+	public List<FarmerEvaluate> selectByExample(FarmerEvaluateExample example) {
+		// TODO Auto-generated method stub
+		List<FarmerEvaluate> evaluates = this.getSqlSession().selectList("farmerevaluate.selectByExample",example);
 		return evaluates;
 	}
 	

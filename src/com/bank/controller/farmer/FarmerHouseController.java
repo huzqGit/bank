@@ -41,57 +41,6 @@ public class FarmerHouseController {
 	@Resource
 	private IFarmerHouseService farmerHouseService;
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value = "/saveChanQuan",method = RequestMethod.POST)
-	public ModelAndView save(HttpServletRequest request, 
-			HttpServletResponse response) throws Exception{
-
-		String farmerData = request.getParameter("farmer");
-		String houseData = request.getParameter("house");
-		String forestData = request.getParameter("forest");
-		String breedData = request.getParameter("breed");
-		String deviceData = request.getParameter("device");
-		//這裡做了時間格式的處理
-		Object decodeJsonData = JsonUtil.Decode(farmerData);
-		String formatdata = JSON.toJSONStringWithDateFormat(decodeJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
-		JSONObject jsb = JSONObject.parseObject(formatdata);
-		Farmer farmer = (Farmer) JSON.toJavaObject(jsb, Farmer.class);
-		
-		Object houseJsonData = JsonUtil.Decode(houseData);
-		houseData = JSON.toJSONStringWithDateFormat(houseJsonData, "yyyy", SerializerFeature.WriteDateUseDateFormat);	
-		List<FarmerHouse> house = (List<FarmerHouse>)JSON.parseArray(houseData, FarmerHouse.class);
-		
-		Object forestJsonData = JsonUtil.Decode(forestData);
-		forestData = JSON.toJSONStringWithDateFormat(forestJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);	
-		List<FarmerForest> forest = (List<FarmerForest>)JSON.parseArray(forestData, FarmerForest.class);
-		
-		Object breedJsonData = JsonUtil.Decode(breedData);
-		breedData = JSON.toJSONStringWithDateFormat(breedJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);	
-		List<FarmerBreed> breed = (List<FarmerBreed>)JSON.parseArray(breedData, FarmerBreed.class);
-		
-		Object deviceJsonData = JsonUtil.Decode(deviceData);
-		deviceData = JSON.toJSONStringWithDateFormat(deviceJsonData, "yyyy", SerializerFeature.WriteDateUseDateFormat);	
-		List<FarmerDevice> device = (List<FarmerDevice>)JSON.parseArray(deviceData, FarmerDevice.class);
-		
-		if(farmer.getId() == null){
-			return null;
-		}else{
-			farmerHouseService.saveChanQuan(farmer, house, forest, breed, device);
-		}
-		Map map = new HashMap();
-		map.put("farmer",farmer);
-		map.put("house",house);
-		map.put("forest",forest);
-		map.put("breed",breed);
-		map.put("device",device);
-		String json =JSON.toJSONString(map);
-		System.out.println(json);
-		PrintWriter writer = response.getWriter();
-		writer.write(json);
-		writer.flush();
-		return null;
-		
-	}
 	@RequestMapping(value = "/saveHouse",method = RequestMethod.POST)
 	public ModelAndView saveHouse(@ModelAttribute(value="house") FarmerHouse house,
 			HttpServletRequest request,HttpServletResponse response){
@@ -107,7 +56,7 @@ public class FarmerHouseController {
 		}
 		Farmer farmer = null;
 		try {
-			farmer = farmerService.findByPK(house.getFarmerId());
+			farmer = farmerService.findByPK(house.getFarmerid());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -255,16 +204,25 @@ public class FarmerHouseController {
 	   view.addObject("devices",devices);
 	   return view;
 	}
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/loadHouse", method = RequestMethod.POST)
-	public ModelAndView loadHouse(@RequestParam(value="fid",required=true) String fid, 
-			HttpServletResponse response) {
+	public ModelAndView loadHouse(@RequestParam(value="fid") Long fid, 
+			@RequestParam(value="pageIndex") int pageIndex,
+			@RequestParam(value="pageSize") int pageSize,
+			@RequestParam(value="sortField") String sortField,
+			@RequestParam(value="sortOrder") String sortOrder,
+			HttpServletRequest request,HttpServletResponse response) {
 	
-			Long farmerId=Long.valueOf(fid);
-			List<FarmerHouse> houses = farmerHouseService.findHouseByFarmer(farmerId);
-			 String json = JSON.toJSONStringWithDateFormat(houses,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
+			int totalNumber = farmerHouseService.findTotalNumberByFarmerId(fid);
+			List<FarmerHouse> houses = farmerHouseService.findPagingByFarmerId(pageIndex, pageSize, sortField, sortOrder, fid);
+			Map map = new HashMap();
+			map.put("total", totalNumber);
+			map.put("data", houses);
+			String json = JSON.toJSONStringWithDateFormat(map,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
 			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter writer = null;
 			try {
-				PrintWriter writer = response.getWriter();
+				writer = response.getWriter();
 				writer.write(json);
 				writer.flush();
 			} catch (IOException e) {
@@ -275,43 +233,6 @@ public class FarmerHouseController {
 
 	}
 	
-	@RequestMapping(value="/loadAllHouse",method=RequestMethod.POST)
-	public ModelAndView loadAllCompany(HttpServletRequest request, 
-			HttpServletResponse response) throws Exception{
-		//查询条件
-		String farmerName = request.getParameter("farmerName");
-	    String farmerIdNum=request.getParameter("farmerIdNum");
-	    String recorder=request.getParameter("recorder");
-	    String houseProperty=request.getParameter("houseProperty");
-	    String houseType=request.getParameter("houseType");
-	    String recordTimeBegin=request.getParameter("recordTimeBegin");
-	    String recordTimeEnd=request.getParameter("recordTimeEnd");
-	    
-	    Map<String,String> query = new HashMap<String,String>();
-	    query.put("farmerName", farmerName);
-	    query.put("farmerIdNum", farmerIdNum);
-	    query.put("houseProperty", houseProperty);
-	    query.put("houseType", houseType);
-	    query.put("recorder", recorder);
-	    query.put("recordTimeBegin", recordTimeBegin);
-	    query.put("recordTimeEnd", recordTimeEnd);
-	    //分页
-	    int pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
-	    int pageSize = Integer.parseInt(request.getParameter("pageSize"));        
-	    //字段排序
-	    String sortField = request.getParameter("sortField");
-	    String sortOrder = request.getParameter("sortOrder");
-	    List<FarmerHouse> data = farmerHouseService.getPageingEntities(pageIndex, pageSize, sortField, sortOrder, query);
-	    
-	    HashMap result = new HashMap();
-        result.put("data", data);
-        result.put("total", data.size());
-        
-	    String json = JSON.toJSONStringWithDateFormat(result,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
-	    response.setContentType("text/html;charset=UTF-8");
-	    response.getWriter().write(json);
-		return null;
-	}
 	@RequestMapping(value="/typeInChanQuan",method=RequestMethod.POST)
 	public ModelAndView typeInChanQuan(HttpServletRequest request, 
 			HttpServletResponse response) throws Exception{

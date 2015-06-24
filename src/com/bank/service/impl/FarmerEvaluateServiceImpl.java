@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.bank.beans.Farmer;
 import com.bank.beans.FarmerEvaluate;
+import com.bank.beans.FarmerEvaluateExample;
 import com.bank.dao.IFarmerEvaluateDao;
 import com.bank.service.IFarmerEvaluateService;
 import com.common.dao.GenericDAO;
@@ -37,7 +38,7 @@ public class FarmerEvaluateServiceImpl extends GenericServiceImpl<FarmerEvaluate
 		if(farmer.getId() == null){
 			return ;
 		}
-		evaluate.setFarmerId(farmer.getId());
+		evaluate.setFarmerid(farmer.getId());
 		if(evaluate.getId() == null){
 			farmerEvaluateDao.save(evaluate);
 		}else{
@@ -68,6 +69,13 @@ public class FarmerEvaluateServiceImpl extends GenericServiceImpl<FarmerEvaluate
 			int pageSize, String sortField, String sortOrder, Long farmerId) {
 		// TODO Auto-generated method stub
 		List<FarmerEvaluate> evaluates = farmerEvaluateDao.findPagingByFarmerId(pageIndex, pageSize, sortField, sortOrder, farmerId);
+		return evaluates;
+	}
+
+	@Override
+	public List<FarmerEvaluate> selectByExample(FarmerEvaluateExample example) {
+		// TODO Auto-generated method stub
+		List<FarmerEvaluate> evaluates = farmerEvaluateDao.selectByExample(example);
 		return evaluates;
 	}
 	

@@ -1,5 +1,9 @@
 package com.bank.beans;
 
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.common.bean.BaseEntity;
 
 public class FarmerForest extends BaseEntity<Long> {
@@ -7,47 +11,61 @@ public class FarmerForest extends BaseEntity<Long> {
 	 * 
 	 */
 	private static final long serialVersionUID = 8668764238248835128L;
-	//农户身份证号
-	private Long farmerId;
-	//林权证编号
-	private String cardNum;
-	//林权字号
-	private String wordNum;
-	//林权使用人
-	private String user;
-	//使用权种类
-	private String useType;
-	//面积
-	private String area;
-	//蓄积量
-	private String storeNum;
-	//使用权期限
-	private String timeLimit;
-	//当前评估价格
-	private String assessPrice;
+	
+	private Long farmerid;
 
-	public Long getFarmerId() {
-		return farmerId;
+    private String cardnum;
+
+    private String wordnum;
+
+    private String user;
+
+    private String usetype;
+
+    private String area;
+
+    private String storenum;
+
+    private String timelimit;
+
+    private String assessprice;
+
+    private String sourcecode;
+
+    private String sourcename;
+
+    private String runitid;
+
+    private String runitname;
+
+    private String recorder;
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date recordtime;
+
+
+	public Long getFarmerid() {
+		return farmerid;
 	}
 
-	public void setFarmerId(Long farmerId) {
-		this.farmerId = farmerId;
+	public void setFarmerid(Long farmerid) {
+		this.farmerid = farmerid;
 	}
 
-	public String getCardNum() {
-		return cardNum;
+	public String getCardnum() {
+		return cardnum;
 	}
 
-	public void setCardNum(String cardNum) {
-		this.cardNum = cardNum;
+	public void setCardnum(String cardnum) {
+		this.cardnum = cardnum;
 	}
 
-	public String getWordNum() {
-		return wordNum;
+	public String getWordnum() {
+		return wordnum;
 	}
 
-	public void setWordNum(String wordNum) {
-		this.wordNum = wordNum;
+	public void setWordnum(String wordnum) {
+		this.wordnum = wordnum;
 	}
 
 	public String getUser() {
@@ -58,12 +76,12 @@ public class FarmerForest extends BaseEntity<Long> {
 		this.user = user;
 	}
 
-	public String getUseType() {
-		return useType;
+	public String getUsetype() {
+		return usetype;
 	}
 
-	public void setUseType(String useType) {
-		this.useType = useType;
+	public void setUsetype(String usetype) {
+		this.usetype = usetype;
 	}
 
 	public String getArea() {
@@ -74,28 +92,76 @@ public class FarmerForest extends BaseEntity<Long> {
 		this.area = area;
 	}
 
-	public String getStoreNum() {
-		return storeNum;
+	public String getStorenum() {
+		return storenum;
 	}
 
-	public void setStoreNum(String storeNum) {
-		this.storeNum = storeNum;
+	public void setStorenum(String storenum) {
+		this.storenum = storenum;
 	}
 
-	public String getTimeLimit() {
-		return timeLimit;
+	public String getTimelimit() {
+		return timelimit;
 	}
 
-	public void setTimeLimit(String timeLimit) {
-		this.timeLimit = timeLimit;
+	public void setTimelimit(String timelimit) {
+		this.timelimit = timelimit;
 	}
 
-	public String getAssessPrice() {
-		return assessPrice;
+	public String getAssessprice() {
+		return assessprice;
 	}
 
-	public void setAssessPrice(String assessPrice) {
-		this.assessPrice = assessPrice;
+	public void setAssessprice(String assessprice) {
+		this.assessprice = assessprice;
+	}
+
+	public String getSourcecode() {
+		return sourcecode;
+	}
+
+	public void setSourcecode(String sourcecode) {
+		this.sourcecode = sourcecode;
+	}
+
+	public String getSourcename() {
+		return sourcename;
+	}
+
+	public void setSourcename(String sourcename) {
+		this.sourcename = sourcename;
+	}
+
+	public String getRunitid() {
+		return runitid;
+	}
+
+	public void setRunitid(String runitid) {
+		this.runitid = runitid;
+	}
+
+	public String getRunitname() {
+		return runitname;
+	}
+
+	public void setRunitname(String runitname) {
+		this.runitname = runitname;
+	}
+
+	public String getRecorder() {
+		return recorder;
+	}
+
+	public void setRecorder(String recorder) {
+		this.recorder = recorder;
+	}
+
+	public Date getRecordtime() {
+		return recordtime;
+	}
+
+	public void setRecordtime(Date recordtime) {
+		this.recordtime = recordtime;
 	}
 
 	@Override

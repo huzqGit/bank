@@ -1,0 +1,699 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 名称空间有特殊的用途 -->
+<mapper namespace="farmerloan">
+ <resultMap id="BaseResultMap" type="com.bank.beans.FarmerLoan" >
+    <id column="LOANID" property="id" jdbcType="BIGINT" />
+    <result column="FARMERID" property="farmerid" jdbcType="BIGINT" />
+    <result column="CLIENTNUM" property="clientnum" jdbcType="VARCHAR" />
+    <result column="NOTENUM" property="notenum" jdbcType="VARCHAR" />
+    <result column="COMPACTNUM" property="compactnum" jdbcType="VARCHAR" />
+    <result column="LOANDATE" property="loandate" jdbcType="VARCHAR" />
+    <result column="LIMITDATE" property="limitdate" jdbcType="VARCHAR" />
+    <result column="LIMITDATE1" property="limitdate1" jdbcType="VARCHAR" />
+    <result column="CURRENCY" property="currency" jdbcType="VARCHAR" />
+    <result column="AMOUNT" property="amount" jdbcType="VARCHAR" />
+    <result column="BALANCE" property="balance" jdbcType="VARCHAR" />
+    <result column="OWEINTEREST" property="oweinterest" jdbcType="VARCHAR" />
+    <result column="CURRENTRATE" property="currentrate" jdbcType="VARCHAR" />
+    <result column="CLIENTNAME" property="clientname" jdbcType="VARCHAR" />
+    <result column="CLIENTTYPE" property="clienttype" jdbcType="VARCHAR" />
+    <result column="IDTYPE" property="idtype" jdbcType="VARCHAR" />
+    <result column="IDNUM" property="idnum" jdbcType="VARCHAR" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="RATETYPE" property="ratetype" jdbcType="VARCHAR" />
+    <result column="LOANUSE" property="loanuse" jdbcType="VARCHAR" />
+    <result column="GUARANTEETYPE1" property="guaranteetype1" jdbcType="VARCHAR" />
+    <result column="GRADE" property="grade" jdbcType="VARCHAR" />
+    <result column="GRADE1" property="grade1" jdbcType="VARCHAR" />
+    <result column="SETTLETYPE" property="settletype" jdbcType="VARCHAR" />
+    <result column="CHARGEPERSON" property="chargeperson" jdbcType="VARCHAR" />
+    <result column="ORGANCODE" property="organcode" jdbcType="VARCHAR" />
+    <result column="ORGANNAME" property="organname" jdbcType="VARCHAR" />
+    <result column="BUSINESSTYPE" property="businesstype" jdbcType="VARCHAR" />
+    <result column="BUSINESSBODY" property="businessbody" jdbcType="VARCHAR" />
+    <result column="PROVIDETYPE" property="providetype" jdbcType="VARCHAR" />
+    <result column="INVEST" property="invest" jdbcType="VARCHAR" />
+    <result column="TERMTYPE" property="termtype" jdbcType="VARCHAR" />
+    <result column="GUARANTEETYPE" property="guaranteetype" jdbcType="VARCHAR" />
+    <result column="FLOATSCOPE" property="floatscope" jdbcType="VARCHAR" />
+    <result column="ADJUSTTYPE" property="adjusttype" jdbcType="VARCHAR" />
+    <result column="RUNTYPE" property="runtype" jdbcType="VARCHAR" />
+    <result column="FREQUEENCY" property="frequeency" jdbcType="VARCHAR" />
+    <result column="SOURCECODE" property="sourcecode" jdbcType="VARCHAR" />
+    <result column="SOURCENAME" property="sourcename" jdbcType="VARCHAR" />
+    <result column="RUNITID" property="runitid" jdbcType="VARCHAR" />
+    <result column="RUNITNAME" property="runitname" jdbcType="VARCHAR" />
+    <result column="RECORDER" property="recorder" jdbcType="VARCHAR" />
+    <result column="RECORDTIME" property="recordtime" jdbcType="DATE" />
+    <result column="CLIENTID" property="clientid" jdbcType="BIGINT" />
+</resultMap>
+<sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+</sql>
+<sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+</sql>
+<sql id="Base_Column_List" >
+    LOANID, FARMERID, CLIENTNUM, NOTENUM, COMPACTNUM, LOANDATE, LIMITDATE, LIMITDATE1, 
+    CURRENCY, AMOUNT, BALANCE, OWEINTEREST, CURRENTRATE, CLIENTNAME, CLIENTTYPE, IDTYPE, 
+    IDNUM, PHONE, ADDRESS, RATETYPE, LOANUSE, GUARANTEETYPE1, GRADE, GRADE1, SETTLETYPE, 
+    CHARGEPERSON, ORGANCODE, ORGANNAME, BUSINESSTYPE, BUSINESSBODY, PROVIDETYPE, INVEST, 
+    TERMTYPE, GUARANTEETYPE, FLOATSCOPE, ADJUSTTYPE, RUNTYPE, FREQUEENCY, SOURCECODE, 
+    SOURCENAME, RUNITID, RUNITNAME, RECORDER, RECORDTIME, CLIENTID
+</sql>
+<select id="selectByExample" resultMap="BaseResultMap" parameterType="com.bank.beans.FarmerLoanExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_FARMER_LOAN
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+</select>
+<insert id="save" useGeneratedKeys="true" keyProperty="id" 
+	parameterType="com.bank.beans.FarmerLoan">
+	  insert into T_FARMER_LOAN
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="farmerid != null" >
+        FARMERID,
+      </if>
+      <if test="clientnum != null" >
+        CLIENTNUM,
+      </if>
+      <if test="notenum != null" >
+        NOTENUM,
+      </if>
+      <if test="compactnum != null" >
+        COMPACTNUM,
+      </if>
+      <if test="loandate != null" >
+        LOANDATE,
+      </if>
+      <if test="limitdate != null" >
+        LIMITDATE,
+      </if>
+      <if test="limitdate1 != null" >
+        LIMITDATE1,
+      </if>
+      <if test="currency != null" >
+        CURRENCY,
+      </if>
+      <if test="amount != null" >
+        AMOUNT,
+      </if>
+      <if test="balance != null" >
+        BALANCE,
+      </if>
+      <if test="oweinterest != null" >
+        OWEINTEREST,
+      </if>
+      <if test="currentrate != null" >
+        CURRENTRATE,
+      </if>
+      <if test="clientname != null" >
+        CLIENTNAME,
+      </if>
+      <if test="clienttype != null" >
+        CLIENTTYPE,
+      </if>
+      <if test="idtype != null" >
+        IDTYPE,
+      </if>
+      <if test="idnum != null" >
+        IDNUM,
+      </if>
+      <if test="phone != null" >
+        PHONE,
+      </if>
+      <if test="address != null" >
+        ADDRESS,
+      </if>
+      <if test="ratetype != null" >
+        RATETYPE,
+      </if>
+      <if test="loanuse != null" >
+        LOANUSE,
+      </if>
+      <if test="guaranteetype1 != null" >
+        GUARANTEETYPE1,
+      </if>
+      <if test="grade != null" >
+        GRADE,
+      </if>
+      <if test="grade1 != null" >
+        GRADE1,
+      </if>
+      <if test="settletype != null" >
+        SETTLETYPE,
+      </if>
+      <if test="chargeperson != null" >
+        CHARGEPERSON,
+      </if>
+      <if test="organcode != null" >
+        ORGANCODE,
+      </if>
+      <if test="organname != null" >
+        ORGANNAME,
+      </if>
+      <if test="businesstype != null" >
+        BUSINESSTYPE,
+      </if>
+      <if test="businessbody != null" >
+        BUSINESSBODY,
+      </if>
+      <if test="providetype != null" >
+        PROVIDETYPE,
+      </if>
+      <if test="invest != null" >
+        INVEST,
+      </if>
+      <if test="termtype != null" >
+        TERMTYPE,
+      </if>
+      <if test="guaranteetype != null" >
+        GUARANTEETYPE,
+      </if>
+      <if test="floatscope != null" >
+        FLOATSCOPE,
+      </if>
+      <if test="adjusttype != null" >
+        ADJUSTTYPE,
+      </if>
+      <if test="runtype != null" >
+        RUNTYPE,
+      </if>
+      <if test="frequeency != null" >
+        FREQUEENCY,
+      </if>
+       <if test="sourcecode != null" >
+        SOURCECODE,
+      </if>
+      <if test="sourcename != null" >
+        SOURCENAME,
+      </if>
+      <if test="runitid != null" >
+        RUNITID,
+      </if>
+      <if test="runitname != null" >
+        RUNITNAME,
+      </if>
+      <if test="recorder != null" >
+        RECORDER,
+      </if>
+      <if test="recordtime != null" >
+        RECORDTIME,
+      </if>
+      <if test="clientid != null" >
+        CLIENTID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="farmerid != null" >
+        #{farmerid,jdbcType=BIGINT},
+      </if>
+      <if test="clientnum != null" >
+        #{clientnum,jdbcType=VARCHAR},
+      </if>
+      <if test="notenum != null" >
+        #{notenum,jdbcType=VARCHAR},
+      </if>
+      <if test="compactnum != null" >
+        #{compactnum,jdbcType=VARCHAR},
+      </if>
+      <if test="loandate != null" >
+        #{loandate,jdbcType=VARCHAR},
+      </if>
+      <if test="limitdate != null" >
+        #{limitdate,jdbcType=VARCHAR},
+      </if>
+      <if test="limitdate1 != null" >
+        #{limitdate1,jdbcType=VARCHAR},
+      </if>
+      <if test="currency != null" >
+        #{currency,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=VARCHAR},
+      </if>
+      <if test="balance != null" >
+        #{balance,jdbcType=VARCHAR},
+      </if>
+      <if test="oweinterest != null" >
+        #{oweinterest,jdbcType=VARCHAR},
+      </if>
+      <if test="currentrate != null" >
+        #{currentrate,jdbcType=VARCHAR},
+      </if>
+      <if test="clientname != null" >
+        #{clientname,jdbcType=VARCHAR},
+      </if>
+      <if test="clienttype != null" >
+        #{clienttype,jdbcType=VARCHAR},
+      </if>
+      <if test="idtype != null" >
+        #{idtype,jdbcType=VARCHAR},
+      </if>
+      <if test="idnum != null" >
+        #{idnum,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="ratetype != null" >
+        #{ratetype,jdbcType=VARCHAR},
+      </if>
+      <if test="loanuse != null" >
+        #{loanuse,jdbcType=VARCHAR},
+      </if>
+      <if test="guaranteetype1 != null" >
+        #{guaranteetype1,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="grade1 != null" >
+        #{grade1,jdbcType=VARCHAR},
+      </if>
+      <if test="settletype != null" >
+        #{settletype,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeperson != null" >
+        #{chargeperson,jdbcType=VARCHAR},
+      </if>
+      <if test="organcode != null" >
+        #{organcode,jdbcType=VARCHAR},
+      </if>
+      <if test="organname != null" >
+        #{organname,jdbcType=VARCHAR},
+      </if>
+      <if test="businesstype != null" >
+        #{businesstype,jdbcType=VARCHAR},
+      </if>
+      <if test="businessbody != null" >
+        #{businessbody,jdbcType=VARCHAR},
+      </if>
+      <if test="providetype != null" >
+        #{providetype,jdbcType=VARCHAR},
+      </if>
+      <if test="invest != null" >
+        #{invest,jdbcType=VARCHAR},
+      </if>
+      <if test="termtype != null" >
+        #{termtype,jdbcType=VARCHAR},
+      </if>
+      <if test="guaranteetype != null" >
+        #{guaranteetype,jdbcType=VARCHAR},
+      </if>
+      <if test="floatscope != null" >
+        #{floatscope,jdbcType=VARCHAR},
+      </if>
+      <if test="adjusttype != null" >
+        #{adjusttype,jdbcType=VARCHAR},
+      </if>
+      <if test="runtype != null" >
+        #{runtype,jdbcType=VARCHAR},
+      </if>
+      <if test="frequeency != null" >
+        #{frequeency,jdbcType=VARCHAR},
+      </if>
+       <if test="sourcecode != null" >
+        #{sourcecode,jdbcType=VARCHAR},
+      </if>
+      <if test="sourcename != null" >
+        #{sourcename,jdbcType=VARCHAR},
+      </if>
+      <if test="runitid != null" >
+        #{runitid,jdbcType=VARCHAR},
+      </if>
+      <if test="runitname != null" >
+        #{runitname,jdbcType=VARCHAR},
+      </if>
+      <if test="recorder != null" >
+        #{recorder,jdbcType=VARCHAR},
+      </if>
+      <if test="recordtime != null" >
+        #{recordtime,jdbcType=DATE},
+      </if>
+      <if test="clientid != null" >
+        #{clientid,jdbcType=BIGINT},
+      </if>
+     </trim>
+</insert>
+<delete id="delete" parameterType="Long">
+	delete from T_FARMER_LOAN where LOANID = #{id,jdbcType=BIGINT}
+</delete>
+<update id="update" parameterType="com.bank.beans.FarmerLoan">
+update T_FARMER_LOAN
+    set FARMERID = #{farmerid,jdbcType=BIGINT},
+      CLIENTNUM = #{clientnum,jdbcType=VARCHAR},
+      NOTENUM = #{notenum,jdbcType=VARCHAR},
+      COMPACTNUM = #{compactnum,jdbcType=VARCHAR},
+      LOANDATE = #{loandate,jdbcType=VARCHAR},
+      LIMITDATE = #{limitdate,jdbcType=VARCHAR},
+      LIMITDATE1 = #{limitdate1,jdbcType=VARCHAR},
+      CURRENCY = #{currency,jdbcType=VARCHAR},
+      AMOUNT = #{amount,jdbcType=VARCHAR},
+      BALANCE = #{balance,jdbcType=VARCHAR},
+      OWEINTEREST = #{oweinterest,jdbcType=VARCHAR},
+      CURRENTRATE = #{currentrate,jdbcType=VARCHAR},
+      CLIENTNAME = #{clientname,jdbcType=VARCHAR},
+      CLIENTTYPE = #{clienttype,jdbcType=VARCHAR},
+      IDTYPE = #{idtype,jdbcType=VARCHAR},
+      IDNUM = #{idnum,jdbcType=VARCHAR},
+      PHONE = #{phone,jdbcType=VARCHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      RATETYPE = #{ratetype,jdbcType=VARCHAR},
+      LOANUSE = #{loanuse,jdbcType=VARCHAR},
+      GUARANTEETYPE1 = #{guaranteetype1,jdbcType=VARCHAR},
+      GRADE = #{grade,jdbcType=VARCHAR},
+      GRADE1 = #{grade1,jdbcType=VARCHAR},
+      SETTLETYPE = #{settletype,jdbcType=VARCHAR},
+      CHARGEPERSON = #{chargeperson,jdbcType=VARCHAR},
+      ORGANCODE = #{organcode,jdbcType=VARCHAR},
+      ORGANNAME = #{organname,jdbcType=VARCHAR},
+      BUSINESSTYPE = #{businesstype,jdbcType=VARCHAR},
+      BUSINESSBODY = #{businessbody,jdbcType=VARCHAR},
+      PROVIDETYPE = #{providetype,jdbcType=VARCHAR},
+      INVEST = #{invest,jdbcType=VARCHAR},
+      TERMTYPE = #{termtype,jdbcType=VARCHAR},
+      GUARANTEETYPE = #{guaranteetype,jdbcType=VARCHAR},
+      FLOATSCOPE = #{floatscope,jdbcType=VARCHAR},
+      ADJUSTTYPE = #{adjusttype,jdbcType=VARCHAR},
+      RUNTYPE = #{runtype,jdbcType=VARCHAR},
+      FREQUEENCY = #{frequeency,jdbcType=VARCHAR},
+      SOURCECODE = #{sourcecode,jdbcType=VARCHAR},
+      SOURCENAME = #{sourcename,jdbcType=VARCHAR},
+      RUNITID = #{runitid,jdbcType=VARCHAR},
+      RUNITNAME = #{runitname,jdbcType=VARCHAR},
+      RECORDER = #{recorder,jdbcType=VARCHAR},
+      RECORDTIME = #{recordtime,jdbcType=DATE},
+      CLIENTID = #{clientid,jdbcType=BIGINT}
+	where LOANID= #{id,jdbcType=BIGINT}
+</update>
+<update id="updateSelective" parameterType="com.bank.beans.FarmerLoan" >
+    update T_FARMER_LOAN
+    <set >
+      <if test="loanid != null" >
+        LOANID = #{loanid,jdbcType=BIGINT},
+      </if>
+      <if test="farmerid != null" >
+        FARMERID = #{farmerid,jdbcType=BIGINT},
+      </if>
+      <if test="clientnum != null" >
+        CLIENTNUM = #{clientnum,jdbcType=VARCHAR},
+      </if>
+      <if test="notenum != null" >
+        NOTENUM = #{notenum,jdbcType=VARCHAR},
+      </if>
+      <if test="compactnum != null" >
+        COMPACTNUM = #{compactnum,jdbcType=VARCHAR},
+      </if>
+      <if test="loandate != null" >
+        LOANDATE = #{loandate,jdbcType=VARCHAR},
+      </if>
+      <if test="limitdate != null" >
+        LIMITDATE = #{limitdate,jdbcType=VARCHAR},
+      </if>
+      <if test="limitdate1 != null" >
+        LIMITDATE1 = #{limitdate1,jdbcType=VARCHAR},
+      </if>
+      <if test="currency != null" >
+        CURRENCY = #{currency,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        AMOUNT = #{amount,jdbcType=VARCHAR},
+      </if>
+      <if test="balance != null" >
+        BALANCE = #{balance,jdbcType=VARCHAR},
+      </if>
+      <if test="oweinterest != null" >
+        OWEINTEREST = #{oweinterest,jdbcType=VARCHAR},
+      </if>
+      <if test="currentrate != null" >
+        CURRENTRATE = #{currentrate,jdbcType=VARCHAR},
+      </if>
+      <if test="clientname != null" >
+        CLIENTNAME = #{clientname,jdbcType=VARCHAR},
+      </if>
+      <if test="clienttype != null" >
+        CLIENTTYPE = #{clienttype,jdbcType=VARCHAR},
+      </if>
+      <if test="idtype != null" >
+        IDTYPE = #{idtype,jdbcType=VARCHAR},
+      </if>
+      <if test="idnum != null" >
+        IDNUM = #{idnum,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="ratetype != null" >
+        RATETYPE = #{ratetype,jdbcType=VARCHAR},
+      </if>
+      <if test="loanuse != null" >
+        LOANUSE = #{loanuse,jdbcType=VARCHAR},
+      </if>
+      <if test="guaranteetype1 != null" >
+        GUARANTEETYPE1 = #{guaranteetype1,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        GRADE = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="grade1 != null" >
+        GRADE1 = #{grade1,jdbcType=VARCHAR},
+      </if>
+      <if test="settletype != null" >
+        SETTLETYPE = #{settletype,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeperson != null" >
+        CHARGEPERSON = #{chargeperson,jdbcType=VARCHAR},
+      </if>
+      <if test="organcode != null" >
+        ORGANCODE = #{organcode,jdbcType=VARCHAR},
+      </if>
+      <if test="organname != null" >
+        ORGANNAME = #{organname,jdbcType=VARCHAR},
+      </if>
+      <if test="businesstype != null" >
+        BUSINESSTYPE = #{businesstype,jdbcType=VARCHAR},
+      </if>
+      <if test="businessbody != null" >
+        BUSINESSBODY = #{businessbody,jdbcType=VARCHAR},
+      </if>
+      <if test="providetype != null" >
+        PROVIDETYPE = #{providetype,jdbcType=VARCHAR},
+      </if>
+      <if test="invest != null" >
+        INVEST = #{invest,jdbcType=VARCHAR},
+      </if>
+      <if test="termtype != null" >
+        TERMTYPE = #{termtype,jdbcType=VARCHAR},
+      </if>
+      <if test="guaranteetype != null" >
+        GUARANTEETYPE = #{guaranteetype,jdbcType=VARCHAR},
+      </if>
+      <if test="floatscope != null" >
+        FLOATSCOPE = #{floatscope,jdbcType=VARCHAR},
+      </if>
+      <if test="adjusttype != null" >
+        ADJUSTTYPE = #{adjusttype,jdbcType=VARCHAR},
+      </if>
+      <if test="runtype != null" >
+        RUNTYPE = #{runtype,jdbcType=VARCHAR},
+      </if>
+      <if test="frequeency != null" >
+        FREQUEENCY = #{frequeency,jdbcType=VARCHAR},
+      </if>
+      <if test="sourcecode != null" >
+        SOURCECODE = #{sourcecode,jdbcType=VARCHAR},
+      </if>
+      <if test="sourcename != null" >
+        SOURCENAME = #{sourcename,jdbcType=VARCHAR},
+      </if>
+      <if test="runitid != null" >
+        RUNITID = #{runitid,jdbcType=VARCHAR},
+      </if>
+      <if test="runitname != null" >
+        RUNITNAME = #{runitname,jdbcType=VARCHAR},
+      </if>
+      <if test="recorder != null" >
+        RECORDER = #{recorder,jdbcType=VARCHAR},
+      </if>
+      <if test="recordtime != null" >
+        RECORDTIME = #{recordtime,jdbcType=DATE},
+      </if>
+      <if test="clientid != null" >
+        CLIENTID = #{clientid,jdbcType=BIGINT},
+      </if>
+    </set>
+    where LOANID = #{id,jdbcType=BIGINT}
+</update>
+<select id="findByPK" parameterType="Long" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Column_List" />
+	from T_FARMER_LOAN
+	where LOANID = #{id,jdbcType=BIGINT}
+</select>
+<select id="findByID" parameterType="Map" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Column_List" />
+	from T_FARMER_LOAN
+	where idNum = #{idNum,jdbcType=VARCHAR}
+</select>
+<select id="findByFarmerId" parameterType="long" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Column_List" />
+	from T_FARMER_LOAN
+	where FARMERID = #{farmerid,jdbcType=BIGINT}
+</select>
+<select id="findTotalNummberByFarmerId" parameterType="Long" resultType="Integer">
+	select count(*) 
+	from T_FARMER_LOAN t
+	where t.FARMERID = #{farmerid,jdbcType=BIGINT} 
+</select>
+<select id="findByPaging" parameterType="Map" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Column_List" />
+	from 
+	(select t.*,rowNumber() over() as rn from T_FARMER_LOAN t
+	<where>
+		<if test="farmerId != null">
+			t.FARMERID = #{farmerId,jdbcType=BIGINT} 
+		</if>
+	 </where>
+	 )
+	 <where>
+	 	<if test="start != null">
+	    	rn between #{start} and #{end}
+	   	</if>
+	 </where>
+</select>
+<select id="findByFarmers" parameterType="list" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Column_List" />
+	from T_FARMER_LOAN
+	where FARMERID in
+	<foreach item="item" index="index" collection="list" 
+			open="(" separator="," close=")">
+	#{item}
+	</foreach>
+</select>
+<select id="findByCompactNum" parameterType="String" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Column_List" />
+	from t_loan
+	where compactNum = #{compactNum,jdbcType = VARCHAR}
+</select>
+<select id="findByNoteNum" parameterType="String" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Column_List" />
+	from t_loan
+	where noteNum = #{noteNum,jdbcType = VARCHAR}
+</select>
+<select id="findUnbalanceByFarmer" parameterType="Long" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Column_List" />
+	from T_FARMER_LOAN
+	where to_number(balance)>0
+	and FARMERID = #{farmerid,jdbcType = BIGINT}
+</select>
+<select id="findBadbalanceByFarmer" parameterType="Long" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Column_List" />
+	from T_FARMER_LOAN
+	where grade in('3','4','5')
+	and FARMERID = #{farmerid,jdbcType = BIGINT}
+</select>
+<select id="findSpecialLoan" parameterType="Map" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Column_List" />
+	from T_FARMER_LOAN
+	<where>
+		<if test="oranName != null and oranName !=''">
+			organName = #{organName,jdbcType = VARCHAR}
+		</if>
+		<if test="loanDate1 != null and loanDate1 !=''">
+			<![CDATA[and loanDate >= #{loanDate1,jdbcType = VARCHAR}]]>
+		</if>
+		<if test="loanDate1 != null and loanDate1 !=''">
+			<![CDATA[and loanDate <= #{loanDate1,jdbcType = VARCHAR}]]>
+		</if>
+		<if test="balance1 != null and balance1 !=''">
+			<![CDATA[and balance >= #{balance1,jdbcType = VARCHAR}]]>
+		</if>
+		<if test="balance2 != null and balance2 !=''">
+			<![CDATA[and balance <= #{balance2,jdbcType = VARCHAR}]]>
+		</if>
+		<if test="clientType != null and clientType !=''">
+			and clientType = 1
+		</if>
+	</where>
+</select>
+</mapper>

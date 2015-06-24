@@ -8,7 +8,8 @@ public enum FarmerNYEnum {
 	FARMERTYPE(7),
 	MARRYSTATUS(20),
 	EDUCATION(21),
-	ADDRESS(26);
+	ADDRESS(25),
+	POSTCODE(26);
 	private int index;
 	public static final int $SEX = 1;
 	public static final int $EDUCATION = 2;

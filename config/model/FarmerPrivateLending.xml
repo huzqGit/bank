@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="farmerprivatelending">
+  <resultMap id="BaseResultMap" type="com.bank.beans.FarmerPrivateLending" >
+    <id column="LENDINGID" property="id" jdbcType="BIGINT" />
+    <result column="FARMERID" property="farmerid" jdbcType="BIGINT" />
+    <result column="AMOUNT" property="amount" jdbcType="DOUBLE" />
+    <result column="LENDINGTIME" property="lendingtime" jdbcType="DATE" />
+    <result column="LIMITTIME" property="limittime" jdbcType="DATE" />
+    <result column="RATE" property="rate" jdbcType="DOUBLE" />
+    <result column="SOURCECODE" property="sourcecode" jdbcType="VARCHAR" />
+    <result column="SOURCENAME" property="sourcename" jdbcType="VARCHAR" />
+    <result column="RUNITID" property="runitid" jdbcType="VARCHAR" />
+    <result column="RUNITNAME" property="runitname" jdbcType="VARCHAR" />
+    <result column="RECORDER" property="recorder" jdbcType="VARCHAR" />
+    <result column="RECORDTIME" property="recordtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    LENDINGID, FARMERID, AMOUNT, LENDINGTIME, LIMITTIME, RATE, SOURCECODE, SOURCENAME, 
+    RUNITID, RUNITNAME, RECORDER, RECORDTIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.bank.beans.FarmerPrivateLendingExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_FARMER_PRIVATELENDING
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+<insert id="save" useGeneratedKeys="true" keyProperty="id" 
+	parameterType="com.bank.beans.FarmerPrivateLending">
+	 insert into T_FARMER_PRIVATELENDING
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="farmerid != null" >
+        FARMERID,
+      </if>
+      <if test="amount != null" >
+        AMOUNT,
+      </if>
+      <if test="lendingtime != null" >
+        LENDINGTIME,
+      </if>
+      <if test="limittime != null" >
+        LIMITTIME,
+      </if>
+      <if test="rate != null" >
+        RATE,
+      </if>
+      <if test="sourcecode != null" >
+        SOURCECODE,
+      </if>
+      <if test="sourcename != null" >
+        SOURCENAME,
+      </if>
+      <if test="runitid != null" >
+        RUNITID,
+      </if>
+      <if test="runitname != null" >
+        RUNITNAME,
+      </if>
+      <if test="recorder != null" >
+        RECORDER,
+      </if>
+      <if test="recordtime != null" >
+        RECORDTIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="farmerid != null" >
+        #{farmerid,jdbcType=BIGINT},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="lendingtime != null" >
+        #{lendingtime,jdbcType=DATE},
+      </if>
+      <if test="limittime != null" >
+        #{limittime,jdbcType=DATE},
+      </if>
+      <if test="rate != null" >
+        #{rate,jdbcType=DOUBLE},
+      </if>
+      <if test="sourcecode != null" >
+        #{sourcecode,jdbcType=VARCHAR},
+      </if>
+      <if test="sourcename != null" >
+        #{sourcename,jdbcType=VARCHAR},
+      </if>
+      <if test="runitid != null" >
+        #{runitid,jdbcType=VARCHAR},
+      </if>
+      <if test="runitname != null" >
+        #{runitname,jdbcType=VARCHAR},
+      </if>
+      <if test="recorder != null" >
+        #{recorder,jdbcType=VARCHAR},
+      </if>
+      <if test="recordtime != null" >
+        #{recordtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+</insert>
+<delete id="delete">
+	delete from T_FARMER_PRIVATELENDING where LENDINGID = #{id,jdbcType=BIGINT}
+</delete>
+<update id="update" parameterType="com.bank.beans.FarmerPrivateLending">
+	   update T_FARMER_PRIVATELENDING
+    set FARMERID = #{farmerid,jdbcType=BIGINT},
+      AMOUNT = #{amount,jdbcType=DOUBLE},
+      LENDINGTIME = #{lendingtime,jdbcType=DATE},
+      LIMITTIME = #{limittime,jdbcType=DATE},
+      RATE = #{rate,jdbcType=DOUBLE},
+      SOURCECODE = #{sourcecode,jdbcType=VARCHAR},
+      SOURCENAME = #{sourcename,jdbcType=VARCHAR},
+      RUNITID = #{runitid,jdbcType=VARCHAR},
+      RUNITNAME = #{runitname,jdbcType=VARCHAR},
+      RECORDER = #{recorder,jdbcType=VARCHAR},
+      RECORDTIME = #{recordtime,jdbcType=TIMESTAMP}
+	where LENDINGID=#{id,jdbcType=BIGINT}
+</update>
+<select id="findByPK" parameterType="Long" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Column_List" />
+	from T_FARMER_PRIVATELENDING where LENDINGID = #{id,jdbcType=BIGINT}
+</select>
+<select id="findTotalNumber" parameterType="Long" resultType="INTEGER">
+	select count(1) from T_FARMER_PRIVATELENDING where FARMERID = #{farmerId,jdbcType=BIGINT}
+</select>
+<select id="findByPaging" parameterType="Map" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Column_List" />
+	from 
+	(select t.*,rowNumber() over() as rn from T_FARMER_PRIVATELENDING t
+	<where>
+		<if test="farmerId != null">
+			t.farmerId = #{farmerId,jdbcType=VARCHAR} 
+		</if>
+	 </where>
+	 )
+	 <where>
+	 	<if test="start != null">
+	    	rn between #{start} and #{end}
+	   	</if>
+	 </where>
+</select> 
+
+</mapper>

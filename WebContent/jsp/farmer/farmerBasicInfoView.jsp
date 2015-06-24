@@ -10,7 +10,7 @@
 <title>农户信息单户信息查询</title>
 <style type="text/css">
 *{margin:0;padding:0}
-body{scrollbar-base-color:#90D5EA;line-height:120%;font-family:"仿宋_GB2312";font-size:13pt;}
+body{line-height:120%;font-family:"仿宋_GB2312";font-size:13pt;}
 .queryPane{
 background:linear-gradient(#6DC8E3,white);
 /* IE6 & IE7 */
@@ -51,7 +51,7 @@ background:white
 </head>
 <body>
 <div class="queryPane" style="padding-top:10px;width:100%;height:80px">
-<form id="farmer" action="" method="POST">
+<form id="farmer" action="/bank/farmer/typeInFarmer.do" method="POST">
 <table width="100%" height="60px" style="vertical-align:middle;">
 	<tr>
 		<td  width="5%"align="right" >
@@ -84,8 +84,8 @@ background:white
             sizeList="[5,10,20,50]" pageSize="10" showReloadButton="false">
 	        <div property="columns">
 	             <div type="indexcolumn" width="5%" headerAlign="center">编号</div>
-	             <div field="farmerName" width="10%" headerAlign="center" allowSort="true"  >姓名</div>
-	             <div field="farmerIdnum" width="15%" headerAlign="center" allowSort="true" >身份证号码</div>   
+	             <div field="farmername" width="10%" headerAlign="center" allowSort="true"  >姓名</div>
+	             <div field="farmeridnum" width="15%" headerAlign="center" allowSort="true" >身份证号码</div>   
 	             <div field="phone" width="25%" headerAlign="center" allowSort="true" >联系电话</div>     
 	             <div field="address" width="40%" headerAlign="center" allowSort="true" >住址</div>                                         
 	        	 <div name="action" width="5%" headerAlign="center" align="center" renderer="onActionRenderer1" cellStyle="padding:0;"></div>
@@ -102,7 +102,6 @@ background:white
 	}
 	function LuRu(){
 		var form = document.getElementById("farmer");
-		form.action="/bank/farmer/typeInFarmer.do";
 		form.submit();
 	}
 	function onActionRenderer1(e) {

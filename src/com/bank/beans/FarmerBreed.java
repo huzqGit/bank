@@ -2,6 +2,8 @@ package com.bank.beans;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.common.bean.BaseEntity;
 
 public class FarmerBreed extends BaseEntity<Long> {
@@ -10,31 +12,38 @@ public class FarmerBreed extends BaseEntity<Long> {
 	 * 
 	 */
 	private static final long serialVersionUID = -2714377766892141459L;
+	
+	private Long farmerid;
 
-	//农户身份证号
-	private Long farmerId;
-	//种养殖品种
-	private String variety;
-	//年产量
-	private String output;
-	//占地面积
-	private String floorArea;
-	//年产值
-	private String outputValue;
-	//当前评估价格
-	private String assessPrice;
-	//记录人
-	private String recorder;
-	//记录时间
-	private Date recordTime;
+    private String variety;
 
+    private String floorarea;
 
-	public Long getFarmerId() {
-		return farmerId;
+    private String output;
+
+    private Double outputvalue;
+
+    private Double assessprice;
+
+    private String sourcecode;
+
+    private String sourcename;
+
+    private String runitid;
+
+    private String runitname;
+
+    private String recorder;
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date recordtime;
+
+	public Long getFarmerid() {
+		return farmerid;
 	}
 
-	public void setFarmerId(Long farmerId) {
-		this.farmerId = farmerId;
+	public void setFarmerid(Long farmerid) {
+		this.farmerid = farmerid;
 	}
 
 	public String getVariety() {
@@ -45,6 +54,14 @@ public class FarmerBreed extends BaseEntity<Long> {
 		this.variety = variety;
 	}
 
+	public String getFloorarea() {
+		return floorarea;
+	}
+
+	public void setFloorarea(String floorarea) {
+		this.floorarea = floorarea;
+	}
+
 	public String getOutput() {
 		return output;
 	}
@@ -53,27 +70,52 @@ public class FarmerBreed extends BaseEntity<Long> {
 		this.output = output;
 	}
 
-	public String getFloorArea() {
-		return floorArea;
+	public Double getOutputvalue() {
+		return outputvalue;
 	}
 
-	public void setFloorArea(String floorArea) {
-		this.floorArea = floorArea;
-	}
-	
-	public String getOutputValue() {
-		return outputValue;
+	public void setOutputvalue(Double outputvalue) {
+		this.outputvalue = outputvalue;
 	}
 
-	public void setOutputValue(String outputValue) {
-		this.outputValue = outputValue;
-	}
-	public String getAssessPrice() {
-		return assessPrice;
+	public Double getAssessprice() {
+		return assessprice;
 	}
 
-	public void setAssessPrice(String assessPrice) {
-		this.assessPrice = assessPrice;
+	public void setAssessprice(Double assessprice) {
+		this.assessprice = assessprice;
+	}
+
+	public String getSourcecode() {
+		return sourcecode;
+	}
+
+	public void setSourcecode(String sourcecode) {
+		this.sourcecode = sourcecode;
+	}
+
+	public String getSourcename() {
+		return sourcename;
+	}
+
+	public void setSourcename(String sourcename) {
+		this.sourcename = sourcename;
+	}
+
+	public String getRunitid() {
+		return runitid;
+	}
+
+	public void setRunitid(String runitid) {
+		this.runitid = runitid;
+	}
+
+	public String getRunitname() {
+		return runitname;
+	}
+
+	public void setRunitname(String runitname) {
+		this.runitname = runitname;
 	}
 
 	public String getRecorder() {
@@ -84,12 +126,12 @@ public class FarmerBreed extends BaseEntity<Long> {
 		this.recorder = recorder;
 	}
 
-	public Date getRecordTime() {
-		return recordTime;
+	public Date getRecordtime() {
+		return recordtime;
 	}
 
-	public void setRecordTime(Date recordTime) {
-		this.recordTime = recordTime;
+	public void setRecordtime(Date recordtime) {
+		this.recordtime = recordtime;
 	}
 
 	@Override

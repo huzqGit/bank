@@ -10,9 +10,11 @@
 <title>农户信息单户信息查询</title>
 <style type="text/css">
 *{margin:0;padding:0}
-body{scrollbar-base-color:#90D5EA;line-height:120%;font-family:"仿宋_GB2312";font-size:13pt;}
+body{ine-height:120%;font-family:"仿宋_GB2312";font-size:13pt;}
 .queryPane{
-background:linear-gradient(white,#6DC8E3,white);
+width:100%;
+height:80px;
+background:linear-gradient(#6DC8E3,white);
 /* IE6 & IE7 */
 filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0 , startColorstr = '#6DC8E3', 
 endColorstr = 'white' ); 
@@ -30,9 +32,9 @@ li{margin-top:5px}
 </style>
 </head>
 <body>
-<div class="queryPane" style="padding-top:10px;width:100%;height:80px">
+<div class="queryPane">
 <form action="/bank/farmer/loadFarmerOne.do" method="POST">
-<table width="100%" height="60px" style="vertical-align:middle;border:1px solid #8AD3E9">
+<table width="100%" height="60px" style="vertical-align:middle">
 	<tr>
 		<td class="labelName" width="30%"align="right" >农户姓名:&nbsp;&nbsp;&nbsp; <input name="farmerName" type="text"/></td>
 		<td width="5%" ></td>

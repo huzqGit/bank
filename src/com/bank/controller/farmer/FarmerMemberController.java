@@ -1,5 +1,7 @@
 package com.bank.controller.farmer;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,98 +10,173 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.bank.Constants;
+import com.bank.beans.Farmer;
 import com.bank.beans.FarmerMember;
-import com.bank.common.util.JsonUtil;
+import com.bank.beans.Organ;
 import com.bank.service.IFarmerMemberService;
+import com.bank.service.IFarmerService;
+import com.common.exception.DAOException;
+import com.common.exception.DataNotFoundException;
 
 @Controller
 @RequestMapping(value = "/farmer")
 public class FarmerMemberController {
 	
 	@Resource
+	private IFarmerService farmerService;
+	
+	@Resource
 	private IFarmerMemberService farmerMemberService;
 	
 	@RequestMapping(value = "/saveMember",method = RequestMethod.POST)
-	public ModelAndView save(HttpServletRequest request, 
-			HttpServletResponse response) throws Exception{
-
-		String formData = request.getParameter("formData");
-		//這裡做了時間格式的處理
-		Object decodeJsonData = JsonUtil.Decode(formData);
-		String formatdata = JSON.toJSONStringWithDateFormat(decodeJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
-		JSONObject jsb = JSONObject.parseObject(formatdata);
-		FarmerMember farmerMember = (FarmerMember) JSON.toJavaObject(jsb, FarmerMember.class);
-		if(farmerMember.getId()!=null){
-			farmerMemberService.update(farmerMember);
-		}else{
-			farmerMemberService.save(farmerMember);
+	public ModelAndView save(@ModelAttribute(value="member") FarmerMember member,
+			HttpServletRequest request,HttpServletResponse response){
+		
+		Organ organ = (Organ)request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
+		String organId = organ.getOrganId();
+		String organName = organ.getOrganName();
+		member.setRunitid(organId);
+		member.setRunitname(organName);
+		try{
+			if(member.getId() == null){
+				farmerMemberService.save(member);
+			}else{
+				farmerMemberService.update(member);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
 		}
-		String json = JSON.toJSONString(farmerMember);
-		response.setContentType("text/html;charset=UTF-8");
-	    response.getWriter().write(json);
-		return null;
+		Farmer farmer = null;
+		try {
+			farmer = farmerService.findByPK(member.getFarmerid());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		ModelAndView view = new ModelAndView("/farmer/farmerMemberView");
+		view.addObject("farmer",farmer);
+		return view;
 		
 	}
+	@RequestMapping(value="/queryMember",method=RequestMethod.GET)
+	public ModelAndView queryMember(@RequestParam(value="fid") 	Long fid, 
+			HttpServletRequest request,HttpServletResponse response){
+		ModelAndView view = new ModelAndView("/farmer/farmerMemberView");
+		Farmer farmer = null;
+		try {
+			farmer = farmerService.findByPK(fid);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		view.addObject("farmer",farmer);
+		return view;
+	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/loadMember", method = RequestMethod.POST)
-	public ModelAndView loadCompany(@RequestParam(value="id",required=true) String id, 
-			HttpServletResponse response) throws Exception {
-		if(!StringUtils.isEmpty(id)){
-			Long memberId=Long.valueOf(id);
-			FarmerMember member = farmerMemberService.findByPK(memberId);
-			String json = JsonUtil.Encode(member);
+	public ModelAndView loadMember(@RequestParam(value="fid") Long fid, 
+			@RequestParam(value="pageIndex") int pageIndex,
+			@RequestParam(value="pageSize") int pageSize,
+			@RequestParam(value="sortField") String sortField,
+			@RequestParam(value="sortOrder") String sortOrder,
+			HttpServletRequest request,HttpServletResponse response) {
+		
+			Map paramMap = new HashMap();
+			paramMap.put("farmerid", fid);
+			
+			int totalNumber = 0;
+			List<FarmerMember> houses = null;
+			try {
+				totalNumber = farmerMemberService.findTotalNumberByFarmerId(fid);
+				houses = farmerMemberService.getPageingEntities(pageIndex, pageSize, sortField, sortOrder, paramMap);
+			} catch (DAOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			Map map = new HashMap();
+			map.put("total", totalNumber);
+			map.put("data", houses);
+			String json = JSON.toJSONStringWithDateFormat(map,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
 			response.setContentType("text/html;charset=UTF-8");
-		    response.getWriter().write(json);
+			PrintWriter writer = null;
+			try {
+				writer = response.getWriter();
+				writer.write(json);
+				writer.flush();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    return null;
+
+	}
+	@RequestMapping(value="/insertMember",method=RequestMethod.GET)
+	public ModelAndView insertMember(@RequestParam(value="fid") Long fid, 
+			HttpServletRequest request,HttpServletResponse response){
+
+		Farmer farmer = null;
+		try {
+			farmer = farmerService.findByPK(fid);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DataNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		return null;
-		
+		ModelAndView view = new ModelAndView("/farmer/farmerMemberForm");
+		view.addObject("farmer",farmer);
+		return view;
 	}
-	
-	@RequestMapping(value="/loadAllMember",method=RequestMethod.POST)
-	public ModelAndView loadAllCompany(HttpServletRequest request, 
-			HttpServletResponse response) throws Exception{
-		//查询条件
-		
-	    String farmerName = request.getParameter("farmerName");
-	    String farmerIdNum=request.getParameter("farmerIdNum");
-	    String name=request.getParameter("name");
-	    String recorder=request.getParameter("recorder");
-	    String recordTimeBegin=request.getParameter("recordTimeBegin");
-	    String recordTimeEnd=request.getParameter("recordTimeEnd");
-	    
-	    Map<String,String> query = new HashMap<String,String>();
-	    query.put("farmerName", farmerName);
-	    query.put("farmerIdNum", farmerIdNum);
-	    query.put("name", name);
-	    query.put("recorder", recorder);
-	    query.put("recordTimeBegin", recordTimeBegin);
-	    query.put("recordTimeEnd", recordTimeEnd);
-	    //分页
-	    int pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
-	    int pageSize = Integer.parseInt(request.getParameter("pageSize"));        
-	    //字段排序
-	    String sortField = request.getParameter("sortField");
-	    String sortOrder = request.getParameter("sortOrder");
-	    List<FarmerMember> data = farmerMemberService.getPageingEntities(pageIndex, pageSize, sortField, sortOrder, query);
-	    
-	    HashMap result = new HashMap();
-        result.put("data", data);
-        result.put("total", data.size());
-        
-	    String json = JSON.toJSONStringWithDateFormat(result,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
-	    response.setContentType("text/html;charset=UTF-8");
-	    response.getWriter().write(json);
-		return null;
+	@RequestMapping(value="/deleteMember",method=RequestMethod.GET)
+	public ModelAndView deleteMember(@RequestParam(value="id") Long id,@RequestParam(value="fid") Long fid,
+			HttpServletRequest request,HttpServletResponse response)
+	{
+
+		try {
+			farmerMemberService.delete(id);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Farmer farmer = null;
+		try {
+			farmer = farmerService.findByPK(fid);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ModelAndView view = new ModelAndView("/farmer/farmerMemberView");
+		view.addObject("farmer",farmer);
+		return view;
 	}
-	
+	@RequestMapping(value="/editMember",method=RequestMethod.GET)
+	public ModelAndView editMember(HttpServletRequest request,HttpServletResponse response,
+			@RequestParam(value="id") Long id,
+			@RequestParam(value="fid") Long fid)
+	{
+		Farmer farmer = null;
+		FarmerMember member = null;
+		try {
+			farmer = farmerService.findByPK(fid);
+			member = farmerMemberService.findByPK(id);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ModelAndView view = new ModelAndView("/farmer/farmerMemberForm");
+		view.addObject("farmer",farmer);
+		view.addObject("member",member);
+		return view;
+	}
 }

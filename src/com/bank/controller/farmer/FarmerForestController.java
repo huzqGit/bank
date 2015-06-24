@@ -73,7 +73,7 @@ public class FarmerForestController {
 		}
 		Farmer farmer = null;
 		try {
-			farmer = farmerService.findByPK(forest.getFarmerId());
+			farmer = farmerService.findByPK(forest.getFarmerid());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -122,16 +122,13 @@ public class FarmerForestController {
 		return view;
 	}
 	@RequestMapping(value="/editForest",method=RequestMethod.GET)
-	public ModelAndView editForest(@RequestParam(value="id") String id,@RequestParam(value="fid") String fid,
+	public ModelAndView editForest(@RequestParam(value="id") Long id,@RequestParam(value="fid") Long fid,
 			HttpServletRequest request,HttpServletResponse response){
-		
-		Long forestId = Long.valueOf(id);
-		Long farmerId = Long.valueOf(fid);
 		Farmer farmer = null;
 		FarmerForest forest = null;
 		try {
-			farmer = farmerService.findByPK(farmerId);
-			forest = farmerForestService.findByPK(forestId);
+			farmer = farmerService.findByPK(fid);
+			forest = farmerForestService.findByPK(id);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -141,13 +138,21 @@ public class FarmerForestController {
 		view.addObject("forest",forest);
 		return view;
 	}
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/loadForest", method = RequestMethod.POST)
-	public ModelAndView loadForest(@RequestParam(value="fid",required=true) String fid, 
-			HttpServletResponse response){
+	public ModelAndView loadForest(@RequestParam(value="fid") Long fid, 
+			@RequestParam(value="pageIndex") int pageIndex,
+			@RequestParam(value="pageSize") int pageSize,
+			@RequestParam(value="sortField") String sortField,
+			@RequestParam(value="sortOrder") String sortOrder,
+			HttpServletRequest request,HttpServletResponse response){
 		
-		Long farmerId=Long.valueOf(fid);
-		List<FarmerForest> houses = farmerForestService.findForestByFarmer(farmerId);
-		 String json = JSON.toJSONStringWithDateFormat(houses,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
+		int totalNumber =  farmerForestService.findTotalNumberByFarmerId(fid);
+		List<FarmerForest> houses = farmerForestService.findPagingByFarmerId(pageIndex, pageSize, sortField, sortOrder, fid);
+		Map map = new HashMap();
+		map.put("total", totalNumber);
+		map.put("data", houses);
+		String json = JSON.toJSONStringWithDateFormat(map,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
 		response.setContentType("text/html;charset=UTF-8");
 		PrintWriter writer = null;
 		try {
@@ -162,43 +167,6 @@ public class FarmerForestController {
 		
 	}
 	
-	@RequestMapping(value="/loadAllForest",method=RequestMethod.POST)
-	public ModelAndView loadAllCompany(HttpServletRequest request, 
-			HttpServletResponse response) throws Exception{
-		//查询条件
-		String farmerName = request.getParameter("farmerName");
-	    String farmerIdNum=request.getParameter("farmerIdNum");
-	    String wordNum=request.getParameter("wordNum");
-	    String user=request.getParameter("user");
-	    String recorder=request.getParameter("recorder");
-	    String recordTimeBegin=request.getParameter("recordTimeBegin");
-	    String recordTimeEnd=request.getParameter("recordTimeEnd");
-	    
-	    Map<String,String> query = new HashMap<String,String>();
-	    query.put("farmerName", farmerName);
-	    query.put("farmerIdNum", farmerIdNum);
-	    query.put("wordNum", wordNum);
-	    query.put("user", user);
-	    query.put("recorder", recorder);
-	    query.put("recordTimeBegin", recordTimeBegin);
-	    query.put("recordTimeEnd", recordTimeEnd);
-	    //分页
-	    int pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
-	    int pageSize = Integer.parseInt(request.getParameter("pageSize"));        
-	    //字段排序
-	    String sortField = request.getParameter("sortField");
-	    String sortOrder = request.getParameter("sortOrder");
-	    List<FarmerForest> data = farmerForestService.getPageingEntities(pageIndex, pageSize, sortField, sortOrder, query);
-	    
-	    HashMap result = new HashMap();
-        result.put("data", data);
-        result.put("total", data.size());
-        
-	    String json = JSON.toJSONStringWithDateFormat(result,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
-	    response.setContentType("text/html;charset=UTF-8");
-	    response.getWriter().write(json);
-		return null;
-	}
 	@RequestMapping(value="/typeInForest",method=RequestMethod.GET)
 	public ModelAndView typeInForest(@RequestParam(value="fid") String fid, 
 			HttpServletRequest request,HttpServletResponse response){

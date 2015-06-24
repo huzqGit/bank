@@ -3,137 +3,241 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="farmerforest">
-<sql id="Forest_Column_List" >
-	forestId,  farmerId, cardNum, wordNum, user, useType, 
-	area, storeNum, timeLimit, assessPrice
+<resultMap id="BaseResultMap" type="com.bank.beans.FarmerForest" >
+    <id column="FORESTID" property="id" jdbcType="BIGINT" />
+    <result column="FARMERID" property="farmerid" jdbcType="BIGINT" />
+    <result column="CARDNUM" property="cardnum" jdbcType="VARCHAR" />
+    <result column="WORDNUM" property="wordnum" jdbcType="VARCHAR" />
+    <result column="USER" property="user" jdbcType="VARCHAR" />
+    <result column="USETYPE" property="usetype" jdbcType="VARCHAR" />
+    <result column="AREA" property="area" jdbcType="VARCHAR" />
+    <result column="STORENUM" property="storenum" jdbcType="VARCHAR" />
+    <result column="TIMELIMIT" property="timelimit" jdbcType="VARCHAR" />
+    <result column="ASSESSPRICE" property="assessprice" jdbcType="VARCHAR" />
+    <result column="SOURCECODE" property="sourcecode" jdbcType="VARCHAR" />
+    <result column="SOURCENAME" property="sourcename" jdbcType="VARCHAR" />
+    <result column="RUNITID" property="runitid" jdbcType="VARCHAR" />
+    <result column="RUNITNAME" property="runitname" jdbcType="VARCHAR" />
+    <result column="RECORDER" property="recorder" jdbcType="VARCHAR" />
+    <result column="RECORDTIME" property="recordtime" jdbcType="TIMESTAMP" />
+</resultMap>
+<sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
 </sql>
+<sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+</sql>
+<sql id="Base_Column_List" >
+    FORESTID, FARMERID, CARDNUM, WORDNUM, USER, USETYPE, AREA, STORENUM, TIMELIMIT, ASSESSPRICE, 
+    SOURCECODE, SOURCENAME, RUNITID, RUNITNAME, RECORDER, RECORDTIME
+</sql>
+<select id="selectByExample" resultMap="BaseResultMap" parameterType="com.bank.beans.FarmerForestExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_FARMER_FOREST
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
 <insert id="save" useGeneratedKeys="true" keyProperty="id" 
 		parameterType="com.bank.beans.FarmerForest">
-	insert into t_farmer_forest
-	<trim prefix="(" suffix=")" suffixOverrides=",">
-	   <if test="farmerId != null">
-	   		farmerId,
-	   </if>
-	   <if test="cardNum != null">
-	   		cardNum,
-	   </if>
-	   <if test="wordNum != null">
-	   		wordNum,
-	   </if>
-	   <if test="user != null">
-	  	 	user,
-	   </if>
-	   <if test="useType != null">
-			useType,
-	   </if>
-	   <if test="area != null">
-	   		area,
-	   </if>
-	   <if test="storeNum != null">
-			storeNum,
-	   </if>
-	   <if test ="timeLimit != null">
-		 	timeLimit,
-	   </if>
-	   <if test="assessPrice != null">
-			assessPrice
-	   </if>
-	</trim>
-	<trim prefix="values (" suffix=")" suffixOverrides=",">
-	    <if test="farmerId != null">
-	        #{farmerId,jdbcType=VARCHAR},
-	    </if>
-	    <if test="cardNum != null">
-	        #{cardNum,jdbcType=VARCHAR},
-	    </if>
-	    <if test="wordNum != null">
-	        #{wordNum,jdbcType=VARCHAR},
-	    </if>
-	    <if test="user != null">
-	        #{user,jdbcType=VARCHAR},
-	    </if>
-	    <if test="useType != null">
-	      	#{useType,jdbcType=VARCHAR},
-	    </if>
-	    <if test="area != null">
-	        #{area,jdbcType=VARCHAR},
-	    </if>
-	    <if test="storeNum != null">
-	     	#{storeNum,jdbcType=VARCHAR},
-	    </if>
-	    <if test ="timeLimit != null">
-	     	#{timeLimit,jdbcType=VARCHAR},
-	    </if>
-	    <if test="assessPrice != null">
-	     	#{assessPrice,jdbcType=VARCHAR}
-	    </if>
-	</trim>
+	insert into T_FARMER_FOREST
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="farmerid != null" >
+        FARMERID,
+      </if>
+      <if test="cardnum != null" >
+        CARDNUM,
+      </if>
+      <if test="wordnum != null" >
+        WORDNUM,
+      </if>
+      <if test="user != null" >
+        USER,
+      </if>
+      <if test="usetype != null" >
+        USETYPE,
+      </if>
+      <if test="area != null" >
+        AREA,
+      </if>
+      <if test="storenum != null" >
+        STORENUM,
+      </if>
+      <if test="timelimit != null" >
+        TIMELIMIT,
+      </if>
+      <if test="assessprice != null" >
+        ASSESSPRICE,
+      </if>
+      <if test="sourcecode != null" >
+        SOURCECODE,
+      </if>
+      <if test="sourcename != null" >
+        SOURCENAME,
+      </if>
+      <if test="runitid != null" >
+        RUNITID,
+      </if>
+      <if test="runitname != null" >
+        RUNITNAME,
+      </if>
+      <if test="recorder != null" >
+        RECORDER,
+      </if>
+      <if test="recordtime != null" >
+        RECORDTIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="farmerid != null" >
+        #{farmerid,jdbcType=BIGINT},
+      </if>
+      <if test="cardnum != null" >
+        #{cardnum,jdbcType=VARCHAR},
+      </if>
+      <if test="wordnum != null" >
+        #{wordnum,jdbcType=VARCHAR},
+      </if>
+      <if test="user != null" >
+        #{user,jdbcType=VARCHAR},
+      </if>
+      <if test="usetype != null" >
+        #{usetype,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="storenum != null" >
+        #{storenum,jdbcType=VARCHAR},
+      </if>
+      <if test="timelimit != null" >
+        #{timelimit,jdbcType=VARCHAR},
+      </if>
+      <if test="assessprice != null" >
+        #{assessprice,jdbcType=VARCHAR},
+      </if>
+      <if test="sourcecode != null" >
+        #{sourcecode,jdbcType=VARCHAR},
+      </if>
+      <if test="sourcename != null" >
+        #{sourcename,jdbcType=VARCHAR},
+      </if>
+      <if test="runitid != null" >
+        #{runitid,jdbcType=VARCHAR},
+      </if>
+      <if test="runitname != null" >
+        #{runitname,jdbcType=VARCHAR},
+      </if>
+      <if test="recorder != null" >
+        #{recorder,jdbcType=VARCHAR},
+      </if>
+      <if test="recordtime != null" >
+        #{recordtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
 </insert>
 <delete id="delete" parameterType="Long">
-	delete from t_farmer_forest where forestId = #{id,jdbcType=BIGINT}
+	delete from T_FARMER_FOREST where FORESTID = #{id,jdbcType=BIGINT}
 </delete>
 <update id="update" parameterType="com.bank.beans.FarmerForest">
-	update t_farmer_forest
-	set farmerId = #{farmerId,jdbcType=VARCHAR},
-	cardNum = #{cardNum,jdbcType=VARCHAR}, 
-	wordNum = #{wordNum,jdbcType=VARCHAR}, 
-	user = #{user,jdbcType=VARCHAR}, 
-	useType = #{useType,jdbcType=VARCHAR}, 
-	area = #{area,jdbcType=VARCHAR},
-	storeNum = #{storeNum,jdbcType=VARCHAR}, 
-	timeLimit = #{timeLimit,jdbcType=VARCHAR},
-	assessPrice = #{assessPrice,jdbcType=VARCHAR}
-	where forestId = #{id,jdbcType=BIGINT}
+	update T_FARMER_FOREST
+    set FARMERID = #{farmerid,jdbcType=BIGINT},
+      CARDNUM = #{cardnum,jdbcType=VARCHAR},
+      WORDNUM = #{wordnum,jdbcType=VARCHAR},
+      USER = #{user,jdbcType=VARCHAR},
+      USETYPE = #{usetype,jdbcType=VARCHAR},
+      AREA = #{area,jdbcType=VARCHAR},
+      STORENUM = #{storenum,jdbcType=VARCHAR},
+      TIMELIMIT = #{timelimit,jdbcType=VARCHAR},
+      ASSESSPRICE = #{assessprice,jdbcType=VARCHAR},
+      SOURCECODE = #{sourcecode,jdbcType=VARCHAR},
+      SOURCENAME = #{sourcename,jdbcType=VARCHAR},
+      RUNITID = #{runitid,jdbcType=VARCHAR},
+      RUNITNAME = #{runitname,jdbcType=VARCHAR},
+      RECORDER = #{recorder,jdbcType=VARCHAR},
+      RECORDTIME = #{recordtime,jdbcType=TIMESTAMP}
+	where FORESTID = #{id,jdbcType=BIGINT}
 </update>
-<select id="findByPK" parameterType="Long" resultMap="farmerForestList">
+<select id="findByPK" parameterType="Long" resultMap="BaseResultMap">
 	select 
-	<include refid="Forest_Column_List" />
-	from t_farmer_forest where forestId = #{id,jdbcType=INTEGER}
+	<include refid="Base_Column_List" />
+	from T_FARMER_FOREST where FORESTID = #{id,jdbcType=INTEGER}
 </select>
-<select id="findByFarmerId" parameterType="Long" 
-	resultMap="farmerForestList">
+<select id="findByFarmerId" parameterType="Long" resultMap="BaseResultMap">
 	select 
-	<include refid="Forest_Column_List" />
-	from t_farmer_forest where farmerId = #{id,jdbcType=INTEGER}
+	<include refid="Base_Column_List" />
+	from T_FARMER_FOREST where FARMERID = #{id,jdbcType=INTEGER}
 </select>
-<resultMap id="farmerForestList" type="com.bank.beans.FarmerForest">
-    <id column="forestId" property="id" jdbcType="BIGINT"/>
-    <result column="farmerId" property="farmerId" jdbcType="BIGINT" />
-    <result column="cardNum" property="cardNum" jdbcType="VARCHAR" />
-    <result column="wordNum" property="wordNum" jdbcType="VARCHAR" />
-	<result column="user" property="user" jdbcType="VARCHAR"/>
-	<result column="useType" property="useType" jdbcType="VARCHAR"/>
-    <result column="area" property="area" jdbcType="VARCHAR"/>
-    <result column="storeNum" property="storeNum" jdbcType="VARCHAR"/>
-	<result column="timeLimit" property="timeLimit" jdbcType="VARCHAR" />
-	<result column="assessPrice" property="assessPrice" jdbcType="VARCHAR"/>
-</resultMap>
-<select id="pageing" parameterType="Map" resultMap="farmerForestList">
+<select id="findTotalNumberByFarmerId" parameterType="Long" resultType="INTEGER">
+	select count(1) from T_FARMER_FOREST where FARMERID = #{farmerId,jdbcType=BIGINT}
+</select>
+<select id="findPagingByFarmerId" parameterType="Map" resultMap="BaseResultMap">
 	select 
-	<include refid="Forest_Column_List" />
+	<include refid="Base_Column_List" />
 	from 
-	(select t.*,rownumber() over(order by recordtime desc) as rn from t_farmer_forest t
+	(select t.*,rowNumber() over() as rn from T_FARMER_FOREST t
 	<where>
-		<if test="farmerName != null and farmerName != '' ">
-			t.farmername like CONCAT(CONCAT('%',#{farmerName}),'%') 
-		</if>
-		<if test="farmerIdNum != null and farmerIdNum != ''">
-		   	and t.farmeridnum like CONCAT(CONCAT('%',#{farmerIdNum}),'%')  
-		</if>
-		<if test="wordNum != null and wordNum != '' ">
-			t.wordnum like CONCAT(CONCAT('%',#{wordNum}),'%') 
-		</if>
-		<if test="user != null and user != ''">
-		   	and t.user like CONCAT(CONCAT('%',#{user}),'%')  
-		</if>
-		<if test="recorder != null and recorder != '' ">
-		    and t.recoder like CONCAT(CONCAT('%',#{recoder}),'%')  
-		</if>
-		<if test="recordTimeBegin !=null and recordTimeBegin != ''">
-		   	<![CDATA[and t.recordtime >=to_date('#{recordTimeBegin}','yyyy-mm-dd')]]>
-		</if>
-		<if test="recordTimeEnd !=null and recordTimeEnd != ''">
-		   	<![CDATA[and t.recordtime <=to_date('#{recordTimeEnd}','yyyy-mm-dd')]]>
+		<if test="farmerId != null">
+			t.FARMERID = #{farmerId,jdbcType=BIGINT} 
 		</if>
 	 </where>
 	 )
@@ -141,6 +245,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 	<if test="start != null">
 	    	rn between #{start} and #{end}
 	   	</if>
-	</where>
+	 </where>
+</select> 
+<select id="pageing" parameterType="Map" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Column_List" />
+	from 
+	(select t.*,rowNumber() over() as rn from T_FARMER_FOREST t
+	<where>
+		<if test="farmerId != null">
+			t.FARMERID = #{farmerId,jdbcType=BIGINT} 
+		</if>
+	 </where>
+	 )
+	 <where>
+	 	<if test="start != null">
+	    	rn between #{start} and #{end}
+	   	</if>
+	 </where>
 </select>
 </mapper>

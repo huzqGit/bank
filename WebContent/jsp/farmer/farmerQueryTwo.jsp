@@ -9,37 +9,19 @@
 <script src="${pageContext.request.contextPath}/jsp/farmer/farmer.js" type="text/javascript"></script>
 <title>农户信息批量查询</title>
  <style type="text/css">
-        *{
-         margin:0;
-         padding:0;
-        }
-body{scrollbar-base-color:#90D5EA;line-height:120%;font-family:"仿宋_GB2312";font-size:13pt;}
-        a{text-decoration:none}
-        a:link{text-decoration:none;}
-        legend{
-
-            font-weight: bold;
-            color: seagreen;
-            font-family:"圆幼","宋体" ;
-        }
-        table{
-            margin-top: 10px;
-            margin-bottom: 10px;
-            width:100%;
-
-
-        }
-        li{
-            margin-top: 5px;
-            margin-left: 30px;
-        }
+	*{ margin:0;padding:0;}
+	body{line-height:120%;font-family:"仿宋_GB2312";font-size:13pt;}
+    a{text-decoration:none}
+    a:link{text-decoration:none;}
+    legend{font-weight: bold;color: seagreen;font-family:"圆幼","宋体" ;}
+    li{margin-top: 5px;margin-left: 30px;}
          input{ vertical-align:middle; margin:0; padding:0}
         .file-box{
          position:relative;
          width:100%;
          margin:auto auto;
          text-align:center;
-         background:linear-gradient(white,#6DC8E3,white);
+         background:linear-gradient(#6DC8E3,white);
 		/* IE6 & IE7 */
 		filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0 , startColorstr = '#6DC8E3', 
 		endColorstr = 'white' ); 
@@ -107,7 +89,7 @@ body{scrollbar-base-color:#90D5EA;line-height:120%;font-family:"仿宋_GB2312";f
 <body>
 <div class="file-box">
 <form action="/bank/farmer/loadFarmerTwo.do" method="post" enctype="multipart/form-data">
-<table width="100%" height ="60px" style="border:1px solid #8AD3E9">
+<table width="100%" height ="60px">
  	<tr>
  		<td class="labelName" width="30%" align="right">
         	请选择农户名单：

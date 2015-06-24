@@ -2,6 +2,8 @@ package com.bank.beans;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.common.bean.BaseEntity;
 
 public class FarmerDevice extends BaseEntity<Long> {
@@ -10,78 +12,129 @@ public class FarmerDevice extends BaseEntity<Long> {
 	 * 
 	 */
 	private static final long serialVersionUID = 7469892461259102070L;
-	private Long farmerId;
-	private String name;
-	private String brand;
-	private String buyingPrice;
-	private String buyingDate;
-	private String assessPrice;
-	private String recorder;
-	private Date recordTime;
+	
+	 	private Long farmerid;
 
-	public Long getFarmerId() {
-		return farmerId;
-	}
+	    private String name;
 
-	public void setFarmerId(Long farmerId) {
-		this.farmerId = farmerId;
-	}
+	    private String brand;
 
-	public String getName() {
-		return name;
-	}
+	    private String buyingprice;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+	    private String buyingdate;
 
-	public String getBrand() {
-		return brand;
-	}
+	    private String assessprice;
 
-	public void setBrand(String brand) {
-		this.brand = brand;
-	}
+	    private String sourcecode;
 
-	public String getBuyingPrice() {
-		return buyingPrice;
-	}
+	    private String sourcename;
 
-	public void setBuyingPrice(String buyingPrice) {
-		this.buyingPrice = buyingPrice;
-	}
+	    private String runitid;
 
-	public String getBuyingDate() {
-		return buyingDate;
-	}
+	    private String runitname;
 
-	public void setBuyingDate(String buyingDate) {
-		this.buyingDate = buyingDate;
-	}
+	    private String recorder;
+	    
+	    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	    private Date recordtime;	
 
-	public String getAssessPrice() {
-		return assessPrice;
-	}
+	
 
-	public void setAssessPrice(String assessPrice) {
-		this.assessPrice = assessPrice;
-	}
+	public Long getFarmerid() {
+			return farmerid;
+		}
 
-	public String getRecorder() {
-		return recorder;
-	}
+		public void setFarmerid(Long farmerid) {
+			this.farmerid = farmerid;
+		}
 
-	public void setRecorder(String recorder) {
-		this.recorder = recorder;
-	}
+		public String getName() {
+			return name;
+		}
 
-	public Date getRecordTime() {
-		return recordTime;
-	}
+		public void setName(String name) {
+			this.name = name;
+		}
 
-	public void setRecordTime(Date recordTime) {
-		this.recordTime = recordTime;
-	}
+		public String getBrand() {
+			return brand;
+		}
+
+		public void setBrand(String brand) {
+			this.brand = brand;
+		}
+
+		public String getBuyingprice() {
+			return buyingprice;
+		}
+
+		public void setBuyingprice(String buyingprice) {
+			this.buyingprice = buyingprice;
+		}
+
+		public String getBuyingdate() {
+			return buyingdate;
+		}
+
+		public void setBuyingdate(String buyingdate) {
+			this.buyingdate = buyingdate;
+		}
+
+		public String getAssessprice() {
+			return assessprice;
+		}
+
+		public void setAssessprice(String assessprice) {
+			this.assessprice = assessprice;
+		}
+
+		public String getSourcecode() {
+			return sourcecode;
+		}
+
+		public void setSourcecode(String sourcecode) {
+			this.sourcecode = sourcecode;
+		}
+
+		public String getSourcename() {
+			return sourcename;
+		}
+
+		public void setSourcename(String sourcename) {
+			this.sourcename = sourcename;
+		}
+
+		public String getRunitid() {
+			return runitid;
+		}
+
+		public void setRunitid(String runitid) {
+			this.runitid = runitid;
+		}
+
+		public String getRunitname() {
+			return runitname;
+		}
+
+		public void setRunitname(String runitname) {
+			this.runitname = runitname;
+		}
+
+		public String getRecorder() {
+			return recorder;
+		}
+
+		public void setRecorder(String recorder) {
+			this.recorder = recorder;
+		}
+
+		public Date getRecordtime() {
+			return recordtime;
+		}
+
+		public void setRecordtime(Date recordtime) {
+			this.recordtime = recordtime;
+		}
 
 	@Override
 	public boolean equalsIfIdNull(Object o) {

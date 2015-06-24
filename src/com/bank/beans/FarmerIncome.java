@@ -1,6 +1,10 @@
 package com.bank.beans;
 
 
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.common.bean.BaseEntity;
 
 public class FarmerIncome extends BaseEntity<Long> {
@@ -9,45 +13,107 @@ public class FarmerIncome extends BaseEntity<Long> {
 	 * 
 	 */
 	private static final long serialVersionUID = 3001805087077814968L;
-	private Long payId;
-	//收入项目名称
-	private String incomeName;
-	//收入项目类型
-	private Integer incomeType;
-	//项目年度净收入
-	private String netIncome;
 	
-	public Long getPayId() {
-		return payId;
-	}
+		private Long payid;
 
-	public void setPayId(Long payId) {
-		this.payId = payId;
-	}
+	    private String incomename;
 
-	public String getIncomeName() {
-		return incomeName;
-	}
+	    private Integer incometype;
 
-	public void setIncomeName(String incomeName) {
-		this.incomeName = incomeName;
-	}
+	    private String netincome;
 
-	public Integer getIncomeType() {
-		return incomeType;
-	}
+	    private String sourcecode;
 
-	public void setIncomeType(Integer incomeType) {
-		this.incomeType = incomeType;
-	}
+	    private String sourcename;
 
-	public String getNetIncome() {
-		return netIncome;
-	}
+	    private String runitid;
 
-	public void setNetIncome(String netIncome) {
-		this.netIncome = netIncome;
-	}
+	    private String runitname;
+
+	    private String recorder;
+	    
+	    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	    private Date recordtime;
+
+	    public Long getPayid() {
+			return payid;
+		}
+
+		public void setPayid(Long payid) {
+			this.payid = payid;
+		}
+
+		public String getIncomename() {
+			return incomename;
+		}
+
+		public void setIncomename(String incomename) {
+			this.incomename = incomename;
+		}
+
+		public Integer getIncometype() {
+			return incometype;
+		}
+
+		public void setIncometype(Integer incometype) {
+			this.incometype = incometype;
+		}
+
+		public String getNetincome() {
+			return netincome;
+		}
+
+		public void setNetincome(String netincome) {
+			this.netincome = netincome;
+		}
+
+		public String getSourcecode() {
+			return sourcecode;
+		}
+
+		public void setSourcecode(String sourcecode) {
+			this.sourcecode = sourcecode;
+		}
+
+		public String getSourcename() {
+			return sourcename;
+		}
+
+		public void setSourcename(String sourcename) {
+			this.sourcename = sourcename;
+		}
+
+		public String getRunitid() {
+			return runitid;
+		}
+
+		public void setRunitid(String runitid) {
+			this.runitid = runitid;
+		}
+
+		public String getRunitname() {
+			return runitname;
+		}
+
+		public void setRunitname(String runitname) {
+			this.runitname = runitname;
+		}
+
+		public String getRecorder() {
+			return recorder;
+		}
+
+		public void setRecorder(String recorder) {
+			this.recorder = recorder;
+		}
+
+		public Date getRecordtime() {
+			return recordtime;
+		}
+
+		public void setRecordtime(Date recordtime) {
+			this.recordtime = recordtime;
+		}
 
 	@Override
 	public boolean equalsIfIdNull(Object o) {

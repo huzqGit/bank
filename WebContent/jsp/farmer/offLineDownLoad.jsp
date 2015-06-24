@@ -16,7 +16,7 @@ line-height:15px;
 .topMenu{
 width:100%;
 height:80px;
-background:linear-gradient(white,#6DC8E3,white);
+background:linear-gradient(#6DC8E3,white);
 /* IE6 & IE7 */
 filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0 , startColorstr = '#6DC8E3', 
 endColorstr = 'white' ); 

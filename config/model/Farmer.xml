@@ -3,113 +3,450 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="farmer">
+ <resultMap id="BaseResultMap" type="com.bank.beans.Farmer" >
+    <id column="FARMERID" property="id" jdbcType="BIGINT" />
+    <result column="FARMERNAME" property="farmername" jdbcType="VARCHAR" />
+    <result column="FARMERIDNUM" property="farmeridnum" jdbcType="VARCHAR" />
+    <result column="SEX" property="sex" jdbcType="INTEGER" />
+    <result column="MARRYSTATUS" property="marrystatus" jdbcType="VARCHAR" />
+    <result column="POLITICSTATUS" property="politicstatus" jdbcType="INTEGER" />
+    <result column="EDUCATION" property="education" jdbcType="INTEGER" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="BANK" property="bank" jdbcType="VARCHAR" />
+    <result column="ACCOUNT" property="account" jdbcType="VARCHAR" />
+    <result column="FAMILYNUM" property="familynum" jdbcType="INTEGER" />
+    <result column="LABORNUM" property="labornum" jdbcType="INTEGER" />
+    <result column="POSTCODE" property="postcode" jdbcType="INTEGER" />
+    <result column="IDTYPE" property="idtype" jdbcType="VARCHAR" />
+    <result column="OCCUPATION" property="occupation" jdbcType="VARCHAR" />
+    <result column="VILLAGES" property="villages" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="FARMERTYPE" property="farmertype" jdbcType="INTEGER" />
+    <result column="POORTYPE" property="poortype" jdbcType="INTEGER" />
+    <result column="POORREASON" property="poorreason" jdbcType="INTEGER" />
+    <result column="PLOUGHAREA" property="plougharea" jdbcType="DOUBLE" />
+    <result column="WATERINGAREA" property="wateringarea" jdbcType="DOUBLE" />
+    <result column="FORESTAREA" property="forestarea" jdbcType="DOUBLE" />
+    <result column="FORESTAREA1" property="forestarea1" jdbcType="DOUBLE" />
+    <result column="FRUITAREA" property="fruitarea" jdbcType="DOUBLE" />
+    <result column="MEADOWAREA" property="meadowarea" jdbcType="DOUBLE" />
+    <result column="WATERAREA" property="waterarea" jdbcType="DOUBLE" />
+    <result column="DRINKINGHARD" property="drinkinghard" jdbcType="INTEGER" />
+    <result column="DRINKINGSAFE" property="drinkingsafe" jdbcType="INTEGER" />
+    <result column="USINGELECTRIC" property="usingelectric" jdbcType="INTEGER" />
+    <result column="USINGTOILET" property="usingtoilet" jdbcType="INTEGER" />
+    <result column="FUELTYPE" property="fueltype" jdbcType="INTEGER" />
+    <result column="USINGARTEL" property="usingartel" jdbcType="INTEGER" />
+    <result column="NETINCOME" property="netincome" jdbcType="INTEGER" />
+    <result column="WAGESINCOME" property="wagesincome" jdbcType="DOUBLE" />
+    <result column="OPERATEINCOME" property="operateincome" jdbcType="DOUBLE" />
+    <result column="SUBSIDYINCOME" property="subsidyincome" jdbcType="DOUBLE" />
+    <result column="USINGTELEVISION" property="usingtelevision" jdbcType="INTEGER" />
+    <result column="ROADDISTANCE" property="roaddistance" jdbcType="DOUBLE" />
+    <result column="ROADTYPE" property="roadtype" jdbcType="INTEGER" />
+    <result column="HOUSEAREA" property="housearea" jdbcType="DOUBLE" />
+    <result column="UNSAFEHOUSE" property="unsafehouse" jdbcType="INTEGER" />
+    <result column="LOWINSURE" property="lowinsure" jdbcType="DOUBLE" />
+    <result column="AGEDINSURE" property="agedinsure" jdbcType="DOUBLE" />
+    <result column="ECOAMOUNT" property="ecoamount" jdbcType="DOUBLE" />
+    <result column="SOURCECODE" property="sourcecode" jdbcType="VARCHAR" />
+    <result column="SOURCENAME" property="sourcename" jdbcType="VARCHAR" />
+    <result column="RUNITID" property="runitid" jdbcType="VARCHAR" />
+    <result column="RUNITNAME" property="runitname" jdbcType="VARCHAR" />
+    <result column="RECORDER" property="recorder" jdbcType="VARCHAR" />
+    <result column="RECORDTIME" property="recordtime" jdbcType="TIMESTAMP" />
+ </resultMap>
+ <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+</sql>
+<sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+</sql>
 <sql id="Farmer_Column_List" >
  farmerId, farmerName, farmerIdnum, politicStatus, familyNum, phone, villages,address,sex,
  education,marryStatus, laborNum, postCode, runitId, runitName, recorder, recordTime
 </sql>
-<insert id="save" useGeneratedKeys="true" keyProperty="id" 
-	parameterType="com.bank.beans.Farmer">
-	insert into t_farmer
-	<trim prefix="(" suffix=")" suffixOverrides=",">
-	  <if test="farmerName != null" >
-	  	farmerName,
-	  </if>
-	   <if test="farmerIdnum != null">
-	   	farmerIdnum,
-	  </if>
-	  <if test="politicStatus != null">
-	   	 politicStatus,
-	  </if>
-	  <if test="familyNum != null">
-	   	 familyNum,
-	  </if>
-	  <if test="phone != null">
-	   	 phone,
-	  </if>
-	  <if test="villages != null">
-	   	 villages,
-	  </if>
-	  <if test="address != null">
-	   	  address,
-	  </if>
-	  <if test="sex != null">
-	   	 sex,
-	  </if>
-	  <if test="education != null">
-	   	  education,
-	  </if>
-	  <if test="marryStatus != null">
-	   	  marryStatus,
-	  </if>
-	  <if test="laborNum != null">
-	   	laborNum,
-	  </if>
-	  <if test="postCode != null">
-	   	postCode,
-	  </if>
-	  <if test="runitId != null">
-	   runitId,
-	  </if>
-	  <if test="runitName != null">
-		runitName
-	  </if>
-	  <if test="recorder != null">
-	   recorder,
-	  </if>
-	  <if test="recordTime != null">
-		recordTime
-	  </if>
-	</trim>
-	<trim prefix="values (" suffix=")" suffixOverrides=",">
-	  <if test="farmerName != null" >
-	  	#{farmerName,jdbcType=VARCHAR},
-	  </if>
-	   <if test="farmerIdnum != null">
-	   	#{farmerIdnum,jdbcType=VARCHAR},
-	  </if>
-	  <if test="politicStatus != null">
-	   	#{politicStatus,jdbcType=INTEGER},
-	  </if>
-	  <if test="familyNum != null">
-	   	#{familyNum,jdbcType=INTEGER},
-	  </if>
-	  <if test="phone != null">
-	   	#{phone,jdbcType=VARCHAR},
-	  </if>
-	   <if test="villages != null">
-	   	#{villages,jdbcType=VARCHAR},
-	  </if>
-	  <if test="address != null">
-	   	#{address,jdbcType=VARCHAR},
-	  </if>
-	   <if test="sex != null">
-	   	#{sex,jdbcType=INTEGER},
-	  </if>
-	  <if test="education != null">
-	   	#{education,jdbcType=INTEGER},
-	  </if>
-	  <if test="marryStatus != null">
-	   	#{marryStatus,jdbcType=VARCHAR},
-	  </if>
-	  <if test="laborNum != null">
-	   	#{laborNum,jdbcType=INTEGER},
-	  </if>
-	  <if test="postCode != null">
-	   	#{postCode,jdbcType=INTEGER},
-	  </if>
-	   <if test="runitId != null">
-	    #{runitId,jdbcType=VARCHAR},
-	  </if>
-	  <if test="runitName != null">
-		#{runitName,jdbcType=VARCHAR},
-	  </if>
-	  <if test="recorder != null">
-	    #{recorder,jdbcType=VARCHAR},
-	  </if>
-	  <if test="recordTime != null">
-		#{recordTime,jdbcType=TIMESTAMP}
-	  </if>
-	</trim>
+<sql id="Base_Column_List" >
+    FARMERID, FARMERNAME, FARMERIDNUM, SEX, MARRYSTATUS, POLITICSTATUS, EDUCATION, PHONE, 
+    BANK, ACCOUNT, FAMILYNUM, LABORNUM, POSTCODE, IDTYPE, OCCUPATION, VILLAGES, ADDRESS, 
+    FARMERTYPE, POORTYPE, POORREASON, PLOUGHAREA, WATERINGAREA, FORESTAREA, FORESTAREA1, 
+    FRUITAREA, MEADOWAREA, WATERAREA, DRINKINGHARD, DRINKINGSAFE, USINGELECTRIC, USINGTOILET, 
+    FUELTYPE, USINGARTEL, NETINCOME, WAGESINCOME, OPERATEINCOME, SUBSIDYINCOME, USINGTELEVISION, 
+    ROADDISTANCE, ROADTYPE, HOUSEAREA, UNSAFEHOUSE, LOWINSURE, AGEDINSURE, ECOAMOUNT, 
+    SOURCECODE,SOURCENAME,RUNITID, RUNITNAME, RECORDER, RECORDTIME
+</sql>
+<select id="selectByExample" resultMap="BaseResultMap" parameterType="com.bank.beans.FarmerExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_FARMER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+</select>
+<insert id="save" useGeneratedKeys="true" keyProperty="id" parameterType="com.bank.beans.Farmer">
+	insert into T_FARMER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="farmername != null" >
+        FARMERNAME,
+      </if>
+      <if test="farmeridnum != null" >
+        FARMERIDNUM,
+      </if>
+      <if test="sex != null" >
+        SEX,
+      </if>
+      <if test="marrystatus != null" >
+        MARRYSTATUS,
+      </if>
+      <if test="politicstatus != null" >
+        POLITICSTATUS,
+      </if>
+      <if test="education != null" >
+        EDUCATION,
+      </if>
+      <if test="phone != null" >
+        PHONE,
+      </if>
+      <if test="bank != null" >
+        BANK,
+      </if>
+      <if test="account != null" >
+        ACCOUNT,
+      </if>
+      <if test="familynum != null" >
+        FAMILYNUM,
+      </if>
+      <if test="labornum != null" >
+        LABORNUM,
+      </if>
+      <if test="postcode != null" >
+        POSTCODE,
+      </if>
+      <if test="idtype != null" >
+        IDTYPE,
+      </if>
+      <if test="occupation != null" >
+        OCCUPATION,
+      </if>
+      <if test="villages != null" >
+        VILLAGES,
+      </if>
+      <if test="address != null" >
+        ADDRESS,
+      </if>
+      <if test="farmertype != null" >
+        FARMERTYPE,
+      </if>
+      <if test="poortype != null" >
+        POORTYPE,
+      </if>
+      <if test="poorreason != null" >
+        POORREASON,
+      </if>
+      <if test="plougharea != null" >
+        PLOUGHAREA,
+      </if>
+      <if test="wateringarea != null" >
+        WATERINGAREA,
+      </if>
+      <if test="forestarea != null" >
+        FORESTAREA,
+      </if>
+      <if test="forestarea1 != null" >
+        FORESTAREA1,
+      </if>
+      <if test="fruitarea != null" >
+        FRUITAREA,
+      </if>
+      <if test="meadowarea != null" >
+        MEADOWAREA,
+      </if>
+      <if test="waterarea != null" >
+        WATERAREA,
+      </if>
+      <if test="drinkinghard != null" >
+        DRINKINGHARD,
+      </if>
+      <if test="drinkingsafe != null" >
+        DRINKINGSAFE,
+      </if>
+      <if test="usingelectric != null" >
+        USINGELECTRIC,
+      </if>
+      <if test="usingtoilet != null" >
+        USINGTOILET,
+      </if>
+      <if test="fueltype != null" >
+        FUELTYPE,
+      </if>
+      <if test="usingartel != null" >
+        USINGARTEL,
+      </if>
+      <if test="netincome != null" >
+        NETINCOME,
+      </if>
+      <if test="wagesincome != null" >
+        WAGESINCOME,
+      </if>
+      <if test="operateincome != null" >
+        OPERATEINCOME,
+      </if>
+      <if test="subsidyincome != null" >
+        SUBSIDYINCOME,
+      </if>
+      <if test="usingtelevision != null" >
+        USINGTELEVISION,
+      </if>
+      <if test="roaddistance != null" >
+        ROADDISTANCE,
+      </if>
+      <if test="roadtype != null" >
+        ROADTYPE,
+      </if>
+      <if test="housearea != null" >
+        HOUSEAREA,
+      </if>
+      <if test="unsafehouse != null" >
+        UNSAFEHOUSE,
+      </if>
+      <if test="lowinsure != null" >
+        LOWINSURE,
+      </if>
+      <if test="agedinsure != null" >
+        AGEDINSURE,
+      </if>
+      <if test="ecoamount != null" >
+        ECOAMOUNT,
+      </if>
+       <if test="sourcecode != null" >
+        SOURCECODE,
+      </if>
+      <if test="sourcename != null" >
+        SOURCENAME,
+      </if>
+      <if test="runitid != null" >
+        RUNITID,
+      </if>
+      <if test="runitname != null" >
+        RUNITNAME,
+      </if>
+      <if test="recorder != null" >
+        RECORDER,
+      </if>
+      <if test="recordtime != null" >
+        RECORDTIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="farmername != null" >
+        #{farmername,jdbcType=VARCHAR},
+      </if>
+      <if test="farmeridnum != null" >
+        #{farmeridnum,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="marrystatus != null" >
+        #{marrystatus,jdbcType=VARCHAR},
+      </if>
+      <if test="politicstatus != null" >
+        #{politicstatus,jdbcType=INTEGER},
+      </if>
+      <if test="education != null" >
+        #{education,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="bank != null" >
+        #{bank,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="familynum != null" >
+        #{familynum,jdbcType=INTEGER},
+      </if>
+      <if test="labornum != null" >
+        #{labornum,jdbcType=INTEGER},
+      </if>
+      <if test="postcode != null" >
+        #{postcode,jdbcType=INTEGER},
+      </if>
+      <if test="idtype != null" >
+        #{idtype,jdbcType=VARCHAR},
+      </if>
+      <if test="occupation != null" >
+        #{occupation,jdbcType=VARCHAR},
+      </if>
+      <if test="villages != null" >
+        #{villages,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="farmertype != null" >
+        #{farmertype,jdbcType=INTEGER},
+      </if>
+      <if test="poortype != null" >
+        #{poortype,jdbcType=INTEGER},
+      </if>
+      <if test="poorreason != null" >
+        #{poorreason,jdbcType=INTEGER},
+      </if>
+      <if test="plougharea != null" >
+        #{plougharea,jdbcType=DOUBLE},
+      </if>
+      <if test="wateringarea != null" >
+        #{wateringarea,jdbcType=DOUBLE},
+      </if>
+      <if test="forestarea != null" >
+        #{forestarea,jdbcType=DOUBLE},
+      </if>
+      <if test="forestarea1 != null" >
+        #{forestarea1,jdbcType=DOUBLE},
+      </if>
+      <if test="fruitarea != null" >
+        #{fruitarea,jdbcType=DOUBLE},
+      </if>
+      <if test="meadowarea != null" >
+        #{meadowarea,jdbcType=DOUBLE},
+      </if>
+      <if test="waterarea != null" >
+        #{waterarea,jdbcType=DOUBLE},
+      </if>
+      <if test="drinkinghard != null" >
+        #{drinkinghard,jdbcType=INTEGER},
+      </if>
+      <if test="drinkingsafe != null" >
+        #{drinkingsafe,jdbcType=INTEGER},
+      </if>
+      <if test="usingelectric != null" >
+        #{usingelectric,jdbcType=INTEGER},
+      </if>
+      <if test="usingtoilet != null" >
+        #{usingtoilet,jdbcType=INTEGER},
+      </if>
+      <if test="fueltype != null" >
+        #{fueltype,jdbcType=INTEGER},
+      </if>
+      <if test="usingartel != null" >
+        #{usingartel,jdbcType=INTEGER},
+      </if>
+      <if test="netincome != null" >
+        #{netincome,jdbcType=INTEGER},
+      </if>
+      <if test="wagesincome != null" >
+        #{wagesincome,jdbcType=DOUBLE},
+      </if>
+      <if test="operateincome != null" >
+        #{operateincome,jdbcType=DOUBLE},
+      </if>
+      <if test="subsidyincome != null" >
+        #{subsidyincome,jdbcType=DOUBLE},
+      </if>
+      <if test="usingtelevision != null" >
+        #{usingtelevision,jdbcType=INTEGER},
+      </if>
+      <if test="roaddistance != null" >
+        #{roaddistance,jdbcType=DOUBLE},
+      </if>
+      <if test="roadtype != null" >
+        #{roadtype,jdbcType=INTEGER},
+      </if>
+      <if test="housearea != null" >
+        #{housearea,jdbcType=DOUBLE},
+      </if>
+      <if test="unsafehouse != null" >
+        #{unsafehouse,jdbcType=INTEGER},
+      </if>
+      <if test="lowinsure != null" >
+        #{lowinsure,jdbcType=DOUBLE},
+      </if>
+      <if test="agedinsure != null" >
+        #{agedinsure,jdbcType=DOUBLE},
+      </if>
+      <if test="ecoamount != null" >
+        #{ecoamount,jdbcType=DOUBLE},
+      </if>
+      <if test="sourcecode != null" >
+        #{sourcecode,jdbcType=VARCHAR},
+      </if>
+      <if test="sourcename != null" >
+        #{sourcename,jdbcType=VARCHAR},
+      </if>
+      <if test="runitid != null" >
+        #{runitid,jdbcType=VARCHAR},
+      </if>
+      <if test="runitname != null" >
+        #{runitname,jdbcType=VARCHAR},
+      </if>
+      <if test="recorder != null" >
+        #{recorder,jdbcType=VARCHAR},
+      </if>
+      <if test="recordtime != null" >
+        #{recordtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
 </insert>
 <insert id="saveApply" useGeneratedKeys="true" keyProperty="id" 
 	parameterType="com.bank.beans.Apply">
@@ -156,24 +493,218 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</trim>
 </insert>
 <update id="update" parameterType="com.bank.beans.Farmer">
-	update t_farmer 
-	set farmerName = #{farmerName,jdbcType = VARCHAR}, 
-	farmerIdnum = #{farmerIdnum,jdbcType = VARCHAR}, 
-	politicStatus = #{politicStatus,jdbcType = INTEGER},
-	familyNum = #{familyNum,jdbcType = INTEGER}, 
-	phone = #{phone,jdbcType = VARCHAR}, 
-	villages = #{villages,jdbcType=VARCHAR},
-	address = #{address,jdbcType = VARCHAR},
- 	sex=  #{sex,jdbcType = INTEGER},
- 	education = #{education,jdbcType = INTEGER},
- 	marryStatus = #{marryStatus,jdbcType = VARCHAR},
- 	laborNum = #{laborNum,jdbcType = VARCHAR},
- 	postCode = #{postCode,jdbcType = VARCHAR},
- 	runitId = #{runitId,jdbcType = VARCHAR},
-	runitName = #{runitName,jdbcType = VARCHAR},
-	recorder = #{recorder,jdbcType=VARCHAR},
-	recordTime = #{recordTime,jdbcType=DATE}
- 	where farmerId = #{id,jdbcType=BIGINT}
+	update T_FARMER
+    set FARMERNAME = #{farmername,jdbcType=VARCHAR},
+      FARMERIDNUM = #{farmeridnum,jdbcType=VARCHAR},
+      SEX = #{sex,jdbcType=INTEGER},
+      MARRYSTATUS = #{marrystatus,jdbcType=VARCHAR},
+      POLITICSTATUS = #{politicstatus,jdbcType=INTEGER},
+      EDUCATION = #{education,jdbcType=INTEGER},
+      PHONE = #{phone,jdbcType=VARCHAR},
+      BANK = #{bank,jdbcType=VARCHAR},
+      ACCOUNT = #{account,jdbcType=VARCHAR},
+      FAMILYNUM = #{familynum,jdbcType=INTEGER},
+      LABORNUM = #{labornum,jdbcType=INTEGER},
+      POSTCODE = #{postcode,jdbcType=INTEGER},
+      IDTYPE = #{idtype,jdbcType=VARCHAR},
+      OCCUPATION = #{occupation,jdbcType=VARCHAR},
+      VILLAGES = #{villages,jdbcType=VARCHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      FARMERTYPE = #{farmertype,jdbcType=INTEGER},
+      POORTYPE = #{poortype,jdbcType=INTEGER},
+      POORREASON = #{poorreason,jdbcType=INTEGER},
+      PLOUGHAREA = #{plougharea,jdbcType=DOUBLE},
+      WATERINGAREA = #{wateringarea,jdbcType=DOUBLE},
+      FORESTAREA = #{forestarea,jdbcType=DOUBLE},
+      FORESTAREA1 = #{forestarea1,jdbcType=DOUBLE},
+      FRUITAREA = #{fruitarea,jdbcType=DOUBLE},
+      MEADOWAREA = #{meadowarea,jdbcType=DOUBLE},
+      WATERAREA = #{waterarea,jdbcType=DOUBLE},
+      DRINKINGHARD = #{drinkinghard,jdbcType=INTEGER},
+      DRINKINGSAFE = #{drinkingsafe,jdbcType=INTEGER},
+      USINGELECTRIC = #{usingelectric,jdbcType=INTEGER},
+      USINGTOILET = #{usingtoilet,jdbcType=INTEGER},
+      FUELTYPE = #{fueltype,jdbcType=INTEGER},
+      USINGARTEL = #{usingartel,jdbcType=INTEGER},
+      NETINCOME = #{netincome,jdbcType=INTEGER},
+      WAGESINCOME = #{wagesincome,jdbcType=DOUBLE},
+      OPERATEINCOME = #{operateincome,jdbcType=DOUBLE},
+      SUBSIDYINCOME = #{subsidyincome,jdbcType=DOUBLE},
+      USINGTELEVISION = #{usingtelevision,jdbcType=INTEGER},
+      ROADDISTANCE = #{roaddistance,jdbcType=DOUBLE},
+      ROADTYPE = #{roadtype,jdbcType=INTEGER},
+      HOUSEAREA = #{housearea,jdbcType=DOUBLE},
+      UNSAFEHOUSE = #{unsafehouse,jdbcType=INTEGER},
+      LOWINSURE = #{lowinsure,jdbcType=DOUBLE},
+      AGEDINSURE = #{agedinsure,jdbcType=DOUBLE},
+      ECOAMOUNT = #{ecoamount,jdbcType=DOUBLE},
+      SOURCECODE = #{sourcecode,jdbcType=VARCHAR},
+      SOURCENAME = #{sourcename,jdbcType=VARCHAR},
+      RUNITID = #{runitid,jdbcType=VARCHAR},
+      RUNITNAME = #{runitname,jdbcType=VARCHAR},
+      RECORDER = #{recorder,jdbcType=VARCHAR},
+      RECORDTIME = #{recordtime,jdbcType=TIMESTAMP}
+ 	where FARMERID = #{id,jdbcType=BIGINT}
+</update>
+<update id="updateBySelective" parameterType="com.bank.beans.Farmer">
+	update T_FARMER
+    <set >
+      <if test="farmername != null" >
+        FARMERNAME = #{farmername,jdbcType=VARCHAR},
+      </if>
+      <if test="farmeridnum != null" >
+        FARMERIDNUM = #{farmeridnum,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        SEX = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="marrystatus != null" >
+        MARRYSTATUS = #{marrystatus,jdbcType=VARCHAR},
+      </if>
+      <if test="politicstatus != null" >
+        POLITICSTATUS = #{politicstatus,jdbcType=INTEGER},
+      </if>
+      <if test="education != null" >
+        EDUCATION = #{education,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null" >
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="bank != null" >
+        BANK = #{bank,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null" >
+        ACCOUNT = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="familynum != null" >
+        FAMILYNUM = #{familynum,jdbcType=INTEGER},
+      </if>
+      <if test="labornum != null" >
+        LABORNUM = #{labornum,jdbcType=INTEGER},
+      </if>
+      <if test="postcode != null" >
+        POSTCODE = #{postcode,jdbcType=INTEGER},
+      </if>
+      <if test="idtype != null" >
+        IDTYPE = #{idtype,jdbcType=VARCHAR},
+      </if>
+      <if test="occupation != null" >
+        OCCUPATION = #{occupation,jdbcType=VARCHAR},
+      </if>
+      <if test="villages != null" >
+        VILLAGES = #{villages,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="farmertype != null" >
+        FARMERTYPE = #{farmertype,jdbcType=INTEGER},
+      </if>
+      <if test="poortype != null" >
+        POORTYPE = #{poortype,jdbcType=INTEGER},
+      </if>
+      <if test="poorreason != null" >
+        POORREASON = #{poorreason,jdbcType=INTEGER},
+      </if>
+      <if test="plougharea != null" >
+        PLOUGHAREA = #{plougharea,jdbcType=DOUBLE},
+      </if>
+      <if test="wateringarea != null" >
+        WATERINGAREA = #{wateringarea,jdbcType=DOUBLE},
+      </if>
+      <if test="forestarea != null" >
+        FORESTAREA = #{forestarea,jdbcType=DOUBLE},
+      </if>
+      <if test="forestarea1 != null" >
+        FORESTAREA1 = #{forestarea1,jdbcType=DOUBLE},
+      </if>
+      <if test="fruitarea != null" >
+        FRUITAREA = #{fruitarea,jdbcType=DOUBLE},
+      </if>
+      <if test="meadowarea != null" >
+        MEADOWAREA = #{meadowarea,jdbcType=DOUBLE},
+      </if>
+      <if test="waterarea != null" >
+        WATERAREA = #{waterarea,jdbcType=DOUBLE},
+      </if>
+      <if test="drinkinghard != null" >
+        DRINKINGHARD = #{drinkinghard,jdbcType=INTEGER},
+      </if>
+      <if test="drinkingsafe != null" >
+        DRINKINGSAFE = #{drinkingsafe,jdbcType=INTEGER},
+      </if>
+      <if test="usingelectric != null" >
+        USINGELECTRIC = #{usingelectric,jdbcType=INTEGER},
+      </if>
+      <if test="usingtoilet != null" >
+        USINGTOILET = #{usingtoilet,jdbcType=INTEGER},
+      </if>
+      <if test="fueltype != null" >
+        FUELTYPE = #{fueltype,jdbcType=INTEGER},
+      </if>
+      <if test="usingartel != null" >
+        USINGARTEL = #{usingartel,jdbcType=INTEGER},
+      </if>
+      <if test="netincome != null" >
+        NETINCOME = #{netincome,jdbcType=INTEGER},
+      </if>
+      <if test="wagesincome != null" >
+        WAGESINCOME = #{wagesincome,jdbcType=DOUBLE},
+      </if>
+      <if test="operateincome != null" >
+        OPERATEINCOME = #{operateincome,jdbcType=DOUBLE},
+      </if>
+      <if test="subsidyincome != null" >
+        SUBSIDYINCOME = #{subsidyincome,jdbcType=DOUBLE},
+      </if>
+      <if test="usingtelevision != null" >
+        USINGTELEVISION = #{usingtelevision,jdbcType=INTEGER},
+      </if>
+      <if test="roaddistance != null" >
+        ROADDISTANCE = #{roaddistance,jdbcType=DOUBLE},
+      </if>
+      <if test="roadtype != null" >
+        ROADTYPE = #{roadtype,jdbcType=INTEGER},
+      </if>
+      <if test="housearea != null" >
+        HOUSEAREA = #{housearea,jdbcType=DOUBLE},
+      </if>
+      <if test="unsafehouse != null" >
+        UNSAFEHOUSE = #{unsafehouse,jdbcType=INTEGER},
+      </if>
+      <if test="lowinsure != null" >
+        LOWINSURE = #{lowinsure,jdbcType=DOUBLE},
+      </if>
+      <if test="agedinsure != null" >
+        AGEDINSURE = #{agedinsure,jdbcType=DOUBLE},
+      </if>
+      <if test="ecoamount != null" >
+        ECOAMOUNT = #{ecoamount,jdbcType=DOUBLE},
+      </if>
+      <if test="sourcecode != null">
+      	SOURCECODE = #{sourcecode,jdbcType=VARCHAR},
+      </if>
+      <if test="sourcename != null">
+      	SOURCENAME = #{sourcename,jdbcType=VARCHAR},
+      </if>
+      <if test="runitid != null" >
+        RUNITID = #{runitid,jdbcType=VARCHAR},
+      </if>
+      <if test="runitname != null" >
+        RUNITNAME = #{runitname,jdbcType=VARCHAR},
+      </if>
+      <if test="recorder != null" >
+        RECORDER = #{recorder,jdbcType=VARCHAR},
+      </if>
+      <if test="recordtime != null" >
+        RECORDTIME = #{recordtime,jdbcType=TIMESTAMP}
+      </if>
+    </set>
+  	<where>
+  		FARMERID = #{id,jdbcType=BIGINT} 
+  	</where>
+
+
 </update>
 <resultMap id="farmerList" type="com.bank.beans.Farmer">
     <id column="farmerId" property="id" jdbcType="BIGINT"/>
@@ -207,30 +738,59 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	from t_bank_apply
 	where userId = #{userId,jdbcType=VARCHAR}
 </select>
-<select id="findByPK" parameterType="Long" resultMap="farmerList">
+<select id="findByPK" parameterType="Long" resultMap="BaseResultMap">
 	select 
-	<include refid="Farmer_Column_List" />
-	from t_Farmer where farmerId = #{id,jdbcType=INTEGER}
+	<include refid="Base_Column_List" />
+	from T_FARMER where FARMERID = #{id,jdbcType=BIGINT}
+</select>
+<select id="findTotalNumber" parameterType="Map" resultType="Integer">
+	select count(1) from T_FARMER 
+	<where>
+		<if test="runitid !=null">
+			and RUNITID = #{runitid,jdbcType=VARCHAR}
+		</if>
+		<if test="farmertype != null">
+			and FARMERTYPE = #{farmertype,jdbcType=INTEGER}
+		</if>
+	</where>
 </select>
 <select id="findByPKM" parameterType="list" resultMap="farmerList">
 	select 
 	<include refid="Farmer_Column_List" />
-	from t_Farmer 
+	from T_FARMER 
 	<where>
-		farmerId in
+		FARMERID in
 		<foreach item="item" index="index" collection="list" 
 			open="(" separator="," close=")">
 			#{item}
 		</foreach>
 	</where>
 </select>
-<select id="findByID" parameterType="Map" resultMap="farmerList">
-	select 
+<select id="findPagingByPKs" parameterType="Map" resultMap="farmerList">
+select 
 	<include refid="Farmer_Column_List" />
-	from t_Farmer 
-	where farmerIdNum = #{farmerIdNum,jdbcType=VARCHAR}
-	and runitId =  #{runitId,jdbcType=VARCHAR}
-	
+	from 
+	(select t.*,rownumber() over() as rn from t_farmer t
+	<where>
+		farmerId in
+		<foreach item="item" index="index" collection="farmerIds" 
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		</where>
+	 )
+	 <where>
+	 	<if test="start != null">
+	    	rn between #{start} and #{end}
+	   	</if>
+	 </where>
+</select>
+<select id="findByID" parameterType="Map" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Column_List" />
+	from T_FARMER 
+	where FARMERIDNUM =#{farmeridnum,jdbcType=VARCHAR}
+	and SOURCECODE = #{sourcecode,jdbcType=VARCHAR}
 </select>
 <select id="findByIDAndName" parameterType="String" resultMap="farmerList">
 	select 
@@ -257,29 +817,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</foreach>
 	</where>
 </select>
-<select id="findByMultiCondition" parameterType="Map" resultMap="farmerList">
+<select id="pageing" parameterType="Map" resultMap="BaseResultMap">
 	select 
-	<include refid="Farmer_Column_List" />
-	from t_farmer t
-	<where>
-	 t.farmeridnum = #{farmerIdNum,jdbcType=VARCHAR}
-	 </where>
-</select>
-
-<select id="findPagingByIDAndName" parameterType="Map" resultMap="farmerList">
-	select 
-	<include refid="Farmer_Column_List" />
+	<include refid="Base_Column_List" />
 	from 
-	(select t.*,rownumber() over() as rn from t_farmer t
+	(select t.*,rownumber() over() as rn from T_FARMER t
 	<where>
-		<if test="farmerName != null">
-			t.farmername like CONCAT(CONCAT('%',#{farmerName}),'%') 
+		<if test="farmername != null">
+			t.FARMERNAME like CONCAT(CONCAT('%',#{farmername}),'%') 
 		</if>
-		<if test="farmerIdNum != null">
-		   	and t.farmeridnum like CONCAT(CONCAT('%',#{farmerIdNum}),'%')  
+		<if test="farmeridNum != null">
+		   	and t.FARMERIDNUM like CONCAT(CONCAT('%',#{farmeridnum}),'%')  
 		</if>
 		<if test="runitId != null">
-		   	and t.runitId = #{runitId} 
+		   	and t.RUNITID = #{runitId,jdbcType=VARCHAR} 
+		</if>
+		<if test="farmertype != null">
+		   	and t.FARMERTYPE = #{farmertype,jdbcType=INTEGER} 
 		</if>
 	 </where>
 	 )

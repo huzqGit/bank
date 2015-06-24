@@ -79,7 +79,7 @@ public class FarmerCompunishController {
 		ModelAndView view = new ModelAndView("/farmer/farmerCompunishView1");
 		Farmer farmer = null;
 		try {
-			 farmer = farmerService.findByPK(compunish.getFarmerId());
+			 farmer = farmerService.findByPK(compunish.getFarmerid());
 		} catch (DAOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

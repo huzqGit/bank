@@ -2,165 +2,338 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="farmermember">
-<sql id="Member_Column_List" >
-	memberId, farmerId, name, relation, idNum, education,
-	marryStatus, occupation, job, sex,address, phone
-</sql>
+<resultMap id="BaseResultMap" type="com.bank.beans.FarmerMember" >
+    <id column="MEMBERID" property="id" jdbcType="BIGINT" />
+    <result column="FARMERID" property="farmerid" jdbcType="BIGINT" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="RELATION" property="relation" jdbcType="VARCHAR" />
+    <result column="IDNUM" property="idnum" jdbcType="VARCHAR" />
+    <result column="EDUCATION" property="education" jdbcType="INTEGER" />
+    <result column="MARRYSTATUS" property="marrystatus" jdbcType="VARCHAR" />
+    <result column="OCCUPATION" property="occupation" jdbcType="VARCHAR" />
+    <result column="JOB" property="job" jdbcType="VARCHAR" />
+    <result column="SEX" property="sex" jdbcType="INTEGER" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="HEALTHSTATE" property="healthstate" jdbcType="VARCHAR" />
+    <result column="LABOURSTATE" property="labourstate" jdbcType="INTEGER" />
+    <result column="USINGMEDICAL" property="usingmedical" jdbcType="INTEGER" />
+    <result column="USINGINUSE" property="usinginuse" jdbcType="INTEGER" />
+    <result column="SOURCECODE" property="sourcecode" jdbcType="VARCHAR" />
+    <result column="SOURCENAME" property="sourcename" jdbcType="VARCHAR" />
+    <result column="RUNITID" property="runitid" jdbcType="VARCHAR" />
+    <result column="RUNITNAME" property="runitname" jdbcType="VARCHAR" />
+    <result column="RECORDER" property="recorder" jdbcType="VARCHAR" />
+    <result column="RECORDTIME" property="recordtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    MEMBERID, FARMERID, NAME, RELATION, IDNUM, EDUCATION, MARRYSTATUS, OCCUPATION, JOB, 
+    SEX, PHONE, ADDRESS, HEALTHSTATE, LABOURSTATE, USINGMEDICAL, USINGINUSE, SOURCECODE, 
+    SOURCENAME, RUNITID, RUNITNAME, RECORDER, RECORDTIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.bank.beans.FarmerMemberExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_FARMER_MEMBER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
 <insert id="save" useGeneratedKeys="true" keyProperty="id" 
 	parameterType="com.bank.beans.FarmerMember">
-	insert into t_farmer_member
- 	<trim prefix="(" suffix=")" suffixOverrides=",">
-		<if test="farmerId != null">
-			farmerid,
-		</if>
-		<if test="farmerIdNum != null">
-			farmeridnum,
-		</if>
-		<if test="name != null">
-			name,
-		</if>
-	  	<if test="relation != null">
-	  	 	relation,
-	  	</if>
-	  	<if test="idNum != null">
-	  		idnum,
-	  	</if>
-	  	<if test="education != null">
-	  		education,
-	  	</if>
-	  	<if test="marryStatus != null">
-	  		marrystatus,
-	  	</if>
-	   	<if test="occupation != null">
-	   		occupation,
-	   	</if>
-	   <if test="job != null">
-	   	    job,
-	   </if>
-	   <if test="sex != null">
-	   	    sex,
-	   </if>
-	    <if test="address != null">
-	   	    address,
-	   </if>
-	   <if test="phone != null">
-	   		phone,
-	   </if>
-	</trim>
-	<trim prefix="values (" suffix=")" suffixOverrides=",">
-		<if test="farmerId != null">
-	     	#{farmerId,jdbcType=VARCHAR},
-	    </if>
-	    <if test="farmerIdNum != null">
-	        #{farmerIdNum,jdbcType=VARCHAR},
-	    </if>
-	    <if test="name != null">
-	      	#{name,jdbcType=VARCHAR},
-	    </if>
-	    <if test="relation != null">
-	        #{relation,jdbcType=VARCHAR},
-	    </if>
-	    <if test="idNum != null">
-	        #{idNum,jdbcType=VARCHAR},
-	    </if>
-	    <if test="education != null">
-	        #{education,jdbcType=INTEGER},
-	    </if>
-	    <if test="marryStatus != null">
-	        #{marryStatus,jdbcType=VARCHAR},
-	    </if>
-	    <if test="occupation != null">
-	        #{occupation,jdbcType=VARCHAR},
-	    </if>
-	    <if test="job != null">
-	        #{job,jdbcType=VARCHAR},
-	    </if>
-	    <if test="sex != null">
-	        #{sex,jdbcType=INTEGER},
-	    </if>
-	     <if test="address != null">
-	   	    #{address,jdbcType=VARCHAR},
-	   </if>
-	    <if test="phone != null">
-	        #{phone,jdbcType=VARCHAR},
-	    </if>
-	</trim>
+	 insert into T_FARMER_MEMBER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="farmerid != null" >
+        FARMERID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="relation != null" >
+        RELATION,
+      </if>
+      <if test="idnum != null" >
+        IDNUM,
+      </if>
+      <if test="education != null" >
+        EDUCATION,
+      </if>
+      <if test="marrystatus != null" >
+        MARRYSTATUS,
+      </if>
+      <if test="occupation != null" >
+        OCCUPATION,
+      </if>
+      <if test="job != null" >
+        JOB,
+      </if>
+      <if test="sex != null" >
+        SEX,
+      </if>
+      <if test="phone != null" >
+        PHONE,
+      </if>
+      <if test="address != null" >
+        ADDRESS,
+      </if>
+      <if test="healthstate != null" >
+        HEALTHSTATE,
+      </if>
+      <if test="labourstate != null" >
+        LABOURSTATE,
+      </if>
+      <if test="usingmedical != null" >
+        USINGMEDICAL,
+      </if>
+      <if test="usinginuse != null" >
+        USINGINUSE,
+      </if>
+      <if test="runitid != null" >
+        RUNITID,
+      </if>
+      <if test="runitname != null" >
+        RUNITNAME,
+      </if>
+      <if test="recorder != null" >
+        RECORDER,
+      </if>
+      <if test="recordtime != null" >
+        RECORDTIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="farmerid != null" >
+        #{farmerid,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="relation != null" >
+        #{relation,jdbcType=VARCHAR},
+      </if>
+      <if test="idnum != null" >
+        #{idnum,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        #{education,jdbcType=INTEGER},
+      </if>
+      <if test="marrystatus != null" >
+        #{marrystatus,jdbcType=VARCHAR},
+      </if>
+      <if test="occupation != null" >
+        #{occupation,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null" >
+        #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="healthstate != null" >
+        #{healthstate,jdbcType=VARCHAR},
+      </if>
+      <if test="labourstate != null" >
+        #{labourstate,jdbcType=INTEGER},
+      </if>
+      <if test="usingmedical != null" >
+        #{usingmedical,jdbcType=INTEGER},
+      </if>
+      <if test="usinginuse != null" >
+        #{usinginuse,jdbcType=INTEGER},
+      </if>
+      <if test="runitid != null" >
+        #{runitid,jdbcType=VARCHAR},
+      </if>
+      <if test="runitname != null" >
+        #{runitname,jdbcType=VARCHAR},
+      </if>
+      <if test="recorder != null" >
+        #{recorder,jdbcType=VARCHAR},
+      </if>
+      <if test="recordtime != null" >
+        #{recordtime,jdbcType=DATE},
+      </if>
+    </trim>
 </insert>
-<delete id="delete" parameterType="list">
-	delete from t_farmer_member  
-	where memberId in
-	<foreach item="item" index="index" collection="list" 
-			open="(" separator="," close=")">
-	#{item}
-	</foreach>
+<delete id="delete" parameterType="long">
+	delete from T_FARMER_MEMBER 
+	WHERE MEMBERID = #{id,jdbcType=BIGINT}
 </delete>
-<update id="update">
-update t_farmer_member set 
-name = #{name, jdbcType = VARCHAR},
-relation = #{relation,jdbcType=VARCHAR},
-idNum = #{idNum,jdbcType = VARCHAR},
-education = #{education,jdbcType = INTEGER},
-marryStatus = #{marryStatus,jdbcType = VARCHAR},
-occupation = #{occupation,jdbcType = VARCHAR},
-job = #{job,jdbcType = VARCHAR},
-sex = #{sex,jdbcType = INTEGER}, 
-address = #{address,jdbcType=VARCHAR},
-phone = #{phone,jdbcType = VARCHAR}
-where memberId = #{id,jdbcType = VARCHAR}
+<update id="update" parameterType="com.bank.beans.FarmerMember">
+ update T_FARMER_MEMBER
+    set FARMERID = #{farmerid,jdbcType=BIGINT},
+      NAME = #{name,jdbcType=VARCHAR},
+      RELATION = #{relation,jdbcType=VARCHAR},
+      IDNUM = #{idnum,jdbcType=VARCHAR},
+      EDUCATION = #{education,jdbcType=INTEGER},
+      MARRYSTATUS = #{marrystatus,jdbcType=VARCHAR},
+      OCCUPATION = #{occupation,jdbcType=VARCHAR},
+      JOB = #{job,jdbcType=VARCHAR},
+      SEX = #{sex,jdbcType=INTEGER},
+      PHONE = #{phone,jdbcType=VARCHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      HEALTHSTATE = #{healthstate,jdbcType=VARCHAR},
+      LABOURSTATE = #{labourstate,jdbcType=INTEGER},
+      USINGMEDICAL = #{usingmedical,jdbcType=INTEGER},
+      USINGINUSE = #{usinginuse,jdbcType=INTEGER},
+      RUNITID = #{runitid,jdbcType=VARCHAR},
+      RUNITNAME = #{runitname,jdbcType=VARCHAR},
+      RECORDER = #{recorder,jdbcType=VARCHAR},
+      RECORDTIME = #{recordtime,jdbcType=DATE}
+where MEMBERID = #{id,jdbcType = BIGINT}
 </update>
-<resultMap id="farmerMemberList" type="com.bank.beans.FarmerMember">
-    <result column="memberId" property="id" jdbcType="BIGINT"/>
-    <result column="farmerId" property="farmerId" jdbcType="VARCHAR" />
-    <result column="farmerIdnum" property="farmerIdnum" jdbcType="VARCHAR" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="relation" property="relation" jdbcType="VARCHAR" />
-	<result column="idNum" property="idNum" jdbcType="VARCHAR" />
-    <result column="education" property="education" jdbcType="INTEGER" />
-    <result column="marryStatus" property="marryStatus" jdbcType="VARCHAR" />
-    <result column="occupation" property="occupation" jdbcType="VARCHAR" />
-    <result column="job" property="job" jdbcType="VARCHAR" />
-	<result column="phone" property="phone" jdbcType="VARCHAR" />
-    <result column="address" property="address" jdbcType="VARCHAR" />
-    <result column="recorder" property="recorder" jdbcType="VARCHAR" />
-    <result column="recordTime" property="recordTime" jdbcType="DATE" />
-</resultMap>
-<select id="findByPK" parameterType="Long" 
-	resultType="com.bank.beans.FarmerMember">
+<update id="updateSelective" parameterType="com.bank.beans.FarmerMember" >
+    update T_FARMER_MEMBER
+    <set >
+      <if test="farmerid != null" >
+        FARMERID = #{farmerid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="relation != null" >
+        RELATION = #{relation,jdbcType=VARCHAR},
+      </if>
+      <if test="idnum != null" >
+        IDNUM = #{idnum,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        EDUCATION = #{education,jdbcType=INTEGER},
+      </if>
+      <if test="marrystatus != null" >
+        MARRYSTATUS = #{marrystatus,jdbcType=VARCHAR},
+      </if>
+      <if test="occupation != null" >
+        OCCUPATION = #{occupation,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null" >
+        JOB = #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        SEX = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null" >
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="healthstate != null" >
+        HEALTHSTATE = #{healthstate,jdbcType=VARCHAR},
+      </if>
+      <if test="labourstate != null" >
+        LABOURSTATE = #{labourstate,jdbcType=INTEGER},
+      </if>
+      <if test="usingmedical != null" >
+        USINGMEDICAL = #{usingmedical,jdbcType=INTEGER},
+      </if>
+      <if test="usinginuse != null" >
+        USINGINUSE = #{usinginuse,jdbcType=INTEGER},
+      </if>
+      <if test="runitid != null" >
+        RUNITID = #{runitid,jdbcType=VARCHAR},
+      </if>
+      <if test="runitname != null" >
+        RUNITNAME = #{runitname,jdbcType=VARCHAR},
+      </if>
+      <if test="recorder != null" >
+        RECORDER = #{recorder,jdbcType=VARCHAR},
+      </if>
+      <if test="recordtime != null" >
+        RECORDTIME = #{recordtime,jdbcType=DATE},
+      </if>
+    </set>
+  	where MEMBERID = #{id,jdbcType=BIGINT}
+  </update>
+<select id="findByPK" parameterType="Long" resultMap="BaseResultMap">
 	select 
-	<include refid="Member_Column_List" />
-	from t_farmer_member where memberid = #{id,jdbcType=INTEGER}
+	<include refid="Base_Column_List" />
+	from T_FARMER_MEMBER where MEMBERID = #{id,jdbcType=BIGINT}
 </select>
-<select id="findByFarmerId" parameterType="Long" 
-	resultMap="farmerMemberList">
+<select id="findByFarmerId" parameterType="Long" resultMap="BaseResultMap">
 	select 
-	<include refid="Member_Column_List" />
-	from t_farmer_member where farmerId = #{farmerId,jdbcType=VARCHAR}
+	<include refid="Base_Column_List" />
+	from T_FARMER_MEMBER where farmerId = #{farmerid,jdbcType=BIGINT}
 </select>
-<select id="pageing" parameterType="Map" resultMap="farmerMemberList">
+<select id="pageing" parameterType="Map" resultMap="BaseResultMap">
 	select 
-	<include refid="Member_Column_List" />
+	<include refid="Base_Column_List" />
 	from 
-	(select t.*,rownumber() over(order by recordtime desc) as rn from t_farmer_member t
+	(select t.*,rowNumber() over() as rn from T_FARMER_MEMBER t
 	<where>
-		<if test="farmerName != null and farmerName != '' ">
-			t.farmername like CONCAT(CONCAT('%',#{farmerName}),'%') 
-		</if>
-		<if test="farmerIdNum != null and farmerIdNum != ''">
-		   	and t.farmeridnum like CONCAT(CONCAT('%',#{farmerIdNum}),'%')  
-		</if>
-		<if test="name != null and name != ''">
-		   	and t.name like CONCAT(CONCAT('%',#{name}),'%')  
-		</if>
-		<if test="recorder != null and recorder != '' ">
-		    and t.recoder like CONCAT(CONCAT('%',#{recoder}),'%')  
-		</if>
-		<if test="recordTimeBegin !=null and recordTimeBegin != ''">
-		   	<![CDATA[and t.recordtime >=to_date('#{recordTimeBegin}','yyyy-mm-dd')]]>
-		</if>
-		<if test="recordTimeEnd !=null and recordTimeEnd != ''">
-		   	<![CDATA[and t.recordtime <=to_date('#{recordTimeEnd}','yyyy-mm-dd')]]>
+		<if test="farmerid != null">
+			t.FARMERID = #{farmerid,jdbcType=BIGINT} 
 		</if>
 	 </where>
 	 )

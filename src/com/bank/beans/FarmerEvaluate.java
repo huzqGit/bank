@@ -1,5 +1,9 @@
 package com.bank.beans;
 
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.common.bean.BaseEntity;
 
 public class FarmerEvaluate extends BaseEntity<Long> {
@@ -8,114 +12,157 @@ public class FarmerEvaluate extends BaseEntity<Long> {
 	 * 
 	 */
 	private static final long serialVersionUID = 6808936993388416975L;
-	//农户身份证号
-	private Long farmerId;
-	private String farmerName;
-	private String farmerIdNum;
-	//人品综合评价
-	private String personality;
-	//家庭和睦情况
-	private String harmonyStatus;
-	//敬老爱幼幼情况
-	private String respectStatus;
-	//邻里团结情况
-	private String neighborStatus;
-	//是否遵纪守法
-	private Integer legalStatus;
-	//对公益事业关心程度
-	private String welfareStatus;
-	//是否诚实守信
-	private Integer honestStatus;
-	//其他
-	private String otherStatus;
 	
-	public Long getFarmerId() {
-		return farmerId;
-	}
+		private Long farmerid;
 
-	public void setFarmerId(Long farmerId) {
-		this.farmerId = farmerId;
-	}
+	    private String personality;
 
-	public String getFarmerName() {
-		return farmerName;
-	}
+	    private String harmonystatus;
 
-	public void setFarmerName(String farmerName) {
-		this.farmerName = farmerName;
-	}
+	    private String respectstatus;
 
-	public String getFarmerIdNum() {
-		return farmerIdNum;
-	}
+	    private String neighborstatus;
 
-	public void setFarmerIdNum(String farmerIdNum) {
-		this.farmerIdNum = farmerIdNum;
-	}
+	    private Integer legalstatus;
 
-	public String getPersonality() {
-		return personality;
-	}
+	    private String welfarestatus;
 
-	public void setPersonality(String personality) {
-		this.personality = personality;
-	}
+	    private Integer honeststatus;
 
-	public String getHarmonyStatus() {
-		return harmonyStatus;
-	}
+	    private String otherstatus;
 
-	public void setHarmonyStatus(String harmonyStatus) {
-		this.harmonyStatus = harmonyStatus;
-	}
+	    private String sourcecode;
 
-	public String getRespectStatus() {
-		return respectStatus;
-	}
+	    private String sourcename;
 
-	public void setRespectStatus(String respectStatus) {
-		this.respectStatus = respectStatus;
-	}
+	    private String runitid;
 
-	public String getNeighborStatus() {
-		return neighborStatus;
-	}
+	    private String runitname;
 
-	public void setNeighborStatus(String neighborStatus) {
-		this.neighborStatus = neighborStatus;
-	}
+	    private String recorder;
+	    
+	    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	    private Date recordtime;
+	
+	    public Long getFarmerid() {
+			return farmerid;
+		}
 
-	public Integer getLegalStatus() {
-		return legalStatus;
-	}
+		public void setFarmerid(Long farmerid) {
+			this.farmerid = farmerid;
+		}
 
-	public void setLegalStatus(Integer legalStatus) {
-		this.legalStatus = legalStatus;
-	}
+		public String getPersonality() {
+			return personality;
+		}
 
-	public String getWelfareStatus() {
-		return welfareStatus;
-	}
+		public void setPersonality(String personality) {
+			this.personality = personality;
+		}
 
-	public void setWelfareStatus(String welfareStatus) {
-		this.welfareStatus = welfareStatus;
-	}
+		public String getHarmonystatus() {
+			return harmonystatus;
+		}
 
-	public Integer getHonestStatus() {
-		return honestStatus;
-	}
+		public void setHarmonystatus(String harmonystatus) {
+			this.harmonystatus = harmonystatus;
+		}
 
-	public void setHonestStatus(Integer honestStatus) {
-		this.honestStatus = honestStatus;
-	}
+		public String getRespectstatus() {
+			return respectstatus;
+		}
 
-	public String getOtherStatus() {
-		return otherStatus;
-	}
+		public void setRespectstatus(String respectstatus) {
+			this.respectstatus = respectstatus;
+		}
 
-	public void setOtherStatus(String otherStatus) {
-		this.otherStatus = otherStatus;
-	}
+		public String getNeighborstatus() {
+			return neighborstatus;
+		}
+
+		public void setNeighborstatus(String neighborstatus) {
+			this.neighborstatus = neighborstatus;
+		}
+
+		public Integer getLegalstatus() {
+			return legalstatus;
+		}
+
+		public void setLegalstatus(Integer legalstatus) {
+			this.legalstatus = legalstatus;
+		}
+
+		public String getWelfarestatus() {
+			return welfarestatus;
+		}
+
+		public void setWelfarestatus(String welfarestatus) {
+			this.welfarestatus = welfarestatus;
+		}
+
+		public Integer getHoneststatus() {
+			return honeststatus;
+		}
+
+		public void setHoneststatus(Integer honeststatus) {
+			this.honeststatus = honeststatus;
+		}
+
+		public String getOtherstatus() {
+			return otherstatus;
+		}
+
+		public void setOtherstatus(String otherstatus) {
+			this.otherstatus = otherstatus;
+		}
+
+		public String getSourcecode() {
+			return sourcecode;
+		}
+
+		public void setSourcecode(String sourcecode) {
+			this.sourcecode = sourcecode;
+		}
+
+		public String getSourcename() {
+			return sourcename;
+		}
+
+		public void setSourcename(String sourcename) {
+			this.sourcename = sourcename;
+		}
+
+		public String getRunitid() {
+			return runitid;
+		}
+
+		public void setRunitid(String runitid) {
+			this.runitid = runitid;
+		}
+
+		public String getRunitname() {
+			return runitname;
+		}
+
+		public void setRunitname(String runitname) {
+			this.runitname = runitname;
+		}
+
+		public String getRecorder() {
+			return recorder;
+		}
+
+		public void setRecorder(String recorder) {
+			this.recorder = recorder;
+		}
+
+		public Date getRecordtime() {
+			return recordtime;
+		}
+
+		public void setRecordtime(Date recordtime) {
+			this.recordtime = recordtime;
+		}
 
 	@Override
 	public boolean equalsIfIdNull(Object o) {

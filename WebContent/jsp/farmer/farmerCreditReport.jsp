@@ -51,23 +51,25 @@ line-height:25px;
 		<td width="10%">联系电话</td>
 		<td width="40%">居住地址</td>
 	</tr>
+	<c:forEach items="${farmers}" var="farmer" varStatus="status">
 	<tr>
 		<td width="10%">户主</td>
-		<td width="8%">${farmer.farmerName}</td>
+		<td width="8%">${farmer.farmername}</td>
 		<td width="5%">${dic:translate("sex",farmer.sex)}</td>
-		<td width="10%">${farmer.farmerIdnum}</td>
-		<td width="10%">${dic:translate("marrystatus",farmer.marryStatus)}</td>
+		<td width="10%">${farmer.farmeridnum}</td>
+		<td width="10%">${dic:translate("marrystatus",farmer.marrystatus)}</td>
 		<td width="10%">${dic:translate("education",farmer.education)}</td>
 		<td width="10%">${farmer.phone}</td>
 		<td width="32%">${farmer.address}</td>
 	</tr>
+	</c:forEach>
 	<c:forEach items="${members}" var="member" varStatus="status">
 	<tr>
 		<td width="10%">${dic:translate("relation",member.relation)}</td>
 		<td width="8%">${member.name}</td>
 		<td width="5%">${dic:translate("sex",member.sex)}</td>
-		<td width="10%">${member.idNum}</td>
-		<td width="10%">${dic:translate("marrystatus",member.marryStatus)}</td>
+		<td width="10%">${member.idnum}</td>
+		<td width="10%">${dic:translate("marrystatus",member.marrystatus)}</td>
 		<td width="10%">${dic:translate("education",member.education)}</td>
 		<td width="10%">${member.phone}</td>
 		<td width="32%">${member.address}</td>
@@ -89,8 +91,8 @@ line-height:25px;
 		<c:forEach items="${balances}" var="balance" varStatus="status">
 		<tr>
 			<td>${balance.year}</td>
-			<td>${balance.totalIncome}</td>
-			<td>${balance.totalPay}</td>
+			<td>${balance.totalincome}</td>
+			<td>${balance.totalpay}</td>
 		</tr>
 		
 		</c:forEach>
@@ -115,11 +117,11 @@ line-height:25px;
 			<c:forEach items="${houses}" var="house" varStatus="status">
 				<tr>
 				<td>${status.index+1}</td>
-				<td>${house.houseProperty}</td>
-				<td>${house.houseType}</td>
-				<td>${house.houseAddress}</td>
-				<td>${house.buildDate}</td>
-				<td>${house.buildArea}</td>
+				<td>${house.houseproperty}</td>
+				<td>${house.housetype}</td>
+				<td>${house.houseaddress}</td>
+				<td>${house.builddate}</td>
+				<td>${house.buildarea}</td>
 				</tr>
 			</c:forEach>
 			<tr>
@@ -134,10 +136,10 @@ line-height:25px;
 			<tr>
 				<td>${status.index+1}</td>
 				<td>${breed.variety}</td>
-				<td>${breed.floorArea}</td>
+				<td>${breed.floorarea}</td>
 				<td>${breed.output}</td>
-				<td>${breed.outputValue}</td>
-				<td>${breed.assessPrice}</td>
+				<td>${breed.outputvalue}</td>
+				<td>${breed.assessprice}</td>
 			</tr>
 			</c:forEach>
 			<tr>
@@ -169,9 +171,9 @@ line-height:25px;
 				<td>${status.index+1}</td>
 				<td>${device.name}</td>
 				<td>${device.brand}</td>
-				<td>${device.buyingDate}</td>
-				<td>${device.buyingPrice}</td>
-				<td>${device.assessPrice}</td>
+				<td>${device.buyingdate}</td>
+				<td>${device.buyingprice}</td>
+				<td>${device.assessprice}</td>
 			</tr>
 			</c:forEach>
 		</table>
@@ -195,12 +197,12 @@ line-height:25px;
 	<c:forEach items="${loans}" var="loan" varStatus="status">
 	<tr>
 		<td>${status.index+1}</td>
-		<td>${loan.organName}</td>
-		<td>${loan.businessType}</td>
-		<td>${loan.loanUse}</td>
+		<td>${loan.organname}</td>
+		<td>${loan.businesstype}</td>
+		<td>${loan.loanuse}</td>
 		<td></td>
-		<td>${loan.loanDate}</td>
-		<td>${loan.limitDate}</td>
+		<td>${loan.loandate}</td>
+		<td>${loan.limitdate}</td>
 	</tr>
 	</c:forEach>
 	<tr>
@@ -214,7 +216,7 @@ line-height:25px;
 		<tr>
 		<td>${status.index+1}</td>
 		<td>${loan.amount}</td>
-		<td>${loan.guaranteeType}</td>
+		<td>${loan.guaranteetype}</td>
 		<td colspan="2"></td>
 		<td colspan="2"></td>
 		</tr>
@@ -230,8 +232,8 @@ line-height:25px;
 		<c:forEach items="${loans}" var="loan" varStatus="status">
 		<tr>
 		<td>${status.index+1}</td>
-		<td>${loan.clientName}</td>
-		<td>${loan.idNum}</td>
+		<td>${loan.clientname}</td>
+		<td>${loan.idnum}</td>
 		<td></td>
 		<td></td>
 		<td colspan="2"></td>
@@ -280,8 +282,8 @@ line-height:25px;
 		<td>${status.index+1 }</td>
 		<td>${dic:translate("insure",insured.type)}</td>
 		<td>${insured.amount}</td>
-		<td>${dt:format(insured.insureTime,"yyyy-MM-dd")}</td>
-		<td>${dt:format(insured.limitTime,"yyyy-MM-dd")}</td>
+		<td>${dt:format(insured.insuretime,"yyyy-MM-dd")}</td>
+		<td>${dt:format(insured.limittime,"yyyy-MM-dd")}</td>
 </tr>
 	
 	</c:forEach>
@@ -305,12 +307,12 @@ line-height:25px;
 	<td>诚实守信</td>
 </tr>
 	<tr>
-	<td>${dic:translate("evaluate",evaluate.harmonyStatus)}</td>
-	<td>${dic:translate("evaluate",evaluate.respectStatus)}</td>
-	<td>${dic:translate("evaluate",evaluate.respectStatus)}</td>
-	<td>${dic:translate("evaluate",evaluate.legalStatus)}</td>
-	<td>${dic:translate("evaluate",evaluate.welfareStatus)}</td>
-	<td>${dic:translate("evaluate",evaluate.honestStatus)}</td>
+	<td>${dic:translate("evaluate",evaluate.harmonystatus)}</td>
+	<td>${dic:translate("evaluate",evaluate.respectstatus)}</td>
+	<td>${dic:translate("evaluate",evaluate.respectstatus)}</td>
+	<td>${dic:translate("evaluate",evaluate.legalstatus)}</td>
+	<td>${dic:translate("evaluate",evaluate.welfarestatus)}</td>
+	<td>${dic:translate("evaluate",evaluate.honeststatus)}</td>
 		</tr>
 	
 	</table>

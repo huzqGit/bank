@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.bank.beans.FarmerMember;
+import com.bank.beans.FarmerMemberExample;
 import com.bank.dao.IFarmerMemberDao;
 import com.common.dao.impl.GenericMyBatisDAOSupport;
 
@@ -22,6 +23,26 @@ public class FarmerMemberDaoImpl extends GenericMyBatisDAOSupport<FarmerMember, 
 	public void deleteMembers(List<Long> memberIds) {
 		// TODO Auto-generated method stub
 		this.getSqlSession().delete("farmermember.delete", memberIds);
+	}
+
+	@Override
+	public int findTotalNumberByFarmerId(Long farmerId) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public List<FarmerMember> findPagingByFarmerId(int pageIndex, int pageSize,
+			String sortField, String sortOrder, Long farmerId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<FarmerMember> selectByExample(FarmerMemberExample example) {
+		// TODO Auto-generated method stub
+		List<FarmerMember> members = this.getSqlSession().selectList("farmermember.selectByExample",example);
+		return members;
 	}
 	
 
