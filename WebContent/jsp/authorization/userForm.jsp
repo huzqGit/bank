@@ -94,6 +94,14 @@ request.setAttribute("actionType", actionType);
 			<input name='address' class='mini-textarea' style='width:300px;height: 40px;' emptyText='' allowInput='true' enabled='true'/>
 		</td>
 	</tr>
+	<tr>
+		<td style='width:15%;' align="right">
+		<label>密码提醒(天)：</label>
+		</td>
+		<td style='padding:10px;' colspan="2">
+			<input name="remindCycle" class="mini-combobox" data="[{id: 30, text: '30'}, {id: 50, text: '50'}]" value="30" style='width:60px;'/>
+		</td>
+		</tr>
 	<c:if test="${user.userId == 'admin'}">
 		<tr>
 			<td style='width:15%;' align="right">

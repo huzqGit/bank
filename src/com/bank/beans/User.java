@@ -14,6 +14,8 @@ public class User extends BaseEntity<Integer> {
 	private String organId;// 地址
 	private String unitId;
 	private String isAdmin;
+	private int remindCycle;
+	private Date remindDate;
 	
 	public String getUserId() {
 		return userId;
@@ -71,6 +73,18 @@ public class User extends BaseEntity<Integer> {
 		this.isAdmin = isAdmin;
 	}
 	
+	public int getRemindCycle() {
+		return remindCycle;
+	}
+	public void setRemindCycle(int remindCycle) {
+		this.remindCycle = remindCycle;
+	}
+	public Date getRemindDate() {
+		return remindDate;
+	}
+	public void setRemindDate(Date remindDate) {
+		this.remindDate = remindDate;
+	}
 	@Override
 	public boolean equalsIfIdNull(Object o) {
 		// TODO Auto-generated method stub

@@ -1,7 +1,7 @@
 package com.bank.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -94,6 +94,13 @@ public class UserController {
 		
 		String userId = user.getUserId();
 		if ("add".equals(actionType)) {//user为空，做新增操作
+			
+			int remindCycle = user.getRemindCycle() == 0 ? 30 : user.getRemindCycle();
+			
+			Date remindDate = new Date();
+			remindDate.setDate(remindDate.getDate() + remindCycle);
+			user.setRemindDate(remindDate);
+			
 			User user2 = userSerivce.loadUser(userId);
 			if (user2 != null && user2.getUserId().equals(userId)) {
 				userId = "false";
