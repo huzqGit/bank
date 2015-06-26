@@ -5,6 +5,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.stereotype.Repository;
 
 import com.alisoft.xplatform.asf.cache.ICache;
 import com.alisoft.xplatform.asf.cache.ICacheManager;

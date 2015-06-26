@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alisoft.xplatform.asf.cache.ICache;
 import com.bank.Constants;
+import com.bank.beans.OnLineUser;
 import com.bank.beans.Organ;
 import com.bank.beans.User;
 import com.bank.controller.economy.CooperationController;
@@ -24,9 +26,11 @@ import com.bank.controller.economy.CooperationProfitController;
 import com.bank.dao.IMenuDao;
 import com.bank.service.IOrganService;
 import com.bank.service.IUserService;
+import com.bank.spring.BeanFactory;
 import com.bank.vo.MenuPrivilegeVO;
 import com.common.config.SystemConfig;
 import com.common.exception.DAOException;
+import com.common.tools.IpUtil;
 
 @Controller
 @RequestMapping(value = "/user")
@@ -67,6 +71,12 @@ public class LoginController {
     		if (currentUnit != null) {
     			request.getSession().setAttribute(Constants.SESSION_CURRENT_UNIT, currentUnit);
     		}
+    		
+    		// 在线用户监听.
+    		returnUser.setUnit(currentUnit);
+    		OnLineUser onlineUser = new OnLineUser(returnUser);
+			onlineUser.setUserIP(IpUtil.getIpAddr(request));
+			request.getSession().setAttribute(Constants.SESSION_ONLINEUSER, onlineUser);
     		
     		// topMenus
     		List<MenuPrivilegeVO> topMenus = new ArrayList<MenuPrivilegeVO>();

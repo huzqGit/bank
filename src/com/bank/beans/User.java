@@ -14,6 +14,7 @@ public class User extends BaseEntity<Integer> {
 	private String organId;// 地址
 	private String unitId;
 	private String isAdmin;
+	private Organ unit;
 	private int remindCycle;
 	private Date remindDate;
 	
@@ -73,6 +74,12 @@ public class User extends BaseEntity<Integer> {
 		this.isAdmin = isAdmin;
 	}
 	
+	public Organ getUnit() {
+		return unit;
+	}
+	public void setUnit(Organ unit) {
+		this.unit = unit;
+	}
 	public int getRemindCycle() {
 		return remindCycle;
 	}
@@ -87,12 +94,10 @@ public class User extends BaseEntity<Integer> {
 	}
 	@Override
 	public boolean equalsIfIdNull(Object o) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	@Override
 	public int hashCodeIfIdNull() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 	
