@@ -49,6 +49,7 @@ public class FarmerCooperation extends BaseEntity<Long>{
 	private Date recordTime;
 	
 	private String error_label;
+	private String sourcecode;
 	
 	@Override
 	public boolean equalsIfIdNull(Object o) {
@@ -226,6 +227,14 @@ public class FarmerCooperation extends BaseEntity<Long>{
 
 	public void setError_label(String error_label) {
 		this.error_label = error_label;
+	}
+
+	public String getSourcecode() {
+		return sourcecode;
+	}
+
+	public void setSourcecode(String sourcecode) {
+		this.sourcecode = sourcecode;
 	}
 	
 }
