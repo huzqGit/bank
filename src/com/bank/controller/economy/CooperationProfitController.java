@@ -26,7 +26,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.bank.Constants;
 import com.bank.beans.CooperationProfit;
-import com.bank.beans.FarmerCooperation;
 import com.bank.beans.User;
 import com.bank.common.util.JsonUtil;
 import com.bank.service.ICooperationProfitService;
@@ -94,7 +93,7 @@ public class CooperationProfitController {
 	
 	
 	@RequestMapping(value="findCooperationProfit",method = RequestMethod.POST)
-	public FarmerCooperation findByPK(HttpServletRequest request, 
+	public CooperationProfit findByPK(HttpServletRequest request, 
 			HttpServletResponse response) throws Exception{
 		String pk = HttpUtils.getParameter(request,"profitid");
 		if(pk != null){
@@ -153,9 +152,11 @@ public class CooperationProfitController {
 			HttpServletRequest request,HttpServletResponse response)throws Exception{
 		ModelAndView model = new ModelAndView("cooperation/profitInfo/profitImportFile");
 		User user = (User) request.getSession().getAttribute(Constants.SESSION_AUTH_USER);
+		String sourcecode = HttpUtils.getParameter(request, "t");
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<Map<String, String>> list = new ArrayList<Map<String,String>>();
 		try{
+			map.put("sourcecode", sourcecode);
 			map.put("organ_id", user.getOrganId());
 			map.put("recorder", user.getUserName());
 			

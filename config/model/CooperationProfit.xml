@@ -13,12 +13,13 @@
 		incomdetax,fewpartnerincome,unsureloss,netmargin,beginofyearundistributed,yygjbk,
 		qttzys,kgfpll,dxlyll,bcldzb,tqfdyygj,tqfdyygyj,tqzgjljfldy,tqcbj,tqqyfzjj,llghtz,
 		llghtzother,kgtzzffll,yfyxggl,tqryyygj,yfptggl,zzzbptggl,zzzbptgglother,
-		zzzbptgglundisbute,zzzbptgglundisbute_before
+		zzzbptgglundisbute,zzzbptgglundisbute_before,sourcecode
 	</sql>
 	<insert id="save" useGeneratedKeys="true" keyProperty="profitid"
 		parameterType="com.bank.beans.CooperationProfit">
 		insert into T_COOPERATION_PROFIT
 		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="sourcecode != null" >sourcecode,</if>
 			<if test="organ_id != null" >organ_id,</if>
 			<if test="recoder != null" >recoder,</if>
 			<if test="recodertime != null" >recodertime,</if>
@@ -93,6 +94,7 @@
 			<if test="zzzbptgglundisbute_before != null" >zzzbptgglundisbute_before,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="sourcecode != null" >#{sourcecode,jdbcType=VARCHAR},</if>
 			<if test="organ_id != null" >#{organ_id,jdbcType=VARCHAR},</if>
 			<if test="recoder != null" >#{recoder,jdbcType=VARCHAR},</if>
 			<if test="recodertime != null" >#{recodertime,jdbcType=TIMESTAMP},</if>
@@ -170,6 +172,7 @@
 	<update id="update" parameterType="com.bank.beans.CooperationProfit">
 		update T_COOPERATION_PROFIT
 		<set>
+			<if test="sourcecode != null and sourcecode != ''">sourcecode = #{sourcecode},</if>
 			<if test="organ_id != null and organ_id != ''">organ_id = #{organ_id},</if>
 			<if test="recoder != null and recoder != ''">recoder = #{recoder},</if>
 			<if test="recodertime != null and recodertime != ''">recodertime = #{recodertime},</if>
@@ -308,7 +311,8 @@
 	<select id="getUnitId" parameterType="map" resultType="long">
 	select profitid from T_COOPERATION_PROFIT t where 1=1 
 		and t.organ_id = '${organ_id}'
-		and t.organcode = '${organcode}'
+		and t.yearmonth = '${yearmonth}'
+		and t.sourcecode = '${sourcecode}'
 		FETCH FIRST 1 ROWS ONLY
 	</select>
 	<delete id="delete" parameterType="long">

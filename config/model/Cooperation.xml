@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cooperation">
 <sql id="Cooperation_Column_List" >
-   organ_id,cooperationid, cooperationname,orgaCode, taxcode, registeraddress, mailaddress,
+  sourcecode, organ_id,cooperationid, cooperationname,orgaCode, taxcode, registeraddress, mailaddress,
    registerdate, registercapital, realcapital, legalperson, idnum, phone, members,
    businesScope, businessarea, farmers, connectionbase, recorder, recordtime
 </sql>
@@ -10,9 +10,8 @@
 	parameterType="com.bank.beans.FarmerCooperation">
 	insert into t_cooperation
 	<trim prefix="(" suffix=")" suffixOverrides=",">
-		<if test="organ_id != null and organ_id != ''">
-			organ_id,
-		</if>
+		<if test="sourcecode != null and sourcecode != ''">sourcecode,</if>
+		<if test="organ_id != null and organ_id != ''">organ_id,</if>
 		<if test="cooperationName != null and cooperationName !='' ">
 			cooperationName,
 		</if>
@@ -69,9 +68,8 @@
   		</if>
 	</trim>
 	<trim prefix="values (" suffix=")" suffixOverrides=",">
-		<if test="organ_id != null and organ_id != ''">
-			#{organ_id,jdbcType=VARCHAR},
-		</if>
+		<if test="sourcecode != null and sourcecode != ''">#{sourcecode,jdbcType=VARCHAR},</if>
+		<if test="organ_id != null and organ_id != ''">#{organ_id,jdbcType=VARCHAR},</if>
 		<if test="cooperationName != null and cooperationName !='' ">
 			#{cooperationName,jdbcType=VARCHAR},
 		</if>
@@ -131,6 +129,7 @@
 <update id="update" parameterType="com.bank.beans.FarmerCooperation">
 	update t_cooperation
 	<set>
+		<if test="sourcecode != null and sourcecode != ''">sourcecode = #{sourcecode},</if>
 		<if test="organ_id != null and organ_id != ''">organ_id = #{organ_id},</if>
 		<if test="members != null and members != ''">members = #{members},</if>
 		<if test="cooperationName != null and cooperationName != ''">cooperationname = #{cooperationName},</if>
@@ -232,6 +231,7 @@
 	select COOPERATIONID from t_cooperation t where 1=1 
 	and t.organ_id = '${organ_id}'
 	and t.orgaCode = '${orgaCode}'
+	and t.sourcecode = '${sourcecode}'
 	FETCH FIRST 1 ROWS ONLY
 </select>
 

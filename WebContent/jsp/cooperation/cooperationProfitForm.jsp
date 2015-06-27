@@ -10,6 +10,7 @@
 <title>农民专业合作经济组织利润及利润分配</title>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/miniui/monthpicker.js" type="text/javascript"></script>
 <style>
 html{
 	height:90%
@@ -78,13 +79,13 @@ body{
 	<tr>
 	<td colspan="4" style="width:100%">
 	<fieldset id="fd2" style="width:100%;margin:auto auto;">
-	<legend><label>农民专业合作经济组织利润及利润分配表</label></legend>
+	<legend><label>农民专业合作经济组织<font color="blue"><b>利润及利润分配表</b></font></label></legend>
 	<div class="fieldset-body" >
 	<table width="100%">
 		<tr>
 			<td style="width:10%"><label for="textbox1$text">年月:</label></td>
 			<td style="width:23%">
-			<input id="textbox1"  name="yearmonth" class="mini-textbox" required="true" 
+			<input id="yyearm" name="yearmonth" class="mini-textbox" required="false" 
 				requiredErrorText="年月不能为空" style="width:90%"/>
 			</td>
 			<td style="width:10%"><label for="textbox2$text">组织机构编码:</label></td>
@@ -223,6 +224,9 @@ body{
 		}
 		//查询表单数据
 		$(document).ready(function(){
+			document.getElementById("yyearm$text").onclick=function(){
+				setmonth(this);
+			};
 			$.ajax({
 			    url: "${pageContext.request.contextPath}/economy/profit/findCooperationProfit.do",
 			    type: "post",
@@ -247,8 +251,20 @@ body{
 		function back(){
 			history.go(-1);
 		}
+		function validateYearMonth(){
+			var y = document.getElementById("yyearm$text").value;
+			mini.get("yyearm").setValue(y);
+			var s = mini.get("yyearm").getValue();
+			if(s=='' || s==null){
+				mini.alert("年月不能为空");
+				return false;
+			}
+			return true;
+		 }
 		
 		function submitForm(){
+			if(!validateYearMonth())
+				return;
 			//提交表单数据
 		    var formData = form.getData();      //获取表单多个控件的数据
 		   	form.validate();

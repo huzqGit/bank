@@ -188,9 +188,11 @@ public class CooperationController {
 			HttpServletRequest request,HttpServletResponse response)throws Exception{
 		ModelAndView model = new ModelAndView("cooperation/cooperationImportFile");
 		User user = (User) request.getSession().getAttribute(Constants.SESSION_AUTH_USER);
+		String sourcecode = HttpUtils.getParameter(request, "t");
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<Map<String, String>> list = new ArrayList<Map<String,String>>();
 		try{
+			map.put("sourcecode", sourcecode);
 			map.put("organ_id", user.getOrganId());
 			map.put("recorder", user.getUserName());
 			

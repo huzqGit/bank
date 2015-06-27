@@ -77,7 +77,7 @@ body{
 	<tr>
 	<td colspan="4" style="width:100%">
 	<fieldset id="fd2" style="width:100%;margin:auto auto">
-	<legend><label>农民专业合作经济组织基本概况信息</label></legend>
+	<legend><label>农民专业合作经济组织<font color="blue"><b>基本概况信息</b></font></label></legend>
 	<div class="fieldset-body">
 	<table width="100%">
 	<tr>

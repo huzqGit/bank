@@ -130,6 +130,7 @@ public class FarmerCooperationDebt extends BaseEntity<Long>{
 	private String unpaidtax2;     //	未缴税金
 	
 	private String error_label;
+	private String sourcecode;
 	  
 	@Override
 	public boolean equalsIfIdNull(Object o) {
@@ -996,6 +997,14 @@ public class FarmerCooperationDebt extends BaseEntity<Long>{
 
 	public void setOrgan_id(String organ_id) {
 		this.organ_id = organ_id;
+	}
+
+	public String getSourcecode() {
+		return sourcecode;
+	}
+
+	public void setSourcecode(String sourcecode) {
+		this.sourcecode = sourcecode;
 	}
 	
 }
