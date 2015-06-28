@@ -135,7 +135,7 @@ public class FarmerController   {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		ModelAndView  view = new ModelAndView("/common/bankBuilding");
+		ModelAndView  view = new ModelAndView("/farmer/farmerForm");
 		view.addObject("farmer", farmer);
 		return view;
 		
@@ -179,7 +179,7 @@ public class FarmerController   {
 			members = new ArrayList<FarmerMember>();
 			members.add(new FarmerMember());
 		}
-		ModelAndView  view = new ModelAndView("/common/bankBuilding");
+		ModelAndView  view = new ModelAndView("/farmer/farmerForm");
 		view.addObject("farmer", farmer);
 		view.addObject("members", members);
 		return view;	  
@@ -215,7 +215,7 @@ public class FarmerController   {
 		List<Farmer> farmers =farmerService.selectByExample(fe);
 		List<Long> farmerIds = new ArrayList<Long>(farmers.size());
 		if(farmers.size() == 0){
-			ModelAndView view =  new ModelAndView();
+			ModelAndView view =  new ModelAndView("/farmer/farmerQueryOne");
 			view.addObject("msg", "閺堫亝澹橀崚鏉垮爱闁板秶娈戦崘婊勫煕娣団剝浼�!閹劌褰叉禒銉ュ煂閵嗘劕鍟橀幋鏋拷锟�-閵嗘劖鏆熼幑顕�鍣伴梿鍡愶拷锟�-閵嗘劕鐔�閺堫兛淇婇幁顖橈拷鎴災侀崸妞捐厬瑜版洖鍙嗛崘婊勫煕娣団剝浼呴崥搴″晙瑜版洖鍙嗛崘婊勫煕閻ㄥ嫯绁禍褌淇婇幁锟�!");
 			return view;
 		}
@@ -1169,7 +1169,7 @@ public class FarmerController   {
 			farmerService.save(farmer1);
 			 List<FarmerMember> members = new ArrayList<FarmerMember>();
 			 members.add(new FarmerMember());
-			ModelAndView view = new ModelAndView("/common/bankBuilding");
+			ModelAndView view = new ModelAndView("/farmer/farmerForm");
 			view.addObject("farmer",farmer1);
 			return view;
 		} catch (Exception e) {
@@ -1212,7 +1212,7 @@ public class FarmerController   {
 	    if(members.size() == 0 ){
 	    	members.add(new FarmerMember());
 	    }
-		ModelAndView view = new ModelAndView("/common/bankBuilding");
+		ModelAndView view = new ModelAndView("/farmer/farmerForm");
 		view.addObject("farmer",farmer);
 		view.addObject("members",members);
 		return view;

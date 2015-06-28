@@ -1,182 +1,196 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ include file="../common/CurrentTime.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>农户基本概况信息</title>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>Insert title here</title>
+<link href="${pageContext.request.contextPath}/jsp/farmer/form.css"  rel="stylesheet" type="text/css"/>
 <script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/jsp/farmer/farmer.js" type="text/javascript"></script>
 </head>
 <body>
-<div class="mini-toolbar" style="padding-top:5px;border-bottom:0;">
-	<table style="width:100%;">
-    	<tr>
-        	<td style="white-space:nowrap;">
-	        	<a class="mini-button" iconCls="icon-save" plain="true" onclick="submitForm()">保存</a>
-	           	<span class="separator"></span>
-	            <a class="mini-button" iconCls="icon-upgrade" plain="true" onclick="back()">返回</a>
-                <span class="separator"></span>
-            </td>
-         </tr>
-      </table>
+<div class="topMenu">
+<ul>
+	<li class="active">
+		基本信息
+	</li>
+	<li class="inactive">
+		<a href="/bank/farmer/queryMember.do?fid=${farmer.id}">家庭成员信息</a>
+	</li>
+	<li class="inactive" >
+		<a href="/bank/loan/queryLoan1.do?fid=${farmer.id}">贷款信息</a>
+	</li>
+	<li class="inactive" >
+		<a href="/bank/farmer/queryPrivateLending.do?fid=${farmer.id}">民间借贷信息</a>
+	</li>
+	<li class="inactive">
+		<a href="/bank/farmer/queryBalance.do?fid=${farmer.id}">收支信息</a>
+	</li>
+	<li class="inactive">
+		<a href="/bank/farmer/queryHouse.do?fid=${farmer.id}">房产信息</a>
+	</li>
+	<li class="inactive">
+		<a href="/bank/farmer/queryForest.do?fid=${farmer.id}">林权信息</a>
+	</li>
+	<li class="inactive">
+		<a href="/bank/farmer/queryBreed.do?fid=${farmer.id}">种养殖信息</a>
+	</li>
+	<li class="inactive">
+		<a href="/bank/farmer/queryDevice.do?fid=${farmer.id}">设备信息</a>
+	</li>
+	<li class="inactive">
+		<a href="/bank/farmer/queryCompunish.do?fid=${farmer.id}">奖惩信息</a>
+	</li>
+	<li class="inactive">
+		<a href="/bank/farmer/queryInsured.do?fid=${farmer.id}">参保信息</a>
+	</li>
+	<li class="inactive">
+		<a href="/bank/farmer/queryEvaluate.do?fid=${farmer.id}">其他信息</a>
+	</li>
+</ul>
 </div>
-<div id="form1" style="width:90%;margin:auto auto">
-	<form action="/bank/farmer/saveFarmer.do" method="POST">
-	<input name="id" class="mini-hidden" />
-	<input name="recorder" class="mini-hidden" value="管理员"/>
-	<input name="recordTime" class="mini-hidden" value="${currentTime}"/>
-	<table border="0" cellpadding="1" cellspacing="15" width="100%" >
+<form action="/bank/farmer/saveFarmer1.do" id="farmer" name="farmer" method="POST">
+<input type="hidden" id="deleteMember" name="deleteMember" value=""/>
+<div >
+<table style="width:100%;height:30px">
 	<tr>
-	<td colspan="4" style="width:100%">
-	<fieldset id="fd2" style="width:100%;margin:auto auto">
-	<legend><label>农户基本概况信息</label></legend>
-	<div class="fieldset-body">
-	<table width="100%">
-	<tr>
-	<td style="width:10%"><label for="textbox1$text"><font color="red">*</font>户主姓名:</label></td>
-	<td style="width:40%">
-	<input id="textbox1"  name="farmerName" class="mini-textbox" required="true" 
-		requiredErrorText="户主姓名不能为空" style="width:90%"/>
-	</td>
-	<td style="width:10%"><label for="textbox2$text"><font color="red">*</font>户主身份证号:</label></td>
-	<td style="width:40%" >
-	<input id="textbox2"  name="farmerIdnum" class="mini-textbox" required="true" 
-		requiredErrorText="户主身份证号不能为空"  style="width:90%"/>
-	</td>
+		<td class="labelName" width="30%" align="right">姓名</td>
+		<td class="labelValue" width="10%">:${farmer.farmername }</td>
+		<td class="labelName" width="20%" align="right">身份证号码</td>
+		<td class="labelValue" align="right" width="10%">:${farmer.farmeridnum}</td>
+    	<td width="30" align="center">
+       		<input type="button" id="saveBtn" class="bank-btn" onclick="submitForm()" value="保存"/>
+        </td>
 	</tr>
-	<tr>
-	<td style="width:10%"><label for="textbox1$text"><font color="red">*</font>政治面貌:</label></td>
+</table>
+</div>
+<div  style="width:90%;margin:auto auto">
+<input name="id" class="mini-hidden" value="${farmer.id}" />
+<input name="recorder" class="mini-hidden" value="管理员"/>
+<input name="recordTime" class="mini-hidden" value="${currentTime}"/>
+<table border="0" cellpadding="1" cellspacing="15" width="100%" >
+<tr><td colspan="4" style="width:100%">
+<fieldset style="width:100%;margin:auto auto">
+<legend><label>农户基本概况信息</label></legend>
+<div class="fieldset-body">
+<table width="100%">
+<tr>
+	<td style="width:10%"><label for="farmerName$text"><font color="red">*</font>户主姓名:</label></td>
+    <td style="width:40%"><input type="text" id="farmername" name="farmername" value="${farmer.farmername}" style="width:90%"/></td>
+    <td style="width:10%"><label for="textbox2$text"><font color="red">*</font>户主身份证号:</label></td>
+    <td style="width:40%" ><input type="text" id="farmeridnum" name="farmeridnum" value="${farmer.farmeridnum}" style="width:90%"/></td>
+</tr>
+<tr>
+	<td style="width:10%" id="farmername_validate"></td>
+	<td style="width:40%" ></td>
+	<td style="width:10%" id="farmeridnum_validate"></td>
+	<td style="width:40%" id=></td>
+</tr>
+<tr>
+	<td style="width:10%"><label for="textbox1$text"><font color="red">*</font>性别:</label></td>
 	<td style="width:40%">
-	<input id="textbox1"  name="politicStatus" class="mini-combobox" required="true"
-		requiredErrorText="政治面貌不能为空" style="width:90%"
-		 url="/bank/dic/PoliticStatus.txt" emptyText="请选择..."/>
+	    	<input  name="sex" class="mini-combobox" value="${farmer.sex}" 
+	        	style="width:90%" required="true" requiredErrorText="性别不能为空" 
+	        	url="/bank/dic/Sex.txt" emptyText="请选择..."/>
 	</td>
-	<td style="width:10%"><label for="textbox2$text"><font color="red">*</font>家庭人数:</label></td>
-	<td style="width:40%" >
-	<input id="textbox2"  name="familyNum" class="mini-textbox" required="true" 
-		requiredErrorText="家庭人数不能为空"  style="width:90%"/>
+	<td style="width:10%"><label for="textbox1$text"><font color="red">*</font>婚姻状况:</label></td>
+	    <td style="width:40%">
+	    	<input  name="marryStatus" class="mini-combobox" value="${farmer.marrystatus}" 
+	        	style="width:90%" required="true" requiredErrorText="婚姻状况不能为空" 
+	        	url="/bank/dic/MarryStatus.txt" emptyText="请选择..."/>
 	</td>
-	</tr>
-	<tr>
+</tr>
+<tr>
 	<td style="width:10%"><label for="textbox1$text"><font color="red">*</font>联系电话:</label></td>
-	<td style="width:40%">
-	<input id="textbox1"  name="phone" class="mini-textbox" required="true" 
-		requiredErrorText="联系电话不能为空" style="width:90%"/>
-	</td>
-	<td style="width:10%"><label for="textbox2$text"><font color="red">*</font>现住址:</label></td>
-	<td style="width:40%" >
-	<input id="textbox2"  name="address" class="mini-textarea" required="true" 
-		requiredErrorText="现住址不能为空"  style="width:90%"/>
-	</td>
-	</tr>
-	<tr>
-	<td style="width:10%"><label for="textbox1$text"> 婚姻状况:</label></td>
-	<td style="width:40%">
-	<input id="textbox1"  name="marryStatus" class="mini-combobox" required="true" 
-		requiredErrorText="婚姻状况不能为空" style="width:90%"
-		url="/bank/dic/MarryStatus.txt" emptyText="请选择..."/>
-	</td>
-	<td style="width:10%"><label for="textbox2$text"> 劳动力人数:</label></td>
-	<td style="width:40%" >
-	<input id="textbox2"  name="laborNum" class="mini-textbox" required="true" 
-		requiredErrorText="劳动力人数不能为空"  style="width:90%"/>
-	</td>
-	</tr>
-	<tr>
-	<td style="width:10%"><label for="textbox1$text"> 邮政编码:</label></td>
-	<td style="width:40%">
-	<input id="textbox1"  name="postCode" class="mini-textbox" required="true" 
-		requiredErrorText="邮政编码不能为空" style="width:90%"/>
-	</td>
-	<td style="width:10%"><label for="textbox2$text"> 主要农作物年度净收入合计:</label></td>
-	<td style="width:40%" >
-	<input id="textbox2"  name="nyNetincome" class="mini-textbox" style="width:90%"/>
-	</td>
-	</tr>
-	<tr>
-	<td style="width:10%"><label for="textbox1$text"> 林、牧、副、渔业年度净收入合计:</label></td>
-	<td style="width:40%">
-	<input id="textbox1"  name="fnNetincome" class="mini-textbox" style="width:90%"/>
-	</td>
-	<td style="width:10%"><label for="textbox2$text"> 家庭工商业年度净收入合计:</label></td>
-	<td style="width:40%" >
-	<input id="textbox2"  name="gsNetincome" class="mini-textbox" style="width:90%"/>
-	</td>
-	</tr>
-	<tr>
-	<td style="width:10%"><label for="textbox1$text"> 外出务工年度净收入合计:</label></td>
-	<td style="width:40%">
-	<input id="textbox1"  name="dgNetincome" class="mini-textbox" style="width:90%"/>
-	</td>
-	<td style="width:10%"><label for="textbox2$text"> 其他收入年度净收入合计:</label></td>
-	<td style="width:40%" >
-	<input id="textbox2"  name="qtNetincome" class="mini-textbox" style="width:90%"/>
-	</td>
-	</tr>
-	<tr>
-	<td style="width:10%"><label for="textbox1$text"> 家庭年度总收入合计:</label></td>
-	<td style="width:40%">
-	<input id="textbox1"  name="allNetincome" class="mini-textbox" style="width:90%"/>
-	</td>
-	</tr>
-	</table>
-	</div>
-	</fieldset>
-	</td>
-	</tr>
-	</table>
-	</form>
-</div>
-<script type="text/javascript">
+    <td style="width:40%">
+    	<input name="phone" class="mini-textbox" value="${farmer.phone}"
+        	required="true" requiredErrorText="联系电话不能为空" style="width:90%"/>
+    </td>
+</tr>
+<tr>
+	<td style="width:10%"><label for="textbox2$text"><font color="red">*</font>所属乡镇:</label></td>
+    <td style="width:40%" >
+    	<input name="villages" class="mini-combobox"  value="${farmer.villages}" style="width:90%"
+   			required="true"  requiredErrorText="现住址不能为空" 
+   			url="/bank/dic/Villages.txt" emptyText="请选择..." />
+   </td>
+    <td style="width:10%"><label for="textbox2$text"><font color="red">*</font>住址:</label></td>
+    <td style="width:40%" >
+    	<input name="address" class="mini-textarea"  value="${farmer.address}" style="width:90%"
+   			 />
+   </td>
+ </tr>
+ <tr>
+ 	<td style="width:10%"><label for="textbox2$text"><font color="red">*</font>家庭人数:</label></td>
+    <td style="width:40%" >
+    	<input name="familynum" class="mini-textbox"  value="${farmer.familynum}"
+        	minValue="1" maxValue="10" style="width:90%"/>
+    </td>
+    <td style="width:10%"><label for="textbox2$text">&nbsp;&nbsp;劳动力人数:</label></td>
+    <td style="width:40%" >
+    	<input name="labornum" class="mini-textbox" value="${farmer.labornum}" style="width:90%"
+        	minValue="1" maxValue="20"/>
 
-	mini.parse();
-	var form = new mini.Form("#form1");
-	
-	$(document).ready(function(){
-		$.ajax({
-		    url: "${pageContext.request.contextPath}/farmer/loadFarmer.do",
-		    type: "post",
-		    data:{id:"${param.id}"},
-		    success: function (text) {
-		        var data = mini.decode(text);   //反序列化成对象
-		        form.setData(data);             //设置多个控件数据
-		    }
+    </td>
+</tr>
+<tr>
+	<td style="width:10%"><label for="textbox1$text">&nbsp;&nbsp;政治面貌:</label></td>
+    <td style="width:40%">
+    	<input name="politicstatus" class="mini-combobox"  value="${farmer.politicstatus}" style="width:90%"
+            url="/bank/dic/PoliticStatus.txt" emptyText="请选择..."/>
+    </td>
+	<td style="width:10%"><label for="textbox1$text">&nbsp;&nbsp;邮政编码:</label></td>
+    <td style="width:40%">
+    	<input name="postcode" class="mini-textbox"  value="${farmer.postcode}" style="width:90%"
+        	minValue="100000" maxValue="99999"/>
+    </td>
+</tr>
+</table>
+</div>
+</fieldset>
+</td></tr>
+</table>
+</div>
+</form>
+<script type="text/javascript">
+	var deleteMember = new Array();
+	function back(){
+		  window.history.go(-1);
+	}
+	function addMember(fid){
+		  $(".farmerMember").last().after(FarmerMember($(".farmerMember").length,fid));
+		  mini.parse(); 
+	}
+	function delMember(index,fid){
+		var memberId = $("input[name^='members["+index+"].id'").val();
+		$("#farmerMember"+index).remove();
+		deleteMember.push(memberId);
+		$("#deleteMember").val(deleteMember.join(","));
+		var next = index+1;
+		$(".farmerMember").each(function(){
+			var name = $(this).attr("id");
+			var n = name.substr(12,name.length);
+			if(n>index){
+				$("input[name^='members["+next+"]']").each(function(){
+					var oldName =$(this).attr("name");
+					var newName = "members["+index+"]"+oldName.substr(oldName.indexOf("."),oldName.length);
+					$(this).attr("name",newName);
+				});
+				$("#delMember"+next).attr("onclick","delMember("+index+","+fid+")");
+				$(this).attr("id","farmerMember"+index);
+			};
+			
 		});
-		
-	});
+	}
 	function back(){
 		history.go(-1);
 	}
-	function submitForm() {
-		//提交表单数据
-	    var formData = form.getData();      //获取表单多个控件的数据
-	    //formData.dutyId = ${dutyId};
-	    var json = mini.encode(formData);   //序列化成JSON
-	    $.ajax({
-	        url: "${pageContext.request.contextPath}/farmer/saveFarmer.do",
-	        type: "post",
-	        data: { formData: json},
-	        contentType: "application/x-www-form-urlencoded; charset=utf-8",
-	        success: function (text) {
-	        	var data = mini.decode(text);   //反序列化成对象
-		        if(data.farmerId!=null){
-		       	 	form.setData(data);  
-		        }
-	        	 mini.alert('保存成功！');
-	        },
-	        error: function (jqXHR, textStatus, errorThrown) {
-	            mini.alert('系统异常！');
-	        }
-	});
-	function onDrawCell(e) {
-            value = e.value;
-            //组织HTML设置给cellHtml
-            e.cellHtml = '<span style="color:red;">'+value+'</span>';   
-	}
-}
+	function submitForm(){
+		$("#farmer").submit();
+
+	};
 </script>
 </body>
 </html>

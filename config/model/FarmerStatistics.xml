@@ -87,7 +87,7 @@ order by c.total desc
 	from t_sys_dic a left join(select * from  t_farmer b,
 	t_farmer_pay c 
 	where b.farmerid = c.farmerid
-	and c.year = #{year,jdbcType=VARCHAR}) d
+	and to_char(c.year,'yyyy') = #{year}) d
 	on a.dicvalue=d.villages
 	group by a.dicvalue) e
 	order  by e.village asc
@@ -99,7 +99,7 @@ order by c.total desc
 	from t_sys_dic a left join(select * from  t_farmer b,
 	t_farmer_pay c 
 	where b.farmerid = c.farmerid
-	and c.year = #{year,jdbcType=VARCHAR}) d
+	and to_char(c.year,'yyyy') = #{year}) d
 	on a.dicvalue=d.villages
 	group by a.dicvalue) e
 	order  by e.village asc

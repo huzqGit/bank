@@ -6,6 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<link href="${pageContext.request.contextPath}/jsp/farmer/form.css"  rel="stylesheet" type="text/css"/>
 <script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/jsp/farmer/farmer.js" type="text/javascript"></script>
 <style type="text/css">
@@ -18,27 +19,6 @@ overflow-x:hidden
     .display{display:block;}
     .hidden{display:none;}
     .line{background-color:#CCECF5;}
-    .topMenu{
-    border:1px solid #8AD3E9;
-    /* IE6 & IE7 */
-	filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0 , startColorstr = '#6DC8E3', 
-	endColorstr = 'white' ); 
-	/* IE8 */
-	-ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType = 0,startColorstr = '#6DC8E3', 
-	endColorstr = 'white' )"; 
-    }
-	#saveBtn{
-		width:100px;
-		height:25px;
-		border:0;
-		background:url(/bank/images/save.png) no-repeat
-	}
-	#backBtn{
-		width:100px;
-		height:25px;
-		border:0;
-		background:url(/bank/images/back.png) no-repeat
-	}
 	.addBtn{width:100px;height:25px;border:0;background:url(/bank/images/add.png) no-repeat}
 	.delBtn{width:100px;height:25px;border:0;background:url(/bank/images/delete.png) no-repeat}
 	.labelName{font-size:15px;font-weight:bold;color:darkgreen;}
@@ -58,67 +38,15 @@ overflow-x:hidden
  li a{
  color:black
  }
-.active{
- float:left;
- width:100px;
- list-style-type:none;
- text-align:center;
- border-bottom:none;
- border-top:1px solid gray;
- border-left:1px solid gray;
- border-right:1px solid white;
- 	filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0 , startColorstr = 'white', 
-	endColorstr = '#6DC8E3' ); 
-	/* IE8 */
-	-ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType = 0,startColorstr = 'white', 
-	endColorstr = '#6DC8E3' )";  
- height:31px;
-
- background-repeat:no-repeat
-}
  </style>
 </head>
 <body>
-<div class="topMenu">
-<ul>
-	<li >
-		<a href="/bank/farmer/loadFarmer1.do?id=${farmer.id}">基本信息</a>
-	</li>
-	<li >
-		<a href="/bank/loan/queryLoan1.do?fid=${farmer.id}">贷款信息</a>
-	</li>
-	<li >
-		<a href="/bank/farmer/queryBalance.do?fid=${farmer.id}">收支信息</a>
-	</li>
-	<li >
-		<a href="/bank/farmer/queryHouse.do?fid=${farmer.id}">房产信息</a>
-	</li>
-	<li >
-		<a href="/bank/farmer/queryForest.do?fid=${farmer.id}">林权信息</a>
-	</li>
-	<li >
-		<a href="/bank/farmer/queryBreed.do?fid=${farmer.id}">种养殖信息</a>
-	</li>
-	<li >
-		<a href="/bank/farmer/queryDevice.do?fid=${farmer.id}">设备信息</a>
-	</li>
-	<li >
-		<a href="/bank/farmer/queryCompunish.do?fid=${farmer.id}">奖惩信息</a>
-	</li>
-	<li >
-		<a href="/bank/farmer/queryInsured.do?fid=${farmer.id}">参保信息</a>
-	</li>
-	<li class="active">
-		其他信息
-	</li>
-</ul>
-</div>
 <form action="/bank/farmer/saveEvaluate1.do" id="farmerEvaluate" name="farmerEvaluate" method="POST">
 <input name="id" class="mini-hidden" value ="${evaluate.id}"/>
 <input name="farmerid" class="mini-hidden" value="${farmer.id}"/>
 <input name="recorder" class="mini-hidden" value="${recorder}"/>
 <input name="recordtime" class="mini-hidden" value="${currentTime}"/>
-<div class="topMenu" style="background:linear-gradient(#6DC8E3,white)">
+<div class="queryPane">
 <table width ="100%" height="60px">
 	<tr>
 		<td class="labelName" width="30%" align="right">姓名</td>
@@ -129,7 +57,7 @@ overflow-x:hidden
 		<td class="labelValue" align="left">${farmer.farmeridnum}</td>
 		<td width="1%"></td>
     	<td width="50px" align="right">
-       	 <input type="submit" id="saveBtn" value=""/>
+       	 <input type="submit" class="bank-btn" value="保存"/>
         </td>
 	</tr>
 </table>

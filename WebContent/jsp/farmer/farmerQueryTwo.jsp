@@ -9,55 +9,11 @@
 <script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/jsp/farmer/farmer.js" type="text/javascript"></script>
 <title>农户信息批量查询</title>
- <style type="text/css">
-	*{ margin:0;padding:0;}
-	body{line-height:120%;font-family:"仿宋_GB2312";font-size:13pt;}
-    a{text-decoration:none}
-    a:link{text-decoration:none;}
-    legend{font-weight: bold;color: seagreen;font-family:"圆幼","宋体" ;}
-        .file{
-        position:absolute;
-        top:0px;
-        left:0px;
-        width:120px;
-        height:24px;
-		opacity:0;
-		filter:alpha(opacity=0);
-	
-		}
-		.success{
-			color:green;
-			font-weight:bold;
-			height:25px;
-		}
-		.info{
-			color:blue;
-			font-weight:bold;
-			height:25px;
-		}
-		.table-b table{border-bottom:1px dotted #cc9999
-		}
-		.table-b table td{height:30px;line-height:30px;border-top:1px dotted #cc9999}
-		.ChaKan_Btn{
-			width:50px;
-			background-position:0% 50%;
-			background-image:url(/bank/images/ChaKan_B.png);
-			background-repeat:no-repeat
-		}
-		.ChaKan_Btn:hover{
-			width:50px;
-			height:30px;
-			line-height:30px;
-			background-position:0% 50%;
-			background-image:url(/bank/images/ChaKan_A.png);
-			background-repeat:no-repeat
-		}
-    </style>
 </head>
 <body>
 <div class="queryPane">
 <form action="/bank/farmer/loadFarmerTwo.do" method="post" enctype="multipart/form-data">
-<table width="100%" height ="60px">
+<table width="100%" height ="30px">
  	<tr>
  		<td class="labelName" width="30%" align="right">
         	请选择农户名单：

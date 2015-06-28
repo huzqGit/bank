@@ -9,11 +9,6 @@
 <link href="${pageContext.request.contextPath}/jsp/farmer/form.css"  rel="stylesheet" type="text/css"/>
 <script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/jsp/farmer/farmer.js" type="text/javascript"></script>
-<style type="text/css">
-*{margin:0;padding:0}
-body{line-height:120%;font-family:"仿宋_GB2312";font-size:13pt;}
-
-</style>
 </head>
 <body>
 <div class="queryPane">

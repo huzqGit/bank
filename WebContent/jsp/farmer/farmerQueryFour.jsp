@@ -17,7 +17,7 @@ body{line-height:120%;font-family:"仿宋_GB2312";font-size:13pt;}
 <body>
 <div class="queryPane">
 <form action="/bank/farmer/loadFarmerFour.do" method="POST">
-<table  style="width:100%">
+<table  style="width:100%;height:30px">
 	<tr>
 		<td class="labelName"  width="20%" style="text-align:right">农户身份证号:&nbsp;&nbsp;&nbsp;
 		<input type="text" name="farmerIdNum" class="bank-text">
