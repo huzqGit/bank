@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="${pageContext.request.contextPath}/jsp/farmer/form.css"  rel="stylesheet" type="text/css"/>
 <script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/jsp/farmer/farmer.js" type="text/javascript"></script>
 <title>农户信息批量查询</title>
@@ -14,26 +15,6 @@
     a{text-decoration:none}
     a:link{text-decoration:none;}
     legend{font-weight: bold;color: seagreen;font-family:"圆幼","宋体" ;}
-    li{margin-top: 5px;margin-left: 30px;}
-         input{ vertical-align:middle; margin:0; padding:0}
-        .file-box{
-         position:relative;
-         width:100%;
-         margin:auto auto;
-         text-align:center;
-         background:linear-gradient(#6DC8E3,white);
-		/* IE6 & IE7 */
-		filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0 , startColorstr = '#6DC8E3', 
-		endColorstr = 'white' ); 
-		/* IE8 */
-		-ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType = 0,startColorstr = '#6DC8E3', 
-		endColorstr = 'white' )"; 
-         }
-        .txt{ height:22px; border:1px solid #cdcdcd; width:180px;}
-        .btn{ background-color:#FFF; 
-        border:1px solid #CDCDCD;height:24px; width:70px;
-        display:inline-block;
-        }
         .file{
         position:absolute;
         top:0px;
@@ -43,19 +24,6 @@
 		opacity:0;
 		filter:alpha(opacity=0);
 	
-		}
-		.labelName{font-size:15px;font-weight:bold;color:darkgreen;}
-		#scanFile{
-			width:100px;
-			height:25px;
-			border:0;
-			background:url(/bank/images/scanFile.png) no-repeat;
-		}
-		#uploadFile{
-			width:100px;
-			height:25px;
-			border:0;
-			background:url(/bank/images/uploadFile.png) no-repeat;
 		}
 		.success{
 			color:green;
@@ -87,7 +55,7 @@
     </style>
 </head>
 <body>
-<div class="file-box">
+<div class="queryPane">
 <form action="/bank/farmer/loadFarmerTwo.do" method="post" enctype="multipart/form-data">
 <table width="100%" height ="60px">
  	<tr>
@@ -95,16 +63,16 @@
         	请选择农户名单：
         </td>
     	<td width="15%" >
-        	<input type='text' name='textfield' id='textfield' class='txt' value="" />
+        	<input type='text' name='textfield' id='textfield' class='bank-text' value="" />
         </td>
         <td width="15%" >
         	<div style="position:relative">
-	            <input id="scanFile" type='button' class='btn' value=""  />
+	            <input id="scanFile" type='button' class='bank-btn' value="浏览"  />
 	        	<input type="file" name="myfile" class="file" id="myfile" size="28" onchange="document.getElementById('textfield').value=this.value" />
        		</div>
         </td>
         <td align="left">
-            <input id="uploadFile" type="submit" name="submit" value=""/>
+            <input id="uploadFile" type="submit" name="submit" class="bank-btn" value="上传"/>
         </td>
      </tr>
  </table>
@@ -135,7 +103,7 @@
 		</div>
 	</c:when>
 	<c:otherwise>
-	<fieldset style="width:90%;margin:auto auto">
+	<fieldset class="bank-view-fieldset"style="width:90%;margin:auto auto">
 	 <legend style="width:310px;height:74px;background:url(/bank/images/twotips.png) no-repeat"></legend>
 	 <div style="padding:8px 5px 10px 35px">
 	 	<p style="font-size:15px;font-family:黑体;font-weight:bold;color:darkgreen;margin-bottom:10px">用户输入农户姓名、身份证号码可以实现二类查询功能:</p>

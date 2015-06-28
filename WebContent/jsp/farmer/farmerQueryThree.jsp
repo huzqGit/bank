@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="${pageContext.request.contextPath}/jsp/farmer/form.css"  rel="stylesheet" type="text/css"/>
 <script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/jsp/farmer/farmer.js" type="text/javascript"></script>
 <title>农户信息条件查询</title>
@@ -61,14 +62,14 @@ background:white
 </style>
 </head>
 <body>
-<div class="queryPane" style="padding-top:10px;width:100%">
+<div class="queryPane" style="padding-top:10px;width:100%;height:100px">
 <form action="/bank/farmer/loadFarmerThree.do" method="POST">
 <table width="100%"  style="vertical-align:middle;">
 	<tr>
 		<td class="labelName"  width="30%" align="right">贷款金融机构名称:</td>
 		<td align="left"><input  type="text" id="organName1" name="organName"></td>
 		<td rowspan="3" align="center" style="vertical-align:middle;">
-			<input type="button" value=""  onclick="search()"style="width:100px;height:25px;margin-top:auto;margin-bottom:auto;border:0;background:url(/bank/images/query.png) no-repeat">
+			<input type="button" class="bank-btn" value="查询"  onclick="search()">
 		</td>
 	</tr>
 	<tr>
