@@ -10,7 +10,7 @@
 <title>农户信息条件查询</title>
 <style type="text/css">
 *{margin:0;padding:0}
-body{scrollbar-base-color:#90D5EA;line-height:120%;font-family:"仿宋_GB2312";font-size:13pt;}
+body{scrollbar-base-color:white;line-height:120%;font-family:"仿宋_GB2312";font-size:13pt;}
 .queryPane{
 background:linear-gradient(#6DC8E3,white);
 /* IE6 & IE7 */
@@ -66,11 +66,6 @@ background:white
 <table width="100%"  style="vertical-align:middle;">
 	<tr>
 		<td class="labelName"  width="30%" align="right">贷款金融机构名称:</td>
-		<td width="2%" ></td>
-		<td align="left" ><input  type="text" id="organName" name="organName"></td>
-		<td width="2%" ></td>
-		<td class="labelName"  width="30%" align="right">贷款金融机构名称:</td>
-		
 		<td align="left"><input  type="text" id="organName1" name="organName"></td>
 		<td rowspan="3" align="center" style="vertical-align:middle;">
 			<input type="button" value=""  onclick="search()"style="width:100px;height:25px;margin-top:auto;margin-bottom:auto;border:0;background:url(/bank/images/query.png) no-repeat">
@@ -102,11 +97,9 @@ background:white
 >
     <div property="columns">
         <div type="indexcolumn" ></div>
-        <div field="farmerName" width="10%" headerAlign="center" allowSort="true">姓名</div>    
-        <div field="frmerIdnum" width="20%" headerAlign="center" allowSort="true">身份证号码</div>                            
-        <div field="sex" width="10%" renderer="onGenderRenderer" align="center" headerAlign="center">性别</div>
-        <div field="phone" width="20%" align="right" width="100" allowSort="true">联系方式</div>                                
-        <div field="address" width="40%" allowSort="true" decimalPlaces="2" dataType="float">地址</div>
+        <div field="farmername" width="45%" headerAlign="center" allowSort="true">姓名</div>    
+        <div field="farmeridnum" width="45%" headerAlign="center" allowSort="true">身份证号码</div> 
+        <div width="10%" headerAlign="center" align="center" renderer="editRenderer" cellStyle="padding:0;"></div>                           
     </div>
 </div>   
  <script type="text/javascript">
@@ -121,7 +114,13 @@ background:white
      grid.load({organName:organName,loanDate1:loanDate1,loanDate2:loanDate2,
     	 balance1:balance1,balance2:balance2});
  }
- 
+ function editRenderer(e) {
+	var record = e.record;
+	var farmeridnum = record.farmeridnum;
+	var farmername = record.farmername;
+	var s = '<a class="Edit_Button" target="_self" href="/bank/farmer/loadFarmerThreeTotal.do?farmerName='+farmername+'&farmerIdNum='+farmeridnum+'" target="_self">[查看]</a>';      
+	return s;
+};
  </script>
 </body>
 </html>

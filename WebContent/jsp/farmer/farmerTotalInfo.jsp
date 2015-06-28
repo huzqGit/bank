@@ -49,7 +49,7 @@
 		endColorstr = 'white' )"; 
      }
      ul{width:100%;list-style-type:none;clear:both}
-     li{float:left;height:22px;line-height:22px;word-break:break-all;word-wrap:break-word};
+     li{float:left;height:22px;line-height:22px;word-break:break-all;word-wrap:break-word;text-align:left};
    	.labelName{
    		padding-left:12px;
    		width:15%;
@@ -72,34 +72,34 @@
 <div style="width:100%;margin:0px;padding:0px">
 <c:forEach items="${farmers}" var="farmer" varStatus="stauts">
 	<ul>
+		<li style="width:10%">农户类型:</li>
+    	<li style="width:15%">${farmer.farmertype} </li>
         <li style="width:10%;">户主姓名:</li>
-        <li style="width:10%;">${farmer.farmername}</li>
-        <li style="width:15%">户主身份证号:</li>
-        <li style="width:25%;" >${farmer.farmeridnum}</li>
+        <li style="width:15%;">${farmer.farmername}</li>
         <li style="width:10%">性别:</li>
-        <li style="width:10%;" >${dic:translate("sex",farmer.sex)}</li>
+        <li style="width:15%;" >${dic:translate("sex",farmer.sex)}</li>
     	<li style="width:10%">婚姻状况:</li>
-        <li style="width:10%;">${dic:translate("marrystatus",farmer.marrystatus)}</li>
+        <li style="width:15%;">${dic:translate("marrystatus",farmer.marrystatus)}</li>
     </ul>
     <ul class="label1">
     	<li style="width:10%">政治面貌:</li>
-        <li style="width:10%">
+        <li style="width:15%">
         	${dic:translate("politicstatus",farmer.politicstatus)}
         </li>
-    	<li style="width:15%">联系电话:</li>
-        <li style="width:25%">${farmer.phone}</li>
-        <li style="width:10%">是否贫困户:</li>
-    	<li style="width:10%">${farmer.farmertype} </li>
         <li style="width:10%">邮政编码:</li>
-    	<li style="width:10%">${farmer.postcode} </li>
+    	<li style="width:15%">${farmer.postcode} </li>
+    	<li style="width:10%">家庭人数:</li>
+        <li style="width:15%">${farmer.familynum}</li>
+    	<li style="width:10%">劳动力人数:</li>
+        <li style="width:15%">${farmer.labornum}</li>
+        
     </ul>
      <ul class="label0">
-       	<li style="width:10%">录入单位:</li>
-        <li style="width:50%">${farmer.runitname}</li>
-		<li style="width:10%">劳动力人数:</li>
-        <li style="width:10%">${farmer.labornum}</li>
-        <li style="width:10%">家庭人数:</li>
-        <li style="width:10%">${farmer.familynum}</li>
+
+        <li style="width:10%">联系电话:</li>
+        <li style="width:40%">${farmer.phone}</li>
+        <li style="width:10%">户主身份证号:</li>
+        <li style="width:40%;" >${farmer.farmeridnum}</li>
     </ul>
     <ul class="label1" >
         <li style="width:15%">现住址:</li>
@@ -116,21 +116,22 @@
   	    <li style="width:10%">与户主关系:</li>
         <li style="width:10%">${dic:translate("relation",member.relation)}</li>
   		<li style="width:15%">家庭成员姓名:</li>
-        <li style="width:25%">${member.name}</li>
-        <li style="width:10%">婚姻状况:</li>
-	    <li style="width:10%">${dic:translate("marrystatus",member.marrystatus)}</li>
-	    <li style="width:10%">性别:</li>
+        <li style="width:10%">${member.name}</li>
+        <li style="width:10%">性别:</li>
         <li style="width:10%">${dic:translate("sex",member.sex)}</li>
+        <li style="width:10%">婚姻状况:</li>
+	    <li style="width:25%">${dic:translate("marrystatus",member.marrystatus)}</li>
+
   </ul>
   <ul class="label1">
        <li style="width:10%">文化程度:</li>
        <li style="width:10%">${dic:translate("education",member.education)}</li>
-       <li style="width:15%">身份证号:</li>
-       <li style="width:25%">${member.idnum} </li>
-       <li style="width:10%">职业:</li>
+       <li style="width:15%">职业:</li>
        <li style="width:10%">${member.occupation}</li>
        <li style="width:10%">职务:</li>
        <li style="width:10%">${member.job} </li>
+       <li style="width:10%">身份证号:</li>
+       <li style="width:25%">${member.idnum} </li>
       
 
   </ul>
@@ -198,15 +199,32 @@
 	<li style="width:15%">贷款金融机构:</li>
 	<li style="width:25%">${loan.organname}</li>
 	<li style="width:10%">贷款金额:</li>
-	<li style="width:10%">${loan.balance}</li>
+	<li style="width:10%">${loan.amount}</li>
 	<li style="width:10%">贷款日期:</li>
-	<li style="width:10%">${loan.limitdate}</li>
+	<li style="width:10%">${loan.loandate}</li>
 	<li style="width:10%">到期日期:</li>
-	<li style="width:10%">${loan.balance}</li>
+	<li style="width:10%">${loan.limitdate}</li>
 </ul>
 <ul class="label1">
-	<li style="width:15%">数据录入单位:</li>
-	<li style="width:85%">${loan.runitname}</li>
+	<li style="width:15%">贷款余额:</li>
+	<li style="width:85%">${loan.balance}</li>
+</ul>
+</c:forEach>
+</div>
+</fieldset>
+<fieldset id="fd2" style="width:100%;margin:auto auto">
+<legend style="width:260px;height:74px;background:url(/bank/images/lending.png) no-repeat"> </legend>
+<div class="fieldset-body">
+<c:forEach items="${insureds}" var="loan" varStatus="stauts">
+<ul class="label0">
+	<li style="width:15%">贷款金额:</li>
+	<li style="width:10%">${insured.type}</li>
+	<li style="width:15%">月利率:</li>
+	<li style="width:10%">${insured.amount}</li>
+	<li style="width:15%">借贷日期:</li>
+	<li style="width:10%">${insured.insuredtime}</li>
+	<li style="width:15%">到期日期:</li>
+	<li style="width:10%">${insured.limittime}</li>
 </ul>
 </c:forEach>
 </div>
@@ -216,28 +234,24 @@
 <div class="fieldset-body">
 <c:forEach items="${houses}" var="house">
 <ul class="label0">
-	<li class="labelName">房产性质:</li>
-    <li class="labelValue"> ${dic:translate("houseproperties",house.houseproperty)}</li>
-    <li class="labelName">房屋类型:</li>
-    <li class="labelValue">${dic:translate("housetype",house.housetype)}</li>
+	<li style="width:15%">房产性质:</li>
+    <li style="width:10%"> ${dic:translate("houseproperties",house.houseproperty)}</li>
+    <li style="width:15%">房屋类型:</li>
+    <li style="width:10%">${dic:translate("housetype",house.housetype)}</li>
+    <li style="width:15%">购建年份:</li>
+    <li style="width:10%">${house.builddate}</li>
+    <li style="width:15%">购建价格:</li>
+    <li style="width:10%">${house.buildprice}</li>
 </ul>
 <ul class="label1">
-	<li class="labelName">房屋地址:</li>
-    <li class="labelValue">${house.houseaddress}</li>
-    <li class="labelName">建筑面积:</li>
-    <li class="labelValue">${house.buildarea}</li>
-</ul>
-<ul class="label0">
-	<li class="labelName">购建年份:</li>
-    <li class="labelValue">${house.builddate}</li>
-    <li class="labelName">购建价格:</li>
-    <li class="labelValue">${house.buildprice}</li>
-</ul>
- <ul class="label1">
-	<li class="labelName">占地面积:</li>
-    <li class="labelValue">${house.floorarea}</li>
-    <li class="labelName">当前评估价格:</li>
-    <li class="labelValue">${house.assessprice}</li>
+    <li style="width:15%">建筑面积:</li>
+    <li style="width:10%">${house.buildarea}</li>
+    <li style="width:15%">占地面积:</li>
+    <li style="width:10%">${house.floorarea}</li>
+    <li style="width:15%">当前评估价格:</li>
+    <li style="width:35%">${house.assessprice}</li>
+	<li style="width:15%">房屋地址:</li>
+    <li style="width:85%">${house.houseaddress}</li>
 </ul>
 </c:forEach>
 </div>
@@ -247,28 +261,24 @@
 <div class="fieldset-body">
 <c:forEach items="${forests}" var="forest">
 <ul class="label0">
-	<li class="labelName">林权证编号:</li>
-    <li class="labelValue">${forest.cardnum}</li>
-    <li class="labelName">林权字号:</li>
-    <li class="labelValue">${forest.wordnum}</li>
+	<li style="width:15%">林权证编号:</li>
+    <li style="width:10%">${forest.cardnum}</li>
+    <li style="width:15%">林权字号:</li>
+    <li style="width:10%">${forest.wordnum}</li>
+	<li style="width:15%">林权使用人:</li>
+    <li style="width:10%">${forest.user}</li>
+    <li style="width:15%">林权使用种类:</li>
+    <li style="width:10%">${forest.usetype}</li>
 </ul>
 <ul class="label1">
-	<li class="labelName">林权使用人:</li>
-    <li class="labelValue">${forest.user}</li>
-    <li class="labelName">林权使用种类:</li>
-    <li class="labelValue">${forest.usetype}</li>
-</ul>
-<ul class="label0">
-	<li class="labelName">面积(亩):</li>
-    <li class="labelValue">${forest.area}</li>
-    <li class="labelName">蓄积量:</li>
-    <li class="labelValue">${forest.storenum}</li>
-</ul>
-<ul class="label1">
-	<li class="labelName">使用权期限:</li>
-    <li class="labelValue">${forest.timelimit}</li>
-    <li class="labelName">当前评估价格:</li>
-    <li class="labelValue">${forest.assessprice}</li>
+	<li style="width:15%">面积(亩):</li>
+    <li style="width:10%">${forest.area}</li>
+    <li style="width:15%">蓄积量:</li>
+    <li style="width:10%">${forest.storenum}</li>
+	<li style="width:15%">使用权期限:</li>
+    <li style="width:10%">${forest.timelimit}</li>
+    <li style="width:15%">当前评估价格(元):</li>
+    <li style="width:10%">${forest.assessprice}</li>
 </ul>
 </c:forEach>
 </div>
@@ -278,61 +288,88 @@
 <div class="fieldset-body">
 <c:forEach items="${breeds}" var="breed">
 <ul class="label0">
-	<li class="labelName">林权证编号:</li>
-    <li class="labelValue">${breed.variety}</li>
-    <li class="labelName">林权字号:</li>
-    <li class="labelValue">${breed.floorarea}</li>
+	<li style="width:15%">种养殖品种:</li>
+    <li style="width:10%">${breed.variety}</li>
+    <li style="width:15%">占地面积:</li>
+    <li style="width:10%">${breed.floorarea}</li>
+	<li style="width:15%">年产量:</li>
+    <li style="width:10%">${breed.output}</li>
+    <li style="width:15%">年产值(元):</li>
+    <li style="width:10%">${breed.outputvalue}</li>
+</ul>
+<ul class="label1">
+    <li style="width:15%">当前评估价格:</li>
+    <li style="width:85%">${breed.assessprice}</li>
+</ul>
+</c:forEach>
+</div>
+</fieldset>
 
-	<li class="labelName">林权使用人:</li>
-    <li class="labelValue">${breed.output}</li>
-    <li class="labelName">林权使用种类:</li>
-    <li class="labelValue">${breed.outputvalue}</li>
-    <li class="labelName">林权使用种类:</li>
-    <li class="labelValue">${breed.assessprice}</li>
+<fieldset id="fd2" style="width:100%;margin:auto auto">
+<legend style="width:200px;height:74px;background:url(/bank/images/insured.png) no-repeat"></legend>
+<div class="fieldset-body">  
+<c:forEach items="${insureds}" var="insured">
+<ul class="label0">
+	<li style="width:15%">保险种类:</li>
+    <li style="width:10%">${insured.type}</li>
+    <li style="width:15%">参保金额:</li>
+    <li style="width:10%">${insured.amount}</li>
+	<li style="width:15%">参保时间:</li>
+    <li style="width:10%">${insured.insuretime}</li>
+    <li style="width:15%">参保到期日:</li>
+    <li style="width:10%">${insured.limittime}</li>
+ 
+</ul>
+<ul class="label1">
+    <li style="width:20%">表彰或处罚内容:</li>
+    <li style="width:80%">${compunish.detail}</li>          
 </ul>
 </c:forEach>
 </div>
 </fieldset>
 <fieldset id="fd2" style="width:100%;margin:auto auto">
 <legend style="width:200px;height:74px;background:url(/bank/images/compunish.png) no-repeat"></legend>
-<div class="fieldset-body">
-<ul class="label0">
-	<li class="labelName">人品综合评价:</li>
-    <li class="labelValue">${evaluate.personality}</li>
-    <li class="labelName">家庭和睦情况:</li>
-    <li class="labelValue" >${dic:translate("evaluate",evaluate.harmonystatus)}</li>
-</ul>
-<ul class="label1">
-	<li class="labelName">敬老爱幼情况:</li>
-    <li class="labelValue">${dic:translate("evaluate",evaluate.respectstatus)}</li>
-    <li class="labelName">邻里团结情况:</li>
-    <li class="labelValue">${dic:translate("evaluate",evaluate.neighborstatus)}</li>
-</ul>
-<ul class="label0">
-	<li class="labelName">是否遵纪守法:</li>
-    <li class="labelValue">${dic:translate("yesorno",evaluate.legalstatus)}
-    </li>
-    <li class="labelName">对公益事业关心程度:</li>
-    <li class="labelValue">${dic:translate("evaluate",evaluate.welfarestatus)}</li>
-</ul>
-<ul class="label1">
-	<li class="labelName">是否诚实守信:</li>
-    <li class="labelValue">${dic:translate("yesorno",evaluate.honeststatus)}</li>
-	<li class="labelName">其他:</li>
-    <li class="labelValue">${evaluate.otherstatus}</li>
-</ul>   
+<div class="fieldset-body">  
 <c:forEach items="${compunishs}" var="compunish">
 <ul class="label0">
-	<li class="labelName">表彰或处罚部门:</li>
-    <li class="labelValue">${compunish.organ}</li>
-    <li class="labelName">受表彰或处罚时间:</li>
-    <li class="labelValue">${dt:format(compunish.occurtime,"yyyy-MM-dd")}</li>
+	<li style="width:15%">表彰或处罚:</li>
+    <li style="width:10%">${compunish.organ}</li>
+    <li style="width:15%">受表彰或处罚时间:</li>
+    <li style="width:10%">${dt:format(compunish.occurtime,"yyyy-MM-dd")}</li>
+	<li style="width:20%">表彰或处罚部门:</li>
+    <li style="width:30%">${compunish.organ}</li>
+ 
 </ul>
-<ul class="label0">
-    <li class="labelName">表彰或处罚内容:</li>
-    <li class="labelValue">${compunish.detail}</li>          
+<ul class="label1">
+    <li style="width:20%">表彰或处罚内容:</li>
+    <li style="width:80%">${compunish.detail}</li>          
 </ul>
 </c:forEach>
+</div>
+</fieldset>
+<fieldset id="fd2" style="width:100%;margin:auto auto">
+<legend style="width:200px;height:74px;background:url(/bank/images/other.png) no-repeat"></legend>
+<div class="fieldset-body">
+<ul class="label0">
+	<li style="width:18%">人品综合评价:</li>
+    <li style="width:7%">${evaluate.personality}</li>
+    <li style="width:18%">家庭和睦情况:</li>
+    <li style="width:7%" >${dic:translate("evaluate",evaluate.harmonystatus)}</li>
+	<li style="width:18%">敬老爱幼情况:</li>
+    <li style="width:7%">${dic:translate("evaluate",evaluate.respectstatus)}</li>
+    <li style="width:18%">邻里团结情况:</li>
+    <li style="width:7%">${dic:translate("evaluate",evaluate.neighborstatus)}</li>
+</ul>
+<ul class="label1">
+	<li style="width:18%">是否遵纪守法:</li>
+    <li style="width:7%">${dic:translate("yesorno",evaluate.legalstatus)}</li>
+    <li style="width:18%">对公益事业关心程度:</li>
+    <li style="width:7%">${dic:translate("evaluate",evaluate.welfarestatus)}</li>
+	<li style="width:18%">是否诚实守信:</li>
+    <li style="width:7%">${dic:translate("yesorno",evaluate.honeststatus)}</li>
+	<li style="width:18%">其他:</li>
+    <li style="width:7%">${evaluate.otherstatus}</li>
+</ul> 
 </div>
 </fieldset>
 </td></tr>

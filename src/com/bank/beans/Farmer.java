@@ -5,14 +5,14 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-public class Farmer implements java.io.Serializable {
+import com.common.bean.BaseEntity;
+
+public class Farmer  extends BaseEntity<Long> {
 	
 	/**
 	 * 
 	 */
 		private static final long serialVersionUID = 7920128196248590259L;
-		
-		private Long id;
 		
 		private Integer farmertype;
 		
@@ -118,14 +118,6 @@ public class Farmer implements java.io.Serializable {
 		
 		@DateTimeFormat(pattern = "yyyy-MM-dd")
 		private Date recordtime;
-
-		public Long getId() {
-			return id;
-		}
-
-		public void setId(Long id) {
-			this.id = id;
-		}
 
 		public Integer getFarmertype() {
 			return farmertype;
@@ -541,6 +533,18 @@ public class Farmer implements java.io.Serializable {
 
 		public void setRecordtime(Date recordtime) {
 			this.recordtime = recordtime;
+		}
+
+		@Override
+		public boolean equalsIfIdNull(Object o) {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public int hashCodeIfIdNull() {
+			// TODO Auto-generated method stub
+			return 0;
 		}
 		
 }

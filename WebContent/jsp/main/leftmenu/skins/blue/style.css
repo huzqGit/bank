@@ -14,12 +14,13 @@ div.menuheader a{
 	font-weight:bold;
 }
 .arrowlistmenu .menuheader{
-color: #03509e;
-background: white url(nav/titlebar.jpg) repeat-x center left;
+color: #ff9933;
+font-size:15px;
+background: white ;
 padding: 4px 0 4px 10px; 
 cursor: hand;
 cursor: pointer;
-border:solid 1px #b7cce7;
+border:solid 1px gray;
 height:16px!important;
 position:relative;
 text-indent:15px;
@@ -28,7 +29,7 @@ text-indent:15px;
 background-image: url(nav/titlebar-active.jpg);
 color:white;
 height:16px!important;
-border:1px solid #008eda!important;
+border:1px solid #F3ECE6!important;
 }
 .arrowlistmenu ul{ 
 list-style-type: none;

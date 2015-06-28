@@ -2,36 +2,47 @@
 *{margin:0;padding:0;text-decoration:none}
 body{overflow-x:hidden}
 li{
- border-bottom:1px solid lightgray;
+
  float:left;
- width:85px;
+ margin-left:5px;
  list-style-type:none;
- height:31px;
+ width:80px;
+ height:30px;
  text-align:center;
  line-height:28px;
- font-weight:bold;
  color:black;
  background-repeat:no-repeat
  }
-
-.inactive{font-size: 15px;font-family: YouYuan;font-weight:bold;color:gray}
+.topMenu {
+ height:33px;
+ border-bottom:1px solid orange
+ }
+.topMenu ul{
+	margin-top:3px;
+}
+.inactive{
+	border:1px solid orange;
+	font-size: 12px;
+	font-family: YouYuan;
+	color:white;
+	background:#ffffcc;
+	border-bottom:0px;
+	}
+.inactive a{
+	color:black
+}
 .active{
-	font-size: 15px;font-family: YouYuan;font-weight: bold;color:darkgreen;
- float:left;
- width:100px;
- list-style-type:none;
- text-align:center;
- border-top:1px solid gray;
- border-left:1px solid gray;
- border-right:1px solid white;
- 	filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0 , startColorstr = 'white', 
-	endColorstr = '#6DC8E3' ); 
-	/* IE8 */
-	-ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType = 0,startColorstr = 'white', 
-	endColorstr = '#6DC8E3' )";  
- height:31px;
-
- background-repeat:no-repeat
+	border-bottom:0px;
+	border:1px solid orange;
+	font-size: 15px;
+	font-family: YouYuan;
+	font-weight: bold;
+	color:white;
+ 	float:left;
+ 	list-style-type:none;
+ 	text-align:center;
+ 	height:32px;
+	background:orange
 }
 .mini-panel-border{
 border-color:#D2D2D2;
@@ -54,7 +65,7 @@ background:white
 .mini-grid-pager{
 background:white
 }
-.topMenu{
+topMenu{
     /* IE6 & IE7 */
 	filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0 , startColorstr = '#6DC8E3', 
 	endColorstr = 'white' ); 
@@ -67,7 +78,7 @@ background:white
 	margin:auto auto;
 	height:60px
 }
-#saveBtn{
+saveBtn{
 	width:100px;
 	height:25px;
 	border:0;
@@ -85,13 +96,30 @@ background:white
 	border:0;
 	background:url(/bank/images/add.png) no-repeat
 }
+.bank-btn{
+	width:82px;
+color:white;
+font-weight:bold;
+height:30px;
+border:0;
+background:url(/bank/images/query.png) no-repeat
+}
+.bank-btn:hover{
+width:82px;
+color:white;
+font-weight:bold;
+height:30px;
+border:0;
+cursor:pointer;
+background:url(/bank/images/query-on.png) no-repeat
+}
 .small_delbtn{
 	width:20px;
 	height:20px;
 	border:0;
 	background:url(/bank/images/s_delbtn.png) no-repeat
 }
-.labelName{font-size:15px;font-weight:bold;color:darkgreen;}
+.labelName{font-size:15px;font-weight:bold;color:black;}
 .labelValue{font-size:15px;font-weight:bold;color:red;}
 .required_text,.errorText{color:red}
 .required_text{text-align:right}

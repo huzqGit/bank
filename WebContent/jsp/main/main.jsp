@@ -6,7 +6,7 @@
 <head>
 <title>中国人民银行新干县农村信用信息管理系统 </title>
 </head>
-	<frameset rows="100,*,21" frameborder="no" border="0" framespacing="0">
+	<frameset rows="102,*,21" frameborder="no" border="0" framespacing="0">
 		<frame src="/bank/jsp/main/top.jsp" name="topFrame" scrolling="No"
 		noresize="noresize" id="topFrame" />
 		<frame src="/bank/jsp/main/center.jsp" name="mainFrame" id="mainFrame" />

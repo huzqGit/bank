@@ -198,58 +198,6 @@ public class FarmerController   {
 		view.addObject("farmer", farmer);
 		return view;	  
 	}
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@RequestMapping(value = "/loadFarmerTotal", method = RequestMethod.GET)
-	public ModelAndView loadFarmerTotal(@RequestParam(value="id") String id,
-			HttpServletResponse response) throws Exception {
-		if(StringUtils.isEmpty(id)){
-			return null;
-		}
-		Farmer farmer = farmerService.findByPK(Long.valueOf(id));
-		Map map = farmerService.loadTotalFarmer(farmer.getId());
-		List<FarmerMember> members = (List<FarmerMember>) map.get("members");
-		List<FarmerHouse> houses = (List<FarmerHouse>) map.get("houses");
-		List<FarmerForest> forests = (List<FarmerForest>) map.get("forests");
-		FarmerPay balance = (FarmerPay)map.get("balance");
-		List<FarmerIncome> incomes = (List<FarmerIncome>) map.get("incomes");
-		FarmerEvaluate evaluate = (FarmerEvaluate) map.get("evaluate");
-		List<FarmerCompunish> compunishs = farmerService.findCompunishByFarmer(farmer.getId());
-		List<FarmerLoan> unBalances = loanService.findUnBalanceByFarmer(farmer.getId());
-		List<FarmerLoan> badBalances = loanService.findBadBalanceByFarmer(farmer.getId());
-		if(members.size() == 0){
-			members.add(new FarmerMember());
-		}
-		if(houses.size() ==0){
-			houses.add(new FarmerHouse());
-		}
-		if(forests.size() == 0){
-			forests.add(new FarmerForest());
-		}
-		if(incomes.size() == 0){
-			incomes.add(new FarmerIncome());
-		}
-		if(compunishs.size() == 0){
-			compunishs.add(new FarmerCompunish());
-		}
-		if(unBalances.size() == 0){
-			unBalances.add(new FarmerLoan());
-		}
-		if(badBalances.size() == 0){
-			badBalances.add(new FarmerLoan());
-		}
-		ModelAndView  view = new ModelAndView("/farmer/farmerTotalInfo");
-		view.addObject("farmer", farmer);
-		view.addObject("members", members);
-		view.addObject("houses", houses);
-		view.addObject("forests", forests);
-		view.addObject("balance", balance);
-		view.addObject("incomes", incomes);
-		view.addObject("evaluate", evaluate);
-		view.addObject("compunishs", compunishs);
-		view.addObject("unbalances",unBalances);
-		view.addObject("badbalances",badBalances);
-		return view;	  
-	}
 	@RequestMapping(value = "/loadFarmerOne", method = RequestMethod.POST)
 	public ModelAndView loadFarmerOne(@RequestParam(value="farmerName") String farmerName,
 			@RequestParam(value="farmerIdNum") String farmerIdNum,
@@ -378,16 +326,129 @@ public class FarmerController   {
 			for(String[] data:datas){
 				farmerNames.add(data[0]);
 			}
-			if(farmerNames.size()>0){
-				List<Farmer> farmers = farmerService.findByNames(farmerNames);
-				ModelAndView view = new ModelAndView("/farmer/farmerQueryTwo");
-				view.addObject("farmers",farmers);
-				return view;
-			}
+			FarmerExample fe = new FarmerExample();
+			FarmerExample.Criteria  fc = fe.createCriteria();
+			fc.andFarmernameIn(farmerNames);
+			List<Farmer> farmers = farmerService.selectSignalByExample(fe);
+			ModelAndView view = new ModelAndView("/farmer/farmerQueryTwo");
+			view.addObject("farmers",farmers);
+			return view;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 		return null;
+	}
+	@RequestMapping(value = "/loadFarmerTwoTotal", method = RequestMethod.GET)
+	public ModelAndView loadFarmerTwoTotal(@RequestParam(value="farmerName") String farmerName,
+			@RequestParam(value="farmerIdNum") String farmerIdNum,
+			HttpServletResponse response) {
+		FarmerExample fe = new FarmerExample();
+		FarmerExample.Criteria fc = fe.createCriteria();
+		fc.andFarmernameEqualTo(farmerName);
+		fc.andFarmeridnumEqualTo(farmerIdNum);
+		List<Farmer> farmers =farmerService.selectByExample(fe);
+		List<Long> farmerIds = new ArrayList<Long>(farmers.size());
+		if(farmers.size() == 0){
+			ModelAndView view =  new ModelAndView("/farmer/farmerQueryTwo");
+			view.addObject("msg", "閺堫亝澹橀崚鏉垮爱闁板秶娈戦崘婊勫煕娣団剝浼�!閹劌褰叉禒銉ュ煂閵嗘劕鍟橀幋鏋拷锟�-閵嗘劖鏆熼幑顕�鍣伴梿鍡愶拷锟�-閵嗘劕鐔�閺堫兛淇婇幁顖橈拷鎴災侀崸妞捐厬瑜版洖鍙嗛崘婊勫煕娣団剝浼呴崥搴″晙瑜版洖鍙嗛崘婊勫煕閻ㄥ嫯绁禍褌淇婇幁锟�!");
+			return view;
+		}
+		for(Farmer farmer:farmers){
+			farmerIds.add(farmer.getId());
+		}
+		FarmerMemberExample ee = new FarmerMemberExample();
+		FarmerMemberExample.Criteria ec = ee.createCriteria();
+		ec.andFarmeridIn(farmerIds);
+		List<FarmerMember> members = memberService.selectByExample(ee);
+		
+		FarmerLoanExample le = new FarmerLoanExample();
+		FarmerLoanExample.Criteria lc = le.createCriteria();
+		lc.andFarmeridIn(farmerIds);
+		List<FarmerLoan> loans = loanService.selectByExample(le);
+
+		FarmerHouseExample he = new FarmerHouseExample();
+		FarmerHouseExample.Criteria hc = he.createCriteria();
+		hc.andFarmeridIn(farmerIds);
+		List<FarmerHouse> houses =  houseService.selectByExample(he);
+		
+		FarmerForestExample ffe = new FarmerForestExample();
+		FarmerForestExample.Criteria ffc = ffe.createCriteria();
+		ffc.andFarmeridIn(farmerIds);
+		List<FarmerForest> forests = forestService.selectByExample(ffe);
+		
+		FarmerBreedExample be = new FarmerBreedExample();
+		FarmerBreedExample.Criteria bc = be.createCriteria();
+		bc.andFarmeridIn(farmerIds);
+		List<FarmerBreed> breeds = breedService.selectByExample(be);
+		
+		FarmerDeviceExample de = new FarmerDeviceExample();
+		FarmerDeviceExample.Criteria dc = de.createCriteria();
+		dc.andFarmeridIn(farmerIds);
+		List<FarmerDevice> devices = deviceService.selectByExample(de);
+	
+		FarmerPayExample pe = new FarmerPayExample();
+		FarmerPayExample.Criteria pc = pe.createCriteria();
+		pc.andFarmeridIn(farmerIds);
+		List<FarmerPay> balances = balanceService.selectByExample(pe);
+		
+		FarmerCompunishExample ce = new FarmerCompunishExample();
+		FarmerCompunishExample.Criteria cc = ce.createCriteria();
+		cc.andFarmeridIn(farmerIds);
+		List<FarmerCompunish> compunishs = compunishService.selectByExample(ce);
+		
+		FarmerInsuredExample ie = new FarmerInsuredExample();
+		FarmerInsuredExample.Criteria ic = ie.createCriteria();
+		ic.andFarmeridIn(farmerIds);
+		List<FarmerInsured> insureds = insuredService.selectByExample(ie);
+		
+		FarmerEvaluateExample fee = new FarmerEvaluateExample();
+		FarmerEvaluateExample.Criteria fec = fee.createCriteria();
+		fec.andFarmeridIn(farmerIds);
+		List<FarmerEvaluate> evaluates = evaluateService.selectByExample(fee);
+		
+		if(members.size() == 0){
+			members.add(new FarmerMember());
+		}
+		if(loans.size() == 0){
+			loans.add(new FarmerLoan());
+		}
+		if(houses.size() ==0){
+			houses.add(new FarmerHouse());
+		}
+		if(forests.size() == 0){
+			forests.add(new FarmerForest());
+		}
+		if(breeds.size() == 0){
+			breeds.add(new FarmerBreed());
+		}
+		if(devices.size() == 0){
+			devices.add(new FarmerDevice());
+		}
+		if(compunishs.size() == 0){
+			compunishs.add(new FarmerCompunish());
+		}
+		if(balances.size() == 0){
+			balances.add(new FarmerPay());
+		}
+		if(insureds.size() ==0){
+			insureds.add(new FarmerInsured());
+		}
+		if(evaluates.size() == 0){
+			evaluates.add(new FarmerEvaluate());
+		}
+		ModelAndView  view = new ModelAndView("/farmer/farmerTotalInfo");
+		view.addObject("farmers", farmers);
+		view.addObject("members", members);
+		view.addObject("loans", loans);
+		view.addObject("houses", houses);
+		view.addObject("forests", forests);
+		view.addObject("breeds",breeds);
+		view.addObject("devices",devices);
+		view.addObject("balances", balances);
+		view.addObject("evaluates", evaluates);
+		view.addObject("compunishs", compunishs);
+		view.addObject("insureds", insureds);
+		return view;	  
 	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value="/loadFarmerThree",method=RequestMethod.POST)
@@ -400,25 +461,50 @@ public class FarmerController   {
 		 String organName = request.getParameter("organName");
 		 String loanDate1 = request.getParameter("loanDate1");
 		 String loanDate2 = request.getParameter("loanDate2");
+		 String amount1 = request.getParameter("amount1");
+		 String amount2 = request.getParameter("amount2");
 		 String balance1 = request.getParameter("balance1");
 		 String balance2 = request.getParameter("balance2");
-		 Map map = new HashMap();
-		 map.put("organName", organName);
-		 map.put("loanDate1", loanDate1);
-		 map.put("loanDate2", loanDate2);
-		 map.put("balance1", balance1);
-		 map.put("balance2", balance2);
-		 List<FarmerLoan> loans = loanService.loadSpecialLoan(map);
+		
+		 if(StringUtils.isEmpty(organName) && StringUtils.isEmpty(loanDate1) 
+				 && StringUtils.isEmpty(loanDate2) && StringUtils.isEmpty(balance1)
+				 && StringUtils.isEmpty(loanDate2)){
+			 return null;
+			 
+		 }
+		 FarmerLoanExample le = new FarmerLoanExample();
+		 FarmerLoanExample.Criteria lc = le.createCriteria();
+		 if(!StringUtils.isEmpty(organName)){
+			 lc.andOrgannameLike(organName);
+		 }
+		 if(!StringUtils.isEmpty(loanDate1)){
+			 lc.andLoandateGreaterThanOrEqualTo(loanDate1);
+		 }
+		 if(!StringUtils.isEmpty(loanDate2)){
+			 lc.andLoandateLessThanOrEqualTo(loanDate2);
+		 }
+		 if(!StringUtils.isEmpty(amount1)){
+			 lc.andAmountGreaterThanOrEqualTo(amount1);
+		 }
+		 if(!StringUtils.isEmpty(amount2)){
+			 lc.andAmountLessThanOrEqualTo(amount2);
+		 }
+		 if(!StringUtils.isEmpty(balance1)){
+			 lc.andAmountGreaterThanOrEqualTo(balance1);
+		 }
+		 if(!StringUtils.isEmpty(balance2)){
+			 lc.andAmountLessThanOrEqualTo(balance2);
+		 }
+		 List<FarmerLoan> loans = loanService.selectByExample(le);
 		 List<Long> farmerIds = new ArrayList<Long>();
 		 for(Iterator<FarmerLoan> it = loans.iterator();it.hasNext();){
 			 FarmerLoan loan = it.next();
 			 farmerIds.add(loan.getFarmerid());
 		 }
-		 List<Farmer> farmers  = null;
-		 if(farmerIds.size()>0){
-			farmers = farmerService.findPagingByPK(pageIndex, pageSize, sortField, sortOrder, farmerIds);
-		 }
-		
+		 FarmerExample fe = new FarmerExample();
+		 FarmerExample.Criteria fc = fe.createCriteria();
+		 fc.andFarmeridIn(farmerIds);
+		List<Farmer> farmers = farmerService.selectSignalByExample(fe);
 		String json = JSON.toJSONStringWithDateFormat(farmers,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
 		response.setContentType("text/html;charset=UTF-8");
 		PrintWriter writer = null;
@@ -431,6 +517,118 @@ public class FarmerController   {
 		writer.write(json);
 		writer.flush();
 		return null;
+	}
+	@RequestMapping(value = "/loadFarmerThreeTotal", method = RequestMethod.GET)
+	public ModelAndView loadFarmerThreeTotal(@RequestParam(value="farmerName") String farmerName,
+			@RequestParam(value="farmerIdNum") String farmerIdNum,
+			HttpServletResponse response) {
+		FarmerExample fe = new FarmerExample();
+		FarmerExample.Criteria fc = fe.createCriteria();
+		fc.andFarmernameEqualTo(farmerName);
+		fc.andFarmeridnumEqualTo(farmerIdNum);
+		List<Farmer> farmers =farmerService.selectByExample(fe);
+		List<Long> farmerIds = new ArrayList<Long>(farmers.size());
+		if(farmers.size() == 0){
+			ModelAndView view =  new ModelAndView("/farmer/farmerQueryThree");
+			view.addObject("msg", "閺堫亝澹橀崚鏉垮爱闁板秶娈戦崘婊勫煕娣団剝浼�!閹劌褰叉禒銉ュ煂閵嗘劕鍟橀幋鏋拷锟�-閵嗘劖鏆熼幑顕�鍣伴梿鍡愶拷锟�-閵嗘劕鐔�閺堫兛淇婇幁顖橈拷鎴災侀崸妞捐厬瑜版洖鍙嗛崘婊勫煕娣団剝浼呴崥搴″晙瑜版洖鍙嗛崘婊勫煕閻ㄥ嫯绁禍褌淇婇幁锟�!");
+			return view;
+		}
+		for(Farmer farmer:farmers){
+			farmerIds.add(farmer.getId());
+		}
+		FarmerMemberExample ee = new FarmerMemberExample();
+		FarmerMemberExample.Criteria ec = ee.createCriteria();
+		ec.andFarmeridIn(farmerIds);
+		List<FarmerMember> members = memberService.selectByExample(ee);
+		
+		FarmerLoanExample le = new FarmerLoanExample();
+		FarmerLoanExample.Criteria lc = le.createCriteria();
+		lc.andFarmeridIn(farmerIds);
+		List<FarmerLoan> loans = loanService.selectByExample(le);
+
+		FarmerHouseExample he = new FarmerHouseExample();
+		FarmerHouseExample.Criteria hc = he.createCriteria();
+		hc.andFarmeridIn(farmerIds);
+		List<FarmerHouse> houses =  houseService.selectByExample(he);
+		
+		FarmerForestExample ffe = new FarmerForestExample();
+		FarmerForestExample.Criteria ffc = ffe.createCriteria();
+		ffc.andFarmeridIn(farmerIds);
+		List<FarmerForest> forests = forestService.selectByExample(ffe);
+		
+		FarmerBreedExample be = new FarmerBreedExample();
+		FarmerBreedExample.Criteria bc = be.createCriteria();
+		bc.andFarmeridIn(farmerIds);
+		List<FarmerBreed> breeds = breedService.selectByExample(be);
+		
+		FarmerDeviceExample de = new FarmerDeviceExample();
+		FarmerDeviceExample.Criteria dc = de.createCriteria();
+		dc.andFarmeridIn(farmerIds);
+		List<FarmerDevice> devices = deviceService.selectByExample(de);
+	
+		FarmerPayExample pe = new FarmerPayExample();
+		FarmerPayExample.Criteria pc = pe.createCriteria();
+		pc.andFarmeridIn(farmerIds);
+		List<FarmerPay> balances = balanceService.selectByExample(pe);
+		
+		FarmerCompunishExample ce = new FarmerCompunishExample();
+		FarmerCompunishExample.Criteria cc = ce.createCriteria();
+		cc.andFarmeridIn(farmerIds);
+		List<FarmerCompunish> compunishs = compunishService.selectByExample(ce);
+		
+		FarmerInsuredExample ie = new FarmerInsuredExample();
+		FarmerInsuredExample.Criteria ic = ie.createCriteria();
+		ic.andFarmeridIn(farmerIds);
+		List<FarmerInsured> insureds = insuredService.selectByExample(ie);
+		
+		FarmerEvaluateExample fee = new FarmerEvaluateExample();
+		FarmerEvaluateExample.Criteria fec = fee.createCriteria();
+		fec.andFarmeridIn(farmerIds);
+		List<FarmerEvaluate> evaluates = evaluateService.selectByExample(fee);
+		
+		if(members.size() == 0){
+			members.add(new FarmerMember());
+		}
+		if(loans.size() == 0){
+			loans.add(new FarmerLoan());
+		}
+		if(houses.size() ==0){
+			houses.add(new FarmerHouse());
+		}
+		if(forests.size() == 0){
+			forests.add(new FarmerForest());
+		}
+		if(breeds.size() == 0){
+			breeds.add(new FarmerBreed());
+		}
+		if(devices.size() == 0){
+			devices.add(new FarmerDevice());
+		}
+		if(compunishs.size() == 0){
+			compunishs.add(new FarmerCompunish());
+		}
+		if(balances.size() == 0){
+			balances.add(new FarmerPay());
+		}
+		if(insureds.size() ==0){
+			insureds.add(new FarmerInsured());
+		}
+		if(evaluates.size() == 0){
+			evaluates.add(new FarmerEvaluate());
+		}
+		ModelAndView  view = new ModelAndView("/farmer/farmerTotalInfo");
+		view.addObject("farmers", farmers);
+		view.addObject("members", members);
+		view.addObject("loans", loans);
+		view.addObject("houses", houses);
+		view.addObject("forests", forests);
+		view.addObject("breeds",breeds);
+		view.addObject("devices",devices);
+		view.addObject("balances", balances);
+		view.addObject("evaluates", evaluates);
+		view.addObject("compunishs", compunishs);
+		view.addObject("insureds", insureds);
+		return view;	  
 	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value="/loadFarmerFive",method=RequestMethod.POST)

@@ -16,44 +16,44 @@
 	<li class="active">
 		基本信息
 	</li>
-	<li >
+	<li class="inactive">
 		<a href="/bank/farmer/queryMember.do?fid=${farmer.id}">家庭成员信息</a>
 	</li>
-	<li >
+	<li class="inactive" >
 		<a href="/bank/loan/queryLoan1.do?fid=${farmer.id}">贷款信息</a>
 	</li>
-	<li >
+	<li class="inactive" >
 		<a href="/bank/farmer/queryPrivateLending.do?fid=${farmer.id}">民间借贷信息</a>
 	</li>
-	<li >
+	<li class="inactive">
 		<a href="/bank/farmer/queryBalance.do?fid=${farmer.id}">收支信息</a>
 	</li>
-	<li >
+	<li class="inactive">
 		<a href="/bank/farmer/queryHouse.do?fid=${farmer.id}">房产信息</a>
 	</li>
-	<li >
+	<li class="inactive">
 		<a href="/bank/farmer/queryForest.do?fid=${farmer.id}">林权信息</a>
 	</li>
-	<li >
+	<li class="inactive">
 		<a href="/bank/farmer/queryBreed.do?fid=${farmer.id}">种养殖信息</a>
 	</li>
-	<li >
+	<li class="inactive">
 		<a href="/bank/farmer/queryDevice.do?fid=${farmer.id}">设备信息</a>
 	</li>
-	<li >
+	<li class="inactive">
 		<a href="/bank/farmer/queryCompunish.do?fid=${farmer.id}">奖惩信息</a>
 	</li>
-	<li >
+	<li class="inactive">
 		<a href="/bank/farmer/queryInsured.do?fid=${farmer.id}">参保信息</a>
 	</li>
-	<li >
+	<li class="inactive">
 		<a href="/bank/farmer/queryEvaluate.do?fid=${farmer.id}">其他信息</a>
 	</li>
 </ul>
 </div>
 <form action="/bank/farmer/saveFarmer1.do" id="farmer" name="farmer" method="POST">
 <input type="hidden" id="deleteMember" name="deleteMember" value=""/>
-<div class="topMenu" >
+<div >
 <table >
 	<tr>
 		<td class="labelName" width=50px" align="right">姓名</td>
@@ -64,7 +64,7 @@
 		<td class="labelValue" align="left" width="100px">${farmer.farmeridnum}</td>
 		<td width="10"></td>
     	<td width="150px" align="right">
-       	 <input type="button" id="saveBtn" onclick="submitForm()" value=""/>
+       	 <input class="bank-btn" type="button" id="saveBtn" onclick="submitForm()" value="保存"/>
         </td>
 	</tr>
 </table>

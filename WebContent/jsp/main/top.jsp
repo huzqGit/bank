@@ -30,7 +30,7 @@ a img {	border:none; }
 .top-link a:hover { text-decoration: none; color:#fff; background:url(images/quick-on.png) bottom; width:100px; display:block;}
 .menu a:active{ text-decoration: none; }
 
-.menu {font-size:14px; color:#ffff00; background:url(images/menu-bg.png) top; width:80px; height:25px;}
+.menu {font-size:14px; font-weight:bold;color:#ffff00; background:url(images/menu-bg.png) top; width:80px; height:25px;}
 .menu a { font-size:14px; text-decoration: none;  color:#000;}
 .menu a:link { text-decoration: none;}
 .menu a:visited { text-decoration: none; }
@@ -86,9 +86,10 @@ a img {	border:none; }
 			parent.mainFrame.rightFrame.window.location.href = "/bank/jsp/main/tool/index.html";
 		}else{
 			parent.mainFrame.document.getElementById("frmTitle").style.display="block";
-			parent.mainFrame.document.getElementById("switcher").style.display="block";
+			parent.mainFrame.document.getElementById("switcher").style.display="";
 			parent.mainFrame.leftFrame.leftFrame.window.location.href = url;
 			parent.mainFrame.rightFrame.window.location.href = "/bank/jsp/main/blank.html";
+
 		}
 		
 		
@@ -98,37 +99,41 @@ a img {	border:none; }
 </head>
 
 <body>
-<table width="100%" style="background-repeat:repeat-x; background:url(images/top.jpg); background-position: top left;" border="0" cellspacing="0" cellpadding="0">
-  <tr>
+<table width="100%" style="border-bottom:2px solid orange;background-repeat:repeat-x; background:url(images/top.jpg); background-position: top left;" cellspacing="0" cellpadding="0">
+  <tr> 
     <td height="72"  align="left" valign="middle" style="border-left:1px #0da0d3 solid; border-right:1px #0da0d3 solid;">
 	<table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
         <td width="40%" height="72" align="left" valign="top"></td>
-        <td width="60%" height="72" align="right" valign="middle" style="padding-right:15px;">
-		<table width="250" border="0" cellspacing="0" cellpadding="0">
-          <tr>
-           <td width="24" align="center"><img src="images/clear.png" /></td>
-            <td align="left" valign="middle" class="font"><a href="#">清除缓存</a></td>
-            <td width="24" align="center"><img src="images/user2.png" width="16" height="16" /></td>
-            <td align="left" valign="middle" class="font"><a href="#">修改密码</a></td>
-            <td width="24" align="center"><img src="images/out.png" /></td>
-            <td align="left" valign="middle" class="font"><a href="javascript: go2Login();">注销登录</a></td>
+        <td width="60%" height="72" align="right" valign="bottom" >
+		<table width="400"  border="0" cellspacing="0" cellpadding="0">
+          <tr >
+          	<td width="40" height="40px" style="background:url(/bank/jsp/main/images/tab_l.png) no-repeat"></td>
+            <td width="25"  style="background:url(/bank/jsp/main/images/tab_c.png) repeat-x" align="center"><img src="images/clear.png" /></td>
+            <td width="80" align="left" style="background:url(/bank/jsp/main/images/tab_c.png) repeat-x" class="font"><a href="#">清除缓存</a></td>
+            <td width="25"style="background:url(/bank/jsp/main/images/tab_c.png) repeat-x"  align="center"><img src="images/user2.png" width="16" height="16" /></td>
+            <td width="80"align="left"style="background:url(/bank/jsp/main/images/tab_c.png) repeat-x"  class="font"><a href="#">修改密码</a></td>
+            <td width="25"  style="background:url(/bank/jsp/main/images/tab_c.png) no-repeat" align="center"><img src="images/out.png" /></td>
+            <td width="175" align="left" style="background:url(/bank/jsp/main/images/tab_c.png) repeat-x"  class="font"><a href="javascript: go2Login();">注销登录</a></td>
           </tr>
-        </table></td>
+        </table>
+        </td>
       </tr>
     </table></td>
   </tr>
   <tr>
-    <td height="28" align="left" valign="middle" style="background:url(images/menu-bg.jpg); border-left:1px #0da0d3 solid; border-right:1px #0da0d3 solid;"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <td height="25" align="left" valign="middle" style="border-left:1px #0da0d3 solid; border-right:1px #0da0d3 solid;">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
-        <td width="4%" align="center" valign="middle">&nbsp;</td>
-        <td width="96%" align="left" valign="middle"><table width="720" border="0" cellspacing="0" cellpadding="0">
+        <td width="96%" align="left" valign="middle">
+        <table border="0" cellspacing="0" cellpadding="0">
           <tr>
           	<c:forEach items="${topMenus}" var="topMenu">
             	<td  height="25" align="center" valign="middle" class="menu"><a href="javascript:linkToLeft('${root}/user/left.do?topMenuId=${topMenu.menuId}',${topMenu.menuId});">${topMenu.menuDescr}</a></td>
             </c:forEach>
           </tr>
-        </table></td>
+        </table>
+        </td>
       </tr>
     </table></td>
   </tr>

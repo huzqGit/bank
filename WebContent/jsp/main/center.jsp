@@ -1,23 +1,40 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<head>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 ">
+
 <title>无标题文档</title>
 
+<head>
 <style type="text/css">
-<!--
-body {margin-left: 0px;margin-top: 0px;margin-right: 0px;margin-bottom: 0px;
- overflow-y:hidden}
--->
-</style>
+html{width:100%;height:100%;}
+body {
+width:100%;
+height:100%;
+margin:0px;
+padding:0px;
+overflow-y:hidden
+}
+
+ </style>
+<!--[if !IE]><!-->
+<style type="text/css">
+.test { 
+   width:100% ;
+ }
+
+ </style> 
+ <!--<![endif]-->
 <style> 
 .navPoint { COLOR: white; CURSOR: hand; FONT-FAMILY: Webdings; FONT-SIZE: 9pt } 
+td{
+height:100%;
+}
 </style> 
 <script>
 function switchSysBar(){ 
-var locate=location.href.replace('center.html','');
-var ssrc=document.all("img1").src.replace(locate,'');
-	if (ssrc=="images/main_55.gif")
+	var imgPath =document.getElementById("img11").src;
+	var imgEnty = imgPath.substr(imgPath.lastIndexOf("/"),imgPath.length);
+	if (imgEnty=="/main_55.gif")
 	{ 
 		document.all("img1").src="images/main_55_1.gif";
 		document.all("frmTitle").style.display="none"; 
@@ -25,7 +42,7 @@ var ssrc=document.all("img1").src.replace(locate,'');
 	else
 	{ 
 		document.all("img1").src="images/main_55.gif";
-		document.all("frmTitle").style.display="" ;
+		document.all("frmTitle").style.display="block" ;
 	} 
 } 
 function iframeResize(iframe) {
@@ -46,35 +63,28 @@ function iframeResize(iframe) {
     }
 </script>
 </head>
-<body>
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<table style="width:100%;height:100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td  style="display:none" width="212" id="frmTitle" noWrap name="fmTitle" align="center" valign="top" style="display:">
-		<table width="212" border="0" cellpadding="0" cellspacing="0">
-	      <tr>   	         
-	        <td width="212" align="center" valign="top">
-	        <iframe name="leftFrame"  height="470" src="left.html"
-	        	width="100%" height="100%" border="0" frameborder="0" scrolling="no">
+  <td style="width:0px"></td>
+    <td id="frmTitle" style="display:none;width:212px">
+	    <iframe name="leftFrame" width="100%" height="100%" src="left.html" border="0" frameborder="0" scrolling="no"
+	        >
 	        	 浏览器不支持嵌入式框架，或被配置为不显示嵌入式框架。
 	        </iframe>
-	        </td>
-	      </tr>
-	    </table>
     </td>
-    <td  id="switcher" width="9" align="center" valign="middle"  onclick="switchSysBar()"
-    	style="display:none;border-left:1px #0da0d3 solid; border-right:1px #0da0d3 solid;
+	<td id="switcher" onclick="switchSysBar()"
+    	style="width:9px;display:none;border-left:1px orange solid; border-right:1px orange solid;
      	background:url(images/center-bg.jpg) center repeat-y;">
 	    <span class="navPoint" id="switchPoint" title="关闭/打开左栏">
-	    	<img src="images/main_55.gif" name="img1" width="7" height="81" id="img1"/>
+	    	<img id="img11"src="images/main_55.gif" name="img1" width="7" height="81" id="img1"/>
 	    </span>
     </td>
-    <td width="100%" align="center" valign="top">
-    	<iframe name="rightFrame" id="mainlist" height="430" 
+    <td class="test">
+    	<iframe name="rightFrame" id="mainlist" height="100%" 
     	width="100%" height="100%" border="0" frameborder="0" 
     	scrolling="yes" style="overflow-x:hidden;" src="tool/index.html"> 浏览器不支持嵌入式框架，或被配置为不显示嵌入式框架。</iframe>
     </td>
-    <td width="1" align="center" valign="top" bgcolor="#2fbbba"></td>
   </tr>
-</table>
+  </table>
 </body>
 </html>

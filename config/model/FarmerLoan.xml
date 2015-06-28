@@ -648,14 +648,14 @@ update T_FARMER_LOAN
 <select id="findByCompactNum" parameterType="String" resultMap="BaseResultMap">
 	select 
 	<include refid="Base_Column_List" />
-	from t_loan
-	where compactNum = #{compactNum,jdbcType = VARCHAR}
+	from T_FARMER_LOAN
+	where COMPACTNUM = #{compactNum,jdbcType = VARCHAR}
 </select>
 <select id="findByNoteNum" parameterType="String" resultMap="BaseResultMap">
 	select 
 	<include refid="Base_Column_List" />
-	from t_loan
-	where noteNum = #{noteNum,jdbcType = VARCHAR}
+	from T_FARMER_LOAN
+	where NOTENUM = #{noteNum,jdbcType = VARCHAR}
 </select>
 <select id="findUnbalanceByFarmer" parameterType="Long" resultMap="BaseResultMap">
 	select 

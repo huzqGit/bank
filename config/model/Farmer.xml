@@ -738,6 +738,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	from t_bank_apply
 	where userId = #{userId,jdbcType=VARCHAR}
 </select>
+<select id="selectSignalByExample" resultMap="BaseResultMap" parameterType="com.bank.beans.FarmerExample" >
+    select distinct FARMERIDNUM,FARMERNAME
+    from T_FARMER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+</select>
 <select id="findByPK" parameterType="Long" resultMap="BaseResultMap">
 	select 
 	<include refid="Base_Column_List" />

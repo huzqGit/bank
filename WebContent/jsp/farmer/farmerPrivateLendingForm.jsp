@@ -36,18 +36,18 @@ color:red
 <div id ="form1">
 <form  id="farmerLoan" name="farmerLoan" action="/bank/farmer/savePrivateLending.do" method="POST">
 <input name="id" class="mini-hidden" value="${privateLending.id}"/>
-<input name="farmerId" class="mini-hidden"  value="${farmer.id}" />
-<input name="recorder" class="mini-hidden" value="管理员"/>
-<input name="recordTime" class="mini-hidden" value="${currentTime}"/>
+<input name="farmerid" class="mini-hidden"  value="${farmer.id}" />
+<input name="recorder" class="mini-hidden" value="${recorder}"/>
+<input name="recordtime" class="mini-hidden" value="${currenttime}"/>
 <div class="topMenu" style="background:linear-gradient(#6DC8E3,white)">
 <table cellpadding="0" cellspacing="0"  height="60px">
     <tr>
     	<td class="labelName" width="25%" align="right">姓名:</td>
     	<td width="2%"></td>
-    	<td class="labelValue" width="8%">${farmer.farmerName }</td>
+    	<td class="labelValue" width="8%">${farmer.farmername }</td>
     	<td class="labelName" width="12%" align="right">证件号码:</td>
     	<td width="2%"></td>
-    	<td class="labelValue" width ="20%">${farmer.farmerIdnum }</td>
+    	<td class="labelValue" width ="20%">${farmer.farmeridnum }</td>
     	<td width="50px" align="right">
        	 <input type="button" id="saveBtn" onclick="submitForm()" value=""/>
         </td>
@@ -85,18 +85,18 @@ color:red
 	<tr>
 		<td class="required_text" width="2%" align="right">*</td>
 		<td width="12%">借贷时间:</td>
-		<td width="36%"><input name="lendingTime" class="mini-datepicker"   value="${privateLending.lendingTime}" style="width:90%"
+		<td width="36%"><input name="lendingtime" class="mini-datepicker"   value="${privateLending.lendingtime}" style="width:90%"
 			errorMode="none" vtype="float" required="true" requiredErrorText="借贷时间不能为空" onvalidation="onValidation"/></td>
 		<td class="required_text" width="2%" align="right">*</td>
 		<td width="12%">到期时间:</td>
-		<td width="36%"><input name="limitTime" class="mini-datepicker" value="${privateLending.limitTime}"  style="width:90%"
+		<td width="36%"><input name="limittime" class="mini-datepicker" value="${privateLending.limittime}"  style="width:90%"
 			errorMode="none" vtype="float" required="true" requiredErrorText="到期时间不能为空" onvalidation="onValidation"/></td>	
 	</tr>
 	<tr>
 		<td width="2%"></td>
-		<td id="lendingTime_error" class="errorText" colspan="2"></td>
+		<td id="lendingtime_error" class="errorText" colspan="2"></td>
 		<td width="2%"></td>
-		<td id="limitTime_error" class="errorText" colspan="2"></td>
+		<td id="limittime_error" class="errorText" colspan="2"></td>
 	</tr>
 	</table>
 	</div>

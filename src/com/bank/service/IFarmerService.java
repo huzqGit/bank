@@ -62,4 +62,5 @@ public interface IFarmerService extends
 	@SuppressWarnings("rawtypes")
 	public List<Farmer> findMultiByWhereClause(@Param("example")Map param);
 	public List<Farmer> selectByExample(FarmerExample example); 
+	public List<Farmer> selectSignalByExample(FarmerExample example); 
 }

@@ -141,5 +141,12 @@ public class FarmerDaoImpl extends GenericMyBatisDAOSupport<Farmer, Long>
 		List<Farmer> farmers = this.getSqlSession().selectList("farmer.selectByExample",example);
 		return farmers;
 	}
+
+	@Override
+	public List<Farmer> selectSignalByExample(FarmerExample example) {
+		// TODO Auto-generated method stub
+		List<Farmer> farmers = this.getSqlSession().selectList("farmer.selectSignalByExample",example);
+		return farmers;
+	}
 	
 }

@@ -119,18 +119,14 @@
 					<td align="center">编号</td>
 					<td align="center">姓名</td>
 					<td align="center">身份证号码</td>
-					<td align="center">婚姻状况</td>
-					<td align="center">联系电话</td>
 					<td></td>
 				</tr>
 				<c:forEach items="${farmers}" var="farmer" varStatus="status">
 					<tr height="30px">
 					<td align="center">${status.index}</td>
-					<td align="center">${farmer.farmerName}</td>			
-					<td align="center">${farmer.farmerIdnum}</td>
-					<td align="center">${farmer.marryStatus}</td>
-					<td align="center">${farmer.phone}</td>
-					<td align="right" class="ChaKan_Btn"><a  href="/bank/farmer/loadFarmerTotal.do?id=${farmer.id}" target="_self">查看</a></td>
+					<td align="center">${farmer.farmername}</td>			
+					<td align="center">${farmer.farmeridnum}</td>
+					<td align="right" class="ChaKan_Btn"><a  href="/bank/farmer/loadFarmerTwoTotal.do?farmerName=${farmer.farmername}&farmerIdNum=${farmer.farmeridnum}" target="_self">查看</a></td>
 				</tr>
 				</c:forEach>
 			

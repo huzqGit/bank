@@ -340,6 +340,13 @@ public class FarmerServiceImpl extends GenericServiceImpl<Farmer, Long>
 		// TODO Auto-generated method stub
 		List<Farmer> farmers = farmerDao.selectByExample(example);
 		return farmers;
+	}
+
+	@Override
+	public List<Farmer> selectSignalByExample(FarmerExample example) {
+		// TODO Auto-generated method stub
+		List<Farmer> farmers = farmerDao.selectSignalByExample(example);
+		return farmers;
 	}	
 	
 }
