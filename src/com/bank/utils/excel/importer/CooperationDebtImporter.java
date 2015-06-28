@@ -97,6 +97,11 @@ public class CooperationDebtImporter extends ExcelImporter<FarmerCooperationDebt
 		
 		String[] notNullField = PropConfig.getPropValue("CooperationDebtImporter_NotNull_Field").split(";");
 		FarmerCooperationDebt p = new FarmerCooperationDebt();
+		try{
+			p.setSourcecode((String)defaultValues.get("sourcecode"));
+		}catch(Exception e){
+			throw new Exception("数据来源不能为空");
+		}
 		try {
 			p.setOrgan_id((String)defaultValues.get("organ_id"));
 			p.setRecorder((String)defaultValues.get("recorder"));
@@ -188,6 +193,9 @@ public class CooperationDebtImporter extends ExcelImporter<FarmerCooperationDebt
 				}
 			}
 		}
+		if(!p.getYearmonth().contains("-") || p.getYearmonth().length() != 7){
+			throw new Exception("【年月】格式不正确,只支持yyyy-MM格式[如:2015-05]");
+		}
 		return p;
 	}
 
@@ -203,7 +211,8 @@ public class CooperationDebtImporter extends ExcelImporter<FarmerCooperationDebt
 				fc = convert(map);
 				hm = new HashMap<String,Object>();
 				hm.put("organ_id", fc.getOrgan_id());
-				hm.put("organcode", fc.getOrgancode());
+				hm.put("sourcecode", fc.getSourcecode());
+				hm.put("yearmonth", fc.getYearmonth());
 				id = cooperationDao.getUnitId(hm);
 				if(id != null){
 					fc.setDebtid(id);

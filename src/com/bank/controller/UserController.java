@@ -1,8 +1,9 @@
 package com.bank.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -22,12 +23,15 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.alisoft.xplatform.asf.cache.ICache;
 import com.bank.Constants;
+import com.bank.beans.OnLineUser;
 import com.bank.beans.Organ;
 import com.bank.beans.User;
 import com.bank.common.util.JsonUtil;
 import com.bank.service.IOrganService;
 import com.bank.service.IUserService;
+import com.bank.spring.BeanFactory;
 import com.common.config.SystemConfig;
 import com.common.exception.DAOException;
 import com.common.tools.StringUtil;
@@ -94,6 +98,13 @@ public class UserController {
 		
 		String userId = user.getUserId();
 		if ("add".equals(actionType)) {//user为空，做新增操作
+			
+			int remindCycle = user.getRemindCycle() == 0 ? 30 : user.getRemindCycle();
+			
+			Date remindDate = new Date();
+			remindDate.setDate(remindDate.getDate() + remindCycle);
+			user.setRemindDate(remindDate);
+			
 			User user2 = userSerivce.loadUser(userId);
 			if (user2 != null && user2.getUserId().equals(userId)) {
 				userId = "false";
@@ -199,6 +210,25 @@ public class UserController {
 		List<Organ> organs = organSerivce.getOrganTreeByUnitId(organ.getOrganId());
 		
 		JSONArray arr = (JSONArray) JSONArray.toJSON(organs);
+		response.setContentType("text/html;charset=UTF-8");
+		response.getWriter().write(arr.toString());
+		return null;
+	}
+	
+	@RequestMapping(value = "/onLineUser", method = RequestMethod.POST)
+	public Organ onLineUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ICache cache = (ICache)BeanFactory.getBean("memCache");
+		List onLineUserList = new ArrayList();
+		for(Iterator it = cache.keySet().iterator();it.hasNext();) {
+			String key = (String)it.next();
+			if (key.startsWith(OnLineUser.ONLINE_USER_KEY)) {
+				OnLineUser onLineUser = (OnLineUser)cache.get(key);
+				if (onLineUser != null)
+					onLineUserList.add(onLineUser);
+			}
+		}
+		
+		JSONArray arr = (JSONArray) JSONArray.toJSON(onLineUserList);
 		response.setContentType("text/html;charset=UTF-8");
 		response.getWriter().write(arr.toString());
 		return null;

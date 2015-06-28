@@ -14,6 +14,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <result column="organ_id" property="organId" jdbcType="VARCHAR" />
   <result column="unit_id" property="unitId" jdbcType="VARCHAR" />
   <result column="isadmin" property="isAdmin" jdbcType="VARCHAR" />
+  <result column="remind_cycle" property="remindCycle" jdbcType="INTEGER" />
+  <result column="remind_date" property="remindDate" jdbcType="DATE" />
 </resultMap>
 <sql id="Base_Column_List" >
   user_id, user_name, password, sex, birthday, address, organ_id, unit_id, isadmin
@@ -39,8 +41,10 @@ parameterType：指定输入参数类型，包括username,birthday,sex,address,d
   delete T_USER where user_id = #{userId}
 </insert>
 <insert id="user.insert" parameterType="com.bank.beans.User">
-  insert into T_USER(user_id, user_name, password, birthday,sex,address, organ_id, unit_id, isadmin) 
-  values(#{userId}, #{userName}, #{password}, #{birthday}, #{sex}, #{address}, #{organId}, #{unitId}, #{isAdmin})
+  insert into T_USER(user_id, user_name, password, birthday,sex,address, organ_id, 
+  unit_id, isadmin, remind_cycle, remind_date) 
+  values(#{userId}, #{userName}, #{password}, #{birthday}, #{sex}, #{address}, 
+  #{organId}, #{unitId}, #{isAdmin},  #{remindCycle},  #{remindDate})
 </insert>
 
 <insert id="user.insertSelective" parameterType="com.bank.beans.User">
@@ -73,6 +77,12 @@ parameterType：指定输入参数类型，包括username,birthday,sex,address,d
   	<if test="isAdmin != null">
   		isadmin,
   	</if>
+  	<if test="remindCycle != null">
+  		remind_cycle,
+  	</if>
+  	<if test="remindDate != null">
+  		remind_date,
+  	</if>
   </trim>	
   <trim prefix="values (" suffix=")" suffixOverrides=",">
   	<if test="userId != null">
@@ -102,11 +112,19 @@ parameterType：指定输入参数类型，包括username,birthday,sex,address,d
   	<if test="isAdmin != null">
   		#{isAdmin,jdbcType=VARCHAR},
   	</if>
+  	<if test="remindCycle != null">
+  		#{remindCycle,jdbcType=INTEGER},
+  	</if>
+  	<if test="remindDate != null">
+  		#{remindDate,jdbcType=DATE},
+  	</if>
   </trim>
 </insert>
 
 <update id="user.update" parameterType="com.bank.beans.User">
-	update T_USER set user_name = #{userName}, password = #{password}, birthday = #{birthday},sex = #{sex},address = #{address}, organ_id = #{organId}, unit_id = #{unitId}, isadmin = #{isAdmin}  where user_id = #{userId}
+	update T_USER set user_name = #{userName}, password = #{password}, birthday = #{birthday},
+	sex = #{sex},address = #{address}, organ_id = #{organId}, unit_id = #{unitId}, 
+	isadmin = #{isAdmin}, remind_cycle = #{remindCycle}, remind_date = #{remindDate} where user_id = #{userId}
 </update>
 
 <insert id="deleteUser" parameterType="string">

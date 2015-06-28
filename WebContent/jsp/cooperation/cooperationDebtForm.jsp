@@ -10,6 +10,7 @@
 <title>农民专业合作经济组织基本概况信息</title>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/miniui/monthpicker.js" type="text/javascript"></script>
 <style>
 html{
 	height:90%
@@ -94,15 +95,15 @@ body {
 	<tr>
 	<td colspan="4" style="width:100%">
 	<fieldset id="fd2" style="width:100%;">
-	<legend><label>农民专业合作经济组织主要财务指标数</label></legend>
+	<legend><label>农民专业合作经济组织<font color="blue"><b>主要财务指标数</b></font></label></legend>
 	<div class="fieldset-body" >
 	<div >
 	<table width="100%">
 		<tr>
 			<td style="width:10%"><label for="textbox1$text">年月:</label></td>
 			<td style="width:23%">
-			<input id="textbox1"  name="yearmonth" class="mini-textbox" required="true" 
-				requiredErrorText="年月不能为空" style="width:90%"/>
+				<input id="yyearm"  name="yearmonth" class="mini-textbox" required="false" readonly="readonly"
+					requiredErrorText="年月不能为空" style="width:90%" />
 			</td>
 			<td style="width:10%"><label for="textbox1$text">合作社名称:</label></td>
 			<td style="width:20%">
@@ -237,6 +238,9 @@ body {
 	
 	//查询表单数据
 	$(document).ready(function(){
+		document.getElementById("yyearm$text").onclick=function(){
+			setmonth(this);
+		};
 		$.ajax({
 		    url: "${pageContext.request.contextPath}/economy/debt/findCooperationDebt.do",
 		    type: "post",
@@ -268,11 +272,24 @@ body {
 	      console.dir(errorObj); 
 	      return true; 
 	 }  */
-	 
+	
+	 function validateYearMonth(){
+		var y = document.getElementById("yyearm$text").value;
+		mini.get("yyearm").setValue(y);
+		var s = mini.get("yyearm").getValue();
+		if(s=='' || s==null){
+			mini.alert("年月不能为空");
+			return false;
+		}
+		return true;
+	 }
+	
 	function submitForm(){
+		if(!validateYearMonth())
+			return;
 		//提交表单数据
 	    var formData = form.getData();      //获取表单多个控件的数据
-	   	form.validate();
+	     form.validate();
       	if (!form.isValid())
       		return;
 	    var json = mini.encode(formData);   //序列化成JSON

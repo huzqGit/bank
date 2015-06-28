@@ -2,6 +2,8 @@
 
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
+	<bean id="BeanFactory" class="com.bank.spring.BeanFactory"></bean>
+	
 	<import resource="springTransaction.xml" /><!--事务-->
 	
 	<!-- cache  -->

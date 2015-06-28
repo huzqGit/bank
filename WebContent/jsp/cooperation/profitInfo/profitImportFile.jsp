@@ -7,39 +7,6 @@
 <html>
 <head>
 <script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
-<script type="text/javascript">
-function judgeFile(htmlEl){
-	if(htmlEl){
-		var v = htmlEl.value;
-		var str = v.substr(v.lastIndexOf(".")+1).toUpperCase();
-		if(str != "XLS" && str != "XLSX"){
-			alert("文件格式不正确,请选择Excel文件");
-			document.getElementById('textfield').value = '';
-		}else{
-			document.getElementById('textfield').value=v;
-		}
-	}
-}
-
-function downLoadExcel(){
-	window.location.href = '/bank/jsp/cooperation/model/ProfitInfoModel.xlsx';
-}
-function validate(){
-	var s = document.getElementById('textfield').value;
-	if(s == ''  || s == null){
-		alert('请选择文件后操作');
-		return false;
-	}
-	return true;
-}
-/* $.ajax({
-	url:'/bank/economy/loadFile.do',
-	type: "POST",
-	contentType:'multipart/form-data',
-	success:function(){alert(1)},
-	error:function(){alert(2);}
-}); */
-</script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
@@ -156,23 +123,25 @@ input {
 </style>
 </head>
 <body>
+
 <div class="file-box">
-<form action="/bank/economy/profit/loadFile.do" method="post" enctype="multipart/form-data" onsubmit="return validate();">
+<form action="#" method="post" enctype="multipart/form-data" onsubmit="return validateSubmit();">
 <table width="100%" height ="60px" style="border:1px solid #8AD3E9">
- 	<tr>
- 		<td class="labelName" width="30%" align="right">
-        	请选择文件路径：
-        </td>
-    	<td width="15%" >
-        	<input type='text' name='textfield' id='textfield' class='txt' value="" />
-        </td>
-        <td width="15%" >
+	<tr>
+		<td class="labelName" width="15%" align="right">请选择数据来源：</td>
+		<td  width="15%">
+			<input id="sourceForm" class="mini-buttonedit txt" onbuttonclick="onButtonEdit"/>
+		</td>
+ 		<td class="labelName" width="15%" align="right">请选择文件路径：</td>
+    		<td width="15%" >
+        		<input type='text' name='textfield' id='textfield' class='txt' value="" />
+        	</td>
+        	<td width="15%" >
         	<div style="position:relative">
 	          <input id="scanFile" type='button' class='btn' value=""  />
 	        	<input type="file" name="mufile" class="file" id="mufile" size="28" onchange="judgeFile(this)" />
        	</div>
         </td>
-        
         <td align="left" >
             <input id="uploadFile" type="submit" name="submit" class='btn' value=""/>
             <!-- <input id="downLoadModel"  type='button' style="margin-left:25px" class='btn' value="" onclick="downLoadExcel()"/>-->
@@ -282,4 +251,59 @@ java.util.List<java.util.Map<String,String>> list = CooperationProfitController.
 </c:if>
  </div>
 </body>
+<script type="text/javascript">
+function judgeFile(htmlEl){
+	if(htmlEl){
+		var v = htmlEl.value;
+		var str = v.substr(v.lastIndexOf(".")+1).toUpperCase();
+		if(str != "XLS" && str != "XLSX"){
+			alert("文件格式不正确,请选择Excel文件");
+			document.getElementById('textfield').value = '';
+		}else{
+			document.getElementById('textfield').value=v;
+		}
+	}
+}
+
+function downLoadExcel(){
+	window.location.href = '/bank/jsp/cooperation/model/ProfitInfoModel.xlsx';
+}
+function validateSubmit(){
+	var ls = mini.get("sourceForm").getValue();
+	if(ls =='' || ls==null){
+		mini.alert("请选择数据来源");
+		return false;
+	}
+	var s = document.getElementById('textfield').value;
+	if(s == ''  || s == null){
+		mini.alert('请选择文件后操作');
+		return false;
+	}
+	document.forms[0].action="/bank/economy/profit/loadFile.do?t="+ls;
+	return true;;
+}
+mini.parse();
+function onButtonEdit(e) {
+   var btnEdit = this;
+    mini.open({
+        url: "/bank/common/viewView.do?dest=cooperation/mapt/mapt",
+        showMaxButton: false,
+        title: "选择树",
+        width: 450,
+        height: 353,
+        ondestroy: function (action) {                    
+            if (action == "ok") {
+                var iframe = this.getIFrameEl();
+                var data = iframe.contentWindow.GetData();
+                data = mini.clone(data);
+                if (data) {
+                    btnEdit.setValue(data.id);
+                    btnEdit.setText(data.text);
+                }
+            }
+        }
+    });            
+     
+}
+</script>
 </html>

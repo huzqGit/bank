@@ -99,6 +99,7 @@ public class CooperationProfit extends BaseEntity<Long>{
 	private String zzzbptgglother;
 	private String zzzbptgglundisbute;
 	private String zzzbptgglundisbute_before;
+	private String sourcecode;
 
 	public String getError_label() {
 		return error_label;
@@ -781,6 +782,14 @@ public class CooperationProfit extends BaseEntity<Long>{
 		for(Map.Entry<String, String> entry : field_remark.entrySet()){
 			remark_field.put(entry.getValue(), entry.getKey());
 		}
+	}
+
+	public String getSourcecode() {
+		return sourcecode;
+	}
+
+	public void setSourcecode(String sourcecode) {
+		this.sourcecode = sourcecode;
 	}
 	
 }

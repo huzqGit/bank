@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cooperationDebt">
 	<sql id="Cooperation_Column_List">
-		organ_id,debtid,yearmonth,cooperationname,organcode,recorder,recordtime,
+		sourcecode,organ_id,debtid,yearmonth,cooperationname,organcode,recorder,recordtime,
 		accountspayable,assetall,bankloan,buildingproject,businessprofit,capitalreserve,cashcapital,
 		depositreceived,deprecication,financialcost,fixedasset,fixedassetall,floatasset,
 		floatassetall,floatdebt,floatdebtall,handingcost,interestexpense,inventory,investincome,invisibleasset,
@@ -21,6 +21,7 @@
 		parameterType="com.bank.beans.FarmerCooperationDebt">
 		insert into t_cooperation_debt
 		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="sourcecode != null">sourcecode,</if>
 			<if test="organ_id != null">organ_id,</if>
 			<if test="yearmonth != null">yearmonth,</if>
 			<if test="cooperationname != null">cooperationname,</if>
@@ -117,6 +118,7 @@
 			<if test="unpaidtax2 != null">unpaidtax2</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="sourcecode != null">#{sourcecode,jdbcType=VARCHAR},</if>
 			<if test="organ_id != null">#{organ_id,jdbcType=VARCHAR},</if>
 			<if test="yearmonth != null">#{yearmonth,jdbcType=VARCHAR},</if>
 			<if test="cooperationname != null">#{cooperationname,jdbcType=VARCHAR},</if>
@@ -216,6 +218,7 @@
 	<update id="update" parameterType="com.bank.beans.FarmerCooperationDebt">
 		update t_cooperation_debt
 		<set>
+			 <if test="sourcecode != null and sourcecode != ''">sourcecode = #{sourcecode},</if>
 			 <if test="organ_id != null and organ_id != ''">organ_id = #{organ_id},</if>
 			 <if test="yearmonth != null and yearmonth != ''">yearmonth=#{yearmonth},</if>
 			 <if test="cooperationname!=null and cooperationname!=''">cooperationname=#{cooperationname},</if>
@@ -381,7 +384,8 @@
 	<select id="getUnitId" parameterType="map" resultType="long">
 	select debtid from t_cooperation_debt t where 1=1 
 		and t.organ_id = '${organ_id}'
-		and t.organcode = '${organcode}'
+		and t.yearmonth = '${yearmonth}'
+		and t.sourcecode = '${sourcecode}'
 		FETCH FIRST 1 ROWS ONLY
 	</select>
 	<delete id="delete" parameterType="long">

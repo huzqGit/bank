@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cTMap">
+<sql id="cTMap_Column_List" >
+  mapid,mapkey,mapvalue,mapvalue_py,,remarks,maptypes
+</sql>
+<insert id="save" useGeneratedKeys="true" keyProperty="mapid" parameterType="com.bank.vo.TMap">
+	insert into T_MAP
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="mapkey != null and mapkey != ''">mapkey,</if>
+		<if test="mapvalue != null and mapvalue != ''">mapvalue,</if>
+		<if test="mapvalue_py != null and mapvalue_py != ''">mapvalue_py,</if>
+		<if test="remarks != null and remarks != ''">remarks,</if>
+		<if test="maptypes != null and maptypes != ''">maptypes</if>
+	</trim>
+	<trim prefix="values (" suffix=")" suffixOverrides=",">
+		<if test="mapkey != null and mapkey != ''">#{mapkey,jdbcType=VARCHAR},</if>
+		<if test="mapvalue != null and mapvalue != ''">#{mapvalue,jdbcType=VARCHAR},</if>
+		<if test="mapvalue_py != null and mapvalue_py != ''">#{mapvalue_py,jdbcType=VARCHAR},</if>
+		<if test="remarks != null and remarks != ''">#{remarks,jdbcType=VARCHAR},</if>
+		<if test="maptypes != null and maptypes != ''">#{maptypes,jdbcType=VARCHAR}</if>
+	</trim>
+</insert>
+<update id="update" parameterType="com.bank.vo.TMap">
+	update T_MAP
+	<set>
+		<if test="mapkey != null and mapkey != ''">mapkey = #{mapkey},</if>
+		<if test="mapvalue != null and mapvalue != ''">mapvalue = #{mapvalue},</if>
+		<if test="mapvalue_py != null and mapvalue_py != ''">mapvalue_py = #{mapvalue_py},</if>
+		<if test="remarks != null and remarks != ''">remarks = #{remarks},</if>
+		<if test="maptypes != null and maptypes != ''">maptypes = #{maptypes}</if>
+	</set>
+	   	where mapid = #{mapid}
+</update>
+<delete id="delete" parameterType="long">
+	delete from T_MAP where mapid = #{id,jdbcType=INTEGER}
+</delete>
+
+<select id="findByPK" parameterType="Long" 
+		resultType="com.bank.vo.TMap">
+	select 
+	<include refid="cTMap_Column_List" />
+	from T_MAP where mapid = #{id,jdbcType=INTEGER}
+</select>
+
+<select id="getMapTree" parameterType="map" resultType="java.util.HashMap">
+	select mapkey as "id",t.mapvalue as "text",
+	case when( mapvalue_py is null or mapvalue_py = '') then 'novalue'else SUBSTR(mapvalue_py,1,1) end as "pid" 
+	from T_MAP t where 1=1 
+   <if test="maptypes != null and maptypes != ''">
+  		and t.maptypes in (${maptypes})
+   </if>
+   order by mapvalue_py,mapkey
+</select>
+
+</mapper>

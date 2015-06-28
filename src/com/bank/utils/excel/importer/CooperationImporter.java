@@ -82,6 +82,11 @@ public class CooperationImporter extends ExcelImporter<FarmerCooperation> {
 	protected FarmerCooperation convert(Map<String, String> map) throws Exception {
 		String[] notNullField = PropConfig.getPropValue("CooperationImporter_NotNull_Field").split(";");
 		FarmerCooperation p = new FarmerCooperation();
+		try{
+			p.setSourcecode((String)defaultValues.get("sourcecode"));
+		}catch(Exception e){
+			throw new Exception("数据来源不能为空");
+		}
 		try {
 			p.setOrgan_id((String)defaultValues.get("organ_id"));
 			p.setRecorder((String)defaultValues.get("recorder"));
@@ -155,6 +160,7 @@ public class CooperationImporter extends ExcelImporter<FarmerCooperation> {
 				hm = new HashMap<String,Object>();
 				hm.put("organ_id", fc.getOrgan_id());
 				hm.put("orgaCode", fc.getOrgaCode());
+				hm.put("sourcecode", fc.getSourcecode());
 				id = cooperationDao.getUnitId(hm);
 				if(id != null){
 					fc.setCooperationId(id);
