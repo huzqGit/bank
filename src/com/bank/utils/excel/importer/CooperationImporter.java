@@ -26,7 +26,7 @@ public class CooperationImporter extends ExcelImporter<FarmerCooperation> {
 	private static Logger log = LoggerFactory.getLogger(CooperationImporter.class);
 	
 	private static String[] labels = {
-		"合作社名称","组织机构代码","税务登记号","注册地址","通信地址","注册时间","注册资本","实收资本",
+		"合作社名称","组织机构代码","税务登记号","注册地址","通信地址","注册日期","注册资本","实收资本",
 		"法定代表人","身份证号","联系电话","社员人数","经营范围","经营场地面积","带动农户(户)","连接基地"
 	};
 	private static String error_label = "错误描述";
@@ -181,8 +181,13 @@ public class CooperationImporter extends ExcelImporter<FarmerCooperation> {
 				Map<String,String> map2 = new HashMap<String, String>();
 				map.put(error_label, s);
 				log.info("error_label"+s);
-				for(Map.Entry<String, String> entry : map.entrySet())
-					map2.put(labels_En.get(entry.getKey()), entry.getValue());
+				String x = null;
+				for(Map.Entry<String, String> entry : map.entrySet()){
+					x = labels_En.get(entry.getKey());
+					map2.put(x, entry.getValue());
+					if(x==null)
+						System.out.println("CooperationImporter.labels_En 映射关系错误:"+entry.getKey());
+				}
 				map2.put("cooperationId", (i++)+"");
 				errorList.add(map2);
 			}

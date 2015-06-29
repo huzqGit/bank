@@ -75,7 +75,7 @@ body {
 </table>
 </form>
 </div>
-<div id="datagrid1" class="mini-datagrid" style="width:98%;margin:auto auto;height:340px;background-color:white" 
+<div id="datagrid1" class="mini-datagrid" style="width:99%;margin:auto auto;height:340px;background-color:white" 
            url="${pageContext.request.contextPath}/economy/debt/loadAllFarmerCooperationDebt.do" idField="debtid"
             sizeList="[5,10,20,50]" pageSize="20" 
             allowCellEdit="false" allowCellSelect="true" multiSelect="false" allowResize="true"

@@ -26,9 +26,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.bank.Constants;
 import com.bank.beans.FarmerCooperationDebt;
+import com.bank.beans.Organ;
 import com.bank.beans.User;
 import com.bank.common.util.JsonUtil;
 import com.bank.service.ICooperationDebtService;
+import com.bank.service.ITMapService;
 import com.bank.utils.HttpUtils;
 import com.bank.utils.excel.ExcelExplorer;
 import com.bank.utils.excel.ImportResult;
@@ -46,6 +48,9 @@ public class CooperationDebtController {
 	@Resource(name="cooperationDebtImporter")
 	private CooperationDebtImporter cooperationDebtImporter;
 	
+	@Resource(name="tMapService")
+	private ITMapService tMapService;
+	
 //	private List<Map<String, String>> list = new ArrayList<Map<String,String>>();
 	public static Map<String,List<Map<String, String>>> uMap = new HashMap<String, List<Map<String,String>>>();
 	
@@ -54,7 +59,8 @@ public class CooperationDebtController {
 			HttpServletResponse response) throws Exception{
 		
 		String formData = request.getParameter("formData");
-		
+		User user = (User) request.getSession().getAttribute(Constants.SESSION_AUTH_USER);
+		Organ organ = (Organ) request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
 		Object decodeJsonData = JsonUtil.Decode(formData);
 		String formatdata = JSON.toJSONStringWithDateFormat(decodeJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
 		JSONArray jsa = null;
@@ -75,6 +81,8 @@ public class CooperationDebtController {
 				if(coo.getDebtid()==null){
 					if(coo.getRecordtime() == null)
 						coo.setRecordtime(new Date());
+					tMapService.saveSDTMap(organ.getOrganId(),organ.getOrganName());
+					coo.setSourcecode(user.getOrganId());
 					cooperationDebtService.save(coo);
 				}else{
 					cooperationDebtService.update(coo);

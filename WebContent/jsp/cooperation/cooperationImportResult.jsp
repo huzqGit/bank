@@ -17,7 +17,7 @@
            <div field=cooperationName width="120" headerAlign="center" allowSort="true" >合作社名称</div>
            <div field="orgaCode" width="120" headerAlign="center" allowSort="true"  >组织机构编码</div>
            <div field="taxCode" width="120" headerAlign="center" allowSort="true" >税务登记号</div>
-           <div field="registerDate" width="120" headerAlign="center" dateFormat="yyyy-MM-dd" allowSort="true" >注册时间</div>    
+           <div field="registerDate" width="120" headerAlign="center" dateFormat="yyyy-MM-dd" allowSort="true" >注册日期</div>    
            <div field="registerAddress" width="120" headerAlign="center" allowSort="true">注册地址</div>                            
            <div field="mailAddress" width="120" headerAlign="center" allowSort="true">通信地址</div>                            
            <div field="registerCapital" width="100" align="center" headerAlign="center" allowSort="true">注册资金</div>

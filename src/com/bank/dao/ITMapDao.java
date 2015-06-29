@@ -10,4 +10,6 @@ public interface ITMapDao extends GenericDAO<TMap, Long>{
 	
 	public List<Map<String,Object>> getMapTree(Map<String,Object> map);
 	
+	public Long geMapId(TMap tmap);
+	
 }

@@ -26,9 +26,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.bank.Constants;
 import com.bank.beans.FarmerCooperation;
+import com.bank.beans.Organ;
 import com.bank.beans.User;
 import com.bank.common.util.JsonUtil;
 import com.bank.service.ICooperationService;
+import com.bank.service.ITMapService;
 import com.bank.utils.HttpUtils;
 import com.bank.utils.excel.ExcelExplorer;
 import com.bank.utils.excel.ImportResult;
@@ -46,6 +48,9 @@ public class CooperationController {
 	@Resource(name="cooperationImporter")
 	private CooperationImporter cooperationImporter;
 	
+	@Resource(name="tMapService")
+	private ITMapService tMapService;
+	
 	public static Map<String,List<Map<String, String>>> uMap = new HashMap<String, List<Map<String,String>>>();
 			
 	@RequestMapping(value="saveCooperation",method = RequestMethod.POST)
@@ -53,7 +58,8 @@ public class CooperationController {
 			HttpServletResponse response) throws Exception{
 		
 		String formData = request.getParameter("formData");
-		
+		User user = (User) request.getSession().getAttribute(Constants.SESSION_AUTH_USER);
+		Organ organ = (Organ) request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
 		Object decodeJsonData = JsonUtil.Decode(formData);
 		String formatdata = JSON.toJSONStringWithDateFormat(decodeJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
 		JSONObject jsb = JSONObject.parseObject(formatdata);
@@ -62,6 +68,8 @@ public class CooperationController {
 			if(coo.getRecordTime() == null)
 				coo.setRecordTime(new Date());
 			if(coo.getCooperationId()==null){
+				tMapService.saveSDTMap(organ.getOrganId(),organ.getOrganName());
+				coo.setSourcecode(user.getOrganId());
 				cooperationService.save(coo);
 			}else{
 				cooperationService.update(coo);

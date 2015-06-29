@@ -210,7 +210,7 @@ public class CooperationDebtImporter extends ExcelImporter<FarmerCooperationDebt
 			try {
 				fc = convert(map);
 				hm = new HashMap<String,Object>();
-				hm.put("organ_id", fc.getOrgan_id());
+				hm.put("organcode", fc.getOrgancode());
 				hm.put("sourcecode", fc.getSourcecode());
 				hm.put("yearmonth", fc.getYearmonth());
 				id = cooperationDao.getUnitId(hm);
@@ -234,8 +234,13 @@ public class CooperationDebtImporter extends ExcelImporter<FarmerCooperationDebt
 //				System.err.println(e.getMessage());
 				map.put(error_label, s);
 				log.info("error_label"+s);
-				for(Map.Entry<String, String> entry : map.entrySet())
-					map2.put(FarmerCooperationDebt.remark_field.get(entry.getKey()), entry.getValue());
+				String x = null;
+				for(Map.Entry<String, String> entry : map.entrySet()){
+					x = FarmerCooperationDebt.remark_field.get(entry.getKey());
+					map2.put(x, entry.getValue());
+					if(x == null)
+						System.out.println("FarmerCooperationDebt.remark_field 映射关系错误"+entry.getKey());
+				}
 				map2.put("debtid", (i++)+"");
 				errorList.add(map2);
 			}

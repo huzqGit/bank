@@ -53,4 +53,14 @@
    order by mapvalue_py,mapkey
 </select>
 
+<select id="geMapId" parameterType="com.bank.vo.TMap" resultType="long">
+	select mapid from T_MAP t where 1=1
+	<if test="mapkey != null and mapkey != ''">and mapkey = #{mapkey}</if>
+	<if test="mapvalue != null and mapvalue != ''">and mapvalue = #{mapvalue}</if>
+	<if test="mapvalue_py != null and mapvalue_py != ''">and mapvalue_py = #{mapvalue_py}</if>
+	<if test="remarks != null and remarks != ''">and remarks = #{remarks}</if>
+	<if test="maptypes != null and maptypes != ''">and maptypes = #{maptypes}</if>
+	FETCH FIRST 1 ROWS ONLY
+</select>
+
 </mapper>

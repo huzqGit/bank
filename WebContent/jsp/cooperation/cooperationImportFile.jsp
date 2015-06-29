@@ -92,7 +92,7 @@ li {
 	<tr>
 		<td class="labelName" width="15%" align="right">请选择数据来源：</td>
 		<td  width="15%">
-			<input id="sourceForm" class="mini-buttonedit bank-text" onbuttonclick="onButtonEdit"/>
+			<input id="sourceForm" class="mini-buttonedit bank-text txt" onbuttonclick="onButtonEdit"/>
 		</td>
  		<td class="labelName" width="15%" align="right">请选择文件路径：</td>
     		<td width="15%" >
