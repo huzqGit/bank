@@ -41,6 +41,10 @@ body{
 	-ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType = 0,startColorstr = '#6DC8E3', 
 	endColorstr = 'white' )"; 
 }
+.errorText{
+	size:10px;
+	color:red;
+}
 </style>
 <%
 	User user = (User) request.getSession().getAttribute(Constants.SESSION_AUTH_USER);
@@ -85,13 +89,15 @@ body{
 		<tr>
 			<td style="width:10%"><label for="textbox1$text">年月:</label></td>
 			<td style="width:23%">
-			<input id="yyearm" name="yearmonth" class="mini-textbox" required="false" 
+			<input id="yyearm" name="yearmonth" class="mini-textbox" required="true" errorMode="none" 
 				requiredErrorText="年月不能为空" style="width:90%"/>
+				<div id="yearmonth_error" class="errorText"></div>
 			</td>
 			<td style="width:10%"><label for="textbox2$text">组织机构编码:</label></td>
 			<td style="width:20%" >
-			<input id="textbox2"  name="organcode" class="mini-textbox" required="true" 
+			<input id="textbox2"  name="organcode" class="mini-textbox" required="true" errorMode="none" onvalidation="updateError"
 				requiredErrorText="组织机构编码不能为空"  style="width:90%"/>
+				<div id="organcode_error" class="errorText"></div>
 			</td>
 			
 		</tr>
@@ -246,6 +252,14 @@ body{
 		function close(){
 			//window.close();
 			window.CloseOwnerWindow();
+		}
+		
+		function updateError(e) {
+	        var id = e.sender.name + "_error";
+	        var el = document.getElementById(id);
+	        if (el) {
+	            el.innerHTML = e.errorText;
+	        }
 		}
 		
 		function back(){

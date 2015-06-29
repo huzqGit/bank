@@ -15,6 +15,7 @@
            <div type="indexcolumn" >#</div>
            <div field="error_label" width="450" align="center" headerAlign="center" allowSort="true">失败原因</div>
            <div field=cooperationName width="120" headerAlign="center" allowSort="true" >合作社名称</div>
+           <div field="businesslicence" width="120" headerAlign="center" allowSort="true" >营业执照</div>
            <div field="orgaCode" width="120" headerAlign="center" allowSort="true"  >组织机构编码</div>
            <div field="taxCode" width="120" headerAlign="center" allowSort="true" >税务登记号</div>
            <div field="registerDate" width="120" headerAlign="center" dateFormat="yyyy-MM-dd" allowSort="true" >注册日期</div>    

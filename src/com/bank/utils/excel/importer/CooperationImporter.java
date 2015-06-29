@@ -26,7 +26,7 @@ public class CooperationImporter extends ExcelImporter<FarmerCooperation> {
 	private static Logger log = LoggerFactory.getLogger(CooperationImporter.class);
 	
 	private static String[] labels = {
-		"合作社名称","组织机构代码","税务登记号","注册地址","通信地址","注册日期","注册资本","实收资本",
+		"营业执照","合作社名称","组织机构代码","税务登记号","注册地址","通信地址","注册日期","注册资本","实收资本",
 		"法定代表人","身份证号","联系电话","社员人数","经营范围","经营场地面积","带动农户(户)","连接基地"
 	};
 	private static String error_label = "错误描述";
@@ -37,6 +37,7 @@ public class CooperationImporter extends ExcelImporter<FarmerCooperation> {
 	public static Map<String,String> En_labels = new HashMap<String, String>();
 	static{
 		int oi = 0;
+		labels_En.put(labels[oi++], "businesslicence");
 		labels_En.put(labels[oi++], "cooperationName");
 		labels_En.put(labels[oi++], "orgaCode");
 		labels_En.put(labels[oi++], "taxCode");
@@ -96,6 +97,7 @@ public class CooperationImporter extends ExcelImporter<FarmerCooperation> {
 		p.setRecordTime(new Date());
 		int labelIndex = 0;
 		try {
+			p.setBusinesslicence(map.get(getLabels()[labelIndex++]));
 			p.setCooperationName(map.get(getLabels()[labelIndex++]));
 			p.setOrgaCode(map.get(getLabels()[labelIndex++]));
 			p.setTaxCode(map.get(getLabels()[labelIndex++]));

@@ -43,6 +43,10 @@ body{
 	margin-top:-2px;
 	margin-left:-2px;
 }
+.errorText{
+	size:10px;
+	color:red;
+}
 </style>
 </head>
 <body>
@@ -81,15 +85,27 @@ body{
 	<div class="fieldset-body">
 	<table width="100%">
 	<tr>
+		<td style="width:10%"><label for="textbox1$text">营业执照:</label></td>
+		<td style="width:40%">
+		<input id="textbox1"  name="businesslicence" class="mini-textbox" required="true" errorMode="none" onvalidation="updateError"
+			requiredErrorText="营业执照不能为空" style="width:90%" />
+			<div id="businesslicence_error" class="errorText"></div>
+		</td>
+		<td style="width:10%">&nbsp;</td>
+		<td style="width:40%" >&nbsp;</td>
+	</tr>
+	<tr>
 	<td style="width:10%"><label for="textbox1$text">合作社名称:</label></td>
 	<td style="width:40%">
-	<input id="textbox1"  name="cooperationName" class="mini-textbox" required="true" 
+	<input id="textbox1"  name="cooperationName" class="mini-textbox" required="true" errorMode="none" onvalidation="updateError"
 		requiredErrorText="合作社名称不能为空" style="width:90%" value="${cname}"/>
+		<div id="cooperationName_error" class="errorText"></div>
 	</td>
 	<td style="width:10%"><label for="textbox2$text">组织机构编码:</label></td>
 	<td style="width:40%" >
-	<input id="textbox2"  name="orgaCode" class="mini-textbox" required="true" 
+	<input id="textbox2"  name="orgaCode" class="mini-textbox" required="true" errorMode="none" onvalidation="updateError"
 		requiredErrorText="组织机构编码不能为空"  style="width:90%"/>
+		<div id="orgaCode_error" class="errorText"></div>
 	</td>
 	</tr>
 	<tr>
@@ -200,21 +216,31 @@ body{
 	
 	//查询表单数据
 	$(document).ready(function(){
-		$.ajax({
-		    url: "${pageContext.request.contextPath}/economy/findCooperation.do",
-		    type: "post",
-		    data:{cooperationId:"${cooperationId}"},
-		    success: function (text) {
-		        var data = mini.decode(text);   //反序列化成对象
-		        if(data.cooperationId!=null){
-		       	 	form.setData(data);  //设置多个控件数据   
-		        }
-		    },
-		    error:function(text,arg2){
-		    }
-		});
-		
+		if('${accessMethod}' != 'addForm'){
+			$.ajax({
+			    url: "${pageContext.request.contextPath}/economy/findCooperation.do",
+			    type: "post",
+			    data:{cooperationId:"${cooperationId}"},
+			    success: function (text) {
+			        var data = mini.decode(text);   //反序列化成对象
+			        if(data.cooperationId!=null){
+			       	 	form.setData(data);  //设置多个控件数据   
+			        }
+			    },
+			    error:function(text,arg2){
+			    }
+			});
+		}
 	});
+	
+	function updateError(e) {
+        var id = e.sender.name + "_error";
+        var el = document.getElementById(id);
+        if (el) {
+            el.innerHTML = e.errorText;
+        }
+	}
+      
 	
 	function back(){
 		history.go(-1);
