@@ -6,6 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<link href="${pageContext.request.contextPath}/jsp/farmer/form.css"  rel="stylesheet" type="text/css"/>
 <style type="text/css">
  *{ margin:0;padding:0;}
 body{font-size: 14px; }
@@ -17,22 +18,10 @@ legend{
         }
         li{
             margin-top: 5px;
+            text-align:left;
+            width:100%;
             margin-left: 30px;
         }
-         input{ vertical-align:middle; margin:0; padding:0}
-        .file-box{
-         position:relative;
-         width:100%;
-         margin:auto auto;
-         text-align:center;
-         background:linear-gradient(#6DC8E3,white);
-		/* IE6 & IE7 */
-		filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0 , startColorstr = '#6DC8E3', 
-		endColorstr = 'white' ); 
-		/* IE8 */
-		-ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType = 0,startColorstr = '#6DC8E3', 
-		endColorstr = 'white' )"; 
-         }
         .txt{ height:22px; border:1px solid #cdcdcd; width:180px;}
         .btn{ background-color:#FFF; 
         border:1px solid #CDCDCD;height:24px; width:70px;
@@ -48,19 +37,6 @@ legend{
 		filter:alpha(opacity=0);
 	
 		}
-		.labelName{font-size:15px;font-weight:bold;color:darkgreen;}
-		#scanFile{
-			width:100px;
-			height:25px;
-			border:0;
-			background:url(/bank/images/scanFile.png) no-repeat;
-		}
-		#uploadFile{
-			width:100px;
-			height:25px;
-			border:0;
-			background:url(/bank/images/uploadFile.png) no-repeat;
-		}
 		.success{
 			color:green;
 			font-weight:bold;
@@ -74,35 +50,32 @@ legend{
     </style>
 </head>
 <body>
-<div class="file-box">
+<div class="queryPane">
 <form action="/bank/loan/loadFile.do" method="post" enctype="multipart/form-data">
-<table width="100%" height ="60px" style="border:1px solid #8AD3E9">
+<table width="100%" height ="30px" >
  	<tr>
  		<td class="labelName" width="30%" align="right">
         	请选择文件路径：
         </td>
     	<td width="15%" >
-        	<input type='text' name='textfield' id='textfield' class='txt' value="" />
+        	<input type='text' name='textfield' id='textfield' class='bank-text' value="" />
         </td>
         <td width="15%" >
         	<div style="position:relative">
-	            <input id="scanFile" type='button' class='btn' value=""  />
+	            <input class="bank-btn" type="button" value="浏览"  />
 	        	<input type="file" name="myfile" class="file" id="myfile" size="28" onchange="document.getElementById('textfield').value=this.value" />
        		</div>
         </td>
         <td align="left">
-            <input id="uploadFile" type="submit" name="submit" value=""/>
+            <input id="uploadFile" class="bank-btn" type="submit" name="submit" value="上传"/>
         </td>
      </tr>
  </table>
 </form>
 </div>
-<fieldset style="width:90%;margin:auto auto">
+<fieldset style="width:90%;margin:auto auto;border:1px solid orange">
 <legend style="width:310px;height:74px;background:url(/bank/images/filetips.png) no-repeat"></legend>
-<table width="100%">
-    <tr>
-        <td>
-            <div >
+<div style="width:100%;height:20px;">
                 <ol>
                     <li>
                         	支持EXCEL格式导入
@@ -112,10 +85,7 @@ legend{
                     </li>
                 </ol>
 
-            </div>
-        </td>
-    </tr>
-</table>
+ </div>
 </fieldset>
 <c:if test="${!empty msgs}">
 <div style="scrollbar-face-color:#6DC8E3;width:90%;height:200px;overflow-y:auto;margin-top:20px;margin-left:auto;margin-right:auto">

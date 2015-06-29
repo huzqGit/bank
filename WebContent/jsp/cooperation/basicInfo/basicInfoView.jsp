@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="${pageContext.request.contextPath}/jsp/farmer/form.css"  rel="stylesheet" type="text/css"/>
 <script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/miniui/json2.js" type="text/javascript"></script>
 <title>经济合作组织基本信息</title>
@@ -21,79 +22,6 @@ body {
 	font-size: 13pt;
 }
 
-.queryPane {
-	background: linear-gradient(#6DC8E3, white);
-	/* IE6 & IE7 */
-	filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0,
-		startColorstr= '#6DC8E3', endColorstr= 'white');
-	/* IE8 */
-	-ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType= 0,
-		startColorstr= '#6DC8E3', endColorstr= 'white')";
-}
-
-.labelName {
-	font-family: "仿宋_GB2312";
-	font-size: 14pt;
-	line-height: 150%;
-	font-weight: bold;
-	color: darkgreen;
-}
-
-input {
-	border: 1px solid #8AD3E9;
-	background-color: #F5F7CF;
-	height: 20px;
-}
-
-.table_m {
-	width: 98%;
-	height: 250px;
-	margin: auto auto;
-	overflow-y: auto;
-	overflow-x: hidden;
-}
-
-.table_m table {
-	width: 100%;
-	border-bottom: 1px dotted gray
-}
-
-.table_m tr:hover {
-	background: #90D5EA
-}
-
-.table_m table td {
-	height: 30px;
-	line-height: 30px;
-	border-top: 1px dotted gray;
-}
-
-.mini-panel-border {
-	border-color: #D2D2D2;
-}
-
-.mini-grid-headerCell-nowrap {
-	background: white
-}
-
-.mini-grid-headerCell {
-	background: white;
-	border-top: 0px;
-	border-color: #D2D2D2
-}
-
-.mini-grid-headerCell-inner {
-	font-family: "仿宋_GB2312";
-	font-size: 12pt;
-}
-
-.mini-grid-column-splitter {
-	background: white
-}
-
-.mini-grid-pager {
-	background: white
-}
 
 .bg {
 	background: url(images/toolbar/toolbar.png) #e7eaee repeat-x 0px 0px
@@ -106,18 +34,6 @@ input {
 	display: inline-block;
 	cursor: hand;
 }
-.topmenu {
-	width: 100%;
-	height: 30px;
-	background: linear-gradient(#6DC8E3, white);
-	/* IE6 & IE7 */
-	filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0,
-		startColorstr= '#6DC8E3', endColorstr= 'white');
-	/* IE8 */
-	-ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType= 0,
-		startColorstr= '#6DC8E3', endColorstr= 'white')";
-}
-
 .zero {
 	height: 1px;
 }
@@ -131,9 +47,9 @@ input {
     	<li name="remove" iconCls="icon-edit" onclick="edit">编辑</li>
 	<li name="remove" iconCls="icon-remove" onclick="remove">删除</li>
 </ul>
-<div class="queryPane" style="padding-top:10px;width:100%;height:80px">
+<div class="queryPane">
 <form id="farmer" action="" method="POST">
-<table width="100%" height="60px" style="vertical-align:middle;">
+<table width="100%" height="30px" style="vertical-align:middle;">
 	<tr>
 		<td  width="3%"align="left" >
 		</td>
@@ -141,20 +57,19 @@ input {
 			<font color="red"></font>合作社名称:
 		</td>
 		<td width="10%" align="left">
-			<input id="cooperationName" name="cooperationName" class="mini-textbox"  emptyText="请输入合作社名称" style="font-size:9pt;"/>
+			<input id="cooperationName" name="cooperationName" type="text" class="bank-text"  emptyText="请输入合作社名称" />
 		</td>
 		<td width="3%" ></td>
 		<td class="labelName"  width="11%">
 			<font color="red"></font>组织机构编码:
 		</td>
 		<td width="10%">
-			<input  id="orgaCode" name="orgaCode" class="mini-textbox"  emptyText="请输入机构编码" style="font-size:9pt"></td>
+			<input  id="orgaCode" name="orgaCode" type="text" class="bank-text" ></td>
 		<td width="5%"></td>
 		<td width="10%" align="left">
-			<input type="button" value=""  onclick="onSearch()"style="width:100px;height:25px;border:0;background:url(/bank/images/query.png) no-repeat" class="btn">
-		</td>
+			<input type="button" class="bank-btn" value="查询"  onclick="onSearch()"/>
 		<td width="10%" align="left">
-			<input type="button" value=""  onclick="add()" style="width:100px;height:25px;border:0;background:url(/bank/images/LuRu.png) no-repeat" class="btn">
+			<input type="button" class="bank-btn" value="录入"  onclick="add()" >
 		</td>
 	</tr>
 </table>
@@ -163,7 +78,7 @@ input {
 <div id="datagrid1" class="mini-datagrid" style="width:98%;margin:auto auto;height:340px;background-color:white" 
            url="${pageContext.request.contextPath}/economy/loadAllFarmerCooperation.do" idField="cooperationId"
             sizeList="[5,10,20,50]" pageSize="20"allowCellSelect="true" allowCellEdit="true"
-            frozenStartColumn="0" frozenEndColumn="1" contextMenu="#treeMenu">
+          contextMenu="#treeMenu">
 	        <div property="columns">
 	             <div type="indexcolumn" ></div>
 	             <div field=cooperationName width="120" headerAlign="center" allowSort="true" >合作社名称</div>
@@ -174,24 +89,9 @@ input {
 	             <div field="mailAddress" width="120" headerAlign="center" allowSort="true">通信地址</div>                            
 	             <div field="registerCapital" width="100" align="center" headerAlign="center" allowSort="true" >注册资金</div>
 	             <div field="realCapital" width="100" align="center" headerAlign="center" allowSort="true" >实收资金</div>
-	             <div field="recorder" width="100" align="center" headerAlign="center" allowSort="true" >创建人</div>
-	             <div field="recordTime" width="130" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm:ss" allowSort="true">创建时间</div>
 	             <div name="action" width="150" headerAlign="center" align="center" renderer="onActionRenderer" cellStyle="padding:0;"></div> 
 	          </div>
   </div>
-<!-- 
-<div id="win1" class="mini-window" title="Window" style="width:400px;height:250px;" 
-    showMaxButton="true" showCollapseButton="true" showShadow="true"
-    showToolbar="true" showFooter="true" showModal="false" allowResize="true" allowDrag="true">
-    <div property="toolbar" style="padding:5px;">
-        <input type='button' value='Hide' onclick="hideWindow()" style='vertical-align:middle;'/>
-    </div>
-    <div property="footer" style="text-align:right;padding:5px;padding-right:15px;">
-        <input type='button' value='Hide' onclick="hideWindow()" style='vertical-align:middle;'/>
-    </div>
-</div>
-mini.get("win1").show();
- -->
 <script type="text/javascript">
 	mini.parse();
 	var grid = mini.get("datagrid1");
@@ -202,8 +102,8 @@ mini.get("win1").show();
 		  query.clear();
 	  }
 	  function onSearch() {
-		  var cooperationName = mini.get("cooperationName").getValue();
-		  var orgaCode =mini.get("orgaCode").getValue();
+		  var cooperationName = $("#cooperationName").val();
+		  var orgaCode =$("#orgaCode").val();
        	  grid.load({
       	  	cooperationName : cooperationName,
       	  	orgaCode : orgaCode

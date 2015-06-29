@@ -5,64 +5,19 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="${pageContext.request.contextPath}/jsp/farmer/form.css"  rel="stylesheet" type="text/css"/>
 <script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/jsp/farmer/farmer.js" type="text/javascript"></script>
 <title>农户信息单户信息查询</title>
 <style type="text/css">
 *{margin:0;padding:0}
-body{line-height:120%;font-family:"仿宋_GB2312";font-size:13pt;}
-.queryPane{
-background-image:url(/bank/images/topmenu-bg.jpg);
-background-repeat:repat-x
-}
+body{font-family:"仿宋_GB2312";font-size:13pt;}
 .labelName{font-family:"仿宋_GB2312";font-size:11pt;line-height:100%;font-weight:bold;color:black;}
-input{border:1px solid orange;background-color:#F5F7CF;height:20px;}
-.table_m{width:98%;height:250px;margin:auto auto;overflow-y:auto;overflow-x:hidden;}
-.table_m table{width:100%;border-bottom:1px dotted gray}
-.table_m tr:hover{background:#90D5EA}
-.table_m table td{height:30px;line-height:30px;border-top:1px dotted gray;}
-.bank-btn{
-width:82px;
-color:white;
-font-weight:bold;
-height:30px;
-border:0;
-background:url(/bank/images/query.png) no-repeat
-}
-.bank-btn:hover{
-width:82px;
-color:white;
-font-weight:bold;
-height:30px;
-border:0;
-cursor:pointer;
-background:url(/bank/images/query-on.png) no-repeat
-}
-.mini-panel-border{
-border-color:#D2D2D2;
-}
-.mini-grid-headerCell-nowrap{
-background:white
-}
-.mini-grid-headerCell{
-background:white;
-border-top:0px;
-border-color:#D2D2D2
-}
-.mini-grid-headerCell-inner{
-font-family:"仿宋_GB2312";
-font-size:12pt;
-}
-.mini-grid-column-splitter{
-background:white
-}
-.mini-grid-pager{
-background:white
-}
+
 </style>
 </head>
 <body>
-<div class="queryPane" style="padding-top:10px;width:100%;height:30px">
+<div class="queryPane">
 <form id="farmer" action="/bank/farmer/typeInFarmer.do" method="POST">
 <table width="100%" height="30px" style="vertical-align:middle;">
 	<tr>
@@ -72,20 +27,20 @@ background:white
 			<font color="red">*</font>农户姓名:&nbsp;&nbsp;&nbsp; 
 		</td>
 		<td width="10%" align=center>
-			<input id="farmerName" name="farmerName" value="${farmerName}"/>
+			<input id="farmerName" name="farmerName" type="text" class="bank-text" value="${farmerName}"/>
 		</td>
 		<td width="1%" ></td>
 		<td class="labelName"  width="15%">
 			<font color="red">*</font>农户身份证号:
 		</td>
 		<td width="10%">
-			<input  id="farmerIdNum" name="farmerIdNum" type="text" value="${farmerIdNum}"></td>
+			<input  id="farmerIdNum" name="farmerIdNum" type="text" class="bank-text"  value="${farmerIdNum}"></td>
 		<td width="1%"></td>
 		<td width="10%" align="left">
 			<input class="bank-btn" type="button" value="查询"  onclick="ChaXun()">
 		</td>
 		<td width="10%" align="left">
-			<input type="button" value=""  onclick="LuRu()" style="width:100px;height:25px;border:0;background:url(/bank/images/LuRu.png) no-repeat">
+			<input class="bank-btn" type="button" value="录入"  onclick="LuRu()">
 		</td>
 	</tr>
 </table>

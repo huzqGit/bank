@@ -12,7 +12,7 @@
 <body>
 <div  id ="form1">
 <form  action="/bank/farmer/saveHouse.do" method="POST">
-<div class="topMenu">
+<div class="queryPane">
 <table cellpadding="0" cellspacing="0">
     <tr>
     	<td class="labelName" width="50px" align="right">姓名:</td>
@@ -22,10 +22,10 @@
     	<td width="10px"></td>
     	<td class="labelValue" width ="100px">${farmer.farmeridnum }</td>
     	<td width="150px" align="right">
-       	 <input type="button" id="saveBtn" onclick="submitForm()" value=""/>
+       	 <input type="button" class="bank-btn" onclick="submitForm()" value="保存"/>
         </td>
         <td width="50px"  >
-         <input type="button" id="backBtn" onclick="back()" value=""/>
+         <input type="button" class="bank-btn" onclick="back()" value="返回"/>
         </td>
     </tr>
 </table>

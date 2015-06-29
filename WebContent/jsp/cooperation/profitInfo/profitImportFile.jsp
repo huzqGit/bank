@@ -6,8 +6,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="${pageContext.request.contextPath}/jsp/farmer/form.css"  rel="stylesheet" type="text/css"/>
+<script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
 <title>Insert title here</title>
 <style type="text/css">
 * {
@@ -42,20 +43,6 @@ input {
 	padding: 0
 }
 
-.file-box {
-	position: relative;
-	width: 100%;
-	margin: auto auto;
-	text-align: center;
-	background: linear-gradient(white, #6DC8E3, white);
-	/* IE6 & IE7 */
-	filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0,
-		startColorstr= '#6DC8E3', endColorstr= 'white');
-	/* IE8 */
-	-ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType= 0,
-		startColorstr= '#6DC8E3', endColorstr= 'white')";
-}
-
 .txt {
 	height: 22px;
 	border: 1px solid #cdcdcd;
@@ -82,18 +69,7 @@ input {
 	cursor: hand;
 }
 
-.labelName {
-	font-size: 15px;
-	font-weight: bold;
-	color: darkgreen;
-}
 
-#scanFile {
-	width: 100px;
-	height: 25px;
-	border: 0;
-	background: url(/bank/images/scanFile.png) no-repeat;
-}
 
 #downLoadModel {
 	width: 100px;
@@ -102,12 +78,7 @@ input {
 	background: url(/bank/images/download.png) no-repeat;
 }
 
-#uploadFile {
-	width: 100px;
-	height: 25px;
-	border: 0;
-	background: url(/bank/images/uploadFile.png) no-repeat;
-}
+
 
 .success {
 	color: green;
@@ -124,34 +95,33 @@ input {
 </head>
 <body>
 
-<div class="file-box">
+<div class="queryPane">
 <form action="#" method="post" enctype="multipart/form-data" onsubmit="return validateSubmit();">
-<table width="100%" height ="60px" style="border:1px solid #8AD3E9">
+<table width="100%" height ="30px">
 	<tr>
 		<td class="labelName" width="15%" align="right">请选择数据来源：</td>
 		<td  width="15%">
-			<input id="sourceForm" class="mini-buttonedit txt" onbuttonclick="onButtonEdit"/>
+			<input id="sourceForm" class="mini-buttonedit" onbuttonclick="onButtonEdit"/>
 		</td>
  		<td class="labelName" width="15%" align="right">请选择文件路径：</td>
     		<td width="15%" >
-        		<input type='text' name='textfield' id='textfield' class='txt' value="" />
+        		<input type='text' name='textfield' id='textfield' class='bank-text' value="" />
         	</td>
         	<td width="15%" >
         	<div style="position:relative">
-	          <input id="scanFile" type='button' class='btn' value=""  />
+	          <input id="scanFile" type='button'  class="bank-btn" value="浏览" />
 	        	<input type="file" name="mufile" class="file" id="mufile" size="28" onchange="judgeFile(this)" />
        	</div>
         </td>
         <td align="left" >
-            <input id="uploadFile" type="submit" name="submit" class='btn' value=""/>
-            <!-- <input id="downLoadModel"  type='button' style="margin-left:25px" class='btn' value="" onclick="downLoadExcel()"/>-->
+            <input id="uploadFile" type="submit" name="submit" class='bank-btn' value="上传"/>
         </td>
         
      </tr>
  </table>
 </form>
 </div>
-<fieldset style="width:90%;margin:auto auto">
+<fieldset class="bank-view-fieldset" style="width:90%;margin:auto auto">
 <legend style="width:310px;height:74px;background:url(/bank/images/filetips.png) no-repeat"></legend>
 <table width="100%">
     <tr>

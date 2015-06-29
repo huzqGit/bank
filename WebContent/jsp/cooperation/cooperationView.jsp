@@ -9,6 +9,7 @@ System.out.println(request.getSession().getAttribute("user"));
 <head>
 <title>农民专业合作经济组织基本概况信息</title>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<link href="${pageContext.request.contextPath}/jsp/farmer/form.css"  rel="stylesheet" type="text/css"/>
 <script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
 <link href="${pageContext.request.contextPath}/miniui/themes/blue/skin.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
@@ -35,7 +36,7 @@ background:url(${pageContext.request.contextPath}/jsp/main/leftmenu/images/icon-
         <div class="mini-toolbar" style="padding:2px;border-top:0;border-left:0;border-right:0;">                
             <span style="padding-left:5px;">名称：</span>
             <input class="mini-textbox" emptyText="请输入合作社名称" id="cooperationName"/>
-            <a class="mini-button" iconCls="icon-search" plain="true" onclick="search()">查找</a>                  
+            <input type="button" class="bank-btn" value="查询" onclick="search()"/>                 
         </div>
         <!-- url="${pageContext.request.contextPath}/jsp/data/deptTree.txt" -->
         <div class="mini-fit">

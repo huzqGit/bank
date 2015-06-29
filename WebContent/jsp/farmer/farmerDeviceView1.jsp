@@ -13,42 +13,42 @@
 <body>
 <div class="topMenu">
 <ul>
-	<li>
+	<li class="inactive">
 		<a href="/bank/farmer/loadFarmer1.do?id=${farmer.id}">基本信息</a>
 	</li>
-	<li >
+	<li class="inactive">
 		<a href="/bank/farmer/queryMember.do?fid=${farmer.id}">家庭成员信息</a>
 	</li>
-	<li >
+	<li class="inactive">
 		<a href="/bank/loan/queryLoan1.do?fid=${farmer.id}">贷款信息</a>
 	</li>
-	<li >
+	<li class="inactive">
 		<a href="/bank/farmer/queryBalance.do?fid=${farmer.id}">收支信息</a>
 	</li>
-	<li >
+	<li class="inactive">
 		<a href="/bank/farmer/queryHouse.do?fid=${farmer.id}">房产信息</a>
 	</li>
-	<li >
+	<li class="inactive">
 		<a href="/bank/farmer/queryForest.do?fid=${farmer.id}">林权信息</a>
 	</li>
-	<li >
+	<li class="inactive">
 		<a href="/bank/farmer/queryBreed.do?fid=${farmer.id}">种养殖信息</a>
 	</li>
 	<li class="active">
 			设备信息
 	</li>
-	<li >
+	<li class="inactive">
 		<a href="/bank/farmer/queryCompunish.do?fid=${farmer.id}">奖惩信息</a>
 	</li>
-	<li >
+	<li class="inactive">
 		<a href="/bank/farmer/queryInsured.do?fid=${farmer.id}">参保信息</a>
 	</li>
-	<li >
+	<li class="inactive">
 		<a href="/bank/farmer/queryEvaluate.do?fid=${farmer.id}">其他信息</a>
 	</li>
 </ul>
 </div>
-<div class="topMenu" style="background:linear-gradient(#6DC8E3,white)">
+<div>
 <table width ="100%" height="60px">
 	<tr>
 		<td class="labelName" width="30%" align="right">姓名</td>
@@ -59,7 +59,7 @@
 		<td class="labelValue" align="left">${farmer.farmeridnum}</td>
 		<td width="1%"></td>
 		 <td width="50px" align="right">
-       	 <input type="button" class="addBtn" onclick="add(${farmer.id})"/>
+       	 <input type="button" class="bank-btn" onclick="add(${farmer.id})" value="新增"/>
         </td>
        
 	</tr>

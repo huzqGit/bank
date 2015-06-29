@@ -5,89 +5,48 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="${pageContext.request.contextPath}/jsp/farmer/form.css"  rel="stylesheet" type="text/css"/>
 <script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/jsp/farmer/farmer.js" type="text/javascript"></script>
 <title>农户信息条件查询</title>
-<style type="text/css">
-*{margin:0;padding:0}
-body{scrollbar-base-color:white;line-height:120%;font-family:"仿宋_GB2312";font-size:13pt;}
-.queryPane{
-background:linear-gradient(#6DC8E3,white);
-/* IE6 & IE7 */
-filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0 , startColorstr = '#6DC8E3', 
-endColorstr = 'white' ); 
-/* IE8 */
--ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType = 0,startColorstr = '#6DC8E3', 
-endColorstr = 'white' )"; 
-}
-.labelName{
-font-size:15px;
-font-weight:bold;
-color:darkgreen;
-}
-input{
-border:1px solid #8AD3E9;
-background-color:#F5F7CF;
-height:20px;
-}
-li{
-margin-top:5px
-}
-.table_m{width:98%;height:250px;margin:auto auto;overflow-y:auto;overflow-x:hidden;}
-.table_m table{width:100%;border-bottom:1px dotted gray}
-.table_m tr:hover{background:#90D5EA}
-.table_m table td{height:30px;line-height:30px;border-top:1px dotted gray;}
-.mini-panel-border{
-border-color:#D2D2D2;
-}
-.mini-grid-headerCell-nowrap{
-background:white
-}
-.mini-grid-headerCell{
-background:white;
-border-top:0px;
-border-color:#D2D2D2
-}
-.mini-grid-headerCell-inner{
-font-family:"仿宋_GB2312";
-font-size:12pt;
-}
-.mini-grid-column-splitter{
-background:white
-}
-.mini-grid-pager{
-background:white
-}
-</style>
 </head>
 <body>
-<div class="queryPane" style="padding-top:10px;width:100%">
+<div style="width:100%;height:120px">
 <form action="/bank/farmer/loadFarmerThree.do" method="POST">
 <table width="100%"  style="vertical-align:middle;">
 	<tr>
 		<td class="labelName"  width="30%" align="right">贷款金融机构名称:</td>
-		<td align="left"><input  type="text" id="organName1" name="organName"></td>
-		<td rowspan="3" align="center" style="vertical-align:middle;">
-			<input type="button" value=""  onclick="search()"style="width:100px;height:25px;margin-top:auto;margin-bottom:auto;border:0;background:url(/bank/images/query.png) no-repeat">
+		<td width="2%" ></td>
+		<td colsapn="4" align="left">
+			<input  type="text" class="bank-text" id="organName1" name="organName">
 		</td>
 	</tr>
 	<tr>
 		<td class="labelName" width="30%"align="right" >贷款时间从:</td> 
 		<td width="2%" ></td>
-		<td><input type="text" id="loanDate1" name="loanDate1"/></td>
+		<td><input type="text" class="bank-text"  id="loanDate1" name="loanDate1"/></td>
 		<td width="2%" ></td>
 		<td class="labelName"  width="10%" align="right">到:</td>
-		<td><input  type="text" id="loandDate2" name="loandDate2"></td>
+		<td><input  type="text" class="bank-text" id="loandDate2" name="loandDate2"></td>
 	</tr>
 	<tr>
 		<td class="labelName" width="30%"align="right" >贷款余额范围从:</td> 
 		<td width="2%" ></td>
-		<td><input type="text" id="balance1" name="balance1"/></td>
+		<td>
+			<input type="text" class="bank-text" id="balance1" name="balance1"/>
+		</td>
 		<td width="2%" ></td>
 		<td class="labelName"  width="10%" align="right">到:</td>
-		<td><input  type="text" name="balance2"></td>
+		<td>
+			<input id="balance2" name="balance2" class="bank-text" type="text">
+		</td>
 		
 	</tr>
+	<tr>
+		<td colspan="6" align="center" style="text-alin:center;vertical-align:middle;">
+			<input type="button" class="bank-btn" value="查询"  onclick="search()">
+		</td>
+	</tr>	
 </table>
 </form>
 </div>

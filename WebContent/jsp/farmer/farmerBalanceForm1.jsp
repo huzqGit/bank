@@ -15,25 +15,20 @@
 <body>
 <form  action="/bank/farmer/saveBalance1.do" id="farmerPay" method="POST">
 <input name="farmerid" class="mini-hidden" value="${farmer.id}" />
-<div class="topMenu">
-<table cellpadding="0" cellspacing="0"  height="60px">
+<table width="100%" cellpadding="0" cellspacing="0"  height="60px">
     <tr>
-    	<td class="labelName" width="250px" align="right">姓名:</td>
-    	<td width="10px"></td>
-    	<td class="labelValue" width="100px">${farmer.farmername }</td>
-    	<td class="labelName" width="100px" align="right">证件号码:</td>
-    	<td width="10px"></td>
-    	<td class="labelValue" width ="100px">${farmer.farmeridnum }</td>
-    	<td width="150px" align="right">
-       	 <input type="button" id="saveBtn"  onclick="submitForm()" value=""/>
+    	<td class="labelName" width="30%" align="right">姓名</td>
+    	<td class="labelValue" width="10%">:${farmer.farmername }</td>
+    	<td class="labelName" width="10%" align="right">证件号码</td>
+    	<td class="labelValue" width ="10%">:${farmer.farmeridnum }</td>
+    	<td width="10%" align="center">
+       		<input type="button" class="bank-btn" onclick="submitForm()" value="保存"/>
         </td>
-        <td width="50px"  >
-         <input type="button" id="backBtn" onclick="back()" value=""/>
+        <td width="30%" align="left" >
+         	<input type="button" class="bank-btn" onclick="back()" value="返回"/>
         </td>
     </tr>
-    
 </table>
-</div>
 <div id="form1" style="width:90%;margin:auto auto">
 <input name="deleteIncome" id="deleteIncome" class="mini-hidden"/>
 <input name="id" class="mini-hidden" value="${balance.id}" />
@@ -232,7 +227,7 @@
 </td></tr>
 <tr>
 	<td colspan="2" align="center">
-		<input type="button" class="addBtn" onClick="addIncome(${farmer.id})"/>
+		<input type="button" class="bank-btn" onClick="addIncome(${farmer.id})" value="新增"/>
 	</td>
 </tr>
 </table>
