@@ -31,4 +31,10 @@ public interface IUserDao {
 	public List<User> loadAllUsersByOrganId(String key, int pageIndex, int pageSize,
 			String sortField, String sortOrder, String organId);
 
+	public int getAllUsersByOrganId(String key, String selectOrganId);
+
+	public int getAllUsers(String key);
+
+	public int getAllUsersByOrganIds(String key, String tempOrganIds);
+
 }
