@@ -63,5 +63,17 @@ public class UserServiceImpl implements IUserService {
 			String organId) {
 		return userDao.loadAllUsersByOrganId(key, pageIndex, pageSize, sortField, sortOrder, organId);
 	}
+	@Override
+	public int getAllUsersByOrganId(String key, String selectOrganId) {
+		return userDao.getAllUsersByOrganId(key, selectOrganId);
+	}
+	@Override
+	public int getAllUsers(String key) {
+		return userDao.getAllUsers(key);
+	}
+	@Override
+	public int getAllUsersByOrganIds(String key, String tempOrganIds) {
+		return userDao.getAllUsersByOrganIds(key, tempOrganIds);
+	}
 	
 }
