@@ -7,7 +7,7 @@
 <script type="text/javascript" src="<c:url  value="/common/js/utils.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/common/js/jsrule.js"/>"></script>
 
-<link href="<c:url value="/miniui/themes/stategrid-skin/skin.css"/>" rel="stylesheet" type="text/css"/>
+<link href="<c:url value="/miniui/themes/jqueryui-uilightness/skin.css"/>" rel="stylesheet" type="text/css"/>
 
 
 
