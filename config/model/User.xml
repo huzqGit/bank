@@ -163,8 +163,8 @@ resultMap="BaseResultMap">
   			and <![CDATA[t1.rownum <= #{end}]]>
    </if>
    <choose>
-	   <when test="sortField != null and sortField != ''">
-	   		order by #{sortField} #{sortOrder}
+	   <when test="sortField != ''">
+	   		order by ${sortField} ${sortOrder}
 	   </when>
 	   <otherwise>
 	   		order by t.user_id desc
@@ -188,7 +188,7 @@ where t1.user_id= t.user_id and t.organ_id in (${organIds})
    </if>
    <choose>
 	   <when test="sortField != null and sortField != ''">
-	   		order by #{sortField} #{sortOrder}
+	   		order by ${sortField} ${sortOrder}
 	   </when>
 	   <otherwise>
 	   		order by t.user_id desc
@@ -212,7 +212,7 @@ where t1.user_id= t.user_id and t.organ_id = #{organId}
    </if>
    <choose>
 	   <when test="sortField != null and sortField != ''">
-	   		order by #{sortField} #{sortOrder}
+	   		order by ${sortField} ${sortOrder}
 	   </when>
 	   <otherwise>
 	   		order by t.user_id desc

@@ -154,6 +154,13 @@ public class UserController {
 	  		isSuperAdmin = "1";
 	  	} 
 	  	
+	  	if ("userId".equals(sortField)) {
+	  		sortField = "user_id";
+	  	} 
+	  	if ("userName".equals(sortField)) {
+	  		sortField = "user_name";
+	  	}
+	  	
 	  	List<User> data = new ArrayList<User>();
 	  	int total = 0;
 	  	if (StringUtils.isNotEmpty(selectOrganId)) {
