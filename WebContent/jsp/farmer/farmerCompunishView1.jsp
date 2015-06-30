@@ -74,9 +74,9 @@
             		<td align="center">编号</td>
 	        <div property="columns">
 	             <div type="indexcolumn" width="5%" headerAlign="center">编号</div>
-	             <div field="type" width="15%" headerAlign="center" allowSort="true">表彰或处罚</div>
-	             <div field="organ" width="25%" headerAlign="center" allowSort="true" >表彰或处罚部门</div>   
-	             <div field="occurtime" width="15%" headerAlign="center" allowSort="true" format="yyyy-MM-dd">表彰或处罚时间</div>                                           
+	             <div field="type" width="15%" headerAlign="center" allowSort="true" renderer="compunishTypeRenderer">表彰或处罚</div>
+	             <div field="organ" width="25%" headerAlign="center" allowSort="true"  >表彰或处罚部门</div>   
+	             <div field="occurtime" width="15%" headerAlign="center" allowSort="true">表彰或处罚时间</div>                                           
 	        	 <div field="detail" width="30%" headerAlign="center" allowSort="true" >表彰或处罚内容</div>   
 	        	 <div name="action" width="5%" headerAlign="center" align="center" renderer="editRenderer" cellStyle="padding:0;"></div>
 	        	 <div name="action" width="5%" headerAlign="center" align="center" renderer="deleteRenderer" cellStyle="padding:0;"></div>
@@ -90,6 +90,16 @@
 	function add(fid){
 		window.location.href="/bank/farmer/typeInCompunish1.do?fid="+fid;
 	}
+	function compunishTypeRenderer(e) {
+	    var type = e.record.type;
+	    var s;
+		if(type=="1"){
+			s="表彰";
+		}else if(type=="2"){
+			s="处罚";
+		} 
+	    return s;
+	};
 	function editRenderer(e) {
 	    var record = e.record;
 	    var id = record.id;

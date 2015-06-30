@@ -12,11 +12,13 @@ public class FarmerPrivateLending extends BaseEntity<Long> {
 		private Long farmerid;
 
 	    private Double amount;
-
+	    
+	    @DateTimeFormat(pattern = "yyyy-MM-dd")
 	    private Date lendingtime;
-
+	    
+	    @DateTimeFormat(pattern = "yyyy-MM-dd")
 	    private Date limittime;
-
+	    
 	    private Double rate;
 
 	    private String sourcecode;
@@ -28,7 +30,8 @@ public class FarmerPrivateLending extends BaseEntity<Long> {
 	    private String runitname;
 
 	    private String recorder;
-
+	    
+	    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	    private Date recordtime;
 
 	    public Long getFarmerid() {

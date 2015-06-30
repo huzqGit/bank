@@ -74,7 +74,7 @@
             		<td align="center">编号</td>
 	        <div property="columns">
 	             <div type="indexcolumn" width="5%" headerAlign="center">编号</div>
-	             <div field="type" width="15%" headerAlign="center" allowSort="true">参加保险种类</div>
+	             <div field="type" width="15%" headerAlign="center" allowSort="true" renderer="insuredTypeRenderer">参加保险种类</div>
 	             <div field="amount" width="15%" headerAlign="center" allowSort="true" >参保金额</div>   
 	             <div field="insuretime" width="20%" headerAlign="center" allowSort="true" dateFormat="yyyy-MM-dd">参保时间</div>  
 	             <div field="limittime" width="25%" headerAlign="center" allowSort="true" dateFormat="yyyy-MM-dd">参保到期日</div>                                                                       
@@ -90,6 +90,25 @@
 	function add(fid){
 		window.location.href="/bank/farmer/typeInInsured1.do?fid="+fid;
 	}
+	function insuredTypeRenderer(e) {
+	    var type = e.record.type;
+	    var s;
+		if(type=="1"){
+			s="人寿";
+		}else if(type=="2"){
+			s="财产";
+		}else if(type=="3"){
+			s="医疗";
+		}else if(type=="4"){
+			s="农业保险";
+		}else if(type=="5"){
+			s="社会保险险种";
+		}else if(type=="9"){
+			s="其他";
+		}
+	    return s;
+	};
+
 	function editRenderer(e) {
 	    var record = e.record;
 	    var id = record.id;

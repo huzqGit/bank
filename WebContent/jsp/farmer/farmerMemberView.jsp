@@ -73,11 +73,13 @@
             sizeList="[5,10,20,50]" pageSize="10" showReloadButton="false">
 	        <div property="columns">
 	             <div type="indexcolumn" width="5%" headerAlign="center"></div>
-	             <div field="name" width="15%" headerAlign="center" allowSort="true">姓名</div>
-	             <div field="relation" width="15%" headerAlign="center" allowSort="true" >与户主关系</div>   
-	             <div field="idnum" width="30%" headerAlign="center" allowSort="true">身份证号码 </div>     
-	             <div field="marrystatus" width="10%" headerAlign="center" allowSort="true" >婚姻状况</div>
-	             <div field="sex" width="10%" headerAlign="center" allowSort="true">性别</div>                                       
+	             <div field="name" width="10%" headerAlign="center" allowSort="true">姓名</div>
+	             <div field="relation" width="10%" headerAlign="center" allowSort="true" renderer="relationRenderer">与户主关系</div>   
+	             <div field="idnum" width="15%" headerAlign="center" allowSort="true">身份证号码 </div>     
+	             <div field="marrystatus" width="8%" headerAlign="center" allowSort="true" renderer="marrystatusRenderer">婚姻状况</div>
+	             <div field="sex" width="8%" headerAlign="center" allowSort="true" renderer="sexRenderer">性别</div>    
+	             <div field="phone" width="15%" headerAlign="center" allowSort="true" >联系电话</div> 
+	             <div field="address" width="14%" headerAlign="center" allowSort="true" >地址</div>                                      
 	        	 <div width="5%" headerAlign="center" align="center" renderer="editRenderer" cellStyle="padding:0;"></div>
 	         	 <div width="5%" headerAlign="center" align="center" renderer="deleteRenderer" cellStyle="padding:0;"></div>
 	         </div>
@@ -87,6 +89,51 @@
 	var grid = mini.get("datagrid1");
 	grid.load();
 	
+	function relationRenderer(e){
+		var relation = e.record.relation;
+		var s;
+		if(relation=='1'){
+			s="配偶";
+		}else if(relation =="2"){
+			s="父子";
+		}else if(relation=="3"){
+			s="父女";
+		}else if(relation=="4"){
+			s="母子";
+		}else if(relation=="5"){
+			s="母女";
+		}else if(relation=="9"){
+			s="其他";
+		}
+		return s;
+	}
+	function marrystatusRenderer(e){
+		var marrystatus = e.record.marrystatus;
+		var s;
+		if(marrystatus=='1'){
+			s="已婚";
+		}else if(marrystatus =="2"){
+			s="离异";
+		}else if(marrystatus=="3"){
+			s="未婚";
+		}else if(marrystatus=="9"){
+			s="未知";
+		}
+		return s;
+	}
+	
+	function sexRenderer(e){
+		var sex = e.record.sex;
+		var s;
+		if(sex=='1'){
+			s="男性";
+		}else if(sex =="2"){
+			s="女性";
+		}else if(sex=="9"){
+			s="未说明性别";
+		}
+		return s;
+	}
 	function add(fid){
 		window.location.href="/bank/farmer/insertMember.do?fid="+fid;
 	}

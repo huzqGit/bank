@@ -75,8 +75,8 @@
 	        <div property="columns">
 	             <div type="indexcolumn" width="5%" headerAlign="center">编号</div>
 	             <div field="builddate" width="10%" headerAlign="center" allowSort="true" >构建年份</div>   
-	             <div field="houseproperty" width="10%" headerAlign="center" allowSort="true">房产性质</div>
-	             <div field="housetype" width="10%" headerAlign="center" allowSort="true" >房屋类型</div>   
+	             <div field="houseproperty" width="10%" headerAlign="center" allowSort="true" renderer="housepropertyRenderer">房产性质</div>
+	             <div field="housetype" width="10%" headerAlign="center" allowSort="true" renderer="housetypeRenderer" >房屋类型</div>   
 	             <div field="buildprice" width="10%" headerAlign="center" allowSort="true" >构建价格</div>   
 	             <div field="floorarea" width="10%" headerAlign="center" allowSort="true" >占地面积</div>                                              
 	        	 <div field="houseaddress" width="35%" headerAlign="center" allowSort="true" >房屋地址</div>
@@ -91,7 +91,39 @@
 	
 	function add(fid){
 		window.location.href="/bank/farmer/typeInHouse.do?fid="+fid;
-	}
+	};
+	function housepropertyRenderer(e) {
+		 var houseproperty = e.record.houseproperty;
+		 var s;
+		 if(houseproperty =="1"){
+		    	s="自建房";
+		 }else if(houseproperty =="2"){
+		    	s="商品房";
+		 }else if(houseproperty =="3"){
+		    	s="经济适用房";
+		 }else if(houseproperty =="4"){
+		    	s="集资房";
+		 }else if(houseproperty =="6"){
+		    	s="商用房";
+		 }
+		 return s;
+	};
+	function housetypeRenderer(e) {
+	    var housetype = e.record.housetype;
+	    var s;
+	    if(housetype =="1"){
+	    	s="钢混结构";
+	    }else if(housetype =="2"){
+	    	s="砖混结构";
+	    }else if(housetype =="3"){
+	    	s="砖木结构";
+	    }else if(housetype =="4"){
+	    	s="茅土结构";
+	    }else if (housetype =="9"){
+	    	s="其他";
+	    }
+	    return s;
+	};
 	function editRenderer(e) {
 	    var record = e.record;
 	    var id = record.id;

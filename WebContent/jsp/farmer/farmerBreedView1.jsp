@@ -71,10 +71,9 @@
 <div id="datagrid1" class="mini-datagrid" style="width:98%;margin:auto auto;height:320px;background-color:white" 
             url="${pageContext.request.contextPath}/farmer/loadBreed.do?fid=${farmer.id}"
             sizeList="[5,10,20,50]" pageSize="10" showReloadButton="false">
-            		<td align="center">编号</td>
 	        <div property="columns">
-	             <div type="indexcolumn" width="5%" headerAlign="center">编号</div>
-	             <div field="variety" width="20%" headerAlign="center" allowSort="true" >种养殖品种</div>
+	             <div type="indexcolumn" width="5%" headerAlign="center" >编号</div>
+	             <div field="variety" width="20%" headerAlign="center" allowSort="true" renderer="breedTypeRenderer">种养殖品种</div>
 	             <div field="floorarea" width="15%" headerAlign="center" allowSort="true">占地面积</div>   
 	             <div field="output" width="20%" headerAlign="center" allowSort="true">年产量</div>
 	             <div field="outputvalue" width="20%" headerAlign="center" allowSort="true" >年产值</div> 
@@ -90,6 +89,30 @@
 	function add(fid){
 		window.location.href="/bank/farmer/typeInBreed.do?fid="+fid;
 	}
+	function breedTypeRenderer(e) {
+	    var variety = e.record.variety;
+	    var s;
+	    if(variety=="1"){
+	    	s="粮食作物";
+	    }else if(variety=="2"){
+	    	s="蔬菜作物";
+	    }else if(variety=="3"){
+	    	s="经济作物";
+	    }else if(variety=="9"){
+	    	s="其他种植业";
+	    }else if(variety=="101"){
+	    	s="畜牧类";
+	    }else if(variety=="102"){
+	    	s="禽类";
+	    }else if(variety=="103"){
+	    	s="水产类";
+	    }else if(variety=="104"){
+	    	s="昆虫类";
+	    }else if(variety=="109"){
+	    	s="其他养殖业";
+	    }   
+	    return s;
+	};
 	function editRenderer(e) {
 	    var record = e.record;
 	    var id = record.id;

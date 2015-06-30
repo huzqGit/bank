@@ -163,7 +163,7 @@ public class FarmerCompunishController {
 	    String sortField = request.getParameter("sortField");
 	    String sortOrder = request.getParameter("sortOrder");
 		List<FarmerCompunish> compunishs =farmerCompunishService.findPagingByFarmerId(pageIndex, pageSize, sortField, sortOrder, farmerId);
-	    String json = JSON.toJSONStringWithDateFormat(compunishs,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
+	    String json = JSON.toJSONStringWithDateFormat(compunishs,"yyyy-MM-dd", SerializerFeature.WriteDateUseDateFormat);
 	    response.setContentType("text/html;charset=UTF-8");
 	    try {
 			response.getWriter().write(json);

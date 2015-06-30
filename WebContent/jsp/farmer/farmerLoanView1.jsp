@@ -72,11 +72,13 @@
             pageSize="10" showReloadButton="false">
 	        <div property="columns">
 	             <div type="indexcolumn" width="5%" headerAlign="center">编号</div>
-	             <div field="compactnum" width="15%" headerAlign="center" allowSort="true">合同号</div>
-	             <div field="organcode" width="15%" headerAlign="center" allowSort="true" >贷款机构号</div>   
-	             <div field="organname" width="30%" headerAlign="center" allowSort="true" >贷款机构名称</div>     
-	             <div field="loandate" width="10%" headerAlign="center" allowSort="true" >贷款日期</div> 
-	             <div field="amount" width="15%" headerAlign="center" allowSort="true" >贷款金额</div>                                      
+	             <div field="compactnum" width="10%" headerAlign="center" allowSort="true">合同号</div>
+	             <div field="organcode" width="10%" headerAlign="center" allowSort="true" >贷款机构号</div>   
+	             <div field="organname" width="20%" headerAlign="center" allowSort="true" >贷款机构名称</div>
+	             <div field="amount" width="15%" headerAlign="center" allowSort="true" >贷款金额</div>  
+	             <div field="balance" width="15%" headerAlign="center" allowSort="true" >贷款余额</div>       
+	             <div field="loandate" width="10%" headerAlign="center" allowSort="true" >贷款日期</div>
+	             <div field="limitdate" width="10%" headerAlign="center" allowSort="true" >到期日期</div>                                 
 	        	 <div width="5%" headerAlign="center" align="center" renderer="editRenderer" cellStyle="padding:0;"></div>
 	         	 <div width="5%" headerAlign="center" align="center" renderer="deleteRenderer" cellStyle="padding:0;"></div>
 	         </div>
