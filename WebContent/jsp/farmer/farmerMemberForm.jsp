@@ -38,66 +38,110 @@
 <tr>
 	<td colspan="4" style="width:100%">
 	<fieldset id="fd2" style="width:100%;margin:auto auto">
-	<legend><label>农户民间借贷信息</label></legend>
+	<legend><label>家庭成员信息</label></legend>
 	<div class="fieldset-body">
 	<table width="100%" >
 	<tr>
-	<td style="width:10%"><label for="textbox1$text"><font color="red">*</font>家庭成员姓名:</label></td>
+	<td class="required_text" width="2%" align="right">*</td>
+	<td style="width:10%">家庭成员姓名:</td>
     <td style="width:39%">
-    	<input name="name" class="mini-textbox" value="${member.name }"
-         	required="true" requiredErrorText="家庭成员姓名不能为空" style="width:90%"/>
+    	<input name="name" class="mini-textbox" value="${member.name }" style="width:90%"
+        errorMode="none" required="true" requiredErrorText="家庭成员姓名不能为空" onvalidation="onValidation"/>
     </td>
-    <td style="width:10%"><label for="textbox2$text"><font color="red">*</font>与户主关系:</label></td>
+    <td class="required_text" width="2%" align="right">*</td>
+    <td style="width:10%">与户主关系:</td>
     <td style="width:39%" >
-       <input name="relation" class="mini-combobox"  value="${member.relation }"
-  			style="width:90%" url="/bank/dic/Relation.txt" emptyText="请选择..."/>
+       <input name="relation" class="mini-combobox"  value="${member.relation }" style="width:90%" 
+       	errorMode="none" required="true" requiredErrorText="与户主关系不能为空" onvalidation="onValidation"
+       	url="/bank/dic/Relation.txt" emptyText="请选择..."/>
     </td>
 </tr>
 <tr>
-	<td style="width:10%"><label for="textbox1$text"><font color="red">*</font>身份证号:</label></td>
+	<td width="2%"></td>
+	<td id="name_error" class="errorText" colspan="2"></td>
+	<td width="2%"></td>
+	<td id="relation_error" class="errorText" colspan="2"></td>
+</tr>
+<tr>
+	<td class="required_text" width="2%" align="right">*</td>
+	<td style="width:10%">身份证号:</td>
     <td style="width:39%">
-    	<input name="idnum" class="mini-textbox" value="${member.idnum }"
-        	required="true"	 requiredErrorText="身份证号不能为空" style="width:90%"/>
+    	<input name="idnum" class="mini-textbox" value="${member.idnum }" style="width:90%"
+        errorMode="none" required="true"	 requiredErrorText="身份证号不能为空" onvalidation="onValidation"/>
     </td>
-    <td style="width:10%"><label for="textbox2$text"><font color="red">*</font>文化程度:</label></td>
+    <td class="required_text" width="2%" align="right">*</td>
+    <td style="width:10%">文化程度:</td>
     <td style="width:39%" >
     	<input name="education" class="mini-combobox" value="${member.education}" style="width:90%"
-        	url="/bank/dic/Education.txt" emptyText="请选择..."/>
+    	errorMode="none" required="true" requiredErrorText="文化程度不能为空" onvalidation="onValidation"
+        url="/bank/dic/Education.txt" emptyText="请选择..."/>
     </td>
 </tr>
 <tr>
-	<td style="width:10%"><label for="textbox2$text"><font color="red">*</font>性别:</label></td>
+		<td width="2%"></td>
+		<td id="idnum_error" class="errorText" colspan="2"></td>
+		<td width="2%"></td>
+		<td id="education_error" class="errorText" colspan="2"></td>
+</tr>
+<tr>
+	<td class="required_text" width="2%" align="right">*</td>
+	<td style="width:10%">性别:</td>
     <td style="width:39%" >
     	<input name="sex" class="mini-combobox" value="${member.sex }" style="width:90%"
-        	required="true"  requiredErrorText="性别不能为空" url="/bank/dic/Sex.txt" emptyText="请选择..."/>
+       	 errorMode="none" required="true"  requiredErrorText="性别不能为空" onvalidation="onValidation"
+         url="/bank/dic/Sex.txt" emptyText="请选择..."/>
    </td>
-	<td style="width:10%"><label for="textbox1$text"><font color="red">*</font>婚姻状况:</label></td>
+   <td class="required_text" width="2%" align="right">*</td>
+	<td style="width:10%">婚姻状况:</td>
     <td style="width:39%">
 	    <input name="marrystatus" class="mini-combobox" value="${member.marrystatus}" style="width:90%"
-	    	required="true" requiredErrorText="婚姻状况不能为空" url="/bank/dic/MarryStatus.txt" emptyText="请选择..."/>
+	     errorMode="none" required="true" requiredErrorText="婚姻状况不能为空" onvalidation="onValidation"
+	     url="/bank/dic/MarryStatus.txt" emptyText="请选择..."/>
    </td>
 </tr>
 <tr>
-   <td style="width:10%"><label for="textbox2$text">&nbsp;&nbsp;职业:</label></td>
+		<td width="2%"></td>
+		<td id="sex_error" class="errorText" colspan="2"></td>
+		<td width="2%"></td>
+		<td id="marrystatus_error" class="errorText" colspan="2"></td>
+</tr>
+<tr>
+   <td class="required_text" width="2%" align="right"></td>
+   <td style="width:10%">职业:</td>
    <td style="width:39%" >
    		<input name="occupation" class="mini-textbox" value="${member.occupation}" style="width:90%"/>
    </td>
-	<td style="width:10%"><label for="textbox1$text">&nbsp;&nbsp;职务:</label></td>
-    <td style="width:39%">
+   <td class="required_text" width="2%" align="right"></td>
+   <td style="width:10%">职务:</td>
+   <td style="width:39%">
     	<input name="job" class="mini-textbox" value="${member.job }" style="width:90%"/>
     </td>
     
 </tr>
 <tr>
-	<td style="width:10%"><label for="textbox1$text"><font color="red">*</font>联系电话:</label></td>
+		<td width="2%"></td>
+		<td id="occupation_error" class="errorText" colspan="2"></td>
+		<td width="2%"></td>
+		<td id="job_error" class="errorText" colspan="2"></td>
+</tr>
+<tr>
+	<td class="required_text" width="2%" align="right">*</td>
+	<td style="width:10%">联系电话:</td>
 	<td style="width:39%">
     	<input  name="phone" class="mini-textbox" value="${member.phone}" style="width:90%"
-        	required="true"  requiredErrorText="联系电话不能为空" />
+         errorMode="none" required="true"  requiredErrorText="联系电话不能为空" onvalidation="onValidation" />
     </td>
-    <td style="width:10%"><label for="textbox1$text">&nbsp;&nbsp;地址:</label></td>
+    <td class="required_text" width="2%" align="right"></td>
+    <td style="width:10%">地址:</td>
 	<td style="width:39%">
     	<input  name="address" class="mini-textarea" value="${member.address}" style="width:90%"/>
     </td>
+</tr>
+<tr>
+		<td width="2%"></td>
+		<td id="phone_error" class="errorText" colspan="2"></td>
+		<td width="2%"></td>
+		<td id="address_error" class="errorText" colspan="2"></td>
 </tr>
 	</table>
 	</div>
@@ -113,7 +157,10 @@
 	function back(){
 		history.go(-1);
 	}
-    function submitForm() {           
+    function submitForm() {      
+    	var form = new mini.Form("#form1");
+        form.validate();
+		if (form.isValid() == false) return;
 		$("form").submit();
     }
     function updateError(e) {

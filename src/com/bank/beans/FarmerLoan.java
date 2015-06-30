@@ -3,6 +3,8 @@ package com.bank.beans;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.common.bean.BaseEntity;
 
 public class FarmerLoan extends BaseEntity<Long> {
@@ -93,7 +95,8 @@ public class FarmerLoan extends BaseEntity<Long> {
 	    private String runitname;
 
 	    private String recorder;
-
+	    
+	    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	    private Date recordtime;
 
 	    private Long clientid;

@@ -16,16 +16,14 @@
 <div class="queryPane">
 	<table width="100%" cellpadding="0" cellspacing="0"  height="30px">
 	    <tr>
-	    	<td class="labelName" width="50px" align="right">姓名:</td>
-	    	<td width="10px"></td>
-	    	<td class="labelValue" width="100px">${farmer.farmername }</td>
-	    	<td class="labelName" width="100px" align="right">证件号码:</td>
-	    	<td width="10px"></td>
-	    	<td class="labelValue" width ="100px%">${farmer.farmeridnum }</td>
-	    	<td width="150px" align="right">
+	    	<td class="labelName" width="20%" align="right">姓名:</td>
+	    	<td class="labelValue" width="10%">${farmer.farmername }</td>
+	    	<td class="labelName" width="10%" align="right">证件号码:</td>
+	    	<td class="labelValue" width ="10%">${farmer.farmeridnum }</td>
+	    	<td width="10%" align="center">
 	       	 <input type="button" class="bank-btn" onclick="submitForm()" value="保存"/>
 	        </td>
-	        <td width="50px"  >
+	        <td width="30%"  >
 	         <input type="button" class="bank-btn" onclick="back()" value="返回"/>
 	        </td>
 	    </tr>
@@ -47,25 +45,26 @@
 		<td width="15%">林权证编号:</td>
 		<td width="33%">
 			<input name="cardnum" class="mini-textbox" value="${forest.cardnum}" style="width:90%"
-				errorMode="none" required="true" requiredErrorText="房屋地址不能为空!" onvalidation="onValidation"/>
+				errorMode="none" required="true" requiredErrorText="林权证号不能为空!" onvalidation="onValidation"/>
 		</td>
 	    <td class="required_text">*</td>
 	    <td width="15%">林权字号:</td>
 	    <td width="33%" >
 	    	<input name="wordnum" class="mini-textbox" value="${forest.wordnum}" style="width:90%"
-	    		errorMode="none" required="true" requiredErrorText="房屋地址不能为空!" onvalidation="onValidation"/>
+	    		errorMode="none" required="true" requiredErrorText="林权字号不能为空!" onvalidation="onValidation"/>
 	    </td>
 	</tr>
 	<tr >
-		<td></td>
-		<td colspan="2" id="cardnum__error" ></td>
-		<td></td>
-		<td colspan="2" id="wordnum__error" ></td>
+		<td ></td>
+		<td colspan="2" id="cardnum_error" class="errorText"></td>
+		<td ></td>
+		<td colspan="2" id="wordnum_error" class="errorText"></td>
 	</tr>
 	<tr>
 		<td class="required_text">*</td>
 		<td >林权使用人:</td>
 	    <td >
+	    ${forest.user}<h1>22</h1>
 	    	<input name="user" class="mini-textbox" value="${forest.user}" style="width:90%"
 	    		errorMode="none" required="true" requiredErrorText="林权使用人不能为空!" onvalidation="onValidation"/>
 	    </td>

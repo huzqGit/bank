@@ -18,7 +18,7 @@
 <input name="recorder" class="mini-hidden" value="${recorder}"/>
 <input name="recordtime" class="mini-hidden" value="${currenttime}"/>
 <div class="queryPane">
-<table width="100%" cellpadding="0" cellspacing="0"  height="60px">
+<table width="100%" cellpadding="0" cellspacing="0"  height="30px">
     <tr>
     	<td class="labelName" width="30%" align="right">姓名</td>
     	<td class="labelValue" width="10%">:${farmer.farmername }</td>
@@ -44,12 +44,16 @@
 	<tr>
 		<td class="required_text" width="2%" align="right">*</td>
 		<td width="12%">贷款金额:</td>
-		<td width="36%"><input name="amount" class="mini-textbox" value="${privateLending.amount}" style="width:90%"
-			errorMode="none" vtype="float" required="true" requiredErrorText="贷款金额不能为空" onvalidation="onValidation"/></td>
+		<td width="36%">
+			<input name="amount" class="mini-textbox" value="${privateLending.amount}" style="width:90%"
+			errorMode="none" vtype="float" required="true" requiredErrorText="贷款金额不能为空" onvalidation="onValidation"/>
+		</td>
 		<td class="required_text" width="2%" align="right">*</td>
 		<td width="12%">月利率:</td>
-		<td width="36%"><input  name="rate" class="mini-textbox"  value="${privateLending.rate}"  style="width:90%"
-			errorMode="none" vtype="float" required="true" requiredErrorText="利率不能为空" onvalidation="onValidation"/></td>	
+		<td width="36%">
+			<input  name="rate" class="mini-textbox"  value="${privateLending.rate}"  style="width:90%"
+			errorMode="none" vtype="float" required="true" requiredErrorText="利率不能为空" onvalidation="onValidation"/>
+		</td>	
 	</tr>
 	<tr>
 		<td width="2%"></td>

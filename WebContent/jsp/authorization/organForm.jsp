@@ -3,8 +3,9 @@
 <%@ include file="/jsp/taglibsCommon.jspf"%>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <title>机构</title>
+<link href="${pageContext.request.contextPath}/jsp/farmer/form.css"  rel="stylesheet" type="text/css"/>
 <%-- <script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script> --%>
 <script src="<c:url value="/framework/mask/loadmask.js"/>" type="text/javascript"></script>
 
@@ -24,18 +25,17 @@ request.setAttribute("actionType", actionType);
 %>
 <body style="width: 100%;height: 100%;overflow-x:hidden;overflow-y:auto;"  onload="">
 <!-- 工具栏信息 -->
-<div id="toolbar1" class="mini-toolbar" style="padding:2px;">
+<div id="toolbar1" class="queryPane" style="padding:2px;">
     <table style="width:100%;">
         <tr>
         	<!-- 按钮 -->
 	         <td style="width:100%;">
-                    <a style="cursor:default;padding:2px;padding-left:5px;">机构维护</a>
+                    <a style="cursor:default;font-weight:bold;padding:2px;padding-left:5px;">机构维护》</a>
                 </td>
 	        
         	<!-- 链接界面 -->
 	       	<td style="white-space:nowrap;">
-	        	<a id='sysSubmitBtn' class='mini-button' iconCls='icon-save' plain='true' onclick='javascript:submitForm()' enabled='true'>保存</a>
-				<a id='sysBackBtn' class='mini-button' iconCls='icon-upgrade' plain='true' onclick='javascript:history.go(-1);' enabled='true'>返回</a>
+	        	<button id='sysSubmitBtn' class="bank-btn" onclick='javascript:submitForm()' enabled='true'>保存</button>
 	        </td>
         </tr>
     </table>

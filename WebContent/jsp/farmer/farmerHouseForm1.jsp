@@ -13,19 +13,17 @@
 <div  id ="form1">
 <form  action="/bank/farmer/saveHouse.do" method="POST">
 <div class="queryPane">
-<table cellpadding="0" cellspacing="0">
-    <tr>
-    	<td class="labelName" width="50px" align="right">姓名:</td>
-    	<td width="10px"></td>
-    	<td class="labelValue" width="100px">${farmer.farmername }</td>
-    	<td class="labelName" width="100px" align="right">证件号码:</td>
-    	<td width="10px"></td>
-    	<td class="labelValue" width ="100px">${farmer.farmeridnum }</td>
-    	<td width="150px" align="right">
-       	 <input type="button" class="bank-btn" onclick="submitForm()" value="保存"/>
+<table width="100%"cellpadding="0" cellspacing="0" style="height:30px">
+  <tr>
+    	<td class="labelName" width="30%" align="right">姓名</td>
+    	<td class="labelValue" width="10%">:${farmer.farmername }</td>
+    	<td class="labelName" width="10%" align="right">证件号码</td>
+    	<td class="labelValue" width ="10%">:${farmer.farmeridnum }</td>
+    	<td width="10%" align="center">
+       		<input type="button" class="bank-btn" onclick="submitForm()" value="保存"/>
         </td>
-        <td width="50px"  >
-         <input type="button" class="bank-btn" onclick="back()" value="返回"/>
+        <td width="30%" align="left" >
+         	<input type="button" class="bank-btn" onclick="back()" value="返回"/>
         </td>
     </tr>
 </table>

@@ -23,7 +23,7 @@
 <input name="clienttype" class="mini-hidden" value="1"/>
 <input name="recorder" class="mini-hidden" value="${recorder}"/>
 <input name="idtype" class="mini-hidden" value="${loan.idtype}">
-<input name="recordtime" class="mini-hidden" value="${currentTime}"/>
+<input name="recordtime" class="mini-hidden" value="${currenttime}"/>
 <div class="queryPane">
 <table width="100%" cellpadding="0" cellspacing="0"  height="60px">
     <tr>
@@ -50,161 +50,252 @@
 	<table width="100%">
 	<tr>
 		<td class="required_text" width="2%" align="right">*</td>
-		<td width="12%">机构名称:</td>
-		<td colspan="4" width="87%"><input name="organname" class="mini-textbox" value="${loan.organname}" style="width:96%"/></td>
+		<td width="13%">机构号:</td>
+		<td width="35%">
+			<input name="organcode" class="mini-textbox" value="${loan.organcode}" style="width:90%"
+			errorMode="none" required="true"  requiredErrorText="机构号不能为空" onvalidation="onValidation"/>
+		</td>
+		<td class="required_text" width="2%">*</td>
+		<td width="13%">机构名称:</td>
+		<td width="35%">
+			<input name="organname" class="mini-textbox" value="${loan.organname}" style="width:96%"
+			errorMode="none" required="true"  requiredErrorText="机构名称不能为空" onvalidation="onValidation"/>
+		</td>
 	</tr>
 	<tr>
 		<td width="2%"></td>
-		<td colspan="5" id="organname_error" class="errorText" ></td>
+		<td id="organcode_error" class="errorText" colspan="2"></td>
+		<td width="2%"></td>
+		<td id="organname_error" class="errorText" colspan="2"></td>
 	</tr>
 	<tr>
-		<td class="required_text" width="2%" align="right">*</td>
-		<td width="12%">机构号:</td>
-		<td width="36%"><input name="organvode" class="mini-textbox" value="${loan.organvode}" style="width:90%"/></td>
-		<td class="required_text" width="2%" align="right">*</td>
-		<td width="12%">合同号:</td>
-		<td width="36%"><input name="compactnum"class="mini-textbox"  value="${loan.compactnum}"  style="width:90%"/></td>	
+		<td class="required_text" >*</td>
+		<td>借据号:</td>
+		<td>
+			<input name="notenum" class="mini-textbox" value="${loan.notenum}" style="width:90%"
+			errorMode="none" required="true"  requiredErrorText="借据号不能为空" onvalidation="onValidation"/>
+		</td>
+		<td class="required_text">*</td>
+		<td>合同号:</td>
+		<td>
+		<input name="compactnum"class="mini-textbox"  value="${loan.compactnum}"  style="width:90%"
+		errorMode="none" required="true"  requiredErrorText="合同号不能为空" onvalidation="onValidation"/>
+		</td>	
 	</tr>
 	<tr>
 		<td width="2%"></td>
-		<td colspan="2" id="organcode_error" class="errorText"></td>
+		<td id="notenum_error" class="errorText" colspan="2"></td>
 		<td width="2%"></td>
-		<td colspan="2" id="compactnum_error" class="errorText"></td>
+		<td id="compactnum_error" class="errorText" colspan="2"></td>
 	</tr>
 	<tr>
-		<td class="required_text" width="2%" align="right">*</td>
-		<td width="12%">业务种类:</td>
-		<td width="36%">
+		<td class="required_text">*</td>
+		<td >业务种类:</td>
+		<td >
 			<input name="businesstype" class="mini-treeselect" value="${loan.businesstype}" style="width:90%"
 			url="/bank/dic/BusinessType.txt" multiSelect="false"  valueFromSelect="false"
 	        textField="text" valueField="id" parentField="pid" value="control"  allowInput="true"showFolderCheckBox="false"/>
 		</td>
-		<td class="required_text" width="2%" align="right">*</td>
-		<td width="12%">担保方式:</td>
-		<td width="36%">
+		<td class="required_text" >*</td>
+		<td >担保方式:</td>
+		<td >
 		<input name="guaranteetype" class="mini-combobox" value="${loan.guaranteetype}" style="width:90%"
+			errorMode="none" required="true"  requiredErrorText="担保方式不能为空" onvalidation="onValidation"
 			url="/bank/dic/EnsureType.txt" emptyText="请选择"/>
 		</td>
 	</tr>
 	<tr>
-		<td colspan="2" id="businesstype_validate"></td>
-		<td colspan="2" id="guaranteetype_validate"></td>
+		<td width="2%"></td>
+		<td id="businesstype_error" class="errorText" colspan="2"></td>
+		<td width="2%"></td>
+		<td id="guaranteetype_error" class="errorText" colspan="2"></td>
 	</tr>
 	<tr>
-		<td class="required_text" width="2%" align="right">*</td>
-		<td width="12%">贷款日期</td>
-		<td width="36%" ><input name="loandate" class="mini-datepicker" value="${loan.loandate}" style="width:90%"/></td>
+		<td class="required_text" >*</td>
+		<td >贷款日期</td>
+		<td  >
+			<input name="loandate" class="mini-datepicker" value="${loan.loandate}" style="width:90%"
+			errorMode="none" required="true"  requiredErrorText="贷款日期不能为空" onvalidation="onValidation"/>
+		</td>
 	</tr>
 	<tr>
-		<td colspan="6" id="loanDate_validate"></td>
+		<td width="2%"></td>
+		<td id="loandate_error" class="errorText" colspan="5"></td>
 	</tr>
 	<tr>
-		<td class="required_text" width="2%" align="right">*</td>
-		<td width="12%">到期日期:</td>
-		<td width="36%"><input name="limitdate" class="mini-datepicker" value="${loan.limitdate}" style="width:90%"/></td>
-		<td class="required_text" width="2%" align="right"></td>
-		<td width="12%">原到期日期:</td>
-		<td width="36%"><input name="limitdate1" class="mini-datepicker" value="${loan.limitdate1}" style="width:90%"/></td>
+		<td class="required_text" >*</td>
+		<td >到期日期:</td>
+		<td >
+			<input name="limitdate" class="mini-datepicker" value="${loan.limitdate}" style="width:90%"
+			errorMode="none" required="true"  requiredErrorText="到期日期不能为空" onvalidation="onValidation"/>
+		</td>
+		<td class="required_text" ></td>
+		<td >原到期日期:</td>
+		<td >
+			<input name="limitdate1" class="mini-datepicker" value="${loan.limitdate1}" style="width:90%"
+			errorMode="none" required="true"  requiredErrorText="原到期日期不能为空" onvalidation="onValidation"/>
+		</td>
 	</tr>
 	<tr>
-		<td colspan="2" id="limitDate_validate"></td>
-		<td colspan="2" id="limitDate1_validate"></td>
+		<td width="2%"></td>
+		<td id="limitdate_error" class="errorText" colspan="2"></td>
+		<td width="2%"></td>
+		<td id="limitdate1_error" class="errorText" colspan="2"></td>
 	</tr>
 	<tr>	
-		<td class="required_text" width="2%" align="right">*</td>
-		<td width="12%">币种:</td>
-		<td width="36%"><input name="currency" class="mini-combobox" value="${loan.currency}" style="width:90%" url="/bank/dic/Currency.txt" emptyText="请选择"/></td>
+		<td class="required_text" >*</td>
+		<td >币种:</td>
+		<td >
+			<input name="currency" class="mini-combobox" value="${loan.currency}" style="width:90%" 
+				url="/bank/dic/Currency.txt" emptyText="请选择"/>
+		</td>
 		<td class="required_text" width="1%" align="right">*</td>
-		<td width="12%">贷款金额(元):</td>
-		<td width="36%"><input type="text" id="amount" name="amount"  style="width:90%" value="${loan.amount}"/></td>
+		<td >贷款金额(元):</td>
+		<td >
+			<input name="amount" class="mini-textbox" style="width:90%" value="${loan.amount}"
+			errorMode="none" required="true"  requiredErrorText="贷款金额不能为空" onvalidation="onValidation"/>
+		</td>
 	</tr>
 	<tr>
-		<td colspan="2" id="currency_validate"></td>
-		<td colspan="2" id="amount_validate"></td>
+		<td width="2%"></td>
+		<td id="currency_error" class="errorText" colspan="2"></td>
+		<td width="2%"></td>
+		<td id="amount_error" class="errorText" colspan="2"></td>
 	</tr>
 	<tr>
-		<td class="required_text" width="2%" align="right">*</td>
-		<td width="12%">贷款余额(元):</td>
-		<td width="36%"><input type="text" id="balance" name="balance" value="${loan.balance}" style="width:90%"/></td>
-		<td class="required_text" width="2%" align="right"></td>
-		<td width="12%">结欠利息:</td>
-		<td width="36%"><input type="text" id ="oweInterest" name="oweInterest"  value="${loan.balance}" style="width:90%"/></td>
+		<td class="required_text" >*</td>
+		<td >贷款余额(元):</td>
+		<td >
+			<input name="balance" class="mini-textbox" value="${loan.balance}" style="width:90%"
+			errorMode="none" required="true"  requiredErrorText="贷款余额不能为空" onvalidation="onValidation"/>
+		</td>
+		<td class="required_text" ></td>
+		<td >结欠利息:</td>
+		<td >
+			<input name="oweinterest" class="mini-textbox" value="${loan.oweinterest}" style="width:90%"/>
+		</td>
 	</tr>
 	<tr>
-		<td colspan="3" id="balance_validate"></td>
-		<td colspan="3" id="oweInterest_validate"></td>
+		<td width="2%"></td>
+		<td id="balance_error" class="errorText" colspan="2"></td>
+		<td width="2%"></td>
+		<td id="oweinterest_error" class="errorText" colspan="2"></td>
 	</tr>
 	<tr>
-		<td class="required_text" width="2%" align="right"></td>
-		<td width="12%">当前利率:</td>
-		<td width="36%"><input type="text" name="currentrate"  value="${loan.currentrate}" style="width:90%"/></td>
-		<td class="required_text" width="2%" align="right"></td>
-		<td width="12%">利率类型:</td>
-		<td width="36%"><input type="text" name="ratetype" value="${loan.ratetype}" style="width:90%"/></td>
+		<td class="required_text" ></td>
+		<td >当前利率:</td>
+		<td >
+			<input name="currentrate"  class="mini-textbox" value="${loan.currentrate}" style="width:90%"/>
+		</td>
+		<td class="required_text" ></td>
+		<td >利率类型:</td>
+		<td >
+			<input name="ratetype" class="mini-textbox" value="${loan.ratetype}" style="width:90%"/>
+		</td>
 	</tr>
 	<tr>
-		<td colspan="2" id="currentrate_validate"></td>
-		<td colspan="2" id="ratetype_validate"></td>
+		<td width="2%"></td>
+		<td id="currentrate_error" class="errorText" colspan="2"></td>
+		<td width="2%"></td>
+		<td id="ratetype_error" class="errorText" colspan="2"></td>
 	</tr>
 	<tr>
-		<td class="required_text" width="2%" align="right">*</td>
-		<td width="12%">贷款用途:</td>
-		<td colspan="4" style="width:88%"><input type="text" id="loanUse" name="loanuse"  value="${loan.loanUse}" style="width:96%"/></td>
+		<td class="required_text" >*</td>
+		<td >贷款用途:</td>
+		<td colspan="4" style="width:88%">
+			<input name="loanuse"  class="mini-textbox"value="${loan.loanuse}" style="width:96%"/>
+		</td>
+	</tr>
+		<tr>
+		<td width="2%"></td>
+		<td id="loanuse_error" class="errorText" colspan="5"></td>
 	</tr>
 	<tr>
-		<td colspan="6 " id="loanuse_validate"></td>
-	</tr>
-	<tr>
-		<td class="required_text" width="2%" align="right">*</td>
-		<td width="12%"><label for="textbox1$text">贷款五级分类形态:</label></td>
-		<td width="36%">
+		<td class="required_text" >*</td>
+		<td ><label for="textbox1$text">贷款五级分类形态:</label></td>
+		<td >
 		<input name="grade" class="mini-combobox" value="${loan.grade}" style="width:90%"
+			errorMode="none" required="true"  requiredErrorText="贷款五级分类形态不能为空" onvalidation="onValidation"
 			url="/bank/dic/FiveGrade.txt"/>
 		</td>
-		<td class="required_text" width="2%" align="right"></td>
-		<td width="12%">结息方式:</td>
-		<td width="36%">
+		<td class="required_text" ></td>
+		<td >结息方式:</td>
+		<td >
 		<input name="settletype" class="mini-combobox" value="${loan.settletype}" style="width:90%"
 			url="/bank/dic/SettleType.txt" emptyText="请选择"/>
 		</td>
 	</tr>
 	<tr>
-		<td class="required_text" width="2%" align="right"></td>
-		<td width="12%">贷款发放类型:</td>
-		<td width="36%"><input name="providetype" class="mini-textbox" value="${loan.providetype}" style="width:90%"/></td>
-		<td class="required_text" width="2%" align="right"></td>
-		<td width="12%"><label for="textbox1$text">贷款投向:</label></td>
-		<td width="36%"><input name="invest" class="mini-textbox" value="${loan.invest}" style="width:90%"/></td>
+		<td width="2%"></td>
+		<td id="grade_error" class="errorText" colspan="2"></td>
+		<td width="2%"></td>
+		<td id="settletype_error" class="errorText" colspan="2"></td>
 	</tr>
 	<tr>
-		<td class="required_text" width="2%" align="right"></td>
-		<td width="12%">贷款期限种类:</td>
-		<td width="36%"><input name="termtype" class="mini-textbox"  value="${loan.termtype}" style="width:90%"/></td>
+		<td class="required_text" ></td>
+		<td >贷款发放类型:</td>
+		<td ><input name="providetype" class="mini-textbox" value="${loan.providetype}" style="width:90%"/></td>
+		<td class="required_text" ></td>
+		<td ><label for="textbox1$text">贷款投向:</label></td>
+		<td ><input name="invest" class="mini-textbox" value="${loan.invest}" style="width:90%"/></td>
+	</tr>
+	<tr>
+		<td width="2%"></td>
+		<td id="grade_error" class="errorText" colspan="2"></td>
+		<td width="2%"></td>
+		<td id="settletype_error" class="errorText" colspan="2"></td>
+	</tr>
+	<tr>
+		<td class="required_text" ></td>
+		<td >贷款期限种类:</td>
+		<td ><input name="termtype" class="mini-textbox"  value="${loan.termtype}" style="width:90%"/></td>
 		<td class="required_text" width="1%" align="right"></td>
-		<td width="12%">利率浮动范围:</td>
-		<td width="36%"><input name="floatscope" class="mini-textbox" value="${loan.floatscope}" style="width:90%"/>
+		<td >利率浮动范围:</td>
+		<td ><input name="floatscope" class="mini-textbox" value="${loan.floatscope}" style="width:90%"/>
 		</td>
 	</tr>
 	<tr>
-		<td class="required_text" width="2%" align="right"></td>
-		<td width="12%">利率调整方式:</td>
-		<td width="36%">
+		<td width="2%"></td>
+		<td id="termtype_error" class="errorText" colspan="2"></td>
+		<td width="2%"></td>
+		<td id="floatscope_error" class="errorText" colspan="2"></td>
+	</tr>
+	<tr>
+		<td class="required_text" ></td>
+		<td >利率调整方式:</td>
+		<td >
 		<input name="adjusttype" class="mini-textbox" value="${loan.adjusttype}" style="width:90%"/>
 		</td>
-		<td class="required_text" width="2%" align="right"></td>
-		<td width="12%">利率执行方式:</td>
-		<td width="36%">
+		<td class="required_text" ></td>
+		<td >利率执行方式:</td>
+		<td >
 		<input name="runtype" class="mini-combobox" value="${loan.runtype}" style="width:90%"
 			url="/bank/dic/RunType.txt"/>
 		</td>
 	</tr>
 	<tr>
-		<td class="required_text" width="2%" align="right"></td>
-		<td width="12%">还款频率:</td>
-		<td width="36%"><input name="frequeency" class="mini-textbox" value="${loan.frequeency}" style="width:90%"/></td>
-		<td class="required_text" width="2%" align="right"></td>
-		<td width="12%">联系电话:</td>
-		<td width="36%" ><input id="textbox2"  name="phone" class="mini-textbox" value="${loan.phone}" style="width:90%"/></td>
+		<td width="2%"></td>
+		<td id="adjusttype_error" class="errorText" colspan="2"></td>
+		<td width="2%"></td>
+		<td id="runtype_error" class="errorText" colspan="2"></td>
+	</tr>
+	<tr>
+		<td class="required_text" ></td>
+		<td >还款频率:</td>
+		<td >
+			<input name="frequeency" class="mini-textbox" value="${loan.frequeency}" style="width:90%"/>
+		</td>
+		<td class="required_text"></td>
+		<td >联系电话:</td>
+		<td  >
+			<input name="phone" class="mini-textbox" value="${loan.phone}" style="width:90%"/>
+		</td>
+	</tr>
+	<tr>
+		<td width="2%"></td>
+		<td id="frequeency_error" class="errorText" colspan="2"></td>
+		<td width="2%"></td>
+		<td id="phone_error" class="errorText" colspan="2"></td>
 	</tr>
 	</table>
 	</div>
@@ -216,12 +307,26 @@
 </form>
 </div>
 <script type="text/javascript">
-	function back(){
-		history.go(-1);
-	}
-	function submitForm(){
-		$("form").submit();
-	}
+mini.parse();
+function back(){
+	history.go(-1);
+}
+function submitForm() {           
+	var form = new mini.Form("#form1");
+    form.validate();
+	if (form.isValid() == false) return;
+	$("form").submit();
+}
+function updateError(e) {
+	var id = e.sender.name + "_error";
+    var el = document.getElementById(id);
+    if (el) {
+        el.innerHTML = e.errorText;
+    }
+}
+function onValidation(e) {                  
+    updateError(e);
+}
 </script>
 </body>
 </html>

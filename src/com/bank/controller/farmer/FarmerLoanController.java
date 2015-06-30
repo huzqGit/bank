@@ -60,17 +60,21 @@ private IFarmerLoanService loanService;
 
 @RequestMapping(value="/saveLoan1",method=RequestMethod.POST)
 public ModelAndView saveLoan1(@ModelAttribute(value="loan") FarmerLoan loan,
-		HttpServletRequest request,HttpServletResponse response) throws Exception{
+		HttpServletRequest request,HttpServletResponse response) {
 	
 	Organ organ = (Organ)request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
 	String organId = organ.getOrganId();
 	String organName = organ.getOrganName();
 	loan.setRunitid(organId);
 	loan.setRunitname(organName);
-	if(loan.getId()==null){
-		loanService.save(loan);
-	}else{
-		loanService.update(loan);
+	try{
+		if(loan.getId()==null){
+			loanService.save(loan);
+		}else{
+			loanService.update(loan);
+		}
+	}catch(Exception e){
+		e.printStackTrace();
 	}
 	ModelAndView view = new ModelAndView("/farmer/farmerLoanView1");
 	Farmer farmer = null;

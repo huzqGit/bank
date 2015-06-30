@@ -24,22 +24,19 @@ overflow-x:hidden
 <input name="recorder" class="mini-hidden" value="${recorder}"/>
 <input name="recordtime" class="mini-hidden" value="${currentTime}"/>
 <div class="queryPane" >
-<table width="100%" cellpadding="0" cellspacing="0"  height="60px">
+<table width="100%" cellpadding="0" cellspacing="0"  height="30px">
     <tr>
-    	<td class="labelName" width="25%" align="right">姓名:</td>
-    	<td width="2%"></td>
-    	<td class="labelValue" width="8%">${farmer.farmername }</td>
-    	<td class="labelName" width="12%" align="right">证件号码:</td>
-    	<td width="2%"></td>
-    	<td class="labelValue" width ="20%">${farmer.farmeridnum }</td>
-    	<td width="50px" align="right">
-       	 <input type="button" class="bank-btn" onclick="submitForm()" value="保存"/>
+    	<td class="labelName" width="30%" align="right">姓名</td>
+    	<td class="labelValue" width="10%">:${farmer.farmername }</td>
+    	<td class="labelName" width="10%" align="right">证件号码</td>
+    	<td class="labelValue" width ="10%">:${farmer.farmeridnum }</td>
+    	<td width="10%" align="center">
+       		<input type="button" class="bank-btn" onclick="submitForm()" value="保存"/>
         </td>
-        <td width="50px"  >
-         <input type="button" class="bank-btn" onclick="back()" value="返回"/>
+        <td width="30%" align="left" >
+         	<input type="button" class="bank-btn" onclick="back()" value="返回"/>
         </td>
     </tr>
-    
 </table>
 </div>
 <fieldset style="width:90%;margin:auto auto">

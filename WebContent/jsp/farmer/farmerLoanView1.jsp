@@ -22,6 +22,9 @@
 		贷款信息
 	</li>
 	<li class="inactive" >
+		<a href="/bank/farmer/queryPrivateLending.do?fid=${farmer.id}">民间借贷信息</a>
+	</li>
+	<li class="inactive" >
 		<a href="/bank/farmer/queryBalance.do?fid=${farmer.id}">收支信息</a>
 	</li>
 	<li class="inactive">

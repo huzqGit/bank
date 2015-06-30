@@ -20,10 +20,10 @@
 		<a href="/bank/farmer/queryMember.do?fid=${farmer.id}">家庭成员信息</a>
 	</li>
 	<li class="inactive">
-		<a href="/bank/farmer/queryMember.do?fid=${farmer.id}">家庭成员信息</a>
-	</li>
-	<li class="inactive">
 		<a href="/bank/loan/queryLoan1.do?fid=${farmer.id}">贷款信息</a>
+	</li>
+	<li class="inactive" >
+		<a href="/bank/farmer/queryPrivateLending.do?fid=${farmer.id}">民间借贷信息</a>
 	</li>
 	<li class="inactive">
 		<a href="/bank/farmer/queryBalance.do?fid=${farmer.id}">收支信息</a>
