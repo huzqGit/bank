@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="syslog">
+  <resultMap id="BaseResultMap" type="com.bank.beans.SysLog">
+    <id column="LOG_ID" jdbcType="INTEGER" property="logId" />
+    <result column="BROSWER" jdbcType="VARCHAR" property="broswer" />
+    <result column="LOG_CONTENT" jdbcType="VARCHAR" property="logContent" />
+    <result column="LOG_LEVEL" jdbcType="INTEGER" property="logLevel" />
+    <result column="NOTE" jdbcType="VARCHAR" property="note" />
+    <result column="OPERATE_TIME" jdbcType="TIMESTAMP" property="operateTime" />
+    <result column="OPERATE_TYPE" jdbcType="INTEGER" property="operateType" />
+    <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+    <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    LOG_ID, BROSWER, LOG_CONTENT, LOG_LEVEL, NOTE, OPERATE_TIME, OPERATE_TYPE, USER_ID, 
+    USER_NAME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_LOG
+    where LOG_ID = #{logId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from T_SYS_LOG
+    where LOG_ID = #{logId,jdbcType=INTEGER}
+  </delete>
+  <insert id="save" parameterType="com.bank.beans.SysLog">
+    insert into T_SYS_LOG (BROSWER, LOG_CONTENT, 
+      LOG_LEVEL, NOTE, OPERATE_TIME, 
+      OPERATE_TYPE, USER_ID)
+    values (#{broswer,jdbcType=VARCHAR}, #{logContent,jdbcType=VARCHAR}, 
+      #{logLevel,jdbcType=INTEGER}, #{note,jdbcType=VARCHAR}, #{operateTime,jdbcType=TIMESTAMP}, 
+      #{operateType,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR})
+  </insert>
+</mapper>

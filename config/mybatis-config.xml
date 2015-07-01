@@ -39,6 +39,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="com.bank.beans.FarmerCooperationDebt" alias="FarmerCooperationDebt"/>
 		<typeAlias type="com.bank.beans.CooperationProfit" alias="CooperationProfit"/>
 		<typeAlias type="com.bank.vo.TMap" alias="TMap"/>
+		<typeAlias type="com.bank.beans.SysLog" alias="SysLog"/>
 	</typeAliases>
 	
 	<mappers>
@@ -76,6 +77,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="model/FarmerStatistics.xml" />
 		<mapper resource="model/FarmerPrivateLending.xml"/>
 		<mapper resource="model/CTMap.xml"/>
+		<mapper resource="model/sysLog.xml"/>
 	</mappers> 
 
 </configuration>
