@@ -99,6 +99,7 @@ public class UserController {
 		String userId = user.getUserId();
 		if ("add".equals(actionType)) {//user为空，做新增操作
 			
+			// 密码修改提醒.
 			int remindCycle = user.getRemindCycle() == 0 ? 30 : user.getRemindCycle();
 			
 			Date remindDate = new Date();

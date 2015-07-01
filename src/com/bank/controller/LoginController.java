@@ -31,6 +31,7 @@ import com.bank.vo.MenuPrivilegeVO;
 import com.common.config.SystemConfig;
 import com.common.exception.DAOException;
 import com.common.tools.IpUtil;
+import com.common.tools.LogUtil;
 
 @Controller
 @RequestMapping(value = "/user")
@@ -73,8 +74,8 @@ public class LoginController {
     		}
     		
     		// 在线用户监听.
-    		returnUser.setUnit(currentUnit);
     		OnLineUser onlineUser = new OnLineUser(returnUser);
+    		onlineUser.setOrganName(currentUnit.getOrganName());
 			onlineUser.setUserIP(IpUtil.getIpAddr(request));
 			request.getSession().setAttribute(Constants.SESSION_ONLINEUSER, onlineUser);
     		
