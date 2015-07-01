@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionBindingEvent;
@@ -26,9 +25,6 @@ public class OnLineUser implements HttpSessionBindingListener, Serializable {
 	private String userIP = "";
 	private String macAddress = "";
 	private String organName;
-	
-	@Resource
-	private ICache memCache;
 	
 	private static List<String> onlineUser = new ArrayList();
 	
