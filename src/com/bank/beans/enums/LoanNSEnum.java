@@ -8,6 +8,7 @@ public enum LoanNSEnum {
 	   CLIENTNUM(0),
 	   NOTENUM(1),
 	   COMPACTNUM(2),
+	   NAME(4),
 	   LOANDATE(5),
 	   LIMITDATE(6),
 	   LIMITDATE1(7),
@@ -19,8 +20,6 @@ public enum LoanNSEnum {
 	   RATETYPE(13),
 	   CLIENTNAME(4),
 	   CLIENTTYPE(14),
-	   PHONE(64),
-	   ADDRESS(66),
 	   IDTYPE(15),
 	   IDNUM(16),
 	   LOANUSE(18),
@@ -40,7 +39,10 @@ public enum LoanNSEnum {
 	   FLOATSCOPE(45),
 	   ADJUSTTYPE(46),
 	   RUNTYPE(47),
-	   FREQUEENCY(48);
+	   FREQUEENCY(48),
+	   PHONE(64),
+	   ADDRESS(66);
+	  
 	
 	   private int index; 
 	   

@@ -3,6 +3,7 @@ package com.bank.beans.enums;
 public enum LoanNYEnum {
 
 	   CLIENTNUM(2),
+	   FARMERNAME(3),
 	   NOTENUM(12),
 	   COMPACTNUM(13),
 	   LOANDATE(10),
@@ -15,7 +16,8 @@ public enum LoanNYEnum {
 	   IDNUM(16),
 	   GUARANTEETYPE(7),
 	   ORGANCODE(0),
-	   GUARANTEETYPE1(7);
+	   GUARANTEETYPE1(7),
+	   PHONE(17);
 	
 	   private int index; 
 	   

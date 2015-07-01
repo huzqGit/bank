@@ -24,7 +24,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.bank.Constants;
 import com.bank.beans.Farmer;
@@ -39,7 +38,6 @@ import com.bank.beans.enums.FarmerNYEnum;
 import com.bank.beans.enums.FarmerPoorEnum;
 import com.bank.beans.enums.LoanNSEnum;
 import com.bank.beans.enums.LoanNYEnum;
-import com.bank.common.util.JsonUtil;
 import com.bank.service.IFarmerService;
 import com.bank.service.IFarmerLoanService;
 import com.bank.utils.ParseDataUtils;
@@ -604,11 +602,16 @@ public List<Map<String,String>> importFarmerNS(String organId,String organName,
 		farmer.setOccupation(data[row][FarmerNSEnum.OCCUPATION.getIndex()]);
 		farmer.setPhone(data[row][FarmerNSEnum.PHONE.getIndex()]);
 		farmer.setAddress(data[row][FarmerNSEnum.ADDRESS.getIndex()]);
-		Farmer dbFarmer = farmerService.findById(farmerIdNum,"C3140436000017");
+		FarmerExample fe = new FarmerExample();
+		FarmerExample.Criteria fc = fe.createCriteria();
+		fc.andFarmeridnumEqualTo(farmer.getFarmeridnum());
+		fc.andSourcecodeEqualTo(farmer.getSourcecode());
+		List<Farmer> dbFarmers = farmerService.selectByExample(fe);
 		try {
-			if(dbFarmer == null){
+			if(dbFarmers.size() == 0){
 				farmerService.save(farmer);
-			}else{
+			}else if(dbFarmers.size() ==1 ){
+				Farmer dbFarmer = dbFarmers.get(0);
 				farmer.setId(dbFarmer.getId());
 				farmerService.updateBySelective(farmer);
 			}
@@ -616,9 +619,12 @@ public List<Map<String,String>> importFarmerNS(String organId,String organName,
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//关联农户信贷信息
-		List<FarmerLoan> loans = loanService.findByID("1","0",farmer.getFarmeridnum());
-		if(loans == null || loans.size()==0){
+		FarmerLoanExample le = new FarmerLoanExample();
+		FarmerLoanExample.Criteria lc= le.createCriteria();
+		lc.andIdnumEqualTo(farmer.getFarmeridnum());
+		lc.andSourcecodeEqualTo("C3140436000017");
+		List<FarmerLoan> loans = loanService.selectByExample(le);
+		if(loans.size()==0){
 		//未匹配信贷信息提示未匹配
 			msg.put("row", String.valueOf(row));
 			msg.put("tip", "error");
@@ -818,18 +824,14 @@ public List<Map<String,String>> importFarmerNY(String organId,String organName,
 		List<Map<String,String>> msgs = new ArrayList<Map<String,String>>();
 		for(int row=1;row<data.length;row++){
 			Map<String,String> msg = new HashMap<String,String>();
+			String clientType =data[row][LoanNSEnum.CLIENTTYPE.getIndex()];
+			if(clientType.equals("企业")){
+				continue;
+			}
 			FarmerLoan loan = new FarmerLoan();
 			loan.setClientnum(data[row][LoanNSEnum.CLIENTNUM.getIndex()]);
 			String noteNum = data[row][LoanNSEnum.NOTENUM.getIndex()];
 			loan.setNotenum(noteNum);
-			FarmerLoan dbloan = loanService.findByNoteNum(noteNum);
-			if(dbloan != null){
-				msg.put("row", String.valueOf(row));
-				msg.put("tip", "info");
-				msg.put("msg", "该信贷信息已经存在、不再导入！");
-				msgs.add(msg);
-				continue;
-			}
 			String compactNum =data[row][LoanNSEnum.COMPACTNUM.getIndex()];
 			if(StringUtils.isEmpty(compactNum)){
 				//如果合同号为空提示合同号不能为空
@@ -851,8 +853,7 @@ public List<Map<String,String>> importFarmerNY(String organId,String organName,
 			loan.setOweinterest(data[row][LoanNSEnum.OWEINTEREST.getIndex()]);
 			loan.setCurrentrate(data[row][LoanNSEnum.CURRENTRATE.getIndex()]);
 			loan.setRatetype(data[row][LoanNSEnum.RATETYPE.getIndex()]);
-			String clientType = DicExplain.explain(DicExplain.$CLIENTTYPE,data[row][LoanNSEnum.CLIENTTYPE.getIndex()]);
-			loan.setClienttype(clientType);
+			loan.setClienttype(DicExplain.explain(DicExplain.$CLIENTTYPE,clientType));
 			String idType = DicExplain.explain(DicExplain.$IDTYPE,data[row][LoanNSEnum.IDTYPE.getIndex()]);
 			loan.setIdtype(idType);
 			loan.setIdnum(data[row][LoanNSEnum.IDNUM.getIndex()]);
@@ -878,33 +879,56 @@ public List<Map<String,String>> importFarmerNY(String organId,String organName,
 			loan.setFrequeency(data[row][LoanNSEnum.FREQUEENCY.getIndex()]);
 			loan.setRunitid(organId);
 			loan.setRunitname(organName);
-			Farmer farmer = farmerService.findById(loan.getIdnum(),organId);
-			if(farmer == null ){
-			//未匹配农户信息提示未匹配
-				loanService.findByNoteNum(noteNum);
-				try {
-					loanService.save(loan);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+			loan.setRecorder(recorder);
+			loan.setRecordtime(recordTime);
+			loan.setSourcecode("C3140436000017");
+			loan.setSourcename("新干县农村信用合作联社");
+			Farmer farmer = new Farmer();
+			farmer.setFarmertype(0);
+			farmer.setFarmername(data[row][LoanNSEnum.NAME.getIndex()]);
+			farmer.setFarmeridnum(data[row][LoanNSEnum.IDNUM.getIndex()]);
+			farmer.setPhone(data[row][LoanNSEnum.PHONE.getIndex()]);
+			farmer.setAddress(data[row][LoanNSEnum.ADDRESS.getIndex()]);
+			farmer.setRecorder(recorder);
+			farmer.setRecordtime(recordTime);
+			farmer.setRunitid(organId);
+			farmer.setRunitname(organName);
+			farmer.setSourcecode("C3140436000017");
+			farmer.setSourcename("新干县农村信用合作联社");
+			
+			FarmerExample fe = new FarmerExample();
+			FarmerExample.Criteria fc = fe.createCriteria();
+			fc.andFarmeridnumEqualTo(farmer.getFarmeridnum());
+			fc.andSourcecodeEqualTo(farmer.getSourcecode());
+			List<Farmer> dbFarmers = farmerService.selectByExample(fe);
+			try{
+				if(dbFarmers.size() == 0){
+					farmerService.save(farmer);
+				}else if(dbFarmers.size() ==1){
+					Farmer dbFarmer = dbFarmers.get(0);
+					farmer.setId(dbFarmer.getId());
+					farmerService.updateBySelective(farmer);
+				}else if(dbFarmers.size() >1){
+					continue;
 				}
-				msg.put("row", String.valueOf(row));
-				msg.put("tip", "success");
-				msg.put("msg", "导入成功但未匹配农户信息，请稍后导入农户信息！");
-				msgs.add(msg);
-			}else{
-			//匹配农户信息提示匹配数量
-				msg.put("row", String.valueOf(row));
-				loan.setFarmerid(farmer.getId());
-				try {
+			}catch(Exception e){
+				e.printStackTrace();
+				continue;
+			}
+			FarmerLoanExample le = new FarmerLoanExample();
+			FarmerLoanExample.Criteria lc= le.createCriteria();
+			lc.andNotenumEqualTo(noteNum);
+			lc.andSourcecodeEqualTo("C3140436000017");
+			List<FarmerLoan> loans = loanService.selectByExample(le);
+			try{
+				if(loans.size() == 0){
+					loan.setFarmerid(farmer.getId());
 					loanService.save(loan);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				}else if(loans.size() == 1){
+				
 				}
-				msg.put("tip", "success");	
-				msg.put("msg", "导入成功且匹配到相应的农户信息！");
-				msgs.add(msg);
+			}catch(Exception e){
+				e.printStackTrace();
 			}
 		}
 		return msgs;
@@ -922,6 +946,8 @@ public List<Map<String,String>> importFarmerNY(String organId,String organName,
 			loan.setRunitname(organName);
 			loan.setRecorder(recorder);
 			loan.setRecordtime(recordTime);
+			String farmerIdNum = data[row][LoanNYEnum.IDNUM.getIndex()];
+			String farmerName = data[row][LoanNYEnum.FARMERNAME.getIndex()];
 			loan.setClientnum(data[row][LoanNYEnum.CLIENTNUM.getIndex()]);
 			String noteNum = data[row][LoanNYEnum.NOTENUM.getIndex()];
 			if(StringUtils.isEmpty(noteNum)){
@@ -952,47 +978,49 @@ public List<Map<String,String>> importFarmerNY(String organId,String organName,
 			loan.setClientname(data[row][LoanNYEnum.CLIENTNAME.getIndex()]);
 			String idType = DicExplain.explain(DicExplain.$IDTYPE,data[row][LoanNYEnum.IDTYPE.getIndex()]);
 			loan.setIdtype(idType);
-			loan.setIdnum(data[row][LoanNYEnum.IDNUM.getIndex()]);
+			loan.setIdnum(farmerIdNum);
 			loan.setGuaranteetype(data[row][LoanNYEnum.GUARANTEETYPE.getIndex()]);
 			loan.setOrgancode(data[row][LoanNYEnum.ORGANCODE.getIndex()]);
 			loan.setGuaranteetype1(data[row][LoanNYEnum.GUARANTEETYPE1.getIndex()]);
-			
+			Farmer farmer = new Farmer();
+			farmer.setFarmertype(0);
+			farmer.setFarmeridnum(farmerIdNum);
+			farmer.setFarmername(farmerName);
+			farmer.setPhone(data[row][LoanNYEnum.PHONE.getIndex()]);
+			farmer.setRunitid(organId);
+			farmer.setRunitname(organName);
+			farmer.setRecorder(recorder);
+			farmer.setRecordtime(recordTime);
+			farmer.setSourcecode("C1010336005158");
+			farmer.setSourcename("中国农业银行新干县支行");
 			
 			FarmerExample fe = new FarmerExample();
 			FarmerExample.Criteria fc = fe.createCriteria();
 			fc.andFarmeridnumEqualTo(loan.getIdnum());
 			fc.andSourcecodeEqualTo("C1010336005158");
-			
+			List<Farmer> dbfarmers = farmerService.selectByExample(fe);
+			try{
+				if(dbfarmers.size() == 0){
+					farmerService.save(farmer);
+				}else if(dbfarmers.size() == 1){
+					Farmer dbFarmer = dbfarmers.get(0);
+					farmer.setId(dbFarmer.getId());
+					farmerService.updateBySelective(farmer);
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 			FarmerLoanExample le = new FarmerLoanExample();
 			FarmerLoanExample.Criteria lc = le.createCriteria();
 			lc.andNotenumEqualTo(loan.getNotenum());
 			lc.andSourcecodeEqualTo("C1010336005158");
-			
-			
-			List<Farmer> farmers = farmerService.selectByExample(fe);
 			List<FarmerLoan> loans = loanService.selectByExample(le);
-			if(farmers.size() == 1){
-				Farmer farmer = farmers.get(0);
-				loan.setFarmerid(farmer.getId());
-			}else if(farmers.size()>1){
-				msg.put("row", String.valueOf(row));
-				msg.put("tip", "success");
-				msg.put("msg", "存在多条从中国农业银行新干县支行导入的农户信息");
-				msgs.add(msg);
-				continue;
-			}
 			try{
 				if(loans.size() == 0){
+					loan.setFarmerid(farmer.getId());
 					loanService.save(loan);
-					msg.put("row", String.valueOf(row));
-					msg.put("tip", "success");
-					msg.put("msg", "导入成功但未匹配农户信息，请稍后导入农户信息！");
-					msgs.add(msg);
 				}else if(loans.size() == 1){
 					loanService.update(loan);
-					msg.put("tip", "success");	
-					msg.put("msg", "导入成功且匹配到相应的农户信息！");
-					msgs.add(msg);
 				}else{
 					
 				}
