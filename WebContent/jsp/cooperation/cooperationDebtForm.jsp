@@ -273,7 +273,11 @@ body {
 	});
 	
 	function close(){
-		window.CloseOwnerWindow();
+		if (window.CloseOwnerWindow){
+			window.CloseOwnerWindow();
+		}else{
+			window.close();
+		}
 	}
 	
 	function back(){

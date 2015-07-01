@@ -250,8 +250,11 @@ body{
 		});
 		
 		function close(){
-			//window.close();
-			window.CloseOwnerWindow();
+			if (window.CloseOwnerWindow){
+				window.CloseOwnerWindow();
+			}else{
+				window.close();
+			}
 		}
 		
 		function updateError(e) {
