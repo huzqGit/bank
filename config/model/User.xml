@@ -135,7 +135,7 @@ parameterType：指定输入参数类型，包括username,birthday,sex,address,d
   delete from T_USER where user_id in (#{userIds})
 </delete>
 
-<select id="verifyUser" parameterType="com.bank.beans.User" 
+<select id="user.verifyUser" parameterType="com.bank.beans.User" 
 resultMap="BaseResultMap">
    SELECT 
    <include refid="Base_Column_List"/>
@@ -160,11 +160,11 @@ resultMap="BaseResultMap">
   			and t1.rownum > #{start}
    </if>
    <if test="end != null">
-  			and <![CDATA[t1.rownum < #{end}]]>
+  			and <![CDATA[t1.rownum <= #{end}]]>
    </if>
    <choose>
-	   <when test="sortField != null and sortField != ''">
-	   		order by #{sortField} #{sortOrder}
+	   <when test="sortField != ''">
+	   		order by ${sortField} ${sortOrder}
 	   </when>
 	   <otherwise>
 	   		order by t.user_id desc
@@ -184,11 +184,11 @@ where t1.user_id= t.user_id and t.organ_id in (${organIds})
   			and t1.rownum > #{start}
    </if>
    <if test="end != null">
-  			and <![CDATA[t1.rownum < #{end}]]>
+  			and <![CDATA[t1.rownum <= #{end}]]>
    </if>
    <choose>
 	   <when test="sortField != null and sortField != ''">
-	   		order by #{sortField} #{sortOrder}
+	   		order by ${sortField} ${sortOrder}
 	   </when>
 	   <otherwise>
 	   		order by t.user_id desc
@@ -208,15 +208,42 @@ where t1.user_id= t.user_id and t.organ_id = #{organId}
   			and t1.rownum > #{start}
    </if>
    <if test="end != null">
-  			and <![CDATA[t1.rownum < #{end}]]>
+  			and <![CDATA[t1.rownum <= #{end}]]>
    </if>
    <choose>
 	   <when test="sortField != null and sortField != ''">
-	   		order by #{sortField} #{sortOrder}
+	   		order by ${sortField} ${sortOrder}
 	   </when>
 	   <otherwise>
 	   		order by t.user_id desc
 	   </otherwise>
    </choose>
+</select>
+
+<!-- 查询总条数 -->
+
+<select id="user.getAllUsers" parameterType="String"
+resultType="java.lang.Integer">
+   SELECT count(*) FROM T_USER t
+   <if test="key != null">
+   		and t.user_name like '%${key}%' or t.user_id like '%${key}%'
+   </if>
+</select>
+
+<select id="user.getAllUsersByorganIds" parameterType="map"
+resultType="java.lang.Integer">
+   SELECT count(*) FROM T_USER t where t.organ_id in (${organIds})
+   <if test="key != null">
+   		and t.user_name like '%${key}%' or t.user_id like '%${key}%'
+   </if>
+</select>
+
+<select id="user.getAllUsersByorganId" parameterType="map"
+resultType="java.lang.Integer">
+   SELECT count(*) FROM T_USER t
+where t.organ_id = #{organId}
+   <if test="key != null">
+   		and t.user_name like '%${key}%' or t.user_id like '%${key}%'
+   </if>
 </select>
 </mapper>

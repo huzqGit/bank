@@ -21,7 +21,7 @@
                 <div field="user.userName" width="120" headerAlign="center"  allowSort="true" >登录名</div>
                 <div field="curData" width="120" headerAlign="center" dateFormat="yyyy-MM-dd" allowSort="true">登录时间</div>    
                 <div field="userIP" width="100" align="center" headerAlign="center">IP地址</div>
-                <div field="unit.organName" width="100" headerAlign="center" allowSort="true">所在单位</div>                
+                <div field="organName" width="100" headerAlign="center" allowSort="true">所在单位</div>                
             </div>
         </div> 
 

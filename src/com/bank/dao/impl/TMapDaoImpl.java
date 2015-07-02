@@ -71,6 +71,11 @@ public class TMapDaoImpl extends GenericMyBatisDAOSupport<TMap,Long> implements 
 		return getSqlSession().selectOne("cTMap.findByPK", pk);
 	}
 
+	@Override
+	public Long geMapId(TMap tmap) {
+		return getSqlSession().selectOne("cTMap.geMapId", tmap);
+	}
+
 	
  
 }

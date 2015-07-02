@@ -383,7 +383,7 @@
 	</select>
 	<select id="getUnitId" parameterType="map" resultType="long">
 	select debtid from t_cooperation_debt t where 1=1 
-		and t.organ_id = '${organ_id}'
+		and t.organcode = '${organcode}'
 		and t.yearmonth = '${yearmonth}'
 		and t.sourcecode = '${sourcecode}'
 		FETCH FIRST 1 ROWS ONLY

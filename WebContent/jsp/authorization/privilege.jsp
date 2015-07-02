@@ -34,7 +34,7 @@
         $(function(){
         	
         	mini.parse();
-        	iframe.src = "${pageContext.request.contextPath}/jsp/authorization/privilegeTabs.jsp?roleId=''";
+        	iframe.src = "${pageContext.request.contextPath}/jsp/authorization/privilegeTabs.jsp";
         });
   
 

@@ -25,7 +25,7 @@ html,body
           <label >是否包含手动录入的数据</label>
           <input type="checkbox" onclick="containsSD()" id="containsSD" />
           <label style="padding-left:10px">名称：</label>
-          <input id="key" class="mini-textbox" style="width:150px;" onenter="onKeyEnter"/>
+          <input id="key" class="mini-textbox" style="width:150px;" onkeyup="search()" />
           <a class="mini-button" style="width:60px;" onclick="search()">查询</a>
     </div>
     <div class="mini-fit">
@@ -47,7 +47,6 @@ html,body
 </html>
 <script type="text/javascript"> 
     mini.parse();
- 
     var tree = mini.get("tree1");
     tree.load();
     function containsSD(){
@@ -68,6 +67,9 @@ html,body
     }
     function search() {
         var key = mini.get("key").getValue();
+        if(key == ""){
+        	key = $(".mini-textbox-input").val();//此句话慎用
+        }
         if(key == ""){
             tree.clearFilter();
         }else{

@@ -26,9 +26,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.bank.Constants;
 import com.bank.beans.CooperationProfit;
+import com.bank.beans.Organ;
 import com.bank.beans.User;
 import com.bank.common.util.JsonUtil;
 import com.bank.service.ICooperationProfitService;
+import com.bank.service.ITMapService;
 import com.bank.utils.HttpUtils;
 import com.bank.utils.excel.ExcelExplorer;
 import com.bank.utils.excel.ImportResult;
@@ -46,6 +48,9 @@ public class CooperationProfitController {
 	@Resource(name="profitImporter")
 	private ProfitImporter profitImporter;
 	
+	@Resource(name="tMapService")
+	private ITMapService tMapService;
+	
 //	private List<Map<String, String>> list = new ArrayList<Map<String,String>>();
 	public static Map<String,List<Map<String, String>>> uMap = new HashMap<String, List<Map<String,String>>>();
 	
@@ -54,7 +59,8 @@ public class CooperationProfitController {
 			HttpServletResponse response) throws Exception{
 		
 		String formData = request.getParameter("formData");
-		
+		User user = (User) request.getSession().getAttribute(Constants.SESSION_AUTH_USER);
+		Organ organ = (Organ) request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
 		Object decodeJsonData = JsonUtil.Decode(formData);
 		String formatdata = JSON.toJSONStringWithDateFormat(decodeJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
 		JSONArray jsa = null;
@@ -75,6 +81,8 @@ public class CooperationProfitController {
 				if(coo.getProfitid()==null){
 					if(coo.getRecodertime() == null)
 						coo.setRecodertime(new Date());
+					coo.setSourcecode(user.getOrganId());
+					tMapService.saveSDTMap(organ.getOrganId(),organ.getOrganName());
 					cooperationProfitService.save(coo);
 				}else{
 					cooperationProfitService.update(coo);

@@ -99,6 +99,7 @@ public class UserController {
 		String userId = user.getUserId();
 		if ("add".equals(actionType)) {//user为空，做新增操作
 			
+			// 密码修改提醒.
 			int remindCycle = user.getRemindCycle() == 0 ? 30 : user.getRemindCycle();
 			
 			Date remindDate = new Date();
@@ -154,12 +155,21 @@ public class UserController {
 	  		isSuperAdmin = "1";
 	  	} 
 	  	
-	  	List<User> data = new ArrayList<User>();
+	  	if ("userId".equals(sortField)) {
+	  		sortField = "user_id";
+	  	} 
+	  	if ("userName".equals(sortField)) {
+	  		sortField = "user_name";
+	  	}
 	  	
+	  	List<User> data = new ArrayList<User>();
+	  	int total = 0;
 	  	if (StringUtils.isNotEmpty(selectOrganId)) {
+	  		total = userSerivce.getAllUsersByOrganId(key, selectOrganId);
 	  		data = userSerivce.loadAllUsersByOrganId(key, pageIndex, pageSize, sortField, sortOrder, selectOrganId);
 	  	} else {
 		  	if ("1".equals(isSuperAdmin)) {
+		  		total = userSerivce.getAllUsers(key);
 		  		data = userSerivce.loadAllUsers(key, pageIndex, pageSize, sortField, sortOrder);
 		  	} else {
 		  		Organ unit = (Organ) request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
@@ -170,7 +180,7 @@ public class UserController {
 					for (String organId : organIds) {
 						tempOrganIds = StringUtil.connectBySplit(tempOrganIds, "'" + organId + "'", ",");
 					}
-					
+					total = userSerivce.getAllUsersByOrganIds(key, tempOrganIds);
 					data = userSerivce.loadAllUsersByOrganIds(key, pageIndex, pageSize, sortField, sortOrder, tempOrganIds);
 				}
 		  	}
@@ -178,7 +188,7 @@ public class UserController {
 	    
 	    HashMap result = new HashMap();
         result.put("data", data);
-        result.put("total", data.size());
+        result.put("total", total);
         
 	    String json = JSON.toJSONString(result);
 	    response.setContentType("text/html;charset=UTF-8");
@@ -189,10 +199,10 @@ public class UserController {
 	@RequestMapping(value = "/organUserView", method = RequestMethod.GET)
 	public ModelAndView organUserView(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		Organ organ = (Organ) request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
-		if (organ == null) throw new DAOException("当前用户所在的单位为空，请检查！");
+//		Organ organ = (Organ) request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
+//		if (organ == null) throw new DAOException("当前用户所在的单位为空，请检查！");
 		
-		List<Organ> organs = organSerivce.getOrganTreeByUnitId(organ.getOrganId());
+		List<Organ> organs = organSerivce.getOrganTreeByUnitId("c465b15d-f14d-4127-b5bd-f26f016d4bf0");
 		
 		String datas = JSON.toJSONString(organs);
 		

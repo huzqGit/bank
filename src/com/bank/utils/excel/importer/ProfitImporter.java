@@ -197,7 +197,7 @@ public class ProfitImporter extends ExcelImporter<CooperationProfit> {
 			try {
 				fc = convert(map);
 				hm = new HashMap<String,Object>();
-				hm.put("organ_id", fc.getOrgan_id());
+				hm.put("organcode", fc.getOrgancode());
 				hm.put("sourcecode", fc.getSourcecode());
 				hm.put("yearmonth", fc.getYearmonth());
 				id = cooperationDao.getUnitId(hm);
@@ -221,10 +221,12 @@ public class ProfitImporter extends ExcelImporter<CooperationProfit> {
 //				System.err.println(e.getMessage());
 				map.put(error_label, s);
 				log.info("error_label"+s);
+				String x = null;
 				for(Map.Entry<String, String> entry : map.entrySet()){
-					map2.put(CooperationProfit.remark_field.get(entry.getKey()), entry.getValue());
-//					if(CooperationProfit.remark_field.get(entry.getKey())==null)
-//						System.out.println(entry.getKey());
+					x = CooperationProfit.remark_field.get(entry.getKey());
+					map2.put(x, entry.getValue());
+					if(x==null)
+						System.out.println("CooperationProfit.remark_field 映射关系错误:"+entry.getKey());
 				}
 					
 				map2.put("profitid", (i++)+"");

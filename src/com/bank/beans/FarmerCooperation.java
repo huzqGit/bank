@@ -51,6 +51,8 @@ public class FarmerCooperation extends BaseEntity<Long>{
 	private String error_label;
 	private String sourcecode;
 	
+	private String businesslicence;
+	
 	@Override
 	public boolean equalsIfIdNull(Object o) {
 		return false;
@@ -235,6 +237,14 @@ public class FarmerCooperation extends BaseEntity<Long>{
 
 	public void setSourcecode(String sourcecode) {
 		this.sourcecode = sourcecode;
+	}
+
+	public String getBusinesslicence() {
+		return businesslicence;
+	}
+
+	public void setBusinesslicence(String businesslicence) {
+		this.businesslicence = businesslicence;
 	}
 	
 }

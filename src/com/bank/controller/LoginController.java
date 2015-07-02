@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.catalina.Globals;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.alisoft.xplatform.asf.cache.ICache;
 import com.bank.Constants;
 import com.bank.beans.OnLineUser;
 import com.bank.beans.Organ;
@@ -25,8 +25,8 @@ import com.bank.controller.economy.CooperationDebtController;
 import com.bank.controller.economy.CooperationProfitController;
 import com.bank.dao.IMenuDao;
 import com.bank.service.IOrganService;
+import com.bank.service.ISysLogService;
 import com.bank.service.IUserService;
-import com.bank.spring.BeanFactory;
 import com.bank.vo.MenuPrivilegeVO;
 import com.common.config.SystemConfig;
 import com.common.exception.DAOException;
@@ -41,8 +41,13 @@ public class LoginController {
 	
 	@Resource
 	private IUserService userService;
+	
 	@Resource
 	private IOrganService organService;
+	
+	@Resource
+	private ISysLogService sysLogSerivce;
+	
 	@Resource 
 	private IMenuDao menuDao;
 	
@@ -73,8 +78,8 @@ public class LoginController {
     		}
     		
     		// 在线用户监听.
-    		returnUser.setUnit(currentUnit);
     		OnLineUser onlineUser = new OnLineUser(returnUser);
+    		onlineUser.setOrganName(currentUnit.getOrganName());
 			onlineUser.setUserIP(IpUtil.getIpAddr(request));
 			request.getSession().setAttribute(Constants.SESSION_ONLINEUSER, onlineUser);
     		
@@ -99,7 +104,10 @@ public class LoginController {
     					topMenus = menuDao.getTopSysMenus(isSuperAdmin);
     				}
     			}
-				
+    			
+    			// 添加登陆日志
+    			String message = "用户: " + returnUser.getUserName() + "[" + currentUnit.getOrganName() + "]登录成功";
+    			sysLogSerivce.addLog(message, Constants.LOG_TYPE_LOGIN, Constants.LOG_LEAVEL_INFO, returnUser);
 				
 			} catch (DAOException e) {
 				String msg = "get MenuPrivilegeVO occurs DAO error";

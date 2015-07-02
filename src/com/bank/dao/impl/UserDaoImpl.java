@@ -125,4 +125,25 @@ public class UserDaoImpl extends BaseDaoImpl implements IUserDao {
 		return users;
 	}
 
+	@Override
+	public int getAllUsersByOrganId(String key, String selectOrganId) {
+		Map<String, Object> map = new HashMap();
+		map.put("key", key);
+		map.put("organId", selectOrganId);
+		return getSqlSession().selectOne("user.getAllUsersByorganId", map);
+	}
+
+	@Override
+	public int getAllUsers(String key) {
+		return getSqlSession().selectOne("user.getAllUsers", key);
+	}
+
+	@Override
+	public int getAllUsersByOrganIds(String key, String tempOrganIds) {
+		Map<String, Object> map = new HashMap();
+		map.put("key", key);
+		map.put("organIds", tempOrganIds);
+		return (Integer) getSqlSession().selectOne("user.getAllUsersByOrganIds", map);
+	}
+
 }

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cooperation">
 <sql id="Cooperation_Column_List" >
-  sourcecode, organ_id,cooperationid, cooperationname,orgaCode, taxcode, registeraddress, mailaddress,
+  businesslicence,sourcecode, organ_id,cooperationid, cooperationname,orgaCode, taxcode, registeraddress, mailaddress,
    registerdate, registercapital, realcapital, legalperson, idnum, phone, members,
    businesScope, businessarea, farmers, connectionbase, recorder, recordtime
 </sql>
@@ -10,6 +10,7 @@
 	parameterType="com.bank.beans.FarmerCooperation">
 	insert into t_cooperation
 	<trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="businesslicence != null and businesslicence != ''">businesslicence,</if>
 		<if test="sourcecode != null and sourcecode != ''">sourcecode,</if>
 		<if test="organ_id != null and organ_id != ''">organ_id,</if>
 		<if test="cooperationName != null and cooperationName !='' ">
@@ -68,6 +69,7 @@
   		</if>
 	</trim>
 	<trim prefix="values (" suffix=")" suffixOverrides=",">
+		<if test="businesslicence != null and businesslicence != ''">#{businesslicence,jdbcType=VARCHAR},</if>
 		<if test="sourcecode != null and sourcecode != ''">#{sourcecode,jdbcType=VARCHAR},</if>
 		<if test="organ_id != null and organ_id != ''">#{organ_id,jdbcType=VARCHAR},</if>
 		<if test="cooperationName != null and cooperationName !='' ">
@@ -129,6 +131,7 @@
 <update id="update" parameterType="com.bank.beans.FarmerCooperation">
 	update t_cooperation
 	<set>
+		<if test="businesslicence != null and businesslicence != ''">businesslicence = #{businesslicence},</if>
 		<if test="sourcecode != null and sourcecode != ''">sourcecode = #{sourcecode},</if>
 		<if test="organ_id != null and organ_id != ''">organ_id = #{organ_id},</if>
 		<if test="members != null and members != ''">members = #{members},</if>

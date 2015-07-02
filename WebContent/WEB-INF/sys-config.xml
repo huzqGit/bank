@@ -6,6 +6,9 @@
 		<sys-manager>
 			<entry key="bank.superadmin" value="admin" description="超级管理员" />	
 		</sys-manager>
+		<file-upload>
+			<entry key="security.fileupload.limits" value=".doc;.xls;.pdf;.docx;.xlsx" description="security check" />
+		</file-upload>
 		<input-filter>
 			<filter>
 				<input output="">
