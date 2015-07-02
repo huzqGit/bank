@@ -82,7 +82,7 @@ function iframeResize(iframe) {
     <td class="test">
     	<iframe name="rightFrame" id="mainlist" height="100%" 
     	width="100%" height="100%" border="0" frameborder="0" 
-    	scrolling="yes" style="overflow-x:hidden;" src="tool/index.html"> 浏览器不支持嵌入式框架，或被配置为不显示嵌入式框架。</iframe>
+    	scrolling="yes" style="overflow-x:hidden;" src="/bank/message/loadIndexPage.do"> 浏览器不支持嵌入式框架，或被配置为不显示嵌入式框架。</iframe>
     </td>
   </tr>
   </table>

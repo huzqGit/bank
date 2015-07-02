@@ -83,7 +83,7 @@ a img {	border:none; }
 		if(menuid==1){
 			parent.mainFrame.document.getElementById("frmTitle").style.display="none";
 			parent.mainFrame.document.getElementById("switcher").style.display="none";
-			parent.mainFrame.rightFrame.window.location.href = "/bank/jsp/main/tool/index.html";
+			parent.mainFrame.rightFrame.window.location.href = "/bank/message/loadIndexPage.do";
 		}else{
 			parent.mainFrame.document.getElementById("frmTitle").style.display="block";
 			parent.mainFrame.document.getElementById("switcher").style.display="";

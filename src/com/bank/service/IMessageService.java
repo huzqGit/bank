@@ -2,21 +2,40 @@ package com.bank.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
+
+
+
+
 import com.bank.beans.Message;
+import com.bank.beans.MessageExample;
+import com.bank.beans.MessageReader;
 import com.common.service.GenericService;
 
-public interface IMessageService extends GenericService<Message, String>{
+public interface IMessageService extends GenericService<Message, Long>{
 
-	Message loadMessage(String messageId);
+    int countByExample(MessageExample example);
 
-	String saveMessage(Message message);
+    int deleteByExample(MessageExample example);
 
-	void updateMessage(Message message);
+    int insert(Message record);
 
-	void deleteMessage(String messageId);
+    int insertSelective(Message record);
 
-	List<Message> loadAllMessages(String key, int pageIndex, int pageSize,
+    List<Message> selectByExample(MessageExample example);
+
+    int updateByExampleSelective(@Param("record") Message record, @Param("example") MessageExample example);
+
+    int updateByExample(@Param("record") Message record, @Param("example") MessageExample example);
+
+	List<Message> loadAllMessages(String userid,String key, int pageIndex, int pageSize,
 			String sortField, String sortOrder);
 
+	public int selectReadNumByUser(String userid,Long messageid);
 	
+	public int insertMessageReader(MessageReader messageReader);
+	
+	public List<Message> selectMessagesByUser(Integer num,String userid);
+
 }

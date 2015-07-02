@@ -1,10 +1,17 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="dt" uri="http://gov.jian.bank/dateformat" %>   
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>无标题文档</title>
+<title>æ æ é¢ææ¡£</title>
 <style type="text/css">
-*{ margin:0;padding:0;}
+*{ margin:0;padding:0;text-decoration:none;overflow:hidden}
+a{
+color:blue
+}
 body{
     font:12px/1.8 Arial;
     color:#666;
@@ -17,17 +24,19 @@ body{
 }
 
 .wrapper{
-width:600px;
+width:100%;
 height:300px;
+color:black;
+font-size:1.2em
 
 }
 ul,li{margin:0;padding:0;list-style:none}
 .wp{
     position:relative;
-    width:580px;
+    width:100%;
     height:280px;
     overflow:hidden;
-    margin:20px auto;
+    margin:10px auto;
 	
 }
 .slider{
@@ -41,7 +50,8 @@ ul,li{margin:0;padding:0;list-style:none}
     padding:10px 0;
     border-bottom:1px dashed #ccc;
     overflow:hidden;
-    width:100%
+    width:100%;
+  
 }
 em{
     color:red
@@ -50,7 +60,7 @@ em{
 </head>
 
 <body>
-<table width="80%" style="margin-left:100px;margin-top:80px" cellspacing=0 cellpadding=0 style="border-right:1px solid orange">
+<table width="100%" style="margin-left:50px;margin-top:80px" cellspacing=0 cellpadding=0 style="border-right:1px solid orange">
 	<tr >
 		<td width="400px"  style="height:30px;">
 		
@@ -61,13 +71,13 @@ em{
 		
 		</td>
 		<td >
-		<table style="border-right:1px solid #FCF3BC;">
+		<table style="width:80%;border-right:1px solid #FCF3BC;">
 		
 			<tr>
 				<td  style="background-image:url(/bank/jsp/main/tool/images/ww.jpg);font-size:15px;color:black">
 					<span style="color:wihte;margin-right:20px">>>></span>
-					<span style="font-weight:bold;color:black">新闻公告</span>
-					<span style="float:right;color:black">更多</span>
+					<span style="font-weight:bold;color:black">最新消息</span>
+					<span style="float:right;color:black"><a href="/bank/jsp/common/messageViewAll.jsp" target="_self">更多</a></span>
 				</td>
 			</tr>
 			<tr>
@@ -75,13 +85,23 @@ em{
 			<div class="wrapper">
 			    <div class="wp">
 			        <ul id="slider" class="slider">
-			            <li><span style="margin-right:15px">→</span><span>梦想就是一个说出来就矫情的东西，我要的</span> </li>
-			            <li><span style="margin-right:15px">→</span><span>成功者就是胆识加魄力，魄力就是拿得起放的下，很多东西就是 </span></li>
-			            <li><span style="margin-right:15px">→</span><span>有好心态才有好状态！突然又想起常挂在嘴边的话：人生没有</span></li>
-			            <li><span style="margin-right:15px">→</span><span>情的东西，我要的是，安身立命，成为</span></li>
-			            <li><span style="margin-right:15px">→</span><span>情的东西，我要的是，安身立命，成为</span></li>
-			            <li><span style="margin-right:15px">→</span><span>情的东西，我要的是，安身立命，成为</span></li>
-			            <li><span style="margin-right:15px">→</span><span>情的东西，我要的是，安身立命，成为</span></li>
+			        <c:forEach var="message" items="${messages}" varStatus="status">
+			        	<li>
+			        	<c:if test="${message.readnum == 0}">
+
+			        	</c:if>
+			        	<span style="width:5%;color:red;height:20px;line-height:20px;display:inline-block">
+			        	<c:if test="${message.readnum == 0}">
+							New
+			        	</c:if>
+			        	</span>
+			        	<span style="width:75%;height:20px;line-height:20px;overflow:hidden;display:inline-block;white-space:nowrap;text-overflow: ellipsis;margin-right:2px">
+			        	<a href="/bank/message/readMessage.do?messageid=${message.messageid}" target="_blank">${message.content}</a>
+			        	</span>
+			        	<span style="width:20%">${dt:format(message.publishdate,"yyyy-MM-dd")}</span>
+			        	 </li>
+			        
+			        </c:forEach>
 			        </ul>
 			    </div>
 			</div>

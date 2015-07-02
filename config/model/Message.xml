@@ -5,80 +5,193 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- 名称空间有特殊的用途 -->
 <mapper namespace="message">
 <resultMap id="BaseResultMap" type="com.bank.beans.Message" >
-  <id column="message_id" property="messageId" jdbcType="VARCHAR" />
-  <result column="user_id" property="userId" jdbcType="VARCHAR" />
-  <result column="user_Name" property="userName" jdbcType="VARCHAR" />
-  <result column="publish_date" property="publishDate" jdbcType="DATE" />
-  <result column="message_content" property="messageContent" jdbcType="VARCHAR" />
+    <id column="MESSAGEID" property="messageid" jdbcType="BIGINT" />
+    <result column="USERID" property="userid" jdbcType="VARCHAR" />
+    <result column="USERNAME" property="username" jdbcType="VARCHAR" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="PUBLISHDATE" property="publishdate" jdbcType="DATE" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
 </resultMap>
-<sql id="Base_Column_List" >
-  message_id, user_id, user_name, publish_date, message_content
+<sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
 </sql>
-
-<insert id="message.insert" parameterType="com.bank.beans.Message">
-  insert into T_MESSAGE(message_id, user_id, user_name, publish_date, message_content) 
-  values(#{messageId}, #{userId}, #{userName}, #{publishDate}, #{messageContent})
-</insert>
-
-<insert id="message.insertSelective" parameterType="com.bank.beans.Message">
-  insert into T_MESSAGE
-  <trim prefix="(" suffix=")" suffixOverrides=",">
-  	<if test="messageId != null">
-  		message_id,
-  	</if>
-  	<if test="userId != null">
-  		user_id,
-  	</if>
-  	<if test="userName != null">
-  		user_name,
-  	</if>
-  	<if test="publishDate != null">
-  		publish_date,
-  	</if>
-  	<if test="messageContent != null">
-  		message_content,
-  	</if>
-  </trim>	
-  <trim prefix="values (" suffix=")" suffixOverrides=",">
-  	<if test="messageId != null">
-  		#{messageId,jdbcType=VARCHAR},
-  	</if>
-  	<if test="userId != null">
-  		#{userId,jdbcType=VARCHAR},
-  	</if>
-  	<if test="userName != null">
-  		#{userName,jdbcType=VARCHAR},
-  	</if>
-  	<if test="publishDate != null">
-  		#{publishDate,jdbcType=DATE},
-  	</if>
-  	<if test="messageContent != null">
-  		#{messageContent,jdbcType=VARCHAR},
-  	</if>
-  </trim>
-</insert>
-
-<update id="message.update" parameterType="com.bank.beans.Message">
-	update T_MESSAGE set user_id = #{userId}, user_name = #{userName}, publish_date = #{publishDate}, message_content = #{messageContent}  where message_id = #{messageId}
-</update>
-
-<insert id="delete" parameterType="string">
-  delete T_MESSAGE where message_id = #{messageId}
-</insert>
-
-<select id="message.getMessageById" parameterType="string"
-resultMap="BaseResultMap">
-   SELECT 
-   <include refid="Base_Column_List"/>
-   FROM T_MESSAGE WHERE message_id = #{messageId}
-</select>
-
-<select id="message.loadAllMessages" parameterType="map"
+<sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+ </sql>
+  <sql id="Base_Column_List" >
+    MESSAGEID, USERID, USERNAME, TITLE, PUBLISHDATE, CONTENT
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.bank.beans.MessageExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_MESSAGE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.bank.beans.MessageExample" >
+    delete from T_MESSAGE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bank.beans.Message" useGeneratedKeys="true" keyProperty="messageid" >
+    insert into T_MESSAGE (USERID, USERNAME, TITLE,
+      PUBLISHDATE, CONTENT)
+    values (#{userid,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{publishdate,jdbcType=DATE}, #{content,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertMessageReader" parameterType="com.bank.beans.MessageReader" useGeneratedKeys="true" keyProperty="readerid" >
+  	insert into T_MESSAGE_READER(USERID,USERNAME,
+  		MESSAGEID,READTIME)
+  	values(#{userid,jdbcType=VARCHAR},#{username,jdbcType=VARCHAR},
+  		#{messageid,jdbcType=BIGINT},#{readtime,jdbcType=DATE})
+  
+  </insert>
+  <insert id="insertSelective" parameterType="com.bank.beans.Message" >
+    <selectKey resultType="java.lang.Long" keyProperty="messageid" order="AFTER" >
+      VALUES IDENTITY_VAL_LOCAL()
+    </selectKey>
+    insert into T_MESSAGE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        USERID,
+      </if>
+      <if test="username != null" >
+        USERNAME,
+      </if>
+      <if test="title != null" >
+        TITLE,
+      </if>
+      <if test="publishdate != null" >
+        PUBLISHDATE,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="publishdate != null" >
+        #{publishdate,jdbcType=DATE},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bank.beans.MessageExample" resultType="java.lang.Integer" >
+    select count(*) from T_MESSAGE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_MESSAGE
+    <set >
+      <if test="record.userid != null" >
+        USERID = #{record.userid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.username != null" >
+        USERNAME = #{record.username,jdbcType=VARCHAR},
+      </if>
+      <if test="record.title != null" >
+        TITLE = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.publishdate != null" >
+        PUBLISHDATE = #{record.publishdate,jdbcType=DATE},
+      </if>
+      <if test="record.content != null" >
+        CONTENT = #{record.content,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+ </update>
+ <update id="updateByExample" parameterType="map" >
+    update T_MESSAGE
+    set USERID = #{record.userid,jdbcType=VARCHAR},
+      USERNAME = #{record.username,jdbcType=VARCHAR},
+      TITLE = #{record.title,jdbcType=VARCHAR},
+      PUBLISHDATE = #{record.publishdate,jdbcType=DATE},
+      CONTENT = #{record.content,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+ </update>
+<select id="loadAllMessages" parameterType="map"
 resultMap="BaseResultMap">
    SELECT t.* FROM T_MESSAGE t,
-(select MESSAGE_id, ROW_NUMBER() OVER () as rownum from T_MESSAGE) AS t1 where t1.MESSAGE_id= t.MESSAGE_id
+(select MESSAGEID, ROW_NUMBER() OVER () as rownum from T_MESSAGE) AS t1 where t1.MESSAGEID= t.MESSAGEID
    <if test="key != null">
-   		and t.MESSAGE_CONTENT like '%${key}%' or t.user_NAME like '%${key}%'
+   		and t.CONTENT like '%${key}%' or t.USERNAME like '%${key}%'
    </if>
    <if test="start != null">
   			and t1.rownum > #{start}
@@ -87,12 +200,17 @@ resultMap="BaseResultMap">
   			and <![CDATA[t1.rownum < #{end}]]>
    </if>
    <choose>
-	   <when test="sortField != null and sortField != ''">
-	   		order by #{sortField} #{sortOrder}
+	   <when test="sortField != null and sortOder != null">
+	   		order by ${sortField} ${sortOrder}
 	   </when>
 	   <otherwise>
-	   		order by t.PUBLISH_DATE desc
+	   		order by t.PUBLISHDATE desc
 	   </otherwise>
    </choose>
+</select>
+<select id="selectReadNumByUser" parameterType="Map" resultType="java.lang.Integer">
+select count(*) from T_MESSAGE_READER 
+where USERID = #{userid} 
+and MESSAGEID = #{messageid}
 </select>
 </mapper>

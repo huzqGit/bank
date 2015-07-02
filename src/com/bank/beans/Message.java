@@ -2,53 +2,84 @@ package com.bank.beans;
 
 import java.util.Date;
 
-import com.common.bean.BaseEntity;
+import org.springframework.format.annotation.DateTimeFormat;
 
-public class Message extends BaseEntity<Integer> {
-	private String messageId;// 地址
-	private String userId;// 用户姓名
-	private String userName;// 用户姓名
-	private Date publishDate;// 发布日期
-	private String messageContent;// 地址
-	public String getMessageId() {
-		return messageId;
-	}
-	public void setMessageId(String messageId) {
-		this.messageId = messageId;
-	}
-	public String getUserId() {
-		return userId;
-	}
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-	public String getUserName() {
-		return userName;
-	}
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-	public Date getPublishDate() {
-		return publishDate;
-	}
-	public void setPublishDate(Date publishDate) {
-		this.publishDate = publishDate;
-	}
-	public String getMessageContent() {
-		return messageContent;
-	}
-	public void setMessageContent(String messageContent) {
-		this.messageContent = messageContent;
-	}
-	@Override
-	public boolean equalsIfIdNull(Object o) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public int hashCodeIfIdNull() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+public class Message{
+
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4219263116371032409L;
 	
+	private Long messageid;
+
+	private String userid;
+
+    private String username;
+
+    private String title;
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date publishdate;
+
+    private String content;
+    
+    private int readnum;
+    
+    public Long getMessageid() {
+		return messageid;
+	}
+
+	public void setMessageid(Long messageid) {
+		this.messageid = messageid;
+	}
+
+	public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid == null ? null : userid.trim();
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username == null ? null : username.trim();
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title == null ? null : title.trim();
+    }
+
+    public Date getPublishdate() {
+        return publishdate;
+    }
+
+    public void setPublishdate(Date publishdate) {
+        this.publishdate = publishdate;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content == null ? null : content.trim();
+    }
+
+	public int getReadnum() {
+		return readnum;
+	}
+
+	public void setReadnum(int readnum) {
+		this.readnum = readnum;
+	}
+
 }
