@@ -10,7 +10,7 @@
 <style type="text/css">
 *{ margin:0;padding:0;text-decoration:none;overflow:hidden}
 a{
-color:blue
+color:black
 }
 body{
     font:12px/1.8 Arial;
@@ -75,9 +75,9 @@ em{
 		
 			<tr>
 				<td  style="background-image:url(/bank/jsp/main/tool/images/ww.jpg);font-size:15px;color:black">
-					<span style="color:wihte;margin-right:20px">>>></span>
-					<span style="font-weight:bold;color:black">最新消息</span>
-					<span style="float:right;color:black"><a href="/bank/jsp/common/messageViewAll.jsp" target="_self">更多</a></span>
+					<span style="margin-top:3px;width:20px;height:20px;display:inline-block;float:left;margin-right:10px;background:url(/bank/jsp/main/tool/images/point.png) no-repeat;"></span>
+					<span style="font-weight:bold;color:black;display:inline-block;float:left">最新消息</span>
+					<span style="display:inline-block;float:right;color:black"><a href="/bank/jsp/common/messageViewAll.jsp" target="_self">更多</a></span>
 				</td>
 			</tr>
 			<tr>

@@ -30,14 +30,16 @@ request.setAttribute("actionType", actionType);
 <form action="/bank/message/saveMessage.do" method="POST">
 <input type="hidden" name="messageid" value="${message.messageid}"/>
 <div class="queryPane">
-<table>
+<table width="100%">
 <tr>
-<td style="width:80%;font-weight:bold;color:orange">
-	发布信息
+<td style="width:80%;font-size:1.6em;font-weight:bold;color:black"">
+发布消息
 </td>
-<td>
+<td style="width:10%;align:center">
 <input type="submit" class="bank-btn" value="保存"/>
-<input type="button" class="bank-btn" value="返回"/>
+</td>
+<td style="width:10%;align:center">
+<input type="button" class="bank-btn" onclick="back()" value="返回"/>
 </td>
 </tr>
 </table>
@@ -78,5 +80,11 @@ request.setAttribute("actionType", actionType);
 </table>
 </form>
 </div>
+<script type="text/javascript">
+function back(){
+	history.go(-1);
+}
+
+</script>
 </body>
 </html>
