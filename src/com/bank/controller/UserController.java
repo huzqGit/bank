@@ -67,6 +67,7 @@ public class UserController {
 	
 	@RequestMapping(value = "/saveUser", method = RequestMethod.POST)
 	public User saveUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		User currentUser = (User) request.getSession().getAttribute(Constants.SESSION_AUTH_USER);
 		String formData = request.getParameter("formData");
 		String actionType = request.getParameter("actionType");
 		//這裡做了時間格式的處理
@@ -120,13 +121,13 @@ public class UserController {
 			
 			message = "用户：" + user.getUserName() + "新增成功";
 			// 添加日志.
-			sysLogSerivce.addLog(message, Constants.LOG_TYPE_INSERT, Constants.LOG_LEAVEL_INFO, user);
+			sysLogSerivce.addLog(message, Constants.LOG_TYPE_INSERT, Constants.LOG_LEAVEL_INFO, currentUser);
 			
 		} else {//userId不为空，做更新操作
 			userSerivce.updateUser(user);
 			message = "用户：" + user.getUserName() + "修改成功";
 			// 添加日志.
-			sysLogSerivce.addLog(message, Constants.LOG_TYPE_UPDATE, Constants.LOG_LEAVEL_INFO, user);
+			sysLogSerivce.addLog(message, Constants.LOG_TYPE_UPDATE, Constants.LOG_LEAVEL_INFO, currentUser);
 		}
 		
 		response.setContentType("text/html;charset=UTF-8");
