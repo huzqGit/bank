@@ -37,9 +37,9 @@
             	<div property="columns">
                 <div field="logContent" width="120" headerAlign="center" allowSort="true" >日志内容</div>
                 <div field="note" width="100" align="center" headerAlign="center">操作IP</div>
-                <div field="userIP" width="100" align="center" headerAlign="center">操作人ID</div>
-                <div field="userId" width="100" align="center" headerAlign="center">操作人名称</div>
-                <div field="userName" width="100" headerAlign="center" allowSort="true">浏览器</div> 
+                <div field="userId" width="100" align="center" headerAlign="center">操作人ID</div>
+                <div field="userName" width="100" align="center" headerAlign="center">操作人名称</div>
+                <div field="broswer" width="100" headerAlign="center" allowSort="true">浏览器</div> 
                 <div field="operateTime" width="120" headerAlign="center" dateFormat="yyyy-MM-dd" allowSort="true">操作时间</div>    
             </div>
         </div> 
