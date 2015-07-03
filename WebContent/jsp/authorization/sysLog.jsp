@@ -53,13 +53,10 @@
         
         function onSearch() {
         	var operateType = mini.get("operateType").getValue();
-        	alert("-operateType----------------" + operateType);
         	var startDate = mini.get("startDate").getValue();
         	startDate = mini.formatDate(startDate, 'yyyy-MM-dd');
-        	alert("-startDate----------------" + startDate);
         	var endDate =  mini.get("endDate").getValue();
         	endDate = mini.formatDate(endDate, 'yyyy-MM-dd');
-        	alert("-endDate----------------" + endDate);
             grid.load({ operateType: operateType, startDate: startDate, endDate: endDate });
         }
         
