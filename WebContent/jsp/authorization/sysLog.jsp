@@ -15,15 +15,15 @@
 	<div class="mini-toolbar" style="padding:2px;border-bottom:0;">
         <table style="width:100%;">
             <tr>
-	            <td style="white-space:nowrap;">
+	            <td style="white-space:nowrap;" align="right">
 	            	<label>日志类型: </label>
-	            	<input name="operateType" class="mini-combobox" data="[{id: 1, text: '登录'}, {id: 2, text: '退出'}, {id: 3, text: '插入'}, {id: 4, text: '删除'}, {id: 5, text: '更新'}, {id: 6, text: '其他'}]" 
-	            	value="30" style='width:60px;'/>
+	            	<input id="operateType" class="mini-combobox" data="[{id: 1, text: '登录'}, {id: 2, text: '退出'}, {id: 3, text: '插入'}, {id: 4, text: '删除'}, {id: 5, text: '更新'}, {id: 6, text: '其他'}]" 
+	            	value="30" emptyText="请输入日志类型" style='width:60px;'/>
 <!-- 	                <input id="operateType" class="mini-textbox"/> &nbsp; -->
 	                <label>操作时间: </label>
-	                <input id="startDate" class="mini-datepicker"/>
+	                <input id="startDate" emptyText="请输入时间" class="mini-datepicker"/>
 	                <label>&nbsp;~&nbsp;</label>
-	                <input id="endDate" class="mini-datepicker"/>
+	                <input id="endDate" emptyText="请输入时间" class="mini-datepicker"/>
 	                <a class="mini-button" iconCls="icon-search" plain="true" onclick="onSearch()">查询</a>
 	            </td>
             </tr>
@@ -53,8 +53,13 @@
         
         function onSearch() {
         	var operateType = mini.get("operateType").getValue();
+        	alert("-operateType----------------" + operateType);
         	var startDate = mini.get("startDate").getValue();
-        	var endDate = mini.get("endDate").getValue();
+        	startDate = mini.formatDate(startDate, 'yyyy-MM-dd');
+        	alert("-startDate----------------" + startDate);
+        	var endDate =  mini.get("endDate").getValue();
+        	endDate = mini.formatDate(endDate, 'yyyy-MM-dd');
+        	alert("-endDate----------------" + endDate);
             grid.load({ operateType: operateType, startDate: startDate, endDate: endDate });
         }
         

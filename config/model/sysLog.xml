@@ -48,10 +48,10 @@
    		and t.OPERATE_TYPE like '%${operateType}%'
    </if>
    <if test="startDate !=null and startDate != ''">
-		<![CDATA[and t.operateTime >=to_date('#{startDate}','yyyy-mm-dd')]]>
+		<![CDATA[and t.OPERATE_TIME >=to_date('#{startDate}','yyyy-mm-dd')]]>
 	</if>
 	<if test="endDate !=null and endDate != ''">
-		<![CDATA[and t.operateTime <=to_date('#{endDate}','yyyy-mm-dd')]]>
+		<![CDATA[and t.OPERATE_TIME <=to_date('#{endDate}','yyyy-mm-dd')]]>
 	</if>
    <if test="start != null">
   		and t1.rownum > #{start}
