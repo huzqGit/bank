@@ -35,6 +35,11 @@
       #{operateType,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR})
   </insert>
   
+  <select id="all" resultMap="BaseResultMap">
+  		SELECT LOG_ID, BROSWER, LOG_CONTENT, LOG_LEVEL, NOTE, 
+  		OPERATE_TIME, OPERATE_TYPE, USER_ID, USER_NAME FROM T_SYS_LOG 
+  </select>
+  
   <select id="pageing" parameterType="map" resultMap="BaseResultMap">
    SELECT t.* FROM T_SYS_LOG t,
    (select log_id, ROW_NUMBER() OVER () as rownum from T_SYS_LOG) AS t1 

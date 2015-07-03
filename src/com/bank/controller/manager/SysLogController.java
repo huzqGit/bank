@@ -51,9 +51,11 @@ public class SysLogController {
 	    List<SysLog> data = sysLogSerivce.loadAllSysLogs(operateType, pageIndex, pageSize, 
 	    		sortField, sortOrder, startDate, endDate);
 	    
+	    List<SysLog> total = sysLogSerivce.getAllEntities();
+	    
 	    HashMap result = new HashMap();
         result.put("data", data);
-        result.put("total", data.size());
+        result.put("total", total.size());
         
         String json = JSON.toJSONStringWithDateFormat(result, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
 	    response.setContentType("text/html;charset=UTF-8");
