@@ -30,6 +30,7 @@ import com.bank.beans.Organ;
 import com.bank.beans.User;
 import com.bank.common.util.JsonUtil;
 import com.bank.service.IOrganService;
+import com.bank.service.ISysLogService;
 import com.bank.service.IUserService;
 import com.bank.spring.BeanFactory;
 import com.common.config.SystemConfig;
@@ -51,6 +52,9 @@ public class UserController {
 	private IUserService userSerivce;
 	@Resource
 	private IOrganService organSerivce;
+	
+	@Resource
+	private ISysLogService sysLogSerivce;
 	
 	@RequestMapping(value = "/loadUser", method = RequestMethod.POST)
 	public User loadUser(@RequestParam(value="userId",required=true) String userId, HttpServletResponse response) throws Exception {
@@ -96,6 +100,7 @@ public class UserController {
 			}
 		}
 		
+		String message = "";
 		String userId = user.getUserId();
 		if ("add".equals(actionType)) {//user为空，做新增操作
 			
@@ -112,16 +117,26 @@ public class UserController {
 			} else {
 				userId = userSerivce.saveUser(user);
 			}
+			
+			message = "用户：" + user.getUserName() + "新增成功";
+			// 添加日志.
+			sysLogSerivce.addLog(message, Constants.LOG_TYPE_INSERT, Constants.LOG_LEAVEL_INFO, user);
+			
 		} else {//userId不为空，做更新操作
 			userSerivce.updateUser(user);
+			message = "用户：" + user.getUserName() + "修改成功";
+			// 添加日志.
+			sysLogSerivce.addLog(message, Constants.LOG_TYPE_UPDATE, Constants.LOG_LEAVEL_INFO, user);
 		}
+		
 		response.setContentType("text/html;charset=UTF-8");
 	    response.getWriter().write(userId);
 		return null;
 	}
 	
 	@RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
-	public String deleteUser(@RequestParam("userId") String userId, HttpServletResponse response) throws Exception{
+	public String deleteUser(@RequestParam("userId") String userId, HttpServletRequest request, HttpServletResponse response) throws Exception{
+		User user = (User) request.getSession().getAttribute(Constants.SESSION_AUTH_USER);
 		
 		if (userId.contains(",")) {
 			for (String tempUserId : userId.split(",")) {
@@ -130,6 +145,10 @@ public class UserController {
 		} else {
 			boolean flag = userSerivce.deleteUser(userId);
 		}
+		
+		// 添加日志.
+		String message = "用户：" + userId + "删除成功";
+		sysLogSerivce.addLog(message, Constants.LOG_TYPE_INSERT, Constants.LOG_LEAVEL_INFO, user);
 		
 		response.getWriter().write("1");
 		return null;
@@ -190,7 +209,7 @@ public class UserController {
         result.put("data", data);
         result.put("total", total);
         
-	    String json = JSON.toJSONString(result);
+        String json = JSON.toJSONStringWithDateFormat(result, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
 	    response.setContentType("text/html;charset=UTF-8");
 	    response.getWriter().write(json);
 		return null;

@@ -43,8 +43,8 @@ request.setAttribute("organId", organId);
                 <div type="checkcolumn"></div> 
                 <div field="userId" width="120" headerAlign="center"  allowSort="true" >员工帐号</div>
                 <div field="userName" width="120" headerAlign="center" allowSort="true">员工姓名</div>    
-                <div field="sex" width="100" renderer="onGenderRenderer" align="center" headerAlign="center">性别</div>
-                <div field="birthday" width="100" headerAlign="center" dateFormat="yyyy-MM-dd" allowSort="true">生日</div>                
+                <div field="sex" width="100" renderer="onGenderRenderer" headerAlign="center">性别</div>
+                <div field="birthday" width="100" headerAlign="center" align="center" renderer="onBirthdayRenderer"  allowSort="true">生日</div>                
             </div>
         </div> 
 
@@ -66,6 +66,12 @@ request.setAttribute("organId", organId);
                 var g = Genders[i];
                 if (g.id == e.value) return g.text;
             }
+            return "";
+        }
+        
+        function onBirthdayRenderer(e) {
+            var value = e.value;
+            if (value) return mini.formatDate(value, 'yyyy-MM-dd');
             return "";
         }
         
