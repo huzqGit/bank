@@ -26,6 +26,7 @@ import com.bank.beans.Role;
 import com.bank.beans.User;
 import com.bank.common.util.JsonUtil;
 import com.bank.service.IRoleService;
+import com.bank.service.ISysLogService;
 import com.common.exception.CreateException;
 import com.common.exception.DAOException;
 import com.common.exception.DataNotFoundException;
@@ -44,6 +45,9 @@ public class RoleController {
 	
 	@Resource
 	private IRoleService roleSerivce;
+	
+	@Resource
+	private ISysLogService sysLogSerivce;
 	
 	@RequestMapping(value = "/loadRoles", method = RequestMethod.POST)
 	public Role loadRoles(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -78,9 +82,15 @@ public class RoleController {
 		Role role = (Role) JSON.toJavaObject(jsb, Role.class);
 		String roleId = role.getId();
 		
+		String message = "";
 		if (ADD.equals(actionType)) {
 			try {
 				roleSerivce.save(role);
+				
+				// 添加日志.
+				message = "角色: " + role.getRoleName() + "被添加成功";
+				sysLogSerivce.addLog(message, Constants.LOG_TYPE_INSERT, Constants.LOG_LEAVEL_INFO, user);
+				
 			} catch (DAOException e) {
 				String msg = "Create role occurs DAO error";
 				log.error(msg, e);
@@ -93,6 +103,11 @@ public class RoleController {
 		} else {
 			try {
 				roleSerivce.update(role);
+				
+				// 添加日志.
+				message = "角色: " + role.getRoleName() + "被更新成功";
+				sysLogSerivce.addLog(message, Constants.LOG_TYPE_UPDATE, Constants.LOG_LEAVEL_INFO, user);
+				
 			} catch (DAOException e) {
 				String msg = "update role occurs DAO error. ";
 				log.error(msg, e);
@@ -119,11 +134,16 @@ public class RoleController {
 	
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@ResponseBody
-	public boolean delete(@RequestParam("roleId") String roleId) throws Exception{
+	public boolean delete(@RequestParam("roleId") String roleId, HttpServletRequest request) throws Exception{
+		User user = (User) request.getSession().getAttribute(Constants.SESSION_AUTH_USER);
 		try {
 			if (StringUtils.isEmpty(roleId)) throw new DAOException("主键不能为空!");
 			
 			roleSerivce.delete(roleId);
+			
+			// 添加日志.
+			String message = "角色: " + roleId + "被删除成功";
+			sysLogSerivce.addLog(message, Constants.LOG_TYPE_DEL, Constants.LOG_LEAVEL_INFO, user);
 			
 		} catch (DAOException e) {
 			log.error("", e);

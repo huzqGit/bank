@@ -22,6 +22,7 @@ import com.bank.Constants;
 import com.bank.beans.Organ;
 import com.bank.beans.User;
 import com.bank.service.IOrganService;
+import com.bank.service.ISysLogService;
 import com.bank.service.IUserRoleService;
 import com.common.config.SystemConfig;
 import com.common.exception.DAOException;
@@ -42,6 +43,9 @@ public class OrganController {
 	@Resource
 	private IUserRoleService userRoleSerivce;
 	
+	@Resource
+	private ISysLogService sysLogSerivce;
+	
 	@RequestMapping(value = "/loadOrgan", method = RequestMethod.POST)
 	public Organ loadOrgan(@RequestParam(value="organId",required=true) String organId, HttpServletResponse response) throws Exception {
 		Organ organ = organSerivce.loadOrgan(organId);
@@ -53,6 +57,7 @@ public class OrganController {
 	
 	@RequestMapping(value = "/saveOrgan", method = RequestMethod.POST)
 	public Organ saveOrgan(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		User user = (User) request.getSession().getAttribute(Constants.SESSION_AUTH_USER);
 		String formData = request.getParameter("formData");
 		String actionType = request.getParameter("actionType");
 		//Object obj = JSON.toJSONStringWithDateFormat(formData, formData, arg2);
@@ -65,12 +70,23 @@ public class OrganController {
 			organ.setSeq(count + 1);
 		}
 		
+		String message = "";
 		String organId = "";
 		if ("add".equals(actionType)) {//organId为空，做新增操作
 			organId = organSerivce.saveOrgan(organ);
+			
+			// 添加日志.
+			message = "组织机构: " + organ.getOrganName() + "被添加成功";
+			sysLogSerivce.addLog(message, Constants.LOG_TYPE_INSERT, Constants.LOG_LEAVEL_INFO, user);
+			
 		} else {//organId不为空，做更新操作
 			organSerivce.updateOrgan(organ);
 			organId = organ.getOrganId();
+			
+			// 添加日志.
+			message = "组织机构: " + organ.getOrganName() + "被更新成功";
+			sysLogSerivce.addLog(message, Constants.LOG_TYPE_UPDATE, Constants.LOG_LEAVEL_INFO, user);
+			
 		}
 		response.setContentType("text/html;charset=UTF-8");
 	    response.getWriter().write(organId);
@@ -78,8 +94,15 @@ public class OrganController {
 	}
 	
 	@RequestMapping(value = "/deleteOrgan", method = RequestMethod.POST)
-	public String deleteOrgan(@RequestParam("organId") String organId, HttpServletResponse response) throws Exception {
+	public String deleteOrgan(@RequestParam("organId") String organId, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		User user = (User) request.getSession().getAttribute(Constants.SESSION_AUTH_USER);
+		
 		organSerivce.deleteOrgan(organId);
+		
+		// 添加日志.
+		String message = "组织机构: " + organId + "被删除成功";
+		sysLogSerivce.addLog(message, Constants.LOG_TYPE_DEL, Constants.LOG_LEAVEL_INFO, user);
+		
 		response.getWriter().write("1");
 		return null;
 	}
