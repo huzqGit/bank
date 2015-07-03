@@ -22,7 +22,6 @@ public class Constants {
 	public static final int LOG_TYPE_INSERT = 3; // 插入
 	public static final int LOG_TYPE_DEL = 4; // 删除
 	public static final int LOG_TYPE_UPDATE = 5; // 更新
-	public static final int LOG_TYPE_UPLOAD = 6; // 上传
 	public static final int LOG_TYPE_OTHER = 7; // 其他
 	
 }

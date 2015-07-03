@@ -1,6 +1,9 @@
 package com.bank.service.impl;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -48,4 +51,13 @@ public class SysLogServiceImpl extends GenericServiceImpl<SysLog, Integer> imple
 		sysLogDao.save(sysLog);
 	}
 
+	public List<SysLog> loadAllSysLogs(String operateType, int pageIndex,
+			int pageSize, String sortField, String sortOrder, String startDate,
+			String endDate) throws DAOException {
+		Map paramMap = new HashMap();
+		paramMap.put("operateType", operateType);
+		paramMap.put("startDate", startDate);
+		paramMap.put("endDate", endDate);
+		return sysLogDao.getPageingEntities(pageIndex, pageSize, sortField, sortOrder, paramMap);
+	}
 }

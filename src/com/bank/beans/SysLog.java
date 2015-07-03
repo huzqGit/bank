@@ -5,6 +5,9 @@ import java.sql.Timestamp;
 import com.common.bean.BaseEntity;
 
 public class SysLog extends BaseEntity<Integer> {
+	
+	private int logId;
+	
     private String broswer;
 
     private String logContent;
@@ -21,7 +24,15 @@ public class SysLog extends BaseEntity<Integer> {
     
     private String userName;
 
-    public String getBroswer() {
+    public int getLogId() {
+		return logId;
+	}
+
+	public void setLogId(int logId) {
+		this.logId = logId;
+	}
+
+	public String getBroswer() {
         return broswer;
     }
 

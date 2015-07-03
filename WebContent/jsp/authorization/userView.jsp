@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ include file="/jsp/taglibsCommon.jspf"%>
 
 <%
 String organId = request.getParameter("organId");
@@ -10,7 +10,7 @@ request.setAttribute("organId", organId);
 <head>
     <title>Fit Layout</title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-	<script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
+<%-- 	<script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script> --%>
 
 </head>
     <style type="text/css">

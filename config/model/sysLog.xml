@@ -34,4 +34,33 @@
       #{logLevel,jdbcType=INTEGER}, #{note,jdbcType=VARCHAR}, #{operateTime,jdbcType=TIMESTAMP}, 
       #{operateType,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR})
   </insert>
+  
+  <select id="pageing" parameterType="map" resultMap="BaseResultMap">
+   SELECT t.* FROM T_SYS_LOG t,
+   (select log_id, ROW_NUMBER() OVER () as rownum from T_SYS_LOG) AS t1 
+   where t1.log_id= t.log_id 
+   <if test="operateType != null">
+   		and t.OPERATE_TYPE like '%${operateType}%'
+   </if>
+   <if test="startDate !=null and startDate != ''">
+		<![CDATA[and t.operateTime >=to_date('#{startDate}','yyyy-mm-dd')]]>
+	</if>
+	<if test="endDate !=null and endDate != ''">
+		<![CDATA[and t.operateTime <=to_date('#{endDate}','yyyy-mm-dd')]]>
+	</if>
+   <if test="start != null">
+  		and t1.rownum > #{start}
+   </if>
+   <if test="end != null">
+  		and <![CDATA[t1.rownum <= #{end}]]>
+   </if>
+   <choose>
+	   <when test="sortField != null and sortField != ''">
+	   		order by ${sortField} ${sortOrder}
+	   </when>
+	   <otherwise>
+	   		order by t.OPERATE_TIME desc
+	   </otherwise>
+   </choose>
+</select>
 </mapper>
