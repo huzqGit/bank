@@ -1,5 +1,6 @@
 package com.bank.controller.manager;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 
@@ -10,10 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.bank.beans.Message;
 import com.bank.beans.SysLog;
 import com.bank.service.ISysLogService;
@@ -54,7 +55,7 @@ public class SysLogController {
         result.put("data", data);
         result.put("total", data.size());
         
-	    String json = JSON.toJSONString(result);
+        String json = JSON.toJSONStringWithDateFormat(result, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
 	    response.setContentType("text/html;charset=UTF-8");
 	    response.getWriter().write(json);
 		return null;

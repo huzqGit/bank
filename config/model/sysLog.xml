@@ -29,10 +29,10 @@
   <insert id="save" parameterType="com.bank.beans.SysLog">
     insert into T_SYS_LOG (BROSWER, LOG_CONTENT, 
       LOG_LEVEL, NOTE, OPERATE_TIME, 
-      OPERATE_TYPE, USER_ID)
+      OPERATE_TYPE, USER_ID, USER_NAME)
     values (#{broswer,jdbcType=VARCHAR}, #{logContent,jdbcType=VARCHAR}, 
       #{logLevel,jdbcType=INTEGER}, #{note,jdbcType=VARCHAR}, #{operateTime,jdbcType=TIMESTAMP}, 
-      #{operateType,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR})
+      #{operateType,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR})
   </insert>
   
   <select id="pageing" parameterType="map" resultMap="BaseResultMap">
