@@ -33,7 +33,7 @@
     <div class="mini-fit" >
         <div id="datagrid1" class="mini-datagrid" style="width:100%;height:100%;" 
             url="${pageContext.request.contextPath}/sysLog/loadAllSysLog.do" idField="id" 
-            sizeList="[5,10,20,50]" pageSize="50"  multiSelect="true" allowResize="true">
+            sizeList="[5,10,20,50]" pageSize="20"  multiSelect="true" allowResize="true">
             	<div property="columns">
                 <div field="logContent" width="120" headerAlign="center" allowSort="true" >日志内容</div>
                 <div field="note" width="100" headerAlign="center" allowSort="true">操作IP</div>
