@@ -52,6 +52,12 @@ public class SysLogController {
 	  	if ("operateTime".equals(sortField)) {
 	  		sortField = "OPERATE_TIME";
 	  	}
+	  	if ("userId".equals(sortField)) {
+	  		sortField = "USER_ID";
+	  	} 
+	  	if ("userName".equals(sortField)) {
+	  		sortField = "USER_NAME";
+	  	}
 	    String sortOrder = request.getParameter("sortOrder");
 	    
 	    List<SysLog> data = sysLogSerivce.loadAllSysLogs(operateType, pageIndex, pageSize, 
