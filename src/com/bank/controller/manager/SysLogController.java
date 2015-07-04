@@ -46,6 +46,12 @@ public class SysLogController {
 	    int pageSize = Integer.parseInt(request.getParameter("pageSize"));        
 	    //字段排序
 	    String sortField = request.getParameter("sortField");
+	    if ("logContent".equals(sortField)) {
+	  		sortField = "LOG_CONTENT";
+	  	} 
+	  	if ("operateTime".equals(sortField)) {
+	  		sortField = "OPERATE_TIME";
+	  	}
 	    String sortOrder = request.getParameter("sortOrder");
 	    
 	    List<SysLog> data = sysLogSerivce.loadAllSysLogs(operateType, pageIndex, pageSize, 
