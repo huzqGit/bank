@@ -2,9 +2,15 @@
     pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@page import="java.util.List"%>
+<%@page import="com.bank.beans.Organ"%>
+<%@page import="com.bank.beans.User"%>
 <%
 String root = request.getContextPath();
 List topMenus = (List)request.getSession().getAttribute("topMenus");
+Organ organ =(Organ)request.getSession().getAttribute("unit");
+User user =(User)request.getSession().getAttribute("user");
+String userName = user.getUserName();
+String organName = organ.getOrganName();
 request.setAttribute("root", root);
 request.setAttribute("topMenus", topMenus);
 %>
@@ -102,11 +108,21 @@ a img {	border:none; }
 <table width="100%" style="border-bottom:2px solid orange;background-repeat:repeat-x; background:url(images/top.jpg); background-position: top left;" cellspacing="0" cellpadding="0">
   <tr> 
     <td height="72"  align="left" valign="middle" style="border-left:1px #0da0d3 solid; border-right:1px #0da0d3 solid;">
-	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<table width="100%"  cellspacing="0" cellpadding="0">
       <tr>
-        <td width="40%" height="72" align="left" valign="top"></td>
-        <td width="60%" height="72" align="right" valign="bottom" >
+        <td width="50%" height="72" align="left" valign="top" >
+        	<div style="float:right;width:400px;height:40px;background:url(/bank/jsp/main/images/systitle.png) no-repeat"></div>
+        
+        </td>
+        <td width="50%" height="72" align="right" valign="bottom">
 		<table width="400"  border="0" cellspacing="0" cellpadding="0">
+		<tr>
+			<td colspan="7" align="center">
+				<span  style="font-size:15px;color:black"><%=organName %>的</span>
+				<span style="font-size:15px;font-weight:bold;color:red"><%=userName %></span>
+				<span  style="font-size:15px;color:black">&nbsp;&nbsp;您好!</span>
+			</td>
+		</tr>
           <tr >
           	<td width="40" height="40px" style="background:url(/bank/jsp/main/images/tab_l.png) no-repeat"></td>
             <td width="25"  style="background:url(/bank/jsp/main/images/tab_c.png) repeat-x" align="center"><img src="images/clear.png" /></td>
