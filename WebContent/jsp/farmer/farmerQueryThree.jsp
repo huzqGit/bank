@@ -80,6 +80,7 @@
 	var s = '<a class="Edit_Button" target="_self" href="/bank/farmer/loadFarmerThreeTotal.do?farmerName='+farmername+'&farmerIdNum='+farmeridnum+'" target="_self">[查看]</a>';      
 	return s;
 };
+
  </script>
 </body>
 </html>

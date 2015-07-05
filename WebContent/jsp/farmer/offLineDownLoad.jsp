@@ -5,25 +5,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="${pageContext.request.contextPath}/jsp/farmer/form.css"  rel="stylesheet" type="text/css"/>
 <script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/jsp/farmer/farmer.js" type="text/javascript"></script>
 <title>农户信息条件查询</title>
 <style type="text/css">
-*{margin:0;padding:0}
-body{
-line-height:15px;
-}
-.topMenu{
-width:100%;
-height:80px;
-background:linear-gradient(#6DC8E3,white);
-/* IE6 & IE7 */
-filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0 , startColorstr = '#6DC8E3', 
-endColorstr = 'white' ); 
-/* IE8 */
--ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType = 0,startColorstr = '#6DC8E3', 
-endColorstr = 'white' )"; 
-}
 .file{
         position:absolute;
         top:0px;
@@ -65,10 +51,9 @@ margin-top:5px
 </style>
 </head>
 <body>
-<div class="topMenu">
-</div>
+
 <div>
-<fieldset style="width:90%;margin:auto auto">
+<fieldset style="width:90%;margin-top:50px;margin-left:auto;margin-right:auto">
 <legend style="width:310px;height:74px;background:url(/bank/images/tips.png) no-repeat"></legend>
 <div class="table_m">
 	<table width="90%">

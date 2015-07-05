@@ -11,15 +11,25 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>农户信用报告</title>
 <style type="text/css">
+*{
+font-size:13px
+}
+table{
+color:#333333;
+border-width: 1px;
+border-color: black;
+border-collapse: collapse;
+}
 td{text-align:center}
-.table_m{width:100%;border-bottom:1px border black}
-.table_m td{height:30px;line-height:30px;border-top:1px border black}
+.table_m{width:100%;border-color: #666666;}
+.table_m td{height:20px;line-height:20px;border-top:1px border black}
 .report_title{
 font-weight:bold;
 font-size:16px;
 height:30px;
-line-height:25px;
+line-height:30px;
 }
+
 </style>
 </head>
 <body>
@@ -29,7 +39,7 @@ line-height:25px;
 	String month =new SimpleDateFormat("MM").format(date);
 	String day =new SimpleDateFormat("dd").format(date);
 %>
-<table width="90%" cellpadding="0" cellspacing="0" style="margin-top:20px;margin-left:auto;margin-right:auto">
+<table width="100%" cellpadding="0" cellspacing="0" style="margin-top:20px;margin-left:auto;margin-right:auto">
 <tr>
 	<td align="center" style="color:red;font-size:25px;font-weight:bold">农户信用报告</td>
 </tr>
@@ -42,37 +52,46 @@ line-height:25px;
 <tr><td>
 <table class="table_m" width="100%" border=1 cellpadding="0" cellspacing="0" >
 	<tr>
-		<td width="10%">家庭成员</td>
+		<td width="4%">
+			<p>家庭</p>
+			<p>成员</p>
+		</td>
 		<td width="5%">姓名</td>
-		<td width="5%">性别</td>
-		<td width="10%">身份证号码</td>
-		<td width="10%">婚姻状况</td>
+		<td width="4%">性别</td>
+		<td width="12%">身份证号码</td>
+		<td width="4%">
+			<p>婚姻</p>	
+			<p>状况</p>	
+		</td>
 		<td width="10%">文化程度</td>
 		<td width="10%">联系电话</td>
-		<td width="40%">居住地址</td>
+		<td width="25%">居住地址</td>
+		<td width="10%">数据录入单位</td>
 	</tr>
 	<c:forEach items="${farmers}" var="farmer" varStatus="status">
 	<tr>
-		<td width="10%">户主</td>
-		<td width="8%">${farmer.farmername}</td>
-		<td width="5%">${dic:translate("sex",farmer.sex)}</td>
-		<td width="10%">${farmer.farmeridnum}</td>
-		<td width="10%">${dic:translate("marrystatus",farmer.marrystatus)}</td>
+		<td width="4%">户主</td>
+		<td width="5%">${farmer.farmername}</td>
+		<td width="4%">${dic:translate("sex",farmer.sex)}</td>
+		<td width="12%">${farmer.farmeridnum}</td>
+		<td width="4%">${dic:translate("marrystatus",farmer.marrystatus)}</td>
 		<td width="10%">${dic:translate("education",farmer.education)}</td>
 		<td width="10%">${farmer.phone}</td>
-		<td width="32%">${farmer.address}</td>
+		<td width="25%">${farmer.address}</td>
+		<td width="10%">${farmer.runitname}</td>
 	</tr>
 	</c:forEach>
 	<c:forEach items="${members}" var="member" varStatus="status">
 	<tr>
-		<td width="10%">${dic:translate("relation",member.relation)}</td>
-		<td width="8%">${member.name}</td>
-		<td width="5%">${dic:translate("sex",member.sex)}</td>
-		<td width="10%">${member.idnum}</td>
-		<td width="10%">${dic:translate("marrystatus",member.marrystatus)}</td>
+		<td width="4%">${dic:translate("relation",member.relation)}</td>
+		<td width="5%">${member.name}</td>
+		<td width="4%">${dic:translate("sex",member.sex)}</td>
+		<td width="12%">${member.idnum}</td>
+		<td width="4%">${dic:translate("marrystatus",member.marrystatus)}</td>
 		<td width="10%">${dic:translate("education",member.education)}</td>
 		<td width="10%">${member.phone}</td>
-		<td width="32%">${member.address}</td>
+		<td width="25%">${member.address}</td>
+		<td width="10%">${member.runitname}</td>
 	</tr>
 	</c:forEach>
 </table>
@@ -82,17 +101,19 @@ line-height:25px;
 </tr>
 <tr>
 <td>
-	<table width="100%" border=1 cellpadding="0" cellspacing="0">
+	<table class="table_m" width="100%" border=1 cellpadding="0" cellspacing="0">
 		<tr>
-			<td>年度</td>
-			<td>总收入</td>
-			<td>总支出</td>
+			<td width="20%">年度(年)</td>
+			<td width="30%">总收入</td>
+			<td width="30%">总支出</td>
+			<td width="20%">数据录入单位</td>
 		</tr>
 		<c:forEach items="${balances}" var="balance" varStatus="status">
 		<tr>
-			<td>${balance.year}</td>
+			<td>${dt:format(balance.year,"yyyy")}</td>
 			<td>${balance.totalincome}</td>
 			<td>${balance.totalpay}</td>
+			<td>${balance.runitname}</td>
 		</tr>
 		
 		</c:forEach>
@@ -113,6 +134,7 @@ line-height:25px;
 			<td>房屋地址</td>
 			<td>构建年份</td>
 			<td>建筑面积</td>
+			<td>数据录入单位</td>
 			</tr>
 			<c:forEach items="${houses}" var="house" varStatus="status">
 				<tr>
@@ -122,6 +144,7 @@ line-height:25px;
 				<td>${house.houseaddress}</td>
 				<td>${house.builddate}</td>
 				<td>${house.buildarea}</td>
+				<td>${house.runitname}</td>
 				</tr>
 			</c:forEach>
 			<tr>
@@ -131,6 +154,7 @@ line-height:25px;
 			<td>年产量</td>
 			<td>年平均产值</td>
 			<td>当前评估价格</td>
+			<td>数据录入单位</td>
 			</tr>
 			<c:forEach items="${breeds}" var="breed" varStatus="status">
 			<tr>
@@ -140,6 +164,7 @@ line-height:25px;
 				<td>${breed.output}</td>
 				<td>${breed.outputvalue}</td>
 				<td>${breed.assessprice}</td>
+				<td>${house.runitname}</td>
 			</tr>
 			</c:forEach>
 			<tr>
@@ -147,7 +172,8 @@ line-height:25px;
 			<td>使用权种类</td>
 			<td colspan="2">使用权面积</td>
 			<td>年产量</td>
-			<td colspan="2">当前评估价格</td>
+			<td >当前评估价格</td>
+			<td colspan="2">数据录入单位</td>
 			</tr>
 			<tr height="20px">
 				<td></td>
@@ -165,6 +191,7 @@ line-height:25px;
 			<td>购进时间</td>
 			<td>购进价格</td>
 			<td>当前评估价格</td>
+			<td>数据录入单位</td>
 			</tr>
 			<c:forEach items="${devices}" var="device" varStatus="status">
 			<tr>
@@ -174,6 +201,7 @@ line-height:25px;
 				<td>${device.buyingdate}</td>
 				<td>${device.buyingprice}</td>
 				<td>${device.assessprice}</td>
+				<td>${house.runitname}</td>
 			</tr>
 			</c:forEach>
 		</table>
@@ -186,13 +214,15 @@ line-height:25px;
 <td>
 <table width="100%" border=1 cellpadding="0" cellspacing="0">
 	<tr>
-		<td>编号</td>
+		<td width="3%">编号</td>
 		<td>贷款金融机构</td>
-		<td>业务类别</td>
-		<td>贷款用途</td>
-		<td>贷款方式</td>
-		<td>贷款发放日期</td>
-		<td>贷款到期日</td>
+		<td width="10%">业务类别</td>
+		<td width="20%">贷款用途</td>
+		<td width="10%">贷款金额(元)</td>
+		<td width="10%">贷款方式</td>
+		<td width="10%">贷款发放日期</td>
+		<td width="10%">贷款到期日</td>
+		<td width="10%">贷款余额(元)</td>
 	</tr>
 	<c:forEach items="${loans}" var="loan" varStatus="status">
 	<tr>
@@ -200,45 +230,14 @@ line-height:25px;
 		<td>${loan.organname}</td>
 		<td>${loan.businesstype}</td>
 		<td>${loan.loanuse}</td>
+		<td>${loan.amount}</td>
 		<td></td>
 		<td>${loan.loandate}</td>
 		<td>${loan.limitdate}</td>
+		<td>${loan.balance}</td>
 	</tr>
 	</c:forEach>
-	<tr>
-		<td>编号</td>
-		<td>贷款余额</td>
-		<td>担保方式</td>
-		<td colspan="2">民间借入金额</td>
-		<td colspan="2">民间借出金额</td>
-	</tr>
-	<c:forEach items="${loans}" var="loan" varStatus="status">
-		<tr>
-		<td>${status.index+1}</td>
-		<td>${loan.amount}</td>
-		<td>${loan.guaranteetype}</td>
-		<td colspan="2"></td>
-		<td colspan="2"></td>
-		</tr>
-	</c:forEach>
-	<tr>
-		<td>编号</td>
-		<td>被担保人姓名</td>
-		<td>被担保人身份证号码</td>
-		<td>未结清担保金额</td>
-		<td>未结清担保到期日</td>
-		<td colspan="2">对他人担保金</td>
-	</tr>
-		<c:forEach items="${loans}" var="loan" varStatus="status">
-		<tr>
-		<td>${status.index+1}</td>
-		<td>${loan.clientname}</td>
-		<td>${loan.idnum}</td>
-		<td></td>
-		<td></td>
-		<td colspan="2"></td>
-		</tr>
-	</c:forEach>
+
 </table>
 </td>
 </tr>
@@ -249,15 +248,21 @@ line-height:25px;
 <td>
 <table width="100%" border=1 cellpadding="0" cellspacing="0">
 			<tr>
-				<td>编号</td>
-				<td colspan="2">表彰或处罚部门</td>
-				<td colspan="2">表彰或处罚内容</td>
+				<td width="5%">编号</td>
+				<td width="10%">处罚或表彰</td>
+				<td width="15%">处罚或表彰时间</td>
+				<td width="25%">表彰或处罚部门</td>
+				<td width="30%">表彰或处罚内容</td>
+				<td width="17%">数据录入单位</td>
 			</tr>
 			<c:forEach items="${compunishs}" var="compunish" varStatus="status">
 			<tr>
 				<td>${status.index+1}</td>
-				<td colspan="2">${compunish.organ}</td>
-				<td colspan="2">${compunish.detail}</td>
+				<td >${compunish.type}</td>
+				<td >${compunish.occurtime}</td>
+				<td >${compunish.organ}</td>
+				<td >${compunish.detail}</td>
+				<td >${compunish.runitname}</td>
 			</tr>
 			</c:forEach>
 </table>
@@ -270,13 +275,13 @@ line-height:25px;
 <td>
 	<table width="100%" border=1 cellpadding="0" cellspacing="0">
 		<tr>
-			<td>编号</td>
-<td>参加保险种类</td>
-<td>保险金额</td>
-<td>参保时间</td>
-<td>参保到期日</td>
-		
-		</tr>
+			<td width="5%">编号</td>
+			<td>参加保险种类</td>
+			<td>保险金额</td>
+			<td>参保时间</td>
+			<td>参保到期日</td>
+			<td>数据录入单位</td>		
+</tr>
 	<c:forEach items="${insureds}" var="insured" varStatus="status">
 	<tr>
 		<td>${status.index+1 }</td>
@@ -284,6 +289,7 @@ line-height:25px;
 		<td>${insured.amount}</td>
 		<td>${dt:format(insured.insuretime,"yyyy-MM-dd")}</td>
 		<td>${dt:format(insured.limittime,"yyyy-MM-dd")}</td>
+		<td>${insured.runitname}</td>	
 </tr>
 	
 	</c:forEach>
@@ -297,7 +303,7 @@ line-height:25px;
 
 <tr>
 <td>
-	<table width="100%" border=1 cellpadding="0" cellspacing="0">
+	<table class="table_m" width="100%" border=1 cellpadding="0" cellspacing="0">
 	<tr>
 	<td>家庭和睦</td>
 	<td>敬老爱幼</td>
@@ -305,7 +311,7 @@ line-height:25px;
 	<td>遵纪守法</td>
 	<td>关心公益事业</td>
 	<td>诚实守信</td>
-</tr>
+	</tr>
 	<tr>
 	<td>${dic:translate("evaluate",evaluate.harmonystatus)}</td>
 	<td>${dic:translate("evaluate",evaluate.respectstatus)}</td>

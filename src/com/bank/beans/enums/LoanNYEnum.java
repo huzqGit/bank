@@ -1,7 +1,24 @@
 package com.bank.beans.enums;
 
-public enum LoanNYEnum {
+public enum LoanNYEnum{
 
+	   CLIENTNUM("C"),
+	   COMPACTNUM("N"),
+	   FARMERNAME("D"),
+	   NOTENUM("N"),
+	   LOANDATE("O"),
+	   LIMITDATE("T"),
+	   CURRENCY("G"),
+	   AMOUNT("J"),
+	   BALANCE("L"),
+	   CLIENTNAME("D"),
+	   IDTYPE("P"),
+	   IDNUM("Q"),
+	   GUARANTEETYPE("H"),
+	   GUARANTEETYPE1("H"),
+	   ORGANCODE("A"),
+	   PHONE("R");
+/**
 	   CLIENTNUM(2),
 	   FARMERNAME(3),
 	   NOTENUM(12),
@@ -17,41 +34,16 @@ public enum LoanNYEnum {
 	   GUARANTEETYPE(7),
 	   ORGANCODE(0),
 	   GUARANTEETYPE1(7),
-	   PHONE(17);
-	
-	   private int index; 
+	   PHONE(17);**/
+	   private String index; 
 	   
 	   public static final int $CLIENTTYPE = 1;//客户类型
 	   public static final int $IDTYPE = 2;//证件类型
 	   
-	   LoanNYEnum(int index){
+	   LoanNYEnum(String index){
 		   this.index=index;
 	   }
 	   public int getIndex(){
-		   return this.index;
-	   }
-	   /**
-	    * 
-	    * @param type
-	    * @param value
-	    * @return -99翻译失败
-	    */
-	   public static Integer explain(int type,String value){
-		   if(LoanNSEnum.$CLIENTTYPE == type){
-			   if("其它自然人客户".equals(value)){
-				   return 1;
-			   }else{
-				   return -99;//翻译失败
-			   }
-		   }else if(LoanNSEnum.$IDTYPE == type){
-			   if("公民身份证".equals(value)){
-				   return 0;
-			   }else{
-				   return -99;//
-			   }
-			   
-		   }else{
-			   return -99;
-		   }
+		   return ExcelMapper.getInstance().parseCode(this.index);
 	   }
 }

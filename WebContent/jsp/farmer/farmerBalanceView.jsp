@@ -74,7 +74,7 @@
             		<td align="center">编号</td>
 	        <div property="columns">
 	             <div type="indexcolumn" width="5%" headerAlign="center">编号</div>
-	             <div field="year" width="15%" headerAlign="center" allowSort="true">年份</div>
+	             <div field="year" width="15%" headerAlign="center" dateFormat="yyyy"allowSort="true">年份</div>
 	             <div field="totalincome" width="35%" headerAlign="center" allowSort="true" >家庭年度总收入合计</div>   
 	             <div field="totalpay" width="35%" headerAlign="center" allowSort="true" >家庭年度总支出合计</div>                                           
 	        	 <div width="5%" headerAlign="center" align="center" renderer="editRenderer" cellStyle="padding:0;"></div>

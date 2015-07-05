@@ -836,8 +836,8 @@ select
 		<if test="farmername != null">
 			t.FARMERNAME like CONCAT(CONCAT('%',#{farmername}),'%') 
 		</if>
-		<if test="farmeridNum != null">
-		   	and t.FARMERIDNUM like CONCAT(CONCAT('%',#{farmeridnum}),'%')  
+		<if test="farmeridnum != null">
+		   	and t.FARMERIDNUM = #{farmeridnum}
 		</if>
 		<if test="runitId != null">
 		   	and t.RUNITID = #{runitId,jdbcType=VARCHAR} 

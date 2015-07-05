@@ -27,6 +27,7 @@ import com.bank.Constants;
 import com.bank.beans.Farmer;
 import com.bank.beans.FarmerIncome;
 import com.bank.beans.FarmerPay;
+import com.bank.beans.FarmerPayExample;
 import com.bank.beans.Organ;
 import com.bank.common.util.JsonUtil;
 import com.bank.service.IFarmerIncomeService;
@@ -106,6 +107,7 @@ public class FarmerPayController {
 			HttpServletRequest request,HttpServletResponse response)  {
 		
 		String delIncomes = request.getParameter("deleteIncome");
+		Organ organ = (Organ)request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
 		if(!StringUtils.isEmpty(delIncomes)){
 			String[] incomes = delIncomes.split(",");
 			List<Long> incomeIds = new ArrayList<Long>(incomes.length);
@@ -117,6 +119,14 @@ public class FarmerPayController {
 	
 		try {
 			if(balance.getId()==null){
+				//FarmerPayExample fe = new FarmerPayExample();
+				//FarmerPayExample.Criteria fc = fe.createCriteria();
+				//fc.andYearEqualTo(balance.getYear());
+				//farmerPayService.selectByExample(example)
+				balance.setRunitid(organ.getOrganId());
+				balance.setRunitname(organ.getOrganName());
+				balance.setSourcecode(organ.getOrganNo());
+				balance.setSourcename(organ.getOrganName());
 			farmerPayService.save(balance);
 			}else{
 				farmerPayService.update(balance);

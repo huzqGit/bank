@@ -7,6 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <link href="${pageContext.request.contextPath}/jsp/farmer/form.css"  rel="stylesheet" type="text/css"/>
+<script src="${pageContext.request.contextPath}/miniui/jquery-1.6.2.min.js" type="text/javascript"></script>
 <style type="text/css">
  *{ margin:0;padding:0;}
 body{font-size: 14px; }
@@ -48,10 +49,17 @@ legend{
 			height:25px;
 		}
     </style>
+    <script type="text/javascript">
+    	function test(){
+    		$(".load").css("display","block");
+    		return true;
+    	}
+    </script>
 </head>
 <body>
+
 <div class="queryPane">
-<form action="/bank/loan/loadFile.do" method="post" enctype="multipart/form-data">
+<form action="/bank/loan/loadFile.do" method="post" enctype="multipart/form-data" onsubmit="test()">
 <table width="100%" height ="30px" >
  	<tr>
  		<td class="labelName" width="30%" align="right">
@@ -87,6 +95,10 @@ legend{
 
  </div>
 </fieldset>
+<div class="load" style="display:none;text-align:center;padding-top:50px">
+	<span>正在上传文件</span>
+	<img src="${pageContext.request.contextPath}/images/loading.gif"/>
+</div>
 <c:if test="${!empty msgs}">
 <div style="scrollbar-face-color:#6DC8E3;width:90%;height:200px;overflow-y:auto;margin-top:20px;margin-left:auto;margin-right:auto">
 <table  id="tips" border="1" cellspacing=0 cellpadding=0 >
