@@ -99,6 +99,10 @@
         <error-code>500</error-code>
         <location>/jsp/main/error.jsp</location>
     </error-page>
+    <error-page>
+		<exception-type>java.lang.Exception</exception-type>
+		<location>/jsp/main/jspException.jsp</location>
+	</error-page>
 	
 	<welcome-file-list>
 		<welcome-file>/jsp/login/login.jsp</welcome-file>
