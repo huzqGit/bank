@@ -22,10 +22,16 @@ request.setAttribute("roleId", roleId);
         >
     </ul>
     </div>
+    
+    <c:set var="enabled" value="enabled='false'" />
+    <c:if test="${!empty roleId}">
+    	<c:set var="enabled" value="enabled='true'" />
+    </c:if>
+    
 	<div style="text-align:center;padding:10px;">   		 
-    <a class="mini-button" iconCls="icon-add" onclick="checkAll">选择所有</a>
-    <a class="mini-button" iconCls="icon-remove" onclick="uncheckAll">取消选择所有</a>
-	<a class="mini-button" iconCls="icon-save" onclick="getCheckedNodes">确定</a>
+    <a class="mini-button" iconCls="icon-add" ${enabled} onclick="checkAll">选择所有</a>
+    <a class="mini-button" iconCls="icon-remove" ${enabled} onclick="uncheckAll">取消选择所有</a>
+	<a class="mini-button" iconCls="icon-save" ${enabled} onclick="getCheckedNodes">确定</a>
     </div>
     </div>
     <script type="text/javascript">

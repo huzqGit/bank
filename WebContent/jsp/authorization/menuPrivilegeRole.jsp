@@ -26,8 +26,14 @@ request.setAttribute("roleId", roleId);
 	    </ul>
     </div>
     <div title="center" region="center" style="height:70%;border-bottom:0;padding:0px;">
+    
+    	 <c:set var="enabled" value="enabled='false'" />
+	     <c:if test="${!empty roleId}">
+	    	<c:set var="enabled" value="enabled='true'" />
+	     </c:if>
+    
         <div class="mini-toolbar" style="border-bottom:0;padding:0px;">
-            <a class="mini-button" iconCls="icon-save" onclick="save()">确定</a>
+            <a class="mini-button" ${enabled} iconCls="icon-save" onclick="save()">确定</a>
         </div>
 	    <div id="datagrid1" class="mini-datagrid" style="" allowResize="false" allowCellEdit="true"
 	        url="${pageContext.request.contextPath}/menu/loadCheckedPrivileges.do"  idField="id" multiSelect="true" showPager="false"
