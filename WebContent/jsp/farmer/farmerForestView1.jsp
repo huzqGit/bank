@@ -68,21 +68,24 @@
 	</tr>
 </table>
 </div>
-<div id="datagrid1" class="mini-datagrid" style="width:98%;margin:auto auto;height:320px;background-color:white" 
-            url="${pageContext.request.contextPath}/farmer/loadForest.do?fid=${farmer.id}"
-            sizeList="[5,10,20,50]" pageSize="10" showReloadButton="false">
-            		<td align="center">编号</td>
-	        <div property="columns">
-	             <div type="indexcolumn" width="5%" headerAlign="center">编号</div>
-	             <div field="cardnum" width="10%" headerAlign="center" allowSort="true" >林权证编号</div>   
-	             <div field="wordnum" width="10%" headerAlign="center" allowSort="true">林权证字号</div>
-	             <div field="user" width="10%" headerAlign="center" allowSort="true" >使用人</div>   
-	             <div field="useType" width="10%" headerAlign="center" allowSort="true" >使用种类</div>   
-	             <div field="area" width="10%" headerAlign="center" allowSort="true" >占地面积</div>                                              
-	        	 <div field="timelimit" width="35%" headerAlign="center" allowSort="true" >使用权期限</div>
-	        	 <div name="action" width="5%" headerAlign="center" align="center" renderer="editRenderer" cellStyle="padding:0;"></div>
-	        	 <div name="action" width="5%" headerAlign="center" align="center" renderer="deleteRenderer" cellStyle="padding:0;"></div>
-	         </div>
+<div style="width:100%;position:absolute;top:110px;bottom:0px;left:0px;bottom:0px">
+	<div class="mini-fit">
+		<div id="datagrid1" class="mini-datagrid" style="width:100%;height:100%;background-color:white" 
+		            url="${pageContext.request.contextPath}/farmer/loadForest.do?fid=${farmer.id}"
+		            sizeList="[5,10,20,50]" pageSize="20" showReloadButton="false">
+			        <div property="columns">
+			             <div type="indexcolumn" width="5%" headerAlign="center">编号</div>
+			             <div field="cardnum" width="10%" headerAlign="center" allowSort="true" >林权证编号</div>   
+			             <div field="wordnum" width="10%" headerAlign="center" allowSort="true">林权证字号</div>
+			             <div field="user" width="10%" headerAlign="center" allowSort="true" >使用人</div>   
+			             <div field="useType" width="10%" headerAlign="center" allowSort="true" >使用种类</div>   
+			             <div field="area" width="10%" headerAlign="center" allowSort="true" >占地面积</div>                                              
+			        	 <div field="timelimit" width="35%" headerAlign="center" allowSort="true" >使用权期限</div>
+			        	 <div name="action" width="5%" headerAlign="center" align="center" renderer="editRenderer" cellStyle="padding:0;"></div>
+			        	 <div name="action" width="5%" headerAlign="center" align="center" renderer="deleteRenderer" cellStyle="padding:0;"></div>
+			         </div>
+		</div>
+	</div>
 </div>
 <script type="text/javascript">
 	mini.parse();

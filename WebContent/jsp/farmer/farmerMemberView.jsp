@@ -68,21 +68,25 @@
 	</tr>
 </table>
 </div>
-<div id="datagrid1" class="mini-datagrid" style="width:98%;margin:auto auto;height:340px;background-color:white" 
-            url="${pageContext.request.contextPath}/farmer/loadMember.do?fid=${farmer.id}" idField="id"
-            sizeList="[5,10,20,50]" pageSize="10" showReloadButton="false">
-	        <div property="columns">
-	             <div type="indexcolumn" width="5%" headerAlign="center"></div>
-	             <div field="name" width="10%" headerAlign="center" allowSort="true">姓名</div>
-	             <div field="relation" width="10%" headerAlign="center" allowSort="true" renderer="relationRenderer">与户主关系</div>   
-	             <div field="idnum" width="15%" headerAlign="center" allowSort="true">身份证号码 </div>     
-	             <div field="marrystatus" width="8%" headerAlign="center" allowSort="true" renderer="marrystatusRenderer">婚姻状况</div>
-	             <div field="sex" width="8%" headerAlign="center" allowSort="true" renderer="sexRenderer">性别</div>    
-	             <div field="phone" width="15%" headerAlign="center" allowSort="true" >联系电话</div> 
-	             <div field="address" width="14%" headerAlign="center" allowSort="true" >地址</div>                                      
-	        	 <div width="5%" headerAlign="center" align="center" renderer="editRenderer" cellStyle="padding:0;"></div>
-	         	 <div width="5%" headerAlign="center" align="center" renderer="deleteRenderer" cellStyle="padding:0;"></div>
-	         </div>
+<div style="width:100%;position:absolute;top:100px;bottom:0px;left:0px;bottom:0px">
+	<div class="mini-fit">
+		<div id="datagrid1" class="mini-datagrid" style="width:100%;;height:100%;background-color:white" 
+		            url="${pageContext.request.contextPath}/farmer/loadMember.do?fid=${farmer.id}" idField="id"
+		            sizeList="[5,10,20,50]" pageSize="10" showReloadButton="false">
+			        <div property="columns">
+			             <div type="indexcolumn" width="5%" headerAlign="center"></div>
+			             <div field="name" width="10%" headerAlign="center" allowSort="true">姓名</div>
+			             <div field="relation" width="10%" headerAlign="center" allowSort="true" renderer="relationRenderer">与户主关系</div>   
+			             <div field="idnum" width="15%" headerAlign="center" allowSort="true">身份证号码 </div>     
+			             <div field="marrystatus" width="8%" headerAlign="center" allowSort="true" renderer="marrystatusRenderer">婚姻状况</div>
+			             <div field="sex" width="8%" headerAlign="center" allowSort="true" renderer="sexRenderer">性别</div>    
+			             <div field="phone" width="15%" headerAlign="center" allowSort="true" >联系电话</div> 
+			             <div field="address" width="14%" headerAlign="center" allowSort="true" >地址</div>                                      
+			        	 <div width="5%" headerAlign="center" align="center" renderer="editRenderer" cellStyle="padding:0;"></div>
+			         	 <div width="5%" headerAlign="center" align="center" renderer="deleteRenderer" cellStyle="padding:0;"></div>
+			         </div>
+		</div>
+	</div>
 </div>
 <script type="text/javascript">
 	mini.parse();

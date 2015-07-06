@@ -46,17 +46,21 @@ body{font-family:"仿宋_GB2312";font-size:13pt;}
 </table>
 </form>
 </div>
-<div id="datagrid1" class="mini-datagrid" style="width:98%;margin:auto auto;height:340px;background-color:white" 
-            url="${pageContext.request.contextPath}/farmer/queryFarmer.do" idField="id"
-            sizeList="[5,10,20,50]" pageSize="10" showReloadButton="false">
-	        <div property="columns">
-	             <div type="indexcolumn" width="5%" headerAlign="center">编号</div>
-	             <div field="farmername" width="10%" headerAlign="center" allowSort="true"  >姓名</div>
-	             <div field="farmeridnum" width="15%" headerAlign="center" allowSort="true" >身份证号码</div>   
-	             <div field="phone" width="25%" headerAlign="center" allowSort="true" >联系电话</div>     
-	             <div field="address" width="40%" headerAlign="center" allowSort="true" >住址</div>                                         
-	        	 <div name="action" width="5%" headerAlign="center" align="center" renderer="onActionRenderer1" cellStyle="padding:0;"></div>
-	         </div>
+<div style="width:100%;position:absolute;top:50px;bottom:0px;left:0px;">
+<div class="mini-fit">
+	<div id="datagrid1" class="mini-datagrid" style="width:100%;height:100%;background-color:white" 
+	            url="${pageContext.request.contextPath}/farmer/queryFarmer.do" idField="id"
+	            sizeList="[5,10,20,50]" pageSize="20" showReloadButton="false">
+		        <div property="columns">
+		             <div type="indexcolumn" width="5%" headerAlign="center">编号</div>
+		             <div field="farmername" width="10%" headerAlign="center" allowSort="true"  >姓名</div>
+		             <div field="farmeridnum" width="15%" headerAlign="center" allowSort="true" >身份证号码</div>   
+		             <div field="phone" width="25%" headerAlign="center" allowSort="true" >联系电话</div>     
+		             <div field="address" width="40%" headerAlign="center" allowSort="true" >住址</div>                                         
+		        	 <div name="action" width="5%" headerAlign="center" align="center" renderer="onActionRenderer1" cellStyle="padding:0;"></div>
+		         </div>
+	</div>
+</div>
 </div>
 <script type="text/javascript">
 	mini.parse();

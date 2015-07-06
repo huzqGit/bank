@@ -68,18 +68,22 @@
 	</tr>
 </table>
 </div>
-<div id="datagrid1" class="mini-datagrid" style="width:98%;margin:auto auto;height:340px;background-color:white" 
-            url="${pageContext.request.contextPath}/farmer/loadBalance1.do?fid=${farmer.id}" idField="id"
-            sizeList="[5,10,20,50]" pageSize="10" showReloadButton="false">
-            		<td align="center">编号</td>
-	        <div property="columns">
-	             <div type="indexcolumn" width="5%" headerAlign="center">编号</div>
-	             <div field="year" width="15%" headerAlign="center" dateFormat="yyyy"allowSort="true">年份</div>
-	             <div field="totalincome" width="35%" headerAlign="center" allowSort="true" >家庭年度总收入合计</div>   
-	             <div field="totalpay" width="35%" headerAlign="center" allowSort="true" >家庭年度总支出合计</div>                                           
-	        	 <div width="5%" headerAlign="center" align="center" renderer="editRenderer" cellStyle="padding:0;"></div>
-	        	 <div width="5%" headerAlign="center" align="center" renderer="deleteRenderer" cellStyle="padding:0;"></div>
-	         </div>
+<div style="width:100%;position:absolute;top:110px;bottom:0px;left:0px;bottom:0px">
+	<div class="mini-fit">
+		<div id="datagrid1" class="mini-datagrid" style="width:100%;height:100%;background-color:white" 
+		            url="${pageContext.request.contextPath}/farmer/loadBalance1.do?fid=${farmer.id}" idField="id"
+		            sizeList="[5,10,20,50]" pageSize="10" showReloadButton="false">
+		            		<td align="center">编号</td>
+			        <div property="columns">
+			             <div type="indexcolumn" width="5%" headerAlign="center">编号</div>
+			             <div field="year" width="15%" headerAlign="center" dateFormat="yyyy"allowSort="true">年份</div>
+			             <div field="totalincome" width="35%" headerAlign="center" allowSort="true" >家庭年度总收入合计</div>   
+			             <div field="totalpay" width="35%" headerAlign="center" allowSort="true" >家庭年度总支出合计</div>                                           
+			        	 <div width="5%" headerAlign="center" align="center" renderer="editRenderer" cellStyle="padding:0;"></div>
+			        	 <div width="5%" headerAlign="center" align="center" renderer="deleteRenderer" cellStyle="padding:0;"></div>
+			         </div>
+		</div>
+	</div>
 </div>
 <script type="text/javascript">
 	mini.parse();

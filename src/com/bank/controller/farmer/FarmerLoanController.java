@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.druid.support.logging.Log;
+import com.alibaba.druid.support.logging.LogFactory;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.bank.Constants;
@@ -55,6 +57,8 @@ private IFarmerService farmerService;
 
 @Resource
 private IFarmerLoanService loanService;
+
+private Log log = LogFactory.getLog(FarmerLoanController.class);
 
 @RequestMapping(value="/saveLoan1",method=RequestMethod.POST)
 public ModelAndView saveLoan1(@ModelAttribute(value="loan") FarmerLoan loan,
@@ -785,7 +789,7 @@ public List<Map<String,String>> importFarmerNY(String organId,String organName,
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error("用户:"+recorder+"导入农业银行农户数据出错,在第"+row+"行");
 		}
 		//关联农户信贷信息
 		List<FarmerLoan> loans = loanService.findByID("1","0",farmer.getFarmeridnum());

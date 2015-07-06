@@ -130,7 +130,7 @@ public class FarmerController   {
 			if(farmer.getId() == null){
 				farmerService.save(farmer);
 			}else{
-				farmerService.update(farmer);
+				farmerService.updateBySelective(farmer);
 			}
 		}catch(Exception e){
 			e.printStackTrace();

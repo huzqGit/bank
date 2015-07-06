@@ -68,18 +68,22 @@
 	</tr>
 </table>
 </div>
-<div id="datagrid1" class="mini-datagrid" style="width:98%;margin:auto auto;height:320px;background-color:white" 
-            url="${pageContext.request.contextPath}/farmer/loadBreed.do?fid=${farmer.id}"
-            sizeList="[5,10,20,50]" pageSize="10" showReloadButton="false">
-	        <div property="columns">
-	             <div type="indexcolumn" width="5%" headerAlign="center" >编号</div>
-	             <div field="variety" width="20%" headerAlign="center" allowSort="true" renderer="breedTypeRenderer">种养殖品种</div>
-	             <div field="floorarea" width="15%" headerAlign="center" allowSort="true">占地面积</div>   
-	             <div field="output" width="20%" headerAlign="center" allowSort="true">年产量</div>
-	             <div field="outputvalue" width="20%" headerAlign="center" allowSort="true" >年产值</div> 
-	        	 <div name="action" width="5%" headerAlign="center" align="center" renderer="editRenderer" cellStyle="padding:0;"></div>
-	        	 <div name="action" width="5%" headerAlign="center" align="center" renderer="deleteRenderer" cellStyle="padding:0;"></div>
-	         </div>
+<div style="width:100%;position:absolute;top:110px;bottom:0px;left:0px;bottom:0px">
+	<div class="mini-fit">
+		<div id="datagrid1" class="mini-datagrid" style="width:100%;height:100%;background-color:white" 
+		            url="${pageContext.request.contextPath}/farmer/loadBreed.do?fid=${farmer.id}"
+		            sizeList="[5,10,20,50]" pageSize="20" showReloadButton="false">
+			        <div property="columns">
+			             <div type="indexcolumn" width="5%" headerAlign="center" >编号</div>
+			             <div field="variety" width="20%" headerAlign="center" allowSort="true" renderer="breedTypeRenderer">种养殖品种</div>
+			             <div field="floorarea" width="15%" headerAlign="center" allowSort="true">占地面积</div>   
+			             <div field="output" width="20%" headerAlign="center" allowSort="true">年产量</div>
+			             <div field="outputvalue" width="20%" headerAlign="center" allowSort="true" >年产值</div> 
+			        	 <div name="action" width="5%" headerAlign="center" align="center" renderer="editRenderer" cellStyle="padding:0;"></div>
+			        	 <div name="action" width="5%" headerAlign="center" align="center" renderer="deleteRenderer" cellStyle="padding:0;"></div>
+			         </div>
+		</div>
+	</div>
 </div>
 <script type="text/javascript">
 	mini.parse();
