@@ -20,12 +20,18 @@ request.setAttribute("organId", organId);
     </style>
 <body >   
     <div class="mini-toolbar" style="padding:2px;border-bottom:0;">
+    
+    	<c:set var="enabled" value="enabled='false'" />
+	    <c:if test="${!empty organId}">
+	    	<c:set var="enabled" value="enabled='true'" />
+	    </c:if>
+    
         <table style="width:100%;">
             <tr>
             <td style="width:100%;">
-                <a class="mini-button" iconCls="icon-add" plain="true" onclick="add();">新增</a>
-                <a class="mini-button" iconCls="icon-add" plain="true" onclick="edit()">编辑</a>
-                <a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">删除</a>
+                <a class="mini-button" iconCls="icon-add" ${enabled} plain="true" onclick="add();">新增</a>
+                <a class="mini-button" iconCls="icon-add" ${enabled} plain="true" onclick="edit()">编辑</a>
+                <a class="mini-button" iconCls="icon-remove" ${enabled} plain="true" onclick="remove()">删除</a>
             </td>
             <td style="white-space:nowrap;"><label style="font-family:Verdana;">名称: </label>
                 <input id="key" class="mini-textbox"/>
