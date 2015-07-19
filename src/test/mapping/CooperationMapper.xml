@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="test.dao.CooperationMapper" >
+  <resultMap id="BaseResultMap" type="test.model.Cooperation" >
+    <result column="COOPERATIONID" property="cooperationid" jdbcType="BIGINT" />
+    <result column="COOPERATIONNAME" property="cooperationname" jdbcType="VARCHAR" />
+    <result column="ORGACODE" property="orgacode" jdbcType="VARCHAR" />
+    <result column="TAXCODE" property="taxcode" jdbcType="VARCHAR" />
+    <result column="BUSINESSLICENCE" property="businesslicence" jdbcType="VARCHAR" />
+    <result column="REGISTERADDRESS" property="registeraddress" jdbcType="VARCHAR" />
+    <result column="MAILADDRESS" property="mailaddress" jdbcType="VARCHAR" />
+    <result column="REGISTERDATE" property="registerdate" jdbcType="DATE" />
+    <result column="REGISTERCAPITAL" property="registercapital" jdbcType="VARCHAR" />
+    <result column="REALCAPITAL" property="realcapital" jdbcType="VARCHAR" />
+    <result column="LEGALPERSON" property="legalperson" jdbcType="VARCHAR" />
+    <result column="IDNUM" property="idnum" jdbcType="VARCHAR" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="MEMBERS" property="members" jdbcType="INTEGER" />
+    <result column="BUSINESSCOPE" property="businesscope" jdbcType="VARCHAR" />
+    <result column="BUSINESSAREA" property="businessarea" jdbcType="INTEGER" />
+    <result column="FARMERS" property="farmers" jdbcType="INTEGER" />
+    <result column="CONNECTIONBASE" property="connectionbase" jdbcType="VARCHAR" />
+    <result column="RUNITID" property="runitid" jdbcType="VARCHAR" />
+    <result column="RUNITNAME" property="runitname" jdbcType="VARCHAR" />
+    <result column="RECORDER" property="recorder" jdbcType="VARCHAR" />
+    <result column="RECORDTIME" property="recordtime" jdbcType="TIMESTAMP" />
+    <result column="SOURCECODE" property="sourcecode" jdbcType="VARCHAR" />
+    <result column="SOURCENAME" property="sourcename" jdbcType="VARCHAR" />
+    <result column="ORGAN_ID" property="organId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    COOPERATIONID, COOPERATIONNAME, ORGACODE, TAXCODE, BUSINESSLICENCE, REGISTERADDRESS, 
+    MAILADDRESS, REGISTERDATE, REGISTERCAPITAL, REALCAPITAL, LEGALPERSON, IDNUM, PHONE, 
+    MEMBERS, BUSINESSCOPE, BUSINESSAREA, FARMERS, CONNECTIONBASE, RUNITID, RUNITNAME, 
+    RECORDER, RECORDTIME, SOURCECODE, SOURCENAME, ORGAN_ID
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="test.model.CooperationExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_COOPERATION
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="test.model.CooperationExample" >
+    delete from T_COOPERATION
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="test.model.Cooperation" >
+    <selectKey resultType="java.lang.Long" keyProperty="cooperationid" order="AFTER" >
+      VALUES IDENTITY_VAL_LOCAL()
+    </selectKey>
+    insert into T_COOPERATION (COOPERATIONNAME, ORGACODE, TAXCODE, 
+      BUSINESSLICENCE, REGISTERADDRESS, MAILADDRESS, 
+      REGISTERDATE, REGISTERCAPITAL, REALCAPITAL, 
+      LEGALPERSON, IDNUM, PHONE, 
+      MEMBERS, BUSINESSCOPE, BUSINESSAREA, 
+      FARMERS, CONNECTIONBASE, RUNITID, 
+      RUNITNAME, RECORDER, RECORDTIME, 
+      SOURCECODE, SOURCENAME, ORGAN_ID
+      )
+    values (#{cooperationname,jdbcType=VARCHAR}, #{orgacode,jdbcType=VARCHAR}, #{taxcode,jdbcType=VARCHAR}, 
+      #{businesslicence,jdbcType=VARCHAR}, #{registeraddress,jdbcType=VARCHAR}, #{mailaddress,jdbcType=VARCHAR}, 
+      #{registerdate,jdbcType=DATE}, #{registercapital,jdbcType=VARCHAR}, #{realcapital,jdbcType=VARCHAR}, 
+      #{legalperson,jdbcType=VARCHAR}, #{idnum,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{members,jdbcType=INTEGER}, #{businesscope,jdbcType=VARCHAR}, #{businessarea,jdbcType=INTEGER}, 
+      #{farmers,jdbcType=INTEGER}, #{connectionbase,jdbcType=VARCHAR}, #{runitid,jdbcType=VARCHAR}, 
+      #{runitname,jdbcType=VARCHAR}, #{recorder,jdbcType=VARCHAR}, #{recordtime,jdbcType=TIMESTAMP}, 
+      #{sourcecode,jdbcType=VARCHAR}, #{sourcename,jdbcType=VARCHAR}, #{organId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="test.model.Cooperation" >
+    <selectKey resultType="java.lang.Long" keyProperty="cooperationid" order="AFTER" >
+      VALUES IDENTITY_VAL_LOCAL()
+    </selectKey>
+    insert into T_COOPERATION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cooperationname != null" >
+        COOPERATIONNAME,
+      </if>
+      <if test="orgacode != null" >
+        ORGACODE,
+      </if>
+      <if test="taxcode != null" >
+        TAXCODE,
+      </if>
+      <if test="businesslicence != null" >
+        BUSINESSLICENCE,
+      </if>
+      <if test="registeraddress != null" >
+        REGISTERADDRESS,
+      </if>
+      <if test="mailaddress != null" >
+        MAILADDRESS,
+      </if>
+      <if test="registerdate != null" >
+        REGISTERDATE,
+      </if>
+      <if test="registercapital != null" >
+        REGISTERCAPITAL,
+      </if>
+      <if test="realcapital != null" >
+        REALCAPITAL,
+      </if>
+      <if test="legalperson != null" >
+        LEGALPERSON,
+      </if>
+      <if test="idnum != null" >
+        IDNUM,
+      </if>
+      <if test="phone != null" >
+        PHONE,
+      </if>
+      <if test="members != null" >
+        MEMBERS,
+      </if>
+      <if test="businesscope != null" >
+        BUSINESSCOPE,
+      </if>
+      <if test="businessarea != null" >
+        BUSINESSAREA,
+      </if>
+      <if test="farmers != null" >
+        FARMERS,
+      </if>
+      <if test="connectionbase != null" >
+        CONNECTIONBASE,
+      </if>
+      <if test="runitid != null" >
+        RUNITID,
+      </if>
+      <if test="runitname != null" >
+        RUNITNAME,
+      </if>
+      <if test="recorder != null" >
+        RECORDER,
+      </if>
+      <if test="recordtime != null" >
+        RECORDTIME,
+      </if>
+      <if test="sourcecode != null" >
+        SOURCECODE,
+      </if>
+      <if test="sourcename != null" >
+        SOURCENAME,
+      </if>
+      <if test="organId != null" >
+        ORGAN_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cooperationname != null" >
+        #{cooperationname,jdbcType=VARCHAR},
+      </if>
+      <if test="orgacode != null" >
+        #{orgacode,jdbcType=VARCHAR},
+      </if>
+      <if test="taxcode != null" >
+        #{taxcode,jdbcType=VARCHAR},
+      </if>
+      <if test="businesslicence != null" >
+        #{businesslicence,jdbcType=VARCHAR},
+      </if>
+      <if test="registeraddress != null" >
+        #{registeraddress,jdbcType=VARCHAR},
+      </if>
+      <if test="mailaddress != null" >
+        #{mailaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="registerdate != null" >
+        #{registerdate,jdbcType=DATE},
+      </if>
+      <if test="registercapital != null" >
+        #{registercapital,jdbcType=VARCHAR},
+      </if>
+      <if test="realcapital != null" >
+        #{realcapital,jdbcType=VARCHAR},
+      </if>
+      <if test="legalperson != null" >
+        #{legalperson,jdbcType=VARCHAR},
+      </if>
+      <if test="idnum != null" >
+        #{idnum,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="members != null" >
+        #{members,jdbcType=INTEGER},
+      </if>
+      <if test="businesscope != null" >
+        #{businesscope,jdbcType=VARCHAR},
+      </if>
+      <if test="businessarea != null" >
+        #{businessarea,jdbcType=INTEGER},
+      </if>
+      <if test="farmers != null" >
+        #{farmers,jdbcType=INTEGER},
+      </if>
+      <if test="connectionbase != null" >
+        #{connectionbase,jdbcType=VARCHAR},
+      </if>
+      <if test="runitid != null" >
+        #{runitid,jdbcType=VARCHAR},
+      </if>
+      <if test="runitname != null" >
+        #{runitname,jdbcType=VARCHAR},
+      </if>
+      <if test="recorder != null" >
+        #{recorder,jdbcType=VARCHAR},
+      </if>
+      <if test="recordtime != null" >
+        #{recordtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sourcecode != null" >
+        #{sourcecode,jdbcType=VARCHAR},
+      </if>
+      <if test="sourcename != null" >
+        #{sourcename,jdbcType=VARCHAR},
+      </if>
+      <if test="organId != null" >
+        #{organId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="test.model.CooperationExample" resultType="java.lang.Integer" >
+    select count(*) from T_COOPERATION
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_COOPERATION
+    <set >
+      <if test="record.cooperationid != null" >
+        COOPERATIONID = #{record.cooperationid,jdbcType=BIGINT},
+      </if>
+      <if test="record.cooperationname != null" >
+        COOPERATIONNAME = #{record.cooperationname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgacode != null" >
+        ORGACODE = #{record.orgacode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taxcode != null" >
+        TAXCODE = #{record.taxcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.businesslicence != null" >
+        BUSINESSLICENCE = #{record.businesslicence,jdbcType=VARCHAR},
+      </if>
+      <if test="record.registeraddress != null" >
+        REGISTERADDRESS = #{record.registeraddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mailaddress != null" >
+        MAILADDRESS = #{record.mailaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.registerdate != null" >
+        REGISTERDATE = #{record.registerdate,jdbcType=DATE},
+      </if>
+      <if test="record.registercapital != null" >
+        REGISTERCAPITAL = #{record.registercapital,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realcapital != null" >
+        REALCAPITAL = #{record.realcapital,jdbcType=VARCHAR},
+      </if>
+      <if test="record.legalperson != null" >
+        LEGALPERSON = #{record.legalperson,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idnum != null" >
+        IDNUM = #{record.idnum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null" >
+        PHONE = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.members != null" >
+        MEMBERS = #{record.members,jdbcType=INTEGER},
+      </if>
+      <if test="record.businesscope != null" >
+        BUSINESSCOPE = #{record.businesscope,jdbcType=VARCHAR},
+      </if>
+      <if test="record.businessarea != null" >
+        BUSINESSAREA = #{record.businessarea,jdbcType=INTEGER},
+      </if>
+      <if test="record.farmers != null" >
+        FARMERS = #{record.farmers,jdbcType=INTEGER},
+      </if>
+      <if test="record.connectionbase != null" >
+        CONNECTIONBASE = #{record.connectionbase,jdbcType=VARCHAR},
+      </if>
+      <if test="record.runitid != null" >
+        RUNITID = #{record.runitid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.runitname != null" >
+        RUNITNAME = #{record.runitname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recorder != null" >
+        RECORDER = #{record.recorder,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recordtime != null" >
+        RECORDTIME = #{record.recordtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sourcecode != null" >
+        SOURCECODE = #{record.sourcecode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sourcename != null" >
+        SOURCENAME = #{record.sourcename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.organId != null" >
+        ORGAN_ID = #{record.organId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_COOPERATION
+    set COOPERATIONID = #{record.cooperationid,jdbcType=BIGINT},
+      COOPERATIONNAME = #{record.cooperationname,jdbcType=VARCHAR},
+      ORGACODE = #{record.orgacode,jdbcType=VARCHAR},
+      TAXCODE = #{record.taxcode,jdbcType=VARCHAR},
+      BUSINESSLICENCE = #{record.businesslicence,jdbcType=VARCHAR},
+      REGISTERADDRESS = #{record.registeraddress,jdbcType=VARCHAR},
+      MAILADDRESS = #{record.mailaddress,jdbcType=VARCHAR},
+      REGISTERDATE = #{record.registerdate,jdbcType=DATE},
+      REGISTERCAPITAL = #{record.registercapital,jdbcType=VARCHAR},
+      REALCAPITAL = #{record.realcapital,jdbcType=VARCHAR},
+      LEGALPERSON = #{record.legalperson,jdbcType=VARCHAR},
+      IDNUM = #{record.idnum,jdbcType=VARCHAR},
+      PHONE = #{record.phone,jdbcType=VARCHAR},
+      MEMBERS = #{record.members,jdbcType=INTEGER},
+      BUSINESSCOPE = #{record.businesscope,jdbcType=VARCHAR},
+      BUSINESSAREA = #{record.businessarea,jdbcType=INTEGER},
+      FARMERS = #{record.farmers,jdbcType=INTEGER},
+      CONNECTIONBASE = #{record.connectionbase,jdbcType=VARCHAR},
+      RUNITID = #{record.runitid,jdbcType=VARCHAR},
+      RUNITNAME = #{record.runitname,jdbcType=VARCHAR},
+      RECORDER = #{record.recorder,jdbcType=VARCHAR},
+      RECORDTIME = #{record.recordtime,jdbcType=TIMESTAMP},
+      SOURCECODE = #{record.sourcecode,jdbcType=VARCHAR},
+      SOURCENAME = #{record.sourcename,jdbcType=VARCHAR},
+      ORGAN_ID = #{record.organId,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>
