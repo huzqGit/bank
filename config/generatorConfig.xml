@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"  
   "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">  
 <generatorConfiguration>  
-    <classPathEntry  location="G:\myProjectWorkplace\bank\WebContent\WEB-INF\lib\db2jcc.jar"/>  
+    <classPathEntry  location="E:\bank\git\bank\WebContent\WEB-INF\lib\db2jcc.jar"/>  
     <context id="DB2Tables"  targetRuntime="MyBatis3">  
         <commentGenerator>  
             <property name="suppressDate" value="true"/>  
@@ -24,8 +24,13 @@
         <javaClientGenerator type="XMLMAPPER" targetPackage="test.dao" targetProject="bank">  
             <property name="enableSubPackages" value="true"/>  
         </javaClientGenerator>  
-        <table tableName="T_MENU_PRIVILEGE" domainObjectName="Privilege" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-<!--         	<generatedKey column="id" sqlStatement="select T_MENU_PRIVILEGE_SN.nextval from dual"/> -->
-        </table>
+         <table tableName="T_COOPERATION" domainObjectName="Cooperation" >
+         	<generatedKey column="COOPERATIONID" sqlStatement="DB2" identity="true" />
+
+         </table>
+          <table tableName="T_FARMER_CREDIT" domainObjectName="FarmerCredit" >
+         	<generatedKey column="CREDITID" sqlStatement="DB2" identity="true" />
+
+         </table>
     </context>  
 </generatorConfiguration> 

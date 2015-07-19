@@ -6,83 +6,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<link href="${pageContext.request.contextPath}/jsp/farmer/form.css"  rel="stylesheet" type="text/css"/>
 <script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/jsp/farmer/farmer.js" type="text/javascript"></script>
-<style type="text/css">
-	*{margin:0;padding:0;text-decoration:none}
-	body{
-overflow-x:hidden
-}
-    .active{font-size: 15px;font-family: YouYuan;font-weight: bold;color:darkgreen}
-     .inactive{font-size: 15px;font-family: YouYuan;font-weight:bold;color:gray}
-    .display{display:block;}
-    .hidden{display:none;}
-    .line{background-color:#CCECF5;}
-    .topMenu{
-    border:1px solid #8AD3E9;
-    /* IE6 & IE7 */
-	filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0 , startColorstr = '#6DC8E3', 
-	endColorstr = 'white' ); 
-	/* IE8 */
-	-ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType = 0,startColorstr = '#6DC8E3', 
-	endColorstr = 'white' )"; 
-    }
-	#saveBtn{
-		width:100px;
-		height:25px;
-		border:0;
-		background:url(/bank/images/save.png) no-repeat
-	}
-	#backBtn{
-		width:100px;
-		height:25px;
-		border:0;
-		background:url(/bank/images/back.png) no-repeat
-	}
-	.addBtn{width:100px;height:25px;border:0;background:url(/bank/images/add.png) no-repeat}
-	.delBtn{width:100px;height:25px;border:0;background:url(/bank/images/delete.png) no-repeat}
-	.labelName{font-size:15px;font-weight:bold;color:darkgreen;}
-	.labelValue{font-size:15px;font-weight:bold;color:red;}
-	 li{
- border-bottom:1px solid lightgray;
- float:left;
- width:85px;
- list-style-type:none;
- height:31px;
- text-align:center;
- line-height:28px;
- font-weight:bold;
- color:black;
- background-repeat:no-repeat
- }
- li a{
- color:black
- }
-.active{
- float:left;
- width:100px;
- list-style-type:none;
- text-align:center;
- border-bottom:none;
- border-top:1px solid gray;
- border-left:1px solid gray;
- border-right:1px solid white;
- 	filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0 , startColorstr = 'white', 
-	endColorstr = '#6DC8E3' ); 
-	/* IE8 */
-	-ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType = 0,startColorstr = 'white', 
-	endColorstr = '#6DC8E3' )";  
- height:31px;
 
- background-repeat:no-repeat
-}
-.required_text,.errorText{
-color:red
-}
-.required_text{
-text-align:right
-}
- </style>
 </head>
 <body>
 <div class="topMenu">
@@ -90,32 +17,26 @@ text-align:right
 	<li class="active">
 		基本信息
 	</li>
-	<li >
-		<a href="/bank/farmer/queryCondition.do?fid=${farmer.id}">家庭成员信息</a>
-	</li>
 </ul>
 </div>
 <form action="/bank/farmer/saveFarmer1.do" id="farmer" name="farmer" method="POST">
 <input type="hidden" id="deleteMember" name="deleteMember" value=""/>
-<div class="topMenu" style="background:linear-gradient(#6DC8E3,white)">
+<div>
 <table width ="100%" height="60px">
 	<tr>
 		<td class="labelName" width="30%" align="right">姓名</td>
-		<td class="labelValue" width="1%" align="center">:</td>
-		<td class="labelValue" width="10%">${farmer.farmername }</td>
-		<td class="labelName" width="10%" align="center">身份证号码</td>
-		<td class="labelValue" width="1%">:</td>
-		<td class="labelValue" align="left">${farmer.farmeridnum}</td>
-		<td width="1%"></td>
-    	<td width="50px" align="right">
-       	 <input type="submit" id="saveBtn" value=""/>
+		<td class="labelValue" width="10%">:${farmer.farmername }</td>
+		<td class="labelName" width="20%" align="right">身份证号码</td>
+		<td class="labelValue" align="right" width="10%">:${farmer.farmeridnum}</td>
+    	<td width="30" align="center">
+       		<input type="button" id="saveBtn" class="bank-btn" onclick="submitForm()" value="保存"/>
         </td>
 	</tr>
 </table>
 </div>
 <div  style="width:90%;margin:auto auto">
 <input name="id" class="mini-hidden" value="${farmer.id}" />
-<input name="recorder" class="mini-hidden" value="管理员"/>
+<input name="recorder" class="mini-hidden" value="${recorder}"/>
 <input name="recordtime" class="mini-hidden" value="${currentTime}"/>
 <table border="0" cellpadding="1" cellspacing="15" width="100%" >
 <tr><td colspan="4" style="width:100%">
@@ -127,13 +48,13 @@ text-align:right
 	<td class="required_text" width="2%" >*</td>
 	<td style="width:10%">户主姓名:</td>
     <td style="width:38%">
-    	<input type="text" id="farmername" name="farmerName" value="${farmer.farmername}" style="width:90%"
+    	<input class="mini-textbox" id="farmername" name="farmerName" value="${farmer.farmername}" style="width:90%"
     		errorMode="none" required="true" requiredErrorText="户主姓名不能为空" onvalidation="onValidation"/>
     </td>
     <td class="required_text" width="2%">*</td>
     <td style="width:10%">户主身份证号:</td>
     <td style="width:38%" >
-    	<input type="text" id="farmeridnum" name="farmeridnum" value="${farmer.farmeridnum}" style="width:90%"
+    	<input class="mini-textbox" id="farmeridnum" name="farmeridnum" value="${farmer.farmeridnum}" style="width:90%"
     	 errorMode="none"  required="true" requiredErrorText="户主身份证号不能为空" onvalidation="onValidation"/>
     </td>
 </tr>

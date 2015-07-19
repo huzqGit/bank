@@ -75,23 +75,27 @@ body {
 </table>
 </form>
 </div>
-<div id="datagrid1" class="mini-datagrid" style="width:99%;margin:auto auto;height:340px;background-color:white;" 
-           url="${pageContext.request.contextPath}/economy/loadAllFarmerCooperation.do" idField="cooperationId"
-            sizeList="[5,10,20,50]" pageSize="20"allowCellSelect="true" allowCellEdit="true"
-          contextMenu="#treeMenu">
-	        <div property="columns">
-	             <div type="indexcolumn" ></div>
-	             <div field=cooperationName width="120" headerAlign="center" allowSort="true" >合作社名称</div>
-	             <div field="orgaCode" width="120" headerAlign="center" allowSort="true"  >组织机构编码</div>
-	             <div field="taxCode" width="120" headerAlign="center" allowSort="true" >税务登记号</div>
-	             <div field="registerDate" width="120" headerAlign="center" dateFormat="yyyy-MM-dd" allowSort="true" >注册日期</div>    
-	             <div field="registerAddress" width="120" headerAlign="center" allowSort="true">注册地址</div>                            
-	             <div field="mailAddress" width="120" headerAlign="center" allowSort="true">通信地址</div>                            
-	             <div field="registerCapital" width="100" align="center" headerAlign="center" allowSort="true" >注册资金</div>
-	             <div field="realCapital" width="100" align="center" headerAlign="center" allowSort="true" >实收资金</div>
-	             <div name="action" width="150" headerAlign="center" align="center" renderer="onActionRenderer" cellStyle="padding:0;"></div> 
-	          </div>
-  </div>
+<div style="width:100%;position:absolute;top:110px;bottom:0px;left:0px;bottom:0px">
+	<div class="mini-fit">
+	<div id="datagrid1" class="mini-datagrid" style="width:100%;height:100%;background-color:white;" 
+		url="${pageContext.request.contextPath}/economy/loadAllFarmerCooperation.do" idField="cooperationId"
+	    sizeList="[5,10,20,50]" pageSize="20"allowCellSelect="true" allowCellEdit="true"
+	    contextMenu="#treeMenu">
+		<div property="columns">
+			<div type="indexcolumn" ></div>
+		    <div field=cooperationName width="120" headerAlign="center" allowSort="true" >合作社名称</div>
+		    <div field="orgaCode" width="120" headerAlign="center" allowSort="true"  >组织机构编码</div>
+		    <div field="taxCode" width="120" headerAlign="center" allowSort="true" >税务登记号</div>
+		    <div field="registerDate" width="120" headerAlign="center" dateFormat="yyyy-MM-dd" allowSort="true" >注册日期</div>    
+		    <div field="registerAddress" width="120" headerAlign="center" allowSort="true">注册地址</div>                            
+		    <div field="mailAddress" width="120" headerAlign="center" allowSort="true">通信地址</div>                            
+		    <div field="registerCapital" width="100" align="center" headerAlign="center" allowSort="true" >注册资金</div>
+		    <div field="realCapital" width="100" align="center" headerAlign="center" allowSort="true" >实收资金</div>
+		    <div name="action" width="150" headerAlign="center" align="center" renderer="onActionRenderer" cellStyle="padding:0;"></div> 
+		</div>
+	 </div>
+ </div>
+ </div>
 <script type="text/javascript">
 	mini.parse();
 	var grid = mini.get("datagrid1");

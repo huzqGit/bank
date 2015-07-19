@@ -41,7 +41,7 @@
 		<a href="/bank/farmer/queryDevice.do?fid=${farmer.id}">设备信息</a>
 	</li>
 	<li  class="active">
-		奖惩信息
+		<a href="/bank/farmer/queryCompunish.do?fid=${farmer.id}">奖惩信息</a>
 	</li>
 	<li class="inactive">
 		<a href="/bank/farmer/queryInsured.do?fid=${farmer.id}">参保信息</a>

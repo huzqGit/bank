@@ -4,63 +4,87 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="${pageContext.request.contextPath}/jsp/farmer/form.css"  rel="stylesheet" type="text/css"/>
 <script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
 <title>Insert title here</title>
-<style type="text/css">
-.mini-toolbar{
-background:url(/bank/jsp/main/leftmenu/images/icon-bg.jpg) repeat-x center;
-}
-.mini-grid-headerCell-nowrap{
-background:url(/bank/jsp/main/leftmenu/images/icon-bg.jpg) repeat-x center;
-} 
-</style>
 </head>
 <body>
-<div class="mini-toolbar" style="padding-top:5px;border-bottom:0;">
-        <table style="width:100%;">
-        
-       		
-       		<tr>
-       			<td>
-       			<a class="mini-button" iconCls="icon-add" plain="true"  target ="_self" href="/bank/jsp/farmer/farmerCreditForm.jsp">新增</a>
-            	<span class="separator"></span>
-            	<a class="mini-button" iconCls="icon-goto" plain="true" href="">导入</a>
-       			<span class="separator"></span>
-       			<a class="mini-button" iconCls="icon-redo" plain="true" onclick="reset()">重置</a>
-       			<span class="separator"></span>
-       			<a class="mini-button" iconCls="icon-search" plain="true" onclick="onSearch()">查询</a>
-       			</td>
-       		</tr>
-           <tr>
-                <td style="white-space:nowrap;">
-                <form id="query">
-	            	<span>户主姓名：</span><input id="farmerName" emptyText="请输入户主姓名" class="mini-textbox" />
-	            	<span>身份证号：</span><input id="farmerIdNum" emptyText="请输入身份证号" class="mini-textbox">
-	             	<span>创建人：</span><input id="recorder" emptyText="请输入创建人" class="mini-textbox" />
-	             	<span>创建时间从：</span><input id="recordTimeBegin" emptyText="请输入时间" class="mini-datepicker" />
-	             	<span>到：</span><input id="recordTimeEnd" emptyText="请输入时间" class="mini-datepicker" />
-                </form>
-                </td>
-            </tr>
-        </table>
-  </div>
-   <div id="datagrid1" class="mini-datagrid" style="width:100%;height:420px" 
-            url="${pageContext.request.contextPath}/farmer/loadAllCredit.do" idField="id"
-            sizeList="[5,10,20,50]" pageSize="10"
-        >
+<div class="topMenu">
+<ul>
+	<li class="inactive">
+		<a href="/bank/farmer/loadFarmer1.do?id=${farmer.id}">基本信息</a>
+	</li>
+	<li class="inactive">
+		<a href="/bank/farmer/queryMember.do?fid=${farmer.id}">家庭成员信息</a>
+	</li>
+	<li class="inactive">
+		<a href="/bank/loan/queryLoan1.do?fid=${farmer.id}">贷款信息</a>
+	</li>
+	<li class="inactive" >
+		<a href="/bank/farmer/queryPrivateLending.do?fid=${farmer.id}">民间借贷信息</a>
+	</li>
+	<li class="inactive">
+		<a href="/bank/farmer/queryBalance.do?fid=${farmer.id}">收支信息</a>
+	</li>
+	<li class="inactive">
+		<a href="/bank/farmer/queryHouse.do?fid=${farmer.id}">房产信息</a>
+	</li>
+	<li class="inactive">
+		<a href="/bank/farmer/queryForest.do?fid=${farmer.id}">林权信息</a>
+	</li>
+	<li  class="inactive">
+			<a href="/bank/farmer/queryBreed.do?fid=${farmer.id}">种养殖信息</a>
+	</li>
+	<li class="inactive">
+		<a href="/bank/farmer/queryDevice.do?fid=${farmer.id}">设备信息</a>
+	</li>
+	<li class="inactive">
+		<a href="/bank/farmer/queryCompunish.do?fid=${farmer.id}">奖惩信息</a>
+	</li>
+	<li class="active">
+		信用户信息
+	</li>
+	<li class="inactive">
+		<a href="/bank/farmer/queryInsured.do?fid=${farmer.id}">参保信息</a>
+	</li>
+	<li class="inactive">
+		<a href="/bank/farmer/queryEvaluate.do?fid=${farmer.id}">其他信息</a>
+	</li>
+</ul>
+</div>
+<div>
+<table width ="100%" height="60px">
+	<tr>
+		<td class="labelName" width="30%" align="right">姓名</td>
+		<td class="labelValue" width="1%" align="center">:</td>
+		<td class="labelValue" width="10%">${farmer.farmername }</td>
+		<td class="labelName" width="10%" align="center">身份证号码</td>
+		<td class="labelValue" width="1%">:</td>
+		<td class="labelValue" align="left">${farmer.farmeridnum}</td>
+		<td width="1%"></td>
+		 <td width="50px" align="right">
+       	 <input type="button" class="bank-btn" onclick="add(${farmer.id})" value="新增"/>
+        </td>
+       
+	</tr>
+</table>
+</div>
+<div style="width:100%;position:absolute;top:110px;bottom:0px;left:0px;bottom:0px">
+<div class="mini-fit">
+   <div id="datagrid1" class="mini-datagrid" style="width:100%;height:100%" 
+            url="${pageContext.request.contextPath}/farmer/loadAllCredit.do?fid=${farmer.id}" idField="id"
+            sizeList="[5,10,20,50]" pageSize="10" >
 	        <div property="columns">
 	             <div type="indexcolumn" ></div>
-	             <div field="farmerName" width="60" headerAlign="center" allowSort="true" >户主姓名</div>
-	             <div field="farmerIdNum" width="120" headerAlign="center" allowSort="true"  >户主身份证号</div>
-	             <div field="assessTime" width="60" headerAlign="center" dateFormat="yyyy-MM-dd" allowSort="true" >信用户评定时间</div>   
-	              <div field="assessOrgan" width="60" headerAlign="center" allowSort="true" >信用户级别</div>     
-	             <div field="assessRank" width="120" headerAlign="center" allowSort="true" >有效期限</div>                            
-	             <div field="timeLimit" width="60" headerAlign="center" allowSort="true" >信用户评定部门</div>         
-	             <div field="recorder" width="50" align="center" headerAlign="center">创建人</div>
-	             <div field="recordTime" width="100" headerAlign="center" dateFormat="yyyy-MM-dd" allowSort="true">创建时间</div>                
+	             <div field="assessdate" width="60" headerAlign="center" dateFormat="yyyy-MM-dd" allowSort="true" >信用户评定时间</div>   
+	             <div field="assessrank" width="60" headerAlign="center" allowSort="true" renderer="assessrankRenderer">信用户级别</div>     
+	             <div field="timeLimit" width="120" headerAlign="center" allowSort="true" >有效期限</div>                            
+	             <div field="assessorgan" width="60" headerAlign="center" allowSort="true" >信用户评定部门</div>                    
 	        	 <div name="action" width="50" headerAlign="center" align="center" renderer="onActionRenderer" cellStyle="padding:0;"></div>
 	         </div>
   		</div>
+  </div>
+  </div>
   <script type="text/javascript">
    
 	  mini.parse();
@@ -72,23 +96,30 @@ background:url(/bank/jsp/main/leftmenu/images/icon-bg.jpg) repeat-x center;
 		  var query = new mini.Form("#query");
 		  query.clear();
 	  }
-	  function onSearch() {
-		  var farmerName = mini.get("farmerName").getValue();
-		  var farmerIdNum =mini.get("farmerIdNum").getValue();
-		  var recorder=mini.get("recorder").getValue();
-		  var recordTimeBegin=mini.get("recordTimeBegin").getValue();
-		  var recordTimeEnd=mini.get("recordTimeEnd").getValue();
-		  
-		  grid.load({farmerName:farmerName,farmerIdNum:farmerIdNum,
-		  recorder:recorder,recordTimeBegin:recordTimeBegin,
-          recordTimeEnd:recordTimeEnd});
-       }
-	  function onActionRenderer(e) {
-          var record = e.record;
-          var id = record.id;
-          var s = '<a class="New_Button" target="_self" href="/bank/jsp/farmer/farmerCreditForm.jsp?id='+id+'">[查看]</a>';      
-          return s;
-      }
+	function assessrankRenderer(e){
+		var assessrank = e.record.assessrank;
+		var s;
+		if(assessrank=='1'){
+			s="县级信用户";
+		}else if(assessrank =="2"){
+			s="乡镇级信用户";
+		}else if(assessrank=="3"){
+			s="村级信信用户";
+		}else if(assessrank=="9"){
+			s="非信用户";
+		}
+		return s;
+	}
+	function onActionRenderer(e) {
+        var record = e.record;
+        var id = record.creditid;
+        var fid = record.farmerid;
+  	   	var s = '<a class="Edit_Button" target="_self" href="/bank/farmer/editCredit.do?id='+id+'&fid='+fid+'">[编辑]</a>';   
+         return s;
+    };
+	function add(fid){
+		window.location.href="/bank/farmer/insertCredit.do?fid="+fid;
+	};
    </script> 
 </body>
 </html>

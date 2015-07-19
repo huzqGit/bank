@@ -7,6 +7,14 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
 <title>Insert title here</title>
+<style type="text/css">
+table{
+color:#333333;
+border-width: 1px;
+border-color: black;
+border-collapse: collapse;
+}
+</style>
 </head>
 <body>
 <div style="width:90%;margin:auto auto;text-align:center;">

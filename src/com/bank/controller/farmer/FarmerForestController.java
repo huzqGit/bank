@@ -22,11 +22,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.bank.beans.Farmer;
 import com.bank.beans.FarmerForest;
+import com.bank.beans.FarmerMember;
 import com.bank.common.util.JsonUtil;
 import com.bank.service.IFarmerForestService;
 import com.bank.service.IFarmerService;
 import com.common.exception.DAOException;
 import com.common.exception.DataNotFoundException;
+import com.common.exception.UpdateException;
 
 @Controller
 @RequestMapping(value = "/farmer")
@@ -38,27 +40,6 @@ public class FarmerForestController {
 	@Resource
 	private IFarmerForestService farmerForestService;
 	
-	@RequestMapping(value = "/saveForest",method = RequestMethod.POST)
-	public ModelAndView save(HttpServletRequest request, 
-			HttpServletResponse response) throws Exception{
-
-		String formData = request.getParameter("formData");
-		//這裡做了時間格式的處理
-		Object decodeJsonData = JsonUtil.Decode(formData);
-		String formatdata = JSON.toJSONStringWithDateFormat(decodeJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
-		JSONObject jsb = JSONObject.parseObject(formatdata);
-		FarmerForest farmerForest = (FarmerForest) JSON.toJavaObject(jsb, FarmerForest.class);
-		if(farmerForest.getId()!=null){
-			farmerForestService.update(farmerForest);
-		}else{
-			farmerForestService.save(farmerForest);
-		}
-		String json = JSON.toJSONString(farmerForest);
-		response.setContentType("text/html;charset=UTF-8");
-	    response.getWriter().write(json);
-		return null;
-		
-	}
 	@RequestMapping(value = "/saveForest1",method = RequestMethod.POST)
 	public ModelAndView saveForest(@ModelAttribute(value="house") FarmerForest forest,
 			HttpServletRequest request,HttpServletResponse response){

@@ -43,7 +43,6 @@ body{
 </style>
 </head>
 <body>
-<div id = "sph" class="mini-splitter" vertical="true" style="width:100%;height:500px;">
 <div size="60px" showCollapseButton="true">
  <div class="mini-toolbar" style="padding-top:5px;border-bottom:0;">
         <table style="width:100%;">
@@ -77,9 +76,9 @@ body{
         </table>
   </div>
   </div>
-  <div>
-  <!--撑满页面-->
-  <div id="datagrid1" class="mini-datagrid" style="width:100%;height:90%" 
+<div style="width:100%;position:absolute;top:110px;bottom:0px;left:0px;bottom:0px">
+<div class="mini-fit">
+  <div id="datagrid1" class="mini-datagrid" style="width:100%;height:100%" 
             url="${pageContext.request.contextPath}/economy/debt/loadAllFarmerCooperationDebt.do" idField="debtid"
             sizeList="[5,10,20,50]" pageSize="20" frozenStartColumn="0" frozenEndColumn="3"
             allowCellEdit="true" allowCellSelect="true" multiSelect="true" allowResize="true"

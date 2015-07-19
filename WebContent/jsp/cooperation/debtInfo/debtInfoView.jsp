@@ -75,26 +75,30 @@ body {
 </table>
 </form>
 </div>
-<div id="datagrid1" class="mini-datagrid" style="width:99%;margin:auto auto;height:340px;background-color:white" 
-           url="${pageContext.request.contextPath}/economy/debt/loadAllFarmerCooperationDebt.do" idField="debtid"
-            sizeList="[5,10,20,50]" pageSize="20" 
-            allowCellEdit="false" allowCellSelect="true" multiSelect="false" allowResize="true"
-        	  editNextOnEnterKey="true"  editNextRowCell="true" contextMenu="#treeMenu">
-       <div property="columns">
-          <div type="indexcolumn" >
-          </div>
-          <div field="cooperationname" width="120" headerAlign="center" allowSort="true" >合作组织名称
-          </div>
-          <div field="organcode" width="120" headerAlign="center" allowSort="true" >组织机构编码
-          </div>
-          <div field="yearmonth" width="120" headerAlign="center" allowSort="true" >年月
-          	<input property="editor" class="mini-textbox" style="width:100%;" minWidth="150" />
-          </div>
-          <div field="cashcapital" width="120" headerAlign="center" allowSort="true" >货币资金<input property="editor" class="mini-textbox" style="width:100%;" minWidth="150" /></div>	<div field="cashcapital2" width="120" headerAlign="center" allowSort="true" >货币资金(期望值)<input property="editor" class="mini-textbox" style="width:100%;" minWidth="150" /></div>
-		<div field="shortinvest" width="120" headerAlign="center" allowSort="true" >短期投资<input property="editor" class="mini-textbox" style="width:100%;" minWidth="150" /></div>	<div field="shortinvest2" width="120" headerAlign="center" allowSort="true" >短期投资(期望值)<input property="editor" class="mini-textbox" style="width:100%;" minWidth="150" /></div>
-		<div name="action" width="70" headerAlign="center" align="center" renderer="onActionRenderer" cellStyle="padding:0;"></div>
-        </div>
+<div style="width:100%;position:absolute;top:110px;bottom:0px;left:0px;bottom:0px">
+	<div class="mini-fit">
+		<div id="datagrid1" class="mini-datagrid" style="width:99%;height:100%;background-color:white" 
+	           url="${pageContext.request.contextPath}/economy/debt/loadAllFarmerCooperationDebt.do" idField="debtid"
+	            sizeList="[5,10,20,50]" pageSize="20" 
+	            allowCellEdit="false" allowCellSelect="true" multiSelect="false" allowResize="true"
+	        	  editNextOnEnterKey="true"  editNextRowCell="true" contextMenu="#treeMenu">
+	       <div property="columns">
+	          <div type="indexcolumn" >
+	          </div>
+	          <div field="cooperationname" width="120" headerAlign="center" allowSort="true" >合作组织名称
+	          </div>
+	          <div field="organcode" width="120" headerAlign="center" allowSort="true" >组织机构编码
+	          </div>
+	          <div field="yearmonth" width="120" headerAlign="center" allowSort="true" >年月
+	          	<input property="editor" class="mini-textbox" style="width:100%;" minWidth="150" />
+	          </div>
+	          <div field="cashcapital" width="120" headerAlign="center" allowSort="true" >货币资金<input property="editor" class="mini-textbox" style="width:100%;" minWidth="150" /></div>	<div field="cashcapital2" width="120" headerAlign="center" allowSort="true" >货币资金(期望值)<input property="editor" class="mini-textbox" style="width:100%;" minWidth="150" /></div>
+			<div field="shortinvest" width="120" headerAlign="center" allowSort="true" >短期投资<input property="editor" class="mini-textbox" style="width:100%;" minWidth="150" /></div>	<div field="shortinvest2" width="120" headerAlign="center" allowSort="true" >短期投资(期望值)<input property="editor" class="mini-textbox" style="width:100%;" minWidth="150" /></div>
+			<div name="action" width="70" headerAlign="center" align="center" renderer="onActionRenderer" cellStyle="padding:0;"></div>
+	        </div>
+	  </div>
   </div>
+ </div>
 <script type="text/javascript">
 	mini.parse();
 	var grid = mini.get("datagrid1");

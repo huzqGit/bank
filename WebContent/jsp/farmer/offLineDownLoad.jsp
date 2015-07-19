@@ -60,7 +60,9 @@ margin-top:5px
 	<c:forEach items="${applys}" var="apply" varStatus="status">
 	<tr>
 		<td align="center" width="50%">${apply.applyName}</td>
-		<td align="center" width="50%"><a href="/bank/farmer/offlineDownload.do?farmerIds=${apply.applyInfo}">下载</a></td>
+		<td align="center" width="50%">
+		<a href="/bank/farmer/offlineDownload.do?id=${apply.id}&farmerIds=${apply.applyInfo}">下载</a>
+		</td>
 	</tr>	
 	</c:forEach>
 </table>

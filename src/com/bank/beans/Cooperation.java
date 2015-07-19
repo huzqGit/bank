@@ -2,187 +2,254 @@ package com.bank.beans;
 
 import java.util.Date;
 
-import com.common.bean.BaseEntity;
+public class Cooperation {
+    private Long cooperationid;
 
-public class Cooperation extends BaseEntity<Long> {
+    private String cooperationname;
 
-	private static final long serialVersionUID = 6572454173068901580L;
-	
-	private String cooperationName;
-	private String organCode;
-	private String taxCode;
-	private String registerAddress;
-	private String mailAddress;
-	private Date registerDate;
-	private String registerCapital;
-	private String realCapital;
-	private String legalPerson;
-	private String idNum;
-	private String phone;
-	private Integer members;
-	private String bussinesScope;
-	private Integer businessArea;
-	private Integer farmers;
-	private String connectionBase;
-	private String recorder;
-	private Date recordTime;
-	
-	
-	public String getCooperationName() {
-		return cooperationName;
-	}
+    private String orgacode;
 
-	public void setCooperationName(String cooperationName) {
-		this.cooperationName = cooperationName;
-	}
+    private String taxcode;
 
-	public String getOrganCode() {
-		return organCode;
-	}
+    private String businesslicence;
 
-	public void setOrganCode(String organCode) {
-		this.organCode = organCode;
-	}
+    private String registeraddress;
 
-	public String getTaxCode() {
-		return taxCode;
-	}
+    private String mailaddress;
 
-	public void setTaxCode(String taxCode) {
-		this.taxCode = taxCode;
-	}
+    private Date registerdate;
 
-	public String getRegisterAddress() {
-		return registerAddress;
-	}
+    private String registercapital;
 
-	public void setRegisterAddress(String registerAddress) {
-		this.registerAddress = registerAddress;
-	}
+    private String realcapital;
 
-	public String getMailAddress() {
-		return mailAddress;
-	}
+    private String legalperson;
 
-	public void setMailAddress(String mailAddress) {
-		this.mailAddress = mailAddress;
-	}
+    private String idnum;
 
-	public Date getRegisterDate() {
-		return registerDate;
-	}
+    private String phone;
 
-	public void setRegisterDate(Date registerDate) {
-		this.registerDate = registerDate;
-	}
+    private Integer members;
 
-	public String getRegisterCapital() {
-		return registerCapital;
-	}
+    private String businesscope;
 
-	public void setRegisterCapital(String registerCapital) {
-		this.registerCapital = registerCapital;
-	}
+    private Integer businessarea;
 
-	public String getRealCapital() {
-		return realCapital;
-	}
+    private Integer farmers;
 
-	public void setRealCapital(String realCapital) {
-		this.realCapital = realCapital;
-	}
+    private String connectionbase;
 
-	public String getLegalPerson() {
-		return legalPerson;
-	}
+    private String runitid;
 
-	public void setLegalPerson(String legalPerson) {
-		this.legalPerson = legalPerson;
-	}
+    private String runitname;
 
-	public String getIdNum() {
-		return idNum;
-	}
+    private String recorder;
 
-	public void setIdNum(String idNum) {
-		this.idNum = idNum;
-	}
+    private Date recordtime;
 
-	public String getPhone() {
-		return phone;
-	}
+    private String sourcecode;
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+    private String sourcename;
 
-	public Integer getMembers() {
-		return members;
-	}
+    private String organId;
 
-	public void setMembers(Integer members) {
-		this.members = members;
-	}
+    public Long getCooperationid() {
+        return cooperationid;
+    }
 
-	public String getBussinesScope() {
-		return bussinesScope;
-	}
+    public void setCooperationid(Long cooperationid) {
+        this.cooperationid = cooperationid;
+    }
 
-	public void setBussinesScope(String bussinesScope) {
-		this.bussinesScope = bussinesScope;
-	}
+    public String getCooperationname() {
+        return cooperationname;
+    }
 
-	public Integer getBusinessArea() {
-		return businessArea;
-	}
+    public void setCooperationname(String cooperationname) {
+        this.cooperationname = cooperationname == null ? null : cooperationname.trim();
+    }
 
-	public void setBusinessArea(Integer businessArea) {
-		this.businessArea = businessArea;
-	}
+    public String getOrgacode() {
+        return orgacode;
+    }
 
-	public Integer getFarmers() {
-		return farmers;
-	}
+    public void setOrgacode(String orgacode) {
+        this.orgacode = orgacode == null ? null : orgacode.trim();
+    }
 
-	public void setFarmers(Integer farmers) {
-		this.farmers = farmers;
-	}
+    public String getTaxcode() {
+        return taxcode;
+    }
 
-	public String getConnectionBase() {
-		return connectionBase;
-	}
+    public void setTaxcode(String taxcode) {
+        this.taxcode = taxcode == null ? null : taxcode.trim();
+    }
 
-	public void setConnectionBase(String connectionBase) {
-		this.connectionBase = connectionBase;
-	}
+    public String getBusinesslicence() {
+        return businesslicence;
+    }
 
-	public String getRecorder() {
-		return recorder;
-	}
+    public void setBusinesslicence(String businesslicence) {
+        this.businesslicence = businesslicence == null ? null : businesslicence.trim();
+    }
 
-	public void setRecorder(String recorder) {
-		this.recorder = recorder;
-	}
+    public String getRegisteraddress() {
+        return registeraddress;
+    }
 
-	public Date getRecordTime() {
-		return recordTime;
-	}
+    public void setRegisteraddress(String registeraddress) {
+        this.registeraddress = registeraddress == null ? null : registeraddress.trim();
+    }
 
-	public void setRecordTime(Date recordTime) {
-		this.recordTime = recordTime;
-	}
+    public String getMailaddress() {
+        return mailaddress;
+    }
 
-	@Override
-	public boolean equalsIfIdNull(Object o) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    public void setMailaddress(String mailaddress) {
+        this.mailaddress = mailaddress == null ? null : mailaddress.trim();
+    }
 
-	@Override
-	public int hashCodeIfIdNull() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    public Date getRegisterdate() {
+        return registerdate;
+    }
 
+    public void setRegisterdate(Date registerdate) {
+        this.registerdate = registerdate;
+    }
 
+    public String getRegistercapital() {
+        return registercapital;
+    }
+
+    public void setRegistercapital(String registercapital) {
+        this.registercapital = registercapital == null ? null : registercapital.trim();
+    }
+
+    public String getRealcapital() {
+        return realcapital;
+    }
+
+    public void setRealcapital(String realcapital) {
+        this.realcapital = realcapital == null ? null : realcapital.trim();
+    }
+
+    public String getLegalperson() {
+        return legalperson;
+    }
+
+    public void setLegalperson(String legalperson) {
+        this.legalperson = legalperson == null ? null : legalperson.trim();
+    }
+
+    public String getIdnum() {
+        return idnum;
+    }
+
+    public void setIdnum(String idnum) {
+        this.idnum = idnum == null ? null : idnum.trim();
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone == null ? null : phone.trim();
+    }
+
+    public Integer getMembers() {
+        return members;
+    }
+
+    public void setMembers(Integer members) {
+        this.members = members;
+    }
+
+    public String getBusinesscope() {
+        return businesscope;
+    }
+
+    public void setBusinesscope(String businesscope) {
+        this.businesscope = businesscope == null ? null : businesscope.trim();
+    }
+
+    public Integer getBusinessarea() {
+        return businessarea;
+    }
+
+    public void setBusinessarea(Integer businessarea) {
+        this.businessarea = businessarea;
+    }
+
+    public Integer getFarmers() {
+        return farmers;
+    }
+
+    public void setFarmers(Integer farmers) {
+        this.farmers = farmers;
+    }
+
+    public String getConnectionbase() {
+        return connectionbase;
+    }
+
+    public void setConnectionbase(String connectionbase) {
+        this.connectionbase = connectionbase == null ? null : connectionbase.trim();
+    }
+
+    public String getRunitid() {
+        return runitid;
+    }
+
+    public void setRunitid(String runitid) {
+        this.runitid = runitid == null ? null : runitid.trim();
+    }
+
+    public String getRunitname() {
+        return runitname;
+    }
+
+    public void setRunitname(String runitname) {
+        this.runitname = runitname == null ? null : runitname.trim();
+    }
+
+    public String getRecorder() {
+        return recorder;
+    }
+
+    public void setRecorder(String recorder) {
+        this.recorder = recorder == null ? null : recorder.trim();
+    }
+
+    public Date getRecordtime() {
+        return recordtime;
+    }
+
+    public void setRecordtime(Date recordtime) {
+        this.recordtime = recordtime;
+    }
+
+    public String getSourcecode() {
+        return sourcecode;
+    }
+
+    public void setSourcecode(String sourcecode) {
+        this.sourcecode = sourcecode == null ? null : sourcecode.trim();
+    }
+
+    public String getSourcename() {
+        return sourcename;
+    }
+
+    public void setSourcename(String sourcename) {
+        this.sourcename = sourcename == null ? null : sourcename.trim();
+    }
+
+    public String getOrganId() {
+        return organId;
+    }
+
+    public void setOrganId(String organId) {
+        this.organId = organId == null ? null : organId.trim();
+    }
 }

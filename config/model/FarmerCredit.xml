@@ -1,105 +1,257 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="farmercredit">
-<sql id="Credit_Column_List" >
-   creditid, farmername, farmeridnum, assessdate,
-   assessorgan, assessrank, timelimit, recorder, recordtime
-</sql>
-<insert id="save" useGeneratedKeys="true" keyProperty="creditId" 
-	parameterType="com.bank.beans.FarmerCredit">
-	insert into t_farmer_credit
-	<trim prefix="(" suffix=")" suffixOverrides=",">
-   		<if test="farmerName != null">
-   			farmername,
-   		</if>
-  		<if test="farmerIdNum != null">
-  			farmeridnum,
-  		</if>
-   		<if test="assessDate != null">
-   			assessdate,
-   		</if>
-		<if test="assessOrgan != null">
-			assessorgan,
-		</if>
-   		<if test="assessRank != null">
-   			assessrank,
-   		</if>
-   		<if test="timeLimit != null">
-   			timelimit,
-   		</if>
- 		<if test="recorder != null">
- 			recorder,
- 		</if>
-   		<if test="recordTime != null">
-   			recordtime
-   		</if>
-	</trim>
-	<trim prefix="values (" suffix=")" suffixOverrides=",">
-		<if test="farmerName != null">
-   			#{farmerName,jdbcType=VARCHAR},
-   		</if>
-  		<if test="farmerIdNum != null">
-  			#{farmerIdNum,jdbcType=VARCHAR},
-  		</if>
-   		<if test="assessDate != null">
-   			#{assessDate,jdbcType=DATE},
-   		</if>
-		<if test="assessOrgan != null">
-			#{assessOrgan,jdbcType=VARCHAR},
-		</if>
-   		<if test="assessRank != null">
-   			#{assessRank,jdbcType=VARCHAR},
-   		</if>
-   		<if test="timeLimit != null">
-   			#{timeLimit,jdbcType=VARCHAR},
-   		</if>
- 		<if test="recorder != null">
- 			#{recorder,jdbcType=VARCHAR},
- 		</if>
-   		<if test="recordTime != null">
-   			#{recordTime,jdbcType=TIMESTAMP}
-   		</if>
-	</trim>
-</insert>
-<select id="findByPK" parameterType="Long" 
-		resultType="com.bank.beans.FarmerCredit">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="farmercredit" >
+  <resultMap id="BaseResultMap" type="com.bank.beans.FarmerCredit" >
+    <id column="CREDITID" property="creditid" jdbcType="BIGINT" />
+    <result column="FARMERID" property="farmerid" jdbcType="BIGINT" />
+    <result column="ASSESSDATE" property="assessdate" jdbcType="DATE" />
+    <result column="ASSESSRANK" property="assessrank" jdbcType="VARCHAR" />
+    <result column="ASSESSORGAN" property="assessorgan" jdbcType="VARCHAR" />
+    <result column="TIMELIMIT" property="timelimit" jdbcType="VARCHAR" />
+    <result column="SOURCECODE" property="sourcecode" jdbcType="VARCHAR" />
+    <result column="SOURCENAME" property="sourcename" jdbcType="VARCHAR" />
+    <result column="RUNITID" property="runitid" jdbcType="VARCHAR" />
+    <result column="RUNITNAME" property="runitname" jdbcType="VARCHAR" />
+    <result column="RECORDER" property="recorder" jdbcType="VARCHAR" />
+    <result column="RECORDTIME" property="recordtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    CREDITID, FARMERID, ASSESSDATE, ASSESSRANK, ASSESSORGAN, TIMELIMIT, SOURCECODE, SOURCENAME, 
+    RUNITID, RUNITNAME, RECORDER, RECORDTIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.bank.beans.FarmerCreditExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_FARMER_CREDIT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.bank.beans.FarmerCreditExample" >
+    delete from T_FARMER_CREDIT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bank.beans.FarmerCredit" useGeneratedKeys="true" keyProperty="creditid">
+    insert into T_FARMER_CREDIT (FARMERID, ASSESSDATE, ASSESSRANK, 
+      ASSESSORGAN, TIMELIMIT, SOURCECODE, 
+      SOURCENAME, RUNITID, RUNITNAME, 
+      RECORDER, RECORDTIME)
+    values (#{farmerid,jdbcType=BIGINT}, #{assessdate,jdbcType=DATE}, #{assessrank,jdbcType=VARCHAR}, 
+      #{assessorgan,jdbcType=VARCHAR}, #{timelimit,jdbcType=VARCHAR}, #{sourcecode,jdbcType=VARCHAR}, 
+      #{sourcename,jdbcType=VARCHAR}, #{runitid,jdbcType=VARCHAR}, #{runitname,jdbcType=VARCHAR}, 
+      #{recorder,jdbcType=VARCHAR}, #{recordtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bank.beans.FarmerCredit" useGeneratedKeys="true" keyProperty="creditid" >
+    insert into T_FARMER_CREDIT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="farmerid != null" >
+        FARMERID,
+      </if>
+      <if test="assessdate != null" >
+        ASSESSDATE,
+      </if>
+      <if test="assessrank != null" >
+        ASSESSRANK,
+      </if>
+      <if test="assessorgan != null" >
+        ASSESSORGAN,
+      </if>
+      <if test="timelimit != null" >
+        TIMELIMIT,
+      </if>
+      <if test="sourcecode != null" >
+        SOURCECODE,
+      </if>
+      <if test="sourcename != null" >
+        SOURCENAME,
+      </if>
+      <if test="runitid != null" >
+        RUNITID,
+      </if>
+      <if test="runitname != null" >
+        RUNITNAME,
+      </if>
+      <if test="recorder != null" >
+        RECORDER,
+      </if>
+      <if test="recordtime != null" >
+        RECORDTIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="farmerid != null" >
+        #{farmerid,jdbcType=BIGINT},
+      </if>
+      <if test="assessdate != null" >
+        #{assessdate,jdbcType=DATE},
+      </if>
+      <if test="assessrank != null" >
+        #{assessrank,jdbcType=VARCHAR},
+      </if>
+      <if test="assessorgan != null" >
+        #{assessorgan,jdbcType=VARCHAR},
+      </if>
+      <if test="timelimit != null" >
+        #{timelimit,jdbcType=VARCHAR},
+      </if>
+      <if test="sourcecode != null" >
+        #{sourcecode,jdbcType=VARCHAR},
+      </if>
+      <if test="sourcename != null" >
+        #{sourcename,jdbcType=VARCHAR},
+      </if>
+      <if test="runitid != null" >
+        #{runitid,jdbcType=VARCHAR},
+      </if>
+      <if test="runitname != null" >
+        #{runitname,jdbcType=VARCHAR},
+      </if>
+      <if test="recorder != null" >
+        #{recorder,jdbcType=VARCHAR},
+      </if>
+      <if test="recordtime != null" >
+        #{recordtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bank.beans.FarmerCreditExample" resultType="java.lang.Integer" >
+    select count(*) from T_FARMER_CREDIT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_FARMER_CREDIT
+    <set >
+      <if test="record.farmerid != null" >
+        FARMERID = #{record.farmerid,jdbcType=BIGINT},
+      </if>
+      <if test="record.assessdate != null" >
+        ASSESSDATE = #{record.assessdate,jdbcType=DATE},
+      </if>
+      <if test="record.assessrank != null" >
+        ASSESSRANK = #{record.assessrank,jdbcType=VARCHAR},
+      </if>
+      <if test="record.assessorgan != null" >
+        ASSESSORGAN = #{record.assessorgan,jdbcType=VARCHAR},
+      </if>
+      <if test="record.timelimit != null" >
+        TIMELIMIT = #{record.timelimit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sourcecode != null" >
+        SOURCECODE = #{record.sourcecode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sourcename != null" >
+        SOURCENAME = #{record.sourcename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.runitid != null" >
+        RUNITID = #{record.runitid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.runitname != null" >
+        RUNITNAME = #{record.runitname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recorder != null" >
+        RECORDER = #{record.recorder,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recordtime != null" >
+        RECORDTIME = #{record.recordtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_FARMER_CREDIT
+    set FARMERID = #{record.farmerid,jdbcType=BIGINT},
+      ASSESSDATE = #{record.assessdate,jdbcType=DATE},
+      ASSESSRANK = #{record.assessrank,jdbcType=VARCHAR},
+      ASSESSORGAN = #{record.assessorgan,jdbcType=VARCHAR},
+      TIMELIMIT = #{record.timelimit,jdbcType=VARCHAR},
+      SOURCECODE = #{record.sourcecode,jdbcType=VARCHAR},
+      SOURCENAME = #{record.sourcename,jdbcType=VARCHAR},
+      RUNITID = #{record.runitid,jdbcType=VARCHAR},
+      RUNITNAME = #{record.runitname,jdbcType=VARCHAR},
+      RECORDER = #{record.recorder,jdbcType=VARCHAR},
+      RECORDTIME = #{record.recordtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <select id="pageing" parameterType="Map" resultMap="BaseResultMap">
 	select 
-	<include refid="Credit_Column_List" />
-	from t_farmer_credit where creditid = #{id,jdbcType=INTEGER}
-</select>
-<resultMap id="farmerCreditList" type="com.bank.beans.FarmerCredit">
-    <result column="creditId" property="id" jdbcType="BIGINT"/>
-    <result column="farmerName" property="farmerName" jdbcType="VARCHAR" />
-    <result column="farmerIdNum" property="farmerIdNum" jdbcType="VARCHAR" />
-    <result column="assessTime" property="assessTime" jdbcType="DATE" />
-    <result column="assessOrgan" property="assessOrgan" jdbcType="VARCHAR" />
-	<result column="assessRank" property="assessRank" jdbcType="VARCHAR" />
-	<result column="timeLimit" property="timeLimit" jdbcType="VARCHAR" />
-    <result column="recorder" property="recorder" jdbcType="VARCHAR" />
-    <result column="recordTime" property="recordTime" jdbcType="DATE" />
-</resultMap>
-<select id="pageing" parameterType="Map" resultMap="farmerCreditList">
-	select 
-	<include refid="Credit_Column_List" />
+	<include refid="Base_Column_List" />
 	from 
-	(select t.*,rownumber() over(order by recordtime desc) as rn from t_farmer_credit t
+	(select t.*,rownumber() over(order by recordtime desc) as rn from T_FARMER_CREDIT t
 	<where>
-		<if test="farmerName != null and farmerName != '' ">
-			t.farmername like CONCAT(CONCAT('%',#{farmerName}),'%') 
-		</if>
-		<if test="farmerIdNum != null and farmerIdNum != ''">
-		   	and t.farmeridnum like CONCAT(CONCAT('%',#{farmerIdNum}),'%')  
-		</if>
-		<if test="recorder != null and recorder != '' ">
-		    and t.recoder like CONCAT(CONCAT('%',#{recoder}),'%')  
-		</if>
-		<if test="recordTimeBegin !=null and recordTimeBegin != ''">
-		   	<![CDATA[and t.recordtime >=to_date('#{recordTimeBegin}','yyyy-mm-dd')]]>
-		</if>
-		<if test="recordTimeEnd !=null and recordTimeEnd != ''">
-		   	<![CDATA[and t.recordtime <=to_date('#{recordTimeEnd}','yyyy-mm-dd')]]>
+		<if test="farmerid != null">
+		   	and t.farmerid = #{farmerid} 
 		</if>
 	 </where>
 	 )
@@ -108,5 +260,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    	rn between #{start} and #{end}
 	   	</if>
 	 </where>
-</select>
+ </select>
 </mapper>

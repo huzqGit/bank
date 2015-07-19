@@ -1,5 +1,7 @@
 package com.bank.controller.farmer;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,85 +10,85 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.bank.Constants;
+import com.bank.beans.Farmer;
 import com.bank.beans.FarmerCredit;
-import com.bank.common.util.JsonUtil;
+import com.bank.beans.FarmerCreditExample;
+import com.bank.beans.Organ;
 import com.bank.service.IFarmerCreditService;
+import com.bank.service.IFarmerService;
+import com.common.exception.DAOException;
+import com.common.exception.DataNotFoundException;
 
 @Controller
 @RequestMapping(value = "/farmer")
 public class FarmerCreditController {
 	
 	@Resource
+	private IFarmerService farmerService;
+	
+	@Resource
 	private IFarmerCreditService farmerCreditService;
 	
 	@RequestMapping(value = "/saveCredit",method = RequestMethod.POST)
-	public ModelAndView save(HttpServletRequest request, 
-			HttpServletResponse response) throws Exception{
-
-		String formData = request.getParameter("formData");
-		//這裡做了時間格式的處理
-		Object decodeJsonData = JsonUtil.Decode(formData);
-		String formatdata = JSON.toJSONStringWithDateFormat(decodeJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
-		JSONObject jsb = JSONObject.parseObject(formatdata);
-		FarmerCredit farmerCredit = (FarmerCredit) JSON.toJavaObject(jsb, FarmerCredit.class);
-		if(farmerCredit.getId()!=null){
-			farmerCreditService.update(farmerCredit);
+	public ModelAndView save(@ModelAttribute(value="credit") FarmerCredit credit,
+			HttpServletRequest request,HttpServletResponse response){
+		if(credit.getCreditid() == null){
+			Organ organ = (Organ)request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
+			credit.setRunitid(organ.getOrganId());
+			credit.setRunitname(organ.getOrganName());
+			credit.setSourcecode(organ.getOrganNo());
+			credit.setSourcename(organ.getOrganName());
+			farmerCreditService.insert(credit);
 		}else{
-			farmerCreditService.save(farmerCredit);
+			FarmerCreditExample fe  = new FarmerCreditExample();
+			FarmerCreditExample.Criteria fc = fe.createCriteria();
+			fc.andCreditidEqualTo(credit.getCreditid());
+			farmerCreditService.updateByExample(credit, fe);
 		}
-		String json = JSON.toJSONString(farmerCredit);
-		response.setContentType("text/html;charset=UTF-8");
-	    response.getWriter().write(json);
-		return null;
+		Farmer farmer = null;
+		try {
+			farmer = farmerService.findByPK(credit.getFarmerid());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		ModelAndView view = new ModelAndView("/farmer/farmerCreditView");
+		view.addObject("farmer",farmer);
+		return view;
 		
 	}
 	
 	@RequestMapping(value = "/loadCredit", method = RequestMethod.POST)
-	public ModelAndView loadCompany(@RequestParam(value="id",required=true) String id, 
-			HttpServletResponse response) throws Exception {
-		if(!StringUtils.isEmpty(id)){
-			Long creditId=Long.valueOf(id);
-			FarmerCredit farmer = farmerCreditService.findByPK(creditId);
-			String json = JsonUtil.Encode(farmer);
-			response.setContentType("text/html;charset=UTF-8");
-		    response.getWriter().write(json);
-		}
+	public ModelAndView loadCompany(@RequestParam(value="id",required=true) Long id, 
+		HttpServletResponse response) throws Exception {
+		FarmerCreditExample fe = new FarmerCreditExample();
+		FarmerCreditExample.Criteria fc = fe.createCriteria();
+		fc.andCreditidEqualTo(id);
+		farmerCreditService.selectByExample(fe);
 		return null;
 		
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value="/loadAllCredit",method=RequestMethod.POST)
-	public ModelAndView loadAllCompany(HttpServletRequest request, 
-			HttpServletResponse response) throws Exception{
-		//查询条件
-		String farmerName = request.getParameter("farmerName");
-	    String farmerIdNum=request.getParameter("farmerIdNum");
-	    String recorder=request.getParameter("recorder");
-	    String recordTimeBegin=request.getParameter("recordTimeBegin");
-	    String recordTimeEnd=request.getParameter("recordTimeEnd");
+	public ModelAndView loadAllCredit(@RequestParam(value="fid") Long fid, 
+			@RequestParam(value="pageIndex") int pageIndex,
+			@RequestParam(value="pageSize") int pageSize,
+			@RequestParam(value="sortField") String sortField,
+			@RequestParam(value="sortOrder") String sortOrder,
+			HttpServletRequest request,HttpServletResponse response){
 	    
-	    Map<String,String> query = new HashMap<String,String>();
-	    query.put("farmerName", farmerName);
-	    query.put("farmerIdNum", farmerIdNum);
-	    query.put("recorder", recorder);
-	    query.put("recordTimeBegin", recordTimeBegin);
-	    query.put("recordTimeEnd", recordTimeEnd);
-	    //分页
-	    int pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
-	    int pageSize = Integer.parseInt(request.getParameter("pageSize"));        
-	    //字段排序
-	    String sortField = request.getParameter("sortField");
-	    String sortOrder = request.getParameter("sortOrder");
+	    Map query = new HashMap();
+	    query.put("farmerid", fid);
 	    List<FarmerCredit> data = farmerCreditService.getPageingEntities(pageIndex, pageSize, sortField, sortOrder, query);
 	    
 	    HashMap result = new HashMap();
@@ -95,8 +97,96 @@ public class FarmerCreditController {
         
 	    String json = JSON.toJSONStringWithDateFormat(result,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
 	    response.setContentType("text/html;charset=UTF-8");
-	    response.getWriter().write(json);
+	    PrintWriter writer;
+		try {
+			writer = response.getWriter();
+			writer.write(json);
+			writer.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
+	}
+	@RequestMapping(value="/insertCredit",method=RequestMethod.GET)
+	public ModelAndView insertMember(@RequestParam(value="fid") Long fid, 
+			HttpServletRequest request,HttpServletResponse response){
+
+		Farmer farmer = null;
+		try {
+			farmer = farmerService.findByPK(fid);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DataNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ModelAndView view = new ModelAndView("/farmer/farmerCreditForm");
+		view.addObject("farmer",farmer);
+		return view;
+	}
+	@RequestMapping(value="/deleteCredit",method=RequestMethod.GET)
+	public ModelAndView deleteCredit(@RequestParam(value="id") Long id,@RequestParam(value="fid") Long fid,
+			HttpServletRequest request,HttpServletResponse response)
+	{
+
+		try {
+			FarmerCreditExample fe = new FarmerCreditExample();
+			FarmerCreditExample.Criteria fc = fe.createCriteria();
+			fc.andCreditidEqualTo(fid);
+			farmerCreditService.deleteByExample(fe);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Farmer farmer = null;
+		try {
+			farmer = farmerService.findByPK(fid);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ModelAndView view = new ModelAndView("/farmer/farmerCreditView");
+		view.addObject("farmer",farmer);
+		return view;
+	}
+	@RequestMapping(value="/editCredit",method=RequestMethod.GET)
+	public ModelAndView editCredit(HttpServletRequest request,HttpServletResponse response,
+			@RequestParam(value="id") Long id,
+			@RequestParam(value="fid") Long fid)
+	{
+		Farmer farmer = null;
+		FarmerCredit credit = null;
+		try {
+			farmer = farmerService.findByPK(fid);
+			FarmerCreditExample fe = new FarmerCreditExample();
+			FarmerCreditExample.Criteria fc = fe.createCriteria();
+			fc.andCreditidEqualTo(id);
+			List<FarmerCredit> credits = farmerCreditService.selectByExample(fe);
+			credit = credits.get(0);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ModelAndView view = new ModelAndView("/farmer/farmerCreditForm");
+		view.addObject("farmer",farmer);
+		view.addObject("credit",credit);
+		return view;
+	}
+	@RequestMapping(value="/queryCredit",method=RequestMethod.GET)
+	public ModelAndView queryCredit(@RequestParam(value="fid") 	Long fid, 
+			HttpServletRequest request,HttpServletResponse response){
+		ModelAndView view = new ModelAndView("/farmer/farmerCreditView");
+		Farmer farmer = null;
+		try {
+			farmer = farmerService.findByPK(fid);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		view.addObject("farmer",farmer);
+		return view;
 	}
 	
 }

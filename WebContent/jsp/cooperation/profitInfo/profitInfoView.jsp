@@ -9,31 +9,6 @@
 <script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/miniui/json2.js" type="text/javascript"></script>
 <title>利润及利润分配表</title>
-<style type="text/css">
-* {
-	margin: 0;
-	padding: 0
-}
-
-body {
-	scrollbar-base-color: #90D5EA;
-	line-height: 120%;
-	font-family: "仿宋_GB2312";
-	font-size: 13pt;
-}
-
-.zero {
-	height: 1px;
-}
-.btn {
-	background-color: #FFF;
-	border: 1px solid #CDCDCD;
-	height: 24px;
-	width: 70px;
-	display: inline-block;
-	cursor: hand;
-}
-</style>
 </head>
 <body>
 
@@ -43,9 +18,9 @@ body {
     	<li name="remove" iconCls="icon-edit" onclick="edit">编辑</li>
 	<li name="remove" iconCls="icon-remove" onclick="remove">删除</li>
 </ul>
-<div class="queryPane" style="padding-top:10px;width:100%;height:30px">
+<div class="queryPane" style="padding-top:10px;width:100%">
 <form id="farmer" action="" method="POST">
-<table width="100%" height="30px" style="vertical-align:middle;">
+<table width="100%" style="vertical-align:middle;">
 	<tr>
 		<td width="3%" ></td>
 		<td class="labelName"  width="11%">
@@ -70,7 +45,9 @@ body {
 </table>
 </form>
 </div>
-<div id="datagrid1" class="mini-datagrid" style="width:99%;margin:auto auto;height:340px;background-color:white" 
+<div style="width:100%;position:absolute;top:50px;bottom:0px;left:0px;bottom:0px">
+<div class="mini-fit">
+<div id="datagrid1" class="mini-datagrid" style="width:100%;height:100%;background-color:white" 
            url="${pageContext.request.contextPath}/economy/profit/loadAllCooperationProfit.do" idField="profitid"
             sizeList="[5,10,20,50]" pageSize="20" 
             allowCellEdit="true" allowCellSelect="true" multiSelect="false" allowResize="true"
@@ -87,6 +64,8 @@ body {
 				<div name="action" width="150" headerAlign="center" align="center" renderer="onActionRenderer" cellStyle="padding:0;"></div>
 	         </div>
      </div>
+    </div>
+</div>
 <script type="text/javascript">
 	mini.parse();
 	var grid = mini.get("datagrid1");

@@ -61,7 +61,7 @@ public class ParseDataUtils {
 		return null;
 	}
 
-	private static String[][] readXls(String path, int ignoreRows) throws IOException {
+	public static String[][] readXls(String path, int ignoreRows) throws IOException {
 		InputStream is = null;
 		POIFSFileSystem fs = null;
 		BufferedInputStream ins = null;
@@ -94,8 +94,38 @@ public class ParseDataUtils {
 		
 		return retVal;
 	}
-	
-	private static String[][] readXlsx(String path, int ignoreRows) throws IOException {
+	public static String[][] readXls(InputStream in, int ignoreRows) throws IOException {
+		POIFSFileSystem fs = null;
+		BufferedInputStream ins = null;
+		String[][] retVal = null;
+		try {
+			ins = new BufferedInputStream(in);
+			// 打开HSSFWorkbook
+			fs = new POIFSFileSystem(in);
+			HSSFWorkbook hssfWorkbook = new HSSFWorkbook(fs);
+			
+			HSSFCell cell = null;
+			HSSFRow row = null;
+			HSSFSheet st = null;
+			retVal = common(ignoreRows, cell, row, st, hssfWorkbook);
+			
+		} finally {
+			if (in != null) {
+				in.close();
+				in = null;
+			}
+			if (fs != null) {
+				fs = null;
+			}
+			if (ins != null) {
+				ins.close();
+				ins = null;
+			}
+		}
+		
+		return retVal;
+	}
+	public static String[][] readXlsx(String path, int ignoreRows) throws IOException {
 		InputStream is = null;
 		String[][] retVal = null;
 //		POIFSFileSystem fs = null;
@@ -119,7 +149,27 @@ public class ParseDataUtils {
 		
 		return retVal;
 	}
-	
+	public static String[][] readXlsx(InputStream in, int ignoreRows) throws IOException {
+		InputStream is = null;
+		String[][] retVal = null;
+		
+		try {
+			XSSFWorkbook hssfWorkbook = new XSSFWorkbook(in);
+			
+			XSSFCell cell = null;
+			XSSFRow row = null;
+			XSSFSheet st = null;
+			retVal = common(ignoreRows, cell, row, st, hssfWorkbook);
+			
+		} finally {
+			if (is != null) {
+				is.close();
+				is = null;
+			}
+		}
+		
+		return retVal;
+	}
 	private static String[][] common (int ignoreRows, Cell cell, Row row, Sheet st, Workbook wb) {
 		int rowSize = 0;
 		List<String[]> result = new ArrayList<String[]>();
@@ -281,6 +331,11 @@ public class ParseDataUtils {
 			throws FileNotFoundException, IOException {
 		BufferedInputStream in = new BufferedInputStream(new FileInputStream(
 				file));
+		return getExeclData(in, ignoreRows);
+	}
+	
+	public static String[][] getExecl(InputStream in, int ignoreRows)
+			throws IOException {
 		return getExeclData(in, ignoreRows);
 	}
 

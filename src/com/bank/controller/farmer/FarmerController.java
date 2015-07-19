@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -808,13 +809,15 @@ public class FarmerController   {
 			HttpServletResponse response) throws Exception{
 		SimpleDateFormat yf = new SimpleDateFormat("yyyy");
 		String ids = request.getParameter("farmerIds");
+		String fileName = "";
 		response.setContentType("application/zip"); 
-		String fileName = URLEncoder.encode("閸愭粍鍩涙穱锛勬暏閹躲儱鎲�","UTF-8");
+		response.setCharacterEncoding("GBK");
 		response.setHeader("Location",fileName);
 		response.setHeader("Content-Disposition", "attachment; filename="+fileName+".zip");
 		ByteArrayOutputStream bout = new ByteArrayOutputStream();
 		ZipOutputStream   zop = new  ZipOutputStream(bout);
 		zop.setEncoding("GBK");
+		String tempFile = UUID.randomUUID().toString();
 		if(!StringUtils.isEmpty(ids)){
 			String[] fds = ids.split(",");
 			for(String fId:fds){
@@ -852,13 +855,13 @@ public class FarmerController   {
 				if(evaluate == null){
 					evaluate = new FarmerEvaluate();
 				}
-				String tplPath = "/template/閸愭粍鍩涙穱锛勬暏閹躲儱鎲�.docx";
+				String tplPath = "/template/CreditReport.docx";
 				InputStream in =FarmerController.class.getResourceAsStream(tplPath);
 				XWPFDocument doc = new XWPFDocument(in);
 				List<XWPFTable> tables  = doc.getTables();
 				XWPFTable t0 = tables.get(0);
 				XWPFTableRow r1 = t0.createRow();
-				addTableCell(r1,0,"閹磋渹瀵�");
+				addTableCell(r1,0,"户主");
 				addTableCell(r1,1,farmer.getFarmername());
 				addTableCell(r1,2,Dictionary.translate("sex",String.valueOf(farmer.getSex())));
 				addTableCell(r1,3,farmer.getFarmeridnum());
@@ -882,9 +885,9 @@ public class FarmerController   {
 				for(Iterator<FarmerPay> it = balances.iterator();it.hasNext();){
 					FarmerPay balance = it.next();
 					XWPFTableRow r = t1.createRow();
-					addTableCell(r,0,yf.format(balance.getYear()));
-					addTableCell(r,1,String.valueOf(balance.getTotalincome()));
-					addTableCell(r,2,String.valueOf(balance.getTotalpay()));
+					addTableCell(r,0,balance.getYear() == null?null:yf.format(balance.getYear()));
+					addTableCell(r,1,balance.getTotalincome()==null?null:String.valueOf(balance.getTotalincome()));
+					addTableCell(r,2,balance.getTotalpay()==null?null:String.valueOf(balance.getTotalpay()));
 				}
 				XWPFTable t2= tables.get(2);
 				for(int i=0;i<houses.size();i++){
@@ -913,7 +916,7 @@ public class FarmerController   {
 				for(Iterator<FarmerForest> it = forests.iterator();it.hasNext();){
 					FarmerForest forest = it.next();
 					XWPFTableRow r = t4.createRow();
-					addTableCell(r,0,forest.getId() == null?"":"閺嬫娼�");
+					addTableCell(r,0,"林权");
 					addTableCell(r,1,forest.getArea());
 					addTableCell(r,2,forest.getStorenum());
 					addTableCell(r,3,forest.getArea());
@@ -930,48 +933,40 @@ public class FarmerController   {
 					addTableCell(r,4,device.getAssessprice());
 				}
 				XWPFTable t6=tables.get(6);
-				XWPFTable t7=tables.get(7);
-				XWPFTable t8=tables.get(8);
 				for(int i=0;i<loans.size();i++){
 					FarmerLoan loan = loans.get(i);
 					XWPFTableRow r6 = t6.createRow();
-					XWPFTableRow r7 = t7.createRow();
-					XWPFTableRow r8 = t8.createRow();
 					addTableCell(r6,0,loan.getId() == null?"":"1");
 					addTableCell(r6,1,loan.getOrganname());
 					addTableCell(r6,2,loan.getBusinesstype());
 					addTableCell(r6,3,loan.getLoanuse());
-					addTableCell(r6,4,"");
-					addTableCell(r6,5,loan.getLoandate());
-					addTableCell(r6,6,loan.getLimitdate());
-					
-					addTableCell(r7,0,loan.getId() == null?"":"1");
-					addTableCell(r7,1,loan.getBalance());
-					addTableCell(r7,2,loan.getGuaranteetype());
-					
-					addTableCell(r8,0,loan.getId() == null?"":"1");
-					addTableCell(r8,1,loan.getClientname());
-					addTableCell(r8,2,loan.getClientnum());
+					addTableCell(r6,4,loan.getAmount());
+					addTableCell(r6,5,null);
+					addTableCell(r6,6,loan.getLoandate());
+					addTableCell(r6,7,loan.getLimitdate());
+					addTableCell(r6,7,loan.getBalance());
 				}
-				XWPFTable t9=tables.get(9);
+				XWPFTable t7=tables.get(7);
 				for(int i = 0;i<compunishs.size();i++){
 					 FarmerCompunish compunish  =compunishs.get(0);
-					 XWPFTableRow r9 = t9.createRow();
-					 addTableCell(r9,0,compunish.getId() == null?"":"1");
-					 addTableCell(r9,1,compunish.getOrgan());
-					 addTableCell(r9,2,compunish.getDetail());
+					 XWPFTableRow r7 = t7.createRow();
+					 addTableCell(r7,0,compunish.getId() == null?"":"1");
+					 addTableCell(r7,1,compunish.getOrgan());
+					 addTableCell(r7,2,compunish.getDetail());
+					 addTableCell(r7,3,compunish.getSourcename());
 				}
-				XWPFTable t10=tables.get(10);
+				XWPFTable t8=tables.get(8);
 				for(int i = 0;i<insureds.size();i++){
 					 FarmerInsured insured  =insureds.get(0);
-					 XWPFTableRow r10 = t10.createRow();
-					 addTableCell(r10,0,insured.getId() == null?"":"1");
-					 addTableCell(r10,1,String.valueOf(insured.getType()));
-					 addTableCell(r10,2,String.valueOf(insured.getAmount()));
+					 XWPFTableRow r8 = t8.createRow();
+					 addTableCell(r8,0,insured.getId() == null?"":"1");
+					 addTableCell(r8,1,String.valueOf(insured.getType()));
+					 addTableCell(r8,2,String.valueOf(insured.getAmount()));
 					 String date = new SimpleDateFormat("yyyy-mm-dd").format(insured.getInsuretime());
-					 addTableCell(r10,3,date);
+					 addTableCell(r8,3,date);
+					 addTableCell(r8,4,insured.getSourcename());
 				}
-				XWPFTable t12=tables.get(12);
+				XWPFTable t12=tables.get(9);
 				XWPFTableRow r12 = t12.createRow();
 				addTableCell(r12,0,Dictionary.translate("evaluate",evaluate.getHarmonystatus()));
 				addTableCell(r12,1,Dictionary.translate("evaluate",evaluate.getRespectstatus()));
@@ -979,15 +974,17 @@ public class FarmerController   {
 				addTableCell(r12,3,Dictionary.translate("yesorno",String.valueOf(evaluate.getLegalstatus())));
 				addTableCell(r12,4,Dictionary.translate("evaluate",evaluate.getWelfarestatus()));
 				addTableCell(r12,5,Dictionary.translate("yesorno",String.valueOf(evaluate.getHoneststatus())));
-				File f = new File(FarmerController.class.getResource("/temp").getPath()
-						+"/娣囷紕鏁ら幎銉ユ啞/"+farmer.getFarmername()+".docx");
-				OutputStream fout = new FileOutputStream(f);
+				String path = FarmerController.class.getResource("/temp").getPath()+tempFile;
+				File f = new File(path);
+				f.mkdir();
+				File f1 = new File(path+"/CreditReport.docx");
+				OutputStream fout = new FileOutputStream(f1);
 				doc.write(fout);
 				fout.flush();
 				fout.close();
 				fout = null;
 			}
-			File f = new File(FarmerController.class.getResource("/temp").getPath()+"/娣囷紕鏁ら幎銉ユ啞/");
+			File f = new File(FarmerController.class.getResource("/temp").getPath()+tempFile);
 			File[] files =f.listFiles();
 			for(File file:files){
 				zop.putNextEntry(new ZipEntry(file.getName()));

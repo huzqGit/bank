@@ -8,87 +8,34 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>农民专业合作经济组织基本概况信息</title>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<link href="${pageContext.request.contextPath}/jsp/farmer/form.css"  rel="stylesheet" type="text/css"/>
 <script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/miniui/monthpicker.js" type="text/javascript"></script>
-<style>
-html{
-	height:90%
-}
-body {
-	height: 100%;
-	width: 100%;
-	overfolw-x: hidden;
-	margin-top: -2px;
-	margin-left: -2px;
-}
-
-.saveBtn {
-	width: 100px;
-	height: 25px;
-	border: 0;
-	background: url(/bank/images/save.png) no-repeat
-}
-
-.backBtn {
-	width: 100px;
-	height: 25px;
-	border: 0;
-	background: url(/bank/images/back.png) no-repeat
-}
-
-.addBtn {
-	width: 100px;
-	height: 25px;
-	border: 0;
-	background: url(/bank/images/add.png) no-repeat
-}
-.bg{
-	background:url(images/toolbar/toolbar.png) #e7eaee repeat-x 0px 0px
-}
-.topmenu{
-	width:100%;
-	height:40px;
-	background:linear-gradient(#6DC8E3,white);
-	/* IE6 & IE7 */
-	filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0 , startColorstr = '#6DC8E3', 
-	endColorstr = 'white' ); 
-	/* IE8 */
-	-ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType = 0,startColorstr = '#6DC8E3', 
-	endColorstr = 'white' )"; 
-}
-.errorText{
-	size:10px;
-	color:red;
-}
-</style>
 <%
 	User user = (User) request.getSession().getAttribute(Constants.SESSION_AUTH_USER);
 	//System.out.println(request.getRequestURI());
 %>
 </head>
 <body>
-<div  id="sss">
-<div class="mini-toolbar mini-panel-header bg topmenu" style="height:27px;padding-top:5px;border-bottom:0;position: fixed;z-index: 20">
+<div class="queryPane">
 	<table style="width:100%;">
     	<tr>
-        	<td style="white-space:nowrap;" align="right">
-        		<span style="${display}">
-		        	<a class="mini-button" iconCls="icon-save" plain="true" onclick="submitForm()">保存</a>
-		           	<span class="separator"></span>
-	            </span>
+        	<td style="width:85%" align="right">
+	            <input type="button" class="bank-btn" value="保存"  onclick="submitForm()">
+	        </td>
+	        <td align="center">
 	            <c:if test="${!empty rightClick}">
-	            	<a class="mini-button" iconCls="icon-remove" plain="true" onclick="close()">关闭</a>
-                	<span  class="separator"></span>
+	           		<input type="button" class="bank-btn" value="关闭" onclick="close()"/>
                  </c:if>
                  <c:if test="${empty rightClick}">
-                	<a class="mini-button" iconCls="icon-upgrade" plain="true" onclick="back()">返回</a>
-                	<span class="separator"></span>
+                	<input type="button" class="bank-btn" value="返回" onclick="back()"/>
                  </c:if>
             </td>
          </tr>
       </table>
 </div>
+<div  id="sss">
+
 <div id="form1" style="width:97%;margin:auto auto;padding-top:25px">
 	<form action="${pageContext.request.contextPath}/economy/debt/saveCooperationDebt.do" method="POST">
 	<input name="debtid" class="mini-hidden" value="${debtid}"/>
@@ -99,7 +46,7 @@ body {
 	<tr>
 	<td colspan="4" style="width:100%">
 	<fieldset id="fd2" style="width:100%;">
-	<legend><label>农民专业合作经济组织<font color="blue"><b>主要财务指标数</b></font></label></legend>
+	<legend><label>资产负债信息</label></legend>
 	<div class="fieldset-body" >
 	<div >
 	<table width="100%">
@@ -125,12 +72,13 @@ body {
 			
 		</tr>
 	</table>
-	<table width="100%" style="margin-bottom:-10px; margin-top:10px ;">
+	<br/>
+	<hr />
+	<table width="100%">
 		<tr>
 			<th  style="width:10%">&nbsp;</th><th  style="width:20%">期初值</th><th  style="width:20%">期末值</th><th  style="width:10%">&nbsp;</th><th  style="width:20%">期初值</th><th  style="width:20%">期末值</th>
 		</tr>
 	</table>
-	<hr />
 	</div>
 	<div >
 	<table width="100%" >

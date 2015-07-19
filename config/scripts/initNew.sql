@@ -1,12 +1,12 @@
 //组织机构顶级节点
-insert into T_ORGAN(ORGAN_ID,ORGAN_NAME,ORGAN_SHORT)VALUES('1656099b-8733-48e6-9d9f-123df93546b4','新干县中国人民银行','新干县人民银行');
-//超级管理员用户
+insert into T_ORGAN(ORGAN_ID,ORGAN_NAME,ORGAN_SHORT,ORGAN_NO)VALUES('1656099b-8733-48e6-9d9f-123df93546b4','中国人民银行新干县支行','中国人民银行新干县支行','A1000136000295');
+//超级管理员用户 
 insert into T_USER(USER_ID,USER_NAME,PASSWORD,ORGAN_ID,USER_CNNAME)
 VALUES('admin','超级管理员','21232f297a57a5a743894a0e4a801fc3','1656099b-8733-48e6-9d9f-123df93546b4','超级管理员')
 //查看权限
 insert into T_PRIVILEGE(PRIVILEGE_ID,PRIVILEGE_TYPE)VALUES('225b8a9d-f8e5-4491-96f0-b5e80a3fd432','010');
 //加入超级管理员
-insert into T_ROLE('c465b15d-f14d-4127-b5bd-f26f016d4bf0','超级管理员');
+insert into T_ROLE(ROLE_ID,ROLE_DESCR)VALUES('c465b15d-f14d-4127-b5bd-f26f016d4bf0','超级管理员');
 insert into t_user_role(user_id,role_id) values('admin','c465b15d-f14d-4127-b5bd-f26f016d4bf0');
 
 

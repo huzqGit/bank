@@ -6,6 +6,14 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+table{
+color:#333333;
+border-width: 1px;
+border-color: black;
+border-collapse: collapse;
+}
+</style>
 </head>
 <body>
 <div style="width:90%;margin:auto auto;text-align:center">

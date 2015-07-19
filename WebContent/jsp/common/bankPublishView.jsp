@@ -31,7 +31,9 @@
 </tr>
 </table>
 </div>
-        <div id="datagrid1" class="mini-datagrid mini-fit" style="width:100%;height:400px;" 
+<div style="width:100%;position:absolute;top:50px;bottom:0px;left:0px;bottom:0px">
+<div class="mini-fit">
+        <div id="datagrid1" class="mini-datagrid mini-fit" style="width:100%;height:100%" 
             url="${pageContext.request.contextPath}/message/loadAllMessages.do" idField="id"
             sizeList="[5,10,20,50]" pageSize="10"
         >
@@ -45,6 +47,8 @@
 	        	<div name="action" width="5%" headerAlign="center" align="center" renderer="deleteRenderer" cellStyle="padding:0;"></div>
             </div>
         </div> 
+</div>
+</div>
      <script type="text/javascript">
         mini.parse();
         var grid = mini.get("datagrid1");

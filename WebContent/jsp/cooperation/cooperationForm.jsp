@@ -11,66 +11,29 @@
 %>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>农民专业合作经济组织基本概况信息</title>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<link href="${pageContext.request.contextPath}/jsp/farmer/form.css"  rel="stylesheet" type="text/css"/>
 <script src="${pageContext.request.contextPath}/miniui/boot.js" type="text/javascript"></script>
-<style>
-body{
-	height:100%;width:100%;
-	overfolw-x:hidden;
-	margin-top:-2px;
-	margin-left:-2px;
-}
-.bg{
-	background:url(images/toolbar/toolbar.png) #e7eaee repeat-x 0px 0px
-}
-.topmenu{
-	width:100%;
-	height:40px;
-	background:linear-gradient(#6DC8E3,white);
-	/* IE6 & IE7 */
-	filter: progid:DXImageTransform.Microsoft.gradient( GradientType= 0 , startColorstr = '#6DC8E3', 
-	endColorstr = 'white' ); 
-	/* IE8 */
-	-ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType = 0,startColorstr = '#6DC8E3', 
-	endColorstr = 'white' )"; 
-}
-html{
-	height:90%
-}
-body{
-	height:100%;width:100%;
-	overfolw-x:hidden;
-	margin-top:-2px;
-	margin-left:-2px;
-}
-.errorText{
-	size:10px;
-	color:red;
-}
-</style>
 </head>
 <body>
-<div  id="sss">
-<div class="mini-toolbar mini-panel-header bg topmenu" style="border-bottom:0;position: fixed;z-index: 20">
+<div class="queryPane">
 	<table style="width:100%;">
     	<tr>
-        	<td style="white-space:nowrap;" align="right">
-        		<span style="${display}">
-		        	<a class="mini-button" iconCls="icon-save" plain="true" onclick="submitForm()">保存</a>
-		           	<span class="separator"></span>
-	            </span>
-	            <c:if test="${!empty rightClick}">
-	            	<a class="mini-button" iconCls="icon-remove" plain="true" onclick="close()">关闭</a>
-                	<span  class="separator"></span>
-                 </c:if>
-                 <c:if test="${empty rightClick}">
-                	<a class="mini-button" iconCls="icon-upgrade" plain="true" onclick="back()">返回</a>
-                	<span class="separator"></span>
-                 </c:if>
-            </td>
+        	<td style="width:85%" align="right">
+		       <input type="button" class="bank-btn" value="保存" onclick="submitForm()"/>
+		    </td>
+		     <td align="center">
+	        <c:if test="${!empty rightClick}">
+	               <input type="button" class="bank-btn" value="关闭" onclick="close()"/>
+            </c:if>
+            <c:if test="${empty rightClick}">
+                	 <input type="button" class="bank-btn" value="返回" onclick="back()"/>
+			</c:if>
+			</td>
          </tr>
       </table>
 </div>
+<div  id="sss">
+
 <div id="form1" style="width:97%;margin:auto auto;padding-top:25px">
 	<form action="/bank/economy/saveCooperation.do" method="POST">
 	<input name="organ_id" class="mini-hidden" value="<%=user.getOrganId()%>"/>
@@ -81,7 +44,7 @@ body{
 	<tr>
 	<td colspan="4" style="width:100%">
 	<fieldset id="fd2" style="width:100%;margin:auto auto">
-	<legend><label>农民专业合作经济组织<font color="blue"><b>基本概况信息</b></font></label></legend>
+	<legend><label>农民专业合作经济组织信息</label></legend>
 	<div class="fieldset-body">
 	<table width="100%">
 	<tr>

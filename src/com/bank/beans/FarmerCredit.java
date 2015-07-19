@@ -4,21 +4,12 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.common.bean.BaseEntity;
+public class FarmerCredit {
+    private Long creditid;
 
-public class FarmerCredit extends BaseEntity<Long> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 447074825679634280L;
-	
-	private Long farmerid;
-	
-	private String farmername;
-
-    private String farmeridnum;
-
+    private Long farmerid;
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date assessdate;
 
     private String assessrank;
@@ -39,121 +30,100 @@ public class FarmerCredit extends BaseEntity<Long> {
     
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date recordtime;
-	
-	public Long getFarmerid() {
-		return farmerid;
-	}
 
-	public void setFarmerid(Long farmerid) {
-		this.farmerid = farmerid;
-	}
+    public Long getCreditid() {
+        return creditid;
+    }
 
-	public String getFarmername() {
-		return farmername;
-	}
+    public void setCreditid(Long creditid) {
+        this.creditid = creditid;
+    }
 
-	public void setFarmername(String farmername) {
-		this.farmername = farmername;
-	}
+    public Long getFarmerid() {
+        return farmerid;
+    }
 
-	public String getFarmeridnum() {
-		return farmeridnum;
-	}
+    public void setFarmerid(Long farmerid) {
+        this.farmerid = farmerid;
+    }
 
-	public void setFarmeridnum(String farmeridnum) {
-		this.farmeridnum = farmeridnum;
-	}
+    public Date getAssessdate() {
+        return assessdate;
+    }
 
-	public Date getAssessdate() {
-		return assessdate;
-	}
+    public void setAssessdate(Date assessdate) {
+        this.assessdate = assessdate;
+    }
 
-	public void setAssessdate(Date assessdate) {
-		this.assessdate = assessdate;
-	}
+    public String getAssessrank() {
+        return assessrank;
+    }
 
-	public String getAssessrank() {
-		return assessrank;
-	}
+    public void setAssessrank(String assessrank) {
+        this.assessrank = assessrank == null ? null : assessrank.trim();
+    }
 
-	public void setAssessrank(String assessrank) {
-		this.assessrank = assessrank;
-	}
+    public String getAssessorgan() {
+        return assessorgan;
+    }
 
-	public String getAssessorgan() {
-		return assessorgan;
-	}
+    public void setAssessorgan(String assessorgan) {
+        this.assessorgan = assessorgan == null ? null : assessorgan.trim();
+    }
 
-	public void setAssessorgan(String assessorgan) {
-		this.assessorgan = assessorgan;
-	}
+    public String getTimelimit() {
+        return timelimit;
+    }
 
-	public String getTimelimit() {
-		return timelimit;
-	}
+    public void setTimelimit(String timelimit) {
+        this.timelimit = timelimit == null ? null : timelimit.trim();
+    }
 
-	public void setTimelimit(String timelimit) {
-		this.timelimit = timelimit;
-	}
+    public String getSourcecode() {
+        return sourcecode;
+    }
 
-	public String getSourcecode() {
-		return sourcecode;
-	}
+    public void setSourcecode(String sourcecode) {
+        this.sourcecode = sourcecode == null ? null : sourcecode.trim();
+    }
 
-	public void setSourcecode(String sourcecode) {
-		this.sourcecode = sourcecode;
-	}
+    public String getSourcename() {
+        return sourcename;
+    }
 
-	public String getSourcename() {
-		return sourcename;
-	}
+    public void setSourcename(String sourcename) {
+        this.sourcename = sourcename == null ? null : sourcename.trim();
+    }
 
-	public void setSourcename(String sourcename) {
-		this.sourcename = sourcename;
-	}
+    public String getRunitid() {
+        return runitid;
+    }
 
-	public String getRunitid() {
-		return runitid;
-	}
+    public void setRunitid(String runitid) {
+        this.runitid = runitid == null ? null : runitid.trim();
+    }
 
-	public void setRunitid(String runitid) {
-		this.runitid = runitid;
-	}
+    public String getRunitname() {
+        return runitname;
+    }
 
-	public String getRunitname() {
-		return runitname;
-	}
+    public void setRunitname(String runitname) {
+        this.runitname = runitname == null ? null : runitname.trim();
+    }
 
-	public void setRunitname(String runitname) {
-		this.runitname = runitname;
-	}
+    public String getRecorder() {
+        return recorder;
+    }
 
-	public String getRecorder() {
-		return recorder;
-	}
+    public void setRecorder(String recorder) {
+        this.recorder = recorder == null ? null : recorder.trim();
+    }
 
-	public void setRecorder(String recorder) {
-		this.recorder = recorder;
-	}
+    public Date getRecordtime() {
+        return recordtime;
+    }
 
-	public Date getRecordtime() {
-		return recordtime;
-	}
-
-	public void setRecordtime(Date recordtime) {
-		this.recordtime = recordtime;
-	}
-
-	@Override
-	public boolean equalsIfIdNull(Object o) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public int hashCodeIfIdNull() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
+    public void setRecordtime(Date recordtime) {
+        this.recordtime = recordtime;
+    }
 }

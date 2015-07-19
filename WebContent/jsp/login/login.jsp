@@ -57,38 +57,75 @@
 		margin:0;
 		padding:0;
 		}
-		
+		.login-input{
+		width:210px;
+		transition: all 0.30s ease-in-out;
+ 		-webkit-transition: all 0.30s ease-in-out;
+ 	-moz-transition: all 0.30s ease-in-out;
+ 	outline:none;
+ 	background:white;
+ 	height:40px;
+ 	 border:red 1px solid;
+ 	 border-radius: 5px;
+ box-shadow: 0 0 5px orange;
+ -webkit-box-shadow: 0 0 5px orange;
+white-space:nowrap;
+-moz-box-shadow: 0 0 5px orange;
+ }	
+		}
 		</style>
 	
-        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements --> 
         <!--[if lt IE 9]>
             <script src="/bank/jsp/login/assets/js/html5.js"></script>
         <![endif]-->
-    </head>
-
+ <script type="text/javascript">
+function login_do() {
+	var userId = $("#userId").val();
+	var password = $("#password").val();
+	if (userId == "") {
+		mini.alert("用户名不能为空!");
+	}
+	if (password == "") {
+		mini.alert("密码不能为空!");
+	}
+	document.getElementById("form1").submit();
+	}
+	function changeFocus() {
+	
+	}
+	function reset() {
+	$("#userId").val("");
+	$("#password").val("");
+	}
+</script>
+</head>
     <body>
 <div class="top"></div>
 <div class="center">
 	<div class="page-container">
-	<form action="${pageContext.request.contextPath}/user/login.do" method="post">
-	<ul>
-		<li style="width:400px;">	
+	<form id="form1" action="${pageContext.request.contextPath}/user/login.do" method="post">
 		<table style="width:100%;height:50px">
 		<tr>
-			<td width="35%">
-				<input style="width:90%" type="text" id="userId" name="userId" class="userId" placeholder="用户名"/>
+			<td width="46%">
+			<div class="login-input">
+				<span style="width::50px;font-weight:bold;color:#FF6600">用户名:</span>
+				<input type="text" id="userId" name="userId" />
+				</div>
 			</td>
-			<td width="2%"></td>
-			<td width="35%">
-				<input style="width:90%" type="password" id="password" name="password" class="password" placeholder="密码"/>
+			<td width="4%"></td>
+			<td width="46%">
+			<div class="login-input">
+				<span style="width::50px;font-weight:bold;color:#FF6600">&nbsp;&nbsp;密码:&nbsp;&nbsp;</span>
+				<input type="password" id="password" name="password" />
+			</div>	
+			</td>
+			<td width="4%"></td>
+			<td>
+					<button onclick="login_do();" >登录</button>
 			</td>
 		</tr>
 		</table>
-		</li >
-		<li>
-				<input type="submit" value="登录" style="width:80px;height:40px;cursor:handler;color:white;font-weight:bold;background:url(/bank/jsp/login/assets/img/backgrounds/login.png) no-repeat"/>
-		</li>
-	</ul>
 	</form>
 	</div>
 </div>

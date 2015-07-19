@@ -90,6 +90,7 @@ background:white
 }
 .mini-grid-headerCell{
 background:white;
+background-image:none;
 border-top:0px;
 border-color:#D2D2D2
 }

@@ -50,17 +50,20 @@
 </table>
 </form>
 </div>
-<div id="datagrid1" class="mini-datagrid" style="width:98%;height:300px;margin:auto auto" 
-    url="/bank/farmer/loadFarmerThree.do"  idField="id" allowResize="true"
-    sizeList="[20,30,50,100]" pageSize="10"
->
-    <div property="columns">
-        <div type="indexcolumn" ></div>
-        <div field="farmername" width="45%" headerAlign="center" allowSort="true">姓名</div>    
-        <div field="farmeridnum" width="45%" headerAlign="center" allowSort="true">身份证号码</div> 
-        <div width="10%" headerAlign="center" align="center" renderer="editRenderer" cellStyle="padding:0;"></div>                           
-    </div>
-</div>   
+<div style="width:100%;position:absolute;top:100px;bottom:0px;left:0px;bottom:0px">
+	<div class="mini-fit">
+		<div id="datagrid1" class="mini-datagrid" style="width:100%;height:100%" 
+		    url="/bank/farmer/loadFarmerThree.do"  idField="id" allowResize="true"
+		    sizeList="[20,30,50,100]" pageSize="10">
+		    <div property="columns">
+		        <div type="indexcolumn" ></div>
+		        <div field="farmername" width="45%" headerAlign="center" allowSort="true">姓名</div>    
+		        <div field="farmeridnum" width="45%" headerAlign="center" allowSort="true">身份证号码</div> 
+		        <div width="10%" headerAlign="center" align="center" renderer="editRenderer" cellStyle="padding:0;"></div>                           
+		    </div>
+		</div>
+		</div>
+</div>	   
  <script type="text/javascript">
  mini.parse();
  var grid = mini.get("datagrid1");

@@ -254,11 +254,19 @@ public ModelAndView loadFile(MultipartFile myfile,HttpServletRequest request,
 		Date recordTime = new Date();
 		List<Map<String,String>> msgs = new ArrayList<Map<String,String>>();
 		ModelAndView view = new ModelAndView("/farmer/farmerImportFile");
+		if(!myfile.getOriginalFilename().endsWith(".xlsx") && !myfile.getOriginalFilename().endsWith(".xls")){
+			return view;
+		}
 		//异常输入流及不可解析的文件格式
 		try{
 			 InputStream in = myfile.getInputStream();
-			 data=ParseDataUtils.getExeclData(in,0);
+			 if( myfile.getOriginalFilename().endsWith(".xls")){
+				 data = ParseDataUtils.readXls(in, 0);
+			 }else{
+				 data = ParseDataUtils.readXlsx(in, 0);
+			 }
 		}catch(IOException e){
+			e.printStackTrace();
 			Map<String,String> msg = new HashMap<String,String>();
 			msg.put("row", String.valueOf(1));
 			msg.put("tip", "error");
