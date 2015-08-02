@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="dt" uri="http://gov.jian.bank/dateformat" %>  
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -118,13 +119,13 @@
 	<td class="required_text" width="2%">*</td>
 	<td style="width:10%"><label for="farmerName$text">户主姓名:</label></td>
     <td style="width:38%">
-    	<input type="text" id="farmername" name="farmername" value="${farmer.farmername}" style="width:90%"
+    	<input name="farmername" class="mini-textbox" value="${farmer.farmername}" style="width:90%"
     		errorMode="none" onvalidation="onValidation"/>
     </td>
     <td class="required_text" width="2%">*</td>
     <td style="width:10%">户主身份证号:</td>
     <td style="width:38%" >
-    	<input type="text" id="farmeridnum" name="farmeridnum" value="${farmer.farmeridnum}" style="width:90%"
+    	<input name="farmeridnum" class="mini-textbox" value="${farmer.farmeridnum}" style="width:90%"
     		errorMode="none" onvalidation="onValidation"/>
     </td>
 </tr>
@@ -143,11 +144,10 @@
 	        errorMode="none"onvalidation="onValidation"/>
 	</td>
 	<td class="required_text" width="2%">*</td>
-	<td >婚姻状况:</td>
+	<td >出生日期:</td>
 	<td >
-	    <input  name="marrystatus" class="mini-combobox" value="${farmer.marrystatus}" style="width:90%" 
-	    	errorMode="none" required="true" requiredErrorText="婚姻状况不能为空" url="/bank/dic/MarryStatus.txt" 
-	    	emptyText="请选择..." onvalidation="onValidation"/>
+	    <input  name="birthdate" class="mini-datepicker" value="${dt:format(farmer.birthdate,'yyyy-MM-dd')}" style="width:90%" 
+		/>
 	</td>
 </tr>
 <tr>
@@ -157,6 +157,13 @@
 	<td id="marrystatus_error" class="errorText" colspan="2"></td>
 </tr>
 <tr>
+	<td class="required_text" width="2%">*</td>
+	<td >婚姻状况:</td>
+	<td >
+	    <input  name="marrystatus" class="mini-combobox" value="${farmer.marrystatus}" style="width:90%" 
+	    	errorMode="none" required="true" requiredErrorText="婚姻状况不能为空" url="/bank/dic/MarryStatus.txt" 
+	    	emptyText="请选择..." onvalidation="onValidation"/>
+	</td>
 	<td class="required_text" width="2%">*</td>
 	<td >联系电话:</td>
 
@@ -178,17 +185,18 @@
    			emptyText="请选择..." onvalidation="onValidation"/>
    </td>
    <td class="required_text" width="2%">*</td>
-   <td>住址:</td>
-   <td >
-    	<input name="address" class="mini-textarea"  value="${farmer.address}" style="width:90%"
-    		errorMode="none" onvalidation="onValidation"/>
+   <td>学历:</td>
+   <td>
+    	<input name="education" class="mini-combobox"  value="${farmer.education}" style="width:90%"
+    		errorMode="none" required="true" requiredErrorText="文化程度不能为空" onvalidation="onValidation"
+        url="/bank/dic/Education.txt" emptyText="请选择..."/>
    </td>
  </tr>
  <tr>
 	<td></td>
 	<td id="villages_error" class="errorText" colspan="2"></td>
 	<td></td>
-	<td id="address_error" class="errorText" colspan="2"></td>
+	<td id="education_error" class="errorText" colspan="2"></td>
 </tr>
  <tr>
  	<td class="required_text" width="2%"></td>
@@ -230,6 +238,18 @@
 	<td id="politicstatus_error" class="errorText" colspan="2"></td>
 	<td></td>
 	<td id="postcode_error" class="errorText" colspan="2"></td>
+</tr>
+<tr>
+  <td class="required_text" width="2%">*</td>
+   <td>住址:</td>
+   <td >
+    	<input name="address" class="mini-textarea"  value="${farmer.address}" style="width:90%"
+    		errorMode="none" onvalidation="onValidation"/>
+   </td>
+</tr>
+<tr>
+	<td></td>
+	<td id="address_error" class="errorText" colspan="2"></td>
 </tr>
 </table>
 </div>

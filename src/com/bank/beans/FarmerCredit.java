@@ -5,10 +5,13 @@ import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 
 public class FarmerCredit {
-    private Long creditid;
+  
+	private Long creditid;
 
     private Long farmerid;
-    
+
+    private String farmeridnum;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date assessdate;
 
@@ -27,24 +30,31 @@ public class FarmerCredit {
     private String runitname;
 
     private String recorder;
-    
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date recordtime;
 
     public Long getCreditid() {
-        return creditid;
-    }
+		return creditid;
+	}
 
-    public void setCreditid(Long creditid) {
-        this.creditid = creditid;
-    }
+	public void setCreditid(Long creditid) {
+		this.creditid = creditid;
+	}
 
-    public Long getFarmerid() {
+	public Long getFarmerid() {
         return farmerid;
     }
 
     public void setFarmerid(Long farmerid) {
         this.farmerid = farmerid;
+    }
+
+    public String getFarmeridnum() {
+        return farmeridnum;
+    }
+
+    public void setFarmeridnum(String farmeridnum) {
+        this.farmeridnum = farmeridnum == null ? null : farmeridnum.trim();
     }
 
     public Date getAssessdate() {
@@ -126,4 +136,5 @@ public class FarmerCredit {
     public void setRecordtime(Date recordtime) {
         this.recordtime = recordtime;
     }
+    
 }

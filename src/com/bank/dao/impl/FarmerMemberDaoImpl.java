@@ -20,6 +20,13 @@ public class FarmerMemberDaoImpl extends GenericMyBatisDAOSupport<FarmerMember, 
 	}
 
 	@Override
+	public int countByExample(FarmerMemberExample example) {
+		// TODO Auto-generated method stub
+		int num = this.getSqlSession().selectOne("farmermember.countByExample",example);
+		return num;
+	}
+
+	@Override
 	public void deleteMembers(List<Long> memberIds) {
 		// TODO Auto-generated method stub
 		this.getSqlSession().delete("farmermember.delete", memberIds);

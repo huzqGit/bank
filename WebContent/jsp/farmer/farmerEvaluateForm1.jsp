@@ -70,51 +70,57 @@ overflow-x:hidden
 <table width="100%">
 <tr>
 	<td class="required_text" width="2%"></td>
+    <td style="width:15%">人品综合评价:</td>
+    <td style="width:33%" >
+    	<input name="personality" class="mini-combobox" value ="${evaluate.harmonystatus}" style="width:90%"
+    	url="/bank/dic/Evaluate.txt" emptyText="请选择..."/>
+    </td>
+	<td class="required_text" width="2%"></td>
     <td style="width:15%">家庭和睦情况:</td>
     <td style="width:33%" >
     	<input name="harmonystatus" class="mini-combobox" value ="${evaluate.harmonystatus}" style="width:90%"
     	url="/bank/dic/Evaluate.txt" emptyText="请选择..."/>
     </td>
-    <td class="required_text" width="2%"></td>
-    <td style="width:15%">敬老爱幼情况:</td>
-    <td style="width:33%">
+</tr>
+<tr>
+    <td class="required_text"></td>
+    <td >敬老爱幼情况:</td>
+    <td >
     	<input name="respectstatus" class="mini-combobox" value ="${evaluate.respectstatus}"style="width:90%"
     	url="/bank/dic/Evaluate.txt" emptyText="请选择..."/>
     </td>
-</tr>
-<tr>
-	<td class="required_text" width="2%"></td>
+	<td class="required_text"></td>
     <td>邻里团结情况:</td>
     <td>
     	<input name="neighborstatus" class="mini-combobox" value ="${evaluate.neighborstatus}" style="width:90%"
     	url="/bank/dic/Evaluate.txt" emptyText="请选择..."/>
     </td>
-    <td class="required_text" width="2%"></td>
-    <td style="width:10%">是否遵纪守法</td>
-    <td style="width:40%">
+</tr>
+<tr>
+	<td class="required_text"></td>
+    <td >是否遵纪守法</td>
+    <td >
     	<input name="legalstatus" class="mini-combobox" value ="${evaluate.legalstatus}" required="true"
         	requiredErrorText="是否遵纪守法不能为空" style="width:90%"
             url="/bank/dic/YesOrNoStatus.txt" emptyText="请选择..."/>
     </td>
-</tr>
-<tr>
 	<td class="required_text" width="2%"></td>
     <td>对公益事业关心程度:</td>
     <td>
     	<input name="welfarestatus" class="mini-combobox" value ="${evaluate.welfarestatus}" style="width:90%"
     		url="/bank/dic/Evaluate.txt" emptyText="请选择..."/>
     </td>
-    <td class="required_text" width="2%"></td>
-    <td style="width:10%">是否诚实守信:</td>
-    <td style="width:40%">
+</tr>
+<tr>
+  <td class="required_text"></td>
+    <td>是否诚实守信:</td>
+    <td>
     	<input name="honeststatus" class="mini-combobox" value ="${evaluate.honeststatus}"  style="width:90%"
     		required="true" requiredErrorText="不能为空"
         	url="/bank/dic/YesOrNoStatus.txt" emptyText="请选择..."/>
    </td>
-</tr>
-<tr>
    <td class="required_text" width="2%"></td>
-   <td style="width:15%">其他:</td>
+   <td >其他:</td>
    <td style="width:35%">
 	   <input name="otherstatus" class="mini-textarea" value ="${evaluate.otherstatus}" style="width:90%">
    </td>

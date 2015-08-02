@@ -6,135 +6,143 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.common.bean.BaseEntity;
 
-public class FarmerDevice extends BaseEntity<Long> {
-	
-	/**
+public class FarmerDevice extends BaseEntity<Long>{
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 7469892461259102070L;
-	
-	 	private Long farmerid;
+	private static final long serialVersionUID = 2669663024745300598L;
 
-	    private String name;
 
-	    private String brand;
+    private Long farmerid;
 
-	    private String buyingprice;
+    private String farmeridnum;
 
-	    private String buyingdate;
+    private String name;
 
-	    private String assessprice;
+    private String brand;
 
-	    private String sourcecode;
+    private String buyingprice;
 
-	    private String sourcename;
+    private String buyingdate;
 
-	    private String runitid;
+    private String assessprice;
 
-	    private String runitname;
+    private String sourcecode;
 
-	    private String recorder;
-	    
-	    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	    private Date recordtime;	
+    private String sourcename;
 
-	
+    private String runitid;
 
-	public Long getFarmerid() {
-			return farmerid;
-		}
+    private String runitname;
 
-		public void setFarmerid(Long farmerid) {
-			this.farmerid = farmerid;
-		}
+    private String recorder;
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date recordtime;
 
-		public String getName() {
-			return name;
-		}
+    public Long getFarmerid() {
+        return farmerid;
+    }
 
-		public void setName(String name) {
-			this.name = name;
-		}
+    public void setFarmerid(Long farmerid) {
+        this.farmerid = farmerid;
+    }
 
-		public String getBrand() {
-			return brand;
-		}
+    public String getFarmeridnum() {
+        return farmeridnum;
+    }
 
-		public void setBrand(String brand) {
-			this.brand = brand;
-		}
+    public void setFarmeridnum(String farmeridnum) {
+        this.farmeridnum = farmeridnum == null ? null : farmeridnum.trim();
+    }
 
-		public String getBuyingprice() {
-			return buyingprice;
-		}
+    public String getName() {
+        return name;
+    }
 
-		public void setBuyingprice(String buyingprice) {
-			this.buyingprice = buyingprice;
-		}
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
+    }
 
-		public String getBuyingdate() {
-			return buyingdate;
-		}
+    public String getBrand() {
+        return brand;
+    }
 
-		public void setBuyingdate(String buyingdate) {
-			this.buyingdate = buyingdate;
-		}
+    public void setBrand(String brand) {
+        this.brand = brand == null ? null : brand.trim();
+    }
 
-		public String getAssessprice() {
-			return assessprice;
-		}
+    public String getBuyingprice() {
+        return buyingprice;
+    }
 
-		public void setAssessprice(String assessprice) {
-			this.assessprice = assessprice;
-		}
+    public void setBuyingprice(String buyingprice) {
+        this.buyingprice = buyingprice == null ? null : buyingprice.trim();
+    }
 
-		public String getSourcecode() {
-			return sourcecode;
-		}
+    public String getBuyingdate() {
+        return buyingdate;
+    }
 
-		public void setSourcecode(String sourcecode) {
-			this.sourcecode = sourcecode;
-		}
+    public void setBuyingdate(String buyingdate) {
+        this.buyingdate = buyingdate == null ? null : buyingdate.trim();
+    }
 
-		public String getSourcename() {
-			return sourcename;
-		}
+    public String getAssessprice() {
+        return assessprice;
+    }
 
-		public void setSourcename(String sourcename) {
-			this.sourcename = sourcename;
-		}
+    public void setAssessprice(String assessprice) {
+        this.assessprice = assessprice == null ? null : assessprice.trim();
+    }
 
-		public String getRunitid() {
-			return runitid;
-		}
+    public String getSourcecode() {
+        return sourcecode;
+    }
 
-		public void setRunitid(String runitid) {
-			this.runitid = runitid;
-		}
+    public void setSourcecode(String sourcecode) {
+        this.sourcecode = sourcecode == null ? null : sourcecode.trim();
+    }
 
-		public String getRunitname() {
-			return runitname;
-		}
+    public String getSourcename() {
+        return sourcename;
+    }
 
-		public void setRunitname(String runitname) {
-			this.runitname = runitname;
-		}
+    public void setSourcename(String sourcename) {
+        this.sourcename = sourcename == null ? null : sourcename.trim();
+    }
 
-		public String getRecorder() {
-			return recorder;
-		}
+    public String getRunitid() {
+        return runitid;
+    }
 
-		public void setRecorder(String recorder) {
-			this.recorder = recorder;
-		}
+    public void setRunitid(String runitid) {
+        this.runitid = runitid == null ? null : runitid.trim();
+    }
 
-		public Date getRecordtime() {
-			return recordtime;
-		}
+    public String getRunitname() {
+        return runitname;
+    }
 
-		public void setRecordtime(Date recordtime) {
-			this.recordtime = recordtime;
-		}
+    public void setRunitname(String runitname) {
+        this.runitname = runitname == null ? null : runitname.trim();
+    }
+
+    public String getRecorder() {
+        return recorder;
+    }
+
+    public void setRecorder(String recorder) {
+        this.recorder = recorder == null ? null : recorder.trim();
+    }
+
+    public Date getRecordtime() {
+        return recordtime;
+    }
+
+    public void setRecordtime(Date recordtime) {
+        this.recordtime = recordtime;
+    }
 
 	@Override
 	public boolean equalsIfIdNull(Object o) {
@@ -147,5 +155,5 @@ public class FarmerDevice extends BaseEntity<Long> {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
+    
 }

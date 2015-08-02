@@ -6,6 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <resultMap id="BaseResultMap" type="com.bank.beans.FarmerIncome" >
     <id column="INCOMEID" property="id" jdbcType="BIGINT" />
     <result column="PAYID" property="payid" jdbcType="BIGINT" />
+    <result column="FARMERIDNUM" property="farmeridnum" jdbcType="VARCHAR" />
     <result column="INCOMENAME" property="incomename" jdbcType="VARCHAR" />
     <result column="INCOMETYPE" property="incometype" jdbcType="INTEGER" />
     <result column="NETINCOME" property="netincome" jdbcType="VARCHAR" />
@@ -75,7 +76,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    INCOMEID, PAYID, INCOMENAME, INCOMETYPE, NETINCOME, SOURCECODE, SOURCENAME, RUNITID, 
+    INCOMEID, PAYID, FARMERIDNUM, INCOMENAME, INCOMETYPE, NETINCOME, SOURCECODE, SOURCENAME, RUNITID, 
     RUNITNAME, RECORDER, RECORDTIME
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.bank.beans.FarmerIncomeExample" >
@@ -98,6 +99,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="payid != null" >
         PAYID,
+      </if>
+       <if test="farmeridnum != null" >
+        FARMERIDNUM,
       </if>
       <if test="incomename != null" >
         INCOMENAME,
@@ -130,6 +134,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="payid != null" >
         #{payid,jdbcType=BIGINT},
+      </if>
+      <if test="farmeridnum != null" >
+        #{FARMERIDNUM,jdbcType=VARCHAR},
       </if>
       <if test="incomename != null" >
         #{incomename,jdbcType=VARCHAR},
@@ -170,9 +177,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</foreach>
 	</where>
 </delete>
+<select id="countByExample" parameterType="com.bank.beans.FarmerIncomeExample" resultType="java.lang.Integer" >
+    select count(*) from T_FARMER_INCOME
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+</select>
 <update id="update">
 	update T_FARMER_INCOME
     set PAYID = #{payid,jdbcType=BIGINT},
+      FARMERIDNUM = #{farmeridnum,jdbcType=VARCHAR},
       INCOMENAME = #{incomename,jdbcType=VARCHAR},
       INCOMETYPE = #{incometype,jdbcType=INTEGER},
       NETINCOME = #{netincome,jdbcType=VARCHAR},
@@ -200,23 +214,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	from 
 	(select t.*,rownumber() over(order by recordtime desc) as rn from T_FARMER_INCOME t
 	<where>
-		<if test="farmerName != null and farmerName != '' ">
-			t.farmername like CONCAT(CONCAT('%',#{farmerName}),'%') 
+		<if test="farmeridnum != null">
+			FARMERIDNUM = #{farmeridnum,jdbcType=VARCHAR} 
 		</if>
-		<if test="farmerIdnum != null and farmerIdnum != ''">
-		   	and t.farmeridnum like CONCAT(CONCAT('%',#{farmerIdnum}),'%')  
-		</if>
-		<if test="name != null and name != ''">
-		   	and t.incometype ='#{incomeType}'  
-		</if>
-		<if test="recorder != null and recorder != '' ">
-		    and t.recoder like CONCAT(CONCAT('%',#{recoder}),'%')  
-		</if>
-		<if test="recordTimeBegin !=null and recordTimeBegin != ''">
-		   	<![CDATA[and t.recordtime >=to_date('#{recordTimeBegin}','yyyy-mm-dd')]]>
-		</if>
-		<if test="recordTimeEnd !=null and recordTimeEnd != ''">
-		   	<![CDATA[and t.recordtime <=to_date('#{recordTimeEnd}','yyyy-mm-dd')]]>
+		<if test="runitid != null">
+			and RUNITID = #{runitid,jdbcType=VARCHAR} 
 		</if>
 	 </where>
 	 )

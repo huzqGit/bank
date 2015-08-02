@@ -15,6 +15,13 @@ import com.common.dao.impl.GenericMyBatisDAOSupport;
 public class FarmerPayDaoImpl extends GenericMyBatisDAOSupport<FarmerPay, Long>
 	implements IFarmerPayDao {
 
+	@Override
+	public int countByExample(FarmerPayExample example) {
+		// TODO Auto-generated method stub
+		int num = this.getSqlSession().selectOne("farmerpay.countByExample", example);
+		return num;
+	}
+
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public List<FarmerPay> findByFarmerAndYear(Long farmerId,String year) {

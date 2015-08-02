@@ -14,7 +14,7 @@ import com.common.service.GenericService;
 
 public interface IFarmerPayService extends
 		GenericService<FarmerPay, Long> {
-	
+	public int countByExample(FarmerPayExample example);
 	public void saveBalance(Farmer farmer,FarmerPay balance,List<FarmerIncome> incomes) 
 			throws DAOException, DataNotFoundException,
 			CreateException,UpdateException;

@@ -8,6 +8,7 @@ import com.common.dao.GenericDAO;
 
 public interface IFarmerForestDao extends GenericDAO<FarmerForest, Long> {
 	
+	public int countByExample(FarmerForestExample example);
 	public List<FarmerForest> getForestsByFarmerId(Long farmerId);
 	public int findTotalNumberByFarmerId(Long farmerId);
 	public List<FarmerForest> findPagingByFarmerId(int pageIndex,int pageSize,String sortField,

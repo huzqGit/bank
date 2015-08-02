@@ -25,6 +25,12 @@ public class FarmerMemberServiceImpl extends GenericServiceImpl<FarmerMember, Lo
 		
 		return this.farmerMemberDao;
 	}
+	
+	@Override
+	public int countByExample(FarmerMemberExample example) {
+		// TODO Auto-generated method stub
+		return farmerMemberDao.countByExample(example);
+	}
 
 	@Override
 	public int findTotalNumberByFarmerId(Long farmerId) {

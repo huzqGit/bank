@@ -22,6 +22,7 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.bank.Constants;
 import com.bank.beans.Farmer;
 import com.bank.beans.FarmerMember;
+import com.bank.beans.FarmerMemberExample;
 import com.bank.beans.Organ;
 import com.bank.service.IFarmerMemberService;
 import com.bank.service.IFarmerService;
@@ -41,14 +42,15 @@ public class FarmerMemberController {
 	@RequestMapping(value = "/saveMember",method = RequestMethod.POST)
 	public ModelAndView save(@ModelAttribute(value="member") FarmerMember member,
 			HttpServletRequest request,HttpServletResponse response){
-		
-		Organ organ = (Organ)request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
-		String organId = organ.getOrganId();
-		String organName = organ.getOrganName();
-		member.setRunitid(organId);
-		member.setRunitname(organName);
 		try{
 			if(member.getId() == null){
+				Organ organ = (Organ)request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
+				String organno = organ.getOrganNo();
+				String organId = organ.getOrganId();
+				String organName = organ.getOrganName();
+				member.setSourcecode(organno);
+				member.setRunitid(organId);
+				member.setRunitname(organName);
 				farmerMemberService.save(member);
 			}else{
 				farmerMemberService.update(member);
@@ -84,28 +86,33 @@ public class FarmerMemberController {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/loadMember", method = RequestMethod.POST)
-	public ModelAndView loadMember(@RequestParam(value="fid") Long fid, 
+	public ModelAndView loadMember(@RequestParam(value="farmeridnum") String farmeridnum,
+			@RequestParam(value="runitid") String runitid, 
 			@RequestParam(value="pageIndex") int pageIndex,
 			@RequestParam(value="pageSize") int pageSize,
 			@RequestParam(value="sortField") String sortField,
 			@RequestParam(value="sortOrder") String sortOrder,
 			HttpServletRequest request,HttpServletResponse response) {
 		
-			Map paramMap = new HashMap();
-			paramMap.put("farmerid", fid);
-			
 			int totalNumber = 0;
-			List<FarmerMember> houses = null;
+			List<FarmerMember> members = null;
 			try {
-				totalNumber = farmerMemberService.findTotalNumberByFarmerId(fid);
-				houses = farmerMemberService.getPageingEntities(pageIndex, pageSize, sortField, sortOrder, paramMap);
+				FarmerMemberExample fm =  new FarmerMemberExample();
+				FarmerMemberExample.Criteria fmc = fm.createCriteria();
+				fmc.andFarmeridnumEqualTo(farmeridnum);
+				fmc.andRunitidEqualTo(runitid);
+				totalNumber = farmerMemberService.countByExample(fm);
+				Map paramMap = new HashMap();
+				paramMap.put("farmeridnum", farmeridnum);
+				paramMap.put("runitid", runitid);
+				members = farmerMemberService.getPageingEntities(pageIndex, pageSize, sortField, sortOrder, paramMap);
 			} catch (DAOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			Map map = new HashMap();
 			map.put("total", totalNumber);
-			map.put("data", houses);
+			map.put("data", members);
 			String json = JSON.toJSONStringWithDateFormat(map,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
 			response.setContentType("text/html;charset=UTF-8");
 			PrintWriter writer = null;

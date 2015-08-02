@@ -21,8 +21,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.bank.Constants;
 import com.bank.beans.Farmer;
 import com.bank.beans.FarmerCompunish;
+import com.bank.beans.FarmerCompunishExample;
+import com.bank.beans.Organ;
 import com.bank.common.util.JsonUtil;
 import com.bank.service.IFarmerCompunishService;
 import com.bank.service.IFarmerService;
@@ -38,40 +41,18 @@ public class FarmerCompunishController {
 	@Resource
 	private IFarmerCompunishService farmerCompunishService;
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value = "/saveJiangCheng",method = RequestMethod.POST)
-	public ModelAndView save(HttpServletRequest request, 
-			HttpServletResponse response) throws Exception{
-		String farmerData  = request.getParameter("farmer");
-		String compunishData = request.getParameter("compunish");
-		//這裡做了時間格式的處理
-		
-		Object farmerJsonData = JsonUtil.Decode(farmerData);
-		farmerData = JSON.toJSONStringWithDateFormat(farmerJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
-		JSONObject farmerJson = JSONObject.parseObject(farmerData);
-		Farmer farmer = (Farmer) JSON.toJavaObject(farmerJson, Farmer.class);
-		
-		Object compunishJsonData = JsonUtil.Decode(compunishData);
-		compunishData = JSON.toJSONStringWithDateFormat(compunishJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);	
-		List<FarmerCompunish> compunishs = (List<FarmerCompunish>)JSON.parseArray(compunishData, FarmerCompunish.class);
-		
-		if(farmer.getId() == null){
-			return null;
-		}else{
-			farmerCompunishService.saveJiangCheng(farmer, compunishs);
-			Map map = new HashMap();
-			map.put("compunish", compunishs);
-			String json = JSON.toJSONString(map);
-			PrintWriter writer = response.getWriter();
-			writer.write(json);
-			writer.flush();
-			return null;
-		}		
-	}
 	@RequestMapping(value = "/saveCompunish1",method = RequestMethod.POST)
 	public ModelAndView saveCompunish1(@ModelAttribute(value="compunish") FarmerCompunish compunish,
 			HttpServletRequest request,HttpServletResponse response) throws Exception{
 		if(compunish.getId()==null){
+			Organ organ = (Organ)request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
+			String organNo = organ.getOrganNo();
+			String organId = organ.getOrganId();
+			String organName = organ.getOrganName();
+			compunish.setSourcecode(organNo);
+			compunish.setSourcename(organName);
+			compunish.setRunitid(organId);
+			compunish.setRunitname(organName);
 			farmerCompunishService.save(compunish);
 		}else{
 			farmerCompunishService.update(compunish);
@@ -153,17 +134,35 @@ public class FarmerCompunishController {
 		view.addObject("compunish",compunish);
 		return view;
 	}
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/loadCompunish",method=RequestMethod.POST)
-	public ModelAndView loadCompunish(@RequestParam(value="fid") String fid,
+	public ModelAndView loadCompunish(@RequestParam(value="farmeridnum") String farmeridnum,
+			@RequestParam(value="runitid") String runitid,
+			@RequestParam(value="pageIndex") int pageIndex,
+			@RequestParam(value="pageSize") int pageSize,
+			@RequestParam(value="sortField") String sortField,
+			@RequestParam(value="sortOrder") String sortOrder,
 			HttpServletRequest request,HttpServletResponse response){
 		
-		Long farmerId = Long.valueOf(fid);
-	    int pageIndex = Integer.valueOf(request.getParameter("pageIndex"));
-	    int pageSize = Integer.valueOf(request.getParameter("pageSize"));        
-	    String sortField = request.getParameter("sortField");
-	    String sortOrder = request.getParameter("sortOrder");
-		List<FarmerCompunish> compunishs =farmerCompunishService.findPagingByFarmerId(pageIndex, pageSize, sortField, sortOrder, farmerId);
-	    String json = JSON.toJSONStringWithDateFormat(compunishs,"yyyy-MM-dd", SerializerFeature.WriteDateUseDateFormat);
+		FarmerCompunishExample fce = new FarmerCompunishExample();
+		FarmerCompunishExample.Criteria fcec = fce.createCriteria();
+		fcec.andFarmeridnumEqualTo(farmeridnum);
+		fcec.andRunitidEqualTo(runitid);
+		int totalNumber = farmerCompunishService.countByExample(fce);
+		Map paramMap = new HashMap();
+		paramMap.put("farmeridnum", farmeridnum);
+		paramMap.put("runitid", runitid);
+		List<FarmerCompunish> compunishs = null;
+		try {
+			compunishs = farmerCompunishService.getPageingEntities(pageIndex, pageSize, sortField, sortOrder, paramMap);
+		} catch (DAOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		Map map = new HashMap();
+		map.put("total", totalNumber);
+		map.put("data", compunishs);
+		String json = JSON.toJSONStringWithDateFormat(map,"yyyy-MM-dd", SerializerFeature.WriteDateUseDateFormat);
 	    response.setContentType("text/html;charset=UTF-8");
 	    try {
 			response.getWriter().write(json);
@@ -188,43 +187,6 @@ public class FarmerCompunishController {
 		return view;
 	}
 	
-	@RequestMapping(value="/loadAllCompunish",method=RequestMethod.POST)
-	public ModelAndView loadAllCompany(HttpServletRequest request, 
-			HttpServletResponse response) throws Exception{
-		//查询条件
-		String farmerName = request.getParameter("farmerName");
-	    String farmerIdNum=request.getParameter("farmerIdNum");
-	    String type = request.getParameter("type");
-	    String organ=request.getParameter("organ");
-	    String recorder=request.getParameter("recorder");
-	    String recordTimeBegin=request.getParameter("recordTimeBegin");
-	    String recordTimeEnd=request.getParameter("recordTimeEnd");
-	    
-	    Map<String,String> query = new HashMap<String,String>();
-	    query.put("farmerName", farmerName);
-	    query.put("farmerIdNum", farmerIdNum);
-	    query.put("type", type);
-	    query.put("organ", organ);
-	    query.put("recorder", recorder);
-	    query.put("recordTimeBegin", recordTimeBegin);
-	    query.put("recordTimeEnd", recordTimeEnd);
-	    //分页
-	    int pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
-	    int pageSize = Integer.parseInt(request.getParameter("pageSize"));        
-	    //字段排序
-	    String sortField = request.getParameter("sortField");
-	    String sortOrder = request.getParameter("sortOrder");
-	    List<FarmerCompunish> data = farmerCompunishService.getPageingEntities(pageIndex, pageSize, sortField, sortOrder, query);
-	    
-	    HashMap result = new HashMap();
-        result.put("data", data);
-        result.put("total", data.size());
-        
-	    String json = JSON.toJSONStringWithDateFormat(result,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
-	    response.setContentType("text/html;charset=UTF-8");
-	    response.getWriter().write(json);
-		return null;
-	}
 	@RequestMapping(value="/typeInJiangCheng",method=RequestMethod.POST)
 	public ModelAndView typeInJiangCheng(@RequestParam(value="farmerName") String farmerName,
 			@RequestParam(value="farmerIdNum") String farmerIdNum,  

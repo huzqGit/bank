@@ -21,6 +21,12 @@ public class FarmerDeviceServiceImpl extends GenericServiceImpl<FarmerDevice, Lo
 	private IFarmerDeviceDao farmerDeviceDao;
 
 	@Override
+	public int countByExample(FarmerDeviceExample example) {
+		// TODO Auto-generated method stub
+		return farmerDeviceDao.countByExample(example);
+	}
+
+	@Override
 	public List<FarmerDevice> findDeviceByFarmer(Long farmerId) {
 		// TODO Auto-generated method stub
 		List<FarmerDevice> devices = farmerDeviceDao.getDevicesByFarmerId(farmerId);

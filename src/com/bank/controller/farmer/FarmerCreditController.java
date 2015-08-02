@@ -68,7 +68,7 @@ public class FarmerCreditController {
 	}
 	
 	@RequestMapping(value = "/loadCredit", method = RequestMethod.POST)
-	public ModelAndView loadCompany(@RequestParam(value="id",required=true) Long id, 
+	public ModelAndView loadCredit(@RequestParam(value="id",required=true) Long id, 
 		HttpServletResponse response) throws Exception {
 		FarmerCreditExample fe = new FarmerCreditExample();
 		FarmerCreditExample.Criteria fc = fe.createCriteria();
@@ -80,22 +80,31 @@ public class FarmerCreditController {
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value="/loadAllCredit",method=RequestMethod.POST)
-	public ModelAndView loadAllCredit(@RequestParam(value="fid") Long fid, 
+	public ModelAndView loadAllCredit(@RequestParam(value="farmeridnum") String farmeridnum,
+			@RequestParam(value="runitid") String runitid, 
 			@RequestParam(value="pageIndex") int pageIndex,
 			@RequestParam(value="pageSize") int pageSize,
 			@RequestParam(value="sortField") String sortField,
 			@RequestParam(value="sortOrder") String sortOrder,
 			HttpServletRequest request,HttpServletResponse response){
 	    
-	    Map query = new HashMap();
-	    query.put("farmerid", fid);
-	    List<FarmerCredit> data = farmerCreditService.getPageingEntities(pageIndex, pageSize, sortField, sortOrder, query);
-	    
-	    HashMap result = new HashMap();
-        result.put("data", data);
-        result.put("total", data.size());
+		FarmerCreditExample fce = new FarmerCreditExample();
+		FarmerCreditExample.Criteria fcec = fce.createCriteria();
+		fcec.andFarmeridnumEqualTo(farmeridnum);
+		fcec.andRunitidEqualTo(runitid);
+		int totalNumber = farmerCreditService.countByExample(fce);
+		
+	    Map paramMap = new HashMap();
+	    paramMap.put("farmeridnum", farmeridnum);
+	    paramMap.put("runitid", runitid);
+	   
+	    List<FarmerCredit> credits =farmerCreditService.getPageingEntities(pageIndex, pageSize, sortField, sortOrder, paramMap);
+
+	    HashMap map = new HashMap();
+	    map.put("data", totalNumber);
+        map.put("total", credits);
         
-	    String json = JSON.toJSONStringWithDateFormat(result,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
+	    String json = JSON.toJSONStringWithDateFormat(map,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
 	    response.setContentType("text/html;charset=UTF-8");
 	    PrintWriter writer;
 		try {

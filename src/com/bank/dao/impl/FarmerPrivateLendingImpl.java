@@ -16,6 +16,13 @@ public class FarmerPrivateLendingImpl extends GenericMyBatisDAOSupport<FarmerPri
 	implements IFarmerPrivateLendingDao {
 
 	@Override
+	public int countByExample(FarmerPrivateLendingExample example) {
+		// TODO Auto-generated method stub
+		int num = this.getSqlSession().selectOne("farmerprivatelending.countByExample", example);
+		return num;
+	}
+
+	@Override
 	public int findTotalNumber(Long farmerId) {
 		// TODO Auto-generated method stub
 		int totalNumber = this.getSqlSession().selectOne("farmerprivatelending.findTotalNumber",farmerId);

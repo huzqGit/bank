@@ -23,6 +23,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.bank.beans.Farmer;
 import com.bank.beans.FarmerEvaluate;
+import com.bank.beans.FarmerEvaluateExample;
 import com.bank.beans.FarmerHouse;
 import com.bank.common.util.JsonUtil;
 import com.bank.service.IFarmerEvaluateService;
@@ -130,17 +131,36 @@ public ModelAndView loadEvaluate(@RequestParam(value="fid") String fid,
 	view.addObject("evaluate", evaluate);
 	return view;
 }
+@SuppressWarnings({ "unchecked", "rawtypes" })
 @RequestMapping(value="/loadEvaluate1",method=RequestMethod.POST)
-public ModelAndView loadEvaluate1(@RequestParam(value="fid") String fid,
+public ModelAndView loadEvaluate1(@RequestParam(value="farmeridnum") String farmeridnum,
+		@RequestParam(value="runitid") String runitid,
+		@RequestParam(value="pageIndex") int pageIndex,
+		@RequestParam(value="pageSize") int pageSize,
+		@RequestParam(value="sortField") String sortField,
+		@RequestParam(value="sortOrder") String sortOrder,
 		HttpServletRequest request,HttpServletResponse response){
+
+	FarmerEvaluateExample fee = new FarmerEvaluateExample();
+	FarmerEvaluateExample.Criteria feec = fee.createCriteria();
+	feec.andFarmeridnumEqualTo(farmeridnum);
+	feec.andRunitidEqualTo(runitid);
+	int totalNumber = farmerEvaluateService.countByExample(fee);
 	
-	Long farmerId = Long.valueOf(fid);
-    int pageIndex = Integer.valueOf(request.getParameter("pageIndex"));
-    int pageSize = Integer.valueOf(request.getParameter("pageSize"));        
-    String sortField = request.getParameter("sortField");
-    String sortOrder = request.getParameter("sortOrder");
-	List<FarmerEvaluate> evaluates =farmerEvaluateService.findPagingByFarmerId(pageIndex, pageSize, sortField, sortOrder, farmerId);
-    String json = JSON.toJSONStringWithDateFormat(evaluates,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
+	Map paramMap = new HashMap();
+	paramMap.put("farmeridnum", farmeridnum);
+	paramMap.put("runitid", runitid);
+	List<FarmerEvaluate> evaluates = null;
+	try {
+		evaluates = farmerEvaluateService.getPageingEntities(pageIndex, pageSize, sortField, sortOrder, paramMap);
+	} catch (DAOException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
+	Map map = new HashMap();
+	map.put("total", totalNumber);
+	map.put("data", evaluates);
+    String json = JSON.toJSONStringWithDateFormat(map,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
     response.setContentType("text/html;charset=UTF-8");
     try {
 		response.getWriter().write(json);
@@ -192,7 +212,7 @@ public ModelAndView typeInEvaluate(@RequestParam(value="farmerName") String farm
 	}
 	
 	@RequestMapping(value="/loadAllEvaluate",method=RequestMethod.POST)
-	public ModelAndView loadAllCompany(HttpServletRequest request, 
+	public ModelAndView loadAllEvaluate(HttpServletRequest request, 
 			HttpServletResponse response) throws Exception{
 		//查询条件
 		String farmerName = request.getParameter("farmerName");

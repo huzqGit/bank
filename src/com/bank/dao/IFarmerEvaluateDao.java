@@ -8,6 +8,7 @@ import com.bank.beans.FarmerEvaluateExample;
 import com.common.dao.GenericDAO;
 
 public interface IFarmerEvaluateDao extends GenericDAO<FarmerEvaluate, Long> {
+	public int countByExample(FarmerEvaluateExample example);
 	public FarmerEvaluate getEvaluateByFarmerId(Long farmerId);
 	public List<Farmer> findByFarmers(List<Long> farmerIds);
 	public FarmerEvaluate findByFarmer(Long farmerId);

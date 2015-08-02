@@ -21,6 +21,12 @@ public class FarmerBreedServiceImpl extends GenericServiceImpl<FarmerBreed, Long
 	private IFarmerBreedDao farmerBreedDao;
 
 	@Override
+	public int countByExample(FarmerBreedExample example) {
+		// TODO Auto-generated method stub
+		return farmerBreedDao.countByExample(example);
+	}
+
+	@Override
 	public List<FarmerBreed> findBreedByFarmer(Long farmerId) {
 		// TODO Auto-generated method stub
 		List<FarmerBreed> breeds = farmerBreedDao.getBreedsByFarmerId(farmerId);

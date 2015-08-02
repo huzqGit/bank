@@ -14,6 +14,7 @@ import com.common.service.GenericService;
 
 public interface IFarmerCompunishService extends
 		GenericService<FarmerCompunish, Long> {
+	public int countByExample(FarmerCompunishExample example);
 	public FarmerEvaluate getEvaluateByFarmer(Long farmerId);
 	public List<FarmerCompunish> getCompunishByFarmer(Long farmerId);
 	public void saveJiangCheng(Farmer farmer,List<FarmerCompunish> compunishs)throws DAOException, 

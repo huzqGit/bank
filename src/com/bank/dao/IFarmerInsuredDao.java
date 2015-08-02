@@ -8,6 +8,7 @@ import com.bank.beans.FarmerInsuredExample;
 import com.common.dao.GenericDAO;
 
 public interface IFarmerInsuredDao extends GenericDAO<FarmerInsured, Long> {
+	public int countByExample(FarmerInsuredExample example);
 	public List<FarmerInsured> findByFarmerId(Long farmerId);
 	public List<Farmer> findByFarmers(List<Long> farmerIds);
 	public List<FarmerInsured> findPagingByFarmerId(int pageIndex,int pageSize,

@@ -66,7 +66,7 @@ public class FarmerIncomeController {
 	}
 	
 	@RequestMapping(value="/loadAllIncome",method=RequestMethod.POST)
-	public ModelAndView loadAllCompany(HttpServletRequest request, 
+	public ModelAndView loadAllIncome(HttpServletRequest request, 
 			HttpServletResponse response) throws Exception{
 		//查询条件
 		

@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -451,7 +450,6 @@ public class FarmerController   {
 		view.addObject("insureds", insureds);
 		return view;	  
 	}
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value="/loadFarmerThree",method=RequestMethod.POST)
 	public ModelAndView loadFarmerThree(HttpServletRequest request, 
 			HttpServletResponse response){

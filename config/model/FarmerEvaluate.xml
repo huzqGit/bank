@@ -6,6 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <resultMap id="BaseResultMap" type="com.bank.beans.FarmerEvaluate" >
     <id column="EVALUATEID" property="id" jdbcType="BIGINT" />
     <result column="FARMERID" property="farmerid" jdbcType="BIGINT" />
+    <result column="FARMERIDNUM" property="farmeridnum" jdbcType="VARCHAR" />
     <result column="PERSONALITY" property="personality" jdbcType="VARCHAR" />
     <result column="HARMONYSTATUS" property="harmonystatus" jdbcType="VARCHAR" />
     <result column="RESPECTSTATUS" property="respectstatus" jdbcType="VARCHAR" />
@@ -80,7 +81,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    EVALUATEID, FARMERID, PERSONALITY, HARMONYSTATUS, RESPECTSTATUS, NEIGHBORSTATUS, 
+    EVALUATEID, FARMERID, FARMERIDNUM, PERSONALITY, HARMONYSTATUS, RESPECTSTATUS, NEIGHBORSTATUS, 
     LEGALSTATUS, WELFARESTATUS, HONESTSTATUS, OTHERSTATUS, SOURCECODE, SOURCENAME, RUNITID, 
     RUNITNAME, RECORDER, RECORDTIME
   </sql>
@@ -104,6 +105,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="farmerid != null" >
         FARMERID,
+      </if>
+       <if test="farmeridnum != null" >
+        FARMERIDNUM,
       </if>
       <if test="personality != null" >
         PERSONALITY,
@@ -152,6 +156,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <if test="farmerid != null" >
         #{farmerid,jdbcType=BIGINT},
       </if>
+      <if test="farmeridnum != null" >
+        #{farmeridnum,jdbcType=BIGINT},
+      </if>
       <if test="personality != null" >
         #{personality,jdbcType=VARCHAR},
       </if>
@@ -199,6 +206,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <update id="update" parameterType="com.bank.beans.FarmerEvaluate">
 	update T_FARMER_EVALUATE
     set FARMERID = #{farmerid,jdbcType=BIGINT},
+      FARMERIDNUM = #{farmeridnum,jdbcType=VARCHAR},
       PERSONALITY = #{personality,jdbcType=VARCHAR},
       HARMONYSTATUS = #{harmonystatus,jdbcType=VARCHAR},
       RESPECTSTATUS = #{respectstatus,jdbcType=VARCHAR},
@@ -215,6 +223,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       RECORDTIME = #{recordtime,jdbcType=TIMESTAMP}
 	where EVALUATEID = #{id,jdbcType=BIGINT}
 </update>
+<select id="countByExample" parameterType="com.bank.beans.FarmerEvaluateExample" resultType="java.lang.Integer" >
+    select count(*) from T_FARMER_EVALUATE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+</select>
 <select id="findByPK" parameterType="Long" resultMap="BaseResultMap">
 		select 
 		<include refid="Base_Column_List" />
@@ -241,26 +255,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	(select t.*,rownumber() over(order by recordtime desc) as rn 
 	from T_FARMER_EVALUATE t
 	<where>
-		<if test="farmerName != null and farmerName != '' ">
-			t.farmername like CONCAT(CONCAT('%',#{farmerName}),'%') 
+		<if test="farmeridnum != null">
+			FARMERIDNUM = #{farmeridnum,jdbcType=VARCHAR} 
 		</if>
-		<if test="farmerIdNum != null and farmerIdNum != ''">
-		   	and t.farmeridnum like CONCAT(CONCAT('%',#{farmerIdNum}),'%')  
-		</if>
-		<if test="harmonyStatus != null and harmonyStatus != '' ">
-			t.harmonystatus ='#{harmonyStatus}' 
-		</if>
-		<if test="honestStatus != null and honestStatus != '' ">
-			t.honeststatus ='#{honestStatus}'
-		</if>
-		<if test="recorder != null and recorder != '' ">
-		    and t.recoder like CONCAT(CONCAT('%',#{recoder}),'%')  
-		</if>
-		<if test="recordTimeBegin !=null and recordTimeBegin != ''">
-		   	<![CDATA[and t.recordtime >=to_date('#{recordTimeBegin}','yyyy-mm-dd')]]>
-		</if>
-		<if test="recordTimeEnd !=null and recordTimeEnd != ''">
-		   	<![CDATA[and t.recordtime <=to_date('#{recordTimeEnd}','yyyy-mm-dd')]]>
+		<if test="runitid != null">
+			and RUNITID = #{runitid,jdbcType=VARCHAR} 
 		</if>
 	 </where>
 	 )

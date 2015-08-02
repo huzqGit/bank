@@ -8,14 +8,12 @@ import com.bank.beans.FarmerDevice;
 import com.bank.beans.FarmerForest;
 import com.bank.beans.FarmerHouse;
 import com.bank.beans.FarmerHouseExample;
-import com.common.exception.CreateException;
-import com.common.exception.DAOException;
-import com.common.exception.DataNotFoundException;
-import com.common.exception.UpdateException;
 import com.common.service.GenericService;
 
 public interface IFarmerHouseService extends
 		GenericService<FarmerHouse, Long> {
+	
+	public int countByExample(FarmerHouseExample example);
 	public int findTotalNumberByFarmerId(Long farmerId);
 	public List<FarmerHouse> findPagingByFarmerId(int pageIndex,int pageSize,String sortField,
 			String sortOrder,Long farmerId);

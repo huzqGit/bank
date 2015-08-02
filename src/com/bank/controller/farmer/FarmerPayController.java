@@ -52,56 +52,6 @@ public class FarmerPayController {
 	@Resource
 	private IFarmerIncomeService farmerIncomeService;
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@RequestMapping(value = "/saveBalance",method = RequestMethod.POST)
-	public ModelAndView saveBalance(HttpServletRequest request, 
-			HttpServletResponse response) throws Exception{
-		
-		String farmerData= request.getParameter("farmer");
-		String balanceData = request.getParameter("balance");
-		String incomeData = request.getParameter("income");
-		if(StringUtils.isEmpty(farmerData) && StringUtils.isEmpty(balanceData) 
-				&& StringUtils.isEmpty(incomeData)){
-			//身份证号码不能为空
-			return null;
-		}
-		//农户信息
-		Object farmerJsonData = JsonUtil.Decode(farmerData);
-		farmerData = JSON.toJSONStringWithDateFormat(farmerJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
-		JSONObject farmerJosn = JSONObject.parseObject(farmerData);
-		Farmer farmer = (Farmer) JSON.toJavaObject(farmerJosn, Farmer.class);
-		
-		//年度收支信息
-		Object balanceJsonData = JsonUtil.Decode(balanceData);
-		balanceData = JSON.toJSONStringWithDateFormat(balanceJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
-		JSONObject balanceJosn = JSONObject.parseObject(balanceData);
-		FarmerPay balance = (FarmerPay) JSON.toJavaObject(balanceJosn, FarmerPay.class);
-
-		//小微型收入
-		Object incomeJsonData = JsonUtil.Decode(incomeData);
-		incomeData = JSON.toJSONStringWithDateFormat(incomeJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);	
-		List<FarmerIncome> income = (List<FarmerIncome>)JSON.parseArray(incomeData, FarmerIncome.class);
-		if(farmer.getId() == null){
-			//农户信息为空
-			return null;
-		}
-		Farmer dbfarmer = farmerService.findByPK(farmer.getId());
-		if(dbfarmer == null){
-			//不存在农户信息
-			return null;
-		}
-		farmerPayService.saveBalance(farmer, balance, income);
-		Map map = new HashMap();
-		map.put("farmer", farmer);
-		map.put("balance", balance);
-		map.put("income", income);
-		String json = JSON.toJSONString(map);
-		response.setContentType("text/html;charset=UTF-8");
-	    PrintWriter writer = response.getWriter();
-	    writer.write(json);
-	    writer.flush();
-		return null;
-	}
 	@RequestMapping(value="/saveBalance1",method=RequestMethod.POST)
 	public ModelAndView saveBalance1(@ModelAttribute(value="balance") FarmerPay balance,
 			HttpServletRequest request,HttpServletResponse response)  {
@@ -119,10 +69,6 @@ public class FarmerPayController {
 	
 		try {
 			if(balance.getId()==null){
-				//FarmerPayExample fe = new FarmerPayExample();
-				//FarmerPayExample.Criteria fc = fe.createCriteria();
-				//fc.andYearEqualTo(balance.getYear());
-				//farmerPayService.selectByExample(example)
 				balance.setRunitid(organ.getOrganId());
 				balance.setRunitname(organ.getOrganName());
 				balance.setSourcecode(organ.getOrganNo());
@@ -254,14 +200,29 @@ public class FarmerPayController {
 	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/loadBalance1", method = RequestMethod.POST)
-	public ModelAndView loadBalance1(@RequestParam(value="fid") Long fid, 
+	public ModelAndView loadBalance1(@RequestParam(value="farmeridnum") String farmeridnum, 
+			@RequestParam(value="runitid") String runitid, 
 			@RequestParam(value="pageIndex") int pageIndex,
 			@RequestParam(value="pageSize") int pageSize,
 			@RequestParam(value="sortField") String sortField,
 			@RequestParam(value="sortOrder") String sortOrder,
 			HttpServletRequest request,HttpServletResponse response){
-		int totalNumber = farmerPayService.findTotalNumberByFarmerId(fid);
-		List<FarmerPay> balances = farmerPayService.findPagingByFarmerId(pageIndex, pageSize, sortField, sortOrder, fid);
+		FarmerPayExample fpe = new FarmerPayExample();
+		FarmerPayExample.Criteria fpec = fpe.createCriteria();
+		fpec.andFarmeridnumEqualTo(farmeridnum);
+		fpec.andRunitidEqualTo(runitid);
+		int totalNumber = farmerPayService.countByExample(fpe);
+		
+		Map paramMap = new HashMap();
+		paramMap.put("farmeridnum", farmeridnum);
+		paramMap.put("runitid", runitid);
+		List<FarmerPay> balances = null;
+		try {
+			balances = farmerPayService.getPageingEntities(pageIndex, pageSize, sortField, sortOrder, paramMap);
+		} catch (DAOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		Map map= new HashMap();
 		map.put("total", totalNumber);
 		map.put("data", balances);

@@ -6,13 +6,16 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.common.bean.BaseEntity;
 
-public class FarmerMember extends BaseEntity<Long> {
-	/**
+public class FarmerMember extends BaseEntity<Long>{
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = -1550305454462009720L;
-	
+	private static final long serialVersionUID = 2863324273841400121L;
+
+
     private Long farmerid;
+
+    private String farmeridnum;
 
     private String name;
 
@@ -55,173 +58,182 @@ public class FarmerMember extends BaseEntity<Long> {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date recordtime;
 
-	public Long getFarmerid() {
-		return farmerid;
-	}
 
-	public void setFarmerid(Long farmerid) {
-		this.farmerid = farmerid;
-	}
+    public Long getFarmerid() {
+        return farmerid;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setFarmerid(Long farmerid) {
+        this.farmerid = farmerid;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getFarmeridnum() {
+        return farmeridnum;
+    }
 
-	public String getRelation() {
-		return relation;
-	}
+    public void setFarmeridnum(String farmeridnum) {
+        this.farmeridnum = farmeridnum == null ? null : farmeridnum.trim();
+    }
 
-	public void setRelation(String relation) {
-		this.relation = relation;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getIdnum() {
-		return idnum;
-	}
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
+    }
 
-	public void setIdnum(String idnum) {
-		this.idnum = idnum;
-	}
+    public String getRelation() {
+        return relation;
+    }
 
-	public Integer getEducation() {
-		return education;
-	}
+    public void setRelation(String relation) {
+        this.relation = relation == null ? null : relation.trim();
+    }
 
-	public void setEducation(Integer education) {
-		this.education = education;
-	}
+    public String getIdnum() {
+        return idnum;
+    }
 
-	public String getMarrystatus() {
-		return marrystatus;
-	}
+    public void setIdnum(String idnum) {
+        this.idnum = idnum == null ? null : idnum.trim();
+    }
 
-	public void setMarrystatus(String marrystatus) {
-		this.marrystatus = marrystatus;
-	}
+    public Integer getEducation() {
+        return education;
+    }
 
-	public String getOccupation() {
-		return occupation;
-	}
+    public void setEducation(Integer education) {
+        this.education = education;
+    }
 
-	public void setOccupation(String occupation) {
-		this.occupation = occupation;
-	}
+    public String getMarrystatus() {
+        return marrystatus;
+    }
 
-	public String getJob() {
-		return job;
-	}
+    public void setMarrystatus(String marrystatus) {
+        this.marrystatus = marrystatus == null ? null : marrystatus.trim();
+    }
 
-	public void setJob(String job) {
-		this.job = job;
-	}
+    public String getOccupation() {
+        return occupation;
+    }
 
-	public Integer getSex() {
-		return sex;
-	}
+    public void setOccupation(String occupation) {
+        this.occupation = occupation == null ? null : occupation.trim();
+    }
 
-	public void setSex(Integer sex) {
-		this.sex = sex;
-	}
+    public String getJob() {
+        return job;
+    }
 
-	public String getPhone() {
-		return phone;
-	}
+    public void setJob(String job) {
+        this.job = job == null ? null : job.trim();
+    }
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+    public Integer getSex() {
+        return sex;
+    }
 
-	public String getAddress() {
-		return address;
-	}
+    public void setSex(Integer sex) {
+        this.sex = sex;
+    }
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
+    public String getPhone() {
+        return phone;
+    }
 
-	public String getHealthstate() {
-		return healthstate;
-	}
+    public void setPhone(String phone) {
+        this.phone = phone == null ? null : phone.trim();
+    }
 
-	public void setHealthstate(String healthstate) {
-		this.healthstate = healthstate;
-	}
+    public String getAddress() {
+        return address;
+    }
 
-	public Integer getLabourstate() {
-		return labourstate;
-	}
+    public void setAddress(String address) {
+        this.address = address == null ? null : address.trim();
+    }
 
-	public void setLabourstate(Integer labourstate) {
-		this.labourstate = labourstate;
-	}
+    public String getHealthstate() {
+        return healthstate;
+    }
 
-	public Integer getUsingmedical() {
-		return usingmedical;
-	}
+    public void setHealthstate(String healthstate) {
+        this.healthstate = healthstate == null ? null : healthstate.trim();
+    }
 
-	public void setUsingmedical(Integer usingmedical) {
-		this.usingmedical = usingmedical;
-	}
+    public Integer getLabourstate() {
+        return labourstate;
+    }
 
-	public Integer getUsinginuse() {
-		return usinginuse;
-	}
+    public void setLabourstate(Integer labourstate) {
+        this.labourstate = labourstate;
+    }
 
-	public void setUsinginuse(Integer usinginuse) {
-		this.usinginuse = usinginuse;
-	}
+    public Integer getUsingmedical() {
+        return usingmedical;
+    }
 
-	public String getSourcecode() {
-		return sourcecode;
-	}
+    public void setUsingmedical(Integer usingmedical) {
+        this.usingmedical = usingmedical;
+    }
 
-	public void setSourcecode(String sourcecode) {
-		this.sourcecode = sourcecode;
-	}
+    public Integer getUsinginuse() {
+        return usinginuse;
+    }
 
-	public String getSourcename() {
-		return sourcename;
-	}
+    public void setUsinginuse(Integer usinginuse) {
+        this.usinginuse = usinginuse;
+    }
 
-	public void setSourcename(String sourcename) {
-		this.sourcename = sourcename;
-	}
+    public String getSourcecode() {
+        return sourcecode;
+    }
 
-	public String getRunitid() {
-		return runitid;
-	}
+    public void setSourcecode(String sourcecode) {
+        this.sourcecode = sourcecode == null ? null : sourcecode.trim();
+    }
 
-	public void setRunitid(String runitid) {
-		this.runitid = runitid;
-	}
+    public String getSourcename() {
+        return sourcename;
+    }
 
-	public String getRunitname() {
-		return runitname;
-	}
+    public void setSourcename(String sourcename) {
+        this.sourcename = sourcename == null ? null : sourcename.trim();
+    }
 
-	public void setRunitname(String runitname) {
-		this.runitname = runitname;
-	}
+    public String getRunitid() {
+        return runitid;
+    }
 
-	public String getRecorder() {
-		return recorder;
-	}
+    public void setRunitid(String runitid) {
+        this.runitid = runitid == null ? null : runitid.trim();
+    }
 
-	public void setRecorder(String recorder) {
-		this.recorder = recorder;
-	}
+    public String getRunitname() {
+        return runitname;
+    }
 
-	public Date getRecordtime() {
-		return recordtime;
-	}
+    public void setRunitname(String runitname) {
+        this.runitname = runitname == null ? null : runitname.trim();
+    }
 
-	public void setRecordtime(Date recordtime) {
-		this.recordtime = recordtime;
-	}
+    public String getRecorder() {
+        return recorder;
+    }
+
+    public void setRecorder(String recorder) {
+        this.recorder = recorder == null ? null : recorder.trim();
+    }
+
+    public Date getRecordtime() {
+        return recordtime;
+    }
+
+    public void setRecordtime(Date recordtime) {
+        this.recordtime = recordtime;
+    }
 
 	@Override
 	public boolean equalsIfIdNull(Object o) {
@@ -234,6 +246,5 @@ public class FarmerMember extends BaseEntity<Long> {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
-
+    
 }

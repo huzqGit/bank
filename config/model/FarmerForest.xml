@@ -6,9 +6,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <resultMap id="BaseResultMap" type="com.bank.beans.FarmerForest" >
     <id column="FORESTID" property="id" jdbcType="BIGINT" />
     <result column="FARMERID" property="farmerid" jdbcType="BIGINT" />
+    <result column="FARMERIDNUM" property="farmeridnum" jdbcType="VARCHAR" />
     <result column="CARDNUM" property="cardnum" jdbcType="VARCHAR" />
     <result column="WORDNUM" property="wordnum" jdbcType="VARCHAR" />
-    <result column="USER" property="user" jdbcType="VARCHAR" />
+    <result column="OWNER" property="owner" jdbcType="VARCHAR" />
     <result column="USETYPE" property="usetype" jdbcType="VARCHAR" />
     <result column="AREA" property="area" jdbcType="VARCHAR" />
     <result column="STORENUM" property="storenum" jdbcType="VARCHAR" />
@@ -80,7 +81,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </where>
 </sql>
 <sql id="Base_Column_List" >
-    FORESTID, FARMERID, CARDNUM, WORDNUM, USER, USETYPE, AREA, STORENUM, TIMELIMIT, ASSESSPRICE, 
+    FORESTID, FARMERID,FARMERIDNUM, CARDNUM, WORDNUM, OWNER, USETYPE, AREA, STORENUM, TIMELIMIT, ASSESSPRICE, 
     SOURCECODE, SOURCENAME, RUNITID, RUNITNAME, RECORDER, RECORDTIME
 </sql>
 <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.bank.beans.FarmerForestExample" >
@@ -104,14 +105,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <if test="farmerid != null" >
         FARMERID,
       </if>
+      <if test="farmeridnum != null" >
+        FARMERIDNUM,
+      </if>
       <if test="cardnum != null" >
         CARDNUM,
       </if>
       <if test="wordnum != null" >
         WORDNUM,
       </if>
-      <if test="user != null" >
-        USER,
+      <if test="owner != null" >
+        OWNER,
       </if>
       <if test="usetype != null" >
         USETYPE,
@@ -151,14 +155,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <if test="farmerid != null" >
         #{farmerid,jdbcType=BIGINT},
       </if>
+       <if test="farmeridnum != null" >
+        #{farmeridnum,jdbcType=VARCHAR},
+      </if>
       <if test="cardnum != null" >
         #{cardnum,jdbcType=VARCHAR},
       </if>
       <if test="wordnum != null" >
         #{wordnum,jdbcType=VARCHAR},
       </if>
-      <if test="user != null" >
-        #{user,jdbcType=VARCHAR},
+      <if test="owner != null" >
+        #{owner,jdbcType=VARCHAR},
       </if>
       <if test="usetype != null" >
         #{usetype,jdbcType=VARCHAR},
@@ -201,9 +208,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <update id="update" parameterType="com.bank.beans.FarmerForest">
 	update T_FARMER_FOREST
     set FARMERID = #{farmerid,jdbcType=BIGINT},
+      FARMERIDNUM = #{farmeridnum,jdbcType=VARCHAR},
       CARDNUM = #{cardnum,jdbcType=VARCHAR},
       WORDNUM = #{wordnum,jdbcType=VARCHAR},
-      USER = #{user,jdbcType=VARCHAR},
+      OWNER = #{OWNER,jdbcType=VARCHAR},
       USETYPE = #{usetype,jdbcType=VARCHAR},
       AREA = #{area,jdbcType=VARCHAR},
       STORENUM = #{storenum,jdbcType=VARCHAR},
@@ -217,6 +225,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       RECORDTIME = #{recordtime,jdbcType=TIMESTAMP}
 	where FORESTID = #{id,jdbcType=BIGINT}
 </update>
+<select id="countByExample" parameterType="com.bank.beans.FarmerForestExample" resultType="java.lang.Integer" >
+    select count(*) from T_FARMER_FOREST
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+</select>
 <select id="findByPK" parameterType="Long" resultMap="BaseResultMap">
 	select 
 	<include refid="Base_Column_List" />
@@ -236,8 +250,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	from 
 	(select t.*,rowNumber() over() as rn from T_FARMER_FOREST t
 	<where>
-		<if test="farmerId != null">
-			t.FARMERID = #{farmerId,jdbcType=BIGINT} 
+		<if test="farmeridnum != null">
+			FARMERIDNUM = #{farmeridnum,jdbcType=VARCHAR} 
+		</if>
+		<if test="runitid != null">
+			and RUNITID = #{runitid,jdbcType=VARCHAR} 
 		</if>
 	 </where>
 	 )
@@ -253,8 +270,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	from 
 	(select t.*,rowNumber() over() as rn from T_FARMER_FOREST t
 	<where>
-		<if test="farmerId != null">
-			t.FARMERID = #{farmerId,jdbcType=BIGINT} 
+		<if test="farmeridnum != null">
+			FARMERIDNUM = #{farmeridnum,jdbcType=VARCHAR} 
+		</if>
+		<if test="runitid != null">
+			and RUNITID = #{runitid,jdbcType=VARCHAR} 
 		</if>
 	 </where>
 	 )

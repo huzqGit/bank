@@ -45,6 +45,12 @@ public class FarmerHouseServiceImpl extends GenericServiceImpl<FarmerHouse, Long
 	}
 
 	@Override
+	public int countByExample(FarmerHouseExample example) {
+		// TODO Auto-generated method stub
+		return farmerHouseDao.countByExample(example);
+	}
+
+	@Override
 	public List<FarmerHouse> findHouseByFarmer(Long farmerId) {
 		List<FarmerHouse> houses = farmerHouseDao.getHousesByFarmerId(farmerId);
 		return houses;

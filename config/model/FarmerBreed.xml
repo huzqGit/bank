@@ -6,6 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <resultMap id="BaseResultMap" type="com.bank.beans.FarmerBreed" >
     <id column="BREEDID" property="id" jdbcType="BIGINT" />
     <result column="FARMERID" property="farmerid" jdbcType="BIGINT" />
+    <result column="FARMERIDNUM" property="farmeridnum" jdbcType="VARCHAR" />
     <result column="VARIETY" property="variety" jdbcType="VARCHAR" />
     <result column="FLOORAREA" property="floorarea" jdbcType="VARCHAR" />
     <result column="OUTPUT" property="output" jdbcType="VARCHAR" />
@@ -77,7 +78,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </where>
   </sql>
 <sql id="Base_Column_List" >
-    BREEDID, FARMERID, VARIETY, FLOORAREA, OUTPUT, OUTPUTVALUE, ASSESSPRICE, SOURCECODE, 
+    BREEDID, FARMERID, FARMERIDNUM,VARIETY, FLOORAREA, OUTPUT, OUTPUTVALUE, ASSESSPRICE, SOURCECODE, 
     SOURCENAME, RUNITID, RUNITNAME, RECORDER, RECORDTIME
 </sql>
 <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.bank.beans.FarmerBreedExample" >
@@ -100,6 +101,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="farmerid != null" >
         FARMERID,
+      </if>
+      <if test="farmeridnum != null" >
+        FARMERIDNUM,
       </if>
       <if test="variety != null" >
         VARIETY,
@@ -139,6 +143,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <if test="farmerid != null" >
         #{farmerid,jdbcType=BIGINT},
       </if>
+      <if test="farmeridnum != null" >
+        #{farmeridnum,jdbcType=VARCHAR},
+      </if>
       <if test="variety != null" >
         #{variety,jdbcType=VARCHAR},
       </if>
@@ -177,10 +184,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <delete id="delete" parameterType="Long">
 	delete from T_FARMER_BREED where BREEDID = #{id,jdbcType=BIGINT}
 </delete>
+<select id="countByExample" parameterType="com.bank.beans.FarmerBreedExample" resultType="java.lang.Integer" >
+    select count(*) from T_FARMER_BREED
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+</select>
 <update id="update" >
 	update T_FARMER_BREED
-    set BREEDID = #{breedid,jdbcType=BIGINT},
-      FARMERID = #{farmerid,jdbcType=BIGINT},
+    set  FARMERID = #{farmerid,jdbcType=BIGINT},
+      FARMERIDNUM = #{farmeridnum,jdbcType=BIGINT},
       VARIETY = #{variety,jdbcType=VARCHAR},
       FLOORAREA = #{floorarea,jdbcType=VARCHAR},
       OUTPUT = #{output,jdbcType=VARCHAR},
@@ -194,12 +207,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       RECORDTIME = #{recordtime,jdbcType=TIMESTAMP}
 	where BREEDID = #{id,jdbcType = BIGINT}
 </update>
-<select id="countByExample" parameterType="com.bank.beans.FarmerBreedExample" resultType="java.lang.Integer" >
-    select count(*) from T_FARMER_BREED
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-</select>
 <select id="findByPK" parameterType="Long" resultMap="BaseResultMap">
 	select 
 	<include refid="Base_Column_List" />
@@ -220,8 +227,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	from 
 	(select t.*,rowNumber() over() as rn from T_FARMER_BREED t
 	<where>
-		<if test="farmerId != null">
-			t.FARMERID = #{farmerId,jdbcType=BIGINT} 
+		<if test="farmeridnum != null">
+			FARMERIDNUM = #{farmeridnum,jdbcType=VARCHAR} 
+		</if>
+		<if test="runitid != null">
+			and RUNITID = #{runitid,jdbcType=VARCHAR} 
 		</if>
 	 </where>
 	 )
@@ -235,25 +245,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	select 
 	<include refid="Base_Column_List" />
 	from 
-	(select t.*,rownumber() over(order by recordtime desc) as rn from t_farmer_breed t
+	(select t.*,rownumber() over(order by recordtime desc) as rn from T_FARMER_BREED t
 	<where>
-		<if test="farmerName != null and farmerName != '' ">
-			t.farmername like CONCAT(CONCAT('%',#{farmerName}),'%') 
+		<if test="farmeridnum != null">
+			FARMERIDNUM = #{farmeridnum,jdbcType=VARCHAR} 
 		</if>
-		<if test="farmerIdNum != null and farmerIdNum != ''">
-		   	and t.farmeridnum like CONCAT(CONCAT('%',#{farmerIdNum}),'%')  
-		</if>
-		<if test="variety != null and variety != '' ">
-			t.variety like CONCAT(CONCAT('%',#{variety}),'%') 
-		</if>
-		<if test="recorder != null and recorder != '' ">
-		    and t.recoder like CONCAT(CONCAT('%',#{recoder}),'%')  
-		</if>
-		<if test="recordTimeBegin !=null and recordTimeBegin != ''">
-		   	<![CDATA[and t.recordtime >=to_date('#{recordTimeBegin}','yyyy-mm-dd')]]>
-		</if>
-		<if test="recordTimeEnd !=null and recordTimeEnd != ''">
-		   	<![CDATA[and t.recordtime <=to_date('#{recordTimeEnd}','yyyy-mm-dd')]]>
+		<if test="runitid != null">
+			and RUNITID = #{runitid,jdbcType=VARCHAR} 
 		</if>
 	 </where>
 	 )
@@ -271,6 +269,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       </if>
       <if test="record.farmerid != null" >
         FARMERID = #{record.farmerid,jdbcType=BIGINT},
+      </if>
+      <if test="record.farmeridnum != null" >
+        FARMERIDNUM = #{record.farmeridnum,jdbcType=BIGINT},
       </if>
       <if test="record.variety != null" >
         VARIETY = #{record.variety,jdbcType=VARCHAR},
@@ -312,8 +313,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   </update>
   <update id="updateByExample" parameterType="map" >
     update T_FARMER_BREED
-    set BREEDID = #{record.breedid,jdbcType=BIGINT},
-      FARMERID = #{record.farmerid,jdbcType=BIGINT},
+    set FARMERID = #{record.farmerid,jdbcType=BIGINT},
+      FARMERIDNUM = #{record.farmeridnum,jdbcType=VARCHAR},
       VARIETY = #{record.variety,jdbcType=VARCHAR},
       FLOORAREA = #{record.floorarea,jdbcType=VARCHAR},
       OUTPUT = #{record.output,jdbcType=VARCHAR},

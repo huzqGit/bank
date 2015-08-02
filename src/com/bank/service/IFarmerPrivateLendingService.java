@@ -7,6 +7,7 @@ import com.bank.beans.FarmerPrivateLendingExample;
 import com.common.service.GenericService;
 
 public interface IFarmerPrivateLendingService extends GenericService<FarmerPrivateLending, Long> {
+	public int countByExample(FarmerPrivateLendingExample example);
 	public int findTotalNumber(Long farmerId);
 	public List<FarmerPrivateLending> findByPaging(int pageIndex,int pageSize,String sortField,
 			String sortOrder,Long farmerId);

@@ -8,6 +8,7 @@ import com.common.dao.GenericDAO;
 
 public interface IFarmerPayDao extends GenericDAO<FarmerPay, Long> {
 	
+	public int countByExample(FarmerPayExample example);
 	public List<FarmerPay> findByFarmerAndYear(Long farmerId,String year);
 	public List<FarmerPay> findByFarmer(Long farmerId);
 	public FarmerPay findLatestByFarmer(Long farmerId);

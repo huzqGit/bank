@@ -13,6 +13,7 @@ import com.common.service.GenericService;
 
 public interface IFarmerInsuredService extends
 		GenericService<FarmerInsured, Long> {
+	public int countByExample(FarmerInsuredExample example);
 	public List<FarmerInsured> findByFarmer(Long farmerId);
 	public void save(Farmer farmer,List<FarmerInsured> insureds)
 			throws DAOException, CreateException,UpdateException, 

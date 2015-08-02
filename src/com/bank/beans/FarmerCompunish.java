@@ -7,8 +7,15 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.common.bean.BaseEntity;
 
 public class FarmerCompunish extends BaseEntity<Long>{
-	
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8653173667050228949L;
+
+
     private Long farmerid;
+
+    private String farmeridnum;
 
     private String organ;
 
@@ -16,6 +23,8 @@ public class FarmerCompunish extends BaseEntity<Long>{
     
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date occurtime;
+
+    private Integer compunishlevel;
 
     private Integer type;
 
@@ -32,93 +41,109 @@ public class FarmerCompunish extends BaseEntity<Long>{
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date recordtime;
 
-	public Long getFarmerid() {
-		return farmerid;
-	}
+    public Long getFarmerid() {
+        return farmerid;
+    }
 
-	public void setFarmerid(Long farmerid) {
-		this.farmerid = farmerid;
-	}
+    public void setFarmerid(Long farmerid) {
+        this.farmerid = farmerid;
+    }
 
-	public String getOrgan() {
-		return organ;
-	}
+    public String getFarmeridnum() {
+        return farmeridnum;
+    }
 
-	public void setOrgan(String organ) {
-		this.organ = organ;
-	}
+    public void setFarmeridnum(String farmeridnum) {
+        this.farmeridnum = farmeridnum == null ? null : farmeridnum.trim();
+    }
 
-	public String getDetail() {
-		return detail;
-	}
+    public String getOrgan() {
+        return organ;
+    }
 
-	public void setDetail(String detail) {
-		this.detail = detail;
-	}
+    public void setOrgan(String organ) {
+        this.organ = organ == null ? null : organ.trim();
+    }
 
-	public Date getOccurtime() {
-		return occurtime;
-	}
+    public String getDetail() {
+        return detail;
+    }
 
-	public void setOccurtime(Date occurtime) {
-		this.occurtime = occurtime;
-	}
+    public void setDetail(String detail) {
+        this.detail = detail == null ? null : detail.trim();
+    }
 
-	public Integer getType() {
-		return type;
-	}
+    public Date getOccurtime() {
+        return occurtime;
+    }
 
-	public void setType(Integer type) {
-		this.type = type;
-	}
+    public void setOccurtime(Date occurtime) {
+        this.occurtime = occurtime;
+    }
 
-	public String getSourcecode() {
-		return sourcecode;
-	}
+    public Integer getCompunishlevel() {
+        return compunishlevel;
+    }
 
-	public void setSourcecode(String sourcecode) {
-		this.sourcecode = sourcecode;
-	}
+    public void setCompunishlevel(Integer compunishlevel) {
+        this.compunishlevel = compunishlevel;
+    }
 
-	public String getSourcename() {
-		return sourcename;
-	}
+    public Integer getType() {
+        return type;
+    }
 
-	public void setSourcename(String sourcename) {
-		this.sourcename = sourcename;
-	}
+    public void setType(Integer type) {
+        this.type = type;
+    }
 
-	public String getRunitid() {
-		return runitid;
-	}
+    public String getSourcecode() {
+        return sourcecode;
+    }
 
-	public void setRunitid(String runitid) {
-		this.runitid = runitid;
-	}
+    public void setSourcecode(String sourcecode) {
+        this.sourcecode = sourcecode == null ? null : sourcecode.trim();
+    }
 
-	public String getRunitname() {
-		return runitname;
-	}
+    public String getSourcename() {
+        return sourcename;
+    }
 
-	public void setRunitname(String runitname) {
-		this.runitname = runitname;
-	}
+    public void setSourcename(String sourcename) {
+        this.sourcename = sourcename == null ? null : sourcename.trim();
+    }
 
-	public String getRecorder() {
-		return recorder;
-	}
+    public String getRunitid() {
+        return runitid;
+    }
 
-	public void setRecorder(String recorder) {
-		this.recorder = recorder;
-	}
+    public void setRunitid(String runitid) {
+        this.runitid = runitid == null ? null : runitid.trim();
+    }
 
-	public Date getRecordtime() {
-		return recordtime;
-	}
+    public String getRunitname() {
+        return runitname;
+    }
 
-	public void setRecordtime(Date recordtime) {
-		this.recordtime = recordtime;
-	}
+    public void setRunitname(String runitname) {
+        this.runitname = runitname == null ? null : runitname.trim();
+    }
+
+    public String getRecorder() {
+        return recorder;
+    }
+
+    public void setRecorder(String recorder) {
+        this.recorder = recorder == null ? null : recorder.trim();
+    }
+
+    public Date getRecordtime() {
+        return recordtime;
+    }
+
+    public void setRecordtime(Date recordtime) {
+        this.recordtime = recordtime;
+    }
 
 	@Override
 	public boolean equalsIfIdNull(Object o) {
@@ -132,6 +157,4 @@ public class FarmerCompunish extends BaseEntity<Long>{
 		return 0;
 	}
     
-
-  
 }

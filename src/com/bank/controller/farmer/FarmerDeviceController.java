@@ -20,8 +20,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.bank.Constants;
 import com.bank.beans.Farmer;
 import com.bank.beans.FarmerDevice;
+import com.bank.beans.FarmerDeviceExample;
+import com.bank.beans.Organ;
 import com.bank.common.util.JsonUtil;
 import com.bank.service.IFarmerDeviceService;
 import com.bank.service.IFarmerService;
@@ -38,34 +41,17 @@ public class FarmerDeviceController {
 	@Resource
 	private IFarmerDeviceService farmerDeviceService;
 	
-	@RequestMapping(value = "/saveDevice",method = RequestMethod.POST)
-	public ModelAndView save(HttpServletRequest request, 
-			HttpServletResponse response) throws Exception{
-
-		String formData = request.getParameter("formData");
-		//這裡做了時間格式的處理
-		Object decodeJsonData = JsonUtil.Decode(formData);
-		String formatdata = JSON.toJSONStringWithDateFormat(decodeJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
-		JSONObject jsb = JSONObject.parseObject(formatdata);
-		FarmerDevice FarmerDevice = (FarmerDevice) JSON.toJavaObject(jsb, FarmerDevice.class);
-		if(FarmerDevice.getId()!=null){
-			farmerDeviceService.update(FarmerDevice);
-		}else{
-			farmerDeviceService.save(FarmerDevice);
-		}
-		String json = JSON.toJSONString(FarmerDevice);
-		response.setContentType("text/html;charset=UTF-8");
-	    response.getWriter().write(json);
-		return null;
-		
-	}
-	
 	@RequestMapping(value = "/saveDevice1",method = RequestMethod.POST)
-	public ModelAndView saveHouse(@ModelAttribute(value="device") FarmerDevice device,
+	public ModelAndView saveDevice(@ModelAttribute(value="device") FarmerDevice device,
 			HttpServletRequest request,HttpServletResponse response){
 		
 		try{
 			if(device.getId() == null){
+				Organ organ = (Organ)request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
+				device.setRunitid(organ.getOrganId());
+				device.setRunitname(organ.getOrganName());
+				device.setSourcecode(organ.getOrganNo());
+				device.setSourcename(organ.getOrganName());
 				farmerDeviceService.save(device);
 			}else{
 				farmerDeviceService.update(device);
@@ -145,15 +131,30 @@ public class FarmerDeviceController {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/loadDevice", method = RequestMethod.POST)
-	public ModelAndView loadDevice(@RequestParam(value="fid") Long fid, 
+	public ModelAndView loadDevice(@RequestParam(value="farmeridnum") String farmeridnum,
+			@RequestParam(value="runitid") String runitid, 
 			@RequestParam(value="pageIndex") int pageIndex,
 			@RequestParam(value="pageSize") int pageSize,
 			@RequestParam(value="sortField") String sortField,
 			@RequestParam(value="sortOrder") String sortOrder,
 			HttpServletRequest request,HttpServletResponse response) {
 	
-			int totalNumber = farmerDeviceService.findTotalNumberByFarmerId(fid);
-			List<FarmerDevice> devices = farmerDeviceService.findPagingByFarmerId(pageIndex, pageSize, sortField, sortOrder, fid);
+			FarmerDeviceExample fde = new FarmerDeviceExample();
+			FarmerDeviceExample.Criteria fdec = fde.createCriteria();
+			fdec.andFarmeridnumEqualTo(farmeridnum);
+			fdec.andRunitidEqualTo(runitid);
+			int totalNumber = farmerDeviceService.countByExample(fde);
+			Map paramMap = new HashMap();
+			paramMap.put("farmeridnum", farmeridnum);
+			paramMap.put("runitid", runitid);
+			List<FarmerDevice> devices = null;
+			try {
+				devices = farmerDeviceService.getPageingEntities(pageIndex, pageSize, sortField, sortOrder, paramMap);
+			} catch (DAOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
 			Map map = new HashMap();
 			map.put("total", totalNumber);
 			map.put("data", devices);

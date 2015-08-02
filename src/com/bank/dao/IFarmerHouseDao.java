@@ -9,6 +9,7 @@ import com.common.dao.GenericDAO;
 
 public interface IFarmerHouseDao extends GenericDAO<FarmerHouse, Long> {
 	
+	public int countByExample(FarmerHouseExample example);
 	public List<FarmerHouse> getHousesByFarmerId(Long farmerId);
 	public int findTotalNumberByFarmerId(Long farmerId);
 	public List<FarmerHouse> findPagingByFarmerId(int pageIndex,int pageSize,String sortField,

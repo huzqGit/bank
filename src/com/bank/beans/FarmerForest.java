@@ -6,19 +6,22 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.common.bean.BaseEntity;
 
-public class FarmerForest extends BaseEntity<Long> {
-	/**
+public class FarmerForest extends BaseEntity<Long>{
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 8668764238248835128L;
-	
-	private Long farmerid;
+	private static final long serialVersionUID = 7182190192847773625L;
+
+
+    private Long farmerid;
+
+    private String farmeridnum;
 
     private String cardnum;
 
     private String wordnum;
 
-    private String user;
+    private String owner;
 
     private String usetype;
 
@@ -44,125 +47,133 @@ public class FarmerForest extends BaseEntity<Long> {
     private Date recordtime;
 
 
-	public Long getFarmerid() {
-		return farmerid;
-	}
+    public Long getFarmerid() {
+        return farmerid;
+    }
 
-	public void setFarmerid(Long farmerid) {
-		this.farmerid = farmerid;
-	}
+    public void setFarmerid(Long farmerid) {
+        this.farmerid = farmerid;
+    }
 
-	public String getCardnum() {
-		return cardnum;
-	}
+    public String getFarmeridnum() {
+        return farmeridnum;
+    }
 
-	public void setCardnum(String cardnum) {
-		this.cardnum = cardnum;
-	}
+    public void setFarmeridnum(String farmeridnum) {
+        this.farmeridnum = farmeridnum == null ? null : farmeridnum.trim();
+    }
 
-	public String getWordnum() {
-		return wordnum;
-	}
+    public String getCardnum() {
+        return cardnum;
+    }
 
-	public void setWordnum(String wordnum) {
-		this.wordnum = wordnum;
-	}
+    public void setCardnum(String cardnum) {
+        this.cardnum = cardnum == null ? null : cardnum.trim();
+    }
 
-	public String getUser() {
-		return user;
-	}
+    public String getWordnum() {
+        return wordnum;
+    }
 
-	public void setUser(String user) {
-		this.user = user;
-	}
+    public void setWordnum(String wordnum) {
+        this.wordnum = wordnum == null ? null : wordnum.trim();
+    }
 
-	public String getUsetype() {
-		return usetype;
-	}
+    public String getOwner() {
+        return owner;
+    }
 
-	public void setUsetype(String usetype) {
-		this.usetype = usetype;
-	}
+    public void setOwner(String owner) {
+        this.owner = owner == null ? null : owner.trim();
+    }
 
-	public String getArea() {
-		return area;
-	}
+    public String getUsetype() {
+        return usetype;
+    }
 
-	public void setArea(String area) {
-		this.area = area;
-	}
+    public void setUsetype(String usetype) {
+        this.usetype = usetype == null ? null : usetype.trim();
+    }
 
-	public String getStorenum() {
-		return storenum;
-	}
+    public String getArea() {
+        return area;
+    }
 
-	public void setStorenum(String storenum) {
-		this.storenum = storenum;
-	}
+    public void setArea(String area) {
+        this.area = area == null ? null : area.trim();
+    }
 
-	public String getTimelimit() {
-		return timelimit;
-	}
+    public String getStorenum() {
+        return storenum;
+    }
 
-	public void setTimelimit(String timelimit) {
-		this.timelimit = timelimit;
-	}
+    public void setStorenum(String storenum) {
+        this.storenum = storenum == null ? null : storenum.trim();
+    }
 
-	public String getAssessprice() {
-		return assessprice;
-	}
+    public String getTimelimit() {
+        return timelimit;
+    }
 
-	public void setAssessprice(String assessprice) {
-		this.assessprice = assessprice;
-	}
+    public void setTimelimit(String timelimit) {
+        this.timelimit = timelimit == null ? null : timelimit.trim();
+    }
 
-	public String getSourcecode() {
-		return sourcecode;
-	}
+    public String getAssessprice() {
+        return assessprice;
+    }
 
-	public void setSourcecode(String sourcecode) {
-		this.sourcecode = sourcecode;
-	}
+    public void setAssessprice(String assessprice) {
+        this.assessprice = assessprice == null ? null : assessprice.trim();
+    }
 
-	public String getSourcename() {
-		return sourcename;
-	}
+    public String getSourcecode() {
+        return sourcecode;
+    }
 
-	public void setSourcename(String sourcename) {
-		this.sourcename = sourcename;
-	}
+    public void setSourcecode(String sourcecode) {
+        this.sourcecode = sourcecode == null ? null : sourcecode.trim();
+    }
 
-	public String getRunitid() {
-		return runitid;
-	}
+    public String getSourcename() {
+        return sourcename;
+    }
 
-	public void setRunitid(String runitid) {
-		this.runitid = runitid;
-	}
+    public void setSourcename(String sourcename) {
+        this.sourcename = sourcename == null ? null : sourcename.trim();
+    }
 
-	public String getRunitname() {
-		return runitname;
-	}
+    public String getRunitid() {
+        return runitid;
+    }
 
-	public void setRunitname(String runitname) {
-		this.runitname = runitname;
-	}
+    public void setRunitid(String runitid) {
+        this.runitid = runitid == null ? null : runitid.trim();
+    }
 
-	public String getRecorder() {
-		return recorder;
-	}
+    public String getRunitname() {
+        return runitname;
+    }
 
-	public void setRecorder(String recorder) {
-		this.recorder = recorder;
-	}
+    public void setRunitname(String runitname) {
+        this.runitname = runitname == null ? null : runitname.trim();
+    }
 
-	public Date getRecordtime() {
-		return recordtime;
-	}
+    public String getRecorder() {
+        return recorder;
+    }
 
-	public void setRecordtime(Date recordtime) {
-		this.recordtime = recordtime;
-	}
+    public void setRecorder(String recorder) {
+        this.recorder = recorder == null ? null : recorder.trim();
+    }
+
+    public Date getRecordtime() {
+        return recordtime;
+    }
+
+    public void setRecordtime(Date recordtime) {
+        this.recordtime = recordtime;
+    }
 
 	@Override
 	public boolean equalsIfIdNull(Object o) {
@@ -175,5 +186,5 @@ public class FarmerForest extends BaseEntity<Long> {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
+    
 }

@@ -32,6 +32,12 @@ public class FarmerEvaluateServiceImpl extends GenericServiceImpl<FarmerEvaluate
 	}
 
 	@Override
+	public int countByExample(FarmerEvaluateExample example) {
+		// TODO Auto-generated method stub
+		return farmerEvaluateDao.countByExample(example);
+	}
+
+	@Override
 	public void saveEvaluate(Farmer farmer, FarmerEvaluate evaluate)
 			throws DAOException, CreateException, UpdateException,
 			DataNotFoundException {

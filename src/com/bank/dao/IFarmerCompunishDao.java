@@ -8,6 +8,7 @@ import com.common.dao.GenericDAO;
 
 public interface IFarmerCompunishDao extends GenericDAO<FarmerCompunish, Long> {
 	
+	public int countByExample(FarmerCompunishExample example);
 	public List<FarmerCompunish> getCompunishByFarmerId(Long farmerId);
 	public List<FarmerCompunish> findByFarmers(List<Long> farmerIds);
 	public List<FarmerCompunish> findPagingByFarmerId(int pageIndex,int pageSize,

@@ -13,6 +13,7 @@ import com.common.service.GenericService;
 
 public interface IFarmerEvaluateService extends
 		GenericService<FarmerEvaluate, Long> {
+	public int countByExample(FarmerEvaluateExample example);
 	public void saveEvaluate(Farmer farmer,FarmerEvaluate evaluate)throws DAOException, 
 			CreateException, UpdateException, DataNotFoundException;
 	public FarmerEvaluate getEvaluateByFarmer(Long farmerId);

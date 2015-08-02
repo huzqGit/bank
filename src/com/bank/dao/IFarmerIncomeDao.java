@@ -8,6 +8,7 @@ import com.common.dao.GenericDAO;
 
 public interface IFarmerIncomeDao extends GenericDAO<FarmerIncome, Long> {
 	
+	public int countByExample(FarmerIncomeExample example);
 	public List<FarmerIncome> findAll(Long balanceId);
 	public List<FarmerIncome> selectByExample(FarmerIncomeExample example);
 }

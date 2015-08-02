@@ -22,6 +22,13 @@ public class FarmerForestServiceImpl extends GenericServiceImpl<FarmerForest, Lo
 
 
 	@Override
+	public int countByExample(FarmerForestExample example) {
+		// TODO Auto-generated method stub
+		return farmerForestDao.countByExample(example);
+	}
+
+
+	@Override
 	public List<FarmerForest> findForestByFarmer(Long farmerId) {
 		// TODO Auto-generated method stub
 		List<FarmerForest> forests = farmerForestDao.getForestsByFarmerId(farmerId);

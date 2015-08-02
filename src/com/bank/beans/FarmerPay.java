@@ -7,16 +7,17 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.common.bean.BaseEntity;
 
-
-public class FarmerPay extends BaseEntity<Long>  {
-	/**
+public class FarmerPay extends BaseEntity<Long>{
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = -3464766790870019558L;
-	
-	private Long farmerid;
-	
-	@DateTimeFormat(pattern = "yyyy")
+	private static final long serialVersionUID = -6083198211112184465L;
+
+    private Long farmerid;
+
+    private String farmeridnum;
+    
+    @DateTimeFormat(pattern = "yyyy")
     private Date year;
 
     private Double farmingincome;
@@ -44,9 +45,11 @@ public class FarmerPay extends BaseEntity<Long>  {
     private Double otherpay;
 
     private Double totalpay;
+    
+    private List<FarmerIncome> incomes;
 
     private String sourcecode;
- 
+
     private String sourcename;
 
     private String runitid;
@@ -57,185 +60,190 @@ public class FarmerPay extends BaseEntity<Long>  {
     
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date recordtime;
-    
-    private List<FarmerIncome> incomes;
 
-	public Long getFarmerid() {
-		return farmerid;
-	}
+    public Long getFarmerid() {
+        return farmerid;
+    }
 
-	public void setFarmerid(Long farmerid) {
-		this.farmerid = farmerid;
-	}
+    public void setFarmerid(Long farmerid) {
+        this.farmerid = farmerid;
+    }
 
-	public Date getYear() {
-		return year;
-	}
+    public String getFarmeridnum() {
+        return farmeridnum;
+    }
 
-	public void setYear(Date year) {
-		this.year = year;
-	}
+    public void setFarmeridnum(String farmeridnum) {
+        this.farmeridnum = farmeridnum == null ? null : farmeridnum.trim();
+    }
 
-	public Double getFarmingincome() {
-		return farmingincome;
-	}
+    public Date getYear() {
+        return year;
+    }
 
-	public void setFarmingincome(Double farmingincome) {
-		this.farmingincome = farmingincome;
-	}
+    public void setYear(Date year) {
+        this.year = year;
+    }
 
-	public Double getAvocationincome() {
-		return avocationincome;
-	}
+    public Double getFarmingincome() {
+        return farmingincome;
+    }
 
-	public void setAvocationincome(Double avocationincome) {
-		this.avocationincome = avocationincome;
-	}
+    public void setFarmingincome(Double farmingincome) {
+        this.farmingincome = farmingincome;
+    }
 
-	public Double getBusinessincome() {
-		return businessincome;
-	}
+    public Double getAvocationincome() {
+        return avocationincome;
+    }
 
-	public void setBusinessincome(Double businessincome) {
-		this.businessincome = businessincome;
-	}
+    public void setAvocationincome(Double avocationincome) {
+        this.avocationincome = avocationincome;
+    }
 
-	public Double getWorkincome() {
-		return workincome;
-	}
+    public Double getBusinessincome() {
+        return businessincome;
+    }
 
-	public void setWorkincome(Double workincome) {
-		this.workincome = workincome;
-	}
+    public void setBusinessincome(Double businessincome) {
+        this.businessincome = businessincome;
+    }
 
-	public Double getOtherincome() {
-		return otherincome;
-	}
+    public Double getWorkincome() {
+        return workincome;
+    }
 
-	public void setOtherincome(Double otherincome) {
-		this.otherincome = otherincome;
-	}
+    public void setWorkincome(Double workincome) {
+        this.workincome = workincome;
+    }
 
-	public Double getTotalincome() {
-		return totalincome;
-	}
+    public Double getOtherincome() {
+        return otherincome;
+    }
 
-	public void setTotalincome(Double totalincome) {
-		this.totalincome = totalincome;
-	}
+    public void setOtherincome(Double otherincome) {
+        this.otherincome = otherincome;
+    }
 
-	public Double getProductpay() {
-		return productpay;
-	}
+    public Double getTotalincome() {
+        return totalincome;
+    }
 
-	public void setProductpay(Double productpay) {
-		this.productpay = productpay;
-	}
+    public void setTotalincome(Double totalincome) {
+        this.totalincome = totalincome;
+    }
 
-	public Double getLivingpay() {
-		return livingpay;
-	}
+    public Double getProductpay() {
+        return productpay;
+    }
 
-	public void setLivingpay(Double livingpay) {
-		this.livingpay = livingpay;
-	}
+    public void setProductpay(Double productpay) {
+        this.productpay = productpay;
+    }
 
-	public Double getMedicalpay() {
-		return medicalpay;
-	}
+    public Double getLivingpay() {
+        return livingpay;
+    }
 
-	public void setMedicalpay(Double medicalpay) {
-		this.medicalpay = medicalpay;
-	}
+    public void setLivingpay(Double livingpay) {
+        this.livingpay = livingpay;
+    }
 
-	public Double getEducatepay() {
-		return educatepay;
-	}
+    public Double getMedicalpay() {
+        return medicalpay;
+    }
 
-	public void setEducatepay(Double educatepay) {
-		this.educatepay = educatepay;
-	}
+    public void setMedicalpay(Double medicalpay) {
+        this.medicalpay = medicalpay;
+    }
 
-	public Double getInsuredpay() {
-		return insuredpay;
-	}
+    public Double getEducatepay() {
+        return educatepay;
+    }
 
-	public void setInsuredpay(Double insuredpay) {
-		this.insuredpay = insuredpay;
-	}
+    public void setEducatepay(Double educatepay) {
+        this.educatepay = educatepay;
+    }
 
-	public Double getOtherpay() {
-		return otherpay;
-	}
+    public Double getInsuredpay() {
+        return insuredpay;
+    }
 
-	public void setOtherpay(Double otherpay) {
-		this.otherpay = otherpay;
-	}
+    public void setInsuredpay(Double insuredpay) {
+        this.insuredpay = insuredpay;
+    }
 
-	public Double getTotalpay() {
-		return totalpay;
-	}
+    public Double getOtherpay() {
+        return otherpay;
+    }
 
-	public void setTotalpay(Double totalpay) {
-		this.totalpay = totalpay;
-	}
+    public void setOtherpay(Double otherpay) {
+        this.otherpay = otherpay;
+    }
 
-	public String getSourcecode() {
-		return sourcecode;
-	}
+    public Double getTotalpay() {
+        return totalpay;
+    }
 
-	public void setSourcecode(String sourcecode) {
-		this.sourcecode = sourcecode;
-	}
+    public void setTotalpay(Double totalpay) {
+        this.totalpay = totalpay;
+    }
 
-	public String getSourcename() {
-		return sourcename;
-	}
-
-	public void setSourcename(String sourcename) {
-		this.sourcename = sourcename;
-	}
-
-	public String getRunitid() {
-		return runitid;
-	}
-
-	public void setRunitid(String runitid) {
-		this.runitid = runitid;
-	}
-
-	public String getRunitname() {
-		return runitname;
-	}
-
-	public void setRunitname(String runitname) {
-		this.runitname = runitname;
-	}
-
-	public String getRecorder() {
-		return recorder;
-	}
-
-	public void setRecorder(String recorder) {
-		this.recorder = recorder;
-	}
-
-	public Date getRecordtime() {
-		return recordtime;
-	}
-
-	public void setRecordtime(Date recordtime) {
-		this.recordtime = recordtime;
-	}
-
-	
-	public List<FarmerIncome> getIncomes() {
+    public List<FarmerIncome> getIncomes() {
 		return incomes;
 	}
 
 	public void setIncomes(List<FarmerIncome> incomes) {
 		this.incomes = incomes;
 	}
+
+	public String getSourcecode() {
+        return sourcecode;
+    }
+
+    public void setSourcecode(String sourcecode) {
+        this.sourcecode = sourcecode == null ? null : sourcecode.trim();
+    }
+
+    public String getSourcename() {
+        return sourcename;
+    }
+
+    public void setSourcename(String sourcename) {
+        this.sourcename = sourcename == null ? null : sourcename.trim();
+    }
+
+    public String getRunitid() {
+        return runitid;
+    }
+
+    public void setRunitid(String runitid) {
+        this.runitid = runitid == null ? null : runitid.trim();
+    }
+
+    public String getRunitname() {
+        return runitname;
+    }
+
+    public void setRunitname(String runitname) {
+        this.runitname = runitname == null ? null : runitname.trim();
+    }
+
+    public String getRecorder() {
+        return recorder;
+    }
+
+    public void setRecorder(String recorder) {
+        this.recorder = recorder == null ? null : recorder.trim();
+    }
+
+    public Date getRecordtime() {
+        return recordtime;
+    }
+
+    public void setRecordtime(Date recordtime) {
+        this.recordtime = recordtime;
+    }
 
 	@Override
 	public boolean equalsIfIdNull(Object o) {
@@ -248,7 +256,5 @@ public class FarmerPay extends BaseEntity<Long>  {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
-
-
+    
 }

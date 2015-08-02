@@ -8,6 +8,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <result column="FARMERNAME" property="farmername" jdbcType="VARCHAR" />
     <result column="FARMERIDNUM" property="farmeridnum" jdbcType="VARCHAR" />
     <result column="SEX" property="sex" jdbcType="INTEGER" />
+    <result column="BIRTHDATE" property="birthdate" jdbcType="DATE" />
+    <result column="AGE" property="age" jdbcType="VARCHAR" />
     <result column="MARRYSTATUS" property="marrystatus" jdbcType="VARCHAR" />
     <result column="POLITICSTATUS" property="politicstatus" jdbcType="INTEGER" />
     <result column="EDUCATION" property="education" jdbcType="INTEGER" />
@@ -37,7 +39,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <result column="USINGTOILET" property="usingtoilet" jdbcType="INTEGER" />
     <result column="FUELTYPE" property="fueltype" jdbcType="INTEGER" />
     <result column="USINGARTEL" property="usingartel" jdbcType="INTEGER" />
-    <result column="NETINCOME" property="netincome" jdbcType="INTEGER" />
+    <result column="NETINCOME" property="netincome" jdbcType="DOUBLE" />
     <result column="WAGESINCOME" property="wagesincome" jdbcType="DOUBLE" />
     <result column="OPERATEINCOME" property="operateincome" jdbcType="DOUBLE" />
     <result column="SUBSIDYINCOME" property="subsidyincome" jdbcType="DOUBLE" />
@@ -49,12 +51,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <result column="LOWINSURE" property="lowinsure" jdbcType="DOUBLE" />
     <result column="AGEDINSURE" property="agedinsure" jdbcType="DOUBLE" />
     <result column="ECOAMOUNT" property="ecoamount" jdbcType="DOUBLE" />
-    <result column="SOURCECODE" property="sourcecode" jdbcType="VARCHAR" />
-    <result column="SOURCENAME" property="sourcename" jdbcType="VARCHAR" />
     <result column="RUNITID" property="runitid" jdbcType="VARCHAR" />
     <result column="RUNITNAME" property="runitname" jdbcType="VARCHAR" />
     <result column="RECORDER" property="recorder" jdbcType="VARCHAR" />
     <result column="RECORDTIME" property="recordtime" jdbcType="TIMESTAMP" />
+    <result column="STANDARD" property="standard" jdbcType="INTEGER" />
+    <result column="SOURCECODE" property="sourcecode" jdbcType="VARCHAR" />
+    <result column="SOURCENAME" property="sourcename" jdbcType="VARCHAR" />
  </resultMap>
  <sql id="Example_Where_Clause" >
     <where >
@@ -119,13 +122,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  education,marryStatus, laborNum, postCode, runitId, runitName, recorder, recordTime
 </sql>
 <sql id="Base_Column_List" >
-    FARMERID, FARMERNAME, FARMERIDNUM, SEX, MARRYSTATUS, POLITICSTATUS, EDUCATION, PHONE, 
-    BANK, ACCOUNT, FAMILYNUM, LABORNUM, POSTCODE, IDTYPE, OCCUPATION, VILLAGES, ADDRESS, 
-    FARMERTYPE, POORTYPE, POORREASON, PLOUGHAREA, WATERINGAREA, FORESTAREA, FORESTAREA1, 
-    FRUITAREA, MEADOWAREA, WATERAREA, DRINKINGHARD, DRINKINGSAFE, USINGELECTRIC, USINGTOILET, 
-    FUELTYPE, USINGARTEL, NETINCOME, WAGESINCOME, OPERATEINCOME, SUBSIDYINCOME, USINGTELEVISION, 
-    ROADDISTANCE, ROADTYPE, HOUSEAREA, UNSAFEHOUSE, LOWINSURE, AGEDINSURE, ECOAMOUNT, 
-    SOURCECODE,SOURCENAME,RUNITID, RUNITNAME, RECORDER, RECORDTIME
+  	FARMERID, FARMERNAME, FARMERIDNUM, SEX, BIRTHDATE, AGE, MARRYSTATUS, POLITICSTATUS, 
+    EDUCATION, PHONE, BANK, ACCOUNT, FAMILYNUM, LABORNUM, POSTCODE, IDTYPE, OCCUPATION, 
+    VILLAGES, ADDRESS, FARMERTYPE, POORTYPE, POORREASON, PLOUGHAREA, WATERINGAREA, FORESTAREA, 
+    FORESTAREA1, FRUITAREA, MEADOWAREA, WATERAREA, DRINKINGHARD, DRINKINGSAFE, USINGELECTRIC, 
+    USINGTOILET, FUELTYPE, USINGARTEL, NETINCOME, WAGESINCOME, OPERATEINCOME, SUBSIDYINCOME, 
+    USINGTELEVISION, ROADDISTANCE, ROADTYPE, HOUSEAREA, UNSAFEHOUSE, LOWINSURE, AGEDINSURE, 
+    ECOAMOUNT, RUNITID, RUNITNAME, RECORDER, RECORDTIME, STANDARD, SOURCECODE, SOURCENAME
 </sql>
 <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.bank.beans.FarmerExample" >
     select
@@ -153,6 +156,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <if test="sex != null" >
         SEX,
       </if>
+      <if test="birthdate != null" >
+        BIRTHDATE,
+      </if>
+       <if test="age != null" >
+        AGE,
+      </if> 
       <if test="marrystatus != null" >
         MARRYSTATUS,
       </if>
@@ -304,6 +313,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       </if>
       <if test="sex != null" >
         #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="birthdate != null" >
+        #{birthdate,jdbcType=DATE},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=VARCHAR},
       </if>
       <if test="marrystatus != null" >
         #{marrystatus,jdbcType=VARCHAR},
@@ -497,6 +512,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     set FARMERNAME = #{farmername,jdbcType=VARCHAR},
       FARMERIDNUM = #{farmeridnum,jdbcType=VARCHAR},
       SEX = #{sex,jdbcType=INTEGER},
+      BIRTHDATE= #{birthdate,jdbcType=DATE},
+      AGE = #{age,jdbcType=VARCHAR},
       MARRYSTATUS = #{marrystatus,jdbcType=VARCHAR},
       POLITICSTATUS = #{politicstatus,jdbcType=INTEGER},
       EDUCATION = #{education,jdbcType=INTEGER},
@@ -557,6 +574,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       </if>
       <if test="sex != null" >
         SEX = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="birthdate != null" >
+        BIRTHDATE = #{birthdate,jdbcType=DATE},
+      </if>
+      <if test="age != null" >
+        AGE = #{age,jdbcType=VARCHAR},
       </if>
       <if test="marrystatus != null" >
         MARRYSTATUS = #{marrystatus,jdbcType=VARCHAR},

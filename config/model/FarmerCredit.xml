@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.bank.beans.FarmerCredit" >
     <id column="CREDITID" property="creditid" jdbcType="BIGINT" />
     <result column="FARMERID" property="farmerid" jdbcType="BIGINT" />
+    <result column="FARMERIDNUM" property="farmeridnum" jdbcType="VARCHAR" />
     <result column="ASSESSDATE" property="assessdate" jdbcType="DATE" />
     <result column="ASSESSRANK" property="assessrank" jdbcType="VARCHAR" />
     <result column="ASSESSORGAN" property="assessorgan" jdbcType="VARCHAR" />
@@ -74,7 +75,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    CREDITID, FARMERID, ASSESSDATE, ASSESSRANK, ASSESSORGAN, TIMELIMIT, SOURCECODE, SOURCENAME, 
+    CREDITID, FARMERID,FARMERIDNUM, ASSESSDATE, ASSESSRANK, ASSESSORGAN, TIMELIMIT, SOURCECODE, SOURCENAME, 
     RUNITID, RUNITNAME, RECORDER, RECORDTIME
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.bank.beans.FarmerCreditExample" >
@@ -98,11 +99,11 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.bank.beans.FarmerCredit" useGeneratedKeys="true" keyProperty="creditid">
-    insert into T_FARMER_CREDIT (FARMERID, ASSESSDATE, ASSESSRANK, 
+    insert into T_FARMER_CREDIT (FARMERID, FARMERIDNUM, ASSESSDATE, ASSESSRANK, 
       ASSESSORGAN, TIMELIMIT, SOURCECODE, 
       SOURCENAME, RUNITID, RUNITNAME, 
       RECORDER, RECORDTIME)
-    values (#{farmerid,jdbcType=BIGINT}, #{assessdate,jdbcType=DATE}, #{assessrank,jdbcType=VARCHAR}, 
+    values (#{farmerid,jdbcType=BIGINT},#{farmeridnum,jdbcType=VARCHAR}, #{assessdate,jdbcType=DATE}, #{assessrank,jdbcType=VARCHAR}, 
       #{assessorgan,jdbcType=VARCHAR}, #{timelimit,jdbcType=VARCHAR}, #{sourcecode,jdbcType=VARCHAR}, 
       #{sourcename,jdbcType=VARCHAR}, #{runitid,jdbcType=VARCHAR}, #{runitname,jdbcType=VARCHAR}, 
       #{recorder,jdbcType=VARCHAR}, #{recordtime,jdbcType=TIMESTAMP})
@@ -112,6 +113,9 @@
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="farmerid != null" >
         FARMERID,
+      </if>
+      <if test="farmeridnum != null" >
+        FARMERIDNUM,
       </if>
       <if test="assessdate != null" >
         ASSESSDATE,
@@ -147,6 +151,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="farmerid != null" >
         #{farmerid,jdbcType=BIGINT},
+      </if>
+      <if test="farmeridnum != null" >
+        #{farmeridnum,jdbcType=VARCHAR},
       </if>
       <if test="assessdate != null" >
         #{assessdate,jdbcType=DATE},
@@ -250,8 +257,11 @@
 	from 
 	(select t.*,rownumber() over(order by recordtime desc) as rn from T_FARMER_CREDIT t
 	<where>
-		<if test="farmerid != null">
-		   	and t.farmerid = #{farmerid} 
+	<if test="farmeridnum != null">
+			FARMERIDNUM = #{farmeridnum,jdbcType=VARCHAR} 
+		</if>
+		<if test="runitid != null">
+			and RUNITID = #{runitid,jdbcType=VARCHAR} 
 		</if>
 	 </where>
 	 )

@@ -9,13 +9,19 @@ import org.springframework.stereotype.Repository;
 import com.bank.beans.Farmer;
 import com.bank.beans.FarmerEvaluate;
 import com.bank.beans.FarmerEvaluateExample;
-import com.bank.beans.FarmerInsured;
 import com.bank.dao.IFarmerEvaluateDao;
 import com.common.dao.impl.GenericMyBatisDAOSupport;
 
 @Repository("farmerEvaluateDao")
 public class FarmerEvaluateDaoImpl extends GenericMyBatisDAOSupport<FarmerEvaluate, Long>
 	implements IFarmerEvaluateDao {
+
+	@Override
+	public int countByExample(FarmerEvaluateExample example) {
+		// TODO Auto-generated method stub
+		int num = this.getSqlSession().selectOne("farmerevaluate.countByExample", example);
+		return num;
+	}
 
 	@Override
 	public FarmerEvaluate getEvaluateByFarmerId(Long farmerId) {

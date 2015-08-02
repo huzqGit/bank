@@ -27,6 +27,12 @@ public class FarmerPrivateLendingServiceImpl extends GenericServiceImpl<FarmerPr
 	}
 
 	@Override
+	public int countByExample(FarmerPrivateLendingExample example) {
+		// TODO Auto-generated method stub
+		return farmerPrivateLendingDao.countByExample(example);
+	}
+
+	@Override
 	public int findTotalNumber(Long farmerId) {
 		// TODO Auto-generated method stub
 		int totalNumber = farmerPrivateLendingDao.findTotalNumber(farmerId);

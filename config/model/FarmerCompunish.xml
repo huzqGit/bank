@@ -3,12 +3,14 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="farmercompunish">
-<resultMap id="BaseResultMap" type="com.bank.beans.FarmerCompunish" >
+  <resultMap id="BaseResultMap" type="com.bank.beans.FarmerCompunish" >
     <id column="COMPUNISHID" property="id" jdbcType="BIGINT" />
     <result column="FARMERID" property="farmerid" jdbcType="BIGINT" />
+    <result column="FARMERIDNUM" property="farmeridnum" jdbcType="VARCHAR" />
     <result column="ORGAN" property="organ" jdbcType="VARCHAR" />
     <result column="DETAIL" property="detail" jdbcType="VARCHAR" />
     <result column="OCCURTIME" property="occurtime" jdbcType="TIMESTAMP" />
+    <result column="COMPUNISHLEVEL" property="compunishlevel" jdbcType="INTEGER" />
     <result column="TYPE" property="type" jdbcType="INTEGER" />
     <result column="SOURCECODE" property="sourcecode" jdbcType="VARCHAR" />
     <result column="SOURCENAME" property="sourcename" jdbcType="VARCHAR" />
@@ -16,8 +18,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <result column="RUNITNAME" property="runitname" jdbcType="VARCHAR" />
     <result column="RECORDER" property="recorder" jdbcType="VARCHAR" />
     <result column="RECORDTIME" property="recordtime" jdbcType="TIMESTAMP" />
-</resultMap>
-<sql id="Example_Where_Clause" >
+  </resultMap>
+  <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
         <if test="criteria.valid" >
@@ -45,8 +47,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </if>
       </foreach>
     </where>
-</sql>
-<sql id="Update_By_Example_Where_Clause" >
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
     <where >
       <foreach collection="example.oredCriteria" item="criteria" separator="or" >
         <if test="criteria.valid" >
@@ -74,12 +76,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </if>
       </foreach>
     </where>
-</sql>
-<sql id="Base_Column_List" >
-    COMPUNISHID, FARMERID, ORGAN, DETAIL, OCCURTIME, TYPE, SOURCECODE, SOURCENAME, RUNITID, 
-    RUNITNAME, RECORDER, RECORDTIME
-</sql>
-<select id="selectByExample" resultMap="BaseResultMap" parameterType="com.bank.beans.FarmerCompunishExample" >
+  </sql>
+  <sql id="Base_Column_List" >
+    COMPUNISHID, FARMERID, FARMERIDNUM, ORGAN, DETAIL, OCCURTIME, COMPUNISHLEVEL, TYPE, SOURCECODE, 
+    SOURCENAME, RUNITID, RUNITNAME, RECORDER, RECORDTIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.bank.beans.FarmerCompunishExample" >
     select
     <if test="distinct" >
       distinct
@@ -92,13 +94,33 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
-</select>
-<insert id="save" useGeneratedKeys="true" keyProperty="id" 
-		parameterType="com.bank.beans.FarmerCompunish">
-	insert into T_FARMER_COMPUNISH
+  </select>
+  <delete id="deleteByExample" parameterType="com.bank.beans.FarmerCompunishExample" >
+    delete from T_FARMER_COMPUNISH
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.bank.beans.FarmerCompunishExample" >
+    insert into T_FARMER_COMPUNISH (FARMERID, FARMERIDNUM, ORGAN, DETAIL, 
+      OCCURTIME, COMPUNISHLEVEL, TYPE, 
+      SOURCECODE, SOURCENAME, RUNITID, 
+      RUNITNAME, RECORDER, RECORDTIME
+      )
+    values (#{farmerid,jdbcType=BIGINT}, #{farmeridnum,jdbcType=VARCHAR}, #{organ,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR}, 
+      #{occurtime,jdbcType=TIMESTAMP}, #{compunishlevel,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
+      #{sourcecode,jdbcType=VARCHAR}, #{sourcename,jdbcType=VARCHAR}, #{runitid,jdbcType=VARCHAR}, 
+      #{runitname,jdbcType=VARCHAR}, #{recorder,jdbcType=VARCHAR}, #{recordtime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.bank.beans.FarmerCompunish" >
+    insert into T_FARMER_COMPUNISH
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="farmerid != null" >
         FARMERID,
+      </if>
+      <if test="farmeridnum != null" >
+        FARMERIDNUM,
       </if>
       <if test="organ != null" >
         ORGAN,
@@ -108,6 +130,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       </if>
       <if test="occurtime != null" >
         OCCURTIME,
+      </if>
+      <if test="compunishlevel != null" >
+        COMPUNISHLEVEL,
       </if>
       <if test="type != null" >
         TYPE,
@@ -135,6 +160,167 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <if test="farmerid != null" >
         #{farmerid,jdbcType=BIGINT},
       </if>
+      <if test="farmeridnum != null" >
+        #{farmeridnum,jdbcType=VARCHAR},
+      </if>
+      <if test="organ != null" >
+        #{organ,jdbcType=VARCHAR},
+      </if>
+      <if test="detail != null" >
+        #{detail,jdbcType=VARCHAR},
+      </if>
+      <if test="occurtime != null" >
+        #{occurtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="compunishlevel != null" >
+        #{compunishlevel,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="sourcecode != null" >
+        #{sourcecode,jdbcType=VARCHAR},
+      </if>
+      <if test="sourcename != null" >
+        #{sourcename,jdbcType=VARCHAR},
+      </if>
+      <if test="runitid != null" >
+        #{runitid,jdbcType=VARCHAR},
+      </if>
+      <if test="runitname != null" >
+        #{runitname,jdbcType=VARCHAR},
+      </if>
+      <if test="recorder != null" >
+        #{recorder,jdbcType=VARCHAR},
+      </if>
+      <if test="recordtime != null" >
+        #{recordtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bank.beans.FarmerCompunishExample" resultType="java.lang.Integer" >
+    select count(*) from T_FARMER_COMPUNISH
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_FARMER_COMPUNISH
+    <set >
+      <if test="record.farmerid != null" >
+        FARMERID = #{record.farmerid,jdbcType=BIGINT},
+      </if>
+       <if test="record.farmeridnum != null" >
+        FARMERIDNUM = #{record.farmeridnum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.organ != null" >
+        ORGAN = #{record.organ,jdbcType=VARCHAR},
+      </if>
+      <if test="record.detail != null" >
+        DETAIL = #{record.detail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.occurtime != null" >
+        OCCURTIME = #{record.occurtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.compunishlevel != null" >
+        COMPUNISHLEVEL = #{record.compunishlevel,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null" >
+        TYPE = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.sourcecode != null" >
+        SOURCECODE = #{record.sourcecode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sourcename != null" >
+        SOURCENAME = #{record.sourcename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.runitid != null" >
+        RUNITID = #{record.runitid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.runitname != null" >
+        RUNITNAME = #{record.runitname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recorder != null" >
+        RECORDER = #{record.recorder,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recordtime != null" >
+        RECORDTIME = #{record.recordtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_FARMER_COMPUNISH
+    set FARMERID = #{record.farmerid,jdbcType=BIGINT},
+      FARMERIDNUM = #{record.farmeridnum,jdbcType=VARCHAR},
+      ORGAN = #{record.organ,jdbcType=VARCHAR},
+      DETAIL = #{record.detail,jdbcType=VARCHAR},
+      OCCURTIME = #{record.occurtime,jdbcType=TIMESTAMP},
+      COMPUNISHLEVEL = #{record.compunishlevel,jdbcType=INTEGER},
+      TYPE = #{record.type,jdbcType=INTEGER},
+      SOURCECODE = #{record.sourcecode,jdbcType=VARCHAR},
+      SOURCENAME = #{record.sourcename,jdbcType=VARCHAR},
+      RUNITID = #{record.runitid,jdbcType=VARCHAR},
+      RUNITNAME = #{record.runitname,jdbcType=VARCHAR},
+      RECORDER = #{record.recorder,jdbcType=VARCHAR},
+      RECORDTIME = #{record.recordtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+<insert id="save" useGeneratedKeys="true" keyProperty="id" 
+		parameterType="com.bank.beans.FarmerCompunish">
+	insert into T_FARMER_COMPUNISH
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="farmerid != null" >
+        FARMERID,
+      </if>
+      <if test="farmeridnum != null">
+        FARMERIDNUM,
+      </if>
+      <if test="organ != null" >
+        ORGAN,
+      </if>
+      <if test="detail != null" >
+        DETAIL,
+      </if>
+      <if test="occurtime != null" >
+        OCCURTIME,
+      </if>
+       <if test="compunishlevel != null" >
+        COMPUNISHLEVEL,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="sourcecode != null" >
+        SOURCECODE,
+      </if>
+      <if test="sourcename != null" >
+        SOURCENAME,
+      </if>
+      <if test="runitid != null" >
+        RUNITID,
+      </if>
+      <if test="runitname != null" >
+        RUNITNAME,
+      </if>
+      <if test="recorder != null" >
+        RECORDER,
+      </if>
+      <if test="recordtime != null" >
+        RECORDTIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="farmerid != null" >
+        #{farmerid,jdbcType=BIGINT},
+      </if>
+      <if test="farmeridnum != null" >
+        #{farmeridnum,jdbcType=VARCHAR},
+      </if>
       <if test="organ != null" >
         #{organ,jdbcType=VARCHAR},
       </if>
@@ -146,6 +332,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       </if>
       <if test="type != null" >
         #{type,jdbcType=INTEGER},
+      </if>
+       <if test="compunishlevel != null" >
+        #{compunishlevel,jdbcType=INTEGER},
       </if>
       <if test="sourcecode != null" >
         #{sourcecode,jdbcType=VARCHAR},
@@ -172,11 +361,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </delete>
 <update id="update">
 	update T_FARMER_COMPUNISH
-    set COMPUNISHID = #{compunishid,jdbcType=BIGINT},
-      FARMERID = #{farmerid,jdbcType=BIGINT},
+    set FARMERID = #{farmerid,jdbcType=BIGINT},
+      FARMERIDNUM = #{farmeridnum,jdbcType=VARCHAR},
       ORGAN = #{organ,jdbcType=VARCHAR},
       DETAIL = #{detail,jdbcType=VARCHAR},
       OCCURTIME = #{occurtime,jdbcType=TIMESTAMP},
+      COMPUNISHLEVEL = #{compunishlevel,jdbcType=INTEGER},
       TYPE = #{type,jdbcType=INTEGER},
       SOURCECODE = #{sourcecode,jdbcType=VARCHAR},
       SOURCENAME = #{sourcename,jdbcType=VARCHAR},
@@ -203,8 +393,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	(select t.*,rownumber() over() as rn 
 	from T_FARMER_COMPUNISH t
 	<where>
-		<if test="farmerId != null">
-		   	and t.FARMERID = #{farmerId,jdbcType=BIGINT}
+		<if test="farmeridnum != null">
+			FARMERIDNUM = #{farmeridnum,jdbcType=VARCHAR} 
+		</if>
+		<if test="runitid != null">
+			and RUNITID = #{runitid,jdbcType=VARCHAR} 
 		</if>
 	 </where>
 	 )
@@ -228,28 +421,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	select 
 	<include refid="Base_Column_List" />
 	from 
-	(select t.*,rownumber() over(order by recordtime desc) as rn from t_farmer_compunish t
+	(select t.*,rownumber() over(order by recordtime desc) as rn from T_FARMER_COMPUNISH t
 	<where>
-		<if test="farmerName != null and farmerName != '' ">
-			t.farmername like CONCAT(CONCAT('%',#{farmerName}),'%') 
+		<if test="farmeridnum != null">
+			FARMERIDNUM = #{farmeridnum,jdbcType=VARCHAR} 
 		</if>
-		<if test="farmerIdNum != null and farmerIdNum != ''">
-		   	and t.farmeridnum like CONCAT(CONCAT('%',#{farmerIdNum}),'%')  
-		</if>
-		<if test="type != null and type != '' ">
-			t.type like CONCAT(CONCAT('%',#{type}),'%') 
-		</if>
-		<if test="organ != null and organ != ''">
-		   	and t.organ like CONCAT(CONCAT('%',#{organ}),'%')  
-		</if>
-		<if test="recorder != null and recorder != '' ">
-		    and t.recoder like CONCAT(CONCAT('%',#{recoder}),'%')  
-		</if>
-		<if test="recordTimeBegin !=null and recordTimeBegin != ''">
-		   	<![CDATA[and t.recordtime >=to_date('#{recordTimeBegin}','yyyy-mm-dd')]]>
-		</if>
-		<if test="recordTimeEnd !=null and recordTimeEnd != ''">
-		   	<![CDATA[and t.recordtime <=to_date('#{recordTimeEnd}','yyyy-mm-dd')]]>
+		<if test="runitid != null">
+			and RUNITID = #{runitid,jdbcType=VARCHAR} 
 		</if>
 	 </where>
 	 )

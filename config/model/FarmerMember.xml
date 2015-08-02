@@ -6,6 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <resultMap id="BaseResultMap" type="com.bank.beans.FarmerMember" >
     <id column="MEMBERID" property="id" jdbcType="BIGINT" />
     <result column="FARMERID" property="farmerid" jdbcType="BIGINT" />
+    <result column="FARMERIDNUM" property="farmeridnum" jdbcType="VARCHAR" />
     <result column="NAME" property="name" jdbcType="VARCHAR" />
     <result column="RELATION" property="relation" jdbcType="VARCHAR" />
     <result column="IDNUM" property="idnum" jdbcType="VARCHAR" />
@@ -86,7 +87,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    MEMBERID, FARMERID, NAME, RELATION, IDNUM, EDUCATION, MARRYSTATUS, OCCUPATION, JOB, 
+    MEMBERID, FARMERID, FARMERIDNUM, NAME, RELATION, IDNUM, EDUCATION, MARRYSTATUS, OCCUPATION, JOB, 
     SEX, PHONE, ADDRESS, HEALTHSTATE, LABOURSTATE, USINGMEDICAL, USINGINUSE, SOURCECODE, 
     SOURCENAME, RUNITID, RUNITNAME, RECORDER, RECORDTIME
   </sql>
@@ -110,6 +111,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="farmerid != null" >
         FARMERID,
+      </if>
+      <if test="farmeridnum != null" >
+        FARMERIDNUM,
       </if>
       <if test="name != null" >
         NAME,
@@ -169,6 +173,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="farmerid != null" >
         #{farmerid,jdbcType=BIGINT},
+      </if>
+      <if test="farmeridnum != null" >
+        #{farmeridnum,jdbcType=VARCHAR},
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
@@ -230,9 +237,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	delete from T_FARMER_MEMBER 
 	WHERE MEMBERID = #{id,jdbcType=BIGINT}
 </delete>
+<select id="countByExample" parameterType="com.bank.beans.FarmerMemberExample" resultType="java.lang.Integer" >
+    select count(*) from T_FARMER_MEMBER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
 <update id="update" parameterType="com.bank.beans.FarmerMember">
  update T_FARMER_MEMBER
     set FARMERID = #{farmerid,jdbcType=BIGINT},
+      FARMERIDNUM = #{farmeridnum,jdbcType=VARCHAR},
       NAME = #{name,jdbcType=VARCHAR},
       RELATION = #{relation,jdbcType=VARCHAR},
       IDNUM = #{idnum,jdbcType=VARCHAR},
@@ -258,6 +272,9 @@ where MEMBERID = #{id,jdbcType = BIGINT}
     <set >
       <if test="farmerid != null" >
         FARMERID = #{farmerid,jdbcType=VARCHAR},
+      </if>
+      <if test="farmeridnum != null" >
+        FARMERIDNUM = #{farmeridnum,jdbcType=VARCHAR},
       </if>
       <if test="name != null" >
         NAME = #{name,jdbcType=VARCHAR},
@@ -332,8 +349,11 @@ where MEMBERID = #{id,jdbcType = BIGINT}
 	from 
 	(select t.*,rowNumber() over() as rn from T_FARMER_MEMBER t
 	<where>
-		<if test="farmerid != null">
-			t.FARMERID = #{farmerid,jdbcType=BIGINT} 
+		<if test="farmeridnum != null">
+			FARMERIDNUM = #{farmeridnum,jdbcType=VARCHAR} 
+		</if>
+		<if test="runitid != null">
+			and RUNITID = #{runitid,jdbcType=VARCHAR} 
 		</if>
 	 </where>
 	 )

@@ -6,6 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <resultMap id="BaseResultMap" type="com.bank.beans.FarmerHouse" >
     <id column="HOUSEID" property="id" jdbcType="BIGINT" />
     <result column="FARMERID" property="farmerid" jdbcType="BIGINT" />
+    <result column="FARMERIDNUM" property="farmeridnum" jdbcType="VARCHAR" />
     <result column="HOUSEPROPERTY" property="houseproperty" jdbcType="VARCHAR" />
     <result column="HOUSETYPE" property="housetype" jdbcType="VARCHAR" />
     <result column="HOUSEADDRESS" property="houseaddress" jdbcType="VARCHAR" />
@@ -80,7 +81,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    HOUSEID, FARMERID, HOUSEPROPERTY, HOUSETYPE, HOUSEADDRESS, BUILDAREA, BUILDDATE, 
+    HOUSEID, FARMERID, FARMERIDNUM, HOUSEPROPERTY, HOUSETYPE, HOUSEADDRESS, BUILDAREA, BUILDDATE, 
     BUILDPRICE, FLOORAREA, ASSESSPRICE, SOURCECODE, SOURCENAME, RUNITID, RUNITNAME, RECORDER, 
     RECORDTIME
   </sql>
@@ -104,6 +105,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="farmerid != null" >
         FARMERID,
+      </if>
+      <if test="farmeridnum != null" >
+        FARMERIDNUM,
       </if>
       <if test="houseproperty != null" >
         HOUSEPROPERTY,
@@ -152,6 +156,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <if test="farmerid != null" >
         #{farmerid,jdbcType=BIGINT},
       </if>
+      <if test="farmeridnum != null" >
+        #{farmeridnum,jdbcType=VARCHAR},
+      </if>
       <if test="houseproperty != null" >
         #{houseproperty,jdbcType=VARCHAR},
       </if>
@@ -199,9 +206,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <delete id="delete" parameterType="Long">
 	delete from T_FARMER_HOUSE where HOUSEID = #{id,jdbcType=BIGINT}
 </delete>
+<select id="countByExample" parameterType="com.bank.beans.FarmerHouseExample" resultType="java.lang.Integer" >
+    select count(*) from T_FARMER_HOUSE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+</select>
 <update id="update" parameterType="com.bank.beans.FarmerHouse">
 	update T_FARMER_HOUSE
     set FARMERID = #{farmerid,jdbcType=BIGINT},
+      FARMERIDNUM = #{farmeridnum,jdbcType=VARCHAR},
       HOUSEPROPERTY = #{houseproperty,jdbcType=VARCHAR},
       HOUSETYPE = #{housetype,jdbcType=VARCHAR},
       HOUSEADDRESS = #{houseaddress,jdbcType=VARCHAR},
@@ -237,8 +251,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	from 
 	(select t.*,rowNumber() over() as rn from T_FARMER_HOUSE t
 	<where>
-		<if test="farmerId != null">
-			t.farmerId = #{farmerId,jdbcType=BIGINT} 
+		<if test="farmeridnum != null">
+			FARMERIDNUM = #{farmeridnum,jdbcType=VARCHAR} 
+		</if>
+		<if test="runitid != null">
+			and RUNITID = #{runitid,jdbcType=VARCHAR} 
 		</if>
 	 </where>
 	 )
@@ -276,26 +293,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	from 
 	(select t.*,rownumber() over(order by recordtime desc) as rn from T_FARMER_HOUSE t
 	<where>
-		<if test="farmerName != null and farmerName != '' ">
-			t.farmername like CONCAT(CONCAT('%',#{farmerName}),'%') 
+		<if test="farmeridnum != null">
+			FARMERIDNUM = #{farmeridnum,jdbcType=VARCHAR} 
 		</if>
-		<if test="farmerIdNum != null and farmerIdNum != ''">
-		   	and t.farmeridnum like CONCAT(CONCAT('%',#{farmerIdNum}),'%')  
-		</if>
-		<if test="houseProperty != null and houseProperty != ''">
-		   	and t.houseproperty ='#{houseProperty}' 
-		</if>
-		<if test="houseType != null and houseType != ''">
-		   	and t.housetype ='#{houseType}'  
-		</if>
-		<if test="recorder != null and recorder != '' ">
-		    and t.recoder like CONCAT(CONCAT('%',#{recoder}),'%')  
-		</if>
-		<if test="recordTimeBegin !=null and recordTimeBegin != ''">
-		   	<![CDATA[and t.recordtime >=to_date('#{recordTimeBegin}','yyyy-mm-dd')]]>
-		</if>
-		<if test="recordTimeEnd !=null and recordTimeEnd != ''">
-		   	<![CDATA[and t.recordtime <=to_date('#{recordTimeEnd}','yyyy-mm-dd')]]>
+		<if test="runitid != null">
+			and RUNITID = #{runitid,jdbcType=VARCHAR} 
 		</if>
 	 </where>
 	 )

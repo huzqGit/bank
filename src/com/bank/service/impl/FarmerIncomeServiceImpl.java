@@ -27,6 +27,12 @@ public class FarmerIncomeServiceImpl extends GenericServiceImpl<FarmerIncome, Lo
 	}
 
 	@Override
+	public int countByExample(FarmerIncomeExample example) {
+		// TODO Auto-generated method stub
+		return farmerIncomeDao.countByExample(example);
+	}
+
+	@Override
 	public List<FarmerIncome> selectByExample(FarmerIncomeExample example) {
 		// TODO Auto-generated method stub
 		List<FarmerIncome> incomes = farmerIncomeDao.selectByExample(example);

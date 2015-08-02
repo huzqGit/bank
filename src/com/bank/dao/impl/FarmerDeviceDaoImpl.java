@@ -14,6 +14,14 @@ import com.common.dao.impl.GenericMyBatisDAOSupport;
 @Repository("farmerDeviceDao")
 public class FarmerDeviceDaoImpl extends GenericMyBatisDAOSupport<FarmerDevice, Long>
 	implements IFarmerDeviceDao {
+	
+
+	@Override
+	public int countByExample(FarmerDeviceExample example) {
+		// TODO Auto-generated method stub
+		int num = this.getSqlSession().selectOne("farmerdevice.countByExample", example);
+		return num;
+	}
 
 	@Override
 	public List<FarmerDevice> getDevicesByFarmerId(Long farmerId) {

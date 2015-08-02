@@ -16,6 +16,13 @@ public class FarmerCompunishDaoImpl extends GenericMyBatisDAOSupport<FarmerCompu
 	implements IFarmerCompunishDao {
 
 	@Override
+	public int countByExample(FarmerCompunishExample example) {
+		// TODO Auto-generated method stub
+		int num = this.getSqlSession().selectOne("farmercompunish.countByExample", example);
+		return num;
+	}
+
+	@Override
 	public List<FarmerCompunish> getCompunishByFarmerId(Long farmerId) {
 		
 		List<FarmerCompunish> compunishs = this.getSqlSession().selectList("farmercompunish.findByFarmerId",farmerId);

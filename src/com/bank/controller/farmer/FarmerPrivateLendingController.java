@@ -19,8 +19,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.bank.Constants;
 import com.bank.beans.Farmer;
 import com.bank.beans.FarmerPrivateLending;
+import com.bank.beans.FarmerPrivateLendingExample;
+import com.bank.beans.Organ;
 import com.bank.service.IFarmerPrivateLendingService;
 import com.bank.service.IFarmerService;
 import com.common.exception.DAOException;
@@ -60,6 +63,11 @@ public class FarmerPrivateLendingController {
 			HttpServletRequest request, HttpServletResponse response){
 		try{
 			if(privateLending.getId() == null){
+				Organ organ = (Organ)request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
+				String organId = organ.getOrganId();
+				String organName = organ.getOrganName();
+				privateLending.setRunitid(organId);
+				privateLending.setRunitname(organName);
 				farmerPrivateLendingService.save(privateLending);
 			}else{
 				farmerPrivateLendingService.update(privateLending);
@@ -135,13 +143,31 @@ public class FarmerPrivateLendingController {
 	}
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/queryPrivateLendingByPaging",method=RequestMethod.POST)
-	public ModelAndView queryPrivateLendingByPaging(@RequestParam(value="fid") Long fid, 
-			@RequestParam(value="pageIndex") int pageIndex,@RequestParam(value="pageSize") int pageSize,
-			@RequestParam(value="sortField") String sortField,@RequestParam(value="sortOrder") String sortOrder,
+	public ModelAndView queryPrivateLendingByPaging(@RequestParam(value="farmeridnum") String farmeridnum,
+			@RequestParam(value="runitid") String runitid, 
+			@RequestParam(value="pageIndex") int pageIndex,
+			@RequestParam(value="pageSize") int pageSize,
+			@RequestParam(value="sortField") String sortField,
+			@RequestParam(value="sortOrder") String sortOrder,
 			HttpServletRequest request,HttpServletResponse response){
-
-		int toatalNumber = farmerPrivateLendingService.findTotalNumber(fid);
-		List<FarmerPrivateLending> lendings = farmerPrivateLendingService.findByPaging(pageIndex, pageSize, sortField, sortOrder, fid);
+		
+		FarmerPrivateLendingExample fpe = new FarmerPrivateLendingExample();
+		FarmerPrivateLendingExample.Criteria fpec = fpe.createCriteria();
+		fpec.andFarmeridnumEqualTo(farmeridnum);
+		fpec.andRunitidEqualTo(runitid);
+		int toatalNumber = farmerPrivateLendingService.countByExample(fpe);
+		
+		Map paramMap = new HashMap();
+		paramMap.put("farmeridnum", farmeridnum);
+		paramMap.put("runitid", runitid);
+		
+		List<FarmerPrivateLending> lendings = null;
+		try {
+			lendings = farmerPrivateLendingService.getPageingEntities(pageIndex, pageSize, sortField, sortOrder, paramMap);
+		} catch (DAOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		Map map = new HashMap();
 		map.put("total", toatalNumber);
 		map.put("data", lendings);

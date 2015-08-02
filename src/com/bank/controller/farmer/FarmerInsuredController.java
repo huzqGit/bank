@@ -20,8 +20,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.bank.Constants;
 import com.bank.beans.Farmer;
 import com.bank.beans.FarmerInsured;
+import com.bank.beans.FarmerInsuredExample;
+import com.bank.beans.Organ;
 import com.bank.common.util.JsonUtil;
 import com.bank.service.IFarmerInsuredService;
 import com.bank.service.IFarmerService;
@@ -37,41 +40,24 @@ public class FarmerInsuredController {
 	@Resource
 	private IFarmerInsuredService farmerInsuredService;
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@RequestMapping(value = "/saveInsured",method = RequestMethod.POST)
-	public ModelAndView save(HttpServletRequest request, 
-			HttpServletResponse response) throws Exception{
-		//這裡做了時間格式的處理
-		String farmerData = request.getParameter("farmer");
-		String insuredData=request.getParameter("insured");
-
-		//這裡做了時間格式的處理
-		Object basicJsonData = JsonUtil.Decode(farmerData);
-		farmerData = JSON.toJSONStringWithDateFormat(basicJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
-		JSONObject farmerJson = JSONObject.parseObject(farmerData);
-		Farmer farmer = (Farmer) JSON.toJavaObject(farmerJson, Farmer.class);
-		//农户家庭成员情况
-		Object memberJsonData = JsonUtil.Decode(insuredData);
-		insuredData = JSON.toJSONStringWithDateFormat(memberJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
-		List<FarmerInsured> insureds = (List<FarmerInsured>) JSON.parseArray(insuredData, FarmerInsured.class);
-		farmerInsuredService.save(farmer,insureds);
-		Map map = new HashMap();
-		map.put("insured", insureds);
-		String json = JSON.toJSONString(map);
-		response.setContentType("text/html;charset=UTF-8");
-	    response.getWriter().write(json);
-		return null;
-		
-	}
 	@RequestMapping(value="/saveInsured1",method=RequestMethod.POST)
 	public ModelAndView saveInsured1(@ModelAttribute(value="insured") FarmerInsured insured,
-			HttpServletRequest request,HttpServletResponse response) throws Exception{
-		if(insured.getId()==null){
-			farmerInsuredService.save(insured);
-		}else{
-			farmerInsuredService.update(insured);
+			HttpServletRequest request,HttpServletResponse response) {
+		try{
+			if(insured.getId()==null){
+				Organ organ = (Organ)request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
+				insured.setRunitid(organ.getOrganId());
+				insured.setRunitname(organ.getOrganName());
+				insured.setSourcecode(organ.getOrganNo());
+				insured.setSourcename(organ.getOrganName());
+				farmerInsuredService.save(insured);
+			}else{
+				farmerInsuredService.update(insured);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
 		}
-		ModelAndView view = new ModelAndView("/farmer/farmerInsuredView1");
+	
 		Farmer farmer = null;
 		try {
 			 farmer = farmerService.findByPK(insured.getFarmerid());
@@ -82,6 +68,7 @@ public class FarmerInsuredController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		ModelAndView view = new ModelAndView("/farmer/farmerInsuredView1");
 		view.addObject("farmer",farmer);
 		return view;
 	}
@@ -148,81 +135,47 @@ public class FarmerInsuredController {
 		view.addObject("farmer",farmer);
 		return view;
 	}
-	@RequestMapping(value="/loadInsured",method=RequestMethod.POST)
-	public ModelAndView loadInsured(@RequestParam(value="fid") String fid,
-			HttpServletRequest request,HttpServletResponse response){
-		
-		Long farmerId = Long.valueOf(fid);
-	    int pageIndex = Integer.valueOf(request.getParameter("pageIndex"));
-	    int pageSize = Integer.valueOf(request.getParameter("pageSize"));        
-	    String sortField = request.getParameter("sortField");
-	    String sortOrder = request.getParameter("sortOrder");
-		List<FarmerInsured> insureds =farmerInsuredService.findPagingByFarmerId(pageIndex, pageSize, sortField, sortOrder, farmerId);
-	    String json = JSON.toJSONStringWithDateFormat(insureds,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
-	    response.setContentType("text/html;charset=UTF-8");
-	    try {
-			response.getWriter().write(json);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
-	@RequestMapping(value = "/loadCanBao", method = RequestMethod.GET)
-	public ModelAndView loadCanBao(@RequestParam(value="fid") String fid, 
-			HttpServletResponse response) throws Exception {
-		if(!StringUtils.isEmpty(fid)){
-			Long farmerId=Long.valueOf(fid);
-			Farmer farmer = farmerService.findByPK(farmerId);
-			List<FarmerInsured> insureds = farmerInsuredService.findByFarmer(farmerId);
-			if(insureds.size() == 0){
-				insureds.add(new FarmerInsured());
-			}
-			ModelAndView view = new ModelAndView("/farmer/farmerCanBaoForm");
-			view.addObject("farmer", farmer);
-			view.addObject("insureds", insureds);
-		    return view;
-		}
-		return null;
-	}
 	
-	@RequestMapping(value="/loadAllInsured",method=RequestMethod.POST)
-	public ModelAndView loadAllCompany(HttpServletRequest request, 
-			HttpServletResponse response) throws Exception{
-		//查询条件
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping(value="/loadInsured",method=RequestMethod.POST)
+	public ModelAndView loadInsured(@RequestParam(value="farmeridnum") String farmeridnum,
+			@RequestParam(value="runitid") String runitid, 
+			@RequestParam(value="pageIndex") int pageIndex,
+			@RequestParam(value="pageSize") int pageSize,
+			@RequestParam(value="sortField") String sortField,
+			@RequestParam(value="sortOrder") String sortOrder,
+			HttpServletRequest request,HttpServletResponse response) {
 		
-		String farmerName = request.getParameter("farmerName");
-	    String farmerIdNum=request.getParameter("farmerIdNum");
-	    String name=request.getParameter("name");
-	    String type=request.getParameter("type");
-	    String recorder=request.getParameter("recorder");
-	    String recordTimeBegin=request.getParameter("recordTimeBegin");
-	    String recordTimeEnd=request.getParameter("recordTimeEnd");
+			FarmerInsuredExample fie = new FarmerInsuredExample();
+			FarmerInsuredExample.Criteria fiec = fie.createCriteria();
+			fiec.andFarmeridnumEqualTo(farmeridnum);
+			fiec.andRunitidEqualTo(runitid);
+			int totalNumber = farmerInsuredService.countByExample(fie);
+			
+			List<FarmerInsured> insureds = null;
+			Map paramMap = new HashMap();
+			paramMap.put("farmeridnum", farmeridnum);
+			paramMap.put("runitid", runitid);
+			try {
+				insureds = farmerInsuredService.getPageingEntities(pageIndex, pageSize, sortField, sortOrder, paramMap);
+			} catch (DAOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	    
-	    Map<String,String> query = new HashMap<String,String>();
-	    query.put("farmerName", farmerName);
-	    query.put("farmerIdNum", farmerIdNum);
-	    query.put("name", name);
-	    query.put("type", type);
-	    query.put("recorder", recorder);
-	    query.put("recordTimeBegin", recordTimeBegin);
-	    query.put("recordTimeEnd", recordTimeEnd);
-	    //分页
-	    int pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
-	    int pageSize = Integer.parseInt(request.getParameter("pageSize"));        
-	    //字段排序
-	    String sortField = request.getParameter("sortField");
-	    String sortOrder = request.getParameter("sortOrder");
-	    List<FarmerInsured> data = farmerInsuredService.getPageingEntities(pageIndex, pageSize, sortField, sortOrder, query);
-	    
-	    HashMap result = new HashMap();
-        result.put("data", data);
-        result.put("total", data.size());
+		    HashMap result = new HashMap();
+	        result.put("data", insureds);
+	        result.put("total", totalNumber);
         
-	    String json = JSON.toJSONStringWithDateFormat(result,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
-	    response.setContentType("text/html;charset=UTF-8");
-	    response.getWriter().write(json);
-		return null;
+		    String json = JSON.toJSONStringWithDateFormat(result,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
+		    response.setContentType("text/html;charset=UTF-8");
+		    try {
+				response.getWriter().write(json);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
 	}
 @RequestMapping(value="/typeInCanBao",method=RequestMethod.POST)
 public ModelAndView typeInCanBao(HttpServletRequest request, 

@@ -225,6 +225,76 @@ public class FarmerForestExample {
             return (Criteria) this;
         }
 
+        public Criteria andFarmeridnumIsNull() {
+            addCriterion("FARMERIDNUM is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFarmeridnumIsNotNull() {
+            addCriterion("FARMERIDNUM is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFarmeridnumEqualTo(String value) {
+            addCriterion("FARMERIDNUM =", value, "farmeridnum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFarmeridnumNotEqualTo(String value) {
+            addCriterion("FARMERIDNUM <>", value, "farmeridnum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFarmeridnumGreaterThan(String value) {
+            addCriterion("FARMERIDNUM >", value, "farmeridnum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFarmeridnumGreaterThanOrEqualTo(String value) {
+            addCriterion("FARMERIDNUM >=", value, "farmeridnum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFarmeridnumLessThan(String value) {
+            addCriterion("FARMERIDNUM <", value, "farmeridnum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFarmeridnumLessThanOrEqualTo(String value) {
+            addCriterion("FARMERIDNUM <=", value, "farmeridnum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFarmeridnumLike(String value) {
+            addCriterion("FARMERIDNUM like", value, "farmeridnum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFarmeridnumNotLike(String value) {
+            addCriterion("FARMERIDNUM not like", value, "farmeridnum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFarmeridnumIn(List<String> values) {
+            addCriterion("FARMERIDNUM in", values, "farmeridnum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFarmeridnumNotIn(List<String> values) {
+            addCriterion("FARMERIDNUM not in", values, "farmeridnum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFarmeridnumBetween(String value1, String value2) {
+            addCriterion("FARMERIDNUM between", value1, value2, "farmeridnum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFarmeridnumNotBetween(String value1, String value2) {
+            addCriterion("FARMERIDNUM not between", value1, value2, "farmeridnum");
+            return (Criteria) this;
+        }
+
         public Criteria andCardnumIsNull() {
             addCriterion("CARDNUM is null");
             return (Criteria) this;
@@ -365,73 +435,73 @@ public class FarmerForestExample {
             return (Criteria) this;
         }
 
-        public Criteria andUserIsNull() {
-            addCriterion("USER is null");
+        public Criteria andOwnerIsNull() {
+            addCriterion("OWNER is null");
             return (Criteria) this;
         }
 
-        public Criteria andUserIsNotNull() {
-            addCriterion("USER is not null");
+        public Criteria andOwnerIsNotNull() {
+            addCriterion("OWNER is not null");
             return (Criteria) this;
         }
 
-        public Criteria andUserEqualTo(String value) {
-            addCriterion("USER =", value, "user");
+        public Criteria andOwnerEqualTo(String value) {
+            addCriterion("OWNER =", value, "owner");
             return (Criteria) this;
         }
 
-        public Criteria andUserNotEqualTo(String value) {
-            addCriterion("USER <>", value, "user");
+        public Criteria andOwnerNotEqualTo(String value) {
+            addCriterion("OWNER <>", value, "owner");
             return (Criteria) this;
         }
 
-        public Criteria andUserGreaterThan(String value) {
-            addCriterion("USER >", value, "user");
+        public Criteria andOwnerGreaterThan(String value) {
+            addCriterion("OWNER >", value, "owner");
             return (Criteria) this;
         }
 
-        public Criteria andUserGreaterThanOrEqualTo(String value) {
-            addCriterion("USER >=", value, "user");
+        public Criteria andOwnerGreaterThanOrEqualTo(String value) {
+            addCriterion("OWNER >=", value, "owner");
             return (Criteria) this;
         }
 
-        public Criteria andUserLessThan(String value) {
-            addCriterion("USER <", value, "user");
+        public Criteria andOwnerLessThan(String value) {
+            addCriterion("OWNER <", value, "owner");
             return (Criteria) this;
         }
 
-        public Criteria andUserLessThanOrEqualTo(String value) {
-            addCriterion("USER <=", value, "user");
+        public Criteria andOwnerLessThanOrEqualTo(String value) {
+            addCriterion("OWNER <=", value, "owner");
             return (Criteria) this;
         }
 
-        public Criteria andUserLike(String value) {
-            addCriterion("USER like", value, "user");
+        public Criteria andOwnerLike(String value) {
+            addCriterion("OWNER like", value, "owner");
             return (Criteria) this;
         }
 
-        public Criteria andUserNotLike(String value) {
-            addCriterion("USER not like", value, "user");
+        public Criteria andOwnerNotLike(String value) {
+            addCriterion("OWNER not like", value, "owner");
             return (Criteria) this;
         }
 
-        public Criteria andUserIn(List<String> values) {
-            addCriterion("USER in", values, "user");
+        public Criteria andOwnerIn(List<String> values) {
+            addCriterion("OWNER in", values, "owner");
             return (Criteria) this;
         }
 
-        public Criteria andUserNotIn(List<String> values) {
-            addCriterion("USER not in", values, "user");
+        public Criteria andOwnerNotIn(List<String> values) {
+            addCriterion("OWNER not in", values, "owner");
             return (Criteria) this;
         }
 
-        public Criteria andUserBetween(String value1, String value2) {
-            addCriterion("USER between", value1, value2, "user");
+        public Criteria andOwnerBetween(String value1, String value2) {
+            addCriterion("OWNER between", value1, value2, "owner");
             return (Criteria) this;
         }
 
-        public Criteria andUserNotBetween(String value1, String value2) {
-            addCriterion("USER not between", value1, value2, "user");
+        public Criteria andOwnerNotBetween(String value1, String value2) {
+            addCriterion("OWNER not between", value1, value2, "owner");
             return (Criteria) this;
         }
 

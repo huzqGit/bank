@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="dt" uri="http://gov.jian.bank/dateformat" %>  
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -21,6 +22,7 @@ overflow-x:hidden
 <form action="/bank/farmer/saveCompunish1.do" method="POST">
 <input name="id" class="mini-hidden" value="${compunish.id}"/>
 <input name="farmerid" class="mini-hidden" value="${farmer.id}"/>
+<input name="farmeridnum" class="mini-hidden"  value="${farmer.farmeridnum}" />
 <input name="recorder" class="mini-hidden" value="${recorder}"/>
 <input name="recordtime" class="mini-hidden" value="${currentTime}"/>
 <div class="queryPane" >
@@ -72,19 +74,33 @@ overflow-x:hidden
 	<td class="required_text" width="2%">*</td>
 	<td>表彰或处罚时间:</td>
     <td>
-       <input  name="occurtime" class="mini-datepicker" value="${compunish.occurtime}" style="width:90%"
-       errorMode="none" required="true" requiredErrorText="表彰或处罚时间不能为空" onvalidation="onValidation"/>
+       <input  name="occurtime" class="mini-datepicker" value="${dt:format(compunish.occurtime,'yyyy-MM-dd')}" style="width:90%"
+       errorMode="none" required="true" requiredErrorText="表彰或处罚时间不能为空" onvalidation="onValidation"
+       url="/bank/dic/CompunishType.txt" emptyText="请选择..."/>
     </td>
+    <td class="required_text" width="2%">*</td>
+	<td>表彰或处罚等级:</td>
+    <td>
+       <input  name="compunishlevel" class="mini-combobox" value="${compunish.compunishlevel}" style="width:90%"
+       errorMode="none" required="true" requiredErrorText="表彰或处罚等级不能为空" onvalidation="onValidation"
+       url="/bank/dic/CompunishLevel.txt" emptyText="请选择..."/>
+    </td>       
+</tr>
+<tr>
+	<td></td>
+	<td id="occurtime_error" class="errorText" colspan="2"></td>
+	<td></td>
+	<td id="compunishlevel_error" class="errorText" colspan="2"></td>
+</tr>
+<tr>
     <td class="required_text" width="2%">*</td>
 	<td>表彰或处罚内容:</td>
     <td>
     <input name="detail" class="mini-textarea" value="${compunish.detail}"style="width:90%"
      errorMode="none" required="true" requiredErrorText="表彰或处罚内容不能为空" onvalidation="onValidation"/>
-   </td>          
+   </td>   
 </tr>
 <tr>
-	<td></td>
-	<td id="occurtime_error" class="errorText" colspan="2"></td>
 	<td></td>
 	<td id="detail_error" class="errorText" colspan="2"></td>
 </tr>

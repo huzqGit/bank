@@ -14,6 +14,13 @@ public class FarmerIncomeDaoImpl extends GenericMyBatisDAOSupport<FarmerIncome, 
 	implements IFarmerIncomeDao {
 
 	@Override
+	public int countByExample(FarmerIncomeExample example) {
+		// TODO Auto-generated method stub
+		int num = this.getSqlSession().selectOne("farmerincome.countByExample", example);
+		return num;
+	}
+
+	@Override
 	public List<FarmerIncome> findAll(Long balanceId) {
 		List<FarmerIncome> incomes = this.getSqlSession().selectList("farmerincome.findAll",balanceId);
 		return incomes;

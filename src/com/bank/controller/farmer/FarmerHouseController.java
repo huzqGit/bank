@@ -19,14 +19,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.bank.Constants;
 import com.bank.beans.Farmer;
 import com.bank.beans.FarmerBreed;
 import com.bank.beans.FarmerDevice;
 import com.bank.beans.FarmerForest;
 import com.bank.beans.FarmerHouse;
-import com.bank.common.util.JsonUtil;
+import com.bank.beans.FarmerHouseExample;
+import com.bank.beans.Organ;
 import com.bank.service.IFarmerHouseService;
 import com.bank.service.IFarmerService;
 import com.common.exception.DAOException;
@@ -47,7 +48,12 @@ public class FarmerHouseController {
 		
 		try{
 			if(house.getId() == null){
-					farmerHouseService.save(house);
+				Organ organ = (Organ)request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
+				house.setRunitid(organ.getOrganId());
+				house.setRunitname(organ.getOrganName());
+				house.setSourcecode(organ.getOrganNo());
+				house.setSourcename(organ.getOrganName());
+				farmerHouseService.save(house);
 			}else{
 				farmerHouseService.update(house);
 			}
@@ -206,15 +212,30 @@ public class FarmerHouseController {
 	}
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/loadHouse", method = RequestMethod.POST)
-	public ModelAndView loadHouse(@RequestParam(value="fid") Long fid, 
+	public ModelAndView loadHouse(@RequestParam(value="farmeridnum") String farmeridnum,
+			@RequestParam(value="runitid") String runitid, 
 			@RequestParam(value="pageIndex") int pageIndex,
 			@RequestParam(value="pageSize") int pageSize,
 			@RequestParam(value="sortField") String sortField,
 			@RequestParam(value="sortOrder") String sortOrder,
 			HttpServletRequest request,HttpServletResponse response) {
-	
-			int totalNumber = farmerHouseService.findTotalNumberByFarmerId(fid);
-			List<FarmerHouse> houses = farmerHouseService.findPagingByFarmerId(pageIndex, pageSize, sortField, sortOrder, fid);
+			
+			FarmerHouseExample fhe = new FarmerHouseExample();
+			FarmerHouseExample.Criteria fhec = fhe.createCriteria();
+			fhec.andFarmeridnumEqualTo(farmeridnum);
+			fhec.andRunitidEqualTo(runitid);
+			
+			int totalNumber = farmerHouseService.countByExample(fhe);
+			Map paramMap = new HashMap();
+			paramMap.put("farmeridnum", farmeridnum);
+			paramMap.put("runitid", runitid);
+			List<FarmerHouse> houses = null;
+			try {
+				houses = farmerHouseService.getPageingEntities(pageIndex, pageSize, sortField, sortOrder, paramMap);
+			} catch (DAOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			Map map = new HashMap();
 			map.put("total", totalNumber);
 			map.put("data", houses);

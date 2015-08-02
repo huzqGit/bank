@@ -20,8 +20,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.bank.Constants;
 import com.bank.beans.Farmer;
 import com.bank.beans.FarmerBreed;
+import com.bank.beans.FarmerBreedExample;
+import com.bank.beans.Organ;
 import com.bank.common.util.JsonUtil;
 import com.bank.service.IFarmerBreedService;
 import com.bank.service.IFarmerService;
@@ -37,34 +40,19 @@ public class FarmerBreedController {
 	
 	@Resource
 	private IFarmerBreedService farmerBreedService;
-	
-	@RequestMapping(value = "/saveBreed",method = RequestMethod.POST)
-	public ModelAndView save(HttpServletRequest request, 
-			HttpServletResponse response) throws Exception{
-
-		String formData = request.getParameter("formData");
-		//這裡做了時間格式的處理
-		Object decodeJsonData = JsonUtil.Decode(formData);
-		String formatdata = JSON.toJSONStringWithDateFormat(decodeJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
-		JSONObject jsb = JSONObject.parseObject(formatdata);
-		FarmerBreed farmerBreed = (FarmerBreed) JSON.toJavaObject(jsb, FarmerBreed.class);
-		if(farmerBreed.getId()!=null){
-			farmerBreedService.update(farmerBreed);
-		}else{
-			farmerBreedService.save(farmerBreed);
-		}
-		String json = JSON.toJSONString(farmerBreed);
-		response.setContentType("text/html;charset=UTF-8");
-	    response.getWriter().write(json);
-		return null;
-		
-	}
 
 	@RequestMapping(value = "/saveBreed1",method = RequestMethod.POST)
 	public ModelAndView saveBreed1(@ModelAttribute(value="breed") FarmerBreed breed,
 			HttpServletRequest request,HttpServletResponse response){
 		try{
 			if(breed.getId() ==null){
+				Organ organ = (Organ)request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
+				String organno = organ.getOrganNo();
+				String organId = organ.getOrganId();
+				String organName = organ.getOrganName();
+				breed.setSourcecode(organno);
+				breed.setRunitid(organId);
+				breed.setRunitname(organName);
 				farmerBreedService.save(breed);
 			}else{
 				farmerBreedService.update(breed);
@@ -145,15 +133,30 @@ public class FarmerBreedController {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/loadBreed", method = RequestMethod.POST)
-	public ModelAndView loadBreed(@RequestParam(value="fid") Long fid, 
+	public ModelAndView loadBreed(@RequestParam(value="farmeridnum") String farmeridnum,
+			@RequestParam(value="runitid") String runitid, 
 			@RequestParam(value="pageIndex") int pageIndex,
 			@RequestParam(value="pageSize") int pageSize,
 			@RequestParam(value="sortField") String sortField,
 			@RequestParam(value="sortOrder") String sortOrder,
 			HttpServletRequest request,HttpServletResponse response) {
-
-		int totalNumber = farmerBreedService.findTotalNumberByFarmerId(fid);
-		List<FarmerBreed> breeds = farmerBreedService.findPagingByFarmerId(pageIndex, pageSize, sortField, sortOrder, fid);
+		
+		FarmerBreedExample fb = new FarmerBreedExample();
+		FarmerBreedExample.Criteria fbc = fb.createCriteria();
+		fbc.andFarmeridnumEqualTo(farmeridnum);
+		fbc.andRunitidEqualTo(runitid);
+		int totalNumber = farmerBreedService.countByExample(fb);
+		
+		Map paramMap = new HashMap();
+		paramMap.put("farmeridnum", farmeridnum);
+		paramMap.put("runitid", runitid);
+		List<FarmerBreed> breeds = null;
+		try {
+			breeds = farmerBreedService.getPageingEntities(pageIndex, pageSize, sortField, sortOrder, paramMap);
+		} catch (DAOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		Map map = new HashMap();
 		map.put("total", totalNumber);
 		map.put("data", breeds);

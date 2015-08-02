@@ -72,14 +72,14 @@
 <div style="width:100%;position:absolute;top:110px;bottom:0px;left:0px;bottom:0px">
 <div class="mini-fit">
    <div id="datagrid1" class="mini-datagrid" style="width:100%;height:100%" 
-            url="${pageContext.request.contextPath}/farmer/loadAllCredit.do?fid=${farmer.id}" idField="id"
+            url="${pageContext.request.contextPath}/farmer/loadAllCredit.do?farmeridnum=${farmer.farmeridnum}&runitid=${farmer.runitid}" idField="id"
             sizeList="[5,10,20,50]" pageSize="10" >
 	        <div property="columns">
 	             <div type="indexcolumn" ></div>
 	             <div field="assessdate" width="60" headerAlign="center" dateFormat="yyyy-MM-dd" allowSort="true" >信用户评定时间</div>   
 	             <div field="assessrank" width="60" headerAlign="center" allowSort="true" renderer="assessrankRenderer">信用户级别</div>     
-	             <div field="timeLimit" width="120" headerAlign="center" allowSort="true" >有效期限</div>                            
-	             <div field="assessorgan" width="60" headerAlign="center" allowSort="true" >信用户评定部门</div>                    
+	             <div field="timelimit" width="60" headerAlign="center" allowSort="true" >有效期限</div>                            
+	             <div field="assessorgan" width="120" headerAlign="center" allowSort="true" >信用户评定部门</div>                    
 	        	 <div name="action" width="50" headerAlign="center" align="center" renderer="onActionRenderer" cellStyle="padding:0;"></div>
 	         </div>
   		</div>

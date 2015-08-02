@@ -15,6 +15,14 @@ import com.common.dao.impl.GenericMyBatisDAOSupport;
 public class FarmerForestDaoImpl extends GenericMyBatisDAOSupport<FarmerForest, Long>
 	implements IFarmerForestDao {
 
+	
+	@Override
+	public int countByExample(FarmerForestExample example) {
+		// TODO Auto-generated method stub
+		int num = this.getSqlSession().selectOne("farmerforest.countByExample", example);
+		return num;
+	}
+
 	@Override
 	public List<FarmerForest> getForestsByFarmerId(Long farmerId) {
 		List<FarmerForest> forests =this.getSqlSession().selectList("farmerforest.findByFarmerId", farmerId);

@@ -16,6 +16,13 @@ public class FarmerBreedDaoImpl extends GenericMyBatisDAOSupport<FarmerBreed, Lo
 	implements IFarmerBreedDao {
 
 	@Override
+	public int countByExample(FarmerBreedExample example) {
+		// TODO Auto-generated method stub
+		int num = this.getSqlSession().selectOne("farmerbreed.countByExample", example);
+		return num;
+	}
+
+	@Override
 	public List<FarmerBreed> getBreedsByFarmerId(Long farmerId) {
 		List<FarmerBreed> breeds = this.getSqlSession().selectList("farmerbreed.findByID", farmerId);
 		return breeds;

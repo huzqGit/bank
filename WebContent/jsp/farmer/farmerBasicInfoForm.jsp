@@ -91,14 +91,15 @@
 	        	style="width:90%" required="true" requiredErrorText="性别不能为空" 
 	        	url="/bank/dic/Sex.txt" emptyText="请选择..."/>
 	</td>
-	<td style="width:10%"><label for="textbox1$text"><font color="red">*</font>婚姻状况:</label></td>
+
+</tr>
+<tr>
+    <td style="width:10%"><label for="textbox1$text"><font color="red">*</font>婚姻状况:</label></td>
 	    <td style="width:40%">
 	    	<input  name="marryStatus" class="mini-combobox" value="${farmer.marryStatus}" 
 	        	style="width:90%" required="true" requiredErrorText="婚姻状况不能为空" 
 	        	url="/bank/dic/MarryStatus.txt" emptyText="请选择..."/>
 	</td>
-</tr>
-<tr>
 	<td style="width:10%"><label for="textbox1$text"><font color="red">*</font>联系电话:</label></td>
     <td style="width:40%">
     	<input name="phone" class="mini-textbox" value="${farmer.phone}"

@@ -32,6 +32,7 @@ import com.bank.beans.Farmer;
 import com.bank.beans.FarmerExample;
 import com.bank.beans.FarmerLoan;
 import com.bank.beans.FarmerLoanExample;
+import com.bank.beans.FarmerMember;
 import com.bank.beans.Organ;
 import com.bank.beans.User;
 import com.bank.beans.enums.DicExplain;
@@ -285,6 +286,8 @@ public ModelAndView loadFile(MultipartFile myfile,HttpServletRequest request,
 			msgs = importLoanNY(organId,organName,recorder,recordTime,data);
 		}else if("主要致贫原因".equals(data[0][5])){
 			msgs = importFarmerPoor(organId,organName,recorder,recordTime,data);
+		}else if(data[0][0].contains("户主姓名")){
+			msgs = importTotal(organId,organName,recorder,recordTime,data);
 		}else{
 			//文件格式可能存在问题，请及时联系管理员
 			Map<String,String> msg = new HashMap<String,String>();
@@ -352,7 +355,7 @@ public ModelAndView loadFile1(MultipartFile myfile,HttpServletRequest request,
 				String education = DicExplain.explain(DicExplain.$EDUCATION,data[row][FarmerNYEnum.EDUCATION.getIndex()]);
 				farmer.setEducation(Integer.valueOf(education));
 				String marryStatus = DicExplain.explain(DicExplain.$MARRYSTATUS,data[row][FarmerNYEnum.MARRYSTATUS.getIndex()]);
-				farmer.setMarrystatus(Integer.valueOf(marryStatus));
+				farmer.setMarrystatus(marryStatus);
 				farmer.setAddress(data[row][FarmerNYEnum.ADDRESS.getIndex()]);
 				farmerService.save(farmer);
 				//关联农户信贷信息
@@ -451,6 +454,8 @@ public ModelAndView loadFile1(MultipartFile myfile,HttpServletRequest request,
 					msgs.add(msg);
 				}
 			}
+		}else if(data[0][0].contains("户主姓名")){
+		
 		}else{
 			//文件格式可能存在问题，请及时联系管理员
 			Map<String,String> msg = new HashMap<String,String>();
@@ -610,7 +615,7 @@ public List<Map<String,String>> importFarmerNS(String organId,String organName,
 		String education = DicExplain.explain(DicExplain.$EDUCATION,data[row][FarmerNSEnum.EDUCATION.getIndex()]);
 		farmer.setEducation(Integer.valueOf(education));
 		String marryStatus = DicExplain.explain(DicExplain.$MARRYSTATUS,data[row][FarmerNSEnum.MARRYSTATUS.getIndex()]);
-		farmer.setMarrystatus(Integer.valueOf(marryStatus));
+		farmer.setMarrystatus(marryStatus);
 		farmer.setOccupation(data[row][FarmerNSEnum.OCCUPATION.getIndex()]);
 		farmer.setPhone(data[row][FarmerNSEnum.PHONE.getIndex()]);
 		farmer.setAddress(data[row][FarmerNSEnum.ADDRESS.getIndex()]);
@@ -768,7 +773,7 @@ public List<Map<String,String>> importFarmerNY(String organId,String organName,
 		String education = DicExplain.explain(DicExplain.$EDUCATION,data[row][FarmerNYEnum.EDUCATION.getIndex()]);
 		farmer.setEducation(Integer.valueOf(education));
 		String marryStatus = DicExplain.explain(DicExplain.$MARRYSTATUS,data[row][FarmerNYEnum.MARRYSTATUS.getIndex()]);
-		farmer.setMarrystatus(Integer.valueOf(marryStatus));
+		farmer.setMarrystatus(marryStatus);
 		farmer.setAddress(data[row][FarmerNYEnum.ADDRESS.getIndex()]);
 		String postCodeStr = data[row][FarmerNYEnum.POSTCODE.getIndex()];
 		Integer postCode = null;
@@ -1042,5 +1047,70 @@ public List<Map<String,String>> importFarmerNY(String organId,String organName,
 		
 		}
 		return msgs;
+	}
+	public List<Map<String,String>> importTotal(String organId,String organName,
+			String recorder,Date recordTime,String[][] datas){
+		String flag="";
+		for(String[] data:datas){
+			if(data[0].equals("基本信息")){
+				flag="基本信息";
+			}else if (data[0].equals("家庭成员信息")){
+				flag ="家庭成员信息";
+			}else if(data[0].equals("民间借贷信息")){
+		
+			}else if(data[0].equals("收支信息")){
+				
+			}else if(data[0].equals("房产信息")){
+				
+			}else if(data[0].equals("林权信息")){
+				
+			}else if(data[0].equals("林权信息")){
+				
+			}else if(data[0].equals("种养殖信息")){
+				
+			}else if(data[0].equals("种养殖信息")){
+				
+			}else if(data[0].equals("设备信息")){
+				
+			}else if(data[0].equals("奖惩信息")){
+				
+			}else if(data[0].equals("参保信息")){
+				
+			}
+			if(flag.equals("基本信息")){
+				Farmer farmer = new Farmer();
+				farmer.setFarmername(data[0]);
+				farmer.setFarmeridnum(data[1]);
+				String sex =DicExplain.explain(DicExplain.$SEX, data[2]);
+				farmer.setSex(Integer.valueOf(sex));
+				if(StringUtils.isEmpty(farmer.getFarmeridnum())){
+					continue;
+				}
+				FarmerExample fe = new FarmerExample();
+				FarmerExample.Criteria criteria = fe.createCriteria();
+				criteria.andFarmeridnumEqualTo(farmer.getFarmeridnum());
+				criteria.andSourcecodeEqualTo("A1000136000295");
+				List<Farmer> dbFarmers = farmerService.selectByExample(fe);
+				if(dbFarmers== null || dbFarmers.size()==0){
+					try {
+						farmerService.save(farmer);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}else if(dbFarmers.size()>1){
+					
+				}else{
+					farmerService.updateBySelective(farmer);
+				}
+			}else if(flag.equals("家庭成员信息")){
+				
+				FarmerMember member = new FarmerMember();
+			}
+			
+		}
+
+		
+		return null;
 	}
 }

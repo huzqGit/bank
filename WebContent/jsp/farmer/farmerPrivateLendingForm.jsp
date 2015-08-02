@@ -15,6 +15,7 @@
 <form  id="farmerLoan" name="farmerLoan" action="/bank/farmer/savePrivateLending.do" method="POST">
 <input name="id" class="mini-hidden" value="${privateLending.id}"/>
 <input name="farmerid" class="mini-hidden"  value="${farmer.id}" />
+<input name="farmeridnum" class="mini-hidden"  value="${farmer.farmeridnum}" />
 <input name="recorder" class="mini-hidden" value="${recorder}"/>
 <input name="recordtime" class="mini-hidden" value="${currenttime}"/>
 <div class="queryPane">

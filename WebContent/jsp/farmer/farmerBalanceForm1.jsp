@@ -32,6 +32,7 @@
 <div id="form1" style="width:90%;margin:auto auto">
 <input name="deleteIncome" id="deleteIncome" class="mini-hidden"/>
 <input name="id" class="mini-hidden" value="${balance.id}" />
+<input name="farmeridnum" class="mini-hidden"  value="${farmer.farmeridnum}" />
 <input name="recorder" class="mini-hidden" value="${recorder}"/>
 <input name="recordtime" class="mini-hidden" value="${currentTime}"/>
 <fieldset id="fd2" style="width:100%;margin:auto auto">

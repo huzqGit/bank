@@ -36,6 +36,7 @@
 <tr><td style="width:100%">
 <input name="id" class="mini-hidden" value="${breed.id}"/>
 <input name="farmerid" class="mini-hidden" value="${farmer.id}" />
+<input name="farmeridnum" class="mini-hidden" value="${farmer.farmeridnum}" />
 <input name="recorder" class="mini-hidden" value="${recorder}"/>
 <input name="recordtime" class="mini-hidden" value="${currentTime}"/>
 <table border="0" cellpadding="1" cellspacing="15" width="100%" >

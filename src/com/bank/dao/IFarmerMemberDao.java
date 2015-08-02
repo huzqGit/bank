@@ -7,7 +7,7 @@ import com.bank.beans.FarmerMemberExample;
 import com.common.dao.GenericDAO;
 
 public interface IFarmerMemberDao extends GenericDAO<FarmerMember, Long> {
-	
+	int countByExample(FarmerMemberExample example);
 	public List<FarmerMember> getMembersByFarmerId(Long farmerId);
 	public void deleteMembers(List<Long> memberIds);
 	public int findTotalNumberByFarmerId(Long farmerId);

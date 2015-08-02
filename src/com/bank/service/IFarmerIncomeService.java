@@ -8,5 +8,6 @@ import com.common.service.GenericService;
 
 public interface IFarmerIncomeService extends
 		GenericService<FarmerIncome, Long> {
+	public int countByExample(FarmerIncomeExample example);
 	public List<FarmerIncome> selectByExample(FarmerIncomeExample example);
 }

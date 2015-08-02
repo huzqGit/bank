@@ -35,6 +35,7 @@
 	<table width="100%"><tr><td>
 	<input name="id" class="mini-hidden" value="${forest.id}"/>
 	<input name="farmerid" class="mini-hidden" value="${farmer.id}" />
+	<input name="farmeridnum" class="mini-hidden"  value="${farmer.farmeridnum}" />
 	<input name="recorder" class="mini-hidden" value="${recorder}"/>
 	<input name="recordtime" class="mini-hidden" value="${currentTime}"/>
 	<table border="0" cellpadding="1" cellspacing="15" width="100%" >
@@ -64,21 +65,20 @@
 		<td class="required_text">*</td>
 		<td >林权使用人:</td>
 	    <td >
-	    ${forest.user}<h1>22</h1>
-	    	<input name="user" class="mini-textbox" value="${forest.user}" style="width:90%"
+	    	<input name="owner" class="mini-textbox" value="${forest.owner}" style="width:90%"
 	    		errorMode="none" required="true" requiredErrorText="林权使用人不能为空!" onvalidation="onValidation"/>
 	    </td>
 	    <td class="required_text">*</td>
 	    <td >林权使用种类:</td>
 	    <td >
-	        <input id="usetype" name="useType" class="mini-combobox" value="${forest.usetype}" 
+	        <input name="usetype" class="mini-combobox" value="${forest.usetype}" 
 	        	errorMode="none" required="true" requiredErrorText="林权使用种类不能为空" style="width:90%"
 	        	url="/bank/dic/ForestType.txt" emptyText="请选择..."/>
 	    </td>
 	</tr>
 	<tr >
 		<td ></td>
-		<td colspan="2" id="user_error" class="errorText"></td>
+		<td colspan="2" id="owner_error" class="errorText"></td>
 		<td ></td>
 		<td colspan="2" id="useType_error" class="errorText"></td>
 	</tr>

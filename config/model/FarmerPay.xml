@@ -6,6 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <resultMap id="BaseResultMap" type="com.bank.beans.FarmerPay" >
     <id column="PAYID" property="id" jdbcType="BIGINT" />
     <result column="FARMERID" property="farmerid" jdbcType="BIGINT" />
+    <result column="FARMERIDNUM" property="farmeridnum" jdbcType="VARCHAR" />
     <result column="YEAR" property="year" jdbcType="TIMESTAMP" />
     <result column="FARMINGINCOME" property="farmingincome" jdbcType="DOUBLE" />
     <result column="AVOCATIONINCOME" property="avocationincome" jdbcType="DOUBLE" />
@@ -89,7 +90,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    PAYID, FARMERID, YEAR, FARMINGINCOME, AVOCATIONINCOME, BUSINESSINCOME, WORKINCOME, 
+    PAYID, FARMERID, FARMERIDNUM, YEAR, FARMINGINCOME, AVOCATIONINCOME, BUSINESSINCOME, WORKINCOME, 
     OTHERINCOME, TOTALINCOME, PRODUCTPAY, LIVINGPAY, MEDICALPAY, EDUCATEPAY, INSUREDPAY, 
     OTHERPAY, TOTALPAY, SOURCECODE, SOURCENAME, RUNITID, RUNITNAME, RECORDER, RECORDTIME
   </sql>
@@ -113,6 +114,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="farmerid != null" >
         FARMERID,
+      </if>
+      <if test="farmeridnum != null" >
+        FARMERIDNUM,
       </if>
       <if test="year != null" >
         YEAR,
@@ -179,6 +183,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <if test="farmerid != null" >
         #{farmerid,jdbcType=BIGINT},
       </if>
+      <if test="farmeridnum != null" >
+        #{farmeridnum,jdbcType=VARCHAR},
+      </if>
       <if test="year != null" >
         #{year,jdbcType=VARCHAR},
       </if>
@@ -244,6 +251,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <update id="update" parameterType="com.bank.beans.FarmerPay">
 	 update T_FARMER_PAY
     set FARMERID = #{farmerid,jdbcType=BIGINT},
+      FARMERIDNUM = #{farmeridnum,jdbcType=VARCHAR},
       YEAR = #{year,jdbcType=VARCHAR},
       FARMINGINCOME = #{farmingincome,jdbcType=DOUBLE},
       AVOCATIONINCOME = #{avocationincome,jdbcType=DOUBLE},
@@ -266,6 +274,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       RECORDTIME = #{recordtime,jdbcType=TIMESTAMP}
 	where PAYID=#{id,jdbcType=BIGINT}
 </update>
+<select id="countByExample" parameterType="com.bank.beans.FarmerPayExample" resultType="java.lang.Integer" >
+    select count(*) from T_FARMER_PAY
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+</select>
 <select id="findByPK" parameterType="Long" resultMap="BaseResultMap">
 		select 
 		<include refid="Base_Column_List" />
@@ -342,8 +356,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	from 
 	(select t.*,rowNumber() over() as rn from T_FARMER_PAY t
 	<where>
-		<if test="farmerId != null">
-			t.farmerId = #{farmerId,jdbcType=BIGINT} 
+		<if test="farmeridnum != null">
+			FARMERIDNUM = #{farmeridnum,jdbcType=VARCHAR} 
+		</if>
+		<if test="runitid != null">
+			and RUNITID = #{runitid,jdbcType=VARCHAR} 
 		</if>
 	 </where>
 	 )

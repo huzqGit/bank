@@ -15,7 +15,7 @@ import com.bank.beans.FarmerCreditExample;
 
 public interface IFarmerCreditService  {
 	
-    int countByExample(FarmerCreditExample example);
+    public int countByExample(FarmerCreditExample example);
 
     int deleteByExample(FarmerCreditExample example);
 

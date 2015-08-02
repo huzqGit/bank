@@ -252,6 +252,76 @@ public class FarmerPrivateLendingExample {
             return (Criteria) this;
         }
 
+        public Criteria andFarmeridnumIsNull() {
+            addCriterion("FARMERIDNUM is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFarmeridnumIsNotNull() {
+            addCriterion("FARMERIDNUM is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFarmeridnumEqualTo(String value) {
+            addCriterion("FARMERIDNUM =", value, "farmeridnum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFarmeridnumNotEqualTo(String value) {
+            addCriterion("FARMERIDNUM <>", value, "farmeridnum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFarmeridnumGreaterThan(String value) {
+            addCriterion("FARMERIDNUM >", value, "farmeridnum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFarmeridnumGreaterThanOrEqualTo(String value) {
+            addCriterion("FARMERIDNUM >=", value, "farmeridnum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFarmeridnumLessThan(String value) {
+            addCriterion("FARMERIDNUM <", value, "farmeridnum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFarmeridnumLessThanOrEqualTo(String value) {
+            addCriterion("FARMERIDNUM <=", value, "farmeridnum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFarmeridnumLike(String value) {
+            addCriterion("FARMERIDNUM like", value, "farmeridnum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFarmeridnumNotLike(String value) {
+            addCriterion("FARMERIDNUM not like", value, "farmeridnum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFarmeridnumIn(List<String> values) {
+            addCriterion("FARMERIDNUM in", values, "farmeridnum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFarmeridnumNotIn(List<String> values) {
+            addCriterion("FARMERIDNUM not in", values, "farmeridnum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFarmeridnumBetween(String value1, String value2) {
+            addCriterion("FARMERIDNUM between", value1, value2, "farmeridnum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFarmeridnumNotBetween(String value1, String value2) {
+            addCriterion("FARMERIDNUM not between", value1, value2, "farmeridnum");
+            return (Criteria) this;
+        }
+
         public Criteria andAmountIsNull() {
             addCriterion("AMOUNT is null");
             return (Criteria) this;

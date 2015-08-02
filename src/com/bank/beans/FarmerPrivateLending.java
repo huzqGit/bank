@@ -6,121 +6,134 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.common.bean.BaseEntity;
 
-@SuppressWarnings("serial")
-public class FarmerPrivateLending extends BaseEntity<Long> {
-	 	
-		private Long farmerid;
+public class FarmerPrivateLending extends BaseEntity<Long>{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1084276261440925872L;
 
-	    private Double amount;
-	    
-	    @DateTimeFormat(pattern = "yyyy-MM-dd")
-	    private Date lendingtime;
-	    
-	    @DateTimeFormat(pattern = "yyyy-MM-dd")
-	    private Date limittime;
-	    
-	    private Double rate;
+    private Long farmerid;
 
-	    private String sourcecode;
+    private String farmeridnum;
 
-	    private String sourcename;
+    private Double amount;
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date lendingtime;
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date limittime;
 
-	    private String runitid;
+    private Double rate;
 
-	    private String runitname;
+    private String sourcecode;
 
-	    private String recorder;
-	    
-	    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	    private Date recordtime;
+    private String sourcename;
 
-	    public Long getFarmerid() {
-			return farmerid;
-		}
+    private String runitid;
 
-		public void setFarmerid(Long farmerid) {
-			this.farmerid = farmerid;
-		}
+    private String runitname;
 
-		public Double getAmount() {
-			return amount;
-		}
+    private String recorder;
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date recordtime;
 
-		public void setAmount(Double amount) {
-			this.amount = amount;
-		}
+    public Long getFarmerid() {
+        return farmerid;
+    }
 
-		public Date getLendingtime() {
-			return lendingtime;
-		}
+    public void setFarmerid(Long farmerid) {
+        this.farmerid = farmerid;
+    }
 
-		public void setLendingtime(Date lendingtime) {
-			this.lendingtime = lendingtime;
-		}
+    public String getFarmeridnum() {
+        return farmeridnum;
+    }
 
-		public Date getLimittime() {
-			return limittime;
-		}
+    public void setFarmeridnum(String farmeridnum) {
+        this.farmeridnum = farmeridnum == null ? null : farmeridnum.trim();
+    }
 
-		public void setLimittime(Date limittime) {
-			this.limittime = limittime;
-		}
+    public Double getAmount() {
+        return amount;
+    }
 
-		public Double getRate() {
-			return rate;
-		}
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
 
-		public void setRate(Double rate) {
-			this.rate = rate;
-		}
+    public Date getLendingtime() {
+        return lendingtime;
+    }
 
-		public String getSourcecode() {
-			return sourcecode;
-		}
+    public void setLendingtime(Date lendingtime) {
+        this.lendingtime = lendingtime;
+    }
 
-		public void setSourcecode(String sourcecode) {
-			this.sourcecode = sourcecode;
-		}
+    public Date getLimittime() {
+        return limittime;
+    }
 
-		public String getSourcename() {
-			return sourcename;
-		}
+    public void setLimittime(Date limittime) {
+        this.limittime = limittime;
+    }
 
-		public void setSourcename(String sourcename) {
-			this.sourcename = sourcename;
-		}
+    public Double getRate() {
+        return rate;
+    }
 
-		public String getRunitid() {
-			return runitid;
-		}
+    public void setRate(Double rate) {
+        this.rate = rate;
+    }
 
-		public void setRunitid(String runitid) {
-			this.runitid = runitid;
-		}
+    public String getSourcecode() {
+        return sourcecode;
+    }
 
-		public String getRunitname() {
-			return runitname;
-		}
+    public void setSourcecode(String sourcecode) {
+        this.sourcecode = sourcecode == null ? null : sourcecode.trim();
+    }
 
-		public void setRunitname(String runitname) {
-			this.runitname = runitname;
-		}
+    public String getSourcename() {
+        return sourcename;
+    }
 
-		public String getRecorder() {
-			return recorder;
-		}
+    public void setSourcename(String sourcename) {
+        this.sourcename = sourcename == null ? null : sourcename.trim();
+    }
 
-		public void setRecorder(String recorder) {
-			this.recorder = recorder;
-		}
+    public String getRunitid() {
+        return runitid;
+    }
 
-		public Date getRecordtime() {
-			return recordtime;
-		}
+    public void setRunitid(String runitid) {
+        this.runitid = runitid == null ? null : runitid.trim();
+    }
 
-		public void setRecordtime(Date recordtime) {
-			this.recordtime = recordtime;
-		}
+    public String getRunitname() {
+        return runitname;
+    }
+
+    public void setRunitname(String runitname) {
+        this.runitname = runitname == null ? null : runitname.trim();
+    }
+
+    public String getRecorder() {
+        return recorder;
+    }
+
+    public void setRecorder(String recorder) {
+        this.recorder = recorder == null ? null : recorder.trim();
+    }
+
+    public Date getRecordtime() {
+        return recordtime;
+    }
+
+    public void setRecordtime(Date recordtime) {
+        this.recordtime = recordtime;
+    }
 
 	@Override
 	public boolean equalsIfIdNull(Object o) {
@@ -133,5 +146,5 @@ public class FarmerPrivateLending extends BaseEntity<Long> {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
+    
 }

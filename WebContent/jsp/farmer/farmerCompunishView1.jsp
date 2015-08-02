@@ -71,7 +71,7 @@
 <div style="width:100%;position:absolute;top:110px;bottom:0px;left:0px;bottom:0px">
 	<div class="mini-fit">
 		<div id="datagrid1" class="mini-datagrid" style="width:100%;height:100%;background-color:white" 
-		            url="${pageContext.request.contextPath}/farmer/loadCompunish.do?fid=${farmer.id}"
+		            url="${pageContext.request.contextPath}/farmer/loadCompunish.do?farmeridnum=${farmer.farmeridnum}&runitid=${farmer.runitid}"
 		            sizeList="[5,10,20,50]" pageSize="10" showReloadButton="false">
 		            		<td align="center">编号</td>
 			        <div property="columns">

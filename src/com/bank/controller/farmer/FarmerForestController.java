@@ -18,17 +18,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.bank.Constants;
 import com.bank.beans.Farmer;
 import com.bank.beans.FarmerForest;
-import com.bank.beans.FarmerMember;
-import com.bank.common.util.JsonUtil;
+import com.bank.beans.FarmerForestExample;
+import com.bank.beans.Organ;
 import com.bank.service.IFarmerForestService;
 import com.bank.service.IFarmerService;
 import com.common.exception.DAOException;
 import com.common.exception.DataNotFoundException;
-import com.common.exception.UpdateException;
 
 @Controller
 @RequestMapping(value = "/farmer")
@@ -41,10 +40,15 @@ public class FarmerForestController {
 	private IFarmerForestService farmerForestService;
 	
 	@RequestMapping(value = "/saveForest1",method = RequestMethod.POST)
-	public ModelAndView saveForest(@ModelAttribute(value="house") FarmerForest forest,
+	public ModelAndView saveForest(@ModelAttribute(value="forest") FarmerForest forest,
 			HttpServletRequest request,HttpServletResponse response){
 		try{
 			if(forest.getId() ==null){
+				Organ organ = (Organ)request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
+				forest.setRunitid(organ.getOrganId());
+				forest.setRunitname(organ.getOrganName());
+				forest.setSourcecode(organ.getOrganNo());
+				forest.setSourcename(organ.getOrganName());
 				farmerForestService.save(forest);
 			}else{
 				farmerForestService.update(forest);
@@ -121,16 +125,32 @@ public class FarmerForestController {
 	}
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/loadForest", method = RequestMethod.POST)
-	public ModelAndView loadForest(@RequestParam(value="fid") Long fid, 
+	public ModelAndView loadForest(@RequestParam(value="farmeridnum") String farmeridnum,
+			@RequestParam(value="runitid") String runitid, 
 			@RequestParam(value="pageIndex") int pageIndex,
 			@RequestParam(value="pageSize") int pageSize,
 			@RequestParam(value="sortField") String sortField,
 			@RequestParam(value="sortOrder") String sortOrder,
 			HttpServletRequest request,HttpServletResponse response){
 		
-		int totalNumber =  farmerForestService.findTotalNumberByFarmerId(fid);
-		List<FarmerForest> houses = farmerForestService.findPagingByFarmerId(pageIndex, pageSize, sortField, sortOrder, fid);
-		Map map = new HashMap();
+		FarmerForestExample ffe = new FarmerForestExample();
+		FarmerForestExample.Criteria ffec= ffe.createCriteria();
+		ffec.andFarmeridnumEqualTo(farmeridnum);
+		ffec.andRunitidEqualTo(runitid);
+		int totalNumber =  farmerForestService.countByExample(ffe);
+		
+		Map paramMap = new HashMap();
+		paramMap.put("farmeridnum", farmeridnum);
+		paramMap.put("runitid", runitid);
+		List<FarmerForest> houses = null;
+		try {
+			houses = farmerForestService.getPageingEntities(pageIndex, pageSize, sortField, sortOrder, paramMap);
+		} catch (DAOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		Map map = new HashMap();		
 		map.put("total", totalNumber);
 		map.put("data", houses);
 		String json = JSON.toJSONStringWithDateFormat(map,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);

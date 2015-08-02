@@ -37,6 +37,12 @@ public class FarmerCompunishServiceImpl extends GenericServiceImpl<FarmerCompuni
 	}
 
 	@Override
+	public int countByExample(FarmerCompunishExample example) {
+		// TODO Auto-generated method stub
+		return farmerCompunishDao.countByExample(example);
+	}
+
+	@Override
 	public FarmerEvaluate getEvaluateByFarmer(Long farmerId) {
 		FarmerEvaluate evaluate = farmerEvaluateDao.getEvaluateByFarmerId(farmerId);
 		return evaluate;

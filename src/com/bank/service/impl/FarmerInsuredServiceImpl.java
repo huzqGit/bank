@@ -37,6 +37,12 @@ public class FarmerInsuredServiceImpl extends GenericServiceImpl<FarmerInsured, 
 	}
 
 	@Override
+	public int countByExample(FarmerInsuredExample example) {
+		// TODO Auto-generated method stub
+		return farmerInsuredDao.countByExample(example);
+	}
+
+	@Override
 	public List<FarmerInsured> findByFarmer(Long farmerId) {
 		List<FarmerInsured> insureds = farmerInsuredDao.findByFarmerId(farmerId);
 		return insureds;

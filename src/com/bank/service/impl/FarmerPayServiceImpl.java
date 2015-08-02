@@ -40,6 +40,12 @@ public class FarmerPayServiceImpl extends GenericServiceImpl<FarmerPay, Long>
 	}
 	
 	@Override
+	public int countByExample(FarmerPayExample example) {
+		// TODO Auto-generated method stub
+		return farmerPayDao.countByExample(example);
+	}
+
+	@Override
 	public int findTotalNumberByFarmerId(Long farmerId) {
 		// TODO Auto-generated method stub
 		int totalNumber = farmerPayDao.findTotalNumberByFarmerId(farmerId);
