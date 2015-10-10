@@ -1,7 +1,10 @@
 package com.bank.controller.farmer;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,11 +13,13 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
@@ -24,10 +29,15 @@ import com.bank.Constants;
 import com.bank.beans.Farmer;
 import com.bank.beans.FarmerBreed;
 import com.bank.beans.FarmerBreedExample;
+import com.bank.beans.FarmerExample;
 import com.bank.beans.Organ;
+import com.bank.beans.User;
+import com.bank.beans.enums.FarmerBreedBZEnum;
 import com.bank.common.util.JsonUtil;
 import com.bank.service.IFarmerBreedService;
 import com.bank.service.IFarmerService;
+import com.bank.utils.ParseDataUtils;
+import com.common.exception.CreateException;
 import com.common.exception.DAOException;
 import com.common.exception.DataNotFoundException;
 
@@ -47,12 +57,10 @@ public class FarmerBreedController {
 		try{
 			if(breed.getId() ==null){
 				Organ organ = (Organ)request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
-				String organno = organ.getOrganNo();
-				String organId = organ.getOrganId();
-				String organName = organ.getOrganName();
-				breed.setSourcecode(organno);
-				breed.setRunitid(organId);
-				breed.setRunitname(organName);
+				breed.setSourcecode(organ.getOrganNo());
+				breed.setSourcename(organ.getOrganName());
+				breed.setRunitid(organ.getOrganId());
+				breed.setRunitname(organ.getOrganName());
 				farmerBreedService.save(breed);
 			}else{
 				farmerBreedService.update(breed);
@@ -60,16 +68,18 @@ public class FarmerBreedController {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		Farmer farmer = null;
-		try {
-			farmer = farmerService.findByPK(breed.getFarmerid());
-		} catch (Exception e) {
-			e.printStackTrace();
+		FarmerExample fe = new FarmerExample();
+		FarmerExample.Criteria fec = fe.createCriteria();
+		fec.andFarmeridnumEqualTo(breed.getFarmeridnum());
+		fec.andRunitidEqualTo(breed.getRunitid());
+		List<Farmer> farmers = farmerService.selectByExample(fe);
+		if(farmers.size() == 1){
+			ModelAndView view = new ModelAndView("/farmer/farmerBreedView1");
+			view.addObject("farmer",farmers.get(0));
+			return view;
+		}else{
+			return null;
 		}
-		
-		ModelAndView view = new ModelAndView("/farmer/farmerBreedView1");
-		view.addObject("farmer",farmer);
-		return view;
 	}
 	@RequestMapping(value="/deleteBreed",method=RequestMethod.GET)
 	public ModelAndView deleteBreed(HttpServletRequest request,HttpServletResponse response){
@@ -230,5 +240,108 @@ public class FarmerBreedController {
 		view.addObject("farmer",farmer);
 		return view;
 	}
+	@RequestMapping(value="/importFarmerBreed",method=RequestMethod.POST)
+	public ModelAndView importFarmerBreed(@RequestParam(value="sourcecode") String sourcecode,MultipartFile myfile,
+			HttpServletRequest request,HttpServletResponse response){
+		String[][] data = null;
+		Organ organ = (Organ)request.getSession().getAttribute("unit");
+		String organId = organ.getOrganId();
+		String organName = organ.getOrganName();
+		User user = (User)request.getSession().getAttribute(Constants.SESSION_AUTH_USER);
+		String recorder = user.getUserId();
+		Date recordTime = new Date();
+		List<Map<String,String>> msgs = new ArrayList<Map<String,String>>();
+		try{
+			 InputStream in = myfile.getInputStream();
+			 if( myfile.getOriginalFilename().endsWith(".xls")){
+				 data = ParseDataUtils.readXls(in, 0);
+			 }else{
+				 data = ParseDataUtils.readXlsx(in, 0);
+			 }
+		}catch(IOException e){
+			Map<String,String> msg = new HashMap<String,String>();
+			msg.put("row", String.valueOf(1));
+			msg.put("tip", "error");
+			msg.put("msg", "不支持的");
+		}
+		if("TYCJ".equals(sourcecode)){
+			msgs = importFarmerBreedBZ(organId,organName,recorder,recordTime,data);
+		}
+		ModelAndView view = new ModelAndView("/farmer/farmerBreedImporter");
+		view.addObject("msgs",msgs);
+		return view;
+	}
 	
+	private List<Map<String,String>> importFarmerBreedBZ(String organId,String organName,
+			String recorder,Date recordTime,String[][] data){
+		List<Map<String,String>> msgs = new ArrayList<Map<String,String>>();
+		for(int row = 1;row<data.length;row++){
+			FarmerBreed breed = new FarmerBreed();
+			String farmerIdNum = data[row][FarmerBreedBZEnum.FARMERIDNUM.getIndex()];
+			breed.setFarmeridnum(farmerIdNum);
+			if(StringUtils.isEmpty(farmerIdNum)){
+				Map<String,String> msg = new HashMap<String,String>();
+				msg.put("msg", "第"+row+"身份证号码不能为空。");
+				continue;
+			}
+			String veriety = data[row][FarmerBreedBZEnum.VARIETY.getIndex()];
+			breed.setVariety(veriety);
+			if(StringUtils.isEmpty(veriety)){
+				Map<String,String> msg = new HashMap<String,String>();
+				msg.put("msg", "第"+row+"种养殖品种不能为空。");
+				continue;
+			}
+			String output = data[row][FarmerBreedBZEnum.OUTPUT.getIndex()];
+			breed.setOutput(output);
+			if(StringUtils.isEmpty(output)){
+				Map<String,String> msg = new HashMap<String,String>();
+				msg.put("msg", "第"+row+"年产量不能为空。");
+				continue;
+			}
+			String floorarea = data[row][FarmerBreedBZEnum.FLOORAREA.getIndex()];
+			if(StringUtils.isEmpty(floorarea)){
+				Map<String,String> msg = new HashMap<String,String>();
+				msg.put("msg", "第"+row+"占地面积不能为空。");
+				continue;
+			}
+			String outputValue = data[row][FarmerBreedBZEnum.OUTPUTVALUE.getIndex()];
+			if(StringUtils.isEmpty(outputValue)){
+				Map<String,String> msg = new HashMap<String,String>();
+				msg.put("msg", "第"+row+"占地面积不能为空。");
+				continue;
+			}else{
+				try{
+					breed.setOutputvalue(Double.valueOf(outputValue));
+				}catch(Exception e){
+					Map<String,String> msg = new HashMap<String,String>();
+					msg.put("msg", "第"+row+"年平均产值必须为数字");
+					continue;
+				}
+				
+			}
+			String  assessPrice = data[row][FarmerBreedBZEnum.ASSESSPRICE.getIndex()];
+			if(assessPrice.isEmpty()){
+				breed.setAssessprice(Double.valueOf(assessPrice));
+			}
+			FarmerBreedExample fbe = new FarmerBreedExample();
+			FarmerBreedExample.Criteria fbec = fbe.createCriteria();
+			fbec.andFarmeridnumEqualTo(breed.getFarmeridnum());
+			fbec.andVarietyEqualTo(breed.getVariety());
+			fbec.andOutputEqualTo(breed.getOutput());
+			fbec.andFloorareaEqualTo(breed.getFloorarea());
+			fbec.andOutputvalueEqualTo(breed.getOutputvalue());
+			fbec.andAssesspriceEqualTo(breed.getAssessprice());
+			List<FarmerBreed> breeds = farmerBreedService.selectByExample(fbe);
+			if(breeds.size() == 0){
+				try {
+					farmerBreedService.save(breed);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return msgs;
+	}
 }

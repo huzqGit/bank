@@ -1,7 +1,10 @@
 package com.bank.controller.farmer;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,22 +13,29 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.bank.Constants;
 import com.bank.beans.Farmer;
+import com.bank.beans.FarmerExample;
 import com.bank.beans.FarmerMember;
 import com.bank.beans.FarmerMemberExample;
 import com.bank.beans.Organ;
+import com.bank.beans.User;
+import com.bank.beans.enums.DicExplain;
+import com.bank.beans.enums.FarmerMemberBZEnum;
 import com.bank.service.IFarmerMemberService;
 import com.bank.service.IFarmerService;
+import com.bank.utils.ParseDataUtils;
 import com.common.exception.DAOException;
 import com.common.exception.DataNotFoundException;
 
@@ -45,12 +55,10 @@ public class FarmerMemberController {
 		try{
 			if(member.getId() == null){
 				Organ organ = (Organ)request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
-				String organno = organ.getOrganNo();
-				String organId = organ.getOrganId();
-				String organName = organ.getOrganName();
-				member.setSourcecode(organno);
-				member.setRunitid(organId);
-				member.setRunitname(organName);
+				member.setSourcecode(organ.getOrganNo());
+				member.setSourcename(organ.getOrganName());
+				member.setRunitid(organ.getOrganId());
+				member.setRunitname(organ.getOrganName());
 				farmerMemberService.save(member);
 			}else{
 				farmerMemberService.update(member);
@@ -58,16 +66,18 @@ public class FarmerMemberController {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		Farmer farmer = null;
-		try {
-			farmer = farmerService.findByPK(member.getFarmerid());
-		} catch (Exception e) {
-			e.printStackTrace();
+		FarmerExample fe = new FarmerExample();
+		FarmerExample.Criteria fec = fe.createCriteria();
+		fec.andFarmeridnumEqualTo(member.getFarmeridnum());
+		fec.andRunitidEqualTo(member.getRunitid());
+		List<Farmer> farmers = farmerService.selectByExample(fe);
+		if(farmers.size() == 1){
+			ModelAndView view = new ModelAndView("/farmer/farmerMemberView");
+			view.addObject("farmer",farmers.get(0));
+			return view;
+		}else{
+			return null;
 		}
-		ModelAndView view = new ModelAndView("/farmer/farmerMemberView");
-		view.addObject("farmer",farmer);
-		return view;
-		
 	}
 	@RequestMapping(value="/queryMember",method=RequestMethod.GET)
 	public ModelAndView queryMember(@RequestParam(value="fid") 	Long fid, 
@@ -185,5 +195,117 @@ public class FarmerMemberController {
 		view.addObject("farmer",farmer);
 		view.addObject("member",member);
 		return view;
+	}
+	@RequestMapping(value="/importFarmerMember",method=RequestMethod.POST)
+	public ModelAndView importFarmerMember(@RequestParam(value="sourcecode") String sourcecode,MultipartFile myfile,
+			HttpServletRequest request,HttpServletResponse response){
+		String[][] data = null;
+		Organ organ = (Organ)request.getSession().getAttribute("unit");
+		String organId = organ.getOrganId();
+		String organName = organ.getOrganName();
+		User user = (User)request.getSession().getAttribute(Constants.SESSION_AUTH_USER);
+		String recorder = user.getUserId();
+		Date recordTime = new Date();
+		//List<Map<String,String>> msgs = new ArrayList<Map<String,String>>();
+		//异常输入流及不可解析的文件格式
+		try{
+			InputStream in = myfile.getInputStream();
+			 if( myfile.getOriginalFilename().endsWith(".xls")){
+				 data = ParseDataUtils.readXls(in, 0);
+			 }else{
+				 data = ParseDataUtils.readXlsx(in, 0);
+			 }
+		}catch(IOException e){
+			Map<String,String> msg = new HashMap<String,String>();
+			msg.put("row", String.valueOf(1));
+			msg.put("tip", "error");
+			msg.put("msg", "不支持的");
+		}
+		if("TYCJ".equals(sourcecode)){
+			importFarmerBZ(organId,organName,recorder,recordTime,data);
+		}
+		return null;
+		
+	}
+	private List<Map<String,String>> importFarmerBZ(String organId,String organName,
+			String recorder,Date recordTime,String[][] datas){
+		List<Map<String,String>> msgs = new ArrayList<Map<String,String>>();
+		for(int row=1;row<datas.length;row++){
+			Map<String,String> msg = new HashMap<String,String>();
+			FarmerMember member = new FarmerMember();
+			member.setSourcecode("TYCJ");
+			member.setSourcename("统一采集小组");
+			member.setRunitid(organId);
+			member.setRunitname(organName);
+			member.setRecorder(recorder);
+			member.setRecordtime(new Date());
+			String name = datas[row][FarmerMemberBZEnum.NAME.getIndex()];
+			if(StringUtils.isEmpty(name)){
+				msg.put("row", String.valueOf(row));
+				msg.put("tip", "info");
+				msg.put("msg", "姓名不能为空。");
+				continue;
+			}
+			member.setName(name);
+			String idNum = datas[row][FarmerMemberBZEnum.IDNUM.getIndex()];
+			if(StringUtils.isEmpty(idNum)){
+				msg.put("row", String.valueOf(row));
+				msg.put("tip", "info");
+				msg.put("msg", "姓名不能为空。");
+				continue;
+			}
+			member.setIdnum(idNum);
+			String farmerIdNum = datas[row][FarmerMemberBZEnum.FARMERIDNUM.getIndex()];
+			if(StringUtils.isEmpty(farmerIdNum)){
+				msg.put("row", String.valueOf(row));
+				msg.put("tip", "info");
+				msg.put("msg", "姓名不能为空。");
+				continue;
+			}
+			member.setFarmeridnum(farmerIdNum);
+			String relation = DicExplain.explain(DicExplain.$RELATION,datas[row][FarmerMemberBZEnum.RELATION.getIndex()]);
+			if(StringUtils.isEmpty(relation)){
+				msg.put("row", String.valueOf(row));
+				msg.put("tip", "info");
+				msg.put("msg", "姓名不能为空。");
+				continue;
+			}
+			member.setRelation(relation);
+			String education = DicExplain.explain(DicExplain.$EDUCATION, datas[row][FarmerMemberBZEnum.EDUCATION.getIndex()]);
+			if(StringUtils.isEmpty(education)){
+				member.setEducation(Integer.valueOf(education));
+			}
+			String sex = DicExplain.explain(DicExplain.$SEX,datas[row][FarmerMemberBZEnum.SEX.getIndex()]);
+			if(!StringUtils.isEmpty(sex)){
+				member.setSex(Integer.valueOf(sex));
+			}
+			String marryStatus = datas[row][FarmerMemberBZEnum.MARRYSTATUS.getIndex()];
+			member.setMarrystatus(marryStatus);
+			String occupation = datas[row][FarmerMemberBZEnum.OCCUPATION.getIndex()];
+			member.setOccupation(occupation);
+			String job = datas[row][FarmerMemberBZEnum.JOB.getIndex()];
+			member.setJob(job);
+			String  phone = datas[row][FarmerMemberBZEnum.PHONE.getIndex()];
+			member.setPhone(phone);
+			String address = datas[row][FarmerMemberBZEnum.ADDRESS.getIndex()];
+			member.setAddress(address);
+			FarmerMemberExample fme = new FarmerMemberExample();
+			FarmerMemberExample.Criteria fmec = fme.createCriteria();
+			fmec.andIdnumEqualTo(idNum);
+			fmec.andSourcecodeEqualTo("TYCJ");
+			List<FarmerMember> members = farmerMemberService.selectByExample(fme);
+			try{
+				if(members.size() == 0){
+					farmerMemberService.save(member);
+				}else if(members.size() == 1){
+					member.setId(members.get(0).getId());
+					farmerMemberService.update(member);
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			
+		}
+		return msgs;
 	}
 }

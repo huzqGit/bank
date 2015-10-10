@@ -1,7 +1,6 @@
 package com.bank.controller.farmer;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,13 +18,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.bank.Constants;
 import com.bank.beans.Farmer;
 import com.bank.beans.FarmerEvaluate;
 import com.bank.beans.FarmerEvaluateExample;
-import com.bank.beans.FarmerHouse;
-import com.bank.common.util.JsonUtil;
+import com.bank.beans.FarmerExample;
+import com.bank.beans.Organ;
 import com.bank.service.IFarmerEvaluateService;
 import com.bank.service.IFarmerService;
 import com.common.exception.DAOException;
@@ -40,55 +39,36 @@ public class FarmerEvaluateController {
 	@Resource
 	private IFarmerEvaluateService farmerEvaluateService;
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value = "/saveEvaluate",method = RequestMethod.POST)
-	public ModelAndView save(HttpServletRequest request, 
-			HttpServletResponse response) throws Exception{
-		String farmerData  = request.getParameter("farmer");
-		String evaluateData = request.getParameter("evaluate");
-		
-		Object farmerJsonData = JsonUtil.Decode(farmerData);
-		farmerData = JSON.toJSONStringWithDateFormat(farmerJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
-		JSONObject farmerJson = JSONObject.parseObject(farmerData);
-		Farmer farmer = (Farmer) JSON.toJavaObject(farmerJson, Farmer.class);
-		
-		Object decodeJsonData = JsonUtil.Decode(evaluateData);
-		evaluateData = JSON.toJSONStringWithDateFormat(decodeJsonData, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
-		JSONObject evaluatejsb = JSONObject.parseObject(evaluateData);
-		FarmerEvaluate evaluate = (FarmerEvaluate) JSON.toJavaObject(evaluatejsb, FarmerEvaluate.class);
-		farmerEvaluateService.saveEvaluate(farmer, evaluate);
-		PrintWriter writer = response.getWriter();
-		Map map = new HashMap();
-		map.put("evaluate", evaluate);
-		String json =JSON.toJSONString(map);
-		writer.write(json);
-		writer.flush();
-		return null;	
-	
-}
 	@RequestMapping(value = "/saveEvaluate1",method = RequestMethod.POST)
 	public ModelAndView saveEvaluate1(@ModelAttribute(value="evaluate") FarmerEvaluate evaluate,
 			HttpServletRequest request,HttpServletResponse response){
 		
 		try{
 			if(evaluate.getId() == null){
-					farmerEvaluateService.save(evaluate);
+				Organ organ = (Organ)request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
+				evaluate.setSourcecode(organ.getOrganNo());
+				evaluate.setSourcename(organ.getOrganName());
+				evaluate.setRunitid(organ.getOrganId());
+				evaluate.setRunitname(organ.getOrganName());
+				farmerEvaluateService.save(evaluate);
 			}else{
 				farmerEvaluateService.update(evaluate);
 			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		Farmer farmer = null;
-		try {
-			farmer = farmerService.findByPK(evaluate.getFarmerid());
-		} catch (Exception e) {
-			e.printStackTrace();
+		FarmerExample fe = new FarmerExample();
+		FarmerExample.Criteria fec = fe.createCriteria();
+		fec.andFarmeridnumEqualTo(evaluate.getFarmeridnum());
+		fec.andRunitidEqualTo(evaluate.getRunitid());
+		List<Farmer> farmers = farmerService.selectByExample(fe);
+		if(farmers.size() == 1){
+			ModelAndView view = new ModelAndView("/farmer/farmerEvaluateForm1");
+			view.addObject("farmer",farmers.get(0));
+			return view;
+		}else{
+			return null;
 		}
-		ModelAndView view = new ModelAndView("/farmer/farmerEvaluateForm1");
-		view.addObject("farmer",farmer);
-		view.addObject("evaluate",evaluate);
-		return view;
 	}
 @RequestMapping(value="/queryEvaluate",method=RequestMethod.GET)
 public ModelAndView queryEvaluate(@RequestParam(value="fid") String fid, 

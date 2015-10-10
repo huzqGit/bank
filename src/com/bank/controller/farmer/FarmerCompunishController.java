@@ -1,7 +1,11 @@
 package com.bank.controller.farmer;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,19 +20,22 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.bank.Constants;
 import com.bank.beans.Farmer;
 import com.bank.beans.FarmerCompunish;
 import com.bank.beans.FarmerCompunishExample;
+import com.bank.beans.FarmerExample;
 import com.bank.beans.Organ;
-import com.bank.common.util.JsonUtil;
+import com.bank.beans.User;
+import com.bank.beans.enums.FarmerCompunishBZEnum;
 import com.bank.service.IFarmerCompunishService;
 import com.bank.service.IFarmerService;
+import com.bank.utils.ParseDataUtils;
 import com.common.exception.DAOException;
 import com.common.exception.DataNotFoundException;
 
@@ -46,30 +53,26 @@ public class FarmerCompunishController {
 			HttpServletRequest request,HttpServletResponse response) throws Exception{
 		if(compunish.getId()==null){
 			Organ organ = (Organ)request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
-			String organNo = organ.getOrganNo();
-			String organId = organ.getOrganId();
-			String organName = organ.getOrganName();
-			compunish.setSourcecode(organNo);
-			compunish.setSourcename(organName);
-			compunish.setRunitid(organId);
-			compunish.setRunitname(organName);
+			compunish.setSourcecode(organ.getOrganNo());
+			compunish.setSourcename(organ.getOrganName());
+			compunish.setRunitid(organ.getOrganId());
+			compunish.setRunitname(organ.getOrganName());
 			farmerCompunishService.save(compunish);
 		}else{
 			farmerCompunishService.update(compunish);
 		}
-		ModelAndView view = new ModelAndView("/farmer/farmerCompunishView1");
-		Farmer farmer = null;
-		try {
-			 farmer = farmerService.findByPK(compunish.getFarmerid());
-		} catch (DAOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (DataNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		FarmerExample fe = new FarmerExample();
+		FarmerExample.Criteria fec = fe.createCriteria();
+		fec.andFarmeridnumEqualTo(compunish.getFarmeridnum());
+		fec.andRunitidEqualTo(compunish.getRunitid());
+		List<Farmer> farmers = farmerService.selectByExample(fe);
+		if(farmers.size() == 1){
+			ModelAndView view = new ModelAndView("/farmer/farmerCompunishView1");
+			view.addObject("farmer",farmers.get(0));
+			return view;
+		}else{
+			return null;
 		}
-		view.addObject("farmer",farmer);
-		return view;	
 	}
 	@RequestMapping(value="/queryCompunish",method=RequestMethod.GET)
 	public ModelAndView queryCompunish(@RequestParam(value="fid") String fid, 
@@ -228,5 +231,108 @@ public class FarmerCompunishController {
 		ModelAndView view = new ModelAndView("/farmer/farmerCompunishForm1");
 		view.addObject("farmer",farmer);
 		return view;
+	}
+	@RequestMapping(value="/importFarmerCompunish",method=RequestMethod.POST)
+	public ModelAndView importFarmerCompunish(@RequestParam(value="sourcecode") String sourcecode,MultipartFile myfile,
+			HttpServletRequest request,HttpServletResponse response){
+		String[][] data = null;
+		Organ organ = (Organ)request.getSession().getAttribute("unit");
+		String organId = organ.getOrganId();
+		String organName = organ.getOrganName();
+		User user = (User)request.getSession().getAttribute(Constants.SESSION_AUTH_USER);
+		String recorder = user.getUserId();
+		Date recordTime = new Date();
+		List<Map<String,String>> msgs = new ArrayList<Map<String,String>>();
+		try{
+			 InputStream in = myfile.getInputStream();
+			 if( myfile.getOriginalFilename().endsWith(".xls")){
+				 data = ParseDataUtils.readXls(in, 0);
+			 }else{
+				 data = ParseDataUtils.readXlsx(in, 0);
+			 }
+		}catch(IOException e){
+			Map<String,String> msg = new HashMap<String,String>();
+			msg.put("row", String.valueOf(1));
+			msg.put("tip", "error");
+			msg.put("msg", "不支持的");
+		}
+		if("TYCJ".equals(sourcecode)){
+			msgs = importFarmerCompunishBZ(organId,organName,recorder,recordTime,data);
+		}
+		ModelAndView view = new ModelAndView("/farmer/farmerCompunishImporter");
+		view.addObject("msgs",msgs);
+		return view;
+	}
+	private List<Map<String,String>> importFarmerCompunishBZ(String organId,String organName,
+			String recorder,Date recordTime,String[][] data){
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		List<Map<String,String>> msgs = new ArrayList<Map<String,String>>();
+		for(int row =1;row<data.length;row++){
+		   FarmerCompunish compunish = new FarmerCompunish();
+		   String farmerIdNum = data[row][FarmerCompunishBZEnum.FARMERIDNUM.getIndex()];
+		   compunish.setFarmeridnum(farmerIdNum);
+		   if(StringUtils.isEmpty(farmerIdNum)){
+				Map<String,String> msg = new HashMap<String,String>();
+				msg.put("msg", "第"+row+"身份证号码不能为空");
+				continue;
+			}
+		   String type = data[row][FarmerCompunishBZEnum.TYPE.getIndex()];
+		   if(StringUtils.isEmpty(type)){
+			   Map<String,String> msg = new HashMap<String,String>();
+			   msg.put("msg", "第"+row+"表彰或处罚类型不能为空");
+			continue;
+		   }else {
+			   compunish.setType(Integer.valueOf(type));
+		   }
+		   String organ = data[row][FarmerCompunishBZEnum.ORGAN.getIndex()];
+		   compunish.setOrgan(organ);
+		   if(StringUtils.isEmpty(organ)){
+			   Map<String,String> msg = new HashMap<String,String>();
+			   msg.put("msg", "第"+row+"表彰或处罚部门不能为空");
+			   continue;
+		   }
+		   String occurTime = data[row][FarmerCompunishBZEnum.OCCURTIME.getIndex()];
+		   if(StringUtils.isEmpty(occurTime)){
+			   Map<String,String> msg = new HashMap<String,String>();
+			   msg.put("msg", "第"+row+"表彰或处罚时间不能为空");
+			   continue;
+		   }else {
+			   try {
+				   compunish.setOccurtime(format.parse(occurTime));
+				} catch (ParseException e) {
+					  Map<String,String> msg = new HashMap<String,String>();
+					  msg.put("msg", "第"+row+"日期格式不正确");
+					  continue;
+				}
+		   }
+		   String compunishLevel = data[row][FarmerCompunishBZEnum.COMPUNISHLEVEL.getIndex()];
+		   if(StringUtils.isEmpty(compunishLevel)){
+			   Map<String,String> msg = new HashMap<String,String>();
+			   msg.put("msg", "第"+row+"表彰或处罚等级不能为空");
+			   continue;
+		   }else{
+			   compunish.setCompunishlevel(Integer.valueOf(compunishLevel));
+		   }
+		   String detail = data[row][FarmerCompunishBZEnum.DETAIL.getIndex()];
+		   compunish.setDetail(detail);
+		   FarmerCompunishExample fce = new FarmerCompunishExample();
+		   FarmerCompunishExample.Criteria fcec = fce.createCriteria();
+		   fcec.andFarmeridnumEqualTo(compunish.getFarmeridnum());
+		   fcec.andTypeEqualTo(compunish.getType());
+		   fcec.andOrganEqualTo(compunish.getOrgan());
+		   fcec.andOccurtimeEqualTo(compunish.getOccurtime());
+		   fcec.andCompunishlevelEqualTo(compunish.getCompunishlevel());
+		   fcec.andDetailEqualTo(compunish.getDetail());
+		   List<FarmerCompunish> compunishs = farmerCompunishService.selectByExample(fce);
+		   if(compunishs.size()== 0){
+			   try {
+				   farmerCompunishService.save(compunish);
+			   } catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			   }
+		   }
+		}
+		return msgs;
 	}
 }

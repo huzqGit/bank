@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
@@ -22,6 +23,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.bank.Constants;
 import com.bank.beans.Farmer;
+import com.bank.beans.FarmerExample;
 import com.bank.beans.FarmerInsured;
 import com.bank.beans.FarmerInsuredExample;
 import com.bank.beans.Organ;
@@ -46,10 +48,10 @@ public class FarmerInsuredController {
 		try{
 			if(insured.getId()==null){
 				Organ organ = (Organ)request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
-				insured.setRunitid(organ.getOrganId());
-				insured.setRunitname(organ.getOrganName());
 				insured.setSourcecode(organ.getOrganNo());
 				insured.setSourcename(organ.getOrganName());
+				insured.setRunitid(organ.getOrganId());
+				insured.setRunitname(organ.getOrganName());
 				farmerInsuredService.save(insured);
 			}else{
 				farmerInsuredService.update(insured);
@@ -57,20 +59,18 @@ public class FarmerInsuredController {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-	
-		Farmer farmer = null;
-		try {
-			 farmer = farmerService.findByPK(insured.getFarmerid());
-		} catch (DAOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (DataNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		FarmerExample fe = new FarmerExample();
+		FarmerExample.Criteria fec = fe.createCriteria();
+		fec.andFarmeridnumEqualTo(insured.getFarmeridnum());
+		fec.andRunitidEqualTo(insured.getRunitid());
+		List<Farmer> farmers = farmerService.selectByExample(fe);
+		if(farmers.size() == 1){
+			ModelAndView view = new ModelAndView("/farmer/farmerInsuredView1");
+			view.addObject("farmer",farmers.get(0));
+			return view;
+		}else{
+			return null;
 		}
-		ModelAndView view = new ModelAndView("/farmer/farmerInsuredView1");
-		view.addObject("farmer",farmer);
-		return view;
 	}
 	@RequestMapping(value="/deleteInsured",method=RequestMethod.GET)
 	public ModelAndView deleteInsured(HttpServletRequest request,HttpServletResponse response){
@@ -220,5 +220,10 @@ public ModelAndView typeInInsured1(@RequestParam(value="fid") String fid,
 	ModelAndView view = new ModelAndView("/farmer/farmerInsuredForm1");
 	view.addObject("farmer",farmer);
 	return view;
+}
+@RequestMapping(value="/importFarmerInsured",method=RequestMethod.POST)
+public ModelAndView importFarmerInsured(@RequestParam(value="sourcecode") String sourcecode,MultipartFile myfile,
+		HttpServletRequest request,HttpServletResponse response){
+	return null;
 }
 }

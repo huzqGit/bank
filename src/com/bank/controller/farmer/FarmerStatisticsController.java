@@ -10,7 +10,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,13 +33,10 @@ public class FarmerStatisticsController {
 		return view;
 	}
 	@SuppressWarnings("rawtypes")
-	@RequestMapping(value = "/queryBigLender",method = RequestMethod.GET)
+	@RequestMapping(value = "/queryBigLender")
 	public ModelAndView queryBigLender(HttpServletRequest request, 
 			HttpServletResponse response){
-		String village = request.getParameter("village");
-		if(StringUtils.isEmpty(village) || village.equals("0")){
-			village = null;
-		}
+		String village = null;
 		String type = request.getParameter("type");
 		if(type == null){
 			type ="1";
