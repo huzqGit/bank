@@ -248,6 +248,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       </if>
     </trim>
 </insert>
+<delete id="delete" parameterType="long">
+	delete from T_FARMER_PAY 
+	WHERE PAYID = #{id,jdbcType=BIGINT}
+</delete>
 <update id="update" parameterType="com.bank.beans.FarmerPay">
 	 update T_FARMER_PAY
     set FARMERID = #{farmerid,jdbcType=BIGINT},
@@ -342,13 +346,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	   	</if>
 	 </where>
 </select> 
-<select id="findLatestByFarmer" parameterType="Map" resultMap="BaseResultMap">
+<select id="findLatestByFarmer" parameterType="String" resultMap="BaseResultMap">
 		select 
 		<include refid="Base_Column_List" />
 		from T_FARMER_PAY 
-		where FARMERID = #{farmerId,jdbcType=BIGINT}
+		where FARMERIDNUM = #{farmeridnum,jdbcType=BIGINT}
 		and YEAR=(select max(year) from T_FARMER_PAY
-		where FARMERID =#{farmerId,jdbcType=BIGINT})
+		where FARMERIDNUM =#{farmeridnum,jdbcType=BIGINT})
 </select>
 <select id="pageing" parameterType="Map" resultMap="BaseResultMap">
 	select 

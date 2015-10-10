@@ -43,18 +43,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </if>
 </select>
 <select id="queryBigLenderByBalance" parameterType="Map" resultType="java.util.Map">
-select c.no,a.farmerId,a.farmerName,a.farmerIdNum,a.address,c.total 
-from T_FARMER a,(select row_number() over(order by sum(a.balance) desc) as no,b.farmerId,sum(a.balance) as total 
-from T_FARMER_LOAN a,T_FARMER b
+select distinct a.FARMERNAME,a.FARMERIDNUM,c.TOTAL 
+from T_FARMER a,(select row_number() over(order by sum(BALANCE) desc) as no,IDNUM as FARMERIDNUM,sum(BALANCE) as total 
+from T_FARMER_LOAN  group by IDNUM) c
 <where>
-	a.FARMERID = b.FARMERID
-	<if test="village != null">
-		and b.villages = #{village,jdbcType=VARCHAR}
-	</if>
-</where> 
-group by b.FARMERID) c
-<where>
-	a.farmerId = c.farmerId
+	a.FARMERIDNUM = c.FARMERIDNUM
 	<if test="no != null">
 	<![CDATA[and c.no < #{no,jdbcType =INTEGER}]]>
 	</if>

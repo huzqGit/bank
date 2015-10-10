@@ -157,6 +157,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <if test="usinginuse != null" >
         USINGINUSE,
       </if>
+      <if test="sourcecode != null" >
+        SOURCECODE,
+      </if>
+      <if test="sourcename != null" >
+        SOURCENAME,
+      </if>
       <if test="runitid != null" >
         RUNITID,
       </if>
@@ -219,6 +225,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <if test="usinginuse != null" >
         #{usinginuse,jdbcType=INTEGER},
       </if>
+       <if test="sourcecode != null" >
+        #{sourcecode,jdbcType=VARCHAR},
+      </if>
+      <if test="sourcename != null" >
+        #{sourcename,jdbcType=VARCHAR},
+      </if>
       <if test="runitid != null" >
         #{runitid,jdbcType=VARCHAR},
       </if>
@@ -261,6 +273,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       LABOURSTATE = #{labourstate,jdbcType=INTEGER},
       USINGMEDICAL = #{usingmedical,jdbcType=INTEGER},
       USINGINUSE = #{usinginuse,jdbcType=INTEGER},
+      SOURCECODE = #{sourcecode,jdbcType=VARCHAR},
+      SOURCENAME = #{sourcename,jdbcType=VARCHAR},
       RUNITID = #{runitid,jdbcType=VARCHAR},
       RUNITNAME = #{runitname,jdbcType=VARCHAR},
       RECORDER = #{recorder,jdbcType=VARCHAR},

@@ -1,321 +1,1046 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cooperationProfit">
-	<sql id="Cooperation_Column_List">
-		profitid,organ_id,recoder,recodertime,datasendorgan,taxcode,organtrustcode,
-		organcode,yearmonth,mainincome,mainincome_export,mainincome_import,discount,
-		mainincome_netmargin,maincost,maincost_export,maintaxpay,operationcost,othercost,
-		delayincome,purchasingagent,otherpurchasingagent,mainnetmargin,othernetmargin,
-		mainexpenses,manageexpense,finaceexpense,otherexpense,income_netmargin,investincome,
-		futuresincome,subsidyincome,subsidyincome_before,income_o,income_o_netmargin,income_o_nonemoney,
-		income_o_wxzc,income_o_fk,income_o_other,income_o_othersalary,outcome_o,outcome_o_netmargin,
-		outcome_o_zwcz,outcome_o_fk,outcome_o_jz,outcome_o_other,outcome_o_othersalary,allprofit,
-		incomdetax,fewpartnerincome,unsureloss,netmargin,beginofyearundistributed,yygjbk,
-		qttzys,kgfpll,dxlyll,bcldzb,tqfdyygj,tqfdyygyj,tqzgjljfldy,tqcbj,tqqyfzjj,llghtz,
-		llghtzother,kgtzzffll,yfyxggl,tqryyygj,yfptggl,zzzbptggl,zzzbptgglother,
-		zzzbptgglundisbute,zzzbptgglundisbute_before,sourcecode
-	</sql>
-	<insert id="save" useGeneratedKeys="true" keyProperty="profitid"
-		parameterType="com.bank.beans.CooperationProfit">
-		insert into T_COOPERATION_PROFIT
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="sourcecode != null" >sourcecode,</if>
-			<if test="organ_id != null" >organ_id,</if>
-			<if test="recoder != null" >recoder,</if>
-			<if test="recodertime != null" >recodertime,</if>
-			<if test="datasendorgan != null" >datasendorgan,</if>
-			<if test="taxcode != null" >taxcode,</if>
-			<if test="organtrustcode != null" >organtrustcode,</if>
-			<if test="organcode != null" >organcode,</if>
-			<if test="yearmonth != null" >yearmonth,</if>
-			<if test="mainincome != null" >mainincome,</if>
-			<if test="mainincome_export != null" >mainincome_export,</if>
-			<if test="mainincome_import != null" >mainincome_import,</if>
-			<if test="discount != null" >discount,</if>
-			<if test="mainincome_netmargin != null" >mainincome_netmargin,</if>
-			<if test="maincost != null" >maincost,</if>
-			<if test="maincost_export != null" >maincost_export,</if>
-			<if test="maintaxpay != null" >maintaxpay,</if>
-			<if test="operationcost != null" >operationcost,</if>
-			<if test="othercost != null" >othercost,</if>
-			<if test="delayincome != null" >delayincome,</if>
-			<if test="purchasingagent != null" >purchasingagent,</if>
-			<if test="otherpurchasingagent != null" >otherpurchasingagent,</if>
-			<if test="mainnetmargin != null" >mainnetmargin,</if>
-			<if test="othernetmargin != null" >othernetmargin,</if>
-			<if test="mainexpenses != null" >mainexpenses,</if>
-			<if test="manageexpense != null" >manageexpense,</if>
-			<if test="finaceexpense != null" >finaceexpense,</if>
-			<if test="otherexpense != null" >otherexpense,</if>
-			<if test="income_netmargin != null" >income_netmargin,</if>
-			<if test="investincome != null" >investincome,</if>
-			<if test="futuresincome != null" >futuresincome,</if>
-			<if test="subsidyincome != null" >subsidyincome,</if>
-			<if test="subsidyincome_before != null" >subsidyincome_before,</if>
-			<if test="income_o != null" >income_o,</if>
-			<if test="income_o_netmargin != null" >income_o_netmargin,</if>
-			<if test="income_o_nonemoney != null" >income_o_nonemoney,</if>
-			<if test="income_o_wxzc != null" >income_o_wxzc,</if>
-			<if test="income_o_fk != null" >income_o_fk,</if>
-			<if test="income_o_other != null" >income_o_other,</if>
-			<if test="income_o_othersalary != null" >income_o_othersalary,</if>
-			<if test="outcome_o != null" >outcome_o,</if>
-			<if test="outcome_o_netmargin != null" >outcome_o_netmargin,</if>
-			<if test="outcome_o_zwcz != null" >outcome_o_zwcz,</if>
-			<if test="outcome_o_fk != null" >outcome_o_fk,</if>
-			<if test="outcome_o_jz != null" >outcome_o_jz,</if>
-			<if test="outcome_o_other != null" >outcome_o_other,</if>
-			<if test="outcome_o_othersalary != null" >outcome_o_othersalary,</if>
-			<if test="allprofit != null" >allprofit,</if>
-			<if test="incomdetax != null" >incomdetax,</if>
-			<if test="fewpartnerincome != null" >fewpartnerincome,</if>
-			<if test="unsureloss != null" >unsureloss,</if>
-			<if test="netmargin != null" >netmargin,</if>
-			<if test="beginofyearundistributed != null" >beginofyearundistributed,</if>
-			<if test="yygjbk != null" >yygjbk,</if>
-			<if test="qttzys != null" >qttzys,</if>
-			<if test="kgfpll != null" >kgfpll,</if>
-			<if test="dxlyll != null" >dxlyll,</if>
-			<if test="bcldzb != null" >bcldzb,</if>
-			<if test="tqfdyygj != null" >tqfdyygj,</if>
-			<if test="tqfdyygyj != null" >tqfdyygyj,</if>
-			<if test="tqzgjljfldy != null" >tqzgjljfldy,</if>
-			<if test="tqcbj != null" >tqcbj,</if>
-			<if test="tqqyfzjj != null" >tqqyfzjj,</if>
-			<if test="llghtz != null" >llghtz,</if>
-			<if test="llghtzother != null" >llghtzother,</if>
-			<if test="kgtzzffll != null" >kgtzzffll,</if>
-			<if test="yfyxggl != null" >yfyxggl,</if>
-			<if test="tqryyygj != null" >tqryyygj,</if>
-			<if test="yfptggl != null" >yfptggl,</if>
-			<if test="zzzbptggl != null" >zzzbptggl,</if>
-			<if test="zzzbptgglother != null" >zzzbptgglother,</if>
-			<if test="zzzbptgglundisbute != null" >zzzbptgglundisbute,</if>
-			<if test="zzzbptgglundisbute_before != null" >zzzbptgglundisbute_before,</if>
-		</trim>
-		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="sourcecode != null" >#{sourcecode,jdbcType=VARCHAR},</if>
-			<if test="organ_id != null" >#{organ_id,jdbcType=VARCHAR},</if>
-			<if test="recoder != null" >#{recoder,jdbcType=VARCHAR},</if>
-			<if test="recodertime != null" >#{recodertime,jdbcType=TIMESTAMP},</if>
-			<if test="datasendorgan != null" >#{datasendorgan,jdbcType=VARCHAR},</if>
-			<if test="taxcode != null" >#{taxcode,jdbcType=VARCHAR},</if>
-			<if test="organtrustcode != null" >#{organtrustcode,jdbcType=VARCHAR},</if>
-			<if test="organcode != null" >#{organcode,jdbcType=VARCHAR},</if>
-			<if test="yearmonth != null" >#{yearmonth,jdbcType=VARCHAR},</if>
-			<if test="mainincome != null" >#{mainincome,jdbcType=VARCHAR},</if>
-			<if test="mainincome_export != null" >#{mainincome_export,jdbcType=VARCHAR},</if>
-			<if test="mainincome_import != null" >#{mainincome_import,jdbcType=VARCHAR},</if>
-			<if test="discount != null" >#{discount,jdbcType=VARCHAR},</if>
-			<if test="mainincome_netmargin != null" >#{mainincome_netmargin,jdbcType=VARCHAR},</if>
-			<if test="maincost != null" >#{maincost,jdbcType=VARCHAR},</if>
-			<if test="maincost_export != null" >#{maincost_export,jdbcType=VARCHAR},</if>
-			<if test="maintaxpay != null" >#{maintaxpay,jdbcType=VARCHAR},</if>
-			<if test="operationcost != null" >#{operationcost,jdbcType=VARCHAR},</if>
-			<if test="othercost != null" >#{othercost,jdbcType=VARCHAR},</if>
-			<if test="delayincome != null" >#{delayincome,jdbcType=VARCHAR},</if>
-			<if test="purchasingagent != null" >#{purchasingagent,jdbcType=VARCHAR},</if>
-			<if test="otherpurchasingagent != null" >#{otherpurchasingagent,jdbcType=VARCHAR},</if>
-			<if test="mainnetmargin != null" >#{mainnetmargin,jdbcType=VARCHAR},</if>
-			<if test="othernetmargin != null" >#{othernetmargin,jdbcType=VARCHAR},</if>
-			<if test="mainexpenses != null" >#{mainexpenses,jdbcType=VARCHAR},</if>
-			<if test="manageexpense != null" >#{manageexpense,jdbcType=VARCHAR},</if>
-			<if test="finaceexpense != null" >#{finaceexpense,jdbcType=VARCHAR},</if>
-			<if test="otherexpense != null" >#{otherexpense,jdbcType=VARCHAR},</if>
-			<if test="income_netmargin != null" >#{income_netmargin,jdbcType=VARCHAR},</if>
-			<if test="investincome != null" >#{investincome,jdbcType=VARCHAR},</if>
-			<if test="futuresincome != null" >#{futuresincome,jdbcType=VARCHAR},</if>
-			<if test="subsidyincome != null" >#{subsidyincome,jdbcType=VARCHAR},</if>
-			<if test="subsidyincome_before != null" >#{subsidyincome_before,jdbcType=VARCHAR},</if>
-			<if test="income_o != null" >#{income_o,jdbcType=VARCHAR},</if>
-			<if test="income_o_netmargin != null" >#{income_o_netmargin,jdbcType=VARCHAR},</if>
-			<if test="income_o_nonemoney != null" >#{income_o_nonemoney,jdbcType=VARCHAR},</if>
-			<if test="income_o_wxzc != null" >#{income_o_wxzc,jdbcType=VARCHAR},</if>
-			<if test="income_o_fk != null" >#{income_o_fk,jdbcType=VARCHAR},</if>
-			<if test="income_o_other != null" >#{income_o_other,jdbcType=VARCHAR},</if>
-			<if test="income_o_othersalary != null" >#{income_o_othersalary,jdbcType=VARCHAR},</if>
-			<if test="outcome_o != null" >#{outcome_o,jdbcType=VARCHAR},</if>
-			<if test="outcome_o_netmargin != null" >#{outcome_o_netmargin,jdbcType=VARCHAR},</if>
-			<if test="outcome_o_zwcz != null" >#{outcome_o_zwcz,jdbcType=VARCHAR},</if>
-			<if test="outcome_o_fk != null" >#{outcome_o_fk,jdbcType=VARCHAR},</if>
-			<if test="outcome_o_jz != null" >#{outcome_o_jz,jdbcType=VARCHAR},</if>
-			<if test="outcome_o_other != null" >#{outcome_o_other,jdbcType=VARCHAR},</if>
-			<if test="outcome_o_othersalary != null" >#{outcome_o_othersalary,jdbcType=VARCHAR},</if>
-			<if test="allprofit != null" >#{allprofit,jdbcType=VARCHAR},</if>
-			<if test="incomdetax != null" >#{incomdetax,jdbcType=VARCHAR},</if>
-			<if test="fewpartnerincome != null" >#{fewpartnerincome,jdbcType=VARCHAR},</if>
-			<if test="unsureloss != null" >#{unsureloss,jdbcType=VARCHAR},</if>
-			<if test="netmargin != null" >#{netmargin,jdbcType=VARCHAR},</if>
-			<if test="beginofyearundistributed != null" >#{beginofyearundistributed,jdbcType=VARCHAR},</if>
-			<if test="yygjbk != null" >#{yygjbk,jdbcType=VARCHAR},</if>
-			<if test="qttzys != null" >#{qttzys,jdbcType=VARCHAR},</if>
-			<if test="kgfpll != null" >#{kgfpll,jdbcType=VARCHAR},</if>
-			<if test="dxlyll != null" >#{dxlyll,jdbcType=VARCHAR},</if>
-			<if test="bcldzb != null" >#{bcldzb,jdbcType=VARCHAR},</if>
-			<if test="tqfdyygj != null" >#{tqfdyygj,jdbcType=VARCHAR},</if>
-			<if test="tqfdyygyj != null" >#{tqfdyygyj,jdbcType=VARCHAR},</if>
-			<if test="tqzgjljfldy != null" >#{tqzgjljfldy,jdbcType=VARCHAR},</if>
-			<if test="tqcbj != null" >#{tqcbj,jdbcType=VARCHAR},</if>
-			<if test="tqqyfzjj != null" >#{tqqyfzjj,jdbcType=VARCHAR},</if>
-			<if test="llghtz != null" >#{llghtz,jdbcType=VARCHAR},</if>
-			<if test="llghtzother != null" >#{llghtzother,jdbcType=VARCHAR},</if>
-			<if test="kgtzzffll != null" >#{kgtzzffll,jdbcType=VARCHAR},</if>
-			<if test="yfyxggl != null" >#{yfyxggl,jdbcType=VARCHAR},</if>
-			<if test="tqryyygj != null" >#{tqryyygj,jdbcType=VARCHAR},</if>
-			<if test="yfptggl != null" >#{yfptggl,jdbcType=VARCHAR},</if>
-			<if test="zzzbptggl != null" >#{zzzbptggl,jdbcType=VARCHAR},</if>
-			<if test="zzzbptgglother != null" >#{zzzbptgglother,jdbcType=VARCHAR},</if>
-			<if test="zzzbptgglundisbute != null" >#{zzzbptgglundisbute,jdbcType=VARCHAR},</if>
-			<if test="zzzbptgglundisbute_before != null" >#{zzzbptgglundisbute_before,jdbcType=VARCHAR},</if>
-		</trim>
-	</insert>
-	<update id="update" parameterType="com.bank.beans.CooperationProfit">
-		update T_COOPERATION_PROFIT
-		<set>
-			<if test="sourcecode != null and sourcecode != ''">sourcecode = #{sourcecode},</if>
-			<if test="organ_id != null and organ_id != ''">organ_id = #{organ_id},</if>
-			<if test="recoder != null and recoder != ''">recoder = #{recoder},</if>
-			<if test="recodertime != null and recodertime != ''">recodertime = #{recodertime},</if>
-			<if test="datasendorgan != null and datasendorgan != ''">datasendorgan = #{datasendorgan},</if>
-			<if test="taxcode != null and taxcode != ''">taxcode = #{taxcode},</if>
-			<if test="organtrustcode != null and organtrustcode != ''">organtrustcode = #{organtrustcode},</if>
-			<if test="organcode != null and organcode != ''">organcode = #{organcode},</if>
-			<if test="yearmonth != null and yearmonth != ''">yearmonth = #{yearmonth},</if>
-			<if test="mainincome != null and mainincome != ''">mainincome = #{mainincome},</if>
-			<if test="mainincome_export != null and mainincome_export != ''">mainincome_export = #{mainincome_export},</if>
-			<if test="mainincome_import != null and mainincome_import != ''">mainincome_import = #{mainincome_import},</if>
-			<if test="discount != null and discount != ''">discount = #{discount},</if>
-			<if test="mainincome_netmargin != null and mainincome_netmargin != ''">mainincome_netmargin = #{mainincome_netmargin},</if>
-			<if test="maincost != null and maincost != ''">maincost = #{maincost},</if>
-			<if test="maincost_export != null and maincost_export != ''">maincost_export = #{maincost_export},</if>
-			<if test="maintaxpay != null and maintaxpay != ''">maintaxpay = #{maintaxpay},</if>
-			<if test="operationcost != null and operationcost != ''">operationcost = #{operationcost},</if>
-			<if test="othercost != null and othercost != ''">othercost = #{othercost},</if>
-			<if test="delayincome != null and delayincome != ''">delayincome = #{delayincome},</if>
-			<if test="purchasingagent != null and purchasingagent != ''">purchasingagent = #{purchasingagent},</if>
-			<if test="otherpurchasingagent != null and otherpurchasingagent != ''">otherpurchasingagent = #{otherpurchasingagent},</if>
-			<if test="mainnetmargin != null and mainnetmargin != ''">mainnetmargin = #{mainnetmargin},</if>
-			<if test="othernetmargin != null and othernetmargin != ''">othernetmargin = #{othernetmargin},</if>
-			<if test="mainexpenses != null and mainexpenses != ''">mainexpenses = #{mainexpenses},</if>
-			<if test="manageexpense != null and manageexpense != ''">manageexpense = #{manageexpense},</if>
-			<if test="finaceexpense != null and finaceexpense != ''">finaceexpense = #{finaceexpense},</if>
-			<if test="otherexpense != null and otherexpense != ''">otherexpense = #{otherexpense},</if>
-			<if test="income_netmargin != null and income_netmargin != ''">income_netmargin = #{income_netmargin},</if>
-			<if test="investincome != null and investincome != ''">investincome = #{investincome},</if>
-			<if test="futuresincome != null and futuresincome != ''">futuresincome = #{futuresincome},</if>
-			<if test="subsidyincome != null and subsidyincome != ''">subsidyincome = #{subsidyincome},</if>
-			<if test="subsidyincome_before != null and subsidyincome_before != ''">subsidyincome_before = #{subsidyincome_before},</if>
-			<if test="income_o != null and income_o != ''">income_o = #{income_o},</if>
-			<if test="income_o_netmargin != null and income_o_netmargin != ''">income_o_netmargin = #{income_o_netmargin},</if>
-			<if test="income_o_nonemoney != null and income_o_nonemoney != ''">income_o_nonemoney = #{income_o_nonemoney},</if>
-			<if test="income_o_wxzc != null and income_o_wxzc != ''">income_o_wxzc = #{income_o_wxzc},</if>
-			<if test="income_o_fk != null and income_o_fk != ''">income_o_fk = #{income_o_fk},</if>
-			<if test="income_o_other != null and income_o_other != ''">income_o_other = #{income_o_other},</if>
-			<if test="income_o_othersalary != null and income_o_othersalary != ''">income_o_othersalary = #{income_o_othersalary},</if>
-			<if test="outcome_o != null and outcome_o != ''">outcome_o = #{outcome_o},</if>
-			<if test="outcome_o_netmargin != null and outcome_o_netmargin != ''">outcome_o_netmargin = #{outcome_o_netmargin},</if>
-			<if test="outcome_o_zwcz != null and outcome_o_zwcz != ''">outcome_o_zwcz = #{outcome_o_zwcz},</if>
-			<if test="outcome_o_fk != null and outcome_o_fk != ''">outcome_o_fk = #{outcome_o_fk},</if>
-			<if test="outcome_o_jz != null and outcome_o_jz != ''">outcome_o_jz = #{outcome_o_jz},</if>
-			<if test="outcome_o_other != null and outcome_o_other != ''">outcome_o_other = #{outcome_o_other},</if>
-			<if test="outcome_o_othersalary != null and outcome_o_othersalary != ''">outcome_o_othersalary = #{outcome_o_othersalary},</if>
-			<if test="allprofit != null and allprofit != ''">allprofit = #{allprofit},</if>
-			<if test="incomdetax != null and incomdetax != ''">incomdetax = #{incomdetax},</if>
-			<if test="fewpartnerincome != null and fewpartnerincome != ''">fewpartnerincome = #{fewpartnerincome},</if>
-			<if test="unsureloss != null and unsureloss != ''">unsureloss = #{unsureloss},</if>
-			<if test="netmargin != null and netmargin != ''">netmargin = #{netmargin},</if>
-			<if test="beginofyearundistributed != null and beginofyearundistributed != ''">beginofyearundistributed = #{beginofyearundistributed},</if>
-			<if test="yygjbk != null and yygjbk != ''">yygjbk = #{yygjbk},</if>
-			<if test="qttzys != null and qttzys != ''">qttzys = #{qttzys},</if>
-			<if test="kgfpll != null and kgfpll != ''">kgfpll = #{kgfpll},</if>
-			<if test="dxlyll != null and dxlyll != ''">dxlyll = #{dxlyll},</if>
-			<if test="bcldzb != null and bcldzb != ''">bcldzb = #{bcldzb},</if>
-			<if test="tqfdyygj != null and tqfdyygj != ''">tqfdyygj = #{tqfdyygj},</if>
-			<if test="tqfdyygyj != null and tqfdyygyj != ''">tqfdyygyj = #{tqfdyygyj},</if>
-			<if test="tqzgjljfldy != null and tqzgjljfldy != ''">tqzgjljfldy = #{tqzgjljfldy},</if>
-			<if test="tqcbj != null and tqcbj != ''">tqcbj = #{tqcbj},</if>
-			<if test="tqqyfzjj != null and tqqyfzjj != ''">tqqyfzjj = #{tqqyfzjj},</if>
-			<if test="llghtz != null and llghtz != ''">llghtz = #{llghtz},</if>
-			<if test="llghtzother != null and llghtzother != ''">llghtzother = #{llghtzother},</if>
-			<if test="kgtzzffll != null and kgtzzffll != ''">kgtzzffll = #{kgtzzffll},</if>
-			<if test="yfyxggl != null and yfyxggl != ''">yfyxggl = #{yfyxggl},</if>
-			<if test="tqryyygj != null and tqryyygj != ''">tqryyygj = #{tqryyygj},</if>
-			<if test="yfptggl != null and yfptggl != ''">yfptggl = #{yfptggl},</if>
-			<if test="zzzbptggl != null and zzzbptggl != ''">zzzbptggl = #{zzzbptggl},</if>
-			<if test="zzzbptgglother != null and zzzbptgglother != ''">zzzbptgglother = #{zzzbptgglother},</if>
-			<if test="zzzbptgglundisbute != null and zzzbptgglundisbute != ''">zzzbptgglundisbute = #{zzzbptgglundisbute},</if>
-			<if test="zzzbptgglundisbute_before != null and zzzbptgglundisbute_before != ''">zzzbptgglundisbute_before = #{zzzbptgglundisbute_before},</if>
-			 
-		</set>
-			where profitid=#{profitid,jdbcType=INTEGER}
-	</update>
-	<select id="findByPK" parameterType="Long"
-		resultType="com.bank.beans.CooperationProfit">
-		select
-		<include refid="Cooperation_Column_List" />
-		from T_COOPERATION_PROFIT where profitid=#{profitid,jdbcType=INTEGER}
-	</select>
-	<select id="getPageingEntities" parameterType="map"
-		resultType="com.bank.beans.CooperationProfit">
-		SELECT t.* FROM T_COOPERATION_PROFIT t,
-		(select profitid, ROW_NUMBER() OVER () as rn from T_COOPERATION_PROFIT) AS t1
-		where t1.profitid= t.profitid
-		<if test="recoder != null and recoder !=''">
-			and t.recoder like '%${recoder}%'
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cooperationprofit" >
+  <resultMap id="BaseResultMap" type="com.bank.beans.CooperationProfit" >
+    <id column="PROFITID" property="profitid" jdbcType="BIGINT" />
+    <result column="DATASENDORGAN" property="datasendorgan" jdbcType="VARCHAR" />
+    <result column="ORGANCODE" property="organcode" jdbcType="VARCHAR" />
+    <result column="TAXCODE" property="taxcode" jdbcType="VARCHAR" />
+    <result column="BUSINESSLICENCE" property="businesslicence" jdbcType="VARCHAR" />
+    <result column="TRUSTCODE" property="trustcode" jdbcType="VARCHAR" />
+    <result column="YEARMONTH" property="yearmonth" jdbcType="VARCHAR" />
+    <result column="MAININCOME" property="mainincome" jdbcType="VARCHAR" />
+    <result column="MAININCOME_EXPORT" property="mainincomeExport" jdbcType="VARCHAR" />
+    <result column="MAININCOME_IMPORT" property="mainincomeImport" jdbcType="VARCHAR" />
+    <result column="DISCOUNT" property="discount" jdbcType="VARCHAR" />
+    <result column="MAININCOME_NETMARGIN" property="mainincomeNetmargin" jdbcType="VARCHAR" />
+    <result column="MAINCOST" property="maincost" jdbcType="VARCHAR" />
+    <result column="MAINCOST_EXPORT" property="maincostExport" jdbcType="VARCHAR" />
+    <result column="MAINTAXPAY" property="maintaxpay" jdbcType="VARCHAR" />
+    <result column="OPERATIONCOST" property="operationcost" jdbcType="VARCHAR" />
+    <result column="OTHERCOST" property="othercost" jdbcType="VARCHAR" />
+    <result column="DELAYINCOME" property="delayincome" jdbcType="VARCHAR" />
+    <result column="PURCHASINGAGENT" property="purchasingagent" jdbcType="VARCHAR" />
+    <result column="OTHERPURCHASINGAGENT" property="otherpurchasingagent" jdbcType="VARCHAR" />
+    <result column="MAINNETMARGIN" property="mainnetmargin" jdbcType="VARCHAR" />
+    <result column="OTHERNETMARGIN" property="othernetmargin" jdbcType="VARCHAR" />
+    <result column="MAINEXPENSES" property="mainexpenses" jdbcType="VARCHAR" />
+    <result column="MANAGEEXPENSE" property="manageexpense" jdbcType="VARCHAR" />
+    <result column="FINACEEXPENSE" property="finaceexpense" jdbcType="VARCHAR" />
+    <result column="OTHEREXPENSE" property="otherexpense" jdbcType="VARCHAR" />
+    <result column="INCOME_NETMARGIN" property="incomeNetmargin" jdbcType="VARCHAR" />
+    <result column="INVESTINCOME" property="investincome" jdbcType="VARCHAR" />
+    <result column="FUTURESINCOME" property="futuresincome" jdbcType="VARCHAR" />
+    <result column="SUBSIDYINCOME" property="subsidyincome" jdbcType="VARCHAR" />
+    <result column="SUBSIDYINCOME_BEFORE" property="subsidyincomeBefore" jdbcType="VARCHAR" />
+    <result column="INCOME_O" property="incomeO" jdbcType="VARCHAR" />
+    <result column="INCOME_O_NETMARGIN" property="incomeONetmargin" jdbcType="VARCHAR" />
+    <result column="INCOME_O_NONEMONEY" property="incomeONonemoney" jdbcType="VARCHAR" />
+    <result column="INCOME_O_WXZC" property="incomeOWxzc" jdbcType="VARCHAR" />
+    <result column="INCOME_O_FK" property="incomeOFk" jdbcType="VARCHAR" />
+    <result column="INCOME_O_OTHER" property="incomeOOther" jdbcType="VARCHAR" />
+    <result column="INCOME_O_OTHERSALARY" property="incomeOOthersalary" jdbcType="VARCHAR" />
+    <result column="OUTCOME_O" property="outcomeO" jdbcType="VARCHAR" />
+    <result column="OUTCOME_O_NETMARGIN" property="outcomeONetmargin" jdbcType="VARCHAR" />
+    <result column="OUTCOME_O_ZWCZ" property="outcomeOZwcz" jdbcType="VARCHAR" />
+    <result column="OUTCOME_O_FK" property="outcomeOFk" jdbcType="VARCHAR" />
+    <result column="OUTCOME_O_JZ" property="outcomeOJz" jdbcType="VARCHAR" />
+    <result column="OUTCOME_O_OTHER" property="outcomeOOther" jdbcType="VARCHAR" />
+    <result column="OUTCOME_O_OTHERSALARY" property="outcomeOOthersalary" jdbcType="VARCHAR" />
+    <result column="ALLPROFIT" property="allprofit" jdbcType="VARCHAR" />
+    <result column="INCOMDETAX" property="incomdetax" jdbcType="VARCHAR" />
+    <result column="FEWPARTNERINCOME" property="fewpartnerincome" jdbcType="VARCHAR" />
+    <result column="UNSURELOSS" property="unsureloss" jdbcType="VARCHAR" />
+    <result column="NETMARGIN" property="netmargin" jdbcType="VARCHAR" />
+    <result column="BEGINOFYEARUNDISTRIBUTED" property="beginofyearundistributed" jdbcType="VARCHAR" />
+    <result column="YYGJBK" property="yygjbk" jdbcType="VARCHAR" />
+    <result column="QTTZYS" property="qttzys" jdbcType="VARCHAR" />
+    <result column="KGFPLL" property="kgfpll" jdbcType="VARCHAR" />
+    <result column="DXLYLL" property="dxlyll" jdbcType="VARCHAR" />
+    <result column="BCLDZB" property="bcldzb" jdbcType="VARCHAR" />
+    <result column="TQFDYYGJ" property="tqfdyygj" jdbcType="VARCHAR" />
+    <result column="TQFDYYGYJ" property="tqfdyygyj" jdbcType="VARCHAR" />
+    <result column="TQZGJLJFLDY" property="tqzgjljfldy" jdbcType="VARCHAR" />
+    <result column="TQCBJ" property="tqcbj" jdbcType="VARCHAR" />
+    <result column="TQQYFZJJ" property="tqqyfzjj" jdbcType="VARCHAR" />
+    <result column="LLGHTZ" property="llghtz" jdbcType="VARCHAR" />
+    <result column="LLGHTZOTHER" property="llghtzother" jdbcType="VARCHAR" />
+    <result column="KGTZZFFLL" property="kgtzzffll" jdbcType="VARCHAR" />
+    <result column="YFYXGGL" property="yfyxggl" jdbcType="VARCHAR" />
+    <result column="TQRYYYGJ" property="tqryyygj" jdbcType="VARCHAR" />
+    <result column="YFPTGGL" property="yfptggl" jdbcType="VARCHAR" />
+    <result column="ZZZBPTGGL" property="zzzbptggl" jdbcType="VARCHAR" />
+    <result column="ZZZBPTGGLOTHER" property="zzzbptgglother" jdbcType="VARCHAR" />
+    <result column="ZZZBPTGGLUNDISBUTE" property="zzzbptgglundisbute" jdbcType="VARCHAR" />
+    <result column="ZZZBPTGGLUNDISBUTE_BEFORE" property="zzzbptgglundisbuteBefore" jdbcType="VARCHAR" />
+    <result column="SOURCECODE" property="sourcecode" jdbcType="VARCHAR" />
+    <result column="SOURCENAME" property="sourcename" jdbcType="VARCHAR" />
+    <result column="RUNITID" property="runitid" jdbcType="VARCHAR" />
+    <result column="RUNITNAME" property="runitname" jdbcType="VARCHAR" />
+    <result column="RECODER" property="recoder" jdbcType="VARCHAR" />
+    <result column="RECODERTIME" property="recodertime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    PROFITID, DATASENDORGAN, ORGANCODE, TAXCODE, BUSINESSLICENCE, TRUSTCODE, YEARMONTH, 
+    MAININCOME, MAININCOME_EXPORT, MAININCOME_IMPORT, DISCOUNT, MAININCOME_NETMARGIN, 
+    MAINCOST, MAINCOST_EXPORT, MAINTAXPAY, OPERATIONCOST, OTHERCOST, DELAYINCOME, PURCHASINGAGENT, 
+    OTHERPURCHASINGAGENT, MAINNETMARGIN, OTHERNETMARGIN, MAINEXPENSES, MANAGEEXPENSE, 
+    FINACEEXPENSE, OTHEREXPENSE, INCOME_NETMARGIN, INVESTINCOME, FUTURESINCOME, SUBSIDYINCOME, 
+    SUBSIDYINCOME_BEFORE, INCOME_O, INCOME_O_NETMARGIN, INCOME_O_NONEMONEY, INCOME_O_WXZC, 
+    INCOME_O_FK, INCOME_O_OTHER, INCOME_O_OTHERSALARY, OUTCOME_O, OUTCOME_O_NETMARGIN, 
+    OUTCOME_O_ZWCZ, OUTCOME_O_FK, OUTCOME_O_JZ, OUTCOME_O_OTHER, OUTCOME_O_OTHERSALARY, 
+    ALLPROFIT, INCOMDETAX, FEWPARTNERINCOME, UNSURELOSS, NETMARGIN, BEGINOFYEARUNDISTRIBUTED, 
+    YYGJBK, QTTZYS, KGFPLL, DXLYLL, BCLDZB, TQFDYYGJ, TQFDYYGYJ, TQZGJLJFLDY, TQCBJ, 
+    TQQYFZJJ, LLGHTZ, LLGHTZOTHER, KGTZZFFLL, YFYXGGL, TQRYYYGJ, YFPTGGL, ZZZBPTGGL, 
+    ZZZBPTGGLOTHER, ZZZBPTGGLUNDISBUTE, ZZZBPTGGLUNDISBUTE_BEFORE, SOURCECODE, SOURCENAME, 
+    RUNITID, RUNITNAME, RECODER, RECODERTIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.bank.beans.CooperationProfitExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_COOPERATION_PROFIT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.bank.beans.CooperationProfitExample" >
+    delete from T_COOPERATION_PROFIT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bank.beans.CooperationProfit" >
+    <selectKey resultType="java.lang.Long" keyProperty="profitid" order="AFTER" >
+      VALUES IDENTITY_VAL_LOCAL()
+    </selectKey>
+    insert into T_COOPERATION_PROFIT (DATASENDORGAN, ORGANCODE, TAXCODE, 
+      BUSINESSLICENCE, TRUSTCODE, YEARMONTH, 
+      MAININCOME, MAININCOME_EXPORT, MAININCOME_IMPORT, 
+      DISCOUNT, MAININCOME_NETMARGIN, MAINCOST, 
+      MAINCOST_EXPORT, MAINTAXPAY, OPERATIONCOST, 
+      OTHERCOST, DELAYINCOME, PURCHASINGAGENT, 
+      OTHERPURCHASINGAGENT, MAINNETMARGIN, OTHERNETMARGIN, 
+      MAINEXPENSES, MANAGEEXPENSE, FINACEEXPENSE, 
+      OTHEREXPENSE, INCOME_NETMARGIN, INVESTINCOME, 
+      FUTURESINCOME, SUBSIDYINCOME, SUBSIDYINCOME_BEFORE, 
+      INCOME_O, INCOME_O_NETMARGIN, INCOME_O_NONEMONEY, 
+      INCOME_O_WXZC, INCOME_O_FK, INCOME_O_OTHER, 
+      INCOME_O_OTHERSALARY, OUTCOME_O, OUTCOME_O_NETMARGIN, 
+      OUTCOME_O_ZWCZ, OUTCOME_O_FK, OUTCOME_O_JZ, 
+      OUTCOME_O_OTHER, OUTCOME_O_OTHERSALARY, ALLPROFIT, 
+      INCOMDETAX, FEWPARTNERINCOME, UNSURELOSS, 
+      NETMARGIN, BEGINOFYEARUNDISTRIBUTED, YYGJBK, 
+      QTTZYS, KGFPLL, DXLYLL, 
+      BCLDZB, TQFDYYGJ, TQFDYYGYJ, 
+      TQZGJLJFLDY, TQCBJ, TQQYFZJJ, 
+      LLGHTZ, LLGHTZOTHER, KGTZZFFLL, 
+      YFYXGGL, TQRYYYGJ, YFPTGGL, 
+      ZZZBPTGGL, ZZZBPTGGLOTHER, ZZZBPTGGLUNDISBUTE, 
+      ZZZBPTGGLUNDISBUTE_BEFORE, SOURCECODE, SOURCENAME, 
+      RUNITID, RUNITNAME, RECODER, 
+      RECODERTIME)
+    values (#{datasendorgan,jdbcType=VARCHAR}, #{organcode,jdbcType=VARCHAR}, #{taxcode,jdbcType=VARCHAR}, 
+      #{businesslicence,jdbcType=VARCHAR}, #{trustcode,jdbcType=VARCHAR}, #{yearmonth,jdbcType=VARCHAR}, 
+      #{mainincome,jdbcType=VARCHAR}, #{mainincomeExport,jdbcType=VARCHAR}, #{mainincomeImport,jdbcType=VARCHAR}, 
+      #{discount,jdbcType=VARCHAR}, #{mainincomeNetmargin,jdbcType=VARCHAR}, #{maincost,jdbcType=VARCHAR}, 
+      #{maincostExport,jdbcType=VARCHAR}, #{maintaxpay,jdbcType=VARCHAR}, #{operationcost,jdbcType=VARCHAR}, 
+      #{othercost,jdbcType=VARCHAR}, #{delayincome,jdbcType=VARCHAR}, #{purchasingagent,jdbcType=VARCHAR}, 
+      #{otherpurchasingagent,jdbcType=VARCHAR}, #{mainnetmargin,jdbcType=VARCHAR}, #{othernetmargin,jdbcType=VARCHAR}, 
+      #{mainexpenses,jdbcType=VARCHAR}, #{manageexpense,jdbcType=VARCHAR}, #{finaceexpense,jdbcType=VARCHAR}, 
+      #{otherexpense,jdbcType=VARCHAR}, #{incomeNetmargin,jdbcType=VARCHAR}, #{investincome,jdbcType=VARCHAR}, 
+      #{futuresincome,jdbcType=VARCHAR}, #{subsidyincome,jdbcType=VARCHAR}, #{subsidyincomeBefore,jdbcType=VARCHAR}, 
+      #{incomeO,jdbcType=VARCHAR}, #{incomeONetmargin,jdbcType=VARCHAR}, #{incomeONonemoney,jdbcType=VARCHAR}, 
+      #{incomeOWxzc,jdbcType=VARCHAR}, #{incomeOFk,jdbcType=VARCHAR}, #{incomeOOther,jdbcType=VARCHAR}, 
+      #{incomeOOthersalary,jdbcType=VARCHAR}, #{outcomeO,jdbcType=VARCHAR}, #{outcomeONetmargin,jdbcType=VARCHAR}, 
+      #{outcomeOZwcz,jdbcType=VARCHAR}, #{outcomeOFk,jdbcType=VARCHAR}, #{outcomeOJz,jdbcType=VARCHAR}, 
+      #{outcomeOOther,jdbcType=VARCHAR}, #{outcomeOOthersalary,jdbcType=VARCHAR}, #{allprofit,jdbcType=VARCHAR}, 
+      #{incomdetax,jdbcType=VARCHAR}, #{fewpartnerincome,jdbcType=VARCHAR}, #{unsureloss,jdbcType=VARCHAR}, 
+      #{netmargin,jdbcType=VARCHAR}, #{beginofyearundistributed,jdbcType=VARCHAR}, #{yygjbk,jdbcType=VARCHAR}, 
+      #{qttzys,jdbcType=VARCHAR}, #{kgfpll,jdbcType=VARCHAR}, #{dxlyll,jdbcType=VARCHAR}, 
+      #{bcldzb,jdbcType=VARCHAR}, #{tqfdyygj,jdbcType=VARCHAR}, #{tqfdyygyj,jdbcType=VARCHAR}, 
+      #{tqzgjljfldy,jdbcType=VARCHAR}, #{tqcbj,jdbcType=VARCHAR}, #{tqqyfzjj,jdbcType=VARCHAR}, 
+      #{llghtz,jdbcType=VARCHAR}, #{llghtzother,jdbcType=VARCHAR}, #{kgtzzffll,jdbcType=VARCHAR}, 
+      #{yfyxggl,jdbcType=VARCHAR}, #{tqryyygj,jdbcType=VARCHAR}, #{yfptggl,jdbcType=VARCHAR}, 
+      #{zzzbptggl,jdbcType=VARCHAR}, #{zzzbptgglother,jdbcType=VARCHAR}, #{zzzbptgglundisbute,jdbcType=VARCHAR}, 
+      #{zzzbptgglundisbuteBefore,jdbcType=VARCHAR}, #{sourcecode,jdbcType=VARCHAR}, #{sourcename,jdbcType=VARCHAR}, 
+      #{runitid,jdbcType=VARCHAR}, #{runitname,jdbcType=VARCHAR}, #{recoder,jdbcType=VARCHAR}, 
+      #{recodertime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bank.beans.CooperationProfit" >
+    <selectKey resultType="java.lang.Long" keyProperty="profitid" order="AFTER" >
+      VALUES IDENTITY_VAL_LOCAL()
+    </selectKey>
+    insert into T_COOPERATION_PROFIT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="datasendorgan != null" >
+        DATASENDORGAN,
+      </if>
+      <if test="organcode != null" >
+        ORGANCODE,
+      </if>
+      <if test="taxcode != null" >
+        TAXCODE,
+      </if>
+      <if test="businesslicence != null" >
+        BUSINESSLICENCE,
+      </if>
+      <if test="trustcode != null" >
+        TRUSTCODE,
+      </if>
+      <if test="yearmonth != null" >
+        YEARMONTH,
+      </if>
+      <if test="mainincome != null" >
+        MAININCOME,
+      </if>
+      <if test="mainincomeExport != null" >
+        MAININCOME_EXPORT,
+      </if>
+      <if test="mainincomeImport != null" >
+        MAININCOME_IMPORT,
+      </if>
+      <if test="discount != null" >
+        DISCOUNT,
+      </if>
+      <if test="mainincomeNetmargin != null" >
+        MAININCOME_NETMARGIN,
+      </if>
+      <if test="maincost != null" >
+        MAINCOST,
+      </if>
+      <if test="maincostExport != null" >
+        MAINCOST_EXPORT,
+      </if>
+      <if test="maintaxpay != null" >
+        MAINTAXPAY,
+      </if>
+      <if test="operationcost != null" >
+        OPERATIONCOST,
+      </if>
+      <if test="othercost != null" >
+        OTHERCOST,
+      </if>
+      <if test="delayincome != null" >
+        DELAYINCOME,
+      </if>
+      <if test="purchasingagent != null" >
+        PURCHASINGAGENT,
+      </if>
+      <if test="otherpurchasingagent != null" >
+        OTHERPURCHASINGAGENT,
+      </if>
+      <if test="mainnetmargin != null" >
+        MAINNETMARGIN,
+      </if>
+      <if test="othernetmargin != null" >
+        OTHERNETMARGIN,
+      </if>
+      <if test="mainexpenses != null" >
+        MAINEXPENSES,
+      </if>
+      <if test="manageexpense != null" >
+        MANAGEEXPENSE,
+      </if>
+      <if test="finaceexpense != null" >
+        FINACEEXPENSE,
+      </if>
+      <if test="otherexpense != null" >
+        OTHEREXPENSE,
+      </if>
+      <if test="incomeNetmargin != null" >
+        INCOME_NETMARGIN,
+      </if>
+      <if test="investincome != null" >
+        INVESTINCOME,
+      </if>
+      <if test="futuresincome != null" >
+        FUTURESINCOME,
+      </if>
+      <if test="subsidyincome != null" >
+        SUBSIDYINCOME,
+      </if>
+      <if test="subsidyincomeBefore != null" >
+        SUBSIDYINCOME_BEFORE,
+      </if>
+      <if test="incomeO != null" >
+        INCOME_O,
+      </if>
+      <if test="incomeONetmargin != null" >
+        INCOME_O_NETMARGIN,
+      </if>
+      <if test="incomeONonemoney != null" >
+        INCOME_O_NONEMONEY,
+      </if>
+      <if test="incomeOWxzc != null" >
+        INCOME_O_WXZC,
+      </if>
+      <if test="incomeOFk != null" >
+        INCOME_O_FK,
+      </if>
+      <if test="incomeOOther != null" >
+        INCOME_O_OTHER,
+      </if>
+      <if test="incomeOOthersalary != null" >
+        INCOME_O_OTHERSALARY,
+      </if>
+      <if test="outcomeO != null" >
+        OUTCOME_O,
+      </if>
+      <if test="outcomeONetmargin != null" >
+        OUTCOME_O_NETMARGIN,
+      </if>
+      <if test="outcomeOZwcz != null" >
+        OUTCOME_O_ZWCZ,
+      </if>
+      <if test="outcomeOFk != null" >
+        OUTCOME_O_FK,
+      </if>
+      <if test="outcomeOJz != null" >
+        OUTCOME_O_JZ,
+      </if>
+      <if test="outcomeOOther != null" >
+        OUTCOME_O_OTHER,
+      </if>
+      <if test="outcomeOOthersalary != null" >
+        OUTCOME_O_OTHERSALARY,
+      </if>
+      <if test="allprofit != null" >
+        ALLPROFIT,
+      </if>
+      <if test="incomdetax != null" >
+        INCOMDETAX,
+      </if>
+      <if test="fewpartnerincome != null" >
+        FEWPARTNERINCOME,
+      </if>
+      <if test="unsureloss != null" >
+        UNSURELOSS,
+      </if>
+      <if test="netmargin != null" >
+        NETMARGIN,
+      </if>
+      <if test="beginofyearundistributed != null" >
+        BEGINOFYEARUNDISTRIBUTED,
+      </if>
+      <if test="yygjbk != null" >
+        YYGJBK,
+      </if>
+      <if test="qttzys != null" >
+        QTTZYS,
+      </if>
+      <if test="kgfpll != null" >
+        KGFPLL,
+      </if>
+      <if test="dxlyll != null" >
+        DXLYLL,
+      </if>
+      <if test="bcldzb != null" >
+        BCLDZB,
+      </if>
+      <if test="tqfdyygj != null" >
+        TQFDYYGJ,
+      </if>
+      <if test="tqfdyygyj != null" >
+        TQFDYYGYJ,
+      </if>
+      <if test="tqzgjljfldy != null" >
+        TQZGJLJFLDY,
+      </if>
+      <if test="tqcbj != null" >
+        TQCBJ,
+      </if>
+      <if test="tqqyfzjj != null" >
+        TQQYFZJJ,
+      </if>
+      <if test="llghtz != null" >
+        LLGHTZ,
+      </if>
+      <if test="llghtzother != null" >
+        LLGHTZOTHER,
+      </if>
+      <if test="kgtzzffll != null" >
+        KGTZZFFLL,
+      </if>
+      <if test="yfyxggl != null" >
+        YFYXGGL,
+      </if>
+      <if test="tqryyygj != null" >
+        TQRYYYGJ,
+      </if>
+      <if test="yfptggl != null" >
+        YFPTGGL,
+      </if>
+      <if test="zzzbptggl != null" >
+        ZZZBPTGGL,
+      </if>
+      <if test="zzzbptgglother != null" >
+        ZZZBPTGGLOTHER,
+      </if>
+      <if test="zzzbptgglundisbute != null" >
+        ZZZBPTGGLUNDISBUTE,
+      </if>
+      <if test="zzzbptgglundisbuteBefore != null" >
+        ZZZBPTGGLUNDISBUTE_BEFORE,
+      </if>
+      <if test="sourcecode != null" >
+        SOURCECODE,
+      </if>
+      <if test="sourcename != null" >
+        SOURCENAME,
+      </if>
+      <if test="runitid != null" >
+        RUNITID,
+      </if>
+      <if test="runitname != null" >
+        RUNITNAME,
+      </if>
+      <if test="recoder != null" >
+        RECODER,
+      </if>
+      <if test="recodertime != null" >
+        RECODERTIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="datasendorgan != null" >
+        #{datasendorgan,jdbcType=VARCHAR},
+      </if>
+      <if test="organcode != null" >
+        #{organcode,jdbcType=VARCHAR},
+      </if>
+      <if test="taxcode != null" >
+        #{taxcode,jdbcType=VARCHAR},
+      </if>
+      <if test="businesslicence != null" >
+        #{businesslicence,jdbcType=VARCHAR},
+      </if>
+      <if test="trustcode != null" >
+        #{trustcode,jdbcType=VARCHAR},
+      </if>
+      <if test="yearmonth != null" >
+        #{yearmonth,jdbcType=VARCHAR},
+      </if>
+      <if test="mainincome != null" >
+        #{mainincome,jdbcType=VARCHAR},
+      </if>
+      <if test="mainincomeExport != null" >
+        #{mainincomeExport,jdbcType=VARCHAR},
+      </if>
+      <if test="mainincomeImport != null" >
+        #{mainincomeImport,jdbcType=VARCHAR},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=VARCHAR},
+      </if>
+      <if test="mainincomeNetmargin != null" >
+        #{mainincomeNetmargin,jdbcType=VARCHAR},
+      </if>
+      <if test="maincost != null" >
+        #{maincost,jdbcType=VARCHAR},
+      </if>
+      <if test="maincostExport != null" >
+        #{maincostExport,jdbcType=VARCHAR},
+      </if>
+      <if test="maintaxpay != null" >
+        #{maintaxpay,jdbcType=VARCHAR},
+      </if>
+      <if test="operationcost != null" >
+        #{operationcost,jdbcType=VARCHAR},
+      </if>
+      <if test="othercost != null" >
+        #{othercost,jdbcType=VARCHAR},
+      </if>
+      <if test="delayincome != null" >
+        #{delayincome,jdbcType=VARCHAR},
+      </if>
+      <if test="purchasingagent != null" >
+        #{purchasingagent,jdbcType=VARCHAR},
+      </if>
+      <if test="otherpurchasingagent != null" >
+        #{otherpurchasingagent,jdbcType=VARCHAR},
+      </if>
+      <if test="mainnetmargin != null" >
+        #{mainnetmargin,jdbcType=VARCHAR},
+      </if>
+      <if test="othernetmargin != null" >
+        #{othernetmargin,jdbcType=VARCHAR},
+      </if>
+      <if test="mainexpenses != null" >
+        #{mainexpenses,jdbcType=VARCHAR},
+      </if>
+      <if test="manageexpense != null" >
+        #{manageexpense,jdbcType=VARCHAR},
+      </if>
+      <if test="finaceexpense != null" >
+        #{finaceexpense,jdbcType=VARCHAR},
+      </if>
+      <if test="otherexpense != null" >
+        #{otherexpense,jdbcType=VARCHAR},
+      </if>
+      <if test="incomeNetmargin != null" >
+        #{incomeNetmargin,jdbcType=VARCHAR},
+      </if>
+      <if test="investincome != null" >
+        #{investincome,jdbcType=VARCHAR},
+      </if>
+      <if test="futuresincome != null" >
+        #{futuresincome,jdbcType=VARCHAR},
+      </if>
+      <if test="subsidyincome != null" >
+        #{subsidyincome,jdbcType=VARCHAR},
+      </if>
+      <if test="subsidyincomeBefore != null" >
+        #{subsidyincomeBefore,jdbcType=VARCHAR},
+      </if>
+      <if test="incomeO != null" >
+        #{incomeO,jdbcType=VARCHAR},
+      </if>
+      <if test="incomeONetmargin != null" >
+        #{incomeONetmargin,jdbcType=VARCHAR},
+      </if>
+      <if test="incomeONonemoney != null" >
+        #{incomeONonemoney,jdbcType=VARCHAR},
+      </if>
+      <if test="incomeOWxzc != null" >
+        #{incomeOWxzc,jdbcType=VARCHAR},
+      </if>
+      <if test="incomeOFk != null" >
+        #{incomeOFk,jdbcType=VARCHAR},
+      </if>
+      <if test="incomeOOther != null" >
+        #{incomeOOther,jdbcType=VARCHAR},
+      </if>
+      <if test="incomeOOthersalary != null" >
+        #{incomeOOthersalary,jdbcType=VARCHAR},
+      </if>
+      <if test="outcomeO != null" >
+        #{outcomeO,jdbcType=VARCHAR},
+      </if>
+      <if test="outcomeONetmargin != null" >
+        #{outcomeONetmargin,jdbcType=VARCHAR},
+      </if>
+      <if test="outcomeOZwcz != null" >
+        #{outcomeOZwcz,jdbcType=VARCHAR},
+      </if>
+      <if test="outcomeOFk != null" >
+        #{outcomeOFk,jdbcType=VARCHAR},
+      </if>
+      <if test="outcomeOJz != null" >
+        #{outcomeOJz,jdbcType=VARCHAR},
+      </if>
+      <if test="outcomeOOther != null" >
+        #{outcomeOOther,jdbcType=VARCHAR},
+      </if>
+      <if test="outcomeOOthersalary != null" >
+        #{outcomeOOthersalary,jdbcType=VARCHAR},
+      </if>
+      <if test="allprofit != null" >
+        #{allprofit,jdbcType=VARCHAR},
+      </if>
+      <if test="incomdetax != null" >
+        #{incomdetax,jdbcType=VARCHAR},
+      </if>
+      <if test="fewpartnerincome != null" >
+        #{fewpartnerincome,jdbcType=VARCHAR},
+      </if>
+      <if test="unsureloss != null" >
+        #{unsureloss,jdbcType=VARCHAR},
+      </if>
+      <if test="netmargin != null" >
+        #{netmargin,jdbcType=VARCHAR},
+      </if>
+      <if test="beginofyearundistributed != null" >
+        #{beginofyearundistributed,jdbcType=VARCHAR},
+      </if>
+      <if test="yygjbk != null" >
+        #{yygjbk,jdbcType=VARCHAR},
+      </if>
+      <if test="qttzys != null" >
+        #{qttzys,jdbcType=VARCHAR},
+      </if>
+      <if test="kgfpll != null" >
+        #{kgfpll,jdbcType=VARCHAR},
+      </if>
+      <if test="dxlyll != null" >
+        #{dxlyll,jdbcType=VARCHAR},
+      </if>
+      <if test="bcldzb != null" >
+        #{bcldzb,jdbcType=VARCHAR},
+      </if>
+      <if test="tqfdyygj != null" >
+        #{tqfdyygj,jdbcType=VARCHAR},
+      </if>
+      <if test="tqfdyygyj != null" >
+        #{tqfdyygyj,jdbcType=VARCHAR},
+      </if>
+      <if test="tqzgjljfldy != null" >
+        #{tqzgjljfldy,jdbcType=VARCHAR},
+      </if>
+      <if test="tqcbj != null" >
+        #{tqcbj,jdbcType=VARCHAR},
+      </if>
+      <if test="tqqyfzjj != null" >
+        #{tqqyfzjj,jdbcType=VARCHAR},
+      </if>
+      <if test="llghtz != null" >
+        #{llghtz,jdbcType=VARCHAR},
+      </if>
+      <if test="llghtzother != null" >
+        #{llghtzother,jdbcType=VARCHAR},
+      </if>
+      <if test="kgtzzffll != null" >
+        #{kgtzzffll,jdbcType=VARCHAR},
+      </if>
+      <if test="yfyxggl != null" >
+        #{yfyxggl,jdbcType=VARCHAR},
+      </if>
+      <if test="tqryyygj != null" >
+        #{tqryyygj,jdbcType=VARCHAR},
+      </if>
+      <if test="yfptggl != null" >
+        #{yfptggl,jdbcType=VARCHAR},
+      </if>
+      <if test="zzzbptggl != null" >
+        #{zzzbptggl,jdbcType=VARCHAR},
+      </if>
+      <if test="zzzbptgglother != null" >
+        #{zzzbptgglother,jdbcType=VARCHAR},
+      </if>
+      <if test="zzzbptgglundisbute != null" >
+        #{zzzbptgglundisbute,jdbcType=VARCHAR},
+      </if>
+      <if test="zzzbptgglundisbuteBefore != null" >
+        #{zzzbptgglundisbuteBefore,jdbcType=VARCHAR},
+      </if>
+      <if test="sourcecode != null" >
+        #{sourcecode,jdbcType=VARCHAR},
+      </if>
+      <if test="sourcename != null" >
+        #{sourcename,jdbcType=VARCHAR},
+      </if>
+      <if test="runitid != null" >
+        #{runitid,jdbcType=VARCHAR},
+      </if>
+      <if test="runitname != null" >
+        #{runitname,jdbcType=VARCHAR},
+      </if>
+      <if test="recoder != null" >
+        #{recoder,jdbcType=VARCHAR},
+      </if>
+      <if test="recodertime != null" >
+        #{recodertime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bank.beans.CooperationProfitExample" resultType="java.lang.Integer" >
+    select count(*) from T_COOPERATION_PROFIT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_COOPERATION_PROFIT
+    <set >
+      <if test="record.datasendorgan != null" >
+        DATASENDORGAN = #{record.datasendorgan,jdbcType=VARCHAR},
+      </if>
+      <if test="record.organcode != null" >
+        ORGANCODE = #{record.organcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taxcode != null" >
+        TAXCODE = #{record.taxcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.businesslicence != null" >
+        BUSINESSLICENCE = #{record.businesslicence,jdbcType=VARCHAR},
+      </if>
+      <if test="record.trustcode != null" >
+        TRUSTCODE = #{record.trustcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yearmonth != null" >
+        YEARMONTH = #{record.yearmonth,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mainincome != null" >
+        MAININCOME = #{record.mainincome,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mainincomeExport != null" >
+        MAININCOME_EXPORT = #{record.mainincomeExport,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mainincomeImport != null" >
+        MAININCOME_IMPORT = #{record.mainincomeImport,jdbcType=VARCHAR},
+      </if>
+      <if test="record.discount != null" >
+        DISCOUNT = #{record.discount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mainincomeNetmargin != null" >
+        MAININCOME_NETMARGIN = #{record.mainincomeNetmargin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.maincost != null" >
+        MAINCOST = #{record.maincost,jdbcType=VARCHAR},
+      </if>
+      <if test="record.maincostExport != null" >
+        MAINCOST_EXPORT = #{record.maincostExport,jdbcType=VARCHAR},
+      </if>
+      <if test="record.maintaxpay != null" >
+        MAINTAXPAY = #{record.maintaxpay,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operationcost != null" >
+        OPERATIONCOST = #{record.operationcost,jdbcType=VARCHAR},
+      </if>
+      <if test="record.othercost != null" >
+        OTHERCOST = #{record.othercost,jdbcType=VARCHAR},
+      </if>
+      <if test="record.delayincome != null" >
+        DELAYINCOME = #{record.delayincome,jdbcType=VARCHAR},
+      </if>
+      <if test="record.purchasingagent != null" >
+        PURCHASINGAGENT = #{record.purchasingagent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.otherpurchasingagent != null" >
+        OTHERPURCHASINGAGENT = #{record.otherpurchasingagent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mainnetmargin != null" >
+        MAINNETMARGIN = #{record.mainnetmargin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.othernetmargin != null" >
+        OTHERNETMARGIN = #{record.othernetmargin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mainexpenses != null" >
+        MAINEXPENSES = #{record.mainexpenses,jdbcType=VARCHAR},
+      </if>
+      <if test="record.manageexpense != null" >
+        MANAGEEXPENSE = #{record.manageexpense,jdbcType=VARCHAR},
+      </if>
+      <if test="record.finaceexpense != null" >
+        FINACEEXPENSE = #{record.finaceexpense,jdbcType=VARCHAR},
+      </if>
+      <if test="record.otherexpense != null" >
+        OTHEREXPENSE = #{record.otherexpense,jdbcType=VARCHAR},
+      </if>
+      <if test="record.incomeNetmargin != null" >
+        INCOME_NETMARGIN = #{record.incomeNetmargin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.investincome != null" >
+        INVESTINCOME = #{record.investincome,jdbcType=VARCHAR},
+      </if>
+      <if test="record.futuresincome != null" >
+        FUTURESINCOME = #{record.futuresincome,jdbcType=VARCHAR},
+      </if>
+      <if test="record.subsidyincome != null" >
+        SUBSIDYINCOME = #{record.subsidyincome,jdbcType=VARCHAR},
+      </if>
+      <if test="record.subsidyincomeBefore != null" >
+        SUBSIDYINCOME_BEFORE = #{record.subsidyincomeBefore,jdbcType=VARCHAR},
+      </if>
+      <if test="record.incomeO != null" >
+        INCOME_O = #{record.incomeO,jdbcType=VARCHAR},
+      </if>
+      <if test="record.incomeONetmargin != null" >
+        INCOME_O_NETMARGIN = #{record.incomeONetmargin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.incomeONonemoney != null" >
+        INCOME_O_NONEMONEY = #{record.incomeONonemoney,jdbcType=VARCHAR},
+      </if>
+      <if test="record.incomeOWxzc != null" >
+        INCOME_O_WXZC = #{record.incomeOWxzc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.incomeOFk != null" >
+        INCOME_O_FK = #{record.incomeOFk,jdbcType=VARCHAR},
+      </if>
+      <if test="record.incomeOOther != null" >
+        INCOME_O_OTHER = #{record.incomeOOther,jdbcType=VARCHAR},
+      </if>
+      <if test="record.incomeOOthersalary != null" >
+        INCOME_O_OTHERSALARY = #{record.incomeOOthersalary,jdbcType=VARCHAR},
+      </if>
+      <if test="record.outcomeO != null" >
+        OUTCOME_O = #{record.outcomeO,jdbcType=VARCHAR},
+      </if>
+      <if test="record.outcomeONetmargin != null" >
+        OUTCOME_O_NETMARGIN = #{record.outcomeONetmargin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.outcomeOZwcz != null" >
+        OUTCOME_O_ZWCZ = #{record.outcomeOZwcz,jdbcType=VARCHAR},
+      </if>
+      <if test="record.outcomeOFk != null" >
+        OUTCOME_O_FK = #{record.outcomeOFk,jdbcType=VARCHAR},
+      </if>
+      <if test="record.outcomeOJz != null" >
+        OUTCOME_O_JZ = #{record.outcomeOJz,jdbcType=VARCHAR},
+      </if>
+      <if test="record.outcomeOOther != null" >
+        OUTCOME_O_OTHER = #{record.outcomeOOther,jdbcType=VARCHAR},
+      </if>
+      <if test="record.outcomeOOthersalary != null" >
+        OUTCOME_O_OTHERSALARY = #{record.outcomeOOthersalary,jdbcType=VARCHAR},
+      </if>
+      <if test="record.allprofit != null" >
+        ALLPROFIT = #{record.allprofit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.incomdetax != null" >
+        INCOMDETAX = #{record.incomdetax,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fewpartnerincome != null" >
+        FEWPARTNERINCOME = #{record.fewpartnerincome,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unsureloss != null" >
+        UNSURELOSS = #{record.unsureloss,jdbcType=VARCHAR},
+      </if>
+      <if test="record.netmargin != null" >
+        NETMARGIN = #{record.netmargin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.beginofyearundistributed != null" >
+        BEGINOFYEARUNDISTRIBUTED = #{record.beginofyearundistributed,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yygjbk != null" >
+        YYGJBK = #{record.yygjbk,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qttzys != null" >
+        QTTZYS = #{record.qttzys,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kgfpll != null" >
+        KGFPLL = #{record.kgfpll,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dxlyll != null" >
+        DXLYLL = #{record.dxlyll,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bcldzb != null" >
+        BCLDZB = #{record.bcldzb,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tqfdyygj != null" >
+        TQFDYYGJ = #{record.tqfdyygj,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tqfdyygyj != null" >
+        TQFDYYGYJ = #{record.tqfdyygyj,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tqzgjljfldy != null" >
+        TQZGJLJFLDY = #{record.tqzgjljfldy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tqcbj != null" >
+        TQCBJ = #{record.tqcbj,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tqqyfzjj != null" >
+        TQQYFZJJ = #{record.tqqyfzjj,jdbcType=VARCHAR},
+      </if>
+      <if test="record.llghtz != null" >
+        LLGHTZ = #{record.llghtz,jdbcType=VARCHAR},
+      </if>
+      <if test="record.llghtzother != null" >
+        LLGHTZOTHER = #{record.llghtzother,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kgtzzffll != null" >
+        KGTZZFFLL = #{record.kgtzzffll,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yfyxggl != null" >
+        YFYXGGL = #{record.yfyxggl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tqryyygj != null" >
+        TQRYYYGJ = #{record.tqryyygj,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yfptggl != null" >
+        YFPTGGL = #{record.yfptggl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zzzbptggl != null" >
+        ZZZBPTGGL = #{record.zzzbptggl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zzzbptgglother != null" >
+        ZZZBPTGGLOTHER = #{record.zzzbptgglother,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zzzbptgglundisbute != null" >
+        ZZZBPTGGLUNDISBUTE = #{record.zzzbptgglundisbute,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zzzbptgglundisbuteBefore != null" >
+        ZZZBPTGGLUNDISBUTE_BEFORE = #{record.zzzbptgglundisbuteBefore,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sourcecode != null" >
+        SOURCECODE = #{record.sourcecode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sourcename != null" >
+        SOURCENAME = #{record.sourcename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.runitid != null" >
+        RUNITID = #{record.runitid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.runitname != null" >
+        RUNITNAME = #{record.runitname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recoder != null" >
+        RECODER = #{record.recoder,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recodertime != null" >
+        RECODERTIME = #{record.recodertime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_COOPERATION_PROFIT
+    set DATASENDORGAN = #{record.datasendorgan,jdbcType=VARCHAR},
+      ORGANCODE = #{record.organcode,jdbcType=VARCHAR},
+      TAXCODE = #{record.taxcode,jdbcType=VARCHAR},
+      BUSINESSLICENCE = #{record.businesslicence,jdbcType=VARCHAR},
+      TRUSTCODE = #{record.trustcode,jdbcType=VARCHAR},
+      YEARMONTH = #{record.yearmonth,jdbcType=VARCHAR},
+      MAININCOME = #{record.mainincome,jdbcType=VARCHAR},
+      MAININCOME_EXPORT = #{record.mainincomeExport,jdbcType=VARCHAR},
+      MAININCOME_IMPORT = #{record.mainincomeImport,jdbcType=VARCHAR},
+      DISCOUNT = #{record.discount,jdbcType=VARCHAR},
+      MAININCOME_NETMARGIN = #{record.mainincomeNetmargin,jdbcType=VARCHAR},
+      MAINCOST = #{record.maincost,jdbcType=VARCHAR},
+      MAINCOST_EXPORT = #{record.maincostExport,jdbcType=VARCHAR},
+      MAINTAXPAY = #{record.maintaxpay,jdbcType=VARCHAR},
+      OPERATIONCOST = #{record.operationcost,jdbcType=VARCHAR},
+      OTHERCOST = #{record.othercost,jdbcType=VARCHAR},
+      DELAYINCOME = #{record.delayincome,jdbcType=VARCHAR},
+      PURCHASINGAGENT = #{record.purchasingagent,jdbcType=VARCHAR},
+      OTHERPURCHASINGAGENT = #{record.otherpurchasingagent,jdbcType=VARCHAR},
+      MAINNETMARGIN = #{record.mainnetmargin,jdbcType=VARCHAR},
+      OTHERNETMARGIN = #{record.othernetmargin,jdbcType=VARCHAR},
+      MAINEXPENSES = #{record.mainexpenses,jdbcType=VARCHAR},
+      MANAGEEXPENSE = #{record.manageexpense,jdbcType=VARCHAR},
+      FINACEEXPENSE = #{record.finaceexpense,jdbcType=VARCHAR},
+      OTHEREXPENSE = #{record.otherexpense,jdbcType=VARCHAR},
+      INCOME_NETMARGIN = #{record.incomeNetmargin,jdbcType=VARCHAR},
+      INVESTINCOME = #{record.investincome,jdbcType=VARCHAR},
+      FUTURESINCOME = #{record.futuresincome,jdbcType=VARCHAR},
+      SUBSIDYINCOME = #{record.subsidyincome,jdbcType=VARCHAR},
+      SUBSIDYINCOME_BEFORE = #{record.subsidyincomeBefore,jdbcType=VARCHAR},
+      INCOME_O = #{record.incomeO,jdbcType=VARCHAR},
+      INCOME_O_NETMARGIN = #{record.incomeONetmargin,jdbcType=VARCHAR},
+      INCOME_O_NONEMONEY = #{record.incomeONonemoney,jdbcType=VARCHAR},
+      INCOME_O_WXZC = #{record.incomeOWxzc,jdbcType=VARCHAR},
+      INCOME_O_FK = #{record.incomeOFk,jdbcType=VARCHAR},
+      INCOME_O_OTHER = #{record.incomeOOther,jdbcType=VARCHAR},
+      INCOME_O_OTHERSALARY = #{record.incomeOOthersalary,jdbcType=VARCHAR},
+      OUTCOME_O = #{record.outcomeO,jdbcType=VARCHAR},
+      OUTCOME_O_NETMARGIN = #{record.outcomeONetmargin,jdbcType=VARCHAR},
+      OUTCOME_O_ZWCZ = #{record.outcomeOZwcz,jdbcType=VARCHAR},
+      OUTCOME_O_FK = #{record.outcomeOFk,jdbcType=VARCHAR},
+      OUTCOME_O_JZ = #{record.outcomeOJz,jdbcType=VARCHAR},
+      OUTCOME_O_OTHER = #{record.outcomeOOther,jdbcType=VARCHAR},
+      OUTCOME_O_OTHERSALARY = #{record.outcomeOOthersalary,jdbcType=VARCHAR},
+      ALLPROFIT = #{record.allprofit,jdbcType=VARCHAR},
+      INCOMDETAX = #{record.incomdetax,jdbcType=VARCHAR},
+      FEWPARTNERINCOME = #{record.fewpartnerincome,jdbcType=VARCHAR},
+      UNSURELOSS = #{record.unsureloss,jdbcType=VARCHAR},
+      NETMARGIN = #{record.netmargin,jdbcType=VARCHAR},
+      BEGINOFYEARUNDISTRIBUTED = #{record.beginofyearundistributed,jdbcType=VARCHAR},
+      YYGJBK = #{record.yygjbk,jdbcType=VARCHAR},
+      QTTZYS = #{record.qttzys,jdbcType=VARCHAR},
+      KGFPLL = #{record.kgfpll,jdbcType=VARCHAR},
+      DXLYLL = #{record.dxlyll,jdbcType=VARCHAR},
+      BCLDZB = #{record.bcldzb,jdbcType=VARCHAR},
+      TQFDYYGJ = #{record.tqfdyygj,jdbcType=VARCHAR},
+      TQFDYYGYJ = #{record.tqfdyygyj,jdbcType=VARCHAR},
+      TQZGJLJFLDY = #{record.tqzgjljfldy,jdbcType=VARCHAR},
+      TQCBJ = #{record.tqcbj,jdbcType=VARCHAR},
+      TQQYFZJJ = #{record.tqqyfzjj,jdbcType=VARCHAR},
+      LLGHTZ = #{record.llghtz,jdbcType=VARCHAR},
+      LLGHTZOTHER = #{record.llghtzother,jdbcType=VARCHAR},
+      KGTZZFFLL = #{record.kgtzzffll,jdbcType=VARCHAR},
+      YFYXGGL = #{record.yfyxggl,jdbcType=VARCHAR},
+      TQRYYYGJ = #{record.tqryyygj,jdbcType=VARCHAR},
+      YFPTGGL = #{record.yfptggl,jdbcType=VARCHAR},
+      ZZZBPTGGL = #{record.zzzbptggl,jdbcType=VARCHAR},
+      ZZZBPTGGLOTHER = #{record.zzzbptgglother,jdbcType=VARCHAR},
+      ZZZBPTGGLUNDISBUTE = #{record.zzzbptgglundisbute,jdbcType=VARCHAR},
+      ZZZBPTGGLUNDISBUTE_BEFORE = #{record.zzzbptgglundisbuteBefore,jdbcType=VARCHAR},
+      SOURCECODE = #{record.sourcecode,jdbcType=VARCHAR},
+      SOURCENAME = #{record.sourcename,jdbcType=VARCHAR},
+      RUNITID = #{record.runitid,jdbcType=VARCHAR},
+      RUNITNAME = #{record.runitname,jdbcType=VARCHAR},
+      RECODER = #{record.recoder,jdbcType=VARCHAR},
+      RECODERTIME = #{record.recodertime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <select id="pageing" parameterType="Map" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Column_List" />
+	from 
+	(select t.*,rownumber() over() as rn from T_COOPERATION_PROFIT t
+	<where>
+		<if test="runitid != null">
+		   	and t.RUNITID = #{runitid,jdbcType=VARCHAR} 
 		</if>
-		<if test="organ_id != null and organ_id != ''">
-   			and t.organ_id = '${organ_id}'
-   		</if>
-	    <if test="organcode != null and organcode != ''">
-	   		and t.organcode like '%${organcode}%'
-	    </if>
-		<if test="recordTimeBegin !=null and recordTimeBegin != ''">
-   	 		 <![CDATA[and t.recodertime >=to_date('${recordTimeBegin}','yyyy-mm-dd')]]>
+		<if test="businesslicence != null">
+		   	and t.BUSINESSLICENCE = #{businesslicence,jdbcType=VARCHAR} 
 		</if>
-		<if test="recordTimeEnd !=null and recordTimeEnd != ''">
-   	  		<![CDATA[and t.recodertime <=to_date('${recordTimeEnd}','yyyy-mm-dd')]]>
+		<if test="organcode != null">
+		   	and t.ORGANCODE = #{organcode,jdbcType=VARCHAR} 
 		</if>
-		<if test="start != null">
-  		<![CDATA[ and  t1.rn > #{start}	]]>
-		</if>
-		<if test="end != null">
-  		<![CDATA[	and t1.rn <= #{end}		]]>
-		</if>
-		<choose>
-			<when test="sortField != null and sortField != ''">
-	   		<![CDATA[ order by ${sortField} ${sortOrder}	]]>
-			</when>
-			<otherwise>
-				order by t.profitid desc
-			</otherwise>
-		</choose>
-	</select>
-	<select id="getTotal" parameterType="map" resultType="long">
-		select count(*) from T_COOPERATION_PROFIT t where 1=1
-		<if test="recoder != null and recoder !=''">
-			and t.recoder like '%${recoder}%'
-		</if>
-		<if test="organ_id != null and organ_id != ''">
-	   		and t.organ_id = '${organ_id}'
-	    </if>
-	    <if test="organcode != null and organcode != ''">
-	   		and t.organcode like '%${organcode}%'
-	    </if>
-		<if test="recordTimeBegin !=null and recordTimeBegin != ''">
-   	 		 <![CDATA[and t.recodertime >=to_date('${recordTimeBegin}','yyyy-mm-dd')]]>
-		</if>
-		<if test="recordTimeEnd !=null and recordTimeEnd != ''">
-   	  		<![CDATA[and t.recodertime <=to_date('${recordTimeEnd}','yyyy-mm-dd')]]>
-		</if>
-	</select>
-	<select id="getUnitId" parameterType="map" resultType="long">
-	select profitid from T_COOPERATION_PROFIT t where 1=1 
-		and t.organcode = '${organcode}'
-		and t.yearmonth = '${yearmonth}'
-		and t.sourcecode = '${sourcecode}'
-		FETCH FIRST 1 ROWS ONLY
-	</select>
-	<delete id="delete" parameterType="long">
-		delete from T_COOPERATION_PROFIT where profitid = #{id,jdbcType=INTEGER}
-	</delete>
+	 </where>
+	 )
+	 <where>
+	 	<if test="start != null">
+	    	rn between #{start} and #{end}
+	   	</if>
+	 </where>
+</select>
 </mapper>

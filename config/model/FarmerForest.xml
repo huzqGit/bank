@@ -211,7 +211,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       FARMERIDNUM = #{farmeridnum,jdbcType=VARCHAR},
       CARDNUM = #{cardnum,jdbcType=VARCHAR},
       WORDNUM = #{wordnum,jdbcType=VARCHAR},
-      OWNER = #{OWNER,jdbcType=VARCHAR},
+      OWNER = #{owner,jdbcType=VARCHAR},
       USETYPE = #{usetype,jdbcType=VARCHAR},
       AREA = #{area,jdbcType=VARCHAR},
       STORENUM = #{storenum,jdbcType=VARCHAR},

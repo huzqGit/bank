@@ -785,6 +785,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="farmertype != null">
 			and FARMERTYPE = #{farmertype,jdbcType=INTEGER}
 		</if>
+		<if test="farmeridnum != null">
+			and FARMERIDNUM = #{farmeridnum,jdbcType=VARCHAR}
+		</if>
+		<if test="farmername != null">
+			and FARMERNAME = #{farmername,jdbcType=VARCHAR}
+		</if>
 	</where>
 </select>
 <select id="findByPKM" parameterType="list" resultMap="farmerList">
@@ -862,8 +868,8 @@ select
 		<if test="farmeridnum != null">
 		   	and t.FARMERIDNUM = #{farmeridnum}
 		</if>
-		<if test="runitId != null">
-		   	and t.RUNITID = #{runitId,jdbcType=VARCHAR} 
+		<if test="runitid != null">
+		   	and t.RUNITID = #{runitid,jdbcType=VARCHAR} 
 		</if>
 		<if test="farmertype != null">
 		   	and t.FARMERTYPE = #{farmertype,jdbcType=INTEGER} 

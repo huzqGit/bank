@@ -116,7 +116,7 @@ resultMap="BaseResultMap">
 </select>
 
 <select id="getTopMenusByUserId" resultMap="MenuResultMap">
-   SELECT distinct m.menu_id,m.menu_descr,m.menu_url,m.isleaf,
+   select * from (SELECT distinct m.menu_id,m.menu_descr,m.menu_url,m.isleaf,
    m.menu_pid,p.privilege_id,p.privilege_type 
    FROM t_menu_privilege mp,t_sys_menu m,t_privilege p,t_user_role r
    WHERE
@@ -126,7 +126,11 @@ resultMap="BaseResultMap">
    and m.menu_pid = 0
    and m.issystem = 0
    and r.user_id=#{userId}
-   order by m.menu_id 
+   union select  menu_id,menu_descr,menu_url,isleaf,menu_pid,
+   '225b8a9d-f8e5-4491-96f0-b5e80a3fd432' as privilege_id,'010' as privilege_type
+   FROM T_SYS_MENU WHERE MENU_ID=1
+    )
+   order by menu_id 
 </select>
 <select id="getTopSysMenus" resultMap="MenuResultMap">
     SELECT distinct m.menu_id,m.menu_descr,m.menu_url,m.isleaf,
