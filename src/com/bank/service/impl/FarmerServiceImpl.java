@@ -2,7 +2,6 @@ package com.bank.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -13,26 +12,36 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.bank.beans.Apply;
 import com.bank.beans.Farmer;
 import com.bank.beans.FarmerBreed;
+import com.bank.beans.FarmerBreedExample;
 import com.bank.beans.FarmerCompunish;
+import com.bank.beans.FarmerCompunishExample;
 import com.bank.beans.FarmerDevice;
+import com.bank.beans.FarmerDeviceExample;
 import com.bank.beans.FarmerEvaluate;
+import com.bank.beans.FarmerEvaluateExample;
 import com.bank.beans.FarmerExample;
 import com.bank.beans.FarmerForest;
+import com.bank.beans.FarmerForestExample;
 import com.bank.beans.FarmerHouse;
+import com.bank.beans.FarmerHouseExample;
 import com.bank.beans.FarmerIncome;
 import com.bank.beans.FarmerInsured;
+import com.bank.beans.FarmerInsuredExample;
+import com.bank.beans.FarmerLoanExample;
 import com.bank.beans.FarmerMember;
+import com.bank.beans.FarmerMemberExample;
 import com.bank.beans.FarmerPay;
 import com.bank.beans.FarmerLoan;
+import com.bank.beans.FarmerPayExample;
+import com.bank.beans.FarmerPrivateLending;
+import com.bank.beans.FarmerPrivateLendingExample;
+import com.bank.beans.FarmerTotal;
 import com.bank.dao.IFarmerBreedDao;
 import com.bank.dao.IFarmerCompunishDao;
 import com.bank.dao.IFarmerDao;
@@ -45,13 +54,11 @@ import com.bank.dao.IFarmerInsuredDao;
 import com.bank.dao.IFarmerMemberDao;
 import com.bank.dao.IFarmerPayDao;
 import com.bank.dao.IFarmerLoanDao;
+import com.bank.dao.IFarmerPrivateLendingDao;
 import com.bank.service.IFarmerService;
 import com.common.dao.GenericDAO;
-import com.common.exception.CreateException;
 import com.common.exception.DAOException;
 import com.common.exception.DataNotFoundException;
-import com.common.exception.DeleteException;
-import com.common.exception.UpdateException;
 import com.common.service.impl.GenericServiceImpl;
 
 @Service("farmerService")
@@ -80,6 +87,8 @@ public class FarmerServiceImpl extends GenericServiceImpl<Farmer, Long>
 	private IFarmerCompunishDao farmerCompunishDao;
 	@Resource
 	private IFarmerLoanDao loanDao;
+	@Resource
+	private IFarmerPrivateLendingDao farmerLendingDao;
 	@Resource
 	private IFarmerInsuredDao farmerInsuredDao;
 	@Override
@@ -156,11 +165,8 @@ public class FarmerServiceImpl extends GenericServiceImpl<Farmer, Long>
 		List<FarmerForest> forests = farmerForestDao.getForestsByFarmerId(farmerId);
 		List<FarmerBreed> breeds = farmerBreedDao.getBreedsByFarmerId(farmerId);
 		List<FarmerDevice> devices = farmerDeviceDao.getDevicesByFarmerId(farmerId);
-		FarmerPay balance = farmerPayDao.findLatestByFarmer(farmerId);
+		List<FarmerPay> balances = farmerPayDao.findLatestByFarmer(farmer.getFarmeridnum());
 		List<FarmerIncome> incomes = new ArrayList<FarmerIncome>();
-		if(balance != null){
-			 incomes =farmerIncomeDao.findAll(balance.getId());
-		}
 		FarmerEvaluate evaluate = farmerEvaluateDao.getEvaluateByFarmerId(farmerId);
 		List<FarmerCompunish> compunishs = farmerCompunishDao.getCompunishByFarmerId(farmerId);
 		List<FarmerInsured> insureds = farmerInsuredDao.findByFarmerId(farmerId);
@@ -171,7 +177,7 @@ public class FarmerServiceImpl extends GenericServiceImpl<Farmer, Long>
 		map.put("breeds", breeds);
 		map.put("devices", devices);
 		map.put("forests", forests);
-		map.put("balance", balance);
+		map.put("balances", balances);
 		map.put("incomes", incomes);
 		map.put("evaluate", evaluate);
 		map.put("compunishs", compunishs);
@@ -298,14 +304,6 @@ public class FarmerServiceImpl extends GenericServiceImpl<Farmer, Long>
 		return balances;
 	}
 
-
-	@Override
-	public FarmerPay findLatestBalanceByFarmer(Long farmerId) {
-		FarmerPay balance = farmerPayDao.findLatestByFarmer(farmerId);
-		return balance;
-	}
-
-
 	@Override
 	public List<FarmerInsured> findInsuredByFarmer(Long farmerId) {
 		List<FarmerInsured> insureds = farmerInsuredDao.findByFarmerId(farmerId);
@@ -347,6 +345,84 @@ public class FarmerServiceImpl extends GenericServiceImpl<Farmer, Long>
 		// TODO Auto-generated method stub
 		List<Farmer> farmers = farmerDao.selectSignalByExample(example);
 		return farmers;
+	}
+
+	@Override
+	public FarmerTotal getFarmerTotal(String farmerIdNum) {
+		// TODO Auto-generated method stub
+		FarmerExample fe = new FarmerExample();
+		FarmerExample.Criteria fc = fe.createCriteria();
+		fc.andFarmeridnumEqualTo(farmerIdNum);
+		List<Farmer> farmers =farmerDao.selectByExample(fe);
+		
+		FarmerMemberExample ee = new FarmerMemberExample();
+		FarmerMemberExample.Criteria ec = ee.createCriteria();
+		ec.andFarmeridnumEqualTo(farmerIdNum);
+		List<FarmerMember> members = farmerMemberDao.selectByExample(ee);
+		
+		FarmerLoanExample le = new FarmerLoanExample();
+		FarmerLoanExample.Criteria lc = le.createCriteria();
+		lc.andIdnumEqualTo(farmerIdNum);
+		List<FarmerLoan> loans = loanDao.selectByExample(le);
+
+		FarmerPrivateLendingExample fple = new FarmerPrivateLendingExample();
+		FarmerPrivateLendingExample.Criteria fplec = fple.createCriteria();
+		fplec.andFarmeridnumEqualTo(farmerIdNum);
+		List<FarmerPrivateLending> privatelendings = farmerLendingDao.selectByExample(fple);
+		
+		FarmerHouseExample he = new FarmerHouseExample();
+		FarmerHouseExample.Criteria hc = he.createCriteria();
+		hc.andFarmeridnumEqualTo(farmerIdNum);
+		List<FarmerHouse> houses =  farmerHouseDao.selectByExample(he);
+		
+		FarmerForestExample ffe = new FarmerForestExample();
+		FarmerForestExample.Criteria ffc = ffe.createCriteria();
+		ffc.andFarmeridnumEqualTo(farmerIdNum);
+		List<FarmerForest> forests = farmerForestDao.selectByExample(ffe);
+		
+		FarmerBreedExample be = new FarmerBreedExample();
+		FarmerBreedExample.Criteria bc = be.createCriteria();
+		bc.andFarmeridnumEqualTo(farmerIdNum);
+		List<FarmerBreed> breeds = farmerBreedDao.selectByExample(be);
+		
+		FarmerDeviceExample de = new FarmerDeviceExample();
+		FarmerDeviceExample.Criteria dc = de.createCriteria();
+		dc.andFarmeridnumEqualTo(farmerIdNum);
+		List<FarmerDevice> devices = farmerDeviceDao.selectByExample(de);
+	
+		FarmerPayExample pe = new FarmerPayExample();
+		FarmerPayExample.Criteria pc = pe.createCriteria();
+		pc.andFarmeridnumEqualTo(farmerIdNum);
+		List<FarmerPay> balances = farmerPayDao.selectByExample(pe);
+		
+		FarmerCompunishExample ce = new FarmerCompunishExample();
+		FarmerCompunishExample.Criteria cc = ce.createCriteria();
+		cc.andFarmeridnumEqualTo(farmerIdNum);
+		List<FarmerCompunish> compunishs = farmerCompunishDao.selectByExample(ce);
+		
+		FarmerInsuredExample ie = new FarmerInsuredExample();
+		FarmerInsuredExample.Criteria ic = ie.createCriteria();
+		ic.andFarmeridnumEqualTo(farmerIdNum);
+		List<FarmerInsured> insureds = farmerInsuredDao.selectByExample(ie);
+		
+		FarmerEvaluateExample fee = new FarmerEvaluateExample();
+		FarmerEvaluateExample.Criteria fec = fee.createCriteria();
+		fec.andFarmeridnumEqualTo(farmerIdNum);
+		List<FarmerEvaluate> evaluates = farmerEvaluateDao.selectByExample(fee);
+		FarmerTotal total = new FarmerTotal();
+		total.setFarmers(farmers);
+		total.setMembers(members);
+		total.setLoans(loans);
+		total.setPrivatelendings(privatelendings);
+		total.setHouses(houses);
+		total.setForests(forests);
+		total.setBreeds(breeds);
+		total.setDevices(devices);
+		total.setBalances(balances);
+		total.setCompunishs(compunishs);
+		total.setInsureds(insureds);
+		total.setEvaluates(evaluates);
+		return total;
 	}	
 	
 }

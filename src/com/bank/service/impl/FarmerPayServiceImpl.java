@@ -2,6 +2,7 @@ package com.bank.service.impl;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -120,6 +121,12 @@ public class FarmerPayServiceImpl extends GenericServiceImpl<FarmerPay, Long>
 		// TODO Auto-generated method stub
 		List<FarmerPay> balances = farmerPayDao.selectByExample(example);
 		return balances;
+	}
+
+	@Override
+	public List<FarmerPay> findLatestByFarmer(String farmeridnum) {
+		// TODO Auto-generated method stub
+		return farmerPayDao.findLatestByFarmer(farmeridnum);
 	}
 
 	

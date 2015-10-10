@@ -1,6 +1,7 @@
 package com.bank.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.bank.beans.Farmer;
 import com.bank.beans.FarmerIncome;
@@ -29,4 +30,5 @@ public interface IFarmerPayService extends
 	public List<FarmerPay> findByFarmersAndYear(List<Long> farmerIds,String year);
 	public void deleteIncomes(List<Long> incomes);
 	public List<FarmerPay> selectByExample(FarmerPayExample example);
+	public List<FarmerPay> findLatestByFarmer(String farmeridnum);
 }

@@ -7,7 +7,8 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.bank.beans.FarmerCooperation;
+import com.bank.beans.Cooperation;
+import com.bank.beans.CooperationExample;
 import com.bank.dao.ICooperationDao;
 import com.bank.service.ICooperationService;
 import com.common.dao.GenericDAO;
@@ -19,18 +20,18 @@ import com.common.exception.UpdateException;
 import com.common.service.impl.GenericServiceImpl;
 
 @Service("cooperationService")
-public class ICooperationServiceImpl  extends GenericServiceImpl<FarmerCooperation, Long>  implements ICooperationService {
+public class ICooperationServiceImpl  extends GenericServiceImpl<Cooperation, Long>  implements ICooperationService {
 	
 	@Resource(name="cooperationDao")
 	private ICooperationDao cooperationDao;
 	
 	@Override
-	public void save(FarmerCooperation entity) throws DAOException, CreateException {
+	public void save(Cooperation entity) throws DAOException, CreateException {
 		cooperationDao.save(entity);
 	}
 
 	@Override
-	public void update(FarmerCooperation entity) throws DAOException, UpdateException,
+	public void update(Cooperation entity) throws DAOException, UpdateException,
 			DataNotFoundException {
 		cooperationDao.update(entity);
 	}
@@ -42,28 +43,66 @@ public class ICooperationServiceImpl  extends GenericServiceImpl<FarmerCooperati
 	}
 
 	@Override
-	public FarmerCooperation findByPK(Long pk) throws DAOException, DataNotFoundException {
+	public Cooperation findByPK(Long pk) throws DAOException, DataNotFoundException {
 		return cooperationDao.findByPK(pk);
 	}
 
 	@Override
-	public List<FarmerCooperation> getAllEntities() throws DAOException {
+	public List<Cooperation> getAllEntities() throws DAOException {
 		return null;
 	}
 
-	@Override
-	public List<FarmerCooperation> getPageingEntities(int pageIndex, int pageSize,
-			String sortField, String sortOrder, Map paramMap)
-			throws DAOException {
-		return cooperationDao.getPageingEntities(pageIndex, pageSize, sortField, sortOrder, paramMap);
-	}
 	
 	public List<Map<String,Object>> getCooperationTree(Map<String,Object> paramMap){
 		return cooperationDao.getCooperationTree(paramMap);
 	}
+	
 
 	@Override
-	public GenericDAO<FarmerCooperation, Long> getGenericDAO() {
+	public int countByExample(CooperationExample example) {
+		// TODO Auto-generated method stub
+		return cooperationDao.countByExample(example);
+	}
+
+	@Override
+	public int deleteByExample(CooperationExample example) {
+		// TODO Auto-generated method stub
+		return cooperationDao.deleteByExample(example) ;
+	}
+
+	@Override
+	public int insert(Cooperation record) {
+		// TODO Auto-generated method stub
+		return cooperationDao.insert(record);
+	}
+
+	@Override
+	public int insertSelective(Cooperation record) {
+		// TODO Auto-generated method stub
+		return cooperationDao.insertSelective(record);
+	}
+
+	@Override
+	public List<Cooperation> selectByExample(CooperationExample example) {
+		// TODO Auto-generated method stub
+		return cooperationDao.selectByExample(example);
+	}
+
+	@Override
+	public int updateByExampleSelective(Cooperation record,
+			CooperationExample example) {
+		// TODO Auto-generated method stub
+		return cooperationDao.updateByExampleSelective(record, example);
+	}
+
+	@Override
+	public int updateByExample(Cooperation record, CooperationExample example) {
+		// TODO Auto-generated method stub
+		return cooperationDao.updateByExampleSelective(record, example);
+	}
+
+	@Override
+	public GenericDAO<Cooperation, Long> getGenericDAO() {
 		return this.cooperationDao;
 	}
 	

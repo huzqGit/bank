@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.bank.beans.CooperationProfit;
+import com.bank.beans.CooperationProfitExample;
 import com.bank.dao.ICooperationProfitDao;
 import com.bank.service.ICooperationProfitService;
 import com.common.dao.GenericDAO;
@@ -52,10 +53,48 @@ public class CooperationProfitServiceImpl  extends GenericServiceImpl<Cooperatio
 	}
 
 	@Override
-	public List<CooperationProfit> getPageingEntities(int pageIndex, int pageSize,
-			String sortField, String sortOrder, Map paramMap)
-			throws DAOException {
-		return cooperationProfittDao.getPageingEntities(pageIndex, pageSize, sortField, sortOrder, paramMap);
+	public int countByExample(CooperationProfitExample example) {
+		// TODO Auto-generated method stub
+		return cooperationProfittDao.countByExample(example);
+	}
+
+	@Override
+	public int deleteByExample(CooperationProfitExample example) {
+		// TODO Auto-generated method stub
+		return cooperationProfittDao.deleteByExample(example);
+	}
+
+	@Override
+	public int insert(CooperationProfit record) {
+		// TODO Auto-generated method stub
+		return cooperationProfittDao.insert(record);
+	}
+
+	@Override
+	public int insertSelective(CooperationProfit record) {
+		// TODO Auto-generated method stub
+		return  cooperationProfittDao.insertSelective(record);
+	}
+
+	@Override
+	public List<CooperationProfit> selectByExample(
+			CooperationProfitExample example) {
+		// TODO Auto-generated method stub
+		return cooperationProfittDao.selectByExample(example);
+	}
+
+	@Override
+	public int updateByExampleSelective(CooperationProfit record,
+			CooperationProfitExample example) {
+		// TODO Auto-generated method stub
+		return cooperationProfittDao.updateByExampleSelective(record, example);
+	}
+
+	@Override
+	public int updateByExample(CooperationProfit record,
+			CooperationProfitExample example) {
+		// TODO Auto-generated method stub
+		return cooperationProfittDao.updateByExample(record, example);
 	}
 
 	@Override

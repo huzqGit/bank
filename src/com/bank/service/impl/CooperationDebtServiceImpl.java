@@ -7,7 +7,8 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.bank.beans.FarmerCooperationDebt;
+import com.bank.beans.CooperationDebt;
+import com.bank.beans.CooperationDebtExample;
 import com.bank.dao.ICooperationDebtDao;
 import com.bank.service.ICooperationDebtService;
 import com.common.dao.GenericDAO;
@@ -19,18 +20,18 @@ import com.common.exception.UpdateException;
 import com.common.service.impl.GenericServiceImpl;
 
 @Service("cooperationDebtService")
-public class CooperationDebtServiceImpl  extends GenericServiceImpl<FarmerCooperationDebt, Long>  implements ICooperationDebtService {
+public class CooperationDebtServiceImpl  extends GenericServiceImpl<CooperationDebt, Long>  implements ICooperationDebtService {
 	
 	@Resource(name="cooperationDebtDao")
 	private ICooperationDebtDao cooperationDebtDao;
 	
 	@Override
-	public void save(FarmerCooperationDebt entity) throws DAOException, CreateException {
+	public void save(CooperationDebt entity) throws DAOException, CreateException {
 		cooperationDebtDao.save(entity);
 	}
 
 	@Override
-	public void update(FarmerCooperationDebt entity) throws DAOException, UpdateException,
+	public void update(CooperationDebt entity) throws DAOException, UpdateException,
 			DataNotFoundException {
 		cooperationDebtDao.update(entity);
 	}
@@ -42,24 +43,67 @@ public class CooperationDebtServiceImpl  extends GenericServiceImpl<FarmerCooper
 	}
 
 	@Override
-	public FarmerCooperationDebt findByPK(Long pk) throws DAOException, DataNotFoundException {
+	public CooperationDebt findByPK(Long pk) throws DAOException, DataNotFoundException {
 		return cooperationDebtDao.findByPK(pk);
 	}
 
 	@Override
-	public List<FarmerCooperationDebt> getAllEntities() throws DAOException {
+	public List<CooperationDebt> getAllEntities() throws DAOException {
 		return null;
 	}
 
 	@Override
-	public List<FarmerCooperationDebt> getPageingEntities(int pageIndex, int pageSize,
-			String sortField, String sortOrder, Map paramMap)
-			throws DAOException {
-		return cooperationDebtDao.getPageingEntities(pageIndex, pageSize, sortField, sortOrder, paramMap);
+	public Long getUnitId(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public GenericDAO<FarmerCooperationDebt, Long> getGenericDAO() {
+	public int countByExample(CooperationDebtExample example) {
+		// TODO Auto-generated method stub
+		return cooperationDebtDao.countByExample(example);
+	}
+
+	@Override
+	public int deleteByExample(CooperationDebtExample example) {
+		// TODO Auto-generated method stub
+		return cooperationDebtDao.deleteByExample(example);
+	}
+
+	@Override
+	public int insert(CooperationDebt record) {
+		// TODO Auto-generated method stub
+		return cooperationDebtDao.insert(record);
+	}
+
+	@Override
+	public int insertSelective(CooperationDebt record) {
+		// TODO Auto-generated method stub
+		return cooperationDebtDao.insertSelective(record);
+	}
+
+	@Override
+	public List<CooperationDebt> selectByExample(CooperationDebtExample example) {
+		// TODO Auto-generated method stub
+		return cooperationDebtDao.selectByExample(example);
+	}
+
+	@Override
+	public int updateByExampleSelective(CooperationDebt record,
+			CooperationDebtExample example) {
+		// TODO Auto-generated method stub
+		return cooperationDebtDao.updateByExampleSelective(record, example);
+	}
+
+	@Override
+	public int updateByExample(CooperationDebt record,
+			CooperationDebtExample example) {
+		// TODO Auto-generated method stub
+		return cooperationDebtDao.updateByExample(record, example);
+	}
+
+	@Override
+	public GenericDAO<CooperationDebt, Long> getGenericDAO() {
 		return this.cooperationDebtDao;
 	}
 	
@@ -72,4 +116,5 @@ public class CooperationDebtServiceImpl  extends GenericServiceImpl<FarmerCooper
 		return 0L;
 	}
 
+	
 }
