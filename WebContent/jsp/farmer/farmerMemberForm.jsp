@@ -16,6 +16,10 @@
 <input name="id" class="mini-hidden" value="${member.id}"/>
 <input name="farmerid" class="mini-hidden"  value="${farmer.id}" />
 <input name="farmeridnum" class="mini-hidden"  value="${farmer.farmeridnum}" />
+<input name="sourcecode" class="mini-hidden"  value="${member.sourcecode}" />
+<input name="sourcename" class="mini-hidden"  value="${member.sourcename}" />
+<input name="runitid" class="mini-hidden"  value="${member.runitid}" />
+<input name="runitname" class="mini-hidden"  value="${member.runitname}" />
 <input name="recorder" class="mini-hidden" value="${recorder}"/>
 <input name="recordtime" class="mini-hidden" value="${currentTime}"/>
 <div class="queryPane">
@@ -68,7 +72,7 @@
 	<td style="width:10%">身份证号:</td>
     <td style="width:39%">
     	<input name="idnum" class="mini-textbox" value="${member.idnum }" style="width:90%"
-        errorMode="none" required="true"	 requiredErrorText="身份证号不能为空" onvalidation="onValidation"/>
+        errorMode="none" required="true"	 requiredErrorText="身份证号不能为空" onvalidation="onValidation   "/>
     </td>
     <td class="required_text" width="2%" align="right">*</td>
     <td style="width:10%">文化程度:</td>
@@ -126,11 +130,11 @@
 		<td id="job_error" class="errorText" colspan="2"></td>
 </tr>
 <tr>
-	<td class="required_text" width="2%" align="right">*</td>
+	<td class="required_text" width="2%" align="right"></td>
 	<td style="width:10%">联系电话:</td>
 	<td style="width:39%">
     	<input  name="phone" class="mini-textbox" value="${member.phone}" style="width:90%"
-         errorMode="none" required="true"  requiredErrorText="联系电话不能为空" onvalidation="onValidation" />
+         errorMode="none" required="false"  requiredErrorText="联系电话不能为空" onvalidation="onValidation" />
     </td>
     <td class="required_text" width="2%" align="right"></td>
     <td style="width:10%">地址:</td>
@@ -174,7 +178,6 @@
     function onValidation(e) {                  
         updateError(e);
     }
-	
 </script>
 </body>
 </html>

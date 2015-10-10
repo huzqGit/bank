@@ -15,28 +15,33 @@
 <form action="/bank/farmer/loadFarmerThree.do" method="POST">
 <table width="100%"  style="vertical-align:middle;">
 	<tr>
-		<td class="labelName"  width="30%" align="right">贷款金融机构名称:</td>
+		<td class="labelName"  width="30%" align="right">数据来源名称:</td>
 		<td width="2%" ></td>
-		<td colsapn="4" align="left">
+		<td align="left">
+			<input  type="text" class="bank-text" id="sourcecode" name="sourcecode">
+		</td>
+		<td width="2%" ></td>	
+		<td class="labelName"  width="15%" align="right">贷款金融机构名称:</td>
+		<td align="left">
 			<input  type="text" class="bank-text" id="organName1" name="organName">
 		</td>
 	</tr>
 	<tr>
-		<td class="labelName" width="30%"align="right" >贷款时间从:</td> 
+		<td class="labelName" align="right" >贷款时间从:</td> 
 		<td width="2%" ></td>
 		<td><input type="text" class="bank-text"  id="loanDate1" name="loanDate1"/></td>
 		<td width="2%" ></td>
-		<td class="labelName"  width="10%" align="right">到:</td>
+		<td class="labelName"   align="right">到:</td>
 		<td><input  type="text" class="bank-text" id="loandDate2" name="loandDate2"></td>
 	</tr>
 	<tr>
-		<td class="labelName" width="30%"align="right" >贷款余额范围从:</td> 
+		<td class="labelName" align="right" >贷款余额范围从:</td> 
 		<td width="2%" ></td>
 		<td>
 			<input type="text" class="bank-text" id="balance1" name="balance1"/>
 		</td>
 		<td width="2%" ></td>
-		<td class="labelName"  width="10%" align="right">到:</td>
+		<td class="labelName"  align="right">到:</td>
 		<td>
 			<input id="balance2" name="balance2" class="bank-text" type="text">
 		</td>
@@ -79,8 +84,7 @@
  function editRenderer(e) {
 	var record = e.record;
 	var farmeridnum = record.farmeridnum;
-	var farmername = record.farmername;
-	var s = '<a class="Edit_Button" target="_self" href="/bank/farmer/loadFarmerThreeTotal.do?farmerName='+farmername+'&farmerIdNum='+farmeridnum+'" target="_self">[查看]</a>';      
+	var s = '<a class="Edit_Button" target="_self" href="/bank/farmer/loadFarmerTotal.do?farmeridnum='+farmeridnum+'" target="_self">[查看]</a>';      
 	return s;
 };
 

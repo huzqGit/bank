@@ -44,6 +44,9 @@
 		<a href="/bank/farmer/queryCompunish.do?fid=${farmer.id}">奖惩信息</a>
 	</li>
 	<li class="inactive">
+		<a href="/bank/farmer/queryCredit.do?fid=${farmer.id}">信用户信息</a>
+	</li>
+	<li class="inactive">
 		<a href="/bank/farmer/queryInsured.do?fid=${farmer.id}">参保信息</a>
 	</li>
 	<li class="inactive" >
@@ -64,7 +67,6 @@
 		 <td width="50px" align="right">
        	 <input type="button" class="bank-btn" onclick="add(${farmer.id})" value="新增"/>
         </td>
-       
 	</tr>
 </table>
 </div>
@@ -81,7 +83,7 @@
 			             <div field="marrystatus" width="8%" headerAlign="center" allowSort="true" renderer="marrystatusRenderer">婚姻状况</div>
 			             <div field="sex" width="8%" headerAlign="center" allowSort="true" renderer="sexRenderer">性别</div>    
 			             <div field="phone" width="15%" headerAlign="center" allowSort="true" >联系电话</div> 
-			             <div field="address" width="14%" headerAlign="center" allowSort="true" >地址</div>                                      
+			             <div field="address" width="19%" headerAlign="center" allowSort="true" >地址</div>                                      
 			        	 <div width="5%" headerAlign="center" align="center" renderer="editRenderer" cellStyle="padding:0;"></div>
 			         	 <div width="5%" headerAlign="center" align="center" renderer="deleteRenderer" cellStyle="padding:0;"></div>
 			         </div>

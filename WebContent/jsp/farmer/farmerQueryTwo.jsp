@@ -50,7 +50,7 @@
 					<td align="center">${status.index}</td>
 					<td align="center">${farmer.farmername}</td>			
 					<td align="center">${farmer.farmeridnum}</td>
-					<td align="right" class="ChaKan_Btn"><a  href="/bank/farmer/loadFarmerTwoTotal.do?farmerName=${farmer.farmername}&farmerIdNum=${farmer.farmeridnum}" target="_self">查看</a></td>
+					<td align="right" class="ChaKan_Btn"><a  href="/bank/farmer/loadFarmerTwoTotal.do?farmerIdNum=${farmer.farmeridnum}" target="_self">查看</a></td>
 				</tr>
 				</c:forEach>
 			
@@ -62,11 +62,10 @@
 	<fieldset class="bank-view-fieldset"style="width:90%;margin:auto auto">
 	 <legend style="width:310px;height:74px;background:url(/bank/images/twotips.png) no-repeat"></legend>
 	 <div style="padding:8px 5px 10px 35px">
-	 	<p style="font-size:15px;font-family:黑体;font-weight:bold;color:darkgreen;margin-bottom:10px">用户输入农户姓名、身份证号码可以实现二类查询功能:</p>
+	 	<p style="font-size:15px;font-family:黑体;font-weight:bold;color:darkgreen;margin-bottom:10px">上传用户名单批量查询农户信息</p>
 	 	<ol>
-	 		<li>按农户身份证号精确查询、按客户姓名精确查询。</li>
-	 		<li>其中按身份证号查询方式跳转至农户概况信息页面，展示农户的概况信息。</li>
-	 		<li>其中按姓名查询方式跳转至农户列表信息展示页面，展示负荷条件的多个农户的摘要信息，选择其中的某条记录（通过"详细"按钮）跳转至农户概况信息页面。</li>
+	 		<li>查询之前先下载<a href="/bank/jsp/farmer/model/nameBook.xls"><font color="red">姓名名单</font></a>填写需要查询的用户名单。</li>
+	 		<li>查出多条数据将分行显示，点击相应行数据的查看按钮，即可查看农户的详细信息。</li>
 	 	</ol>
 	 </div>
 	</fieldset>

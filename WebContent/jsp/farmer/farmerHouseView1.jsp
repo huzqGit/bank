@@ -43,6 +43,9 @@
 	<li class="inactive">
 		<a href="/bank/farmer/queryCompunish.do?fid=${farmer.id}">奖惩信息</a>
 	</li>
+	<li class="inactive">
+		<a href="/bank/farmer/queryCredit.do?fid=${farmer.id}">信用户信息</a>
+	</li>
 	<li class="inactive" >
 		<a href="/bank/farmer/queryInsured.do?fid=${farmer.id}">参保信息</a>
 	</li>

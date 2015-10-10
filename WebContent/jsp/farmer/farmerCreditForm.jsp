@@ -32,6 +32,7 @@
 	<form action="/bank/farmer/saveCredit.do" method="POST">
 	<input name="creditid" class="mini-hidden" value="${credit.creditid}"/>
 	<input name="farmerid" class="mini-hidden"  value="${farmer.id}" />
+	<input name="farmeridnum" class="mini-hidden"  value="${farmer.farmeridnum}" />
 	<input name="sourcecode" class="mini-hidden" value="${credit.sourcecode}"/>
 	<input name="sourcename" class="mini-hidden"  value="${farmer.sourcename}" />
 	<input name="runitid" class="mini-hidden" value="${credit.runitid}"/>

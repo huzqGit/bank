@@ -44,6 +44,9 @@
 		<a href="/bank/farmer/queryCompunish.do?fid=${farmer.id}">奖惩信息</a>
 	</li>
 	<li class="inactive">
+		<a href="/bank/farmer/queryCredit.do?fid=${farmer.id}">信用户信息</a>
+	</li>
+	<li class="inactive">
 		<a href="/bank/farmer/queryInsured.do?fid=${farmer.id}">参保信息</a>
 	</li>
 	<li class="inactive">
@@ -76,9 +79,9 @@
 			        <div property="columns">
 			             <div type="indexcolumn" width="5%" headerAlign="center" >编号</div>
 			             <div field="variety" width="20%" headerAlign="center" allowSort="true" renderer="breedTypeRenderer">种养殖品种</div>
-			             <div field="floorarea" width="15%" headerAlign="center" allowSort="true">占地面积</div>   
+			             <div field="floorarea" width="20%" headerAlign="center" allowSort="true">占地面积</div>   
 			             <div field="output" width="20%" headerAlign="center" allowSort="true">年产量</div>
-			             <div field="outputvalue" width="20%" headerAlign="center" allowSort="true" >年产值</div> 
+			             <div field="outputvalue" width="25%" headerAlign="center" allowSort="true" >年产值</div> 
 			        	 <div name="action" width="5%" headerAlign="center" align="center" renderer="editRenderer" cellStyle="padding:0;"></div>
 			        	 <div name="action" width="5%" headerAlign="center" align="center" renderer="deleteRenderer" cellStyle="padding:0;"></div>
 			         </div>

@@ -79,8 +79,8 @@
 		            		<td align="center">编号</td>
 			        <div property="columns">
 			             <div type="indexcolumn" width="5%" headerAlign="center">编号</div>
-			             <div field="type" width="15%" headerAlign="center" allowSort="true" renderer="insuredTypeRenderer">参加保险种类</div>
-			             <div field="amount" width="15%" headerAlign="center" allowSort="true" >参保金额</div>   
+			             <div field="type" width="20%" headerAlign="center" allowSort="true" renderer="insuredTypeRenderer">参加保险种类</div>
+			             <div field="amount" width="20%" headerAlign="center" allowSort="true" >参保金额</div>   
 			             <div field="insuretime" width="20%" headerAlign="center" allowSort="true" dateFormat="yyyy-MM-dd">参保时间</div>  
 			             <div field="limittime" width="25%" headerAlign="center" allowSort="true" dateFormat="yyyy-MM-dd">参保到期日</div>                                                                       
 			        	 <div width="5%" headerAlign="center" align="center" renderer="editRenderer" cellStyle="padding:0;"></div>

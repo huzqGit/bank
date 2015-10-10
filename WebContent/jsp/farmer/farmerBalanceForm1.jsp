@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="dt" uri="http://gov.jian.bank/dateformat" %>    
 <%@ include file="../common/CurrentTime.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>农户收支信息</title>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <link href="${pageContext.request.contextPath}/jsp/farmer/form.css"  rel="stylesheet" type="text/css"/>
@@ -33,6 +33,10 @@
 <input name="deleteIncome" id="deleteIncome" class="mini-hidden"/>
 <input name="id" class="mini-hidden" value="${balance.id}" />
 <input name="farmeridnum" class="mini-hidden"  value="${farmer.farmeridnum}" />
+<input name="sourcecode" class="mini-hidden"  value="${balance.sourcecode}" />
+<input name="sourcename" class="mini-hidden"  value="${balance.sourcename}" />
+<input name="runitid" class="mini-hidden"  value="${balance.runitid}" />
+<input name="runitname" class="mini-hidden"  value="${balance.runitname}" />
 <input name="recorder" class="mini-hidden" value="${recorder}"/>
 <input name="recordtime" class="mini-hidden" value="${currentTime}"/>
 <fieldset id="fd2" style="width:100%;margin:auto auto">
@@ -43,7 +47,7 @@
 	<td class="required_text" width="2%" >*</td>
 	<td style="width:18%">年份:</td>
 	<td width="30%">
-		<input  name="year" class="mini-datepicker" value="${balance.year}" format="yyyy" style="width:90%"
+		<input  name="year" class="mini-datepicker" value="${dt:format(balance.year,'yyyy-MM-dd')}" format="yyyy" style="width:90%"
 			errorMode="none" required="true" requiredErrorText="年份不能为空" onvalidation="onValidation"/>
 	</td>
 	<td class="required_text" width="2%" ></td>

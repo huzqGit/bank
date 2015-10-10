@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="dt" uri="http://gov.jian.bank/dateformat" %>   
 <%@ include file="../common/CurrentTime.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -19,6 +20,11 @@
 <form action="/bank/farmer/saveInsured1.do" method="POST">
 <input name="id" class="mini-hidden" value="${insured.id}"/>
 <input name="farmerid" class="mini-hidden" value="${farmer.id}"/>
+<input name="farmeridnum" class="mini-hidden" value="${farmer.farmeridnum}"/>
+<input name="sourcecode" class="mini-hidden" value="${insured.sourcecode}"/>
+<input name="sourcename" class="mini-hidden" value="${insured.sourcename}"/>
+<input name="runitid" class="mini-hidden" value="${insured.runitid}"/>
+<input name="runitname" class="mini-hidden" value="${insured.runitname}"/>
 <input name="recorder" class="mini-hidden" value="${recorder}"/>
 <input name="recordtime" class="mini-hidden" value="${currentTime}"/>
 <div class="queryPane">
@@ -71,13 +77,13 @@
 	<td class="required_text" width="2%">*</td>	
 	<td style="width:10%">参保时间:</td>
 	<td style="width:38%">
-		<input name="insuretime" class="mini-datepicker" value="${insured.insuretime}" style="width:90%"
+		<input name="insuretime" class="mini-datepicker" value="${dt:format(insured.insuretime,'yyyy-MM-dd')}" style="width:90%"
 			errorMode="none" required="true" requiredErrorText="参保时间不能为空"onvalidation="onValidation" />
 	</td>
 	<td class="required_text" width="2%">*</td>
 	<td>参保到期日:</td>
 	<td>
-		<input name="limittime" class="mini-datepicker" value="${insured.limittime}" style="width:90%"
+		<input name="limittime" class="mini-datepicker" value="${dt:format(insured.limittime,'yyyy-MM-dd')}" style="width:90%"
 			errorMode="none" required="true" requiredErrorText="参保到期日不能为空" onvalidation="onValidation"/>
 	</td>
 </tr>

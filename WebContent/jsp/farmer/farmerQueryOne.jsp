@@ -20,69 +20,51 @@ body{ine-height:120%;font-family:"仿宋_GB2312";font-size:13pt;}
 <table width="100%" height="30px" style="vertical-align:middle">
 	<tr>
 		<td class="labelName" width="30%"align="right" >农户姓名:&nbsp;&nbsp;&nbsp; 
-		<input name="farmerName" type="text" class="bank-text"/>
+		<input id="farmerName" name="farmerName" type="text" class="bank-text"/>
 		</td>
 		<td width="5%" ></td>
 		<td class="labelName"  width="20%">农户身份证号:&nbsp;&nbsp;&nbsp;
-		<input name="farmerIdNum" type="text" class="bank-text">
+		<input id="farmerIdNum" name="farmerIdNum" type="text" class="bank-text">
 		</td>
 		<td width="1%"></td>
 		<td width="20%" align="left">
-			<input type="submit" class="bank-btn" value="查询">
+			<input type="button"  onclick="search()"class="bank-btn" value="查询">
 		</td>
 	</tr>
 </table>
 </form>
 </div>
-<c:choose>
-<c:when test="${empty farmers}">
-<div>
-<fieldset class="bank-view-fieldset" style="width:90%;margin:auto auto">
-<legend style="width:310px;height:74px;background:url(/bank/images/onetips.png) no-repeat"></legend>
-<div style="padding:8px 5px 10px 35px">
-<p style="font-size:15px;font-family:黑体;font-weight:bold;color:darkgreen;margin-bottom:10px">用户输入农户姓名、身份证号码可以实现二类查询功能:</p>
-	<ol>
-		<li>按农户身份证号精确查询、按客户姓名精确查询。</li>
-		<li>其中按身份证号查询方式跳转至农户概况信息页面，展示农户的概况信息。</li>
-	 	<li>其中按姓名查询方式跳转至农户列表信息展示页面，展示负荷条件的多个农户的摘要信息，选择其中的某条记录（通过"详细"按钮）跳转至农户概况信息页面。</li>
-	</ol>
-	 
-</div>
-</fieldset>
-</div>
-</c:when>
-<c:otherwise>
-<div>
-<fieldset style="width:90%;margin:auto auto">
-<legend style="width:310px;height:74px;background:url(/bank/images/tips.png) no-repeat"></legend>
-<div class="table_m">
-	<table width="90%" border="0" cellspacing="0" cellpadding="0">
-	<tr style="font-weight:bold;color:black">
-		<td align="center">编号</td>
-		<td align="center">姓名</td>
-		<td align="center">身份证号码</td>
-		<td align="center">联系电话</td>
-		<td align="center">住址</td>
-	</tr>
-	<c:forEach items="${farmers}" var="farmer" varStatus="status">
-	<tr onclick="detail(${farmer.id})">
-		<td align="center">${status.index+1}</td>
-		<td align="center">${farmer.farmerName}</td>
-		<td align="center">${farmer.farmerIdnum}</td>
-		<td align="center">${farmer.phone}</td>
-		<td align="center">${farmer.address}</td>
-	</tr>	
-	</c:forEach>
-</table>
-</div>
-</fieldset>
-</div>
-</c:otherwise>
-</c:choose>
+
+	<div id="bank_grid" style="width:100%;position:absolute;top:50px;bottom:0px;left:0px;">
+		<div id="datagrid1" class="mini-datagrid" style="width:100%;height:100%;background-color:white" 
+			            url="${pageContext.request.contextPath}/farmer/queryFarmerOne.do" idField="id"
+			            sizeList="[5,10,20,50]" pageSize="20" showReloadButton="false">
+				        <div property="columns">
+				             <div type="indexcolumn" width="10%" headerAlign="center" align="center">编号</div>
+				             <div field="farmername" width="40%" headerAlign="center" align="center" >姓名</div>
+				             <div field="farmeridnum" width="40%" headerAlign="center" align="center">身份证号码</div>
+				             <div name="action" width="10%" headerAlign="center" align="center" renderer="onActionRenderer1" cellStyle="padding:0;"></div>   
+				         </div>
+		</div>
+	</div>
 <script type="text/javascript">
+mini.parse();
+var grid = mini.get("datagrid1");
+grid.load();
 function detail(id){
 	window.location.href="/bank/farmer/loadFarmerTotal.do?id="+id;
 };
+function search() {
+	var farmerName = $("#farmerName").val();
+	var farmerIdNum = $("#farmerIdNum").val();
+    grid.load({farmerName:farmerName,farmerIdNum:farmerIdNum});
+};
+function onActionRenderer1(e) {
+    var record = e.record;
+    var fameridnum = record.farmeridnum;
+    var s = '<a class="New_Button" target="_self" href="/bank/farmer/loadFarmerTotal.do?farmeridnum='+fameridnum+'">[查看]</a>';      
+    return s;
+}
 </script>
 </body>
 </html>

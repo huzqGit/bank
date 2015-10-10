@@ -48,10 +48,9 @@
 		-ms-filter: "progid:DXImageTransform.Microsoft.gradient( GradientType = 0,startColorstr = '#6DC8E3', 
 		endColorstr = 'white' )"; 
      }
-     ul{width:100%;list-style-type:none;clear:both}
+     ul{width:100%;list-style-type:none;clear:both;margin:0px;padding:0px}
      li{float:left;height:22px;line-height:22px;word-break:break-all;word-wrap:break-word;text-align:left};
    	.labelName{
-   		padding-left:12px;
    		width:15%;
    	}
    	.labelValue{
@@ -67,7 +66,7 @@
 <tr><td></td><td></td></tr>
 <tr>
 <td colspan="2">
-<fieldset id="fd2" style="width:100%;margin:auto auto">
+<fieldset id="fd2" style="width:100%;margin:0px;padding:0px">
 <legend style="width:250px;height:74px;background:url(/bank/images/farmer.png)"> </legend>
 <div style="width:100%;margin:0px;padding:0px">
 <c:forEach items="${farmers}" var="farmer" varStatus="stauts">
@@ -215,16 +214,16 @@
 <fieldset id="fd2" style="width:100%;margin:auto auto">
 <legend style="width:260px;height:74px;background:url(/bank/images/lending.png) no-repeat"> </legend>
 <div class="fieldset-body">
-<c:forEach items="${insureds}" var="loan" varStatus="stauts">
+<c:forEach items="${privatelendings}" var="privatelending" varStatus="stauts">
 <ul class="label0">
 	<li style="width:15%">贷款金额:</li>
-	<li style="width:10%">${insured.type}</li>
+	<li style="width:10%">${privatelending.amount}</li>
 	<li style="width:15%">月利率:</li>
-	<li style="width:10%">${insured.amount}</li>
+	<li style="width:10%">${privatelending.rate}</li>
 	<li style="width:15%">借贷日期:</li>
-	<li style="width:10%">${insured.insuredtime}</li>
+	<li style="width:10%">${dt:format(privatelending.lendingtime,"yyyy-MM-dd")}</li>
 	<li style="width:15%">到期日期:</li>
-	<li style="width:10%">${insured.limittime}</li>
+	<li style="width:10%">${dt:format(privatelending.limittime,"yyyy-MM-dd")}</li>
 </ul>
 </c:forEach>
 </div>
@@ -266,7 +265,7 @@
     <li style="width:15%">林权字号:</li>
     <li style="width:10%">${forest.wordnum}</li>
 	<li style="width:15%">林权使用人:</li>
-    <li style="width:10%">${forest.user}</li>
+    <li style="width:10%">${forest.owner}</li>
     <li style="width:15%">林权使用种类:</li>
     <li style="width:10%">${forest.usetype}</li>
 </ul>

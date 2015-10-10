@@ -12,7 +12,7 @@
 </head>
 <body>
 <div class="queryPane">
-<form id="farmer" action="/bank/farmer/typeInFarmer.do" method="POST">
+<form id="farmer" action="/bank/farmer/typeInFarmerPoor.do" method="POST">
 <table width="100%" height="30px" style="vertical-align:middle;">
 	<tr>
 		<td  width="5%"align="right" >

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="../common/CurrentTime.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -37,6 +38,10 @@
 <input name="id" class="mini-hidden" value="${breed.id}"/>
 <input name="farmerid" class="mini-hidden" value="${farmer.id}" />
 <input name="farmeridnum" class="mini-hidden" value="${farmer.farmeridnum}" />
+<input name="sourcecode" class="mini-hidden" value="${breed.sourcecode}" />
+<input name="sourcename" class="mini-hidden" value="${breed.sourcename}" />
+<input name="runitid" class="mini-hidden" value="${breed.runitid}" />
+<input name="runitname" class="mini-hidden" value="${breed.runitname}" />
 <input name="recorder" class="mini-hidden" value="${recorder}"/>
 <input name="recordtime" class="mini-hidden" value="${currentTime}"/>
 <table border="0" cellpadding="1" cellspacing="15" width="100%" >

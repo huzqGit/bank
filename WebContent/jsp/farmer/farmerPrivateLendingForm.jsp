@@ -16,6 +16,10 @@
 <input name="id" class="mini-hidden" value="${privateLending.id}"/>
 <input name="farmerid" class="mini-hidden"  value="${farmer.id}" />
 <input name="farmeridnum" class="mini-hidden"  value="${farmer.farmeridnum}" />
+<input name="sourcecode" class="mini-hidden"  value="${privateLending.sourcecode}"/>
+<input name="sourcename" class="mini-hidden"  value="${privateLending.sourcename}"/>
+<input name="runitid" class="mini-hidden"  value="${privateLending.runitid}" />
+<input name="runitname" class="mini-hidden"  value="${privateLending.runitname}"/>
 <input name="recorder" class="mini-hidden" value="${recorder}"/>
 <input name="recordtime" class="mini-hidden" value="${currenttime}"/>
 <div class="queryPane">

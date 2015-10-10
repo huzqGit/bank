@@ -47,6 +47,9 @@
 		<a href="/bank/farmer/queryCompunish.do?fid=${farmer.id}">奖惩信息</a>
 	</li>
 	<li class="inactive">
+		<a href="/bank/farmer/queryCredit.do?fid=${farmer.id}">信用户信息</a>
+	</li>
+	<li class="inactive">
 		<a href="/bank/farmer/queryInsured.do?fid=${farmer.id}">参保信息</a>
 	</li>
 	<li class="inactive">
@@ -78,10 +81,10 @@
             sizeList="[5,10,20,50]" pageSize="10" showReloadButton="false">
 	        <div property="columns">
 	             <div type="indexcolumn" width="5%" headerAlign="center">编号</div>
-	             <div field="amount" width="15%" headerAlign="center" allowSort="true">贷款金额</div>
-	             <div field="rate" width="15%" headerAlign="center" allowSort="true" >利率</div>   
-	             <div field="lendingtime" width="30%" headerAlign="center" allowSort="true" dateFormat="yyyy-MM-dd">贷款时间 </div>     
-	             <div field="limttime" width="10%" headerAlign="center" allowSort="true" dateFormat="yyyy-MM-dd">到期时间</div>                                    
+	             <div field="amount" width="20%" headerAlign="center" allowSort="true">贷款金额</div>
+	             <div field="rate" width="20%" headerAlign="center" allowSort="true" >利率</div>   
+	             <div field="lendingtime" width="20%" headerAlign="center" allowSort="true" dateFormat="yyyy-MM-dd">贷款时间 </div>     
+	             <div field="limttime" width="25%" headerAlign="center" allowSort="true" dateFormat="yyyy-MM-dd">到期时间</div>                                    
 	        	 <div width="5%" headerAlign="center" align="center" renderer="editRenderer" cellStyle="padding:0;"></div>
 	         	 <div width="5%" headerAlign="center" align="center" renderer="deleteRenderer" cellStyle="padding:0;"></div>
 	         </div>

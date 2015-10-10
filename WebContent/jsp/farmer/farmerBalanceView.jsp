@@ -44,6 +44,9 @@
 		<a href="/bank/jsp/common/bankBuilding.jsp?form=compunish">奖惩信息</a>
 	</li>
 	<li class="inactive">
+		<a href="/bank/farmer/queryCredit.do?fid=${farmer.id}">信用户信息</a>
+	</li>
+	<li class="inactive">
 		<a href="/bank/jsp/common/bankBuilding.jsp?form=insured">参保信息</a>
 	</li>
 	<li class="inactive">
@@ -103,8 +106,7 @@
 	function deleteRenderer(e) {
 	    var record = e.record;
 	    var id = record.id;
-	    var fid = record.farmerid;
-	    var s = '<a class="New_Button" target="_self" href="/bank/farmer/deleteBalance.do?id='+id+'&fid='+fid+'">[删除]</a>';      
+	    var s = '<a class="New_Button" target="_self" href="/bank/farmer/deleteBalance.do?id='+id+'">[删除]</a>';      
 	    return s;
 	};
 </script>
