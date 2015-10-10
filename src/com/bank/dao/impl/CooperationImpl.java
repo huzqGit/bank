@@ -8,7 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import com.bank.beans.FarmerCooperation;
+import com.bank.beans.Cooperation;
+import com.bank.beans.CooperationExample;
 import com.bank.dao.ICooperationDao;
 import com.common.dao.impl.GenericMyBatisDAOSupport;
 import com.common.exception.CreateException;
@@ -18,18 +19,18 @@ import com.common.exception.DeleteException;
 import com.common.exception.UpdateException;
 
 @Repository("cooperationDao")
-public class CooperationImpl extends GenericMyBatisDAOSupport<FarmerCooperation,Long> implements ICooperationDao {
+public class CooperationImpl extends GenericMyBatisDAOSupport<Cooperation,Long> implements ICooperationDao {
 	
 	private static Logger log = LoggerFactory.getLogger(CooperationImpl.class);
 	
 	@Override
-	public void save(FarmerCooperation entity) throws DAOException,
+	public void save(Cooperation entity) throws DAOException,
 			CreateException {
 		this.getSqlSession().insert("cooperation.save", entity);
 	}
 
 	@Override
-	public void update(FarmerCooperation entity) throws DAOException,
+	public void update(Cooperation entity) throws DAOException,
 			UpdateException {
 		this.getSqlSession().update("cooperation.update", entity);
 	}
@@ -40,30 +41,15 @@ public class CooperationImpl extends GenericMyBatisDAOSupport<FarmerCooperation,
 	}
 
 	@Override
-	public FarmerCooperation findByPK(Long pk) throws DAOException,
+	public Cooperation findByPK(Long pk) throws DAOException,
 			DataNotFoundException {
 		return getSqlSession().selectOne("cooperation.findByPK", pk);
 	}
 
 	@Override
-	public List<FarmerCooperation> getAllEntities() throws DAOException {
+	public List<Cooperation> getAllEntities() throws DAOException {
 		return null;
 	}
-
-	@Override
-	public List<FarmerCooperation> getPageingEntities(int pageIndex,
-			int pageSize, String sortField, String sortOrder,Map map)
-			throws DAOException {
-		int start = pageIndex * pageSize, end = start + pageSize;
-		if (!"desc".equals(sortOrder))
-			sortOrder = "asc";
-		map.put("start", start);
-		map.put("end", end);
-		map.put("sortOrder", sortOrder);
-		map.put("sortField", sortField);
-		return getSqlSession().selectList("cooperation.getPageingEntities", map);
-	}
-	
 	public long getTotal(Map<String,String> map){
 		return getSqlSession().selectOne("cooperation.getTotal",map);
 	}
@@ -87,4 +73,63 @@ public class CooperationImpl extends GenericMyBatisDAOSupport<FarmerCooperation,
 		}
 		return null;
 	}
+
+	@Override
+	public int countByExample(CooperationExample example) {
+		// TODO Auto-generated method stub
+		int num = this.getSqlSession().selectOne("cooperation.countByExample",example);
+		return num;
+	}
+
+	@Override
+	public int deleteByExample(CooperationExample example) {
+		// TODO Auto-generated method stub
+		int num = this.getSqlSession().update("cooperation.deleteByExample",example);
+		return  num;
+	}
+
+	@Override
+	public int insert(Cooperation record) {
+		// TODO Auto-generated method stub
+		int num = this.getSqlSession().insert("cooperation.insert", record);
+		return num;
+	}
+
+	@Override
+	public int insertSelective(Cooperation record) {
+		// TODO Auto-generated method stub
+		int num = this.getSqlSession().insert("cooperation.insertSelective",record);
+		return num;
+	}
+
+	@Override
+	public List<Cooperation> selectByExample(CooperationExample example) {
+		// TODO Auto-generated method stub
+		List<Cooperation> cooperations = this.getSqlSession().selectList("cooperation.selectByExample",example);
+		return cooperations;
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public int updateByExampleSelective(Cooperation record,
+			CooperationExample example) {
+		// TODO Auto-generated method stub
+		Map map = new HashMap();
+		map.put("record", record);
+		map.put("example", example);
+		int num = this.getSqlSession().update("cooperation.updateByExampleSelective", map);
+		return num;
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public int updateByExample(Cooperation record, CooperationExample example) {
+		// TODO Auto-generated method stub
+		Map map = new HashMap();
+		map.put("record", record);
+		map.put("example", example);
+		int num = this.getSqlSession().update("cooperation.updateByExampleSelective", map);
+		return num;
+	}
+	
 }

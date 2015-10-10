@@ -39,8 +39,8 @@ public class FarmerPayDaoImpl extends GenericMyBatisDAOSupport<FarmerPay, Long>
 	}
 
 	@Override
-	public FarmerPay findLatestByFarmer(Long farmerId) {
-		FarmerPay balance = this.getSqlSession().selectOne("farmerpay.findLatestByFarmer",farmerId);
+	public List<FarmerPay> findLatestByFarmer(String farmeridnum) {
+		List<FarmerPay> balance = this.getSqlSession().selectList("farmerpay.findLatestByFarmer",farmeridnum);
 		return balance;
 	}
 

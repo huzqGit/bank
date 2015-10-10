@@ -1,5 +1,6 @@
 package com.bank.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.bank.beans.CooperationProfit;
+import com.bank.beans.CooperationProfitExample;
 import com.bank.dao.ICooperationProfitDao;
 import com.common.dao.impl.GenericMyBatisDAOSupport;
 import com.common.exception.CreateException;
@@ -49,20 +51,7 @@ public class CooperationProfitImpl extends GenericMyBatisDAOSupport<CooperationP
 		return null;
 	}
 
-	@Override
-	public List<CooperationProfit> getPageingEntities(int pageIndex,
-			int pageSize, String sortField, String sortOrder,Map map)
-			throws DAOException {
-		int start = pageIndex * pageSize, end = start + pageSize;
-		if (!"desc".equals(sortOrder))
-			sortOrder = "asc";
-		map.put("start", start);
-		map.put("end", end);
-		map.put("sortOrder", sortOrder);
-		map.put("sortField", sortField);
-		return getSqlSession().selectList("cooperationProfit.getPageingEntities", map);
-	}
-	
+
 	public long getTotal(Map<String,String> map){
 		return getSqlSession().selectOne("cooperationProfit.getTotal",map);
 	}
@@ -76,5 +65,66 @@ public class CooperationProfitImpl extends GenericMyBatisDAOSupport<CooperationP
 		}
 		return null;
 	}
+
+	@Override
+	public int countByExample(CooperationProfitExample example) {
+		// TODO Auto-generated method stub
+		int num = this.getSqlSession().selectOne("cooperationprofit.countByExample",example);
+		return num;
+	}
+
+	@Override
+	public int deleteByExample(CooperationProfitExample example) {
+		// TODO Auto-generated method stub
+		int num = this.getSqlSession().update("cooperationprofit.deleteByExample",example);
+		return  num;
+	}
+
+	@Override
+	public int insert(CooperationProfit record) {
+		// TODO Auto-generated method stub
+		int num = this.getSqlSession().insert("cooperationprofit.insert", record);
+		return num;
+	}
+
+	@Override
+	public int insertSelective(CooperationProfit record) {
+		// TODO Auto-generated method stub
+		int num = this.getSqlSession().insert("cooperationprofit.insertSelective",record);
+		return num;
+	}
+
+	@Override
+	public List<CooperationProfit> selectByExample(
+			CooperationProfitExample example) {
+		// TODO Auto-generated method stub
+		List<CooperationProfit> cooperations = this.getSqlSession().selectList("cooperationprofit.selectByExample",example);
+		return cooperations;
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public int updateByExampleSelective(CooperationProfit record,
+			CooperationProfitExample example) {
+		// TODO Auto-generated method stub
+		Map map = new HashMap();
+		map.put("record", record);
+		map.put("example", example);
+		int num = this.getSqlSession().update("cooperationProfit.updateByExampleSelective", map);
+		return num;
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public int updateByExample(CooperationProfit record,
+			CooperationProfitExample example) {
+		// TODO Auto-generated method stub
+		Map map = new HashMap();
+		map.put("record", record);
+		map.put("example", example);
+		int num = this.getSqlSession().update("cooperationProfit.updateByExampleSelective", map);
+		return num;
+	}
+	
 
 }

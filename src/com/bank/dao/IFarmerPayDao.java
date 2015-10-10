@@ -11,7 +11,7 @@ public interface IFarmerPayDao extends GenericDAO<FarmerPay, Long> {
 	public int countByExample(FarmerPayExample example);
 	public List<FarmerPay> findByFarmerAndYear(Long farmerId,String year);
 	public List<FarmerPay> findByFarmer(Long farmerId);
-	public FarmerPay findLatestByFarmer(Long farmerId);
+	public List<FarmerPay> findLatestByFarmer(String farmeridnum);
 	public int findTotalNumberByFarmerId(Long farmerId);
 	public List<FarmerPay> findPagingByFarmerId(int pageIndex,int pageSize,String sortField,
 			String sortOrder,Long farmerId);
