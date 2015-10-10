@@ -262,73 +262,73 @@ public class CooperationExample {
             return (Criteria) this;
         }
 
-        public Criteria andOrgacodeIsNull() {
-            addCriterion("ORGACODE is null");
+        public Criteria andOrgancodeIsNull() {
+            addCriterion("ORGANCODE is null");
             return (Criteria) this;
         }
 
-        public Criteria andOrgacodeIsNotNull() {
-            addCriterion("ORGACODE is not null");
+        public Criteria andOrgancodeIsNotNull() {
+            addCriterion("ORGANCODE is not null");
             return (Criteria) this;
         }
 
-        public Criteria andOrgacodeEqualTo(String value) {
-            addCriterion("ORGACODE =", value, "orgacode");
+        public Criteria andOrgancodeEqualTo(String value) {
+            addCriterion("ORGANCODE =", value, "organcode");
             return (Criteria) this;
         }
 
-        public Criteria andOrgacodeNotEqualTo(String value) {
-            addCriterion("ORGACODE <>", value, "orgacode");
+        public Criteria andOrgancodeNotEqualTo(String value) {
+            addCriterion("ORGANCODE <>", value, "organcode");
             return (Criteria) this;
         }
 
-        public Criteria andOrgacodeGreaterThan(String value) {
-            addCriterion("ORGACODE >", value, "orgacode");
+        public Criteria andOrgancodeGreaterThan(String value) {
+            addCriterion("ORGANCODE >", value, "organcode");
             return (Criteria) this;
         }
 
-        public Criteria andOrgacodeGreaterThanOrEqualTo(String value) {
-            addCriterion("ORGACODE >=", value, "orgacode");
+        public Criteria andOrgancodeGreaterThanOrEqualTo(String value) {
+            addCriterion("ORGANCODE >=", value, "organcode");
             return (Criteria) this;
         }
 
-        public Criteria andOrgacodeLessThan(String value) {
-            addCriterion("ORGACODE <", value, "orgacode");
+        public Criteria andOrgancodeLessThan(String value) {
+            addCriterion("ORGANCODE <", value, "organcode");
             return (Criteria) this;
         }
 
-        public Criteria andOrgacodeLessThanOrEqualTo(String value) {
-            addCriterion("ORGACODE <=", value, "orgacode");
+        public Criteria andOrgancodeLessThanOrEqualTo(String value) {
+            addCriterion("ORGANCODE <=", value, "organcode");
             return (Criteria) this;
         }
 
-        public Criteria andOrgacodeLike(String value) {
-            addCriterion("ORGACODE like", value, "orgacode");
+        public Criteria andOrgancodeLike(String value) {
+            addCriterion("ORGANCODE like", value, "organcode");
             return (Criteria) this;
         }
 
-        public Criteria andOrgacodeNotLike(String value) {
-            addCriterion("ORGACODE not like", value, "orgacode");
+        public Criteria andOrgancodeNotLike(String value) {
+            addCriterion("ORGANCODE not like", value, "organcode");
             return (Criteria) this;
         }
 
-        public Criteria andOrgacodeIn(List<String> values) {
-            addCriterion("ORGACODE in", values, "orgacode");
+        public Criteria andOrgancodeIn(List<String> values) {
+            addCriterion("ORGANCODE in", values, "organcode");
             return (Criteria) this;
         }
 
-        public Criteria andOrgacodeNotIn(List<String> values) {
-            addCriterion("ORGACODE not in", values, "orgacode");
+        public Criteria andOrgancodeNotIn(List<String> values) {
+            addCriterion("ORGANCODE not in", values, "organcode");
             return (Criteria) this;
         }
 
-        public Criteria andOrgacodeBetween(String value1, String value2) {
-            addCriterion("ORGACODE between", value1, value2, "orgacode");
+        public Criteria andOrgancodeBetween(String value1, String value2) {
+            addCriterion("ORGANCODE between", value1, value2, "organcode");
             return (Criteria) this;
         }
 
-        public Criteria andOrgacodeNotBetween(String value1, String value2) {
-            addCriterion("ORGACODE not between", value1, value2, "orgacode");
+        public Criteria andOrgancodeNotBetween(String value1, String value2) {
+            addCriterion("ORGANCODE not between", value1, value2, "organcode");
             return (Criteria) this;
         }
 
@@ -1749,76 +1749,6 @@ public class CooperationExample {
 
         public Criteria andSourcenameNotBetween(String value1, String value2) {
             addCriterion("SOURCENAME not between", value1, value2, "sourcename");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrganIdIsNull() {
-            addCriterion("ORGAN_ID is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrganIdIsNotNull() {
-            addCriterion("ORGAN_ID is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrganIdEqualTo(String value) {
-            addCriterion("ORGAN_ID =", value, "organId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrganIdNotEqualTo(String value) {
-            addCriterion("ORGAN_ID <>", value, "organId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrganIdGreaterThan(String value) {
-            addCriterion("ORGAN_ID >", value, "organId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrganIdGreaterThanOrEqualTo(String value) {
-            addCriterion("ORGAN_ID >=", value, "organId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrganIdLessThan(String value) {
-            addCriterion("ORGAN_ID <", value, "organId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrganIdLessThanOrEqualTo(String value) {
-            addCriterion("ORGAN_ID <=", value, "organId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrganIdLike(String value) {
-            addCriterion("ORGAN_ID like", value, "organId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrganIdNotLike(String value) {
-            addCriterion("ORGAN_ID not like", value, "organId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrganIdIn(List<String> values) {
-            addCriterion("ORGAN_ID in", values, "organId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrganIdNotIn(List<String> values) {
-            addCriterion("ORGAN_ID not in", values, "organId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrganIdBetween(String value1, String value2) {
-            addCriterion("ORGAN_ID between", value1, value2, "organId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrganIdNotBetween(String value1, String value2) {
-            addCriterion("ORGAN_ID not between", value1, value2, "organId");
             return (Criteria) this;
         }
     }

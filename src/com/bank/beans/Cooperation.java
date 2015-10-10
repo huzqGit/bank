@@ -2,12 +2,20 @@ package com.bank.beans;
 
 import java.util.Date;
 
-public class Cooperation {
-    private Long cooperationid;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.common.bean.BaseEntity;
+
+public class Cooperation extends BaseEntity<Long>{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6173585119855983528L;
+
 
     private String cooperationname;
 
-    private String orgacode;
+    private String organcode;
 
     private String taxcode;
 
@@ -16,7 +24,8 @@ public class Cooperation {
     private String registeraddress;
 
     private String mailaddress;
-
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date registerdate;
 
     private String registercapital;
@@ -44,22 +53,14 @@ public class Cooperation {
     private String runitname;
 
     private String recorder;
-
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date recordtime;
 
     private String sourcecode;
 
     private String sourcename;
 
-    private String organId;
-
-    public Long getCooperationid() {
-        return cooperationid;
-    }
-
-    public void setCooperationid(Long cooperationid) {
-        this.cooperationid = cooperationid;
-    }
 
     public String getCooperationname() {
         return cooperationname;
@@ -69,12 +70,12 @@ public class Cooperation {
         this.cooperationname = cooperationname == null ? null : cooperationname.trim();
     }
 
-    public String getOrgacode() {
-        return orgacode;
+    public String getOrgancode() {
+        return organcode;
     }
 
-    public void setOrgacode(String orgacode) {
-        this.orgacode = orgacode == null ? null : orgacode.trim();
+    public void setOrgancode(String organcode) {
+        this.organcode = organcode == null ? null : organcode.trim();
     }
 
     public String getTaxcode() {
@@ -245,11 +246,16 @@ public class Cooperation {
         this.sourcename = sourcename == null ? null : sourcename.trim();
     }
 
-    public String getOrganId() {
-        return organId;
-    }
+	@Override
+	public boolean equalsIfIdNull(Object o) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
-    public void setOrganId(String organId) {
-        this.organId = organId == null ? null : organId.trim();
-    }
+	@Override
+	public int hashCodeIfIdNull() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+    
 }
