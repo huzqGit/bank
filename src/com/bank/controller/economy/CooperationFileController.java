@@ -18,6 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -27,20 +28,20 @@ import com.bank.beans.CooperationExample;
 import com.bank.beans.Organ;
 import com.bank.beans.User;
 import com.bank.beans.enums.CooperationNSEnum;
+import com.bank.service.ICooperationService;
 import com.bank.service.ICooperationService1;
 import com.bank.utils.ParseDataUtils;
 
 @Controller
 @RequestMapping("economy")
-public class ImportFileController {
+public class CooperationFileController {
 	
 	@Resource
-	private ICooperationService1 cooperationService1;
+	private ICooperationService cooperationService;
 	
-	@RequestMapping(value="/importFile",method=RequestMethod.POST)
-	public ModelAndView loadFile1(MultipartFile myfile,HttpServletRequest request, 
-			HttpServletResponse response) throws IOException{
-		
+	@RequestMapping(value="/importCooperationFile",method=RequestMethod.POST)
+	public ModelAndView loadFile1(@RequestParam(value="sourcecode") String sourcecode, MultipartFile myfile,
+			HttpServletRequest request, HttpServletResponse response){
 		String[][] data = null;
 		Organ organ = (Organ)request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
 		User user = (User)request.getSession().getAttribute(Constants.SESSION_AUTH_USER);
@@ -54,15 +55,22 @@ public class ImportFileController {
 		if(!fileName.endsWith(".xlsx") && !fileName.endsWith(".xls")){
 			return view;
 		}
-		InputStream in = myfile.getInputStream();
-		if( myfile.getOriginalFilename().endsWith(".xls")){
-			 data = ParseDataUtils.readXls(in, 0);
-		 }else{
-			 data = ParseDataUtils.readXlsx(in, 0);
-		 }
-		if(data.length>0 && data[0].length>0 && data[0][0].indexOf("单位客户信息")>0){
-			msgs = importCooperationNS(organId,organName,recorder,recordTime,data);
+		InputStream in = null;
+		try {
+			in = myfile.getInputStream();
+			if( myfile.getOriginalFilename().endsWith(".xls")){
+				 data = ParseDataUtils.readXls(in, 0);
+			 }else{
+				 data = ParseDataUtils.readXlsx(in, 0);
+			 }
+			if(sourcecode.equals("C3140436000017")){
+				msgs = importCooperationNS(organId,organName,recorder,recordTime,data);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
 		view.addObject("msgs",msgs);
 		return view;
 	}
@@ -127,16 +135,16 @@ public class ImportFileController {
 			cc.andSourcecodeEqualTo(cooperation.getSourcecode());
 			cc.andBusinesslicenceEqualTo(cooperation.getBusinesslicence());
 
-			List<Cooperation> cooperations = cooperationService1.selectByExample(ce);
+			List<Cooperation> cooperations = cooperationService.selectByExample(ce);
 			if(cooperations == null || cooperations.size() == 0){
-				cooperationService1.insert(cooperation);
+				cooperationService.insert(cooperation);
 			}else if(cooperations.size() == 1){
 				Cooperation dbCooperation = cooperations.get(0);
-				cooperation.setCooperationid(dbCooperation.getCooperationid());
+				cooperation.setId(dbCooperation.getId());
 				CooperationExample ce1 = new CooperationExample();
 				CooperationExample.Criteria cc1 = ce1.createCriteria();
-				cc1.andCooperationidEqualTo(dbCooperation.getCooperationid());
-				cooperationService1.updateByExampleSelective(cooperation, ce1);
+				cc1.andCooperationidEqualTo(dbCooperation.getId());
+				cooperationService.updateByExampleSelective(cooperation, ce1);
 			}
 		}
 		return msgs;

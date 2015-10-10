@@ -1,5 +1,6 @@
 package com.bank.controller.economy;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,11 +26,15 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.bank.Constants;
+import com.bank.beans.Cooperation;
+import com.bank.beans.CooperationExample;
 import com.bank.beans.CooperationProfit;
+import com.bank.beans.CooperationProfitExample;
 import com.bank.beans.Organ;
 import com.bank.beans.User;
 import com.bank.common.util.JsonUtil;
 import com.bank.service.ICooperationProfitService;
+import com.bank.service.ICooperationService;
 import com.bank.service.ITMapService;
 import com.bank.utils.HttpUtils;
 import com.bank.utils.excel.ExcelExplorer;
@@ -41,6 +46,9 @@ import com.bank.utils.excel.importer.ProfitImporter;
 public class CooperationProfitController {
 	
 	private static Logger log = LoggerFactory.getLogger(CooperationProfitController.class);
+	
+	@Resource
+	private ICooperationService cooperationService;
 	
 	@Resource
 	private ICooperationProfitService cooperationProfitService;
@@ -78,7 +86,7 @@ public class CooperationProfitController {
 		for (JSONObject jsb : jsons){
 			coo = (CooperationProfit) JSON.toJavaObject(jsb, CooperationProfit.class);
 			try{
-				if(coo.getProfitid()==null){
+				if(coo.getId()==null){
 					if(coo.getRecodertime() == null)
 						coo.setRecodertime(new Date());
 					coo.setSourcecode(user.getOrganId());
@@ -235,5 +243,62 @@ public class CooperationProfitController {
         String json = JSON.toJSONStringWithDateFormat(result,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
 	    response.setContentType("text/html;charset=UTF-8");
 	    response.getWriter().write(json);
+	}
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/loadCooperationProfit",method=RequestMethod.POST)
+	public ModelAndView loadCooperationProfit(@RequestParam(value="organcode") String organcode,
+			@RequestParam(value="pageIndex") int pageIndex,
+			@RequestParam(value="pageSize") int pageSize,
+			@RequestParam(value="sortField") String sortField,
+			@RequestParam(value="sortOrder") String sortOrder,
+			HttpServletRequest request,HttpServletResponse response){
+		
+		CooperationProfitExample cpe = new CooperationProfitExample();
+		CooperationProfitExample.Criteria cpec = cpe.createCriteria();
+		cpec.andOrgancodeEqualTo(organcode);
+		
+		int totalNumber = cooperationProfitService.countByExample(cpe);
+		List<CooperationProfit> profits = cooperationProfitService.selectByExample(cpe);
+		Map map = new HashMap();
+		map.put("total", totalNumber);
+		map.put("data", profits);
+	    String json = JSON.toJSONStringWithDateFormat(map,"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
+	    response.setContentType("text/html;charset=UTF-8");
+	    try {
+			response.getWriter().write(json);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    return null;
+	}
+	@RequestMapping(value="/queryCooperationProfit",method=RequestMethod.GET)
+	public ModelAndView queryCooperationProfit(@RequestParam(value="cid") Long cid, 
+			HttpServletRequest request,HttpServletResponse response){
+
+		CooperationExample ce = new CooperationExample();
+		CooperationExample.Criteria cec = ce.createCriteria();
+		cec.andCooperationidEqualTo(cid);
+		List<Cooperation> cooperations = cooperationService.selectByExample(ce);
+		Cooperation cooperation = null;
+		if(cooperations!=null && cooperations.size()>0){
+			cooperation = cooperations.get(0);
+		}
+		ModelAndView view = new ModelAndView("/cooperation/cooperationProfitView");
+		view.addObject("cooperation",cooperation);
+		return view;
+	}
+	@RequestMapping(value="/insertCooperationProfit",method=RequestMethod.GET)
+	public ModelAndView insertCooperationProfit(@RequestParam(value="cid") Long cid, 
+			HttpServletRequest request,HttpServletResponse response){
+		
+		CooperationExample cde = new CooperationExample();
+		CooperationExample.Criteria  cdec = cde.createCriteria();
+		cdec.andCooperationidEqualTo(cid);
+		List<Cooperation> cooperations = cooperationService.selectByExample(cde);
+		Cooperation cooperation = cooperations.get(0);
+		ModelAndView view = new ModelAndView("/cooperation/cooperationProfitForm");
+		view.addObject("cooperation",cooperation);
+		return view;
 	}
 }
