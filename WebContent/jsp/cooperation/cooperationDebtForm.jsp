@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="dt" uri="http://gov.jian.bank/dateformat" %> 
 <%@ page import="com.bank.beans.User"%> 
 <%@ page import="com.bank.Constants"%> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -17,167 +18,474 @@
 %>
 </head>
 <body>
+<div id="form1" style="width:100%;margin:auto auto;">
+<form action="${pageContext.request.contextPath}/economy/debt/saveCooperationDebt1.do" method="POST">
+<input name="id" class="mini-hidden" value="${cooperationdebt.id}"/>
+<input name="organ_id" class="mini-hidden" value="<%=user.getOrganId()%>"/>
+<input name="organcode" class="mini-hidden" value="${cooperation.organcode}"/>
+<input name="sourcecode" class="mini-hidden" value="${cooperation.sourcecode}"/>
+<input name="sourcename" class="mini-hidden" value="${cooperation.sourcename }"/>
+<input name="recorder" class="mini-hidden" value="<%=user.getUserName()%>"/>
+<input name="recordtime" class="mini-hidden" value="${currentTime}"/>
 <div class="queryPane">
-	<table style="width:100%;">
-    	<tr>
-        	<td style="width:85%" align="right">
-	            <input type="button" class="bank-btn" value="保存"  onclick="submitForm()">
-	        </td>
-	        <td align="center">
-	            <c:if test="${!empty rightClick}">
-	           		<input type="button" class="bank-btn" value="关闭" onclick="close()"/>
-                 </c:if>
-                 <c:if test="${empty rightClick}">
-                	<input type="button" class="bank-btn" value="返回" onclick="back()"/>
-                 </c:if>
-            </td>
-         </tr>
-      </table>
+	<table style="width:100%;height:30px">
+		<tr>
+			<td class="labelName" width="20%" align="right">经济合作组织名称</td>
+			<td class="labelValue" width="20%">:${cooperation.cooperationname }</td>
+			<td class="labelName" width="20%" align="right">营业执照</td>
+			<td class="labelValue" align="right" width="10%">:${cooperation.businesslicence}</td>
+		    <td width="30" align="center">
+		       	<input type="button" id="saveBtn" class="bank-btn" onclick="submitForm()" value="保存"/>
+		     </td>
+		      <td width="30" align="center">
+		       	<input type="button"  class="bank-btn" onclick="back()" value="返回"/>
+		     </td>
+		</tr>
+	</table>
 </div>
-<div  id="sss">
-
-<div id="form1" style="width:97%;margin:auto auto;padding-top:25px">
-	<form action="${pageContext.request.contextPath}/economy/debt/saveCooperationDebt.do" method="POST">
-	<input name="debtid" class="mini-hidden" value="${debtid}"/>
-	<input name="organ_id" class="mini-hidden" value="<%=user.getOrganId()%>"/>
-	<input name="recorder" class="mini-hidden" value="<%=user.getUserName()%>"/>
-	<input name="recordTime" class="mini-hidden" value="${currentTime}"/>
-	<table border="0" cellpadding="1" cellspacing="15" width="97%" >
-	<tr>
+<table border="0" cellpadding="1" cellspacing="15" width="97%" >
+<tr>
 	<td colspan="4" style="width:100%">
 	<fieldset id="fd2" style="width:100%;">
 	<legend><label>资产负债信息</label></legend>
 	<div class="fieldset-body" >
-	<div >
-	<table width="100%">
+	<table width="100%" >
+	<tr>	
+		<td class="required_text" width="2%" align="right">*</td>
+		<td style="width:15%">年月:</td>
+		<td style="width:33%">
+			<input name="yearmonth" class="mini-datepicker" style="width:90%"  value="${cooperationdebt.yearmonth}"
+			format="yyyy-MM"
+			errorMode="none" required="true"  requiredErrorText="年月不能为空"  onvalidation="onValidation"/>
+		</td>
+		<td style="width:2%"></td>
+		<td style="width:15%"></td>
+		<td style="width:33%"></td>
+	</tr>
+	<tr>
+		<td ></td>
+		<td id="yearmonth_error" class="errorText" colspan="2"></td>
+		<td ></td>
+		<td  colspan="2"></td>
+	</tr>
+	<tr>
+		<td class="required_text" width="2%" align="right"></td>
+		<td >货币资金:</td> 
+		<td >
+			<input  name="cashcapital" class="mini-textbox" value="${cooperationdebt.cashcapital}" style="width:90%" 
+			vtype="float" errorMode="none"  required="false"  requiredErrorText="货币资金不能为空" onvalidation="onValidation"/>
+		</td>
+		<td class="required_text" width="2%" align="right"></td>
+		<td >短期投资:</td> 
+		<td >
+		<input name="shortinvest" class="mini-textbox" value="${cooperationdebt.shortinvest}" style="width:90%"
+			vtype="float" errorMode="none"  required="false" requiredErrorText="短期投资不能为空" onvalidation="onValidation"/>
+		</td>
+	</tr>
+	<tr>
+		<td ></td>
+		<td id="cashcapital_error" class="errorText" colspan="2"></td>
+		<td ></td>
+		<td id="shortinvest_error" class="errorText" colspan="2"></td>
+	</tr>
+	<tr>
+		<td class="required_text" width="2%" align="right"></td>	
+		<td >应收账款净额:</td>
+		 <td >
+		 <input name="receivables" class="mini-textbox" value="${cooperationdebt.receivables}"style="width:90%"
+			 vtype="float" errorMode="none"  required="false" requiredErrorText="应收账款净额不能为空" onvalidation="onValidation" />
+		</td> 
+		<td class="required_text" width="2%" align="right"></td>
+		<td >预付账款:</td>
+			<td >
+			 <input  name="prepayment" class="mini-textbox" value="${cooperationdebt.prepayment}" style="width:90%"
+				vtype="float" errorMode="none"  required="false" requiredErrorText="预付账款不能为空" onvalidation="onValidation"/>
+			</td> 
+	</tr>
+	<tr>
+		<td ></td>
+		<td id="receivables_error" class="errorText" colspan="2"></td>
+		<td ></td>
+		<td id="prepayment_error" class="errorText" colspan="2"></td>
+	</tr>
+	<tr>
+		<td class="required_text" width="2%" align="right"></td>	
+		<td >存货:</td> 
+		<td >
+			<input name="inventory" class="mini-textbox"  value="${cooperationdebt.inventory}" style="width:90%"
+				vtype="float" errorMode="none"  required="false" requiredErrorText="存货不能为空" onvalidation="onValidation" />
+		</td> 
+		<td class="required_text" width="2%" align="right"></td>
+		<td >其他流动资产:</td> 
+		<td >
+			<input name="floatasset" class="mini-textbox" value="${cooperationdebt.floatasset}" style="width:90%"
+				vtype="float" errorMode="none"  required="false" requiredErrorText="其他流动资产不能为空" onvalidation="onValidation"/>
+		</td> 
+	</tr>
+	<tr>
+		<td class="required_text" width="2%" align="right"></td>	
+		<td >流动资产合计:</td> 
+		<td >
+			<input  name="floatassetall" class="mini-textbox" value="${cooperationdebt.floatassetall}" style="width:90%"
+			vtype="float" errorMode="none"  required="false" requiredErrorText="流动资产合计不能为空" onvalidation="onValidation"/>
+		</td> 
+		<td class="required_text" width="2%" align="right"></td>
+		<td  >固定资产原价:</td> <td >
+			<input  name="fixedasset" class="mini-textbox" value="${cooperationdebt.fixedasset}" style="width:90%"
+			vtype="float" errorMode="none"  required="false" requiredErrorText="固定资产原价不能为空" onvalidation="onValidation"/>
+		</td> 
+	</tr>
+	<tr>
+		<td ></td>
+		<td id="floatassetall_error" class="errorText" colspan="2"></td>
+		<td ></td>
+		<td id="fixedasset_error" class="errorText" colspan="2"></td>
+	</tr>
+	<tr>
+		<td class="required_text" width="2%" align="right"></td>	
+		<td >其中折旧:</td> <td >
+			<input name="deprecication" class="mini-textbox"  value="${cooperationdebt.deprecication}" style="width:90%"
+				 vtype="float" errorMode="none"  required="false"  requiredErrorText="其中折旧不能为空" onvalidation="onValidation"/>
+		</td>
+		<td class="required_text" width="2%" align="right"></td> 
+		<td >固定资产净值:</td>
+		<td >
+				<input  name="netvalue" class="mini-textbox" value="${cooperationdebt.netvalue}" style="width:90%"
+			vtype="float" errorMode="none"  required="false"  requiredErrorText="固定资产净值不能为空" onvalidation="onValidation"/>
+		</td> 
+	</tr>
+			<tr>
+			<td ></td>
+			<td id="deprecication_error" class="errorText" colspan="2"></td>
+			<td ></td>
+			<td id="netvalue_error" class="errorText" colspan="2"></td>
+		</tr>
 		<tr>
-			<td style="width:10%"><label for="textbox1$text">年月:</label></td>
-			<td style="width:23%">
-				<input id="yyearm"  name="yearmonth" class="mini-textbox" required="true" readonly="readonly" errorMode="none" 
-					requiredErrorText="年月不能为空" style="width:90%" />
-				<div id="yearmonth_error" class="errorText"></div>
+			<td class="required_text" width="2%" align="right"></td>	
+			<td >在建项目:</td> 
+			<td >
+				<input name="buildingproject" class="mini-textbox" value="${cooperationdebt.buildingproject}" style="width:90%"
+				required="false" requiredErrorText="在建项目不能为空" onvalidation="onValidation"/>
 			</td>
-			<td style="width:10%"><label for="textbox1$text">合作社名称:</label></td>
-			<td style="width:20%">
-			<input id="textbox1"  name="cooperationname" class="mini-textbox" required="true" errorMode="none" onvalidation="updateError"
-				requiredErrorText="合作社名称不能为空" style="width:90%"/>
-				<div id="cooperationname_error" class="errorText"></div>
-			</td>
-			<td style="width:10%"><label for="textbox2$text">组织机构编码:</label></td>
-			<td style="width:20%" >
-			<input id="textbox2"  name="organcode" class="mini-textbox" required="true" errorMode="none" onvalidation="updateError"
-				requiredErrorText="组织机构编码不能为空"  style="width:90%"/>
-				<div id="organcode_error" class="errorText"></div>
-			</td>
+			<td class="required_text" width="2%" align="right"></td>
+			<td >固定资产合计:</td> <td >
+			<input  name="fixedassetall" class="mini-textbox" value="${cooperationdebt.fixedassetall}" style="width:90%"
+			 vtype="float" errorMode="none"  required="false" requiredErrorText="固定资产合计不能为空" onvalidation="onValidation"/>
+			</td> 
 			
 		</tr>
-	</table>
-	<br/>
-	<hr />
-	<table width="100%">
+			<tr>
+			<td ></td>
+			<td id="buildingproject_error" class="errorText" colspan="2"></td>
+			<td ></td>
+			<td id="fixedassetall_error" class="errorText" colspan="2"></td>
+		</tr>
 		<tr>
-			<th  style="width:10%">&nbsp;</th><th  style="width:20%">期初值</th><th  style="width:20%">期末值</th><th  style="width:10%">&nbsp;</th><th  style="width:20%">期初值</th><th  style="width:20%">期末值</th>
+			<td class="required_text" width="2%" align="right"></td>		
+			<td >无形及递延资产合计:</td> 
+			<td >
+				<input name="invisibleasset" class="mini-textbox" value="${cooperationdebt.fixedassetall}" style="width:90%"
+				vtype="float" errorMode="none"  required="false"  requiredErrorText="无形及递延资产合计不能为空" onvalidation="onValidation"/>
+				</td> 
+			<td class="required_text" width="2%" align="right"></td>		
+			<td >资产合计:</td> 
+				<td >
+					<input name="assetall" class="mini-textbox" value="${cooperationdebt.assetall}" style="width:90%"
+					vtype="float" errorMode="none"  required="false"  requiredErrorText="资产合计不能为空" onvalidation="onValidation"/>
+					 </td> 
 		</tr>
-	</table>
-	</div>
-	<div >
-	<table width="100%" >
 		<tr>
-			<td style="width:10%"><label for="textbox6$text">货币资金:</label></td> <td style="width:20%"><input id="textbox6"  name="cashcapital" class="mini-textbox" required="false" vtype="float" requiredErrorText="货币资金不能为空" style="width:90%"/></td> <td style="width:20%"><input name="cashcapital2" class="mini-textbox" required="false" vtype="float" requiredErrorText="货币资金不能为空" style="width:90%"/></td>
-			<td style="width:10%"><label for="textbox7$text">短期投资:</label></td> <td style="width:20%"><input id="textbox7"  name="shortinvest" class="mini-textbox" required="false" vtype="float" requiredErrorText="短期投资不能为空" style="width:90%"/></td> <td style="width:20%"><input name="shortinvest2" class="mini-textbox" required="false" vtype="float" requiredErrorText="短期投资不能为空" style="width:90%"/></td>
+			<td class="required_text" width="2%" align="right"></td>	
+			<td >短期借款:</td> <td >
+				<input name="shortloan" class="mini-textbox" value="${cooperationdebt.shortloan}" style="width:90%"
+				 vtype="float" errorMode="none"  required="false" requiredErrorText="短期借款不能为空"  onvalidation="onValidation"/></td>
+			<td class="required_text" width="2%" align="right"></td>
+			<td >银行借款:</td> <td >
+				<input  name="bankloan" class="mini-textbox" value="${cooperationdebt.bankloan}" style="width:90%"
+				vtype="float" errorMode="none"  required="false"  requiredErrorText="银行借款不能为空"  onvalidation="onValidation"/>
+				</td> 
+			</td>
+		</tr>
+			<tr>
+			<td ></td>
+			<td id="shortloan_error" class="errorText" colspan="2"></td>
+			<td ></td>
+			<td id="bankloan_error" class="errorText" colspan="2"></td>
+		</tr>
+		<tr>
+			<td class="required_text" width="2%" align="right"></td>	
+			<td >应付账款:</td> 
+				<td >
+					<input  name="accountspayable" class="mini-textbox" value="${cooperationdebt.accountspayable}" style="width:90%"
+					vtype="float" errorMode="none"  required="false" requiredErrorText="应付账款不能为空"  onvalidation="onValidation"/>
+					 </td>
+				<td class="required_text" width="2%" align="right"></td>
+				<td >预收账款:</td> 
+				<td >
+				<input name="depositreceived" class="mini-textbox" value="${cooperationdebt.accountspayable}" style="width:90%"
+				 vtype="float" errorMode="none"  required="false" requiredErrorText="预收账款不能为空"  onvalidation="onValidation"/>
+				 </td>
+		</tr>
+			<tr>
+			<td ></td>
+			<td id="accountspayable_error" class="errorText" colspan="2"></td>
+			<td ></td>
+			<td id="depositreceived_error" class="errorText" colspan="2"></td>
+		</tr>
+		<tr>
+			<td class="required_text" width="2%" align="right"></td>	
+			<td >未缴税金:</td> 
+			<td >
+			<input name="unpaidtax" class="mini-textbox" value="${cooperationdebt.unpaidtax}" style="width:90%"
+			vtype="float" errorMode="none"  required="false" requiredErrorText="未缴税金不能为空" onvalidation="onValidation"/>
+			</td>
+			<td class="required_text" width="2%" align="right"></td>
+			<td >其他流动负债:</td> <td >
+			<input id="textbox25"  name="floatdebt" class="mini-textbox" value="${cooperationdebt.floatdebt}" style="width:90%"
+			vtype="float" errorMode="none"  required="false"  requiredErrorText="其他流动负债不能为空"  onvalidation="onValidation"/>
+			</td> 
+		</tr>
+			<tr>
+			<td ></td>
+			<td id="unpaidtax_error" class="errorText" colspan="2"></td>
+			<td ></td>
+			<td id="registerdate_error" class="errorText" colspan="2"></td>
 		</tr>
 		<tr>	
-			<td style="width:10%"><label for="textbox8$text">应收账款净额:</label></td> <td style="width:20%"><input id="textbox8"  name="receivables" class="mini-textbox" required="false" vtype="float" requiredErrorText="应收账款净额不能为空" style="width:90%"/></td> <td style="width:20%"><input name="receivables2" class="mini-textbox" required="false" vtype="float" requiredErrorText="应收账款净额不能为空" style="width:90%"/></td>
-			<td style="width:10%"><label for="textbox9$text">预付账款:</label></td> <td style="width:20%"><input id="textbox9"  name="prepayment" class="mini-textbox" required="false" vtype="float" requiredErrorText="预付账款不能为空" style="width:90%"/></td> <td style="width:20%"><input name="prepayment2" class="mini-textbox" required="false" vtype="float" requiredErrorText="预付账款不能为空" style="width:90%"/></td>
+			<td class="required_text" width="2%" align="right"></td>
+			<td >流动负债合计:</td> 
+			<td >
+			<input name="floatdebtall" class="mini-textbox "value="${cooperationdebt.floatdebtall}" style="width:90%"
+			 vtype="float" errorMode="none"  required="false" requiredErrorText="流动负债合计不能为空"  onvalidation="onValidation"/>
+			</td>
+			<td class="required_text" width="2%" align="right"></td>
+			<td >长期负债合计:</td>
+			 <td >
+			 	<input name="longdebtall" class="mini-textbox" value="${cooperationdebt.longdebtall}" style="width:90%"
+			 	vtype="float" errorMode="none"  required="false" requiredErrorText="长期负债合计不能为空"  onvalidation="onValidation"/>
+			 	</td> 
+
 		</tr>
-		<tr>	
-			<td style="width:10%"><label for="textbox10$text">存货:</label></td> <td style="width:20%"><input id="textbox10"  name="inventory" class="mini-textbox" required="false" vtype="float" requiredErrorText="存货不能为空" style="width:90%"/></td> <td style="width:20%"><input name="inventory2" class="mini-textbox" required="false" vtype="float" requiredErrorText="存货不能为空" style="width:90%"/></td>
-			<td style="width:10%"><label for="textbox11$text">其他流动资产:</label></td> <td style="width:20%"><input id="textbox11"  name="floatasset" class="mini-textbox" required="false" vtype="float" requiredErrorText="其他流动资产不能为空" style="width:90%"/></td> <td style="width:20%"><input name="floatasset2" class="mini-textbox" required="false" vtype="float" requiredErrorText="其他流动资产不能为空" style="width:90%"/></td>
+			<tr>
+			<td ></td>
+			<td id="floatdebtall_error" class="errorText" colspan="2"></td>
+			<td ></td>
+			<td id="longdebtall_error" class="errorText" colspan="2"></td>
 		</tr>
-		<tr>	
-			<td style="width:10%"><label for="textbox12$text">流动资产合计:</label></td> <td style="width:20%"><input id="textbox12"  name="floatassetall" class="mini-textbox" required="false" vtype="float" requiredErrorText="流动资产合计不能为空" style="width:90%"/></td> <td style="width:20%"><input name="floatassetall2" class="mini-textbox" required="false" vtype="float" requiredErrorText="流动资产合计不能为空" style="width:90%"/></td>
-			<td style="width:10%"><label for="textbox13$text">固定资产原价:</label></td> <td style="width:20%"><input id="textbox13"  name="fixedasset" class="mini-textbox" required="false" vtype="float" requiredErrorText="固定资产原价不能为空" style="width:90%"/></td> <td style="width:20%"><input name="fixedasset2" class="mini-textbox" required="false" vtype="float" requiredErrorText="固定资产原价不能为空" style="width:90%"/></td>
+		<tr>
+			<td class="required_text" width="2%" align="right"></td>	
+			<td >注册资本:</td> <td >
+			<input id="textbox28"  name="registercapital" class="mini-textbox" value="${cooperationdebt.registercapital}" style="width:90%" 
+			 vtype="float" errorMode="none"  required="false" requiredErrorText="注册资本不能为空" onvalidation="onValidation"/>
+			</td> 
+		<td class="required_text" width="2%" align="right"></td>
+			<td >实收资本:</td> 
+			<td >
+			<input  name="realcapital" class="mini-textbox" value="${cooperationdebt.realcapital}" style="width:90%" 
+			vtype="float" errorMode="none"  required="false"requiredErrorText="实收资本不能为空" onvalidation="onValidation"/>
+			</td> 
 		</tr>
-		<tr>	
-			<td style="width:10%"><label for="textbox14$text">其中折旧:</label></td> <td style="width:20%"><input id="textbox14"  name="deprecication" class="mini-textbox" required="false" vtype="float" requiredErrorText="其中折旧不能为空" style="width:90%"/></td> <td style="width:20%"><input name="deprecication2" class="mini-textbox" required="false" vtype="float" requiredErrorText="其中折旧不能为空" style="width:90%"/></td>
-			<td style="width:10%"><label for="textbox15$text">固定资产净值:</label></td> <td style="width:20%"><input id="textbox15"  name="netvalue" class="mini-textbox" required="false" vtype="float" requiredErrorText="固定资产净值不能为空" style="width:90%"/></td> <td style="width:20%"><input name="netvalue2" class="mini-textbox" required="false" vtype="float" requiredErrorText="固定资产净值不能为空" style="width:90%"/></td>
+			<tr>
+			<td ></td>
+			<td id="registercapital_error" class="errorText" colspan="2"></td>
+			<td ></td>
+			<td id="realcapital_error" class="errorText" colspan="2"></td>
 		</tr>
-		<tr>	
-			<td style="width:10%"><label for="textbox16$text">在建项目:</label></td> <td style="width:20%"><input id="textbox16"  name="buildingproject" class="mini-textbox" required="false" vtype="float" requiredErrorText="在建项目不能为空" style="width:90%"/></td> <td style="width:20%"><input name="buildingproject2" class="mini-textbox" required="false" vtype="float" requiredErrorText="在建项目不能为空" style="width:90%"/></td>
-			<td style="width:10%"><label for="textbox17$text">固定资产合计:</label></td> <td style="width:20%"><input id="textbox17"  name="fixedassetall" class="mini-textbox" required="false" vtype="float" requiredErrorText="固定资产合计不能为空" style="width:90%"/></td> <td style="width:20%"><input name="fixedassetall2" class="mini-textbox" required="false" vtype="float" requiredErrorText="固定资产合计不能为空" style="width:90%"/></td>
+		<tr>
+			<td class="required_text" width="2%" align="right"></td>	
+			<td >资本公积:</td> <td >
+			<input name="capitalreserve" class="mini-textbox" value="${cooperationdebt.capitalreserve}" style="width:90%"
+			vtype="float" errorMode="none"  required="false"requiredErrorText="资本公积不能为空"  onvalidation="onValidation"/>
+			</td>
+			<td class="required_text" width="2%" align="right"></td>
+			<td >盈余公积:</td> <td >
+			<input  name="surplusreserve" class="mini-textbox" value="${cooperationdebt.surplusreserve}" style="width:90%"
+			vtype="float" errorMode="none"  required="false" requiredErrorText="盈余公积不能为空"  onvalidation="onValidation"/>
+			</td>
+		
 		</tr>
-		<tr>	
-			<td style="width:10%"><label for="textbox18$text">无形及递延资产合计:</label></td> <td style="width:20%"><input id="textbox18"  name="invisibleasset" class="mini-textbox" required="false" vtype="float" requiredErrorText="无形及递延资产合计不能为空" style="width:90%"/></td> <td style="width:20%"><input name="invisibleasset2" class="mini-textbox" required="false" vtype="float" requiredErrorText="无形及递延资产合计不能为空" style="width:90%"/></td>
-			<td style="width:10%"><label for="textbox19$text">资产合计:</label></td> <td style="width:20%"><input id="textbox19"  name="assetall" class="mini-textbox" required="false" vtype="float" requiredErrorText="资产合计不能为空" style="width:90%"/></td> <td style="width:20%"><input name="assetall2" class="mini-textbox" required="false" vtype="float" requiredErrorText="资产合计不能为空" style="width:90%"/></td>
+			<tr>
+			<td ></td>
+			<td id="taxcode_error" class="errorText" colspan="2"></td>
+			<td ></td>
+			<td id="registerdate_error" class="errorText" colspan="2"></td>
 		</tr>
-		<tr>	
-			<td style="width:10%"><label for="textbox20$text">短期借款:</label></td> <td style="width:20%"><input id="textbox20"  name="shortloan" class="mini-textbox" required="false" vtype="float" requiredErrorText="短期借款不能为空" style="width:90%"/></td> <td style="width:20%"><input name="shortloan2" class="mini-textbox" required="false" vtype="float" requiredErrorText="短期借款不能为空" style="width:90%"/></td>
-			<td style="width:10%"><label for="textbox21$text">银行借款:</label></td> <td style="width:20%"><input id="textbox21"  name="bankloan" class="mini-textbox" required="false" vtype="float" requiredErrorText="银行借款不能为空" style="width:90%"/></td> <td style="width:20%"><input name="bankloan2" class="mini-textbox" required="false" vtype="float" requiredErrorText="银行借款不能为空" style="width:90%"/></td>
+		<tr>
+			<td class="required_text" width="2%" align="right"></td>	
+			<td >未分配利润:</td> <td >
+				<input   name="unallotprofit" class="mini-textbox" value="${cooperationdebt.unallotprofit}" style="width:90%"
+				 vtype="float" errorMode="none"  required="false"requiredErrorText="未分配利润不能为空" onvalidation="onValidation"/>
+				</td> 
+			<td class="required_text" width="2%" align="right"></td>
+			<td >所有者权益合计:</td> <td >
+			<input  name="totalequity" class="mini-textbox" value="${cooperationdebt.totalequity}" style="width:90%"
+			 vtype="float" errorMode="none"  required="false" requiredErrorText="所有者权益合计不能为空" onvalidation="onValidation"/>
+			 </td>
+			
 		</tr>
-		<tr>	
-			<td style="width:10%"><label for="textbox22$text">应付账款:</label></td> <td style="width:20%"><input id="textbox22"  name="accountspayable" class="mini-textbox" required="false" vtype="float" requiredErrorText="应付账款不能为空" style="width:90%"/></td> <td style="width:20%"><input name="accountspayable2" class="mini-textbox" required="false" vtype="float" requiredErrorText="应付账款不能为空" style="width:90%"/></td>
-			<td style="width:10%"><label for="textbox23$text">预收账款:</label></td> <td style="width:20%"><input id="textbox23"  name="depositreceived" class="mini-textbox" required="false" vtype="float" requiredErrorText="预收账款不能为空" style="width:90%"/></td> <td style="width:20%"><input name="depositreceived2" class="mini-textbox" required="false" vtype="float" requiredErrorText="预收账款不能为空" style="width:90%"/></td>
+			<tr>
+			<td ></td>
+			<td id="taxcode_error" class="errorText" colspan="2"></td>
+			<td ></td>
+			<td id="registerdate_error" class="errorText" colspan="2"></td>
 		</tr>
-		<tr>	
-			<td style="width:10%"><label for="textbox24$text">未缴税金:</label></td> <td style="width:20%"><input id="textbox24"  name="unpaidtax" class="mini-textbox" required="false" vtype="float" requiredErrorText="未缴税金不能为空" style="width:90%"/></td> <td style="width:20%"><input name="unpaidtax2" class="mini-textbox" required="false" vtype="float" requiredErrorText="未缴税金不能为空" style="width:90%"/></td>
-			<td style="width:10%"><label for="textbox25$text">其他流动负债:</label></td> <td style="width:20%"><input id="textbox25"  name="floatdebt" class="mini-textbox" required="false" vtype="float" requiredErrorText="其他流动负债不能为空" style="width:90%"/></td> <td style="width:20%"><input name="floatdebt2" class="mini-textbox" required="false" vtype="float" requiredErrorText="其他流动负债不能为空" style="width:90%"/></td>
+		<tr>
+			<td class="required_text" width="2%" align="right"></td>	
+			<td >负债和所有者权益合计:</td> <td >
+				<input name="totalequity1" class="mini-textbox" value="${cooperationdebt.totalequity1}" style="width:90%"
+				vtype="float" errorMode="none"  required="false" requiredErrorText="负债和所有者权益合计不能为空" onvalidation="onValidation"/>
+				</td>
+			<td class="required_text" width="2%" align="right"></td>
+			<td >管理费用:</td> <td >
+			<input name="handingcost" class="mini-textbox" value="${cooperationdebt.handingcost}" style="width:90%"
+			 vtype="float" errorMode="none"  required="false"requiredErrorText="管理费用不能为空" onvalidation="onValidation"/>
+			</td> 
+		
 		</tr>
-		<tr>	
-			<td style="width:10%"><label for="textbox26$text">流动负债合计:</label></td> <td style="width:20%"><input id="textbox26"  name="floatdebtall" class="mini-textbox" required="false" vtype="float" requiredErrorText="流动负债合计不能为空" style="width:90%"/></td> <td style="width:20%"><input name="floatdebtall2" class="mini-textbox" required="false" vtype="float" requiredErrorText="流动负债合计不能为空" style="width:90%"/></td>
-			<td style="width:10%"><label for="textbox27$text">长期负债合计:</label></td> <td style="width:20%"><input id="textbox27"  name="longdebtall" class="mini-textbox" required="false" vtype="float" requiredErrorText="长期负债合计不能为空" style="width:90%"/></td> <td style="width:20%"><input name="longdebtall2" class="mini-textbox" required="false" vtype="float" requiredErrorText="长期负债合计不能为空" style="width:90%"/></td>
+			<tr>
+			<td ></td>
+			<td id="taxcode_error" class="errorText" colspan="2"></td>
+			<td ></td>
+			<td id="registerdate_error" class="errorText" colspan="2"></td>
 		</tr>
-		<tr>	
-			<td style="width:10%"><label for="textbox28$text">注册资本:</label></td> <td style="width:20%"><input id="textbox28"  name="registercapital" class="mini-textbox" required="false" vtype="float" requiredErrorText="注册资本不能为空" style="width:90%"/></td> <td style="width:20%"><input name="registercapital2" class="mini-textbox" required="false" vtype="float" requiredErrorText="注册资本不能为空" style="width:90%"/></td>
-			<td style="width:10%"><label for="textbox29$text">实收资本:</label></td> <td style="width:20%"><input id="textbox29"  name="realcapital" class="mini-textbox" required="false" vtype="float" requiredErrorText="实收资本不能为空" style="width:90%"/></td> <td style="width:20%"><input name="realcapital2" class="mini-textbox" required="false" vtype="float" requiredErrorText="实收资本不能为空" style="width:90%"/></td>
+		<tr>
+			<td class="required_text" width="2%" align="right"></td>	
+			<td >财务费用:</td>
+				 <td >
+				 	<input name="financialcost" class="mini-textbox" value="${cooperationdebt.financialcost}" style="width:90%"
+				 	vtype="float" errorMode="none"  required="false" requiredErrorText="财务费用不能为空" onvalidation="onValidation"/>
+				 	</td>
+			<td class="required_text" width="2%" align="right"></td>	
+			<td >其中利息支出:</td> <td >
+				<input  name="interestexpense" class="mini-textbox" value="${cooperationdebt.interestexpense}" style="width:90%"
+				vtype="float" errorMode="none"  required="false" requiredErrorText="其中利息支出不能为空" onvalidation="onValidation"/>
+				</td> 
+		
 		</tr>
-		<tr>	
-			<td style="width:10%"><label for="textbox30$text">资本公积:</label></td> <td style="width:20%"><input id="textbox30"  name="capitalreserve" class="mini-textbox" required="false" vtype="float" requiredErrorText="资本公积不能为空" style="width:90%"/></td> <td style="width:20%"><input name="capitalreserve2" class="mini-textbox" required="false" vtype="float" requiredErrorText="资本公积不能为空" style="width:90%"/></td>
-			<td style="width:10%"><label for="textbox31$text">盈余公积:</label></td> <td style="width:20%"><input id="textbox31"  name="surplusreserve" class="mini-textbox" required="false" vtype="float" requiredErrorText="盈余公积不能为空" style="width:90%"/></td> <td style="width:20%"><input name="surplusreserve2" class="mini-textbox" required="false" vtype="float" requiredErrorText="盈余公积不能为空" style="width:90%"/></td>
+			<tr>
+			<td ></td>
+			<td id="financialcost_error" class="errorText" colspan="2"></td>
+			<td ></td>
+			<td id="interestexpense_error" class="errorText" colspan="2"></td>
 		</tr>
-		<tr>	
-			<td style="width:10%"><label for="textbox32$text">未分配利润:</label></td> <td style="width:20%"><input id="textbox32"  name="unallotprofit" class="mini-textbox" required="false" vtype="float" requiredErrorText="未分配利润不能为空" style="width:90%"/></td> <td style="width:20%"><input name="unallotprofit2" class="mini-textbox" required="false" vtype="float" requiredErrorText="未分配利润不能为空" style="width:90%"/></td>
-			<td style="width:10%"><label for="textbox33$text">所有者权益合计:</label></td> <td style="width:20%"><input id="textbox33"  name="totalequity" class="mini-textbox" required="false" vtype="float" requiredErrorText="所有者权益合计不能为空" style="width:90%"/></td> <td style="width:20%"><input name="totalequity2" class="mini-textbox" required="false" vtype="float" requiredErrorText="所有者权益合计不能为空" style="width:90%"/></td>
+		<tr>
+			<td class="required_text" width="2%" align="right"></td>	
+			<td >营业利润:</td>
+			 <td >
+			 <input name="businessprofit" class="mini-textbox"  value="${cooperationdebt.businessprofit}" style="width:90%"
+			 vtype="float" errorMode="none"  required="false" requiredErrorText="营业利润不能为空" onvalidation="onValidation"/></td>
+			<td class="required_text" width="2%" align="right"></td>
+			<td >投资收益:</td>
+			 <td >
+			 <input name="investincome" class="mini-textbox" value="${cooperationdebt.investincome}" style="width:90%"
+			 vtype="float" errorMode="none"  required="false"requiredErrorText="投资收益不能为空" onvalidation="onValidation"/>
+			 </td>
+		
 		</tr>
-		<tr>	
-			<td style="width:10%"><label for="textbox34$text">负债和所有者权益合计:</label></td> <td style="width:20%"><input id="textbox34"  name="totalequity1" class="mini-textbox" required="false" vtype="float" requiredErrorText="负债和所有者权益合计不能为空" style="width:90%"/></td> <td style="width:20%"><input name="totalequity12" class="mini-textbox" required="false" vtype="float" requiredErrorText="负债和所有者权益合计不能为空" style="width:90%"/></td>
-			<td style="width:10%"><label for="textbox35$text">管理费用:</label></td> <td style="width:20%"><input id="textbox35"  name="handingcost" class="mini-textbox" required="false" vtype="float" requiredErrorText="管理费用不能为空" style="width:90%"/></td> <td style="width:20%"><input name="handingcost2" class="mini-textbox" required="false" vtype="float" requiredErrorText="管理费用不能为空" style="width:90%"/></td>
+			<tr>
+			<td ></td>
+			<td id="businessprofit_error" class="errorText" colspan="2"></td>
+			<td ></td>
+			<td id="investincome_error" class="errorText" colspan="2"></td>
 		</tr>
-		<tr>	
-			<td style="width:10%"><label for="textbox36$text">财务费用:</label></td> <td style="width:20%"><input id="textbox36"  name="financialcost" class="mini-textbox" required="false" vtype="float" requiredErrorText="财务费用不能为空" style="width:90%"/></td> <td style="width:20%"><input name="financialcost2" class="mini-textbox" required="false" vtype="float" requiredErrorText="财务费用不能为空" style="width:90%"/></td>
-			<td style="width:10%"><label for="textbox37$text">其中利息支出:</label></td> <td style="width:20%"><input id="textbox37"  name="interestexpense" class="mini-textbox" required="false" vtype="float" requiredErrorText="其中利息支出不能为空" style="width:90%"/></td> <td style="width:20%"><input name="interestexpense2" class="mini-textbox" required="false" vtype="float" requiredErrorText="其中利息支出不能为空" style="width:90%"/></td>
+		<tr>
+			<td class="required_text" width="2%" align="right"></td>	
+			<td >国家补贴收入:</td> 
+			<td >
+			<input  name="subsidyincome" class="mini-textbox"  value="${cooperationdebt.subsidyincome}" style="width:90%"
+			vtype="float" errorMode="none"  required="false"requiredErrorText="国家补贴收入不能为空" onvalidation="onValidation"/>
+			</td> 
+			<td class="required_text" width="2%" align="right"></td>
+			<td >营业外收入:</td> 
+			<td >
+			<input name="unbusinessincome" class="mini-textbox" value="${cooperationdebt.unbusinessincome}" style="width:90%"
+			vtype="float" errorMode="none"  required="false"requiredErrorText="营业外收入不能为空" style="width:90%"onvalidation="onValidation"/>
+			</td> 
 		</tr>
-		<tr>	
-			<td style="width:10%"><label for="textbox38$text">营业利润:</label></td> <td style="width:20%"><input id="textbox38"  name="businessprofit" class="mini-textbox" required="false" vtype="float" requiredErrorText="营业利润不能为空" style="width:90%"/></td> <td style="width:20%"><input name="businessprofit2" class="mini-textbox" required="false" vtype="float" requiredErrorText="营业利润不能为空" style="width:90%"/></td>
-			<td style="width:10%"><label for="textbox39$text">投资收益:</label></td> <td style="width:20%"><input id="textbox39"  name="investincome" class="mini-textbox" required="false" vtype="float" requiredErrorText="投资收益不能为空" style="width:90%"/></td> <td style="width:20%"><input name="investincome2" class="mini-textbox" required="false" vtype="float" requiredErrorText="投资收益不能为空" style="width:90%"/></td>
+			<tr>
+			<td ></td>
+			<td id="subsidyincome_error" class="errorText" colspan="2"></td>
+			<td ></td>
+			<td id="unbusinessincome_error" class="errorText" colspan="2"></td>
 		</tr>
-		<tr>	
-			<td style="width:10%"><label for="textbox40$text">国家补贴收入:</label></td> <td style="width:20%"><input id="textbox40"  name="subsidyincome" class="mini-textbox" required="false" vtype="float" requiredErrorText="国家补贴收入不能为空" style="width:90%"/></td> <td style="width:20%"><input name="subsidyincome2" class="mini-textbox" required="false" vtype="float" requiredErrorText="国家补贴收入不能为空" style="width:90%"/></td>
-			<td style="width:10%"><label for="textbox41$text">营业外收入:</label></td> <td style="width:20%"><input id="textbox41"  name="unbusinessincome" class="mini-textbox" required="false" vtype="float" requiredErrorText="营业外收入不能为空" style="width:90%"/></td> <td style="width:20%"><input name="unbusinessincome2" class="mini-textbox" required="false" vtype="float" requiredErrorText="营业外收入不能为空" style="width:90%"/></td>
+		<tr>
+			<td class="required_text" width="2%" align="right"></td>	
+			<td >营业外支出:</td> 
+				<td >
+					<input name="unbusinessexpense" class="mini-textbox" value="${cooperationdebt.unbusinessexpense}" style="width:90%"
+					vtype="float" errorMode="none"  required="false"requiredErrorText="营业外支出不能为空" onvalidation="onValidation"/>
+					</td> 
+			<td class="required_text" width="2%" align="right"></td>
+			<td >以前年度损益调整:</td>
+			 <td >
+			 	<input name="profitloss" class="mini-textbox" value="${cooperationdebt.profitloss}" style="width:90%"
+			 	vtype="float" errorMode="none"  required="false" requiredErrorText="以前年度损益调整不能为空" onvalidation="onValidation"/>
+			 	</td> 
+		
 		</tr>
-		<tr>	
-			<td style="width:10%"><label for="textbox42$text">营业外支出:</label></td> <td style="width:20%"><input id="textbox42"  name="unbusinessexpense" class="mini-textbox" required="false" vtype="float" requiredErrorText="营业外支出不能为空" style="width:90%"/></td> <td style="width:20%"><input name="unbusinessexpense2" class="mini-textbox" required="false" vtype="float" requiredErrorText="营业外支出不能为空" style="width:90%"/></td>
-			<td style="width:10%"><label for="textbox43$text">以前年度损益调整:</label></td> <td style="width:20%"><input id="textbox43"  name="profitloss" class="mini-textbox" required="false" vtype="float" requiredErrorText="以前年度损益调整不能为空" style="width:90%"/></td> <td style="width:20%"><input name="profitloss2" class="mini-textbox" required="false" vtype="float" requiredErrorText="以前年度损益调整不能为空" style="width:90%"/></td>
+			<tr>
+			<td ></td>
+			<td id="unbusinessexpense_error" class="errorText" colspan="2"></td>
+			<td ></td>
+			<td id="profitloss_error" class="errorText" colspan="2"></td>
 		</tr>
-		<tr>	
-			<td style="width:10%"><label for="textbox44$text">利润总和:</label></td> <td style="width:20%"><input id="textbox44"  name="totalprofit" class="mini-textbox" required="false" vtype="float" requiredErrorText="利润总和不能为空" style="width:90%"/></td> <td style="width:20%"><input name="totalprofit2" class="mini-textbox" required="false" vtype="float" requiredErrorText="利润总和不能为空" style="width:90%"/></td>
-			<td style="width:10%"><label for="textbox45$text">应交所得税:</label></td> <td style="width:20%"><input id="textbox45"  name="payableincometax" class="mini-textbox" required="false" vtype="float" requiredErrorText="应交所得税不能为空" style="width:90%"/></td> <td style="width:20%"><input name="payableincometax2" class="mini-textbox" required="false" vtype="float" requiredErrorText="应交所得税不能为空" style="width:90%"/></td>
+		<tr>
+			<td class="required_text" width="2%" align="right"></td>	
+			<td >利润总和:</td> 
+			<td >
+			<input name="totalprofit" class="mini-textbox" value="${cooperationdebt.totalprofit}" style="width:90%"
+		vtype="float" errorMode="none"  required="false"requiredErrorText="利润总和不能为空" onvalidation="onValidation"/>
+			</td> 
+			<td class="required_text" width="2%" align="right"></td>
+			<td >应交所得税:</td> 
+			<td >
+			<input name="payableincometax" class="mini-textbox" value="${cooperationdebt.payableincometax}" style="width:90%"
+			vtype="float" errorMode="none"  required="false" requiredErrorText="应交所得税不能为空"  onvalidation="onValidation"/>
+			</td> 
+		
 		</tr>
-		<tr>	
-			<td style="width:10%"><label for="textbox46$text">应交增值税:</label></td> <td style="width:20%"><input id="textbox46"  name="payableaddedtax" class="mini-textbox" required="false" vtype="float" requiredErrorText="应交增值税不能为空" style="width:90%"/></td> <td style="width:20%"><input name="payableaddedtax2" class="mini-textbox" required="false" vtype="float" requiredErrorText="应交增值税不能为空" style="width:90%"/></td>
-			<td style="width:10%"><label for="textbox47$text">实交增值税:</label></td> <td style="width:20%"><input id="textbox47"  name="paidaddedtax" class="mini-textbox" required="false" vtype="float" requiredErrorText="实交增值税不能为空" style="width:90%"/></td> <td style="width:20%"><input name="paidaddedtax2" class="mini-textbox" required="false" vtype="float" requiredErrorText="实交增值税不能为空" style="width:90%"/></td>
+			<tr>
+			<td ></td>
+			<td id="taxcode_error" class="errorText" colspan="2"></td>
+			<td ></td>
+			<td id="registerdate_error" class="errorText" colspan="2"></td>
 		</tr>
-		<tr>	
-			<td style="width:10%"><label for="textbox48$text">利润净额:</label></td> <td style="width:20%"><input id="textbox48"  name="netprofit" class="mini-textbox" required="false" vtype="float" requiredErrorText="利润净额不能为空" style="width:90%"/></td> <td style="width:20%"><input name="netprofit2" class="mini-textbox" required="false" vtype="float" requiredErrorText="利润净额不能为空" style="width:90%"/></td>
+		<tr>
+			<td class="required_text" width="2%" align="right"></td>	
+			<td >应交增值税:</td> 
+			<td >
+			<input name="payableaddedtax" class="mini-textbox" value="${cooperationdebt.payableaddedtax}" style="width:90%"
+			vtype="float" errorMode="none"  required="false" requiredErrorText="应交增值税不能为空" onvalidation="onValidation"/>
+			</td>
+		<td class="required_text" width="2%" align="right"></td>
+			<td >实交增值税:</td> 
+			<td >
+				<input name="paidaddedtax" class="mini-textbox" value="${cooperationdebt.payableaddedtax}" style="width:90%"
+				vtype="float" errorMode="none"  required="false" requiredErrorText="实交增值税不能为空" onvalidation="onValidation"/></td> 
+			
+		</tr>
+			<tr>
+			<td ></td>
+			<td id="payableaddedtax_error" class="errorText" colspan="2"></td>
+			<td ></td>
+			<td id="paidaddedtax_error" class="errorText" colspan="2"></td>
+		</tr>
+		<tr>
+			<td class="required_text" width="2%" align="right"></td>	
+			<td >利润净额:</td>
+			 <td >
+			 <input id="textbox48"  name="netprofit" class="mini-textbox" value="${cooperationdebt.netprofit}"
+			 required="false" vtype="float" requiredErrorText="利润净额不能为空" style="width:90%"/>
+			 </td> 
+			
 		</tr>
 		</table>
-	</div>
 	</div>
 	</fieldset>
 	</td>
 	</tr>
 	</table>
 	</form>
-</div>
 </div>
 </body>
 <script type="text/javascript">
@@ -231,14 +539,6 @@
 	function back(){
 		history.go(-1);
 	}
-	/*  window.onerror = function(message, URI, lineNumber,columnNumber,errorObj) { 
-	      console.log("错误信息：" , message); 
-	      console.log("出错文件：" , URI); 
-	      console.log("出错行号：" , lineNumber); 
-	      console.log("出错列号：" , columnNumber); 
-	      console.dir(errorObj); 
-	      return true; 
-	 }  */
 	
 	 function validateYearMonth(){
 		var y = document.getElementById("yyearm$text").value;
@@ -251,40 +551,29 @@
 		return true;
 	 }
 	
-	function submitForm(){
-		if(!validateYearMonth())
-			return;
-		//提交表单数据
-	    var formData = form.getData();      //获取表单多个控件的数据
-	     form.validate();
-      	if (!form.isValid())
-      		return;
-	    var json = mini.encode(formData);   //序列化成JSON
-	    $.ajax({
-	        url: "${pageContext.request.contextPath}/economy/debt/saveCooperationDebt.do",
-	        type: "post",
-	        data: { formData: json},
-	        contentType: "application/x-www-form-urlencoded; charset=utf-8",
-	        success: function (text) {
-	        	var data = mini.decode(text);   //反序列化成对象
-		        if(data.debtid!=null){
-		       	 	form.setData(data);
-		        }
-		      mini.alert('保存成功！');
- 			setTimeout(function(){
- 				try{
- 					close();
- 				}catch(e){
- 	      			back();
- 	      		}
- 			},1500);
-      		
-	        },
-	        error: function (jqXHR, textStatus, errorThrown) {
-	            mini.alert('系统异常！');
+		function submitForm() {           
+			var form = new mini.Form("#form1");
+			alert('ee');
+		    form.validate();
+			if (form.isValid() == false) return;
+			$("form").submit();
+		}
+		function updateError(e) {
+	    	var id = e.sender.name + "_error";
+	        var el = document.getElementById(id);
+	        if (el) {
+	            el.innerHTML = e.errorText;
 	        }
-		});
-	}
- 
+	    }
+	   function updateError(e) {
+	    	var id = e.sender.name + "_error";
+	        var el = document.getElementById(id);
+	        if (el) {
+	            el.innerHTML = e.errorText;
+	        }
+	    }
+	    function onValidation(e) {                  
+	        updateError(e);
+	    }
   </script>
 </html>

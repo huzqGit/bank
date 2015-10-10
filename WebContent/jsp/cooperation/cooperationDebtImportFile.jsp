@@ -101,7 +101,7 @@ li {
         	<td width="15%" >
         	<div style="position:relative">
 	          <input id="scanFile" type='button' class='bank-btn' value="浏览"  />
-	        	<input type="file" name="mufile" class="file" id="mufile" size="28" onchange="judgeFile(this)" />
+	        	<input type="file" name="myfile" class="file" id="mufile" size="28" onchange="judgeFile(this)" />
        	</div>
         </td>
         <td align="left" >
