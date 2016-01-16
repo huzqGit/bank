@@ -84,7 +84,7 @@ public class ProfitImporter extends ExcelImporter<CooperationProfit> {
 			p.setYearmonth(map.get(getLabels()[labelIndex++]));
 			p.setDatasendorgan(map.get(getLabels()[labelIndex++]));
 			p.setTaxcode(map.get(getLabels()[labelIndex++]));
-			p.setOrgantrustcode(map.get(getLabels()[labelIndex++]));
+			p.setTrustcode(map.get(getLabels()[labelIndex++]));
 			p.setMainincome(map.get(getLabels()[labelIndex++]));
 			p.setMainincome_export(map.get(getLabels()[labelIndex++]));
 			p.setMainincome_import(map.get(getLabels()[labelIndex++]));

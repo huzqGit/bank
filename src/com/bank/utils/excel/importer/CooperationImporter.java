@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import com.bank.beans.Cooperation;
 import com.bank.beans.FarmerCooperation;
 import com.bank.dao.ICooperationDao;
 import com.bank.utils.PropConfig;
@@ -152,7 +153,7 @@ public class CooperationImporter extends ExcelImporter<FarmerCooperation> {
 	@Override
 	public ImportResult save(List<Map<String, String>> saveList) {
 		List<Map<String, String>> errorList = new ArrayList<Map<String, String>>();
-		FarmerCooperation fc = null;
+		Cooperation fc = null;
 		Map<String,Object> hm = null;
 		Long id = null;
 		int i = 0;
