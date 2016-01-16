@@ -193,7 +193,7 @@ public class UserController {
 		  		data = userSerivce.loadAllUsers(key, pageIndex, pageSize, sortField, sortOrder);
 		  	} else {
 		  		Organ unit = (Organ) request.getSession().getAttribute(Constants.SESSION_CURRENT_UNIT);
-				if (unit != null) {
+				if (unit != null && key !=null) {
 					List<String> organIds = organSerivce.getSubOrgansByUnitId(unit.getOrganId());
 					
 					String tempOrganIds = "";
