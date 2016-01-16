@@ -27,6 +27,7 @@
     </bean> 
 	<!-- JSP视图解析器 -->
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="order" value="2"/>  
 		<property name="prefix">
 			<value>/jsp/</value>
 		</property>
@@ -34,7 +35,10 @@
 			<value>.jsp</value>
 		</property>
 	</bean>
-	
+	<bean id="reportViewResolver" class="org.springframework.web.servlet.view.XmlViewResolver">  
+	    <property name="order" value="1"/>  
+	    <property name="location" value="/WEB-INF/reports.xml"/>  
+	</bean> 
 	 <!-- 注解映射处理配置 如@RequestMapping -->
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
 		<property name="messageConverters">
